@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.150 2002/02/07 21:57:08 dankelley Exp $
+@c $Id: gri.texim,v 1.151 2002/02/23 16:28:58 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -17511,6 +17511,9 @@ Peter Galbraith,
 Dave Hebert,
 @cindex Dave Hebert (contributer)
 @cindex contributer, Dave Hebert
+Alejandro Lopez-Valencia,
+@cindex Alejandro Lopez-Valencia (contributer)
+@cindex contributer, Alejandro Lopez-Valencia
 Steve Matheson,
 @cindex Steve Matheson (contributer)
 @cindex contributer, Steve Matheson
