@@ -2860,7 +2860,7 @@ this command at the end of the commandfile.
     extern "C" bool set_bounding_boxCmd(void);
 }
 
-`set clip [postscript] {on [.xleft. .xright. .ybottom. .ytop.]}|off'
+`set clip [postscript] {on [.xleft. .xright. .ybottom. .ytop.]}|{to curve}|off'
 Control clipping of following drawing commands.
 
 `set clip on'
@@ -2871,6 +2871,13 @@ Don't plot data outside indicated box.
 
 `set clip off'
 Plot all data, whether in axes or not.
+
+`set clip to curve'
+Set clip to the curve, as would be drawn by a `draw curve filled'
+command, i.e. to the polygon constructed by running along the xy
+points, in order, followed by a final segment from the last point back
+to the first point.  This is a "postscript" clip, as explained in the
+next item.
 
 `set clip postscript on .xleft. .xright. .ybottom. .ytop.'
 Turn PostScript clipping on.  This will prevent *any* drawing

@@ -337,121 +337,165 @@ set_bounding_boxCmd()
 	return true;
 }
 
+// set clip to curve [4 words]
 bool
 set_clipCmd()
 {
 	Require(_nword > 2, err("Must specify `set clip on' or `set clip off'"));
-	if (!strcmp(_word[2], "postscript")) {
-		// PostScript clipping
-		extern FILE    *_grPS;
-		if (_nword < 4) {
-			err("`set clip postscript ...' needs >= 4 words.");
-			return false;
-		}
-		if (!strcmp(_word[3], "off")) {
-			if (!postscript_clipping_on) {
-				// Ignore if already off
-				return true;
-			}
-			fprintf(_grPS, "S Q %% turn clipping off\n");
-			check_psfile();
-			postscript_clipping_on = false;
+	extern FILE    *_grPS;
+	if (_nword == 4 && word_is(2, "to") && word_is(3, "curve")) {
+		unsigned int xlen = _colX.size();
+		if (xlen < 1) {
+			warning("`set clip to curve' noticed that no curve exists");
 			return true;
-		} else if (!strcmp(_word[3], "on")) {
-			double xl, xr, yb, yt;
-			if (postscript_clipping_on) {
+		}
+		unsigned int ylen = _colY.size();
+		if (xlen != ylen) {
+			warning("`set clip to curve' noticed that curve's x and y lengths disagree");
+			return true;
+		}
+		if (postscript_clipping_on) {
+			fprintf(_grPS, "S Q %% `set clip to curve' first must turn remnant clipping off\n");
+			check_psfile();
+		}
+                fprintf(_grPS, "q n %% `set clip to curve' setting clipping on\n");
+		double *xp = _colX.begin();
+		double *yp = _colY.begin();
+		for (unsigned int i = 0; i < xlen; i++) {
+			double x = *xp;
+			double y = *yp;
+			double xpt, ypt;
+			gr_usertopt(x, y, &xpt, &ypt);
+			if (i == 0)
+				fprintf(_grPS, "%f %f moveto\n", xpt, ypt);
+			else 
+				fprintf(_grPS, "%f %f lineto\n", xpt, ypt);
+			xp++;
+			yp++;
+		}
+		fprintf(_grPS, "h W\n");
+		fprintf(_grPS, "n %% turn clipping on\n");
+
+		check_psfile();
+		postscript_clipping_on = true;
+		_clipData = -1;     // KEEP??
+
+		return true;
+	} else {
+		if (!strcmp(_word[2], "postscript")) {
+			// PostScript clipping
+			if (_nword < 4) {
+				err("`set clip postscript ...' needs >= 4 words.");
+				return false;
+			}
+			if (!strcmp(_word[3], "off")) {
+				if (!postscript_clipping_on) {
+				// Ignore if already off
+					return true;
+				}
 				fprintf(_grPS, "S Q %% turn clipping off\n");
 				check_psfile();
-			}
-			if (_nword == 4) {
+				postscript_clipping_on = false;
+				return true;
+			} else if (!strcmp(_word[3], "on")) {
+				double xl, xr, yb, yt;
+				if (postscript_clipping_on) {
+					fprintf(_grPS, "S Q %% turn clipping off\n");
+					check_psfile();
+				}
+				if (_nword == 4) {
 				// set clip postscript on
-				xl = _xleft;
-				xr = _xright;
-				yb = _ybottom;
-				yt = _ytop;
-			} else if (_nword == 8) {
-				if (!getdnum(_word[4], &xl)) {
+					xl = _xleft;
+					xr = _xright;
+					yb = _ybottom;
+					yt = _ytop;
+				} else if (_nword == 8) {
+					if (!getdnum(_word[4], &xl)) {
+						demonstrate_command_usage();
+						err("Can't read .xleft. in `\\", _word[4], "'.", "\\");
+						return false;
+					}
+					if (!getdnum(_word[5], &xr)) {
+						demonstrate_command_usage();
+						err("Can't read .xright. in `\\", _word[5], "'.", "\\");
+						return false;
+					}
+					if (!getdnum(_word[6], &yb)) {
+						demonstrate_command_usage();
+						err("Can't read .ybottom. in `\\", _word[6], "'.", "\\");
+						return false;
+					}
+					if (!getdnum(_word[7], &yt)) {
+						demonstrate_command_usage();
+						err("Can't read .ytop. in `\\", _word[7], "'.", "\\");
+						return false;
+					}
+				} else {
+					NUMBER_WORDS_ERROR;
 					demonstrate_command_usage();
-					err("Can't read .xleft. in `\\", _word[4], "'.", "\\");
 					return false;
 				}
-				if (!getdnum(_word[5], &xr)) {
-					demonstrate_command_usage();
-					err("Can't read .xright. in `\\", _word[5], "'.", "\\");
+				set_environment();
+				fprintf(_grPS, "q n %% turn clipping on\n");
+				gr_usertopt(xl, yb, &xpt, &ypt);
+				fprintf(_grPS, "%f %f moveto\n", xpt, ypt);
+				gr_usertopt(xr, yb, &xpt, &ypt);
+				fprintf(_grPS, "%f %f lineto\n", xpt, ypt);
+				gr_usertopt(xr, yt, &xpt, &ypt);
+				fprintf(_grPS, "%f %f lineto\n", xpt, ypt);
+				gr_usertopt(xl, yt, &xpt, &ypt);
+				fprintf(_grPS, "%f %f lineto\n", xpt, ypt);
+				fprintf(_grPS, "h W\n");
+				fprintf(_grPS, "n %% turn clipping on\n");
+				check_psfile();
+				postscript_clipping_on = true;
+				return true;
+			}
+		} else if (!strcmp(_word[2], "on")) {
+			// Non-PostScript clipping
+			if (_nword == 3)
+				_clipData = -1;
+			else if (_nword == 7) {
+				if (!getdnum(_word[3], &tmp)) {
+					READ_WORD_ERROR(".xleft.");
+					_clipData = 0;
+					_clipxleft = _clipxright = _clipybottom = _clipytop = 0.0;
 					return false;
 				}
-				if (!getdnum(_word[6], &yb)) {
-					demonstrate_command_usage();
-					err("Can't read .ybottom. in `\\", _word[6], "'.", "\\");
+				_clipxleft = tmp;
+				if (!getdnum(_word[4], &tmp)) {
+					READ_WORD_ERROR(".xright.");
+					_clipData = 0;
+					_clipxleft = _clipxright = _clipybottom = _clipytop = 0.0;
 					return false;
 				}
-				if (!getdnum(_word[7], &yt)) {
-					demonstrate_command_usage();
-					err("Can't read .ytop. in `\\", _word[7], "'.", "\\");
+				_clipxright = tmp;
+				if (!getdnum(_word[5], &tmp)) {
+					READ_WORD_ERROR(".ybottom.");
+					_clipData = 0;
+					_clipxleft = _clipxright = _clipybottom = _clipytop = 0.0;
 					return false;
 				}
-			} else {
-				NUMBER_WORDS_ERROR;
-				demonstrate_command_usage();
-				return false;
+				_clipybottom = tmp;
+				if (!getdnum(_word[6], &tmp)) {
+					READ_WORD_ERROR(".ytop.");
+					_clipData = 0;
+					_clipxleft = _clipxright = _clipybottom = _clipytop = 0.0;
+					return false;
+				}
+				_clipytop = tmp;
+				_clipData = 1;
+			} else
+				err("`set clip on' takes 4 parameters");
+		} else if (!strcmp(_word[2], "off")) {
+			if (postscript_clipping_on) {
+				fprintf(_grPS, "S Q %% `set clip off' turning PostScript clipping off\n");
 			}
-			set_environment();
-			fprintf(_grPS, "q n %% turn clipping on\n");
-			gr_usertopt(xl, yb, &xpt, &ypt);
-			fprintf(_grPS, "%f %f moveto\n", xpt, ypt);
-			gr_usertopt(xr, yb, &xpt, &ypt);
-			fprintf(_grPS, "%f %f lineto\n", xpt, ypt);
-			gr_usertopt(xr, yt, &xpt, &ypt);
-			fprintf(_grPS, "%f %f lineto\n", xpt, ypt);
-			gr_usertopt(xl, yt, &xpt, &ypt);
-			fprintf(_grPS, "%f %f lineto\n", xpt, ypt);
-			fprintf(_grPS, "h W\n");
-			fprintf(_grPS, "n %% turn clipping on\n");
-			check_psfile();
-			postscript_clipping_on = true;
-			return true;
-		}
-	} else if (!strcmp(_word[2], "on")) {
-		// Non-PostScript clipping
-		if (_nword == 3)
-			_clipData = -1;
-		else if (_nword == 7) {
-			if (!getdnum(_word[3], &tmp)) {
-				READ_WORD_ERROR(".xleft.");
-				_clipData = 0;
-				_clipxleft = _clipxright = _clipybottom = _clipytop = 0.0;
-				return false;
-			}
-			_clipxleft = tmp;
-			if (!getdnum(_word[4], &tmp)) {
-				READ_WORD_ERROR(".xright.");
-				_clipData = 0;
-				_clipxleft = _clipxright = _clipybottom = _clipytop = 0.0;
-				return false;
-			}
-			_clipxright = tmp;
-			if (!getdnum(_word[5], &tmp)) {
-				READ_WORD_ERROR(".ybottom.");
-				_clipData = 0;
-				_clipxleft = _clipxright = _clipybottom = _clipytop = 0.0;
-				return false;
-			}
-			_clipybottom = tmp;
-			if (!getdnum(_word[6], &tmp)) {
-				READ_WORD_ERROR(".ytop.");
-				_clipData = 0;
-				_clipxleft = _clipxright = _clipybottom = _clipytop = 0.0;
-				return false;
-			}
-			_clipytop = tmp;
-			_clipData = 1;
-		} else
-			err("`set clip on' takes 4 parameters");
-	} else if (!strcmp(_word[2], "off")) {
-		_clipData = 0;
-	} else {
-		err("Must specify `set clip on' or `set clip off'");
-		return false;
+			_clipData = 0;
+		} else {
+			err("Must specify `set clip on' or `set clip off'");
+			return false;
+		} 
 	}
 	return true;
 }

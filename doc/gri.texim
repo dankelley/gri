@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.139 2001/12/19 15:58:26 dankelley Exp $
+@c $Id: gri.texim,v 1.140 2002/01/02 21:41:44 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -8215,6 +8215,7 @@ makes sense to put this command at the end of the commandfile.
 @example
 `set clip [postscript] \
   @{on [.xleft. .xright. .ybottom. .ytop.]@} \
+  @{to curve} \
   | off'
 @end example
 
@@ -8227,6 +8228,11 @@ Don't plot data outside axes.
 Don't plot data outside indicated box.
 @item @code{set clip off}
 Plot all data, whether inside the axes or not.
+@item @code{set clip to curve} set clip to the curve, as
+would be drawn by a @code{draw curve filled} command, i.e. to the
+polygon constructed by running along the xy points, in order, followed
+by a final segment from the last point back to the first point.  This is a 
+"postscript" clip, as explained in the next item.
 @item @code{set clip postscript on .xleft. .xright. .ybottom. .ytop.}
 Turn PostScript clipping on.  This will prevent @strong{any} drawing
 outside the named box.  Note that it will also prevent axis drawing, so

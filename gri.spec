@@ -96,6 +96,9 @@ then
 fi
 
 %changelog
+* Wed Jan  2 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
+- add `set clip to curve'
+
 * Thu Dec 13 2001 Dan Kelley <Dan.Kelley@Dal.Ca>
 - Release as gri-2.8.5 on SourceForge.Net site.  
 - Fix SourceForge bug #492472 ('inf' rpn operator caused segfault)
