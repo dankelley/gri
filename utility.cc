@@ -1,3 +1,6 @@
+You have no controlling terminal.Can't initialize readline for confirmations.
+warning: Executing /usr/local/bin/ssh1 for ssh1 compatibility.
+Executing ssh-askpass to query the password...
 //#define DEBUG_RE
 
 #include	<string>
