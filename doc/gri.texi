@@ -16475,6 +16475,11 @@ Fix SourceForge bug
 @uref{http://sourceforge.net/tracker/index.php?func=detail&aid=1098269&group_id=5511&atid=105511,#1098269}
 @dots{} problem compiling on AMD64 machine.  (Solution provided by Andreas Jochens, a Debian user.)
 
+@item
+Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=867515&group_id=5511&atid=105511,#867515}
+@dots{} problem with junk appearing in images.
+
 @end itemize
 
 

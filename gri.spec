@@ -96,6 +96,8 @@ then
 fi
 
 %changelog
+* Sati Jan  8 2005 <Dan.Kelley@Dal.Ca>
+Fix SourceForge bug 867515 (problem with junk in images)
 * Fri Jan  7 2005 <Dan.Kelley@Dal.Ca>
 - Fix SourceForge bug 1094087 (failed gcc-4.0 AMD64 compilation; solution provided by Andreas Jochens, a Debian user)
 * Mon Jan  3 2005 <Dan.Kelley@Dal.Ca>
