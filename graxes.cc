@@ -117,6 +117,7 @@ void
 gr_drawxaxis(double y, double xl, double xinc, double xr, gr_axis_properties side)
 {
 	GriString label;
+	string slabel;
 	extern char     _xtype_map;
 	double          CapHeight = gr_currentCapHeight_cm();
 	double          angle = 0.0;	// angle of axis tics, labels, etc
@@ -240,11 +241,14 @@ gr_drawxaxis(double y, double xl, double xinc, double xr, gr_axis_properties sid
 								strcpy(_grTempString, gs.c_str());
 							}
 						}
-					} else
+					} else {
 						*_grTempString = '\0';
+					}
 					// Text is rotated
 					angle -= 90.0 / DEG_PER_RAD;
-					label.fromSTR(_grTempString);
+					slabel.assign(_grTempString);
+					fix_negative_zero(slabel);
+					label.fromSTR(slabel.c_str());
 					label.draw(xcm - offset * sin(angle),
 						   ycm + offset * cos(angle),
 						   TEXT_CENTERED,
@@ -289,7 +293,9 @@ gr_drawxaxis(double y, double xl, double xinc, double xr, gr_axis_properties sid
 						sprintf(_grTempString, "1");
 					else
 						sprintf(_grTempString, "$10^{%.0f}$", log10(next));
-					label.fromSTR(_grTempString);
+					slabel.assign(_grTempString);
+					fix_negative_zero(slabel);
+					label.fromSTR(slabel.c_str());
 					label.draw(xcm, ycm + offset, TEXT_CENTERED, 0.0);
 				}
 			} else {
@@ -359,6 +365,7 @@ void
 gr_drawyaxis(double x, double yb, double yinc, double yt, gr_axis_properties side)
 {
 	GriString label;
+	string slabel;
 	extern char     _ytype_map;
 	double          CapHeight = gr_currentCapHeight_cm();
 	double          angle = 0.0; // angle of axis tics, labels, etc
@@ -471,7 +478,9 @@ gr_drawyaxis(double x, double yb, double yinc, double yt, gr_axis_properties sid
 					} else {
 						*_grTempString = '\0';
 					}
-					label.fromSTR(_grTempString);
+					slabel.assign(_grTempString);
+					fix_negative_zero(slabel);
+					label.fromSTR(slabel.c_str());
 					if (side == gr_axis_LEFT) {
 						label.draw(labelx_cm, labely_cm, TEXT_RJUST, angle * DEG_PER_RAD);
 					} else {
@@ -522,7 +531,9 @@ gr_drawyaxis(double x, double yb, double yinc, double yt, gr_axis_properties sid
 						sprintf(_grTempString, "1");
 					else
 						sprintf(_grTempString, "$10^{%.0f}$", log10(next));
-					label.fromSTR(_grTempString);
+					slabel.assign(_grTempString);
+					fix_negative_zero(slabel);
+					label.fromSTR(slabel.c_str());
 					if (side == gr_axis_LEFT)
 						label.draw(xcm2 + offset, ycm2 - 0.5 * CapHeight, TEXT_RJUST, 0.0);
 					else

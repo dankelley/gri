@@ -113,6 +113,7 @@ bool            find_min_max_v(void);
 bool            find_min_max_x(void);
 bool            find_min_max_y(void);
 bool            find_min_max_z(void);
+void            fix_negative_zero(std::string& number);
 int             get_cmd_values(char **w, int nw, const char *key, int nobjects, double *objects);
 bool            get_cmdword(unsigned int index, std::string& cmdword); // index=1 gives value of \.word1.
 bool            get_c_file_name(int old, const char *prompt, const char *name);

@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.102 2001/07/03 20:15:59 dankelley Exp $
+@c $Id: gri.texim,v 1.103 2001/07/04 15:15:57 uid26772 Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -15625,16 +15625,22 @@ and adjust the "status" menu to read "closed".
 @itemize @bullet
 @item
 Fix SourceForge bug 
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=435688&group_id=5511&atid=105511">
+#435688
+@c HTML </a>
+(remnants of @code{polar} column type, no longer supported, remained in documentation)
+@item
+Fix SourceForge bug 
 @c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=435603&group_id=5511&atid=105511">
 #435603
 @c HTML </a>
 (@code{set dash} produced broken PostScript)
 @item
 Fix SourceForge bug 
-@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=435688&group_id=5511&atid=105511">
-#435688
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=431114&group_id=5511&atid=105511">
+#431114
 @c HTML </a>
-(remnants of @code{polar} column type, no longer supported, remained in documentation)
+(@code{-0} could appear on axes)
 @end itemize
 
 @subsection Version 2.6.3 [2001 Jun 22]

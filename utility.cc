@@ -2190,3 +2190,23 @@ un_double_quote(std::string& word)
 			word.STRINGERASE(0, 1);
 		}
 }
+
+void
+fix_negative_zero(std::string& number) // change e.g. "-0" to "0", for axes
+{
+	bool is_zero = true;
+	unsigned int i = 0;
+	for (; i < number.size(); i++)
+		if (number[i] != ' ')
+			break;
+	if (i == number.size() || number[i] != '-')
+		return;
+	for (i++; i < number.size(); i++) {
+		if (number[i] != '0' && number[i] != '.') {
+			is_zero = false;
+			break;
+		}
+	}
+	if (is_zero)
+		number.STRINGERASE(0, 1);
+}
