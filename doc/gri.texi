@@ -2428,10 +2428,13 @@ Calculate inverse hyperbolic tangent of 0.5, yielding 0.549306
 @cindex arguments on command line, accessing with @code{argv} rpn operator
 @cindex commandline arguments, accessing with @code{argv} rpn operator
 Returns the first optional argument following a @code{:} on the command
-line that invoked Gri (@code{Options On Command Line}).  (Counting
-starts at 0; the second option is accessed by @code{rpn 1 argv}.)  A
-string consisting of a single blank character results if one tries to
-access beyond the list of arguments that were actually supplied.
+line that invoked Gri (@ref{Options On Command Line}).  (The 0 indicates
+the number of arguments to skip, so that e.g. the second option is
+accessed by @code{rpn 1 argv}.)  A string consisting of a single blank
+character results if one tries to access beyond the list of arguments
+that were actually supplied.  See also the @code{argc} solitary operator
+@xref{Solitary Operators}, which returns the number of optional
+arguments.
 
 @item @{rpn "hi" ascent@}
 @cindex @code{ascent} rpn operator
@@ -2642,6 +2645,8 @@ the bottom edge of the paper.  (Opposite of @code{yusertocm}.)
 @comment  node-name,  next,  previous,  up
 
 @subsection Solitary Operators
+@cindex rpn operator @code{argc}, yielding number of commandline arguments
+@cindex @code{argc} rpn operator, yielding number of commandline arguments
 
 Solitary operators do not act on items on the stack; rather, they
 generate items themselves and insert them on the stack.
@@ -14175,8 +14180,8 @@ First debian release.  Versions exist for intel, alpha, 68K and powerpc.
 
 @table @emph
 @item 2.5.5 [2000-Jun-11]
-Add RPN operators @code{argc} (@ref{Unary Operators}) and
-@code{argv} (see @ref{Binary Operators}) for accessing the command-line
+Add RPN operators @code{argc} (@ref{Solitary Operators}) and
+@code{argv} (see @ref{Unary Operators}) for accessing the command-line
 arguments.  
 
 Improve discussion of RPN operators in manual.
