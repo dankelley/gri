@@ -550,6 +550,44 @@ is_punctuation(int c)
 }
 
 bool
+full_path_name(std::string& f)
+{
+	if (f[0] == '~') {
+		if (f[1] == '/') {
+			f.STRINGERASE(0, 1);
+			f.insert(0, egetenv("HOME"));
+			return true;
+		} else {
+#if !defined(IS_MINGW32)
+			size_t name_end = f.find("/");
+			if (name_end == STRING_NPOS)
+				name_end = f.size();
+			std::string username = f.substr(1, name_end - 1);
+			struct passwd *pw_entry;
+			pw_entry = getpwnam(username.c_str());
+			f.STRINGERASE(0, username.size() + 1);
+			f.insert(0, pw_entry->pw_dir);
+			return true;
+#else
+			return false;
+#endif
+		}
+	} else if (f[0] == '.') {
+		char wd[1024], *ptr = wd; // BUG: may not be long enough
+		ptr = getcwd(ptr, 1023);
+		if (ptr) {
+			f.STRINGERASE(0, 1);
+			f.insert(0, wd);
+			//printf("GOT DIR %s\n", wd); 
+		} else {
+			;
+			//printf("CANNOT get cwd\n");
+		}
+	}
+	return true;
+}
+
+bool
 resolve_filename(std::string& f, bool trace_path, char c_or_d)
 {
 	unsigned int len;

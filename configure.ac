@@ -408,7 +408,7 @@ CHECK_FOR_POSIX_TIMES
 
 dnl     checks for functions
 dnl AC_CHECK_FUNCS(isnan isinf acosh getcwd getenv popen drand48 mkstemp tmpnam tempname gethostname access lstat strerror)
-AC_CHECK_FUNCS(isnan isinf acosh getcwd popen mkstemp tmpnam tempnam gethostname access lstat strerror)
+AC_CHECK_FUNCS(isnan isinf acosh getcwd popen mkstemp tmpnam tempnam gethostname access lstat stat strerror)
 dnl The next lines are because configure fails in c++, to find these things.
 dnl I first noticed this on 2002-Dec-15.  A discussion thread on the topic,
 dnl valid at that date, is 

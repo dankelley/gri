@@ -1,7 +1,7 @@
 \input texinfo 
 
 
-@c $Id: gri.texi,v 1.138 2003/06/24 22:32:46 dankelley Exp $
+@c $Id: gri.texi,v 1.139 2003/06/26 19:20:32 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -12878,6 +12878,10 @@ Test whether 0 and 1 are both true, yielding 0.
 @cindex rpn operator @code{and}
 Test whether 0 and 1 are both true, yielding 0.
 
+@item @{rpn y x area@}
+Calculate the area under the curve y=y(x).  For details
+(@ref{Manipulation of Columns etc}).
+
 @item @{rpn 0 1 |@}
 @cindex @code{|} rpn operator
 @cindex rpn operator @code{|}
@@ -12887,7 +12891,6 @@ Test whether either 0 or 1 is true, yielding 1.
 @cindex @code{or} rpn operator
 @cindex rpn operator @code{or}
 Test whether either 0 or 1 is true, yielding 1.
-
 
 @item @{rpn 2 3 exch@}
 @cindex @code{exch} rpn operator
@@ -13002,18 +13005,27 @@ Calculate the absolute value of @code{-3}.
 @cindex rpn operator @code{acos}
 Calculate the inverse cosine of 0.5, yielding 60 (degrees).
 
-
 @item @{rpn 2 acosh@}
 @cindex @code{acosh} rpn operator
 @cindex rpn operator @code{acosh}
 Calculate the inverse hyperbolic cosine of 2, yielding 1.317.  (Note:
 argument must equal or exceed 1, or an error results.)
 
-
-@item @{rpn y x area@}
-Calculate the area under the curve y=y(x).  For details
-(@ref{Manipulation of Columns etc}).
-
+@item @{rpn "filename" age@}
+@cindex @code{age} rpn operator
+@cindex rpn operator @code{age}
+Calculate the ``age'' of the indicated file.  This is either the
+creation date or the last modification date, whichever is older.  The
+result is the number of seconds since the start of 1 Jan 1970, on a
+unix machine with the @code{stat()} system function available; on
+other machines, using this RPN operator may cause an error.  A typical
+use of this command is shown below
+@example
+if @{rpn "file.dat" age "creator.pl" age >@}
+   system "./creator.pl > file.dat"
+end if
+open file.dat
+@end example
 
 @item @{rpn 0.5 asin@}
 @cindex @code{asin} rpn operator
@@ -16394,11 +16406,11 @@ only in the fixing of bugs.
 
 @comment ADD-NEW-BUG-FIXES-HERE
 
-@subsubsection Version 2.12.6 [2003 Jun 14]
+@subsubsection Version 2.12.6 [2003 Jun 26]
 
 @strong{New Features}
 @itemize @bullet
-@item
+@item Add @code{age} RPN function, for testing file ages.
 @end itemize
 
 @strong{Bug Fixes}

@@ -8,6 +8,10 @@ static bool permit_missing_value_in_comparisons = 0;
 #if defined(HAVE_ACCESS)
 #include        <unistd.h>
 #endif
+#ifdef HAVE_STAT
+#include <errno.h>
+#include <sys/stat.h>
+#endif
 
 #include        "gr.hh"
 #include        "extern.hh"
@@ -75,6 +79,7 @@ erase_rpn_stack()
 typedef enum {
 	ADD = 1, SUBTRACT, MULTIPLY, DIVIDE,
 	POWER,
+	AGE,			// of a file
 	ASINE, ACOSINE, ATANGENT,
 	SINE, COSINE, TANGENT,
 	ACOSH, ASINH, ATANH,
@@ -148,6 +153,7 @@ RPN_DICT        rpn_dict[] =
 	{"*", 1, MULTIPLY},
 	{"/", 1, DIVIDE},
 	{"power", 5, POWER},
+	{"age", 3, AGE},
 	{"asin", 4, ASINE},
 	{"acos", 4, ACOSINE},
 	{"atan", 4, ATANGENT},
@@ -886,6 +892,40 @@ do_operation(operator_name oper)
 		} else 
 			SET(1, "", missing, NUMBER, false);
 		return true;
+	}
+	if (oper == AGE) {
+		NEED_ON_STACK(1); NEED_IS_TYPE(1, STRING);
+#ifdef HAVE_STAT
+		struct stat buf;
+#if 0
+		string filename(_current_directory);
+		filename.append("/");
+		filename.append(NAME(1));
+#else
+		string filename(NAME(1));
+#endif
+		un_double_quote(filename);
+		//printf("BEFORE... [%s]\n",filename.c_str());
+		extern bool full_path_name(std::string& f);
+		full_path_name(filename);
+		//printf("AFTER... [%s]\n",filename.c_str());
+		if (0 == stat(filename.c_str(), &buf)) {
+			double seconds = buf.st_ctime;
+			SET(1, "", seconds, NUMBER, true);
+		} else {
+			err("Cannot do stat() on file named \\", filename.c_str(), "\\");
+			printf("errno= %d\n", errno);
+			perror("The error is... ");
+			RpnError = GENERAL_ERROR;
+			return false;
+		}
+		return true;
+#else
+		SET(1, "", 0, NUMBER, true);
+		err("This computer cannot do stat() on file named \\", filename.c_str(), "\\");
+		RpnError = COMPUTER_LIMITATION
+		return false;
+#endif		
 	}
 	if (oper == ASINE) {
 		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
