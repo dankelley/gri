@@ -50,5 +50,10 @@ as simple as the following, which produces an auto-scaled graph.<br>
    read columns x y
    draw curve
 </pre>
+<p>The Gri emacs mode provides a suite of helpful features, such as
+syntax colouring, command completion, and a tight linkage to the online
+manual; see the 
+<a href="https://sourceforge.net/project/screenshots.php?group_id=5511">
+screenshots</a> for illustration.</p>
 
 <?php footer(); ?>
