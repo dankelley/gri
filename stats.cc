@@ -8,11 +8,19 @@
 
 extern char     _grTempString[];
 
-
-static double    array_at_i(const double *x, double idouble, int n);
+static double    array_at_i(const std::vector<double>& x,
+			    double idouble,
+			    int n);
 
 void
-moment(double *data, int n, double *ave, double *adev, double *sdev, double *svar, double *skew, double *kurt)
+moment(double *data,
+       int n,
+       double *ave,
+       double *adev,
+       double *sdev,
+       double *svar,
+       double *skew,
+       double *kurt)
 {
 	if (n < 2)
 		*ave = *adev = *sdev = *svar = *skew = *kurt = 0.0;
@@ -46,35 +54,39 @@ moment(double *data, int n, double *ave, double *adev, double *sdev, double *sva
 
 // calculate q1, q2 = median, and q3 for n data in x
 void
-histogram_stats(const double *x, unsigned int n, double *q1, double *q2, double *q3)
+histogram_stats(const double* x,
+		unsigned int n,
+		double *q1,
+		double *q2,
+		double *q3)
 {
 	//void sort(vector<double>::iterator, vector<double>::iterator);
 	if (n < 2)
 		*q1 = *q2 = *q3 = 0.0;
 	else {
 		unsigned int ngood = 0;
-		vector<double> xcopy;
+		std::vector<double> xcopy;
 		for (unsigned int i = 0; i < n; i++)
 			if (!gr_missing(*(x + i)))
-				xcopy.push_back(x[i]);
+				xcopy.push_back(*(x + i));
 		ngood = xcopy.size();
-		sort(xcopy.begin(), xcopy.end());
-		*q1 = array_at_i(xcopy.begin(), 0.25 * (ngood - 1), ngood);
-		*q2 = array_at_i(xcopy.begin(), 0.50 * (ngood - 1), ngood);
-		*q3 = array_at_i(xcopy.begin(), 0.75 * (ngood - 1), ngood);
+		std::sort(xcopy.begin(), xcopy.end());
+		*q1 = array_at_i(xcopy, 0.25 * (ngood - 1), ngood);
+		*q2 = array_at_i(xcopy, 0.50 * (ngood - 1), ngood);
+		*q3 = array_at_i(xcopy, 0.75 * (ngood - 1), ngood);
 	}
 }
 
 static double
-array_at_i(const double *x, double idouble, int n)
+array_at_i(const std::vector<double>& x, double idouble, int n)
 {
 	int i = int(floor(idouble));
 	if (i < 0)
-		return *x;
+		return x[0];
 	else if (i >= n)
-		return *(x + n - 1);
+		return x[n - 1];
 	else {
-		double           r = idouble - i;
-		return (*(x + i + 1) * r + *(x + i) * (1.0 - r));
+		double r = idouble - i;
+		return (x[i + 1] * r + x[i] * (1.0 - r));
 	}
 }

@@ -76,7 +76,7 @@ bool
 read_from_filenameCmd()
 {
 	if (_nword == 3) {
-		string fname(_word[2]);
+		std::string fname(_word[2]);
 		un_double_quote(fname);
 		if (!push_data_file_to_top(fname.c_str())) {
 			err("Must `open \\",
@@ -101,7 +101,7 @@ read_colornamesCmd()
 	chars_read = 0;
 	FILE *fp;
 	char name[100];		// should be long enough ??
-	string fname(_word[4]);
+	std::string fname(_word[4]);
 	un_double_quote(fname);
 	fp = fopen(fname.c_str(), "r");
 	Require(fp != NULL,
@@ -163,7 +163,7 @@ read_netCDF_column(unsigned int iword, GriColumn *col, int *expected_length, boo
 		long start[1], edges[1];
 		long length;		// Length of column 
 		int var_id, dim_ids[10], dims;
-		string varname(_word[iword + 2]);
+		std::string varname(_word[iword + 2]);
 		un_double_quote(varname);
 		var_id = ncvarid(_dataFILE.back().get_netCDF_id(), varname.c_str());
 		Require(var_id != -1, err("Cannot find netCDF variable `\\", varname.c_str(), "'", "\\"));
@@ -199,7 +199,7 @@ read_netCDF_column(unsigned int iword, GriColumn *col, int *expected_length, boo
 		switch(type) {
 		case NC_FLOAT:
 		{
-			vector<float> tmp((size_t)length, 0.0);
+			std::vector<float> tmp((size_t)length, 0.0);
 			if (-1 == ncvarget(_dataFILE.back().get_netCDF_id(),
 					   var_id, start, edges, (void *) tmp.begin())) {
 				err("Error reading variable `\\", varname.c_str(), "' from netCDF file", "\\");
@@ -210,7 +210,7 @@ read_netCDF_column(unsigned int iword, GriColumn *col, int *expected_length, boo
 		break;
 		case NC_DOUBLE:
 		{
-			vector<double> tmp((size_t)length, 0.0);
+			std::vector<double> tmp((size_t)length, 0.0);
 			if (-1 == ncvarget(_dataFILE.back().get_netCDF_id(),
 					   var_id, start, edges, (void *) tmp.begin())) {
 				err("Error reading variable `\\", varname.c_str(), "' from netCDF file", "\\");
@@ -862,7 +862,7 @@ read_grid_xCmd()
 		switch(type) {
 		case NC_FLOAT:
 		{
-			vector<float> tmp((size_t)length, 0.0);
+			std::vector<float> tmp((size_t)length, 0.0);
 			if (-1 == ncvarget(_dataFILE.back().get_netCDF_id(),
 					   var_id, start, edges, (void *) tmp.begin())) {
 				err("Error reading variable `\\", varname, "' from netCDF file", "\\");
@@ -873,7 +873,7 @@ read_grid_xCmd()
 		break;
 		case NC_DOUBLE:
 		{
-			vector<double> tmp((size_t)length, 0.0);
+			std::vector<double> tmp((size_t)length, 0.0);
 			if (-1 == ncvarget(_dataFILE.back().get_netCDF_id(),
 					   var_id, start, edges, (void *) tmp.begin())) {
 				err("Error reading variable `\\", varname, "' from netCDF file", "\\");
@@ -1064,7 +1064,7 @@ read_grid_yCmd()
 		switch(type) {
 		case NC_FLOAT:
 		{
-			vector<float> tmp((size_t)length, 0.0);
+			std::vector<float> tmp((size_t)length, 0.0);
 			if (-1 == ncvarget(_dataFILE.back().get_netCDF_id(),
 					   var_id, start, edges, (void *) tmp.begin())) {
 				err("Error reading variable `\\", varname, "' from netCDF file", "\\");
@@ -1075,7 +1075,7 @@ read_grid_yCmd()
 		break;
 		case NC_DOUBLE:
 		{
-			vector<double> tmp((size_t)length, 0.0);
+			std::vector<double> tmp((size_t)length, 0.0);
 			if (-1 == ncvarget(_dataFILE.back().get_netCDF_id(),
 					   var_id, start, edges, (void *) tmp.begin())) {
 				err("Error reading variable `\\", varname, "' from netCDF file", "\\");
@@ -1375,7 +1375,7 @@ Grid height %ld disagrees with existing y-grid, which is %d high",
 		switch(type) {
 		case NC_FLOAT:
 		{
-			vector<float> f_xy_tmp((size_t)(grid_width * grid_height), 0.0);
+			std::vector<float> f_xy_tmp((size_t)(grid_width * grid_height), 0.0);
 			if (-1 == ncvarget(_dataFILE.back().get_netCDF_id(), var_id, start, edges, (void *) f_xy_tmp.begin())) {
 				err("Error reading grid data from variable `\\", varname, "' from netCDF file", "\\");
 				return false;
@@ -1392,7 +1392,7 @@ Grid height %ld disagrees with existing y-grid, which is %d high",
 		break;
 		case NC_DOUBLE:
 		{
-			vector<double> f_xy_tmp((size_t)(grid_width * grid_height), 0.0);
+			std::vector<double> f_xy_tmp((size_t)(grid_width * grid_height), 0.0);
 			if (-1 == ncvarget(_dataFILE.back().get_netCDF_id(), var_id, start, edges, (void *) f_xy_tmp.begin())) {
 				err("Error reading grid data from variable `\\", varname, "' from netCDF file", "\\");
 				return false;
@@ -2585,7 +2585,7 @@ read_synonym_or_variableCmd()
 		gr_Error("Cannot read int grid data yet");
 	} else if (_dataFILE.back().get_type() == DataFile::bin_float) {
 		for (unsigned int w = 1 + start; w < _nword; w++) {
-			string the_word(_word[w]);
+			std::string the_word(_word[w]);
 			un_double_quote(the_word);
 			un_double_slash(the_word);
 			de_reference(the_word);
@@ -2630,7 +2630,7 @@ read_synonym_or_variableCmd()
 				if (remove_comment(inLine.getValue()))
 					return true;
 #endif
-			string the_word(_word[w]);
+			std::string the_word(_word[w]);
 			un_double_quote(the_word);
 			un_double_slash(the_word);
 			de_reference(the_word);
@@ -2756,7 +2756,7 @@ get_next_data_line(const char *prompt, unsigned int expected_fields)
 			_cmdFILE.back().increment_line();
 		} else {
 #if 1				// TRYING to get 'read columns' to work in blocks
-			extern vector<BlockSource> bsStack;
+			extern std::vector<BlockSource> bsStack;
 			//printf("DEBUG %s:%d non-interactive case.  bsStack.size %d ***\n",__FILE__,__LINE__,bsStack.size());
 			// If not in block, use file; if in block, read from it.
 			if (bsStack.size() == 0) {

@@ -70,7 +70,7 @@ interpolateCmd()
 	double znew;
 	GriMatrix<double> _f_xy_new;
 	if (is_x) {
-		vector<double> ygrid((size_t)_num_ymatrix_data, 0.0);
+		std::vector<double> ygrid((size_t)_num_ymatrix_data, 0.0);
 		_f_xy_new.set_size(num, _num_ymatrix_data);
 		unsigned int i, j;
 		j = _num_ymatrix_data - 1;
@@ -97,7 +97,7 @@ interpolateCmd()
 			}
 		}
 	} else {
-		vector<double> xgrid((size_t)_num_xmatrix_data, 0.0);
+		std::vector<double> xgrid((size_t)_num_xmatrix_data, 0.0);
 		_f_xy_new.set_size(_num_xmatrix_data, num);
 		unsigned int i, j;
 		for (i = 0; i < _num_xmatrix_data; i++) {

@@ -41,11 +41,11 @@ push_cmd_file(const char* fname, bool interactive, bool allow_warning, const cha
 
 #if !defined(MSDOS)
 static bool
-is_compressed_file(string& fname)
+is_compressed_file(std::string& fname)
 {
 	if (fname.size() < 3)
 		return false;
-	string last_three(fname, fname.size()-3, fname.size()-1);
+	std::string last_three(fname, fname.size()-3, fname.size()-1);
 	if (last_three == ".gz")
 		return true;
 	return false;
@@ -87,12 +87,12 @@ push_data_file(const char* name, DataFile::type the_type, const char* status, bo
 		DataFile df(fp, name, 0, the_type, delete_when_close);
 		_dataFILE.push_back(df);
 #else
-		string sname(name);
+		std::string sname(name);
 		if (is_compressed_file(sname)) {
-			string pipecmd("zcat ");
+			std::string pipecmd("zcat ");
 			pipecmd.append(sname);
 			pipecmd.append(" > ");
-			string tmpfile_name(tmp_file_name());
+			std::string tmpfile_name(tmp_file_name());
 			pipecmd.append(tmpfile_name);
 			call_the_OS(pipecmd.c_str(), __FILE__, __LINE__);
 			FILE *fp = fopen(tmpfile_name.c_str(), status);
@@ -116,7 +116,7 @@ push_data_file(const char* name, DataFile::type the_type, const char* status, bo
 #if !defined(HAVE_ACCESS)
 				return false; // just give up then
 #else
-				string sname(name);
+				std::string sname(name);
 				sname.append(".gz");
 				if (0 != access(sname.c_str(), R_OK)) {
 					warning("Cannot access file `\\", name, "'",
@@ -127,9 +127,9 @@ push_data_file(const char* name, DataFile::type the_type, const char* status, bo
 				}
 				warning("`open' can't find `\\", name, "' so using `",
 					sname.c_str(), "' instead.", "\\");
-				string pipecmd("zcat ");
+				std::string pipecmd("zcat ");
 				pipecmd.append(sname);
-				string tmpfile_name(tmp_file_name());
+				std::string tmpfile_name(tmp_file_name());
 				pipecmd.append(" > ");
 				pipecmd.append(tmpfile_name);
 				call_the_OS(pipecmd.c_str(), __FILE__, __LINE__);
@@ -152,7 +152,7 @@ push_data_file(const char* name, DataFile::type the_type, const char* status, bo
 int
 data_file_index(const char* name)
 {
-	string completefilename(name);
+	std::string completefilename(name);
 	resolve_filename(completefilename, true, 'd');
 	for (unsigned int i = 0; i < _dataFILE.size(); i++)
 		if (_dataFILE[i].get_name() == completefilename)
@@ -216,12 +216,12 @@ pop_data_file(int file)
 	}
 	if (_dataFILE[file].get_delete_when_close()) {
 		if (_chatty > 1) {
-			string msg("Deleting temporary file named `");
+			std::string msg("Deleting temporary file named `");
 			msg.append(_dataFILE[file].get_name());
 			msg.append("'");
 			ShowStr(msg.c_str());
 		}
-		string sys_cmd("rm -f ");
+		std::string sys_cmd("rm -f ");
 		sys_cmd.append(_dataFILE[file].get_name());
 		call_the_OS(sys_cmd.c_str(), __FILE__, __LINE__);
 	}

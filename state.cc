@@ -8,7 +8,7 @@ bool state_save();
 bool state_restore();
 bool state_display();
 
-static vector<GriState> stateStack;
+static std::vector<GriState> stateStack;
 
 
 bool

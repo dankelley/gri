@@ -26,7 +26,7 @@ deleteCmd()
 		err("`delete' what?");
 		return false;
 	} 
-	string w1(_word[1]); 
+	std::string w1(_word[1]); 
 	un_double_quote(w1);
 	//un_double_slash(w1);
 
@@ -49,9 +49,9 @@ deleteCmd()
 				}
 			} else if (is_syn(w1)) {
 				if (w1[1] == '@') {
-					string clean("\\");
+					std::string clean("\\");
 					clean.append(w1.substr(2, w1.size()));
-					string named;
+					std::string named;
 					get_syn(clean.c_str(), named, false);
 					//printf("DELETE IS AN ALIAS SYN %s:%d <%s>  [%s]\n",__FILE__,__LINE__,clean.c_str(),named.c_str());
 					if (is_var(named.c_str())){
@@ -72,9 +72,9 @@ deleteCmd()
 					return true;
 				} else {
 					// Non-aliased synonym.
-					string value;
+					std::string value;
 					if (get_syn(w1.c_str(), value, false)) {
-						string coded_name;
+						std::string coded_name;
 						int coded_level = -1;
 						//printf("DEBUG <%s>\n", value.c_str());
 						if (is_coded_string(value.c_str(), coded_name, &coded_level)) {
@@ -242,7 +242,7 @@ delete_columns_randomly()
 	unsigned int length = _colX.size();
 	double miss = gr_currentmissingvalue();
 	int good = 0;
-	vector<int> ok((size_t)length, 0);
+	std::vector<int> ok((size_t)length, 0);
 	unsigned int i;
 	for (i = 0; i < length; i++) {
 		ok[i] = (char)0;
@@ -264,7 +264,7 @@ delete_columns_randomly()
 		good++;
 	}
 	// Create vector of whether to kill a given index
-	vector<int> kill((size_t)length, 0);
+	std::vector<int> kill((size_t)length, 0);
 	// Laborously get correct number of data to discard.  Originally
 	// I just tried to remove the given number, but that adds
 	// an extra element of randomness.
@@ -340,7 +340,7 @@ delete_columns_where_missing()
 	double *vP = _colV.begin();
 	double *rP = _colR.begin();
 	double *thetaP = _colTHETA.begin();
-	vector<int> kill((size_t)length, 0);
+	std::vector<int> kill((size_t)length, 0);
 	int num_to_kill = 0;
 	for (i = 0; i < length; i++) {
 		if (haveX && gr_missing(xP[i])) {

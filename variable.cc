@@ -6,7 +6,7 @@
 #include        "Variable.hh"
 
 
-vector<GriVariable> variableStack;
+std::vector<GriVariable> variableStack;
 
 
 // Get index of variable
@@ -112,7 +112,7 @@ is_var(const char *w)
 }
 // is_var - return 0 if not a variable, or 1 if is
 bool
-is_var(const string& w)
+is_var(const std::string& w)
 {
 	int len = w.size();
 	return (len > 2 && w[0] == '.' && w[-1 + len] == '.' ? true : false);
@@ -136,7 +136,7 @@ show_var_stack()
 
 // Delete variable, searching from end of stack
 bool
-delete_var(const string& name)
+delete_var(const std::string& name)
 {
 	unsigned stackLen = variableStack.size();
 	for (int i = stackLen - 1; i >= 0; i--) {

@@ -27,8 +27,8 @@ differentiateCmd()
 					err("`differentiate grid wrt x' -- too few data");
 					return false;
 				}
-				vector<bool> ok((size_t)_num_xmatrix_data, false);
-				vector<double> tmp((size_t)_num_xmatrix_data, 0.0);
+				std::vector<bool> ok((size_t)_num_xmatrix_data, false);
+				std::vector<double> tmp((size_t)_num_xmatrix_data, 0.0);
 				for (j = 0; j < _num_ymatrix_data; j++) {
 					for (i = 1; i < _num_xmatrix_data - 1; i++) {
 						if (_legit_xy(i - 1, j) == true
@@ -61,8 +61,8 @@ differentiateCmd()
 					err("`differentiate grid wrt y' -- too few data");
 					return false;
 				}
-				vector<bool>   ok((size_t)_num_ymatrix_data, false);
-				vector<double> tmp((size_t)_num_ymatrix_data, 0.0);
+				std::vector<bool>   ok((size_t)_num_ymatrix_data, false);
+				std::vector<double> tmp((size_t)_num_ymatrix_data, 0.0);
 				for (i = 0; i < _num_xmatrix_data; i++) {
 					for (j = 1; j < _num_ymatrix_data - 1; j++) {
 						if (_legit_xy(i, j - 1) == true

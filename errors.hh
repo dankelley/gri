@@ -16,7 +16,7 @@ void            gr_error(const char *lab); // as in gr.hh
 #if !defined(gr_Error)
 #define gr_Error(err)             \
 {                                 \
-    string msg;                   \
+    std::string msg;              \
     msg.append((char*)__FILE__);  \
     msg.append(":");              \
     char num[20];                 \

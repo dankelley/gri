@@ -149,8 +149,8 @@ show_axesCmd()
 bool
 show_licenseCmd()
 {
-	extern string _lib_directory;
-	string license(_lib_directory.c_str());
+	extern std::string _lib_directory;
+	std::string license(_lib_directory.c_str());
 	license.append("/license.txt");
 	more_file_to_terminal(license.c_str());
 	return true;
@@ -275,7 +275,7 @@ show_columnsCmd()
 	if (_nword == 2) {
 		// `show columns'
 		// print label line
-		string tmp;
+		std::string tmp;
 		unbackslash(_colX.getName(), tmp);
 		sprintf(_grTempString, "\"x\" column has name `%s'\n", tmp.c_str());
 		unbackslash(_colY.getName(), tmp);
@@ -641,16 +641,20 @@ show_grid(void)
 	ShowStr(_grTempString);
 
 #if 1
-	vector<double> tmp;
-	for (unsigned int i = 0; i < _num_xmatrix_data; i++)
-		for (unsigned int j = 0; j < _num_ymatrix_data; j++)
-			if (_legit_xy(i, j) == true)
-				tmp.push_back(_f_xy(i, j));
-	double          ave, adev, sdev, svar, skew, kurt;
-	moment(tmp.begin(), tmp.size(), &ave, &adev, &sdev, &svar, &skew, &kurt);
-	sprintf(_grTempString, 
-		"Grid statistics, for %d legitimate data: mean=%f stddev=%f skewness=%f kurtosis=%f\n",
-		int(tmp.size()), ave, sdev, skew, kurt);
+	double *tmp;
+	GET_STORAGE(tmp, double, _num_xmatrix_data * _num_ymatrix_data);
+	unsigned int tmp_len = 0;
+	for (unsigned int i = 0; i < _num_xmatrix_data; i++) {
+		for (unsigned int j = 0; j < _num_ymatrix_data; j++) {
+			if (_legit_xy(i, j) == true) {
+				tmp[tmp_len++] = _f_xy(i, j);
+			}
+		}
+	}
+	double ave, adev, sdev, svar, skew, kurt;
+	moment(tmp, tmp_len, &ave, &adev, &sdev, &svar, &skew, &kurt);
+	free(tmp);
+	sprintf(_grTempString, "Grid statistics, for %d legitimate data: mean=%f stddev=%f skewness=%f kurtosis=%f\n", tmp_len, ave, sdev, skew, kurt);
 	ShowStr(_grTempString);
 #endif
 
@@ -671,7 +675,7 @@ show_hintCmd()
 	// the rest of this comment.
         //     http://www.phys.ocean.dal.ca/cgi-bin/ocean/gri_hints
 	const char *lynx_cmd = "lynx -dump \"http://gri.sourceforge.net/gridoc/html/Hints.html\" | tail +7 >> %s";
-	string filename(getenv("HOME"));
+	std::string filename(getenv("HOME"));
 	filename.append("/.gri-hint-cache");
 	SECOND_TYPE sec;
 	time(&sec);

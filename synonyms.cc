@@ -8,13 +8,13 @@
 #include        "Synonym.hh"
 
 
-vector<GriSynonym> synonymStack;
+std::vector<GriSynonym> synonymStack;
 
 static inline int end_of_synonym(char c, bool inmath, bool need_brace);
 //static bool get_starred_synonym(const char* name, bool want_value/*or name*/, string& result);
 static int get_num_cmdwords();
-static int find_synonym_name(const string& s, string& name, bool in_math);
-bool get_cmdword(unsigned int index, string& cmdword);
+static int find_synonym_name(const std::string& s, std::string& name, bool in_math);
+bool get_cmdword(unsigned int index, std::string& cmdword);
 
 
 
@@ -44,7 +44,7 @@ get_num_cmdwords()
 }
 
 bool
-get_cmdword(unsigned int index, string& cmdword)
+get_cmdword(unsigned int index, std::string& cmdword)
 {
 	extern int      _num_command_word;
 	extern char    *_command_word[MAX_cmd_word];
@@ -91,10 +91,10 @@ get_cmdword(unsigned int index, string& cmdword)
 
 #if 0
 static bool
-get_starred_synonym(const char* name, bool want_value/*or name*/, string& result)
+get_starred_synonym(const char* name, bool want_value/*or name*/, std::string& result)
 {
 	if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d in get_starred_synonym(%s,%c)\n",__FILE__,__LINE__,name,want_value?'T':'F');
-	string coded_reference;
+	std::string coded_reference;
 	get_syn(name, coded_reference);
 	if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d coded_reference <%s>\n",__FILE__,__LINE__,coded_reference.c_str());
 	if (!strncmp(coded_reference.c_str(), "\\#v", 3)) {
@@ -229,7 +229,7 @@ display_unused_syn()
 			if (0 == synonymStack[i].getCount()) {
 				name = strdup(synonymStack[i].get_name());
 				if (strlen(name) > 0 && *(name + 1) != '.') {
-					string tmp;
+					std::string tmp;
 					unbackslash(name, tmp);
 					sprintf(_grTempString, "Warning: synonym `%s' defined but not used\n", tmp.c_str());
 					ShowStr(_grTempString);
@@ -258,7 +258,7 @@ is_syn(const char *name)
 	return ((name[0] == '\\') ? true : false);
 }
 bool
-is_syn(const string& name)
+is_syn(const std::string& name)
 {
 	return ((name[0] == '\\') ? true : false);
 }
@@ -282,7 +282,7 @@ show_syn_stack()
 
 // delete_syn() - delete synonym
 bool
-delete_syn(const string& name)
+delete_syn(const std::string& name)
 {
 	unsigned stackLen = synonymStack.size();
 	for (int i = stackLen - 1; i >= 0; i--) {
@@ -302,7 +302,7 @@ delete_syn(const string& name)
 // have been set aside by the calling routine.
 // RETURN true if synonym is defined and has a value
 bool
-get_syn(const char *name, string& value, bool do_decoding = true)
+get_syn(const char *name, std::string& value, bool do_decoding = true)
 {
         unsigned int name_len = strlen(name);
 	//printf("DEBUG %s:%d get_syn(%s,)\n",__FILE__,__LINE__,name);
@@ -331,7 +331,7 @@ get_syn(const char *name, string& value, bool do_decoding = true)
 			return false;
 		}
 		if (do_decoding) {
-			string coded_name;
+			std::string coded_name;
 			int coded_level = -1;
 			if (is_coded_string(value, coded_name, &coded_level)) {
 				//printf("DEBUG %s:%d cmdword[%d]='%s' was encoded `%s' at level %d\n",__FILE__,__LINE__,word_index, value.c_str(), coded_name.c_str(), coded_level);
@@ -352,13 +352,13 @@ get_syn(const char *name, string& value, bool do_decoding = true)
 			value.assign(name);
 			return false;
 		}
-		string name_unindexed = name;
+		std::string name_unindexed = name;
 		name_unindexed.STRINGERASE(1, 2 + index_len);
 		//printf("name_unindexed [%s]\n", name_unindexed.c_str());
 		
 		int the_index = 0;
 		if (index_len) {
-			string the_index_s = name;
+			std::string the_index_s = name;
 			double tmp;
 			if (!getdnum(the_index_s.substr(2, index_len).c_str(), &tmp)) {
 				value.assign(name);
@@ -375,7 +375,7 @@ get_syn(const char *name, string& value, bool do_decoding = true)
 		int which_word;
 		if (1 == sscanf(name_unindexed.c_str(), "\\.word%d.", &which_word)) {
 			//printf("DEBUG %s:%d which_word %d\n",__FILE__,__LINE__,which_word);
-			string word_buf;
+			std::string word_buf;
 			if (!get_cmdword(which_word, word_buf)) {
 				value.assign(name);
 				return false;
@@ -438,7 +438,7 @@ get_syn(const char *name, string& value, bool do_decoding = true)
 
 // Convert single backslashes into double.
 void
-unbackslash(const char *s, string& res)
+unbackslash(const char *s, std::string& res)
 {
 	res = "";
 	char lastc = '\0';
@@ -483,7 +483,7 @@ put_syn(const char *name, const char *value, bool replace_existing)
 //
 // RETURN true if line not empty
 bool
-substitute_synonyms_cmdline(const char *s, string& sout, bool allow_math)
+substitute_synonyms_cmdline(const char *s, std::string& sout, bool allow_math)
 {
 	sout = "";
 	if (strlen(s) < 1) {
@@ -576,9 +576,9 @@ substitute_synonyms_cmdline(const char *s, string& sout, bool allow_math)
 	// Catch e.g. \@.word1 = ...
 	if (!strncmp(_Words2[0], "\\@", 2) && nword > 1 && is_assignment_op(_Words2[1])) {
 		if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d caught \\@ with first cmdword being [%s]\n",__FILE__,__LINE__,_Words2[0]);
-		string tmp("\\");
+		std::string tmp("\\");
 		tmp.append(2 + _Words2[0]);
-		string unaliased;
+		std::string unaliased;
 		get_syn(tmp.c_str(), unaliased);
 		if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d unaliased <%s>\n",__FILE__,__LINE__,unaliased.c_str());
 		if (unaliased[0] == '\\') {
@@ -618,9 +618,9 @@ substitute_synonyms_cmdline(const char *s, string& sout, bool allow_math)
 		if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d NEED CODE HERE!\n",__FILE__,__LINE__);
 		if (nword > 1 && !strcmp(_Words2[1], "=")) {
 			if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d item is <%s>\n",__FILE__,__LINE__,_Words2[0]);
-			string syn_value(1 + _Words2[0]);
+			std::string syn_value(1 + _Words2[0]);
 			if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d looking up ref from <%s>\n",__FILE__,__LINE__,syn_value.c_str()); 
-			string pointed_to_name;
+			std::string pointed_to_name;
 			bool res = get_starred_synonym(syn_value.c_str(), false, pointed_to_name);
 			if (res) {
 				if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d pointed_to_name <%s>\n",__FILE__,__LINE__,pointed_to_name.c_str());
@@ -641,12 +641,12 @@ substitute_synonyms_cmdline(const char *s, string& sout, bool allow_math)
 // Walk through string, substituting synonyms if not in math mode.
 // RETURN 0 if empty line, 1 otherwise.
 bool
-substitute_synonyms(const char *s, string& sout, bool allow_math)
+substitute_synonyms(const char *s, std::string& sout, bool allow_math)
 {
 	if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d substitute_synonyms('%s',...)\n",__FILE__,__LINE__,s);
 	bool            inmath = false; // are we within a math string?
 	int             slen = strlen(s);
-	string sname;
+	std::string sname;
 
 	// Keep this buffer forever.  BUG: may not be long enough
 	static char* svalue = NULL;
@@ -683,13 +683,13 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 		if (s[i] == '*' && i < slen - 2 && s[i + 1] == '\\' && s[i + 2] != '\\') {
 			if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d got * i=%d <%s> <%s>\n",__FILE__,__LINE__,i,s,s+i-1);
 			i += 2;	// skip ahead, looking for synonym name.
-			string tmp("\\");
+			std::string tmp("\\");
 			while (i < slen && !end_of_synonym(s[i], false /*inmath*/, false/*need_brace*/)) {
 				tmp += s[i++];
 			}
-			string coded_reference;
+			std::string coded_reference;
 			get_syn(tmp.c_str(), coded_reference);
-			string value;
+			std::string value;
 			get_starred_synonym(tmp.c_str(), true, value);
 			sout.append(value);
 		}
@@ -725,17 +725,17 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 				iS++;
 			}
 			//printf("DEBUG %s:%d got & syntax on <%s>\n",__FILE__,__LINE__, s);
-			string S("\\");
+			std::string S("\\");
 			while (iS < slen && !end_of_synonym(s[iS], false /*inmath*/, false/*need_brace*/)) {
 				S += s[iS++];
 			}
 			int word_index;
 			if (1 == sscanf(S.c_str(), "\\.word%d.", &word_index)) {
 				//printf("A WORd %d\n", word_index);
-				string value;
+				std::string value;
 				if (get_cmdword(word_index, value)) {
 					//printf("WORD IS [%s]\n", value.c_str());
-					string coded_name;
+					std::string coded_name;
 					int coded_level;
 					if (is_coded_string(value, coded_name, &coded_level)) {
 						//printf("CODED. [%s]\n",coded_name.c_str());
@@ -759,15 +759,15 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 		// Catch \@ [alias synonyms]
 		if (s[i + 1] == '@') {
 			i += 2;	// skip the '\\' and the '@'
-			string tmp("\\");
+			std::string tmp("\\");
 			while (i < slen && !end_of_synonym(s[i], false /*inmath*/, false/*need_brace*/)) {
 				tmp += s[i++];
 			}
 			if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d ALIAS tmp [%s]\n",__FILE__,__LINE__,tmp.c_str());
-			string alias_name;
+			std::string alias_name;
 			get_syn(tmp.c_str(), alias_name);
 			if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d this syn value is [%s]\n",__FILE__,__LINE__,alias_name.c_str());
-			string alias_value;
+			std::string alias_value;
 			if (alias_name[0] == '\\') {
 				if (get_syn(alias_name.c_str(), alias_value)) {
 					sout.append(alias_value);
@@ -815,7 +815,7 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 		// then find value.
 		sname =  "\\";
 		sname.append(s + i + 1);
-		string the_syn_name;
+		std::string the_syn_name;
 		int syn_name_len = find_synonym_name(sname, the_syn_name, inmath);
 		if (syn_name_len != 0) {
 			sname = the_syn_name;
@@ -834,7 +834,7 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 
 		// Substitute known synonym, then skip over the space the synonym
 		// name occupied.
-		string synonym_value;
+		std::string synonym_value;
 		if (get_syn(sname.c_str(), synonym_value)) {
 			if (synonym_value.size() > _grTempStringLEN - 1) {
 				OUT_OF_MEMORY;
@@ -853,7 +853,7 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 }
 
 static int			// return length
-find_synonym_name(const string &s, string& name, bool inmath)
+find_synonym_name(const std::string &s, std::string& name, bool inmath)
 {
 	unsigned int slen = s.size();
 	if (s[0] != '\\')

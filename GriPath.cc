@@ -261,7 +261,7 @@ straighten_curve(double *x, double *y, GriPath::type *a, unsigned int length, do
 		return length;
 	double a1, a2, b1, b2, c1, c2; // in points
 	allow *= PT_PER_CM;
-	vector<bool> remove;
+	std::vector<bool> remove;
 	unsigned int i;
 	for (i = 0; i < length; i++)
 		remove.push_back(false);

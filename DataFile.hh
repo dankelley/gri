@@ -14,7 +14,7 @@ class DataFile
 public:
 	enum type {from_cmdfile, ascii, bin_unknown, bin_uchar, bin_16bit, bin_int, bin_float, bin_double, bin_netcdf};
 	DataFile() {
-		extern vector<CmdFile>  _cmdFILE;
+		extern std::vector<CmdFile>  _cmdFILE;
 		name.assign("stdin");
 		if (_cmdFILE.size() > 0) {
 			fp = _cmdFILE.end()->get_fp();
@@ -75,7 +75,7 @@ public:
 	bool get_delete_when_close() const  {return delete_when_close;	}
 private:
 	FILE* fp;		// file pointer
-	string name;		// name of file, or stdin
+	std::string name;	// name of file, or stdin
 	int  netCDF_id;		// only used if FILE_BIN_NETCDF
 	type the_type;		// 
 	int  line;		// current line number

@@ -1,5 +1,7 @@
 #include <string>
+#include <vector.h>
 #include <algorithm>	// for reverse
+
 #include <stdio.h>
 #include <stddef.h>
 
@@ -7,7 +9,12 @@
 #include "extern.hh"
 #include "image_ex.hh"
 
-static bool     filter_butterworth(double *x, double *xout, int nx, double *a, double *b, int nab);
+static bool filter_butterworth(double *x,
+			       double *xout,
+			       int nx,
+			       const std::vector<double>& a,
+			       const std::vector<double>& b);
+
 static bool     filter_image(int horl);
 void            highpass_image();
 void            lowpass_image();
@@ -46,37 +53,38 @@ filter_gridCmd()
 		return false;
 	}
 	nab = nab / 2;
-	vector<double> a((size_t)nab, 0.0);
-	vector<double> b((size_t)nab, 0.0);
+	std::vector<double> a((size_t)nab, 0.0);
+	std::vector<double> b((size_t)nab, 0.0);
 	unsigned int i, row, col;
 	for (i = 0; i < (unsigned int) nab; i++) {
 		a[i] = atof(_word[4 + i]);
 		b[i] = atof(_word[4 + i + nab]);
 	}
 	// Do the filtering
+	double *orig, *copy;
 	if (do_rows) {
-		vector<double> orig((size_t)_num_ymatrix_data, 0.0);
-		vector<double> copy((size_t)_num_ymatrix_data, 0.0);
+		GET_STORAGE(orig, double, (size_t)_num_ymatrix_data);
+		GET_STORAGE(copy, double, (size_t)_num_ymatrix_data);
 		for (col = 0; col < _num_xmatrix_data; col++) {
 			for (row = 0; row < _num_ymatrix_data; row++)
 				orig[row] = _f_xy(col, row);
-			filter_butterworth(orig.begin(), copy.begin(), _num_ymatrix_data,
-					   a.begin(), b.begin(), nab);
+			filter_butterworth(orig, copy, _num_ymatrix_data, a, b);
 			for (row = 0; row < _num_ymatrix_data; row++)
 				_f_xy(col, row) = copy[row];
 		}
 	} else {
-		vector<double> orig((size_t)_num_xmatrix_data, 0.0);
-		vector<double> copy((size_t)_num_xmatrix_data, 0.0);
+		GET_STORAGE(orig, double, (size_t)_num_xmatrix_data);
+		GET_STORAGE(copy, double, (size_t)_num_xmatrix_data);
 		for (row = 0; row < _num_ymatrix_data; row++) {
 			for (col = 0; col < _num_xmatrix_data; col++)
 				orig[col] = _f_xy(col, row);
-			filter_butterworth(orig.begin(), copy.begin(), _num_xmatrix_data,
-					   a.begin(), b.begin(), nab);
+			filter_butterworth(orig, copy, _num_xmatrix_data, a, b);
 			for (col = 0; col < _num_xmatrix_data; col++)
 				_f_xy(col, row) = copy[col];
 		}
 	}
+	free(orig);
+	free(copy);
 	return true;
 }
 
@@ -91,7 +99,7 @@ filter_columnCmd()
 		NUMBER_WORDS_ERROR);
 	Require(word_is(3, "recursively"),
 		err("Fourth word must be `recursively'"));
-	double          *orig;	// point to data
+	double *orig;
 	if (word_is(2, "x")) {
 		num = _colX.size();
 		orig = _colX.begin();
@@ -125,28 +133,36 @@ filter_columnCmd()
 	Require(!ODD(nab),
 		err("Must give even number of filter coefficients."));
 	nab = nab / 2;
-	vector<double> a((size_t)nab, 0.0);
-	vector<double> b((size_t)nab, 0.0);
+	std::vector<double> a((size_t)nab, 0.0);
+	std::vector<double> b((size_t)nab, 0.0);
 	for (i = 0; i < nab; i++) {
 		a[i] = atof(_word[4 + i]);
 		b[i] = atof(_word[4 + i + nab]);
 	}
-	vector<double> copy((size_t)num, 0.0);
-	filter_butterworth(orig, copy.begin(), num, a.begin(), b.begin(), nab);
+	double *copy;
+	GET_STORAGE(copy, double, (size_t)num);
+	filter_butterworth(orig, copy, num, a, b);
 	for (i = 0; i < num; i++)
 		orig[i] = copy[i];
+	free(copy);
 	return true;
 }
 
 // filter_butterworth() -- do butterworth filtering, forward+back
 // Input is x[] (unaltered), output is xout[]; recursive-style coefficients are
 // a[]; moving average-style coefficients are b[].
-static          bool
-filter_butterworth(double *x, double *xout, int nx, double *a, double *b, int nab)
+static bool
+filter_butterworth(double* x,
+		   double* xout,
+		   int nx,
+		   const std::vector<double>& a,
+		   const std::vector<double>& b)
 {
+	int nab = a.size();
 	if (nab >= nx)
 		return false;
-	vector<double> z((size_t)nx, 0.0);
+	double *z;
+	GET_STORAGE(z, double, (size_t)nx);
 	register int    ix, iab;
 	// pass 1 -- forward
 	for (ix = 0; ix < nab; ix++) {
@@ -159,7 +175,7 @@ filter_butterworth(double *x, double *xout, int nx, double *a, double *b, int na
 			z[ix] += b[iab] * x[ix - iab] - a[iab] * z[ix - iab];
 	}
 	// pass 2 -- backward
-	reverse(z.begin(), z.begin() + nx);
+	std::reverse(z, z + nx);
 	for (ix = 0; ix < nab; ix++)
 		xout[ix] = z[ix];
 	for (ix = nab; ix < nx; ix++) {
@@ -167,7 +183,8 @@ filter_butterworth(double *x, double *xout, int nx, double *a, double *b, int na
 		for (iab = 1; iab < nab; iab++)
 			xout[ix] += b[iab] * z[ix - iab] - a[iab] * xout[ix - iab];
 	}
-	reverse(xout, xout + nx);
+	std::reverse(xout, xout + nx);
+	free(z);
 	return true;
 }
 
@@ -200,7 +217,7 @@ filter_image(int horl)
 	nx1 = nx - 1;
 	ny = _image.ras_height;
 	ny1 = ny - 1;
-	vector<unsigned char> imagenew((size_t)(nx * ny), (unsigned char)0);
+	std::vector<unsigned char> imagenew((size_t)(nx * ny), (unsigned char)0);
 	for (j = ny - 1; j > -1; j--) {
 		imagenew[j] = _image.image[j];
 		imagenew[nx1 * ny + j] = _image.image[nx1 * ny + j];

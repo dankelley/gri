@@ -14,7 +14,7 @@ whileCmd(void)
 {
 	int             loop_level = 1;
 	int             lines = 0;
-	string test(6 + strstr(_cmdLine, "while"));
+	std::string test(6 + strstr(_cmdLine, "while"));
 	if (re_compare(test.c_str(), " *")) {
 		err("`while .test.|{rpn ...}' missing the test part");
 		return false;
@@ -22,7 +22,7 @@ whileCmd(void)
 	//printf("=============== in while cmd.  '%s'       test '%s'\n",_cmdLine,test.c_str());
 	test_is_true(test.c_str()); // to catch syntax errors on this line
 	// Store lines until end while into the buffer
-	string buffer;
+	std::string buffer;
 	while (1) {
 		if (!get_command_line()) {
 			err("Missing `end while'");
@@ -66,7 +66,7 @@ bool
 perform_while_block(const char *buffer, const char *test, int lines)
 {
 	//printf("^^^^^^^^^^^^ perform_while_block(...,%s,...)\n",test);
-	string          filename;
+	std::string     filename;
 	int             fileline;
 	int             passes = 0;
 	while (test_is_true(test)) {
@@ -115,7 +115,7 @@ test_is_true(const char *s)
 	char            res[30];
 	double          value;
 #if 1
-	string ss;
+	std::string ss;
 	substitute_synonyms(s, ss, true);
 	substitute_rpn_expressions(ss.c_str(), res);
 	//printf(" + '%s'        ->     '%s'\n", s,ss.c_str());

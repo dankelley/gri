@@ -37,8 +37,8 @@ public:
 		return *this;
 	}
 private:
-	string name;
-	string value;
+	std::string name;
+	std::string value;
 };
 
 

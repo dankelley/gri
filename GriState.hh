@@ -41,7 +41,7 @@ public:
 	unsigned int superuser() const		{return the_superuser;		}
 	bool	trace() const			{return the_trace;		}
 #ifdef DASH
-	const vector<float>& dash() const       {return *the_dash;}
+	const std::vector<float>& dash() const       {return *the_dash;}
 #endif
 	GriState& operator=(const GriState& n);
 private:
@@ -57,7 +57,7 @@ private:
 	bool		the_trace;
 	unsigned int	the_superuser;
 #ifdef DASH
-	vector<float> *the_dash;
+	std::vector<float> *the_dash;
 #endif
 	// FOR MORE, SEE extern.hh:21
 };

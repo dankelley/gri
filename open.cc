@@ -102,7 +102,7 @@ open_file(DataFile::type type)
 		for (int i = len - 2; i > -1; i--) {
 			if (*(_word[1] + i) == '|') {
 				// It's a pipe
-				string pipecmd;
+				std::string pipecmd;
 				if (type == DataFile::bin_netcdf) {
 					err("`open' cannot have a pipe that is netCDF type");
 					return false;
@@ -119,7 +119,7 @@ open_file(DataFile::type type)
 				while (isspace(pipecmd[pipecmd.size() - 1]))
 					pipecmd.STRINGERASE(pipecmd.size() - 1);
 				pipecmd.append(" > ");
-				string tmpfile_name(tmp_file_name());
+				std::string tmpfile_name(tmp_file_name());
 				pipecmd.append(tmpfile_name.c_str());
 				call_the_OS(pipecmd.c_str(), __FILE__, __LINE__);
 				if (!push_data_file(tmpfile_name.c_str(), type, "r", true)) {
@@ -129,7 +129,7 @@ open_file(DataFile::type type)
 				break;
 			} else if (!isspace(*(_word[1] + i))) {
 				// Presume quoted string ... but check to be sure!
-				string filename;
+				std::string filename;
 				if (*_word[1] == '"' && *_word[1] != '\0')
 					filename.assign(1 + _word[1]);
 				else
@@ -141,7 +141,7 @@ open_file(DataFile::type type)
 				if (filename[filename.size() - 1] == '"')
 					filename.STRINGERASE(filename.size() - 1, filename.size());
 				// Determine actual filename (substituting for ~ etc).
-				string completefilename(filename);
+				std::string completefilename(filename);
 				resolve_filename(completefilename, true, 'd');
 				if (!push_data_file(completefilename.c_str(), type, "r", false)) {
 					err("`open' can't find file `\\", completefilename.c_str(), "'", "\\");
@@ -156,7 +156,7 @@ open_file(DataFile::type type)
 			err("`open' needs a filename");
 			return false;
 		}
-		string completefilename(_word[1]);
+		std::string completefilename(_word[1]);
 		resolve_filename(completefilename, true, 'd');
 		if (!push_data_file(completefilename.c_str(), type, "r", false)) {
 			err("`open' can't find (or successfully open) file `\\", completefilename.c_str(), "' due to system error `", strerror(errno), "'.", "\\");

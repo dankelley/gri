@@ -15,7 +15,7 @@ closeCmd()
 		return false;
 	}
 	int file = _dataFILE.size() - 1;
-	string fname;
+	std::string fname;
 	switch (_nword) {
 	case 1:
 		break;

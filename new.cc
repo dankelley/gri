@@ -34,7 +34,7 @@ new_postscript_fileCmd()
 	}
 	//printf("DEBUG.  Should now start a new ps file named '%s'\n",_word[3]);
 	gr_end("!");
-	string unquoted(_word[3]);
+	std::string unquoted(_word[3]);
 	un_double_quote(unquoted);
 	gr_setup_ps_filename(unquoted.c_str());
 #if 0
@@ -59,12 +59,12 @@ newCmd()
 		return false;
 	}
 	for (unsigned int i = 1; i < _nword; i++) {
-                string w(_word[i]);
+                std::string w(_word[i]);
 		un_double_quote(w);
 		//printf("DEBUG %s:%d <%s>\n",__FILE__,__LINE__,w.c_str());
-		string value;
+		std::string value;
 		if (get_syn(w.c_str(), value, false)) {
-			string coded_name;
+			std::string coded_name;
 			int coded_level = -1;
 			//printf("DEBUG <%s>\n", value.c_str());
 			if (is_coded_string(value.c_str(), coded_name, &coded_level)) {
@@ -92,9 +92,9 @@ newCmd()
 		if (is_syn(w)) {
 			//printf("DEBUG 4-a SYN <%s>\n", w.c_str());
 			if (w[1] == '@') {
-				string clean("\\");
+				std::string clean("\\");
 				clean.append(w.substr(2, w.size()));
-				string named;
+				std::string named;
 				get_syn(clean.c_str(), named, false);
 				//printf("NEW IS AN ALIAS SYN %s:%d <%s>  [%s]\n",__FILE__,__LINE__,clean.c_str(),named.c_str());
 				if (is_var(named.c_str())) {

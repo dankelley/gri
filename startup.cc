@@ -23,7 +23,7 @@ extern "C" int gethostname(char *name, int namelen);
 #if defined(OS_IS_BEOS)
 #include <netdb.h>
 #endif
-static vector<GriNamedColor> colorStack;
+static std::vector<GriNamedColor> colorStack;
 
 typedef struct {
 	unsigned int code;
@@ -38,7 +38,7 @@ static superuser_flag sflag[] = {
 	{FLAG_AUT1, "Variable; for use by developers only"},
 	{0, NULL}
 };
-static string psname("");
+static std::string psname("");
 static bool user_gave_directory = false;
 
 extern char     _grTempString[];
@@ -56,7 +56,7 @@ static void     create_builtin_synonyms(void);
 static void     set_defaults(void);
 static int      interpret_optional_arguments(int argc, char *argv[]);
 static void     get_input_simulation(int argc, char *argv[], int separator);
-static void     insert_creator_name_in_PS(int argc, char *argv[], const string&psname);
+static void     insert_creator_name_in_PS(int argc, char *argv[], const std::string&psname);
 static void     dogrirc(void);
 #if 0
 static void     show_startup_msg(void);
@@ -172,11 +172,11 @@ start_up(int argc, char **argv)
 		push_cmd_file("stdin", batch() ? false : true, true, "r");
 	} else {
 		separator++;
-		string fname(argv[1 + last_optional_arg]);
+		std::string fname(argv[1 + last_optional_arg]);
 
 		// If filename shorter than 4 characters, cannot have .gri suffix,
 		// so append it.
-		string::size_type p = fname.rfind(".gri");
+		std::string::size_type p = fname.rfind(".gri");
 		if (fname.size() < 4 || p != -4 + fname.size())
 			fname.append(".gri");
 
@@ -188,7 +188,7 @@ start_up(int argc, char **argv)
 			psname = fname;
 			int l = psname.size();
 			psname.STRINGERASE(l - 4, l - 1);
-			string::size_type last_slash = psname.rfind("/");
+			std::string::size_type last_slash = psname.rfind("/");
 			if (last_slash != STRING_NPOS)
 				psname.STRINGERASE(0, last_slash + 1);
 			psname.append(".ps");
@@ -201,8 +201,8 @@ start_up(int argc, char **argv)
 
 		// Possibly they gave a ps filename ...
 		if (argc > last_optional_arg + 2) {
-			string tmp(argv[last_optional_arg+2]);
-			string::size_type p = tmp.rfind(".ps");
+			std::string tmp(argv[last_optional_arg+2]);
+			std::string::size_type p = tmp.rfind(".ps");
 			if (p != STRING_NPOS && p == -3 + tmp.size()) {
 				warning("\
 first argument looks like a PostScript filename.  Older versions\n\
@@ -417,7 +417,7 @@ get_input_simulation(int argc, char *argv[], int separator)
 	if (separator >= argc)
 		return;
 	// Save the words following SEPARATOR into the stdin io buffer.
-	extern vector<char*> _argv;
+	extern std::vector<char*> _argv;
 	for (int i = separator; i < argc; i++) {
 		//printf("\t push %d <%s>\n",i,argv[i]);
 #if 0				// 2001-feb-23 vsn 2.6.0 (alpha)
@@ -886,7 +886,7 @@ give_help()
 
 // Insert Creator info in PS file
 static void
-insert_creator_name_in_PS(int argc, char *argv[], const string& psname)
+insert_creator_name_in_PS(int argc, char *argv[], const std::string& psname)
 {
 	extern char _gri_release_time[];
 	extern char _gri_number[]; // see version.c
@@ -949,7 +949,7 @@ dogrirc()
 static void
 show_startup_msg()
 {
-	string fullfilename(_lib_directory.c_str());
+	std::string fullfilename(_lib_directory.c_str());
 	// Must check for '/' as file separator, on some machines.
 #if !defined(VMS)
 #if defined(MSDOS)

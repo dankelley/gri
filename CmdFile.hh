@@ -65,7 +65,7 @@ public:
 	bool get_save2ps()     const { return save2ps;          }
 private:
 	FILE           *fp;
-	string          name;
+	std::string     name;
 	bool            interactive;
 	bool            save2ps;
 	int             line;

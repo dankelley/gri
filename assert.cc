@@ -31,7 +31,7 @@ bool assertCmd()
 	if (cond) {
 		return true;
 	} else {
-		string msg;
+		std::string msg;
 		if (_nword == 3) {
 			msg = _word[2];
 			clean_blanks_quotes(msg);

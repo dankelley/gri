@@ -8,7 +8,7 @@
 extern char     _grTempString[];
 bool            regressCmd(void);
 bool            regress_linearCmd(void);
-int             fit(double x[], double y[], int ndata, double sig[], int mwt, double *a, double *b, double *siga, double *sigb, double *chi2, double *q);
+static int      fit(double x[], double y[], int ndata, std::vector<double>::iterator, int mwt, double *a, double *b, double *siga, double *sigb, double *chi2, double *q);
 double          gammln(double xx);
 double          gammq(double a, double x);
 void            gcf(double *gammcf, double a, double x, double *gln);
@@ -61,7 +61,7 @@ regress_linearCmd()
 		return false;
 	}
 	if (!strcmp(_word[1], "y") && !strcmp(_word[3], "x")) {
-		vector<double> errx(_colX.size(), 0.0);
+		std::vector<double> errx(_colX.size(), 0.0);
 		// regress y vs x
 		for (i = 0; i < _colX.size(); i++)
 			if (!gr_missing(_colX[i])
@@ -102,7 +102,7 @@ y = %g + %g x; chi2=%g; R^2=%g (%d good data)\n",
 		gr_textput(_grTempString);
 		return true;
 	} else if (!strcmp(_word[1], "x") && !strcmp(_word[3], "y")) {
-		vector<double> errx(_colX.size(), 0.0);
+		std::vector<double> errx(_colX.size(), 0.0);
 		// regress x vs y
 		for (i = 0; i < _colX.size(); i++)
 			if (!gr_missing(_colX[i])
@@ -203,9 +203,10 @@ rms_deviation(double x[], double y[], int n, double a, double b)
 // Returns number good data
 static double   sqrarg;
 #define SQR(a) (sqrarg=(a),sqrarg*sqrarg)
-int
+static int
 fit(double x[], double y[], int ndata,
-    double sig[], int mwt,
+    std::vector<double>::iterator sig,
+    int mwt,
     double *a, double *b,
     double *siga, double *sigb,
     double *chi2, double *q)

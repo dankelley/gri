@@ -36,7 +36,7 @@ write_contourCmd(const char *filename)
 		NUMBER_WORDS_ERROR;
 		return false;
 	}
-	string fname(filename);
+	std::string fname(filename);
 	un_double_quote(fname);
 	if (!strcmp(fname.c_str(), "stdout"))
 		fp = stdout;
@@ -147,7 +147,7 @@ write_gridCmd(const char *filename)
 		return false;
 	}
 	// Special case
-	string fname;
+	std::string fname;
 	unsigned int i, j;
 	switch (_nword) {
 	case 4:
@@ -228,7 +228,7 @@ write_columnsCmd(const char *filename)
 		err("Can't `write columns \\file' since no columns exist yet\n");
 		return false;
 	}
-	string fname(filename);
+	std::string fname(filename);
 	un_double_quote(fname);
 	FILE *fp;
 	if (!strcmp(fname.c_str(), "stdout"))
@@ -287,7 +287,7 @@ write_imageCmd(const char *filename, int image_type)
 		err("No image exists yet\n");
 		return false;
 	}
-	string fname(filename);
+	std::string fname(filename);
 	un_double_quote(fname);
 	if (!strcmp(fname.c_str(), "stdout"))
 		fp = stdout;
@@ -356,7 +356,7 @@ write_image_maskCmd(const char *filename, int image_type)
 		err("Sorry, `write image mask to \\file' can't figure out nx or ny");
 		return false;
 	}
-	string fname(filename);
+	std::string fname(filename);
 	un_double_quote(fname);
 	if (!strcmp(fname.c_str(), "stdout"))
 		fp = stdout;
@@ -415,7 +415,7 @@ write_image_colorscaleCmd(const char *filename)
 		err("First `set image grayscale'");
 		return false;
 	}
-	string fname(filename);
+	std::string fname(filename);
 	un_double_quote(fname);
 	if (!strcmp(fname.c_str(), "stdout"))
 		fp = stdout;
@@ -445,7 +445,7 @@ write_image_grayscaleCmd(const char *filename)
 		err("First `set image grayscale'");
 		return false;
 	}
-	string fname(filename);
+	std::string fname(filename);
 	un_double_quote(fname);
 	if (!strcmp(fname.c_str(), "stdout"))
 		fp = stdout;

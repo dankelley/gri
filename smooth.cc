@@ -40,7 +40,7 @@ smooth_xCmd()
 		return false;
 	}
 	int i, n = _colX.size() - 1;
-	vector<double> copy(_colX.size(), 0.0);
+	std::vector<double> copy(_colX.size(), 0.0);
 	// Copy all, to get endparts
 	for (i = 0; i < n; i++)
 		copy[i] = _colX[i];
@@ -111,7 +111,7 @@ smooth_yCmd()
 	}
 	int i, n = _colY.size() - 1;
 	// Copy all, to get endparts
-	vector<double> copy(_colY.size(), 0.0);
+	std::vector<double> copy(_colY.size(), 0.0);
 	for (i = 0; i < n; i++)
 		copy[i] = _colY[i];
 	if (_nword == 2) {

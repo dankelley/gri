@@ -23,7 +23,7 @@ helpCmd()
 		// Must be `help item ...'
 		int             i = 0, cmd;
 		bool            found = false;
-		string tmpname_file(tmp_file_name());
+		std::string tmpname_file(tmp_file_name());
 		FILE           *fp;
 		if (!(fp = fopen(tmpname_file.c_str(), "w"))) {
 			err("Sorry, error opening buffer-file for `help'");
@@ -85,7 +85,7 @@ bool
 give_help_on_topic()
 {
 	FILE           *fp;
-	string          tmpname_file(tmp_file_name());
+	std::string          tmpname_file(tmp_file_name());
 	if (!(fp = fopen(tmpname_file.c_str(), "w"))) {
 		err("Sorry, error opening buffer-file for `help -'");
 		return false;

@@ -18,7 +18,7 @@ extern "C" double asinh(double x);         // DEC-cxx needs this
 extern "C" double atanh(double x);         // DEC-cxx needs this
 #endif
 
-static vector<RpnItem> rS;
+static std::vector<RpnItem> rS;
 void
 erase_rpn_stack()
 {
@@ -1027,7 +1027,7 @@ do_operation(operator_name oper)
 	if (oper == STRCAT) {
 		// Need to remove the last quote (") of first and first quote of second.
 		NEED_ON_STACK(2); NEED_IS_TYPE(1, STRING); NEED_IS_TYPE(2, STRING);
-		string res(NAME(2));
+		std::string res(NAME(2));
 		res.STRINGERASE(res.size()-1, 1);
 		res.append(NAME(1) + 1);
 		SET(2, res.c_str(), 0.0, STRING);
@@ -1072,7 +1072,7 @@ do_operation(operator_name oper)
 			if (*STRING_END(output_lines) == '\n') {
 				*STRING_END(output_lines) = '\0';
 			}
-			string tmp("\"");
+			std::string tmp("\"");
 			tmp.append(output_lines);
 			tmp.append("\"");
 			SET(1, tmp.c_str(), 0.0, STRING);
@@ -1241,7 +1241,7 @@ do_operation(operator_name oper)
 				warning("(rpn width), ..fontsize.. undefined so using 12");
 			gr_setfontsize_pt(fontsize);
 			gr_setfont(old_font);
-			string       no_quotes(NAME(1));
+			std::string       no_quotes(NAME(1));
 			un_double_quote(no_quotes);
 			gr_stringwidth(no_quotes.c_str(), &width, &ascent, &descent);
 			SET(1, "", width, NUMBER);
@@ -1263,7 +1263,7 @@ do_operation(operator_name oper)
 				warning("(rpn width), ..fontsize.. undefined so using 12");
 			gr_setfontsize_pt(fontsize);
 			gr_setfont(old_font);
-			string       no_quotes(NAME(1));
+			std::string       no_quotes(NAME(1));
 			un_double_quote(no_quotes);
 			gr_stringwidth(no_quotes.c_str(), &width, &ascent, &descent);
 			SET(1, "", ascent, NUMBER);
@@ -1285,7 +1285,7 @@ do_operation(operator_name oper)
 				warning("(rpn width), ..fontsize.. undefined so using 12");
 			gr_setfontsize_pt(fontsize);
 			gr_setfont(old_font);
-			string       no_quotes(NAME(1));
+			std::string       no_quotes(NAME(1));
 			un_double_quote(no_quotes);
 			gr_stringwidth(no_quotes.c_str(), &width, &ascent, &descent);
 			SET(1, "", descent, NUMBER);
@@ -1300,11 +1300,11 @@ do_operation(operator_name oper)
 			return false;
 		} else {
 #if defined(HAVE_ACCESS)
-			string fname(NAME(1));
+			std::string fname(NAME(1));
 			un_double_quote(fname);
 			if (fname[0] == '~') {
 				fname.STRINGERASE(0, 1);
-				string home(egetenv("HOME"));
+				std::string home(egetenv("HOME"));
 				home.append(fname);
 				fname = home;
 			}
@@ -1361,7 +1361,7 @@ do_operation(operator_name oper)
 				break;
 		}
 		//printf("cmd is %d max is %d ... value '%s'\n",cmd,_num_command_word,_command_word[cmd+index+1]);
-		string rv;
+		std::string rv;
 		if (*_command_word[cmd + index + 1] == '\"') { 
 			rv.append(_command_word[cmd + index + 1]);
 		} else {
@@ -1374,7 +1374,7 @@ do_operation(operator_name oper)
 		return true;
 	}
 	if (oper == ARGC) {
-		extern vector<char*>_argv;
+		extern std::vector<char*>_argv;
 		RpnItem item;
 		item.set("", double(_argv.size()), NUMBER);
 		rS.push_back(item);
@@ -1389,12 +1389,12 @@ do_operation(operator_name oper)
 			RpnError = NEED_GT_1;
 			return false;
 		}
-		extern vector<char*>_argv;
+		extern std::vector<char*>_argv;
 		if (index >= int(_argv.size())) {
 			SET(1, "\" \"", 0.0, STRING);
 			return true;
 		}
-		string rv("\"");
+		std::string rv("\"");
 		rv.append(_argv[index]);
 		rv.append("\"");
 		SET(1, rv.c_str(), 0.0, STRING);
@@ -1408,11 +1408,11 @@ do_operation(operator_name oper)
 			return false;
 		} else {
 #if defined(HAVE_ACCESS)
-			string fname(NAME(1));
+			std::string fname(NAME(1));
 			un_double_quote(fname);
 			if (fname[0] == '~') {
 				fname.STRINGERASE(0, 1);
-				string home(egetenv("HOME"));
+				std::string home(egetenv("HOME"));
 				home.append(fname);
 				fname = home;
 			}
@@ -1431,7 +1431,7 @@ do_operation(operator_name oper)
 	if (oper == DEFINED) {
 		NEED_ON_STACK(1);
 		NEED_IS_TYPE(1, STRING);
-		string n1(NAME(1));
+		std::string n1(NAME(1));
 		un_double_quote(n1);
 		// It's either a synonym or a variable, or not defined 
 		if (is_syn(n1)) {
@@ -1439,15 +1439,15 @@ do_operation(operator_name oper)
 			//printf("DEBUG %s:%d defined on <%s>\n",__FILE__,__LINE__,n1.c_str());
 			int w_index = -1;
 			if (1 == sscanf(n1.c_str(), "\\.word%d.", &w_index)) {
-				string w("");
+				std::string w("");
 				if (get_cmdword(w_index, w)) {
 					// If such a \.word?. exists, look up pointed-to item
 					//printf("DEBUG %s:%d w= <%s>\n",__FILE__,__LINE__,w.c_str());
-					string coded_name;
+					std::string coded_name;
 					int coded_level;
 					if (is_coded_string(w, coded_name, &coded_level)) {
 						//printf("DEBUG %s:%d encoded `%s' at level %d\n",__FILE__,__LINE__, coded_name.c_str(), coded_level);
-						string value;
+						std::string value;
 						if (get_coded_value(coded_name, coded_level, value)) {
 							//printf(" ** YES [%s] is defined\n", coded_name.c_str());
 							SET(1, "", 1.0, NUMBER);
@@ -1466,9 +1466,9 @@ do_operation(operator_name oper)
 			} else {
 				//printf("CASE 2.  n1 is [%s]\n",n1.c_str());
 				bool exists;
-				string syn_value; // not used, actually
+				std::string syn_value; // not used, actually
 				if (n1[1] == '@') {
-					string d("\\");
+					std::string d("\\");
 					d.append(n1.substr(2, n1.size()));
 					exists = get_syn(d.c_str(), syn_value);
 					//printf("CASE 2B    d is [%s] returning %d\n",d.c_str(),exists);

@@ -35,13 +35,51 @@ inline double exp_approx(double x)
 static void display_f_xy(const char *msg);
 #endif
 
-static bool  create_grid_barnes(double xr, double yr, double gamma, unsigned int iter, double *xgood, double *ygood, double *zgood, double *wgood, unsigned int numgood);
-static bool create_grid_barnes_cv(double xr, double yr, double gamma, unsigned int iter, double *xgood, double *ygood, double *zgood, double *wgood, unsigned int numgood);
-static unsigned int    create_grid_objectiveCmd(double xr, double yr, double *xgood, double *ygood, double *zgood, unsigned int numgood);
-static double    interpolate_barnes(double xx, double yy, double zz, int skip, unsigned int n_k, double *x, double *y, double *z, double *weight, double *z_last, double xr, double yr);
+static bool  create_grid_barnes(double xr,
+				double yr,
+				double gamma,
+				unsigned int iter,
+				const std::vector<double> &xgood,
+				const std::vector<double> &ygood,
+				const std::vector<double> &zgood,
+				const std::vector<double> &wgood);
+static bool create_grid_barnes_cv(double xr,
+				  double yr,
+				  double gamma,
+				  unsigned int iter,
+				  const std::vector<double> &xgood,
+				  const std::vector<double> &ygood,
+				  const std::vector<double> &zgood,
+				  const std::vector<double> &wgood);
+static unsigned int create_grid_objectiveCmd(double xr,
+					     double yr,
+					     const std::vector<double> &xgood,
+					     const std::vector<double> &ygood,
+					     const std::vector<double> &zgood);
 
-static int create_grid_boxcarCmd(double xr, double yr, double *x, double *y, double *z, unsigned int n);
-static int create_grid_neighborCmd(double *x, double *y, double *z, unsigned int num);
+static double interpolate_barnes(double xx,
+				 double yy,
+				 double zz,
+				 int skip,
+				 unsigned int n_k,
+				 const std::vector<double> &x,
+				 const std::vector<double> &y,
+				 const std::vector<double> &z,
+				 const std::vector<double> &weight,
+				 const std::vector<double> &z_last,
+				 double xr,
+				 double yr);
+
+static int create_grid_boxcarCmd(double xr,
+				 double yr,
+				 const std::vector<double> &x,
+				 const std::vector<double> &y,
+				 const std::vector<double> &z);
+
+static int create_grid_neighborCmd(const std::vector<double> &xgood,
+				   const std::vector<double> &ygood,
+				   const std::vector<double> &zgood);
+
 int convert_col_to_gridCmd(void);
 bool convert_col_to_splineCmd(void);
 bool convert_grid_to_columnsCmd(void);
@@ -144,11 +182,11 @@ convert_col_to_gridCmd()
 	// Seem to have data.  Now proceed, first checking to see if neighbor
 	// method (which takes no extra params).  But first dump to 
 	// vectors known to be nonmissing
-	vector<double> xgood; xgood.reserve(_colX.size());
-	vector<double> ygood; ygood.reserve(_colX.size());
-	vector<double> zgood; zgood.reserve(_colX.size());
-	vector<double> wgood; wgood.reserve(_colX.size());
-	unsigned int numgood = 0, num = _colX.size();
+	std::vector<double> xgood; xgood.reserve(_colX.size());
+	std::vector<double> ygood; ygood.reserve(_colX.size());
+	std::vector<double> zgood; zgood.reserve(_colX.size());
+	std::vector<double> wgood; wgood.reserve(_colX.size());
+	unsigned int num = _colX.size();
 	bool have_weights = (_colWEIGHT.size() == _colX.size());
 	for (unsigned int g = 0; g < num; g++) {
 		if (!gr_missingx(_colX[g]) && !gr_missingy(_colY[g]) && !gr_missing(_colZ[g])) {
@@ -159,10 +197,9 @@ convert_col_to_gridCmd()
 				wgood.push_back(_colWEIGHT[g]);
 			else
 				wgood.push_back(1.0);
-			numgood++;
 		}
 	}
-	if (!numgood)
+	if (!xgood.size())
 		return true;		// no data
 	if (word_is(4, "neighbor")) {
 		if (_nword != 5) {
@@ -170,7 +207,7 @@ convert_col_to_gridCmd()
 			NUMBER_WORDS_ERROR;
 			return 0;
 		}
-		found = create_grid_neighborCmd(xgood.begin(), ygood.begin(), zgood.begin(), xgood.size());
+		found = create_grid_neighborCmd(xgood, ygood, zgood);
 	} else {
 		bool use_default = _nword == 4;
 		// Not neighbor method.  Must be one of below
@@ -240,6 +277,7 @@ convert_col_to_gridCmd()
 			}
 			// Now proceed to calculate
 			// If .xr. < 0, of if not supplied calculate .xr./.yr.
+			unsigned int numgood = xgood.size();
 			if (_nword == 4 || _nword == 5 || xr < 0.0) {
 				double          dx, dy;
 				dx = (_colX.max() - _colX.min()) / sqrt(double(numgood));
@@ -272,34 +310,38 @@ convert_col_to_gridCmd()
 			// OK, now do the gridding
 			if (word_is(4, "barnes") || use_default) {
 				// Barnes fills whole grid for now, anyway.
-				create_grid_barnes(xr, yr, gamma, (unsigned int)iter,
-						   xgood.begin(),
-						   ygood.begin(),
-						   zgood.begin(),
-						   wgood.begin(),
-						   xgood.size());
+				create_grid_barnes(xr,
+						   yr, 
+						   gamma, 
+						   (unsigned int)iter,
+						   xgood,
+						   ygood,
+						   zgood,
+						   wgood);
 				found = _num_xmatrix_data * _num_ymatrix_data;
 			} else if (word_is(4, "barnes_cross_validate")) {
 				// Barnes fills whole grid for now, anyway.
-				create_grid_barnes_cv(xr, yr, gamma, (unsigned int)iter,
-						      xgood.begin(),
-						      ygood.begin(),
-						      zgood.begin(),
-						      wgood.begin(),
-						      xgood.size());
+				create_grid_barnes_cv(xr,
+						      yr,
+						      gamma, 
+						      (unsigned int)iter,
+						      xgood,
+						      ygood,
+						      zgood,
+						      wgood);
 				found = _num_xmatrix_data * _num_ymatrix_data;
 			} else if (word_is(4, "boxcar")) {
-				found = create_grid_boxcarCmd(xr, yr,
-							      xgood.begin(),
-							      ygood.begin(),
-							      zgood.begin(),
-							      xgood.size());
+				found = create_grid_boxcarCmd(xr, 
+							      yr,
+							      xgood,
+							      ygood,
+							      zgood);
 			} else if (word_is(4, "objective")) {
-				found = create_grid_objectiveCmd(xr, yr,
-								 xgood.begin(),
-								 ygood.begin(),
-								 zgood.begin(),
-								 xgood.size());
+				found = create_grid_objectiveCmd(xr, 
+								 yr,
+								 xgood,
+								 ygood,
+								 zgood);
 			} else {
 				err("Method must be `boxcar', `objective', `barnes' or `barnes_cross_validate'");
 				return 0;
@@ -1089,20 +1131,34 @@ convert_col_to_splineCmd()
 		return false;
 	}
 	// Get storage
-	vector<double> xs((size_t)steps, 0.0);
-	vector<double> ys((size_t)steps, 0.0);
-	vector<double> coef((size_t)(4 * 2 * steps), 0.0);
-	vector<double> break_((size_t)(2 * steps), 0.0);
-	vector<double> scrtch((size_t)(6 * steps), 0.0);
-	int n = _colX.size(), l, k, iflag;
+	double *xs, *ys, *coef, *break_point, *scrtch;
+	GET_STORAGE(xs, double, (size_t)steps);
+	GET_STORAGE(ys, double, (size_t)steps);
+	GET_STORAGE(coef, double, (size_t)(4 * 2 * steps));
+	GET_STORAGE(break_point, double, (size_t)(2 * steps));
+	GET_STORAGE(scrtch, double, (size_t)(6 * steps));
+	//std::vector<double> xs((size_t)steps, 0.0);
+	//std::vector<double> ys((size_t)steps, 0.0);
+	//std::vector<double> coef((size_t)(4 * 2 * steps), 0.0);
+	//std::vector<double> break_point((size_t)(2 * steps), 0.0);
+	//std::vector<double> scrtch((size_t)(6 * steps), 0.0);
+	int n = _colX.size();
+	int l, k, iflag;
 	tautsp(_colX.begin(),
 	       _colY.begin(),
-	       &n, &gamma, scrtch.begin(), break_.begin(), coef.begin(), &l, &k, &iflag);
+	       &n,
+	       &gamma,
+	       scrtch,
+	       break_point,
+	       coef, 
+	       &l,
+	       &k,
+	       &iflag);
 	int zero = 0;
 	int i;
 	for (i = 0; i < steps; i++) {
 		xs[i] = xmin + i * xinc;
-		ys[i] = ppvalu(break_.begin(), coef.begin(), &l, &k, &xs[i], &zero);
+		ys[i] = ppvalu(break_point, coef, &l, &k, &xs[i], &zero);
 	}
 	// Dump spline output into (x,y)
 	_colX.setDepth(steps);
@@ -1111,6 +1167,11 @@ convert_col_to_splineCmd()
 		_colX[i] = xs[i];
 		_colY[i] = ys[i];
 	}
+	free(xs);
+	free(ys);
+	free(coef);
+	free(break_point);
+	free(scrtch);
 	return true;
 }
 
@@ -1172,8 +1233,10 @@ nearest(double x, double g[], unsigned int ng, int *b, double *f)
 }
 
 // Returns number gridpoints filled
-static int
-create_grid_neighborCmd(double *xgood, double *ygood, double *zgood, unsigned int numgood)
+static int 
+create_grid_neighborCmd(const std::vector<double> &xgood,
+			const std::vector<double> &ygood,
+			const std::vector<double> &zgood)
 {
 	if (!allocate_grid_storage(_num_xmatrix_data, _num_ymatrix_data)) {
 		gr_Error("Insufficient space for matrix");
@@ -1186,6 +1249,7 @@ create_grid_neighborCmd(double *xgood, double *ygood, double *zgood, unsigned in
 	dist.set_size(_num_xmatrix_data, _num_ymatrix_data);
 	// Unlegit to start
 	_legit_xy.set_value(false);
+	unsigned int numgood = xgood.size();
 	for (unsigned int ii = 0; ii < numgood; ii++) {
 		int bx, by;		// index to left
 		double  fx, fy;		// fraction (if inside) or distance
@@ -1549,7 +1613,11 @@ locate_i_j(double xx, double yy, int *ii, int *jj)
 
 // Returns number gridpoints filled
 static unsigned int
-create_grid_objectiveCmd(double xr, double yr, double *xgood, double *ygood, double *zgood, unsigned int numgood)
+create_grid_objectiveCmd(double xr,
+			 double yr,
+			 const std::vector<double> &xgood,
+			 const std::vector<double> &ygood,
+			 const std::vector<double> &zgood)
 {
 	int             number_to_find = 5, enlargements = 1;
 	double          xx, yy;
@@ -1583,11 +1651,15 @@ create_grid_objectiveCmd(double xr, double yr, double *xgood, double *ygood, dou
 		double          fpred;
 		xx = _xmatrix[i];
 		for (j = 0; j < _num_ymatrix_data; j++) {
-			int             number_found;
+			int number_found;
 			yy = _ymatrix[j];
-			number_found = gr_grid1(xgood, ygood, zgood, numgood,
-						xx, yy,
-						xr, yr,
+			number_found = gr_grid1(xgood, 
+						ygood,
+						zgood,
+						xx, 
+						yy,
+						xr,
+						yr,
 						2,	// method
 						number_to_find,
 						enlargements,
@@ -1611,9 +1683,13 @@ create_grid_objectiveCmd(double xr, double yr, double *xgood, double *ygood, dou
 
 // Returns number gridpoints filled
 static int
-create_grid_boxcarCmd(double xr, double yr, double *xgood, double *ygood, double *zgood, unsigned int numgood)
+create_grid_boxcarCmd(double xr,
+		      double yr,
+		      const std::vector<double> &xgood,
+		      const std::vector<double> &ygood,
+		      const std::vector<double> &zgood)
 {
-	int             number_to_find = 5, enlargements = 1;
+	int number_to_find = 5, enlargements = 1;
 	if (_nword == 9) {
 		if (!getinum(_word[7], &number_to_find)) {
 			READ_WORD_ERROR(".n.");
@@ -1648,9 +1724,13 @@ create_grid_boxcarCmd(double xr, double yr, double *xgood, double *ygood, double
 			unsigned int number_found;
 			double yy = _ymatrix[j];
 			double fpred;
-			number_found = gr_grid1(xgood, ygood, zgood, numgood,
-						xx, yy,
-						xr, yr,
+			number_found = gr_grid1(xgood,
+						ygood,
+						zgood,
+						xx, 
+						yy,
+						xr, 
+						yr,
 						0,	// means boxcar
 						number_to_find,
 						enlargements,
@@ -1675,11 +1755,11 @@ interpolate_barnes(double xx,
 		   double zz,
 		   int skip,
 		   unsigned int n_k,
-		   double *x,
-		   double *y,
-		   double *z,
-		   double *weight, // relative weights
-		   double *z_last,
+		   const std::vector<double>& x,
+		   const std::vector<double>& y,
+		   const std::vector<double>& z,
+		   const std::vector<double>& weight, // relative weights
+		   const std::vector<double>& z_last,
 		   double xr,
 		   double yr)
 {
@@ -1690,12 +1770,14 @@ interpolate_barnes(double xx,
 		double w;
 		if (k != skip) {
 #ifdef USE_APPROX_EXP
-			double dx = (xx - *x) / xr;	dx *= dx;
-			double dy = (yy - *y) / yr;	dy *= dy;
+			double dx = (xx - x[k]) / xr;
+			dx *= dx;
+			double dy = (yy - y[k]) / yr;
+			dy *= dy;
 			double arg = dx + dy;
 			// Fearing that the 'inline' didn't work on g++ without 
 			// optimization, I've reproduced the formula here.
-			w = *weight
+			w = weight[k]
 				/ (0.999448 
 				   + arg * (1.023820 
 					    + arg * (0.3613967
@@ -1703,18 +1785,16 @@ interpolate_barnes(double xx,
 							      + arg * (-0.1292509
 								       + arg * 0.0499565)))));
 #else
-			double dx = (xx - *x) / xr;	dx *= dx;
-			double dy = (yy - *y) / yr;	dy *= dy;
+			double dx = (xx - x[k]) / xr;
+			dx *= dx;
+			double dy = (yy - y[k]) / yr;
+			dy *= dy;
 			double arg = dx + dy;
-			w = *weight * exp(-arg);
+			w = weight[k] * exp(-arg);
 #endif
-			sum += w * (*z - *z_last);
+			sum += w * (z[k] - z_last[k]);
 			sum_w += w;
 		}
-		x++;
-		y++;
-		z++;
-		z_last++;
 	}
 	if (sum_w > 0.0)
 		return (zz + sum / sum_w);
@@ -1724,25 +1804,28 @@ interpolate_barnes(double xx,
 
 //`convert columns to grid barnes    [.xr. .yr. .gamma. .iter.]'
 static bool
-create_grid_barnes(double xr, double yr, double gamma, unsigned int iter,
-		   double *xgood, 
-		   double *ygood, 
-		   double *zgood, 
-		   double *wgood, 
-		   unsigned int numgood)
+create_grid_barnes(double xr,
+		   double yr,
+		   double gamma,
+		   unsigned int iter,
+		   const std::vector<double> &xgood,
+		   const std::vector<double> &ygood,
+		   const std::vector<double> &zgood,
+		   const std::vector<double> &wgood)
 {
 	// Get grid storage if it does not exist already
 	if (!_grid_exists) {
 		Require(allocate_grid_storage(_num_xmatrix_data, _num_ymatrix_data), 
 			err("Insufficient space for matrix"));
 	}
+	unsigned int numgood = xgood.size();
 	Require(numgood > 0,
 		err("Cannot `convert columns to grid' since no non-missing column data"));
 	_f_xy.set_value(0.0);
 	_legit_xy.set_value(true);
 
-	vector<double> z_last((size_t)numgood, 0.0);
-	vector<double> z_last2((size_t)numgood, 0.0); 
+	std::vector<double> z_last((size_t)numgood, 0.0);
+	std::vector<double> z_last2((size_t)numgood, 0.0); 
 
 	bool warned = false;
 	GriTimer t;
@@ -1761,7 +1844,7 @@ create_grid_barnes(double xr, double yr, double gamma, unsigned int iter,
 								 ygood,
 								 zgood,
 								 wgood,
-								 z_last.begin(),
+								 z_last,
 								 xr2,
 								 yr2);
 			}
@@ -1791,7 +1874,7 @@ create_grid_barnes(double xr, double yr, double gamma, unsigned int iter,
 							     ygood,
 							     zgood,
 							     wgood,
-							     z_last.begin(),
+							     z_last,
 							     xr2,
 							     yr2);
 			}
@@ -1832,9 +1915,9 @@ static double
 interpolate_barnes2(unsigned int k,
 		    unsigned int cv,
 		    unsigned int n,
-		    double *z,
-		    double *weight,
-		    double *z_last,
+		    const std::vector<double>& z,
+		    const std::vector<double>& weight,
+		    const std::vector<double>& z_last,
 		    const GriMatrix<double>& W)
 {
 	double sum = 0.0, sum_w = 0.0;
@@ -1853,18 +1936,21 @@ interpolate_barnes2(unsigned int k,
 
 //`convert columns to grid barnes_cross_validate    [.xr. .yr. .gamma. .iter.]'
 static bool
-create_grid_barnes_cv(double xr, double yr, double gamma, unsigned int iter,
-		      double *xgood,
-		      double *ygood,
-		      double *zgood,
-		      double *wgood,
-		      unsigned int numgood)
+create_grid_barnes_cv(double xr,
+		      double yr,
+		      double gamma,
+		      unsigned int iter,
+		      const std::vector<double> &xgood,
+		      const std::vector<double> &ygood,
+		      const std::vector<double> &zgood,
+		      const std::vector<double> &wgood)
 {
 	Require(allocate_grid_storage(_num_xmatrix_data, _num_ymatrix_data),
 		err("Insufficient space for matrix"));
-	vector<double> z_last((size_t)numgood, 0.0); // from last iteration
-	vector<double> z_last2((size_t)numgood, 0.0); // prevent slurring iterations
-	vector<double> z_cv((size_t)numgood, 0.0); // predicted by cross-validation
+	unsigned int numgood = xgood.size();
+	std::vector<double> z_last((size_t)numgood, 0.0); // from last iteration
+	std::vector<double> z_last2((size_t)numgood, 0.0); // prevent slurring iterations
+	std::vector<double> z_cv((size_t)numgood, 0.0); // predicted by cross-validation
 	// Pre-calculate weighting factors to save time, about factor of 2
 	GriMatrix<double> *W = new GriMatrix<double>[iter];
 	double xr2 = xr, yr2 = yr;
@@ -1901,7 +1987,7 @@ create_grid_barnes_cv(double xr, double yr, double gamma, unsigned int iter,
 								 numgood,
 								 zgood,
 								 wgood,
-								 z_last.begin(),
+								 z_last,
 								 W[i]);
 			}
 			// Update z_last

@@ -11,9 +11,9 @@ bool
 inputCmd()
 {
 	double          xcm = 0.0, ycm = 0.0, xmag = 1.0, ymag = 1.0, angle = 0.0;
-	string fname(_word[1]);
+	std::string fname(_word[1]);
 	un_double_quote(fname);
-	string completefilename(fname);
+	std::string completefilename(fname);
 	resolve_filename(completefilename, true, 'c'); // BUG do I want 'c' or 'd' here??
 	switch (_nword) {
 	case 7:
@@ -39,7 +39,7 @@ inputCmd()
 		break;
 	}
 	/* Search directory only if not specified as local/fullpath */
-	string longfilename(completefilename);
+	std::string longfilename(completefilename);
 
 //OLD	if (completefilename[0] != '/' && completefilename[0] != '.')
 //OLD		longfilename.assign(file_in_list(completefilename.c_str(), false, false));

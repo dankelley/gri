@@ -575,7 +575,7 @@ draw_contourCmd()
 	double          contour_minlength = _contour_minlength;
 	double          xsize = XSIZE_DEFAULT;
 	double          ysize = YSIZE_DEFAULT;
-	string          user_label;
+	std::string     user_label;
 	int             nword = _nword;
 	bool            user_gave_label = false;	// only for .value. format
 	bool            have_unlabelled_and_labelled = false;
@@ -1045,11 +1045,11 @@ draw_axes(int type, double loc, gr_axis_properties side, bool allow_offset)
 	set_y_scale();
 	// Set to proper linewidth, and turn dashing off
 	set_line_width_axis();
-	vector<double> old_dash;
+	std::vector<double> old_dash;
 	unsigned int i;
 	for (i = 0; i < _dash.size(); i++)
 		old_dash.push_back(_dash[i]);
-	vector<double> dash;
+	std::vector<double> dash;
 	_dash.erase(_dash.begin(), _dash.end());
 	switch (type) {
 	case 0:			// full axes 
@@ -1453,8 +1453,8 @@ draw_isopycnalCmd()
 	double S, T = -999.0;
 	double dS = (Smax - Smin) / 100;
 	double S_cm, T_cm, S_cm_last = 0, T_cm_last = 0;
-	vector<double> S_label_cm;	// where to put labels
-	vector<double> T_label_cm;
+	std::vector<double> S_label_cm;	// where to put labels
+	std::vector<double> T_label_cm;
 	double cum_dist = 0.0;
 	extern double _contour_space_first, _contour_space_later;
 	double contour_space_first, contour_space_later;
@@ -1972,7 +1972,7 @@ draw_labelCmd()
 		return false;
 	}
 	// Find quote string
-	string unquoted;
+	std::string unquoted;
 	int status = ExtractQuote(_cmdLine, unquoted);
 	if (status == 0) {
 		err("`draw label' needs a double-quoted string");
@@ -2333,7 +2333,7 @@ draw_titleCmd()
 {
 	if (_nword > 2) {
 		// find quote string 
-		string unquoted;
+		std::string unquoted;
 		int status = ExtractQuote(_cmdLine, unquoted);
 		if (status == 0) {
 			err("`draw title' found no double-quoted string to use.");

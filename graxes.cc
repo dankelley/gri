@@ -219,7 +219,7 @@ gr_drawxaxis(double y, double xl, double xinc, double xr, gr_axis_properties sid
 						if (get_flag("emulate_gre")) {
 							char *e = index(_grTempString, int('E'));
 							if (e != NULL) {
-								string gs(_grTempString);
+								std::string gs(_grTempString);
 								size_t chop;
 								if (STRING_NPOS != (chop = gs.find("E+0"))) {
 									gs.replace(chop, 3, "$\\times10^{");
@@ -445,7 +445,7 @@ gr_drawyaxis(double x, double yb, double yinc, double yt, gr_axis_properties sid
 							sprintf(_grTempString, _grNumFormat_y, next);
 							char *e = index(_grTempString, int('E'));
 							if (e != NULL) {
-								string gs(_grTempString);
+								std::string gs(_grTempString);
 								size_t chop;
 								if (STRING_NPOS != (chop = gs.find("E+0"))) {
 									gs.replace(chop, 3, "$\\times10^{");

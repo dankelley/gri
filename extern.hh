@@ -48,8 +48,8 @@ extern GriColumn _colWEIGHT;
 extern bool     _uscale_exists;
 extern bool     _vscale_exists;
 extern bool     _columns_exist;
-extern string   _xFmt;
-extern string   _yFmt;
+extern std::string   _xFmt;
+extern std::string   _yFmt;
 // Axes
 extern double   _clipxleft, _clipxright, _clipybottom, _clipytop;
 extern double   _cm_per_u;
@@ -70,14 +70,14 @@ extern bool     _yincreasing;
 extern int      _ysubdiv;
 
 // Data/Command file stacks
-extern vector<DataFile> _dataFILE;
-extern vector<CmdFile>  _cmdFILE;
+extern std::vector<DataFile> _dataFILE;
+extern std::vector<CmdFile>  _cmdFILE;
 
 // Pointers to variables and synonyms, for & syntax
-extern vector<int> variablePointer;
-extern vector<GriVariable> variableStack;
-extern vector<int> synonymPointer;
-extern vector<GriSynonym> synonymStack;
+extern std::vector<int> variablePointer;
+extern std::vector<GriVariable> variableStack;
+extern std::vector<int> synonymPointer;
+extern std::vector<GriSynonym> synonymStack;
 
 // Grid data
 extern GriMatrix<double> _f_xy;
@@ -98,13 +98,13 @@ extern char    *_word[];
 extern char    *_Words2[];
 extern char    *_Words3[];
 // Misc
-extern string   _contourFmt;
-extern string   _current_directory;
+extern std::string   _contourFmt;
+extern std::string   _current_directory;
 extern char    *_errorMsg;
 extern int      _error_action;
-extern string   _lib_directory;
-extern string   _margin;
-extern string   _prompt;
+extern std::string   _lib_directory;
+extern std::string   _margin;
+extern std::string   _prompt;
 extern double  *_dstack;
 extern double   _gri_eof;
 extern double   _top_of_plot;
@@ -127,7 +127,7 @@ extern bool     _ignore_error;
 extern int      _arrow_type;
 extern bool     _warn_offpage;
 
-extern vector<double> _dash;
+extern std::vector<double> _dash;
 
 // Numbers of things.
 extern int      _num_command;

@@ -16,7 +16,7 @@
 #include        "superus.hh"
 
 
-vector<BlockSource> bsStack;
+std::vector<BlockSource> bsStack;
 
 static inline bool     testible(const char *s);
 static inline int      white_space(const char *sp);
@@ -46,7 +46,7 @@ listCmd()
 	}
 	// Try to use tempnam(), or tmpnam(), before using hardwired name 
 	FILE *fp;
-	string tmpname_file(tmp_file_name());
+	std::string tmpname_file(tmp_file_name());
 	if (!(fp = fopen(tmpname_file.c_str(), "w"))) {
 		err("Error opening buffer-file for `list' command");
 		return false;
@@ -245,7 +245,7 @@ perform_new_command(const char *s)
 void
 no_gri_cmd()
 {
-	string msg("ERROR: Gri can't locate the `gri.cmd' file\n");
+	std::string msg("ERROR: Gri can't locate the `gri.cmd' file\n");
 	msg.append("You need to tell Gri the directory containing this file.\n");
 	msg.append("  There are three ways in which you may do this:\n");
 	msg.append("    (1) Name the directory storing `gri.cmd' when you invoke Gri, e.g.\n");
@@ -264,7 +264,7 @@ no_gri_cmd()
 bool
 create_commands(const char *filename, bool user_gave_directory)
 {
-	string fullfilename(_lib_directory.c_str());
+	std::string fullfilename(_lib_directory.c_str());
 	// Must check for '/' as file separator, on some machines.
 #if !defined(VMS)
 #if defined(MSDOS)
@@ -287,7 +287,7 @@ create_commands(const char *filename, bool user_gave_directory)
 		char *gri_directory_library = egetenv("GRI_DIRECTORY_LIBRARY");
 		if (*gri_directory_library == '\0')
 			no_gri_cmd(); // exits
-		string envvar_location(gri_directory_library);
+		std::string envvar_location(gri_directory_library);
 		envvar_location.append("/gri.cmd");
 		//printf("TRY <%s>\n",envvar_location.c_str());
 		if (!push_cmd_file(envvar_location.c_str(), false, false, "r"))
@@ -677,7 +677,7 @@ push_command_word_buffer()
 			if (1 == sscanf(name, "\\.word%d.", &cmd_word_index)) {
 				// Nesting
 				//printf("DEBUG %s:%d & on \\.word%d.  last_sep at %d\n",__FILE__,__LINE__,cmd_word_index,last_separator_at);
-				string the_cmd_word;
+				std::string the_cmd_word;
 				//for (int ii = _num_command_word - 1; ii >= 0; ii--) printf("DEBUG %s:%d stack %3d [%s]  %d\n",__FILE__,__LINE__,ii,_command_word[ii],ii-last_separator_at);
 
 				if (last_separator_at + cmd_word_index + 1 < _num_command_word) {
@@ -816,7 +816,7 @@ perform_block(const char *block, const char *source_file, int source_line)
 
 		if (word_is(0, "while") && !skipping_through_if()) {
 			// Capture the loop (look for matching 'end while')
-			string          test;
+			std::string          test;
 			unsigned        buffer_offset = offset;
 			int             loop_level = 1;
 			test.assign((char*)(6 + (char*)strstr(_cmdLine, "while")));
@@ -825,7 +825,7 @@ perform_block(const char *block, const char *source_file, int source_line)
 				bsStack.pop_back();
 				return false;
 			}
-			string buffer;
+			std::string buffer;
 			while (get_line_in_block(block, &buffer_offset)) {
 				// Search for matching `end while'
 				if (re_compare(_cmdLine, "\\s*while.*")) {
@@ -871,7 +871,7 @@ perform_block(const char *block, const char *source_file, int source_line)
 			if (ptr) {
 				// It's of the form <<EOF or <<"EOF", so first find the
 				// stop word, named "read_until" here.
-				string read_until;
+				std::string read_until;
 				while(*ptr) {
 					if (*ptr != '<' && *ptr != '"' && !isspace(*ptr)) {
 						read_until.assign(ptr);
@@ -887,7 +887,7 @@ perform_block(const char *block, const char *source_file, int source_line)
 						break;
 					}
 				}
-				static string cmd; // might save time in loops
+				static std::string cmd; // might save time in loops
 				cmd.assign(s);
 				while(get_line_in_block(block, &offset)) {
 					//printf("<%s> <%s> <%s>\n",_cmdLine, _cmdLine+skip_space(_cmdLine),read_until.c_str());
@@ -901,7 +901,7 @@ perform_block(const char *block, const char *source_file, int source_line)
 					cmd.append(_cmdLine);
 				}
 				if (!skipping_through_if()) {
-					string cmd_new;
+					std::string cmd_new;
 					substitute_synonyms_cmdline(cmd.c_str(), cmd_new, false);
 					status = call_the_OS(cmd_new.c_str(), __FILE__, __LINE__);
 					PUT_VAR("..exit_status..", (double) status);

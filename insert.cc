@@ -17,7 +17,7 @@ insertCmd()
 		NUMBER_WORDS_ERROR;
 		return false;
 	}
-	string fname(_word[1]);
+	std::string fname(_word[1]);
 	if (!resolve_filename(fname, true, 'c')) {
 		err("`source' cannot handle file named `\\", _word[1], "'", "\\");
 		return false;

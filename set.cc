@@ -478,7 +478,7 @@ bool
 set_colorCmd()
 {
 	double          red, green, blue;
-	string cname;
+	std::string cname;
 	GriColor c;
 	switch (_nword) {
 	case 3:
@@ -1280,7 +1280,7 @@ set_contour_labelsCmd()
 // Flags for `set flag'
 #define NFLAG 100
 typedef struct {
-	string name;
+	std::string name;
 	bool   value;
 } FLAG;
 FLAG flag[NFLAG];
@@ -2070,7 +2070,7 @@ width_rapidograph(char *s, double *w)
 		{"6",   3.969},
 		{"7",   5.669}
 	};
-	string ss(s);
+	std::string ss(s);
 	un_double_quote(ss);
 	for (int i = 0; i < NUM_RAPIDOGRAPH; i++)
 		if (!strcmp(ss.c_str(), r_table[i].name)) {
@@ -2354,7 +2354,7 @@ set_pathCmd()
 			return false;
 		}
 	} else {
-		string unquoted;
+		std::string unquoted;
 		int ok = ExtractQuote(_word[3], unquoted);
 		if (ok) {
 			if (!put_syn(which_path, unquoted.c_str(), true)) {	
@@ -2957,7 +2957,7 @@ bool
 set_x_nameCmd()
 {
 	Require(_nword > 3, err("Must specify a name"));
-	string unquoted;
+	std::string unquoted;
 	int status = ExtractQuote(_cmdLine, unquoted);
 	if (status == 0) {
 		err("`set x name' needs a double-quoted string");
@@ -3227,7 +3227,7 @@ bool
 set_y_nameCmd()
 {
 	Require(_nword > 3, err("Must specify a name"));
-	string unquoted;
+	std::string unquoted;
 	int status = ExtractQuote(_cmdLine, unquoted);
 	if (status == 0) {
 		err("`set y name' needs a double-quoted string");
@@ -3294,13 +3294,13 @@ assign_synonym()
 	// then see if the calling-arg was a var/syn with an & to the left
 	if (!strncmp(_word[0], "\\.word", 6) && *(_word[0] + strlen(_word[0]) - 1) == '.') {
 		//printf("DEBUG %s:%d ASSIGNING to word[0] as '%s'\n",__FILE__,__LINE__,_word[0]);
-		string value;
+		std::string value;
 		if (!get_syn(_word[0], value, false)) {
 			err("Cannot access \\.word0. synonym");
 			return false;
 		}
 		//printf("DEBUG %s:%d value of '%s' is '%s'\n",__FILE__,__LINE__,_word[0],value.c_str());
-		string coded_name;
+		std::string coded_name;
 		int coded_level = -1;
 		if (is_coded_string(value, coded_name, &coded_level)) {
 			//printf("DEBUG %s:%d '%s' was encoded `%s' at level %d\n",__FILE__,__LINE__, _word[0], coded_name.c_str(), coded_level);
@@ -3343,7 +3343,7 @@ assign_synonym()
 			} else if (coded_name.c_str()[0] == '\\') {
 				int index = index_of_synonym(coded_name.c_str(), coded_level);
 				//printf("DEBUG %s:%d '%s' is syn index %d\n",__FILE__,__LINE__, coded_name.c_str(), index);
-				string unquoted;
+				std::string unquoted;
 				int status = ExtractQuote(_word[2], unquoted);
 				if (status == 0) {
 					err("`\\synonym = \"value\" found no double-quoted string");
@@ -3414,7 +3414,7 @@ assign_synonym()
 			return false;
 		}
 		unsigned int which = (unsigned int)(iwhich);
-		string to_chop(_word[_nword - 1]);
+		std::string to_chop(_word[_nword - 1]);
 		if (to_chop[0] == '"')
 			to_chop.STRINGERASE(0, 1);
 		if (to_chop[to_chop.size() - 1] == '"') {
@@ -3477,7 +3477,7 @@ This computer can't `\\synonym = system ...' since no popen() subroutine.");
 		// "<<".
 		// ... compare doline.cc near line 510.
 		int i = strlen(s) - 2;
-		string read_until;
+		std::string read_until;
 		bool            using_read_until = false;
 		while (--i) {
 			if (!strncmp((s + i), "<<", 2)) {
@@ -3493,7 +3493,7 @@ This computer can't `\\synonym = system ...' since no popen() subroutine.");
 				read_until.assign(s + i + 2 + spaces);
 				using_read_until = true;
 				// trim junk from end of the 'read until' string
-				string::size_type cut_at;
+				std::string::size_type cut_at;
 				if (quoted_end_string)
 					cut_at = read_until.find("\"");
 				else
@@ -3509,13 +3509,13 @@ This computer can't `\\synonym = system ...' since no popen() subroutine.");
 				break;
 			}
 		}
-		static string cmd; // might save time in loops
+		static std::string cmd; // might save time in loops
 		cmd.assign(s);
 		if (using_read_until) {
 			// It is of the <<WORD form
 #if 1
 			cmd.append("\n");
-			extern vector<BlockSource> bsStack;
+			extern std::vector<BlockSource> bsStack;
 			if (bsStack.size() == 0) {
 				if (((unsigned) superuser()) & FLAG_SYS)printf("DEBUG %s:%d GOBBLE from a file\n",__FILE__,__LINE__);
 				while (get_command_line()) {
@@ -3536,7 +3536,7 @@ This computer can't `\\synonym = system ...' since no popen() subroutine.");
 					cmd.append(_cmdLine);
 					cmd.append("\n");
 				}
-				string cmd_sub;
+				std::string cmd_sub;
 				substitute_synonyms_cmdline(cmd.c_str(), cmd_sub, false);
 				cmd = cmd_sub;
 			} else {
@@ -3557,7 +3557,7 @@ This computer can't `\\synonym = system ...' since no popen() subroutine.");
 					cmd.append(_cmdLine);
 					cmd.append("\n");
 				}
-				string cmd_sub;
+				std::string cmd_sub;
 				substitute_synonyms_cmdline(cmd.c_str(), cmd_sub, false);
 				cmd = cmd_sub;
 			}
@@ -3565,7 +3565,7 @@ This computer can't `\\synonym = system ...' since no popen() subroutine.");
 #endif
 		} else {
 			// No, it is not of the <<WORD form
-			string::size_type loc = 0;
+			std::string::size_type loc = 0;
 			//printf("assigning synonym BEFORE [%s]\n",cmd.c_str());
 			while (STRING_NPOS != (loc = cmd.find("\\\\", loc))) {
 				cmd.STRINGERASE(loc, 2);
@@ -3582,7 +3582,7 @@ This computer can't `\\synonym = system ...' since no popen() subroutine.");
 		}
 		pipefile = (FILE *) popen(cmd.c_str(), "r");
 		if (pipefile) {
-			string result;
+			std::string result;
 			GriString this_line;
 			//printf("START.\n");
 			do {
@@ -3612,7 +3612,7 @@ This computer can't `\\synonym = system ...' since no popen() subroutine.");
 #endif
 	} else {
                 // Type 6. \syn = "string"
-		string unquoted;
+		std::string unquoted;
 		int status = ExtractQuote(_cmdLine, unquoted);
 		if (status == 0) {
 			err("`\\synonym = \"value\" found no double-quoted string");
@@ -3642,7 +3642,7 @@ setCmd()
 		err("Third word must be `to', not `\\", _word[2], "' as given.", "\\");
 		return false;
 	}
-	string name(_word[1]);
+	std::string name(_word[1]);
 	clean_blanks_quotes(name);
 	//printf("<%s>  ... <%s>>\n", _word[1], name.c_str());
 	if (is_var(name.c_str())) {
@@ -3654,7 +3654,7 @@ setCmd()
 		}
 		PUT_VAR(name.c_str(), value);
 	} else if (is_syn(name.c_str())) {
-		string value(_word[3]);
+		std::string value(_word[3]);
 		if (value.size() < 2
 		    || (value[0] != '"' || value[-1 + value.size()] != '"')) {
 			demonstrate_command_usage();

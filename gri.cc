@@ -33,10 +33,10 @@ double          _ytop;		/* ..ytop.. */
 // Globals used elsewhere (variables begin with _).
 int             _arrow_type;
 bool            _warn_offpage;
-vector<double>       _dash;
-vector<DataFile>     _dataFILE;
-vector<CmdFile>      _cmdFILE;
-vector<char*>        _argv;
+std::vector<double>       _dash;
+std::vector<DataFile>     _dataFILE;
+std::vector<CmdFile>      _cmdFILE;
+std::vector<char*>        _argv;
 
 
 char            _input_data_separator; // ' ' (general whitespace) or '\t'
@@ -45,18 +45,18 @@ int             _cmd_being_done_code[cmd_being_done_LEN];
 int             _cmd_being_done = 0;
 char *          _cmdLine;
 char *          _cmdLineCOPY;
-string          _contourFmt;
-string          _current_directory;
+std::string     _contourFmt;
+std::string     _current_directory;
 int             _error_action = 0; // 0=message/exit(1), 1=message/dump core/exit(1)
 char *          _errorMsg;
-string          _lib_directory;
-string          _margin;
-string          _prompt;
+std::string     _lib_directory;
+std::string     _margin;
+std::string     _prompt;
 char           *_word[MAX_nword];
 char           *_Words2[MAX_nword];
 char           *_Words3[MAX_nword];
-string          _xFmt;
-string          _yFmt;
+std::string     _xFmt;
+std::string     _yFmt;
 double          _clipxleft, _clipxright, _clipybottom, _clipytop;
 double          _cm_per_u, _cm_per_v;
 double         *_dstack;

@@ -4,14 +4,17 @@
 #include        "private.hh"
 #include        "gr.hh"
 extern double   _grMissingValue;/* defined in gr.c */
-int             number_good_xyz(double x[], double y[], double f[], int n);
+int number_good_xyz(const std::vector<double>& x,
+		    const std::vector<double>& y,
+		    const std::vector<double>& f,
+		    int n);
 #define root_of_2  1.414213562
 
 int
-number_good_xyz(double *x, double *y, double *f, int n)
+number_good_xyz(const std::vector<double>& x, const std::vector<double>& y, const std::vector<double>& f, int n)
 {
-	int             i, good = 0;
-	for (i = 0; i < n; i++)
+	int good = 0;
+	for (int i = 0; i < n; i++)
 		if (!gr_missingx(x[i]) && !gr_missingy(y[i]) && !gr_missing(f[i]))
 			good++;
 	return good;
@@ -64,8 +67,9 @@ number_good_xyz(double *x, double *y, double *f, int n)
  * an error (if n<=0).
  */
 int
-gr_grid1(double *x, double *y, double *f,
-	 unsigned int n,
+gr_grid1(const std::vector<double> &x,
+	 const std::vector<double> &y,
+	 const std::vector<double> &f,
 	 double x0, double y0,
 	 double xr, double yr,
 	 int method,
@@ -73,6 +77,7 @@ gr_grid1(double *x, double *y, double *f,
 	 int enlargements,
 	 double *fOut)
 {
+	unsigned int n = x.size();
 	double          dx, dy;
 	int             enlarge = 0;
 	unsigned int    i;

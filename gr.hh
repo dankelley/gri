@@ -217,7 +217,17 @@ void            gr_end(const char *filename);
 void            gr_error(const char *lab);
 //
 // Gridding routines.
-int             gr_grid1(double *x, double *y, double *f, unsigned int n, double x0, double y0, double xRadius, double yRadius, int method, unsigned int neighbors, int enlargements, double *fOut);
+int             gr_grid1(const std::vector<double> &x,
+			 const std::vector<double> &y,
+			 const std::vector<double> &f,
+			 double x0,
+			 double y0,
+			 double xRadius,
+			 double yRadius,
+			 int method,
+			 unsigned int neighbors,
+			 int enlargements,
+			 double *fOut);
 
 
 void            gr_hsv2rgb(double h, double s, double br, double *r, double *g, double *b);
@@ -326,7 +336,7 @@ double lapse_rate(double S, double t, double p);
 #define STRING_NPOS NPOS
 #else
 #define STRINGERASE erase
-#define STRING_NPOS string::npos
+#define STRING_NPOS std::string::npos
 #endif
 
 // Time type (time_t, int, or long) varies per machine (ug).

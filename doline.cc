@@ -221,7 +221,7 @@ massage_command_line(char *cmd)
 	// For system commands, just substitute synonyms.
 	if (is_system_command(cmd)) {
 		strcpy(cmd, _cmdLineCOPY);
-		string cmd_sub;
+		std::string cmd_sub;
 		substitute_synonyms_cmdline(cmd, cmd_sub, false);
 		strcpy(_cmdLineCOPY, cmd_sub.c_str());
 		strcpy(cmd, _cmdLineCOPY);
@@ -270,7 +270,7 @@ massage_command_line(char *cmd)
 	// Don't substitute synonyms for these commands: `new \syn ...' `delete
 	// \syn ...'
 	if (re_compare(_cmdLine, "\\s*open\\s*.*")) {
-		string cmd_sub;
+		std::string cmd_sub;
 		substitute_synonyms_cmdline(cmd, cmd_sub, false);
 		strcpy(cmd, cmd_sub.c_str());
 	} else {
@@ -283,7 +283,7 @@ massage_command_line(char *cmd)
 #endif
 		    && !re_compare(_cmdLine, "\\s*get\\s+env\\s*.*")
 			) {
-			string cmd_sub;
+			std::string cmd_sub;
 			substitute_synonyms_cmdline(cmd, cmd_sub, true);
 			strcpy(cmd, cmd_sub.c_str());
 			remove_trailing_blanks(cmd);
@@ -360,7 +360,7 @@ perform_command_line(FILE *fp, bool is_which)
 	if (!skipping_through_if()) {
 		// First, handle de-referenced synonyms as lvalues (to left
 		// an assignment operator)
-		string w0(_word[0]);
+		std::string w0(_word[0]);
                 // de_reference(w0); BUG: MAY PUT BACK LATER
 		char *cp = strdup(w0.c_str());
 		_word[0] = cp;
@@ -532,7 +532,7 @@ systemCmd()
 	// "<<". 
 	// ... compare set.cc near line 3288.
 	int i = strlen(s) - 2;
-	static string read_until;
+	static std::string read_until;
 	read_until.assign("");
 	bool            using_read_until = false;
 	while (--i) {
@@ -550,7 +550,7 @@ systemCmd()
 			read_until.assign(s + i + 2 + spaces);
 			using_read_until = true;
 			// trim junk from end of the 'read until' string
-			string::size_type cut_at;
+			std::string::size_type cut_at;
 			if (quoted_end_string)
 				cut_at = read_until.find("\"");
 			else
@@ -566,7 +566,7 @@ systemCmd()
 			break;
 		}
 	}
-	static string cmd;	// might save time in loops
+	static std::string cmd;	// might save time in loops
 	cmd.assign(s);
 	if (using_read_until) {
 		// It is of the <<WORD form
@@ -590,12 +590,12 @@ systemCmd()
 			cmd.append(_cmdLine);
 			cmd.append("\n");
 		}
-		static string cmd_sub;
+		static std::string cmd_sub;
 		substitute_synonyms_cmdline(cmd.c_str(), cmd_sub, false);
 		cmd = cmd_sub;
 	} else {
 		// No, it is not of the <<WORD form
-		string::size_type loc = 0;
+		std::string::size_type loc = 0;
 		//printf("system command BEFORE [%s]\n",cmd.c_str());
 		while (STRING_NPOS != (loc = cmd.find("\\\\", loc))) {
 			cmd.STRINGERASE(loc, 2);
@@ -614,7 +614,7 @@ systemCmd()
 static void
 show_startup_msg()
 {
-	string fullfilename(_lib_directory.c_str());
+	std::string fullfilename(_lib_directory.c_str());
 	// Must check for '/' as file separator, on some machines.
 #if !defined(VMS)
 #if defined(MSDOS)
@@ -866,8 +866,8 @@ sub_dollar_paren(const char *in, char *out)
 	GriString in_copy(in);
 	bool inserted_something = false;
 	while (1) {
-		vector<int> start;	// where \$( sequences start
-		vector<int> depth;	// depth of these sequences
+		std::vector<int> start;	// where \$( sequences start
+		std::vector<int> depth;	// depth of these sequences
 		int level = 0, max_level = 0;
 		unsigned int i;
 		for (i = 3; i < len; i++) {

@@ -4,9 +4,9 @@
 
 #define _PUT_STATIC_DATA_MEMBERS_HERE
 #include <string>
+#include <vector>		// part of STL
 #include <stdio.h>
 #include <algorithm>		// part of STL
-#include <vector>		// part of STL
 #include "gr.hh"
 #include "defaults.hh"
 #include "private.hh"
@@ -45,22 +45,24 @@ template void  sort(vector<double>::iterator, vector<double>::iterator);
 
 // Instantiate on GNU c++ compiler
 #if defined(__GNUC__)
-template void  reverse(vector<double>::iterator, vector<double>::iterator);
-template void  sort(vector<double>::iterator, vector<double>::iterator);
-template class vector<BlockSource>;
-template class vector<CmdFile>;
-template class vector<DataFile>;
-template class vector<GriNamedColor>;
-template class vector<GriState>;
-template class vector<GriSynonym>;
-template class vector<GriVariable>;
-template class vector<RpnItem>;
-template class vector<bool>;
-template class vector<double>;
-template class vector<float>;
-template class vector<int>;
-template class vector<unsigned char>;
-template class vector<char*>;
+
+template void std::reverse(std::vector<double>::iterator, std::vector<double>::iterator);
+template void std::sort(std::vector<double>::iterator, std::vector<double>::iterator);
+
+template class std::vector<BlockSource>;
+template class std::vector<CmdFile>;
+template class std::vector<DataFile>;
+template class std::vector<GriNamedColor>;
+template class std::vector<GriState>;
+template class std::vector<GriSynonym>;
+template class std::vector<GriVariable>;
+template class std::vector<RpnItem>;
+template class std::vector<bool>;
+template class std::vector<double>;
+template class std::vector<float>;
+template class std::vector<int>;
+template class std::vector<unsigned char>;
+template class std::vector<char*>;
 template class GriMatrix<bool>;
 template class GriMatrix<double>;
 

@@ -31,7 +31,7 @@ extern double   strtod(const char *, char **);
 
 
 bool
-get_coded_value(const string& name, int level, string& result)
+get_coded_value(const std::string& name, int level, std::string& result)
 {
 	//printf("DEBUG %s:%d get_coded_value(<%s>,%d)\n",__FILE__,__LINE__,name.c_str(),level);
 	int mark_above = level + 1;
@@ -75,7 +75,7 @@ get_coded_value(const string& name, int level, string& result)
 }
 
 bool 
-is_coded_string(const string&s, string& name, int* mark_level)
+is_coded_string(const std::string&s, std::string& name, int* mark_level)
 {
 	//printf("DEBUG %s:%d is_coded_string <%s>\n",__FILE__,__LINE__,s.c_str());
 
@@ -152,10 +152,10 @@ marker_erase() // erase top marker; return false if there is none
 
 // Keep this in static area, so as not to waste time with
 // multiple allocation/deallocation for scratch strings
-static string tmp_string;
+static std::string tmp_string;
 
 bool
-get_nth_word(const string& s, unsigned int which, string& result)
+get_nth_word(const std::string& s, unsigned int which, std::string& result)
 {
 	char *w[MAX_nword];	// BUG: wasteful
 	unsigned int nw;
@@ -169,7 +169,7 @@ get_nth_word(const string& s, unsigned int which, string& result)
 }
 
 unsigned int
-get_number_of_words(const string& s)
+get_number_of_words(const std::string& s)
 {
 	if (s.size() == 0)
 		return 0;
@@ -354,7 +354,7 @@ get_envCmd()
 		demonstrate_command_usage();
 		return false;
 	}
-	string the_syn(_word[2]);
+	std::string the_syn(_word[2]);
 	un_double_quote(the_syn);
 	un_double_slash(the_syn);
 	de_reference(the_syn);
@@ -363,7 +363,7 @@ get_envCmd()
 		demonstrate_command_usage();
 		return false;
 	}
-	string the_env_var(_word[3]);
+	std::string the_env_var(_word[3]);
 	un_double_quote(the_env_var);
 	de_reference(the_env_var);
 	char *result = egetenv(the_env_var.c_str());
@@ -420,7 +420,7 @@ is_punctuation(int c)
 }
 
 bool
-resolve_filename(string& f, bool trace_path, char c_or_d)
+resolve_filename(std::string& f, bool trace_path, char c_or_d)
 {
 	unsigned int len;
 	if (f[0] == '"') {
@@ -452,7 +452,7 @@ resolve_filename(string& f, bool trace_path, char c_or_d)
 			size_t name_end = f.find("/");
 			if (name_end == STRING_NPOS)
 				name_end = f.size();
-			string username = f.substr(1, name_end - 1);
+			std::string username = f.substr(1, name_end - 1);
 			struct passwd *pw_entry;
 			pw_entry = getpwnam(username.c_str());
 			f.STRINGERASE(0, username.size() + 1);
@@ -472,7 +472,7 @@ resolve_filename(string& f, bool trace_path, char c_or_d)
 		return true;
 
 	// ... ok, now we know we should trace!
-	string path;
+	std::string path;
 	if (c_or_d == 'c') {
 		if (!get_syn("\\.path_commands.", path)) {
 			err("Internal error in utility.cc:resolve_filename() -- cannot determine value of \\.path_commands\n");
@@ -490,11 +490,11 @@ resolve_filename(string& f, bool trace_path, char c_or_d)
 	if (path.size() < 1)
 		return true;	// BUG: is this what I want for empty path?
 	// HAD: path.assign(GRIINPUTS); // in defaults.hh ".:/usr/local/lib/gri"
-	string::size_type start = 0;
-	string::size_type colon;
+	std::string::size_type start = 0;
+	std::string::size_type colon;
 	do {
 		colon = path.find(":", start);
-		string test_file = path.substr(start, colon);
+		std::string test_file = path.substr(start, colon);
 		test_file.append("/");
 		test_file.append(f);
 		//printf("resolve_filename trying file named '%s'\n", test_file.c_str());
@@ -763,7 +763,7 @@ sprintfCmd()
 		err("Can only do `sprintf' for 1-20 variables");
 		return false;
 	}
-	string w1(_word[1]); 
+	std::string w1(_word[1]); 
 	de_reference(w1);
 	if (!is_syn(w1)) {
 		demonstrate_command_usage();
@@ -845,7 +845,7 @@ getinum(const char *s, int *i)
 			}
 		}
 	} else if (is_syn(s)) {
-		string syn_value;
+		std::string syn_value;
 		bool exists = get_syn(s, syn_value);
 		//printf("DEBUG %s:%d '%s' exists= %d  value [%s]\n",__FILE__,__LINE__,s,exists,syn_value.c_str());
 		if (exists) {
@@ -926,7 +926,7 @@ getdnum(const char *s, double *d)
 		}
 #if 1				// vsn 2.6.0 [2001-feb-18]
 	} else if (is_syn(s)) {
-		string syn_value;
+		std::string syn_value;
 		bool exists = get_syn(s, syn_value);
 		//printf("DEBUG %s:%d '%s' exists= %d  value [%s]\n",__FILE__,__LINE__,s,exists,syn_value.c_str());
 		if (exists) {
@@ -1114,8 +1114,8 @@ void
 warning(const char *s,...)
 {
 	static          unsigned int msg_last_copies = 0;
-	static string   msg_last;	// must be static
-	static string msg;		// static only for efficiency if called a lot
+	static std::string   msg_last;	// must be static
+	static std::string msg;		// static only for efficiency if called a lot
 	bool            several = false;
 	int             len;
 	char           *p = NULL;
@@ -1189,7 +1189,7 @@ warning(const char *s,...)
 //     -1  if missing final-quote
 //     >0  OK; value 'i' is such that s[i] is just after the final quote
 int
-ExtractQuote(const char *s, string& sout)
+ExtractQuote(const char *s, std::string& sout)
 {
 	//printf("DEBUG %s:%d input string is '%s'\n",__FILE__,__LINE__,s);
 	int i = 0;
@@ -1485,7 +1485,7 @@ demonstrate_command_usage()
 bool
 re_compare(const char *s, const char *pattern)
 {
-	bool find_target(const char *pattern, int *pindex, int plen, string& target, int *star, int *plus);
+	bool find_target(const char *pattern, int *pindex, int plen, std::string& target, int *star, int *plus);
 	int             slen = strlen(s);
 	int             plen = strlen(pattern); 
 	int             sindex = 0;
@@ -1495,7 +1495,7 @@ re_compare(const char *s, const char *pattern)
 	bool            need_new_target = true;
 	int             matches = 0;
 	// Search through pattern
-	string target("");
+	std::string target("");
 	while (sindex < slen) {
 		bool            this_matches = false;
 		if (need_new_target) {
@@ -1561,7 +1561,7 @@ re_compare(const char *s, const char *pattern)
 }
 
 bool
-find_target(const char *pattern, int *pindex, int plen, string& target, int *star, int *plus)
+find_target(const char *pattern, int *pindex, int plen, std::string& target, int *star, int *plus)
 {
 	target = "";
 	/*
@@ -1981,7 +1981,7 @@ tmp_file_name()
 int
 call_the_OS(const char* cmd, const char* calling_filename, int calling_line) 
 {
-	string c(cmd);
+	std::string c(cmd);
 	clean_blanks_quotes(c);
 	c.append("\n");
 	if (((unsigned) superuser()) & FLAG_SYS) {
@@ -1994,7 +1994,7 @@ call_the_OS(const char* cmd, const char* calling_filename, int calling_line)
 }
 
 void
-clean_blanks_quotes(string& c)
+clean_blanks_quotes(std::string& c)
 {
 	// Trim any blanks at the start and end ...
 	while (isspace(c[0]))
@@ -2036,14 +2036,14 @@ is_odd_integer(double v)
 }
 
 void
-de_reference(string& syn)
+de_reference(std::string& syn)
 {
 	//printf("%s:%d 1. de_reference (%s)...\n",__FILE__,__LINE__,syn.c_str());
 	if (syn[0] == '\\' && syn[1] == '@') {
-		string deref("\\");
+		std::string deref("\\");
 		deref.append(syn.substr(2, syn.size()));
 		//printf("2. deref= <%s>\n", deref.c_str());
-		string buf;
+		std::string buf;
 		if (get_syn(deref.c_str(), buf)) {
 			syn.assign(buf);
 			//printf("3. syn= <%s>\n", syn.c_str());
@@ -2056,7 +2056,7 @@ de_reference(string& syn)
 }
 
 void
-un_double_slash(string& word)	// change leading double-backslash to single-backslash
+un_double_slash(std::string& word)	// change leading double-backslash to single-backslash
 {
 	if (word[0] == '\\' && word[1] == '\\')
 		word.STRINGERASE(0, 1);
@@ -2064,7 +2064,7 @@ un_double_slash(string& word)	// change leading double-backslash to single-backs
 
 void
 
-un_double_quote(string& word)
+un_double_quote(std::string& word)
 {
 	if (word[0] == '"') 
 		if (word[word.size() - 1] == '"') {

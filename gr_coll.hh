@@ -141,7 +141,7 @@ public:
 	unsigned int get_offset()       const   {return offset; }
 	void         move_offset(unsigned int o) {offset += o; }
 private:
-	string filename;	// Name of file containing this src
+	std::string filename;	// Name of file containing this src
 	unsigned int line;	// Which line we're executing that file
 	const char* start;		// Points to next line to execute
 	unsigned int offset;	// Next line is at (start+offset)
