@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.104 2001/07/06 18:11:16 dankelley Exp $
+@c $Id: gri.texim,v 1.105 2001/07/10 15:14:07 psg Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -9728,7 +9728,7 @@ Set left margin to default = 6 cm.
 @cindex @code{set x name} command
 
 @example
-set x name "\name"|default
+`set x name "\name"|default'
 @end example
 
 @noindent
@@ -9944,7 +9944,7 @@ Set bottom margin to default = 6 cm.
 @cindex @code{set y name} command
 
 @example
-set y name "\name"
+`set y name "\name"|default'
 @end example
 
 @noindent
