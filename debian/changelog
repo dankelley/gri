@@ -1,3 +1,9 @@
+gri (2.6.1-0) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Peter S Galbraith <psg@debian.org>  Mon,  9 Apr 2001 10:29:25 -0400
+
 gri (2.6.0-1) unstable; urgency=low
 
   * New upstream version.
