@@ -108,9 +108,15 @@ while(<>) {
     next if /\@defindex/;
     next if /\@vskip/;
     s/\@noindent//;
+    # Pass contents of ifhtml blocks
+    next if /\@ifhtml/;
+    next if /\@end ifhtml/;
     # Pass contents of ifinfo blocks
     next if /\@ifinfo/;
     next if /\@end ifinfo/;
+    # Pass contents of ifnotinfo blocks
+    next if /\@ifnotinfo/;
+    next if /\@end ifnotinfo/;
     # Ignore contents of @dircategory and @direntry block
     next if /\@dircategory/;
     if (/^\@direntry/o) {
