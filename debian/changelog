@@ -1,3 +1,11 @@
+gri (2.12.0-2) unstable; urgency=low
+
+  * gri-html-doc.preinst: recent versions of md5sum add a hyphen in the
+    output, which leads to an error in my preinst test for an old config
+    file.  Patch from russell@coker.com.au (closes: #161154).
+
+ -- Peter S Galbraith <psg@debian.org>  Tue, 17 Sep 2002 09:32:52 -0400
+
 gri (2.12.0-1) unstable; urgency=low
 
   * New upstream version
