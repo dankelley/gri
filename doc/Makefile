@@ -73,6 +73,9 @@ html-install:	html
 	chmod a+rx             $(HTML_DIR)/resources
 	cp resources/*.gif     $(HTML_DIR)/resources
 	chmod 644              $(HTML_DIR)/resources/*.gif
+	install -d             $(HTML_DIR)/tst_suite
+	chmod a+rx             $(HTML_DIR)/tst_suite
+	cp tst_suite/*html     $(HTML_DIR)/tst_suite
 	cp examples/*.png      $(HTML_DIR)/
 	chmod 644              $(HTML_DIR)/*.png
 	install -d             $(HTML_DIR)/screenshots

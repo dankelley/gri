@@ -252,6 +252,7 @@ source:
 	    install -m 644 Makefile *.png ../../$(SOURCE_NAME)/doc/screenshots)
 	install -d $(SOURCE_NAME)/doc/tst_suite
 	install -m 644 doc/tst_suite/Makefile        $(SOURCE_NAME)/doc/tst_suite
+	install -m 644 doc/tst_suite/tst_IO.gri      $(SOURCE_NAME)/doc/tst_suite
 	install -m 644 doc/tst_suite/tst_IO_1.dat    $(SOURCE_NAME)/doc/tst_suite
 	install -m 644 doc/tst_suite/tst_IO_2.dat    $(SOURCE_NAME)/doc/tst_suite
 	install -m 644 doc/tst_suite/tst_control.gri $(SOURCE_NAME)/doc/tst_suite
