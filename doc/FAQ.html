@@ -50,7 +50,7 @@ Gri Frequently Asked Questions
 <h1> Introduction</h1>
 
 This is the FAQ ("frequently asked questions") document for the Gri
-scientific graphing language, (c) 1991-2001 Dan Kelley <A
+scientific graphing language, (c) 1991-2002 Dan Kelley <A
 HREF="http://www.phys.ocean.dal.ca/~kelley">
 (<CODE>Dan.Kelley@Dal.Ca</CODE>)</A>, to whom you are asked to <A
 HREF="mailto:Dan.Kelley@Dal.Ca"> email</A> reports of Gri errors, or
@@ -133,7 +133,7 @@ suggestions for Gri improvements or new features.
 <A HREF="#A4.1">Is Gri better than Fortran/C/... plotting subroutines?</A>
 <LI>
 <A NAME="Q4.2">Q4.2</A>
-<A HREF="#A4.2">How can I include Gri plots in LaTeX files?</A>
+<A HREF="#A4.2">How can I include Gri plots in LaTeX/word/... files?</A>
 <LI>
 <A NAME="Q4.3">Q4.3</A>
 <A HREF="#A4.3">How may I convert Gri output to GIF format?</A>
@@ -613,8 +613,9 @@ the processing.
 
 
 <A NAME="A4.2"></A>
-<A HREF="#Q4.2"><h3>A4.2 How can I include Gri plots in LaTeX files?</h3></A>
+<A HREF="#Q4.2"><h3>A4.2 How can I include Gri plots in LaTeX/Word/... files?</h3></A>
 
+<h4>Latex</h4>
 <P> There are several schemes for including PostScript figures, such
 as those created by Gri, into LaTeX files.  That's unfortunate, in the
 sense that it can confuse folks who are not experts.  The example
@@ -649,6 +650,13 @@ it, which in unix would mean typing <tt>latex test</tt> at the prompt.
 It is worth noting that LaTeX has handled graphics in various ways
 over the years.  The above indicates the preferred scheme as of 2001
 or so, but other older schemes still work.
+
+<h4>MS Word</h4>
+
+All you need to do is to convert the file to GIF (see the next
+question), or to another file format that MS word handles.  It is a
+bad idea to use a JPEG format, since that doesn't work well on
+linegraphs.
 
 <p>
 <A NAME="A4.3"></A>
