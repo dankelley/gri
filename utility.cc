@@ -2355,3 +2355,52 @@ fix_line_ending(char *line)
 		line[len - 1] = '\0';
 	}
 }
+
+bool
+is_column_name(const char* n)
+{
+	//printf("is_column_name(%s)\n", n);
+	if (strEQ(n, "u")
+	    || strEQ(n, "v")
+	    || strEQ(n, "weight")
+	    || strEQ(n, "x") 
+	    || strEQ(n, "y")
+	    || strEQ(n, "z")
+	    || strEQ(n, "z")
+		)
+		return true;
+	else
+		return false;
+}
+
+#define ASSIGN_TO_COLUMN(i,v,c) \
+{ \
+	if ((i) >= int((c).size())) { \
+		for (int ii = int((c).size()); ii <= (i); ii++) {\
+			(c).push_back(0.0); \
+                } \
+        } \
+	(c)[index] = (v); \
+}
+
+bool
+assign_to_column(int index, double value, const char* c)
+{
+	if (index < 0)
+		return false;
+	//printf("assigning %f to  %s[%d]\n", value, c, index);
+	if (strEQ(c, "x"))
+		ASSIGN_TO_COLUMN(index, value, _colX);
+	if (strEQ(c, "y"))
+		ASSIGN_TO_COLUMN(index, value, _colY);
+	if (strEQ(c, "z"))
+		ASSIGN_TO_COLUMN(index, value, _colZ);
+	if (strEQ(c, "u"))
+		ASSIGN_TO_COLUMN(index, value, _colU);
+	if (strEQ(c, "v"))
+		ASSIGN_TO_COLUMN(index, value, _colV);
+	return true;
+	if (strEQ(c, "weight"))
+		ASSIGN_TO_COLUMN(index, value, _colWEIGHT);
+	return true;
+}

@@ -324,48 +324,68 @@ show_columnsCmd()
 				}
 			}
 			if (_colY.size() > 0) {
-				tmp = _colY[i];
-				if (gr_missingy(tmp)) {
+				if (_colY.size() <= i) {
 					ShowStr(MISSING);
 				} else {
-					sprintf(_grTempString, "%15g\t", tmp);
-					ShowStr(_grTempString);
+					tmp = _colY[i];
+					if (gr_missingy(tmp)) { 
+						ShowStr(MISSING);
+					} else {
+						sprintf(_grTempString, "%15g\t", tmp);
+						ShowStr(_grTempString);
+					}
 				}
 			}
 			if (_colU.size() > 0) {
-				tmp = _colU[i];
-				if (gr_missing(tmp)) {
+				if (_colU.size() <= i) {
 					ShowStr(MISSING);
 				} else {
-					sprintf(_grTempString, "%15g\t", tmp);
-					ShowStr(_grTempString);
+					tmp = _colU[i];
+					if (gr_missing(tmp)) { 
+						ShowStr(MISSING);
+					} else {
+						sprintf(_grTempString, "%15g\t", tmp);
+						ShowStr(_grTempString);
+					}
 				}
 			}
 			if (_colV.size() > 0) {
-				tmp = _colV[i];
-				if (gr_missing(tmp)) {
+				if (_colV.size() <= i) {
 					ShowStr(MISSING);
 				} else {
-					sprintf(_grTempString, "%15g\t", tmp);
-					ShowStr(_grTempString);
+					tmp = _colV[i];
+					if (gr_missing(tmp)) { 
+						ShowStr(MISSING);
+					} else {
+						sprintf(_grTempString, "%15g\t", tmp);
+						ShowStr(_grTempString);
+					}
 				}
 			}
 			if (_colZ.size() > 0) {
-				tmp = _colZ[i];
-				if (gr_missing(tmp)) {
+				if (_colZ.size() <= i) {
 					ShowStr(MISSING);
 				} else {
-					sprintf(_grTempString, "%15g\t", tmp);
-					ShowStr(_grTempString);
+					tmp = _colZ[i];
+					if (gr_missing(tmp)) { 
+						ShowStr(MISSING);
+					} else {
+						sprintf(_grTempString, "%15g\t", tmp);
+						ShowStr(_grTempString);
+					}
 				}
 			}
 			if (_colWEIGHT.size() > 0) {
-				tmp = _colWEIGHT[i];
-				if (gr_missing(tmp)) {
+				if (_colWEIGHT.size() <= i) {
 					ShowStr(MISSING);
 				} else {
-					sprintf(_grTempString, "%15g\t", tmp);
-					ShowStr(_grTempString);
+					tmp = _colWEIGHT[i];
+					if (gr_missing(tmp)) { 
+						ShowStr(MISSING);
+					} else {
+						sprintf(_grTempString, "%15g\t", tmp);
+						ShowStr(_grTempString);
+					}
 				}
 			}
 			ShowStr("\n");

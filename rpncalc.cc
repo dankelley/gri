@@ -1320,38 +1320,51 @@ do_operation(operator_name oper)
 		rS.pop_back();
 	        return true;
 	}
+
 	if (oper == ASSIGN) {
-		// {rpn 10 ".a." =} # assigns 10 to the variable named ".a."
+		// {rpn 10 ".a." =}    # assign 10 to the variable named ".a."
+		// {rpn 3.14159 1 x =} # assign Pi to x[1]
 		NEED_ON_STACK(2);
 		NEED_IS_TYPE(1, STRING);
-		char *unadorned = new char[1 + strlen(NAME(1))];
-		if (!unadorned) OUT_OF_MEMORY;
-		strcpy(unadorned, 1 + NAME(1));
-		// Remove quote (check, although MUST be there 
-		if (*STRING_END(unadorned) == '"')
-			*STRING_END(unadorned) = '\0';
-		//printf("%s:%d assigning to [%s]\n",__FILE__,__LINE__,NAME(1));
+		std::string unadorned(NAME(1));
+		un_double_quote(unadorned);
+		if (is_column_name(unadorned.c_str())) {
+			//print_rpn_stack("assign to a column ...\n");
+			NEED_ON_STACK(3);
+			//printf("assign to column [%s]\n", unadorned.c_str());
+			int index = int(0.5 + VALUE(2));
+			//printf("assigning %lf to %s[%d]\n", VALUE(3), unadorned.c_str(), index);
+			assign_to_column(index, VALUE(3), unadorned.c_str());
+			NEED_IS_TYPE(3, NUMBER);
+			NEED_IS_TYPE(2, NUMBER);
+			rS.pop_back();
+			rS.pop_back();
+			rS.pop_back();
+			return true;
+		}
 		switch (TYPE(2)) {
 		case NUMBER:
-			if (is_var(unadorned)) {
-				PUT_VAR(unadorned, VALUE(2));
+			printf("case NUMBER\n");
+			if (is_var(unadorned.c_str())) {
+				PUT_VAR(unadorned.c_str(), VALUE(2));
 				//printf("%s:%d debug\n",__FILE__,__LINE__);
 			} else {
-				//printf("%s:%d [%s]\n",__FILE__,__LINE__,unadorned);
+				//printf("%s:%d [%s]\n",__FILE__,__LINE__,unadorned.c_str());
 				//printf("%s:%d [%s]\n",__FILE__,__LINE__,NAME(1));
-				err("Invalid variable name `\\", unadorned, "' in assignment", "\\");
+				err("Invalid variable name `\\", unadorned.c_str(), "' in assignment", "\\");
 				RpnError = ILLEGAL_TYPE;
 				return false;
 			}
 			break;
 		case STRING:
-			if (*(1 + unadorned) == '\\') {
+			//printf("case STRING\n");
+			if (unadorned[1] == '\\') {
 				char *s = new char[1 + strlen(NAME(2))];
 				if (!s) OUT_OF_MEMORY;
 				strcpy(s, 1 + NAME(2));
 				if (s[strlen(s) - 1] == '"')
 					s[strlen(s) - 1] = '\0';
-				if (!put_syn(1 + unadorned, s, true)) OUT_OF_MEMORY;
+				if (!put_syn(1 + unadorned.c_str(), s, true)) OUT_OF_MEMORY;
 				delete [] s;
 			} else {
 				err("Invalid synonym name in assignment");
@@ -1360,15 +1373,16 @@ do_operation(operator_name oper)
 			}
 			break;
 		default:
+			//printf("case DEFAULT\n");
 			err("RPN operator `=' cannot handle the items currently on stack.");
 			RpnError = ILLEGAL_TYPE;
 			return false;
 		}
 		rS.pop_back();
 		rS.pop_back();
-		delete [] unadorned;
 		return true;
 	} 
+
 	if (oper == XYCMTOUSER) {	// should check for missingvalue?
 		NEED_IS_TYPE(2, NUMBER);
 		set_x_scale();
@@ -2071,14 +2085,20 @@ print_rpn_stack(const char *msg)
 	int             stack_len = rS.size();
 	if (strlen(msg) > 0) 
 		ShowStr(msg);
+        // printf("stack types 	UNKNOWN, VARIABLE_WITH_MISSING_VALUE, NOT_OPERAND, NUMBER, STRING, COLUMN_NAME, FUNCTION\n");
 	ShowStr("Operands on rpn stack: (");
 	for (i = 0; i < stack_len; i++) {
 		char            str[100];
+		//printf("type[%d] = %d\n", i, TYPE(stack_len - i));
 		if (TYPE(stack_len - i) == NUMBER) {
 			sprintf(str, "%.20g", VALUE(stack_len - i));
 			ShowStr(str);
+		} else if (TYPE(stack_len - i) == COLUMN_NAME) {
+			//ShowStr("colname:");
+			ShowStr(NAME(stack_len - i)); 
+			//printf("[%s]\n",NAME(stack_len - i));
 		} else {
-			ShowStr(NAME(i));
+			ShowStr(NAME(stack_len - i));
 		}
 		if (i != (stack_len - 1))
 			ShowStr(", ");

@@ -52,6 +52,7 @@ bool            allocate_imageMask_storage(int nx, int ny);
 bool            allocate_xmatrix_storage(int n);
 bool            allocate_ymatrix_storage(int n);
 bool            assign_synonym(void);
+bool            assign_to_column(int index, double value, const char* c);
 bool            batch(void);
 void            beep_terminal(void);
 bool            blank_image(void);
@@ -152,6 +153,7 @@ int             index_of_synonym(const char *name, int mark = -1);
 void            insert_cmd_in_ps(const char *cmd, const char *note="");
 bool            inside_box(double x, double y);
 bool            is_assignment_op(const char *s);
+bool            is_column_name(const char *s);
 bool            is_coded_string(const std::string&s, std::string& name, int* mark_level);	// cvs get_coded_value()
 bool            is_even_integer(double v); 
 bool            is_odd_integer(double v); 
