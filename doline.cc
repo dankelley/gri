@@ -1,4 +1,5 @@
 #define USE_BACKTIC 0		// keep code just in case
+//#define DEBUG_DOLLAR_PAREN 1
 #include        <string>
 #include	<stdio.h>
 #include	<math.h>
@@ -17,8 +18,8 @@ extern char    *_griVersion_name;
 #if USE_BACKTIC
 static          bool sub_backtic(const char *n, char *out);
 #endif
-static          bool sub_dollar_paren(const char *n, char *out);
-static          int dollar_paren(const char *s, char *res);
+static          bool sub_dollar_paren(const char *n, std::string& out);
+static          int dollar_paren(const char *s, std::string& res);
 bool            get_cmd(char *buf, int max, FILE * fp);
 bool            postscriptCmd(void);
 static void     check_usage(const char *s);
@@ -296,8 +297,9 @@ massage_command_line(char *cmd)
 	sub_backtic(cmd, _cmdLineCOPY);
 	strcpy(cmd, _cmdLineCOPY);
 #endif
-	sub_dollar_paren(cmd, _cmdLineCOPY);
-	strcpy(cmd, _cmdLineCOPY);
+	std::string tmp;
+	sub_dollar_paren(cmd, tmp);
+	strcpy(cmd, tmp.c_str());
 	// Substitute rpn expressions one by one, recopying back to cmd after
 	// each
 	if (((unsigned) superuser()) & FLAG_RPN) printf("[%s]\n", cmd);
@@ -858,18 +860,20 @@ sub_backtic(const char *in, char *out)
 }
 #endif
 
-// Substitute $() style system expressions, as in Bourne and 
-// Bourne-again shells.  Assume string 'out' is long enough.
+// Substitute $() style system expressions, as shells
 static bool
-sub_dollar_paren(const char *in, char *out)
+sub_dollar_paren(const char *in, std::string& out)
 {
+#ifdef DEBUG_DOLLAR_PAREN
+	printf("sub_dollar_paren('%s', ...)\n", in);
+#endif
 	unsigned int len = strlen(in);
 	if (len < 3) {
-		strcpy(out, in);
+		out = in;
 		return true;
 	}
-	out[0] = '\0';		// so can strcat onto it
-	GriString in_copy(in);
+	out = "";
+	std::string in_copy(in);
 	bool inserted_something = false;
 	while (1) {
 		std::vector<int> start;	// where \$( sequences start
@@ -877,30 +881,42 @@ sub_dollar_paren(const char *in, char *out)
 		int level = 0, max_level = 0;
 		unsigned int i;
 		for (i = 3; i < len; i++) {
-			if (in_copy[i] == '(' 
-			    && in_copy[i - 1] == '$'
-			    && in_copy[i - 2] == '\\') {
+#ifdef DEBUG_DOLLAR_PAREN
+			printf("i = %d START OF LOOP.  rest of in_copy '%s'\n", i, in_copy.c_str()+i);
+#endif
+			if (in_copy[i] == '(' && in_copy[i - 1] == '$' && in_copy[i - 2] == '\\') {
 				start.push_back(i - 2);
 				depth.push_back(++level);
 			} else if (in_copy[i] == ')' && in_copy[i-1] != '\\')
 				level--;
 			if (level > max_level)
 				max_level = level;
+			//printf("i = %d END OF LOOP\n", i);
 		}
+#ifdef DEBUG_DOLLAR_PAREN
+		printf("after loop, start.size() = %d    max_level= %d\n", start.size(), max_level);
+#endif
 		if (max_level == 0)
 			break;
 		for (i = 0; i < start.size(); i++) {
+#ifdef DEBUG_DOLLAR_PAREN
+			printf("%s:%d in loop.  depth[%d] = %d  start[i]= %d  '%s'\n",__FILE__,__LINE__,i,depth[i], start[i], in_copy.substr(start[i]).c_str());
+#endif
 			if (depth[i] == max_level) {
 				inserted_something = true;
 				// Process this one, the left-most maximumally nested case
-				char res[1024]; // hope enough
-				int skip = dollar_paren(in_copy.getValue() + start[i], res);
-				GriString tmp(in_copy.size() + strlen(res) + 1); // long enough
-				strncpy(tmp.getValue(), in_copy.getValue(), start[i]);
-				tmp[start[i]] = '\0'; // trim
-				tmp.catSTR(res);
-				tmp.catSTR(in_copy.getValue() + start[i] + skip);
-				in_copy.fromSTR(tmp.getValue());
+				std::string res;
+				int skip = dollar_paren(in_copy.c_str() + start[i], res);
+				std::string tmp(in_copy.substr(0, start[i]));
+#ifdef DEBUG_DOLLAR_PAREN
+				printf("1. tmp='%s'  in_copy='%s'  start[%d]=%d\n", tmp.c_str(),in_copy.c_str(),i,start[i]);
+#endif
+				tmp = tmp + res;
+#ifdef DEBUG_DOLLAR_PAREN
+				printf("2. tmp '%s'\n", tmp.c_str());
+#endif
+				tmp = tmp + (in_copy.c_str() + start[i] + skip);
+				in_copy = tmp;
 				for (i = 0; i < start.size(); i++) {
 					start.pop_back();
 					depth.pop_back();
@@ -910,9 +926,9 @@ sub_dollar_paren(const char *in, char *out)
 		}
 	}
 	if (inserted_something == false)
-		strcpy(out, in);
+		out = in;
 	else
-		strcpy(out, in_copy.getValue());
+		out = in_copy;
 	return true;
 }
 
@@ -925,43 +941,52 @@ sub_dollar_paren(const char *in, char *out)
 //
 // BUG: 'res' is *assumed* to be long enough to hold system output
 static int
-dollar_paren(const char *s, char *res)
+dollar_paren(const char *s, std::string& res)
 {	
 #if !defined(HAVE_POPEN)
 	err("Cannot do \\$(CMD) because computer lacks popen() C subroutine");
 	return 0;
 #else
+#ifdef DEBUG_DOLLAR_PAREN
+	printf("dollar_paren(%s,...)\n",s);
+#endif
 	// Search for closing paren
-	res[0] = '\0'; // so can cat onto it
-	GriString ss(s + 3); // so can insert null-terminate within
+	std::string ss(s + 3); // so can insert null-terminate within
 	unsigned int i;
-	for (i = 0; i < ss.size(); i++) {
+#ifdef DEBUG_DOLLAR_PAREN
+	printf("%s:%d error: dollar_paren() should count ( and then check ) in case sys command has some [%s]\n",__FILE__,__LINE__,ss.c_str());
+#endif
+	for (i = 0; i < ss.length(); i++) {
 		if (ss[i] == ')') {
-			ss[i] = '\0';	// cut closing paren
+			ss.STRINGERASE(i);
 			if (((unsigned) superuser()) & FLAG_SYS) {
 				ShowStr("The $() mechanism is sending this to the OS:\n");
-				ShowStr(ss.getValue());
+				ShowStr(ss.c_str());
 				ShowStr("\n");
 			}
-			FILE *pipefile = (FILE *) popen(ss.getValue(), "r");
+			FILE *pipefile = (FILE *) popen(ss.c_str(), "r");
 			if (!pipefile) {
 				err("The $() system call failed. Cannot access system.");
 				return -1;
 			}
-			char *thisline = new char[LineLength];
+			char *thisline = new char[LineLength]; // assume enough space (without checking)
 			if (!thisline) OUT_OF_MEMORY;
 			while (NULL != fgets(thisline, LineLength_1, pipefile))
-				strcat(res, thisline);
+				res += thisline;
 			pclose(pipefile);
 			remove_trailing_blanks(res);
 			delete [] thisline;
 			break;		// done with this system-cmd
-		} else if (i == ss.size() - 1) {
+		} else if (i == ss.length() - 1) {
 			err("Got to end-of-line with no ')' to match '\\$('");
 			return -1;
 		}
 	}
+#ifdef DEBUG_DOLLAR_PAREN
+	printf("NOTE: dollar_paren returning %d  [%s]\n",i+4,res.c_str());
+#endif
 	return int(i + 4);		// 4 chars in embracing sequence
+
 #endif
 }
 

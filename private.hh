@@ -206,6 +206,7 @@ bool            re_compare(const char *string, const char *pattern);
 bool            remove_comment(char *cmdline);
 void            remove_esc_quotes(char *w);
 void            remove_trailing_blanks(char *s);
+void            remove_trailing_blanks(std::string& s);
 bool            resolve_filename(std::string& fn, bool trace_path, char d_or_c);
 bool            rpn_create_function(char *name, char **w, unsigned int nw);
 bool            same_syntax(const char *cmdline, const char *syntax, int flag);

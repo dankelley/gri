@@ -1402,6 +1402,18 @@ remove_trailing_blanks(char *s)
 		else
 			break;
 }
+// Make all trailing blanks, tabs, etc, into null chars
+void
+remove_trailing_blanks(std::string& s)
+{
+	int i = s.length();
+	while (--i > -1)
+		if (!isspace(s[i]))
+			break;
+	//printf("BEFORE removing trailing blanks '%s' ... ", s.c_str());
+	s.STRINGERASE(i + 1);
+	//printf("AFTER '%s' ... ", s.c_str());
+}
 
 void
 beep_terminal()
