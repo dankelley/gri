@@ -5,7 +5,7 @@
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.31 (03 Aug 2000)
+;; Version:   2.32 (28 Aug 2000)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -345,6 +345,10 @@
 ;; V2.30 03Aug00 RCS 1.55 - default web page changed to:
 ;;    "http://gri.sourceforge.net/gridoc/html/index.html" (fixes bug)
 ;; V2.31 03Aug00 RCS 1.56 - `gri-help pwd' was broken (improper regexp)
+;; V2.32 28Aug00 RCS 1.57 
+;;  - Added buffer-local variable gri-command-postarguments
+;;    and functions gri-set-command-postarguments and
+;;    gri-unset-command-postarguments.
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -730,15 +734,29 @@ To use this, you insert strings like this at the end of the file:
 (make-variable-buffer-local 'gri-local-version)
 
 (defvar gri-command-arguments ""
-  "gri command arguments to pass to gri when using gri-run, excluding -b -y
+  "command arguments to pass to gri when using gri-run, excluding -b -y
 which are always sent.")
 (make-variable-buffer-local 'gri-command-arguments) 
 
+(defvar gri-command-postarguments ""
+  "command arguments to pass to gri after the script file, i.e. file names.
+Used, for example, to run a gri script that requires data filenames as 
+argument:
+
+ $ gri script.gri datafile1.dat datafile2.dat
+
+In the above example, you'd set gri-command-postarguments to 
+\"datafile1.dat datafile2.dat\".
+
+Use `M-x gri-set-command-postarguments' to set this locally for one gri file.
+This variable is only locally set for a particular file.")
+(make-variable-buffer-local 'gri-command-postarguments)
+
 (defun gri-set-local-version ()
   "Set the version of gri to use on this file only.
-This adds an emacs local-variable at the end of your gri as file as a gri 
-comment, such that gri-mode will use the proper version of gri the next time
-you edit the gri file."
+This adds an emacs local-variable at the end of your file as a gri comment,
+such that gri-mode will use the proper version of gri the next time you
+edit the gri file."
   (interactive)
   (let* ((table (gri-expand-versions))
          (version (and table            ;Choose if we have possiblities (table)
@@ -779,6 +797,54 @@ you edit the gri file."
       (goto-char (point-max))
       (when (and (re-search-backward "# Local Variables:" nil t)
                  (re-search-forward  "# gri-local-version:" nil t))
+        (delete-region (progn (beginning-of-line)(point))
+                       (progn (forward-line 1) (point)))
+        (forward-line -1)
+        (if (and (looking-at "# Local Variables:\n")
+                 (progn (forward-line 1)(looking-at "# End:")))
+            (delete-region (progn (end-of-line)(point))
+                           (progn (forward-line -1) (point))))))))
+
+(defun gri-set-command-postarguments (args)
+  "Set filename arguments to use for this script when running gri
+
+This adds an emacs local-variable at the end of your file as a gri comment,
+locally setting the gri-mode variable `gri-command-postarguments'."
+  (interactive (list (read-string "Arguments: ")))
+  (cond 
+   ((string-equal args "")
+    ;; Unset here? Or error?
+    ;;(error "No arguments specified.  Exiting."))
+    (message "Unsetting local-buffer variable.")
+    (gri-unset-command-postarguments))
+   (t
+    (setq gri-command-postarguments args)
+    (save-excursion
+      (goto-char (point-max))
+      (if (re-search-backward "\\(//\\|#\\) Local Variables:" nil t)
+          (if (re-search-forward 
+               "gri-command-postarguments: \"\\(.*\\)\"" nil t)
+              (progn
+                (goto-char (match-beginning 1))
+                (delete-region (match-beginning 1)(match-end 1))
+                (insert args))
+            (end-of-line)
+            (insert "\n# gri-command-postarguments: \"" args "\""))
+        (goto-char (point-max))
+        (insert "# Local Variables:\n"
+                "# gri-command-postarguments: \"" args "\"\n"
+                "# End:\n"))))))
+
+(defun gri-unset-command-postarguments ()
+  "Unset this buffer's use of post arguments."
+  (interactive)
+  (setq gri-command-postarguments nil)
+  (save-excursion 
+    (save-restriction
+      (widen)
+      (goto-char (point-max))
+      (when (and (re-search-backward "# Local Variables:" nil t)
+                 (re-search-forward  "# gri-command-postarguments:" nil t))
         (delete-region (progn (beginning-of-line)(point))
                        (progn (forward-line 1) (point)))
         (forward-line -1)
@@ -2505,8 +2571,9 @@ BUGS:  Will get confused if you have a string which looks like a function
 (defun gri-command-arguments (arg-string)
   "Set the extra arguments sent to the gri process.
 Usually used to send debugging flags."
-  (interactive 
-   (list (completing-read "Gri arguments: " nil nil nil nil gri-arg-hist)))
+  (interactive (list (read-string "Gri arguments: ")))
+;;(interactive 
+;; (list (completing-read "Gri arguments: " nil nil nil nil gri-arg-hist)))
   (setq gri-command-arguments arg-string)
   (message "gri-run will use arguments: -b -y %s" gri-command-arguments))
 
@@ -2516,19 +2583,23 @@ Usually used to send debugging flags."
       (save-buffer))
   (cond
    ((string-equal "" gri-command-arguments)
-    (message "%s %s %s (on newly saved file)" 
-             the-command (gri-run-setting-string) 
-             (file-name-nondirectory buffer-file-name))
-    (shell-command (concat the-command (gri-run-setting-string) 
-                           buffer-file-name)))
-   (t
     (message "%s %s %s %s (on newly saved file)" 
+             the-command (gri-run-setting-string) 
+             (file-name-nondirectory buffer-file-name)
+             gri-command-postarguments)
+    (shell-command (concat the-command (gri-run-setting-string) 
+                           buffer-file-name " " gri-command-postarguments)))
+   (t
+    (message "%s %s %s %s %s (on newly saved file)" 
              the-command gri-command-arguments
              (gri-run-setting-string) 
-             (file-name-nondirectory buffer-file-name))
+             (file-name-nondirectory buffer-file-name)
+             gri-command-postarguments)
     (shell-command 
-     (concat the-command gri-command-arguments " " (gri-run-setting-string)
-             (file-name-nondirectory buffer-file-name)))))
+     (concat the-command gri-command-arguments " " 
+             (gri-run-setting-string)
+             (file-name-nondirectory buffer-file-name)
+             " " gri-command-postarguments))))
   (message "Running gri done.")
   (if (not (get-buffer "*Shell Command Output*"))  ;;need this for emacs-18
       (progn
@@ -4143,7 +4214,7 @@ static char *magick[] = {
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.31 (c) 03 Aug 2000 --  Peter Galbraith <GalbraithP@dfo-mpo.gc.ca>
+V2.32 (c) 28 Aug 2000 --  Peter Galbraith <GalbraithP@dfo-mpo.gc.ca>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
