@@ -104,11 +104,11 @@ check:
 #	@cat $(srcdir)/../doc/gri.texi  | perl -ane 'if(/GRI-VERSION (.*)/)    {$$v=$$1; die "ERROR: Version in ../doc/gri.texi is $$v, which disagrees with the version in the Makefile, $(PACKAGE_VERSION).  You MUST fix this.\n" if ("$$v" ne "$(PACKAGE_VERSION)"); print "Version number in ../doc/gri.texi    ... is OK\n";}'
 	@cat $(srcdir)/../gri.spec      | perl -ane 'if(/griversion (.*)/)     {$$v=$$1; if ("$$v" ne "$(PACKAGE_VERSION)") {warn "ERROR: Version in gri.spec is $$v, which disagrees with the version in the Makefile, $(PACKAGE_VERSION).  You SHOULD fix this.\n"} else { print "Version number in gri.spec         ... is OK\n";}}'
 	@cat $(srcdir)/../debian/changelog | perl -ne 'if (($$. == 1)&&(/\(([^-]+)-/)) {if ("$$1" ne "$(PACKAGE_VERSION)") {print "**WARNING: Version in debian/changelog is $$1,\n** which disagrees with the version in the Makefile, $(PACKAGE_VERSION).\n** You should fix this for official releases.\n"} else { print "Version number in debian/changelog ... is OK\n";}}'
-	@echo ""
-	@echo "    /-----------------------------------------------------\\"
-	@echo "    | NOTE: Developers should do 'make author_check' next |"
-	@echo "    \\----------------------------------------------------/"
-	@echo ""
+#	@echo ""
+#	@echo "    /-----------------------------------------------------\\"
+#	@echo "    | NOTE: Developers should do 'make author_check' next |"
+#	@echo "    \\----------------------------------------------------/"
+#	@echo ""
 
 # Sun microsystems, sunOS 5.x
 # NOTE: this target doesn't depend on 'gri' or 'doc', etc; this
