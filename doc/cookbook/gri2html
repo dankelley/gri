@@ -7,11 +7,12 @@ print OUT "<html>\n";
 print OUT "<head>\n";
 print OUT "<title>$ARGV[0].gri</title>\n";
 print OUT "</head>\n";
-print OUT "<body>\n";
+print OUT "<body bgcolor=\"#FFFFFF\">\n";
 print OUT "<pre>\n";
 
 while(<IN>) {
     s,//(.*),<i>//$1</i>,;
+    s,(#.*),<font color=#009900>$1</font>,;
     s,"(.*)",<u>"$1"</u>,g;
     print OUT "$_";
 }

@@ -1,11 +1,11 @@
 # Create cookbook.
 
-VERSION = 0.1.3
+VERSION = 0.1.4
 CONVERT  = convert		# /usr/X11R6/bin/convert in redhat-6.1 linux
 PSTOPDF = ps2pdf
 
 all:
-	for f in 1 2 3 4 5 6 7 8 9 10 11 12 13; do make $$f; done
+	for f in 1 2 3 4 5 6 7 8 9 10 11 12 13 14; do make $$f; done
 
 install_linux_redhat:
 	if test ! -d /opt/gri-cookbook       ; then mkdir -m 755 -p /opt/gri-cookbook       ; fi
@@ -48,71 +48,76 @@ FORCE:
 1: FORCE
 	perl ./gri2html $@/example
 	$(CONVERT) $@/example.ps $@/example.gif
-	$(CONVERT) -geometry 20x20% $@/example.ps $@/example-small.gif
+	$(CONVERT) -geometry 999x200 $@/example.ps $@/example-small.gif
 	chmod a+r $@/*
 2: FORCE
 	perl ./gri2html $@/example
 	$(CONVERT) $@/example.ps $@/example.gif
-	$(CONVERT) -geometry 20x20% $@/example.ps $@/example-small.gif
+	$(CONVERT) -geometry 999x200 $@/example.ps $@/example-small.gif
 	chmod a+r $@/*
 3: FORCE
 	perl ./gri2html $@/example
 	$(CONVERT) $@/example.ps $@/example.gif
-	$(CONVERT) -geometry 20x20% $@/example.ps $@/example-small.gif
+	$(CONVERT) -geometry 999x200 $@/example.ps $@/example-small.gif
 	chmod a+r $@/*
 4: FORCE
 	perl ./gri2html $@/example
 	$(CONVERT) $@/example.ps $@/example.gif
-	$(CONVERT) -geometry 20x20% $@/example.ps $@/example-small.gif
+	$(CONVERT) -geometry 999x200 $@/example.ps $@/example-small.gif
 	chmod a+r $@/*
 5: FORCE
 	perl ./gri2html $@/example
 	$(CONVERT) $@/example.ps $@/example.gif
-	$(CONVERT) -geometry 20x20% $@/example.ps $@/example-small.gif
+	$(CONVERT) -geometry 999x200 $@/example.ps $@/example-small.gif
 	chmod a+r $@/*
 6: FORCE
 	perl ./gri2html $@/example
 	$(CONVERT) $@/example.ps $@/example.gif
-	$(CONVERT) -geometry 20x20% $@/example.ps $@/example-small.gif
+	$(CONVERT) -geometry 999x200 $@/example.ps $@/example-small.gif
 	chmod a+r $@/*
 7: FORCE
 	perl ./gri2html $@/example
 	$(CONVERT) $@/example.ps $@/example.gif
-	$(CONVERT) -geometry 20x20% $@/example.ps $@/example-small.gif
+	$(CONVERT) -geometry 999x200 $@/example.ps $@/example-small.gif
 	chmod a+r $@/*
 8: FORCE
 	perl ./gri2html $@/example
 	$(CONVERT) $@/example.ps $@/example.gif
-	$(CONVERT) -geometry 20x20% $@/example.ps $@/example-small.gif
+	$(CONVERT) -geometry 999x200 $@/example.ps $@/example-small.gif
 	chmod a+r $@/*
 9: FORCE
 	perl ./gri2html $@/example
 	$(CONVERT) $@/example.ps $@/example.gif
-	$(CONVERT) -geometry 20x20% $@/example.ps $@/example-small.gif
 	chmod a+r $@/*
 10: FORCE
 	perl ./gri2html $@/example
 	$(CONVERT) $@/example.ps $@/example.gif
-	$(CONVERT) -geometry 20x20% $@/example.ps $@/example-small.gif
 	chmod a+r $@/*
 11: FORCE
 	perl ./gri2html $@/example
 	$(CONVERT) $@/example.ps $@/example.gif
-	$(CONVERT) -geometry 20x20% $@/example.ps $@/example-small.gif
+	$(CONVERT) -geometry 999x200 $@/example.ps $@/example-small.gif
 	chmod a+r $@/*
 12: FORCE
 	perl ./gri2html $@/example
+	perl ./gri2html $@/example-vertical
 	$(CONVERT) $@/example.ps $@/example.gif
-	$(CONVERT) -geometry 20x20% $@/example.ps $@/example-small.gif
+	$(CONVERT) -geometry 999x200 $@/example.ps $@/example-small.gif
 	chmod a+r $@/*
 13: FORCE
 	perl ./gri2html $@/example
+	$(CONVERT) $@/example.ps $@/example.gif
 	$(PSTOPDF) $@/example.ps $@/example.pdf
-	$(CONVERT) -geometry 20x20% $@/example.ps $@/example-small.gif
+	$(CONVERT) -geometry 999x200 $@/example.ps $@/example-small.gif
+	chmod a+r $@/*
+14: FORCE
+	perl ./gri2html $@/example
+	$(CONVERT) -rotate 90 $@/example.ps $@/example.gif
+	$(CONVERT) -geometry 999x200 $@/example.gif $@/example-small.gif
 	chmod a+r $@/*
 
 clean:
-	-rm -f *.lof *.dvi *.idx *.ilg *.ind *.log *.toc *.aux *.bbl *.blg cookbook.ps *~
+	-rm -f *.lof *.dvi *.idx *.ilg *.ind *.log *.toc *.aux *.bbl *.blg cookbook.ps *~ */example-small.gif */example.gif */example.pdf */example.html
 
 TAR_DIR_NAME=gri-cookbook-$(VERSION)
 source:
