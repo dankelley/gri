@@ -1,10 +1,21 @@
-gri (2.12.8-1) UNRELEASED; urgency=low
+gri (2.12.8-1) unstable; urgency=low
 
+  * New upstream release
+    Bug Fixes:
+    - Fix SourceForge bug #877613 (`help' and other commands using temporary
+      files do not work in OSX/Fink version.)
+    - Fix SourceForge bug #874483 (`state save' doesn't keep track of `dash'
+      settings.)
+    - Fix SourceForge bug #873245 (inaccurate times are given in the warnings
+      about slow operations on OSX platform)
+    - Fix SourceForge bug #871477 (the `missing value' feature should not be
+      the default.  The solution involved adding a new command
+      `set missing value none', which is now the default.
   * debian/gri-el.emacsen-install: Log byte compilation in temporary file
     in /tmp instead of
     e.g. /usr/share/emacs21/site-lisp/gri-mode.CompilationLog.gz
 
- -- Peter S Galbraith <psg@debian.org>  Thu, 16 Oct 2003 14:24:52 -0400
+ -- Peter S Galbraith <psg@debian.org>  Tue, 10 Feb 2004 22:41:34 -0500
 
 gri (2.12.7-1) unstable; urgency=low
 
