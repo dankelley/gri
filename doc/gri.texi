@@ -190,7 +190,7 @@ The Gri web homepage is at
 * Examples::                    Some real-world examples
 * Handling Data::               Dealing with oddly-configured data
 * Commands::                    COMPLETE list of Gri commands
-* Extras::                      Extra programs provided with Gri
+* Extras::                      Extra things that come with Gri
 * Emacs Mode::                  Editing Gri code inside Emacs
 * Evolution::                   How Gri has changed over time
 * Accessing::                   How to access/install Gri
@@ -198,7 +198,6 @@ The Gri web homepage is at
 * Overview of System Tools::    Useful tools in Unix and other OS
 * Acknowledgments::             People who have helped me develop Gri
 * License::                     The Gri license
-* Discussion Group::            Gri email-based newsgroup
 Indices
 * Index of Commands::           Commands in Gri
 * Index of Builtins::           Builtin variables
@@ -13252,6 +13251,7 @@ command.
 * Updating Program::            Converts old Gri code to new
 * Fig To Gri Translator::       Translate Fig output to Gri
 * Extractor Of Images::         Program to extract image from PostScript
+* Discussion Group::            Gri email list
 @end menu
 
 @node   gri_merge, gri_unpage, Extras, Extras
@@ -13322,10 +13322,9 @@ and presently does only text and polyline items.  I welcome additions to
 @c HTML <A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri">Click here
 @c HTML to get to Gri FTP site.</A>
 
-
-
 @c HTML <!-- newfile ImageExt.html "Gri: Image Extractor" "Gri Extras" -->
-@node   Extractor Of Images, Emacs Mode, Fig To Gri Translator, Extras
+ 
+@node   Extractor Of Images, Discussion Group, Fig To Gri Translator, Extras
 @comment  node-name,  next,  previous,  up
 @section Image extractor
 @cindex images, extracting from PostScript
@@ -13356,9 +13355,55 @@ GS> (foo) ppm1run
 GS> quit
 @end example
 
+@c HTML <!-- newfile Discuss.html "Gri: Discussion Group" "Gri Extras" -->
+
+@node   Discussion Group, Emacs Mode, Extractor Of Images, Extras
+@comment  node-name,  next,  previous,  up
+@cindex discussion Group
+@cindex newsgroup
+@section Gri Discussion Group
+Before emailing to the Gri newsgroup, it's a good idea to consult the
+@c HTML <A HREF="./FAQ.html"> 
+@c HTML FAQ
+@c HTML </A>
+(list of answers to Frequently Asked Questions)
+
+@emph{Subscribing to Gri newsgroup} is done by 
+emailing to 
+@c HTML <a href="mailto:majordomo@phys.ocean.dal.ca">
+@code{majordomo@@phys.ocean.dal.ca}
+@c HTML </a>
+with contents consisting of the single line 
+@example
+subscribe gri
+@end example
+
+@emph{Submitting a message to Gri newsgroup} is done by 
+emailing to
+@c HTML <a href="mailto:gri@phys.ocean.dal.ca">
+@code{gri@@phys.ocean.dal.ca}
+@c HTML </a>
+with contents consisting of the message you'd like to send.  Please
+respect the fact that folks on this group are busy people, and won't be
+able to respond to very open-ended questions such as "How do I plot
+things with gri".
+
+To find out more about this newsgroup, send email to
+@c HTML <a href="mailto:gri@phys.ocean.dal.ca">
+@code{gri@@phys.ocean.dal.ca}
+@c HTML </a>
+with contents
+@example
+info gri
+@end example
+and the program will respond by sending the FAQ.
+
+@c HTML An archive of posted messages to the newsgroup is <a href="Newsgroup.html">here</a>.
+
+
 @c HTML <!-- newfile Emacs.html "Gri: Emacs editing mode" "Emacs editing mode" -->
 
-@node   Emacs Mode, Gri-mode screenshots, Extractor Of Images, Top
+@node   Emacs Mode, Gri-mode screenshots, Discussion Group, Top
 @comment  node-name,  next,  previous,  up
 @chapter Editing Gri Files in GNU Emacs
 
@@ -15169,7 +15214,7 @@ Japanese with English abstract)
 
 @c HTML <!-- newfile License.html  "Gri: License" "License" -->
 
-@node   License, Discussion Group, Acknowledgments, Top
+@node   License, Index of Commands, Acknowledgments, Top
 @comment  node-name,  next,  previous,  up
 @chapter License
 @cindex license
@@ -15659,62 +15704,11 @@ this License.
 
 @c HTML <!-- newfile DiscussionGroup.html "Gri: Discussion Group" "Gri Extras" -->
 
-@node   Discussion Group, Index of Commands, License, Top
-@comment  node-name,  next,  previous,  up
-@chapter Discussion Group
-@cindex FAQ
-@cindex faq
-@cindex discussion Group
-@cindex newsgroup
-@section FAQ list
-Gri has a FAQ (list of answers to Frequently Asked Questions) available
-in ascii format at the ftp site @code{ftp.phys.ocean.dal.ca}
-@c HTML <A HREF="http://www.phys.ocean.dal.ca/~kelley/gri/FAQ"> 
-@c HTML (here) </A>
-and in HTML format on the world-wide web
-@c HTML <A HREF="http://www.phys.ocean.dal.ca/~kelley/gri/FAQ.html"> 
-@c HTML (here.)</A>
-
-
-@section Newsgroup
-@subsection Subscribing to Gri newsgroup
-Send email to 
-@c HTML <a href="mailto:majordomo@phys.ocean.dal.ca">
-@code{majordomo@@phys.ocean.dal.ca}
-@c HTML </a>
-with contents consisting of the single line 
-@example
-subscribe gri
-@end example
-
-@subsection Submitting a message to Gri newsgroup
-
-Send email to 
-@c HTML <a href="mailto:gri@phys.ocean.dal.ca">
-@code{gri@@phys.ocean.dal.ca}
-@c HTML </a>
-with contents consisting of the message you'd like to send.  Please
-respect the fact that folks on this group are busy people, and won't be
-able to respond to very open-ended questions such as "How do I plot
-things with gri".
-
-To find out more about this newsgroup, send email to
-@c HTML <a href="mailto:gri@phys.ocean.dal.ca">
-@code{gri@@phys.ocean.dal.ca}
-@c HTML </a>
-with contents
-@example
-info gri
-@end example
-and the program will respond by sending the FAQ.
-
-@c HTML An archive of posted messages to the newsgroup is <a href="Newsgroup.html">here</a>.
-
 
 
 @c HTML <!-- newfile ConceptIndex.html  "Gri: Concept Index" "Concept Index" -->
 
-@node   Index of Commands, Index of Builtins, Discussion Group, Top
+@node   Index of Commands, Index of Builtins, License, Top
 @comment node-name, next, previous, up
 @unnumbered Index of Commands
 @printindex fn

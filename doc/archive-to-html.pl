@@ -13,7 +13,7 @@ print "<html>
 </head>
 <body bgcolor=\"#ffffff\" link=\"#993333\" vlink=\"#333399\">
 
-<h2>20.3: Archive of messages sent to the gri newsgroup</h2>
+<h2>13.8: Archive of messages sent to the gri newsgroup</h2>
 
 ";
 
@@ -37,7 +37,7 @@ while(<IN>) {
 	    if (/Subject:\s(.*)/) { $subject = $1; }
 	    if (/From:\s(.*)/)    { $from    = $1; }
 	    if (/X-Status:/) {
-		print "<h2>20.3.$count. $subject</h2>\n";
+		print "<h2>13.8.$count. $subject</h2>\n";
 		print "<i>On $date, $from wrote </i>...<br>\n";
 		$date = "(unknown date)";
 		$subject = "(unknown subject)";
