@@ -37,6 +37,7 @@ $file_list[$num_files++] = $file;
 $name_of_top_node = "index.html#Top";
 
 
+print OUT "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
 print OUT "<html>\n";
 print OUT "<head>\n";
 print OUT "<title>$title</title>\n";
