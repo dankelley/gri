@@ -246,7 +246,6 @@ source-copy:
 	install -d $(SOURCE_NAME)/doc
 	install -m 755 doc/install-sh           $(SOURCE_NAME)/doc
 	install -m 755 doc/archive-to-html.pl   $(SOURCE_NAME)/doc
-	install -m 755 doc/texim2texi           $(SOURCE_NAME)/doc
 	install -m 755 doc/texinfo2HTML         $(SOURCE_NAME)/doc
 	install -m 644 doc/cmdrefcard.tex       $(SOURCE_NAME)/doc
 	install -m 644 doc/refcard.tex          $(SOURCE_NAME)/doc
