@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.169 2002/04/07 14:39:36 dankelley Exp $
+@c $Id: gri.texim,v 1.170 2002/04/14 15:14:51 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -7242,7 +7242,7 @@ decode variables and synonyms as well as simple numbers.
 @findex read colornames
 @cindex @code{read} command
 @cindex @code{read colornames} command
-@cindex Colors, reading from X11 database
+@cindex colors, reading from X11 database
 @cindex X11 colors, reading
 
 @example
