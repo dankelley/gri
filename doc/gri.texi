@@ -2276,9 +2276,10 @@ we could write code to double a variable in the following way:
 @example
 `double .value.'
 @{
-    show "Original value is " \@@.word1.
-    \@@.word0. = @{rpn \@@.word0. 2 *@}  # de-reference
-    show "Doubled value is " \@@.word1.
+    show "Variable being doubled is named \.word1., "
+    show "and its value is " \@@.word1.
+    \@@.word1. = @{rpn \@@.word1. 2 *@}  # de-reference
+    show "while its final (doubled) value is " \@@.word1.
 @}
 .x. = 10
 double ".x."
