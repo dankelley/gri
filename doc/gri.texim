@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.183 2002/05/10 15:08:00 psg Exp $
+@c $Id: gri.texim,v 1.184 2002/05/15 18:20:59 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -4366,7 +4366,7 @@ convert columns to grid
 
 @example
 `convert grid to image [size .width. .height.] \
-    [box .ll_x. .ll_y. .ur_x. .ur_y.]'
+    [box .xleft. .ybottom. .xright. .ytop.]'
 @end example
 
 @noindent
@@ -4822,20 +4822,20 @@ then it over-rides the style set by @code{Set Axes Style}.
 @subsubsection @code{draw border box}
 
 @example
-`draw border box .ll_x. .ll_y. .ur_x. .ur_y. \
+`draw border box .xleft. .ybottom. .xright. .ytop. \
     .width_cm. .brightness.'
 @end example
 
 @noindent
 Draw gray box, as decoration or alignment key for pastup. The box, with
-outer lower left corner at (@code{.ll_x.}, @code{.ll_y.}) and outer
-upper right corner at (@code{.ur_x}., @code{.ur_y.}) -- both coordinates
+outer lower left corner at (@code{.xleft.}, @code{.ybottom.}) and outer
+upper right corner at (@code{.xright}., @code{.ytop.}) -- both coordinates
 being in centimetres on the page -- is drawn with thickness
 @code{.width_cm.} and with graylevel @code{.brightness.} (0 for black; 1
 for white).  The gray line is drawn inside the box.  After drawing the
 gray line, a thin black line is drawn along the outside edge.
 
-If the geometry is not specified with @code{.ll_x.} and the other
+If the geometry is not specified with @code{.xleft.} and the other
 parameters, then a reasonable margin is used around the present axes
 area, and the defaults (@code{.border.} = 0.2, @code{.brightness.} =
 0.75) are used.
@@ -4876,8 +4876,8 @@ or @code{pt} units
 
 @noindent
 Draw box spanning indicated range, with lower-left corner at
-(@code{.ll_x.}, @code{.ll_y.)} and upper-right corner at (@code{.ur_x.},
-@code{.ur_y.}).
+(@code{.xleft.}, @code{.ybottom.)} and upper-right corner at (@code{.xright.},
+@code{.ytop.}).
 
 The corners are specified in user coordinates, unless the optional
 @code{cm} or @code{pt} keyword is present, in which case they are in
@@ -5129,7 +5129,7 @@ done.
 `draw image palette 
    [axisleft|axisright|axistop|axisbottom] 
    [left .left. right .right. [increment .inc.]] 
-   [box .ll_x_cm. .ll_y_cm. .ur_x_cm. .ur_y_cm.]'
+   [box .xleft_cm. .ybottom_cm. .xright_cm. .ytop_cm.]'
 @end example
 
 @noindent
@@ -5384,7 +5384,7 @@ draw isospice line 27.50 unlabelled
 @cindex labels, drawing text anywhere
 
 @example
-`draw label boxed "string" at .ll_x. .ll_y. [cm]'
+`draw label boxed "string" at .xleft. .ybottom. [cm]'
 @end example
 
 @noindent
@@ -5401,7 +5401,7 @@ current font size, with the label being centered within the box.
 @cindex @code{draw label whiteunder} command
 
 @example
-`draw label whiteunder "\string" at .ll_x. .ll_y. [cm]'
+`draw label whiteunder "\string" at .xleft. .ybottom. [cm]'
 @end example
 
 @noindent
@@ -7655,7 +7655,7 @@ header information in, e.g. PGM files.
 
 @example
 `read image .rows. .cols. \
-  [box .ll_x. .ll_y. .ur_x. .ur_y.] \
+  [box .xleft. .ybottom. .xright. .ytop.] \
   [bycolumns]'
 @end example
 
@@ -7667,8 +7667,8 @@ have been set by @code{set image range}.  The data are as written by
 
 When the @code{box} option is specified, the geometry of the image, in
 user coordinates, is specified in terms of the cartesian coordinates of
-the lower-left corner (@code{.ll_x.}, @code{.ll_y.}) and upper-right
-corner (@code{.ur_x.}, @code{.ur_y.}).  If the @code{box} option is not
+the lower-left corner (@code{.xleft.}, @code{.ybottom.}) and upper-right
+corner (@code{.xright.}, @code{.ytop.}).  If the @code{box} option is not
 specified, this geometry can be specified with either @code{read x grid}
 or @code{set x grid}, plus either @code{read y grid} or 
 @code{set y grid}.
@@ -7680,7 +7680,7 @@ from top-to-bottom, then left-to-right, instead of the usual order.
 @strong{Sun rasterfile images}
 
 @example
-`read image rasterfile [box .ll_x. .ll_y. .ur_x. .ur_y.]'
+`read image rasterfile [box .xleft. .ybottom. .xright. .ytop.]'
 @end example
 
 @noindent
@@ -7690,7 +7690,7 @@ the header, so @code{.rows.} and @code{.cols} parameters are not given.
 @strong{PGM images}
 
 @example
-`read image pgm [box .ll_x. .ll_y. .ur_x. .ur_y.]'
+`read image pgm [box .xleft. .ybottom. .xright. .ytop.]'
 @end example
 
 @noindent
@@ -8282,7 +8282,7 @@ The command @code{set beep on} makes gri beep on errors and
 @cindex bounding box, setting
 
 @example
-`set bounding box .ll_x. .ll_y. .ur_x. .ur_y. [pt|cm]'
+`set bounding box .xleft. .ybottom. .xright. .ytop. [pt|cm]'
 @end example
 
 @noindent
@@ -14122,7 +14122,7 @@ are created (@code{new}) and then destroyed (@code{delete}) so that
 this new command cannot affect outside code.
 
 @example
-`draw label whiteunder "\string" at .ll_x. .ll_y. [cm]'
+`draw label whiteunder "\string" at .xleft. .ybottom. [cm]'
 Draw label for plot, located with lower-left corner
 at indicated (x,y) position (specified in user
 units or in cm on the page).  Whiteout is used
@@ -16263,6 +16263,10 @@ only in the fixing of bugs.
 @strong{New Features}
 
 @itemize @bullet
+
+@item
+In the documentation, change the names of some variables to be
+clearer: @code{ll_x} is now written @code{xleft}, etc.
 
 @item
 Add RPN binary operators @code{and}, @code{or} for logical operations

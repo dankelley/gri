@@ -360,7 +360,7 @@ method as usual.
     extern "C" bool convert_grid_to_columnsCmd(void);
 }
 
-`convert grid to image [size .width. .height.] [box .ll_x. .ll_y. .ur_x. .ur_y.]'
+`convert grid to image [size .width. .height.] [box .xleft. .ybottom. .xright. .ytop.]'
 With no options specified, convert grid to a 128x128 image, using an
 image range as previously set by `set image range'.  The image will
 only be defined for those patches of the region which are spanned by
@@ -665,16 +665,16 @@ drawing axes when drawing curves.
     extern "C" bool draw_axesCmd(void);
 }
 
-`draw border box [.ll_x. .ll_y. .ur_x. .ur_y. .width_cm. .brightness.]'
+`draw border box [.xleft. .ybottom. .xright. .ytop. .width_cm. .brightness.]'
 Draw gray box, as decoration or alignment key for pastup. The box, with
-outer lower left corner at (`.ll_x.', `.ll_y.') and outer upper right
-corner at (`.ur_x'., `.ur_y.') - both coordinates being in centimetres
+outer lower left corner at (`.xleft.', `.ybottom.') and outer upper right
+corner at (`.xright'., `.ytop.') - both coordinates being in centimetres
 on the page - is drawn with thickness `.width_cm.' and with graylevel
 `.brightness.' (0 for black; 1 for white).  The gray line is drawn
 inside the box.  After drawing the gray line, a thin black line is
 drawn along the outside edge.
 
-   If the geometry is not specified with `.ll_x.' and the other
+   If the geometry is not specified with `.xleft.' and the other
 parameters, then a reasonable margin is used around the present axes
 area, and the defaults (`.border.' = 0.2, `.brightness.' = 0.75) are
 used.
@@ -682,17 +682,17 @@ used.
    NOTE: This command does not cause auto-drawing of axes.
 {
     if {rpn \.words. 3 ==}
-	.ll_x. = {rpn ..xmargin.. "M" width  5 * -}
-	.ll_y. = {rpn ..ymargin.. "M" ascent 6 * -}
-	.ur_x. = {rpn ..xmargin.. ..xsize.. + "M" width 2.0 * +}
-	.ur_y. = {rpn ..ymargin.. ..ysize.. + "M" width 2.0 * +}
+	.xleft. = {rpn ..xmargin.. "M" width  5 * -}
+	.ybottom. = {rpn ..ymargin.. "M" ascent 6 * -}
+	.xright. = {rpn ..xmargin.. ..xsize.. + "M" width 2.0 * +}
+	.ytop. = {rpn ..ymargin.. ..ysize.. + "M" width 2.0 * +}
 	.width_cm. = 0.2
 	.brightness. = 0.75
     else if {rpn \.words. 9 ==}
-	.ll_x. = \.word3.
-	.ll_y. = \.word4.
-	.ur_x. = \.word5.
-	.ur_y. = \.word6.
+	.xleft. = \.word3.
+	.ybottom. = \.word4.
+	.xright. = \.word5.
+	.ytop. = \.word6.
 	.width_cm. = \.word7.
 	.brightness. = \.word8.
     else
@@ -706,19 +706,19 @@ used.
     .old_linewidth. = ..linewidth..
     set graylevel .brightness.
     set line width {rpn .width_cm. cmtopt}
-    .tmp. = {rpn  .ll_y. ..linewidth.. 2 / pttocm +}
-    draw line from .ll_x.  .tmp. to .ur_x.  .tmp. cm # lower edge
-    .tmp. = {rpn  .ll_x. ..linewidth.. 2 / pttocm +}
-    draw line from  .tmp. .ll_y. to  .tmp. .ur_y. cm # left edge
-    .tmp. = {rpn  .ur_y. ..linewidth.. 2 / pttocm -}
-    draw line from .ll_x.  .tmp. to .ur_x.  .tmp. cm # upper edge
-    .tmp. = {rpn  .ur_x. ..linewidth.. 2 / pttocm -}
-    draw line from  .tmp. .ll_y. to  .tmp. .ur_y. cm # right edge
+    .tmp. = {rpn  .ybottom. ..linewidth.. 2 / pttocm +}
+    draw line from .xleft.  .tmp. to .xright.  .tmp. cm # lower edge
+    .tmp. = {rpn  .xleft. ..linewidth.. 2 / pttocm +}
+    draw line from  .tmp. .ybottom. to  .tmp. .ytop. cm # left edge
+    .tmp. = {rpn  .ytop. ..linewidth.. 2 / pttocm -}
+    draw line from .xleft.  .tmp. to .xright.  .tmp. cm # upper edge
+    .tmp. = {rpn  .xright. ..linewidth.. 2 / pttocm -}
+    draw line from  .tmp. .ybottom. to  .tmp. .ytop. cm # right edge
     #
     # Draw thin black border.
     set line width 0.25
     set graylevel black
-    draw box .ll_x. .ll_y. .ur_x. .ur_y. cm
+    draw box .xleft. .ybottom. .xright. .ytop. cm
     #
     # Return to old values.
     set line width .old_linewidth.
@@ -730,10 +730,10 @@ used.
     delete .old_linewidth.
     delete .brightness.
     delete .width_cm.
-    delete .ll_x.
-    delete .ll_y.
-    delete .ur_x.
-    delete .ur_y.
+    delete .xleft.
+    delete .ybottom.
+    delete .xright.
+    delete .ytop.
 }
 
 `draw box filled .xleft. .ybottom. .xright. .ytop. [cm|pt]'
@@ -922,7 +922,7 @@ Draw plus-signs at locations where grid data are non-missing.
     extern "C" bool draw_gridCmd(void);
 }
 
-`draw image palette [axisleft|axisright|axistop|axisbottom] [left .left. right .right. [increment .inc.]] [box .ll_x_cm. .ll_y_cm. .ur_x_cm. .ur_y_cm.]'
+`draw image palette [axisleft|axisright|axistop|axisbottom] [left .left. right .right. [increment .inc.]] [box .xleft_cm. .ybottom_cm. .xright_cm. .ytop_cm.]'
 With no optional parameters, draw palette for image, placed above the
 current top showing values ranging from `.min_value.' to `.max_value.'
 as given in `set image range'.
@@ -952,13 +952,13 @@ the colorbar.  For example:
     extern "C" bool draw_image_paletteCmd(void);
 }
 
-`draw image grayscale [left .left. right .right. [increment .inc.]] [box .ll_x_cm. .ll_y_cm. .ur_x_cm. .ur_y_cm.]'
+`draw image grayscale [left .left. right .right. [increment .inc.]] [box .xleft_cm. .ybottom_cm. .xright_cm. .ytop_cm.]'
 Old name for `draw image palette'
 {
     extern "C" bool draw_image_paletteCmd(void);
 }
 
-`draw image histogram [box .ll_x_cm. .ll_y_cm. .ur_x_cm. .ur_y_cm.]'
+`draw image histogram [box .xleft_cm. .ybottom_cm. .xright_cm. .ytop_cm.]'
 With no optional parameters, draw histogram of all unmasked parts of
 the image, placing it above the current top of the plot.
 
@@ -1121,7 +1121,7 @@ be given if the isospice line does not intersect the clipping region.
     delete \gri_eos_dir \eos_file
 }
 
-`draw label boxed "\string" at .ll_x. .ll_y. [cm]'
+`draw label boxed "\string" at .xleft. .ybottom. [cm]'
 Draw boxed label for plot, located with lower-left corner at indicated
 (x,y) position (specified in user units, or in cm on the page).  The
 current font size and pen color are used.  The geometry derives from
@@ -1183,7 +1183,7 @@ the current font size, with the label being centered within the box.
     delete .draw_boxed_labelB.
 }
 
-`draw label whiteunder "\string" at .ll_x. .ll_y. [cm]'
+`draw label whiteunder "\string" at .xleft. .ybottom. [cm]'
 Draw label for plot, located with lower-left corner at indicated
 (x,y) position (specified in user units or in cm on the page).
 Whiteout is used to clean up the area under the label.  BUGS:
@@ -2532,7 +2532,7 @@ for images.
     extern "C" bool read_image_maskCmd(void);
 }
 
-`read image pgm [box .ll_x. .ll_y. .ur_x. .ur_y.]'
+`read image pgm [box .xleft. .ybottom. .xright. .ytop.]'
 Read image in pgm (portable graymap) format.  The image range must have
 previously have been set by `set image range'.  The image width and
 height are specified in the image file itself.  Both ascii and binary
@@ -2541,30 +2541,30 @@ and P5).
 
 When the `box' option is specified, the geometry of the image, in
 user coordinates, is specified in terms of the cartesian coordinates of
-the lower-left corner (`.ll_x.', `.ll_y.') and upper-right corner
-(`.ur_x.', `.ur_y.').  If the `box' option is not specified, this
+the lower-left corner (`.xleft.', `.ybottom.') and upper-right corner
+(`.xright.', `.ytop.').  If the `box' option is not specified, this
 geometry can be specified with either `read grid x' or `set x grid',
 plus either `read grid y' or `set y grid'.
 {
     extern "C" bool read_image_pgmCmd(void);
 }
 
-`read image rasterfile [box .ll_x. .ll_y. .ur_x. .ur_y.]'
+`read image rasterfile [box .xleft. .ybottom. .xright. .ytop.]'
 Read image in Sun rasterfile format.  The image range must have
 previously have been set by `set image range'.  The image width and
 height are specified in the rasterfile file itself.
 
 When the `box' option is specified, the geometry of the image, in
 user coordinates, is specified in terms of the cartesian coordinates of
-the lower-left corner (`.ll_x.', `.ll_y.') and upper-right corner
-(`.ur_x.', `.ur_y.').  If the `box' option is not specified, this
+the lower-left corner (`.xleft.', `.ybottom.') and upper-right corner
+(`.xright.', `.ytop.').  If the `box' option is not specified, this
 geometry can be specified with either `read grid x' or `set x grid',
 plus either `read grid y' or `set y grid'.
 {
     extern "C" bool read_image_rasterfileCmd(void);
 }
 
-`read image .rows. .cols. [box .ll_x. .ll_y. .ur_x. .ur_y.] [bycolumns]'
+`read image .rows. .cols. [box .xleft. .ybottom. .xright. .ytop.] [bycolumns]'
 With no options specified (`read image .rows. .cols.'), read binary
 data defining an `image'.  The image range must have previously have
 been set by `set image range'.  The data are as written as "unsigned
@@ -2572,8 +2572,8 @@ char" format in C.
 
 When the `box' option is specified, the geometry of the image, in
 user coordinates, is specified in terms of the cartesian coordinates of
-the lower-left corner (`.ll_x.', `.ll_y.') and upper-right corner
-(`.ur_x.', `.ur_y.').  If the `box' option is not specified, this
+the lower-left corner (`.xleft.', `.ybottom.') and upper-right corner
+(`.xright.', `.ytop.').  If the `box' option is not specified, this
 geometry can be specified with either `read x grid' or `set x grid',
 plus either `read y grid' or `set y grid'.
 
@@ -2844,7 +2844,7 @@ beep off' turns this beeping off.
     extern "C" bool set_beepCmd(void);
 }
 
-`set bounding box .ll_x. .ll_y. .ur_x. .ur_y. [cm|pt]'
+`set bounding box .xleft. .ybottom. .xright. .ytop. [cm|pt]'
 Set the PostScript bounding box for graph to indicated value.  The
 bounding box is used by some programs to determine the region of the
 page on which marks have been made.  For example, LaTeX uses the
