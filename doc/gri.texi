@@ -13873,7 +13873,7 @@ works.
 @subsection User commands with gri-mode
 @cindex gri-mode, user-defined commands
 
-User gri commands defined in @file{~/.grirc} (@xref{Resource File}) or at
+User gri commands defined in @file{~/.grirc} (@ref{Resource File}) or at
 the beginning of a gri file can also be used with @code{gri-complete}.
 Note that user commands are added from the current buffer whenever
 `gri-mode' is invoked.  They may override previous user commands, but
@@ -13931,7 +13931,7 @@ gri commands, and you can get to Info from that too.
 @cindex gri-mode, handling multiple Gri versions
 
 Earlier we explained that you might have many versions of gri installed
-on your system (@xref{Installing gri-mode.el}).  You may use gri-mode to
+on your system (@ref{Installing gri-mode.el}).  You may use gri-mode to
 access these various versions with the following gri-mode commands:
 
 @itemize @bullet
@@ -13940,8 +13940,8 @@ access these various versions with the following gri-mode commands:
 Tells gri-mode to use a given version as the default for all your gri
 files.  Tab completion is available listing all available versions (if
 they are not all listed, that means that the Emacs variable
-@code{gri*directory-tree} is not correctly set.  See @xref{Installing
-gri-mode.el}).  Your selection is stored in the file
+@code{gri*directory-tree} is not correctly set.  See
+@ref{Installing gri-mode.el}).  Your selection is stored in the file
 @file{~/.gri-using-version} and is remembered across editing
 sessions. If you select @emph{default} as your answer, gri-mode reverts
 to using the default version of gri as installed on your system (which
