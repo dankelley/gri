@@ -223,6 +223,7 @@ char*           tmp_file_name();
 bool            tracing(void);
 bool            update_readfrom_file_name(void);
 void            unbackslash(const char *s, string& res);
+char           *un_double_slash(char *word);
 unsigned char   value_to_image(double v);
 void		vector_reverse(double *x, int n);
 double          vector_min(double *x, unsigned n);
