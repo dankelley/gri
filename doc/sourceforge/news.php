@@ -2,9 +2,9 @@
 require("subroutines.php");
 set_up_navigation_tabs("news", "news.png");
 set_up_lhs();
-print "- <A href=\"http://www.sourceforge.net/news/?group_id=5511\">news forum</b><br>\n";
-print "- <A HREF=\"http://gri.sourceforge.net/gridoc/html/Version_2_10.html#Version2.10\">recent changes<br>\n";
-print "- <A HREF=\"http://gri.sourceforge.net/Plans.html\">plans<br>\n";
+print "- <A href=\"$sf_url/news/?group_id=$gri_group_id\">news forum</b><br>\n";
+print "- <A HREF=\"$development_site/gridoc/html/Version_2_10.html#Version2.10\">recent changes<br>\n";
+print "- <A HREF=\"$development_site/Plans.html\">plans<br>\n";
 set_up_rhs();
 ?>
 
@@ -17,14 +17,18 @@ Stable version
 <h1>News forum</h1>
 <p>
 A forum for Gri
-<A href="http://www.sourceforge.net/news/?group_id=5511">
+<?php
+print "<A href=\"$sf_url/news/?group_id=$gri_group_id\">\n";
+?>
 news
 </a>
 is available.
 
 <h1>New features</h1>
 <p>
-<A HREF="http://gri.sourceforge.net/gridoc/html/Version_2_10.html#Version2.10">
+<?php
+print "<A HREF=\"$development_site/gridoc/html/Version_2_10.html#Version2.10\">\n";
+?>
 Changes
 </a>
 to Gri are documented in the manual.
@@ -34,7 +38,9 @@ to Gri are documented in the manual.
 
 <p>
 A sketch of the
-<A HREF="http://gri.sourceforge.net/Plans.html">
+<?php
+print "<A HREF=\"$development_site/Plans.html\">";
+?>
 plans
 </a> for upcoming versions is available.
 

@@ -2,19 +2,23 @@
 require("subroutines.php");
 set_up_navigation_tabs("download", "download.png");
 set_up_lhs();
-print "<b>Redhat</b><br>\n";
+print "<b>Redhat Linux</b><br>\n";
 print "- <A HREF=\"$ftp_site/gri-$gri_stable_version-1.src.rpm\">binary</a><br>\n";
 print "- <A HREF=\"$ftp_site/gri-$gri_stable_version-1.i386.rpm\">source</a><br>\n";
 print "<br>\n";
-print "<b>Debian/GNU</b><br>\n";
+print "<b>Debian/GNU Linux</b><br>\n";
 print "- <A HREF=\"$ftp_site/gri_2.8.6-0potato1_i386.deb\">potato [old]</a><br>\n";
 print "- <A HREF=\"$ftp_site/gri_$gri_stable_version-1_i386.deb\">woody</a><br>\n";
 print "- <A HREF=\"$ftp_site/gri-${gri_stable_version}static_2.10.1-1_i386.deb\">static</a><br>\n";
 print "<br>\n";
-print "<b>Other</b><br>\n";
+print "<b>Other OS</b><br>\n";
 print "- <A HREF=\"$ftp_site/gri-$gri_stable_version-SunOS5.tar.gz\">SunOS</a><br>\n";
 print "- <A HREF=\"http://gnuwin32.sourceforge.net/packages/gri.htm\">Windows</a><br>\n";
 print "- <A HREF=\"http://fink.sourceforge.net/pdb/package.php/gri\">Apple OS-X</a><br>\n";
+print "<br>\n";
+print "<br>\n";
+print "<b>Any OS/version</b><br>\n";
+print "- <A HREF=\"$sf_url/project/showfiles.php?group_id=$gri_group_id\">list</a>\n";
 print "<br>\n";
 print "<br>\n";
 print "<br>\n";
@@ -65,7 +69,7 @@ and for
 <p>
 Visit the
 <?php print $development_site_name;?> site for full list of
-<a href="http://sourceforge.net/project/showfiles.php?group_id=5511">
+<a href="$sf_url/project/showfiles.php?group_id=$gri_group_id">
 of downloadable files</a>.
 
 <h1>Source Code</h1>

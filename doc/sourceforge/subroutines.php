@@ -4,6 +4,10 @@ $ftp_site = "http://ftp1.sourceforge.net/gri";
 $development_site = "http://gri.sourceforge.net";
 $development_site_name = "SourceForge";
 $gri_stable_version = "2.10.1";
+$gri_group_id = "5511";
+$sf_url = "http://sourceforge.net";
+$sf_ftp = "http://ftp1.sourceforge.net";
+
 function age() {
 # REF: mktime(hour,minute,second,month,day,year)
 #$diff = time() - mktime(7, 24, 0, 2, 14, 2002);
@@ -79,7 +83,7 @@ function set_up_navigation_tabs($title,$png_name) {
 	print "  <area shape=\"rect\" coords=\"105 ,   0 , 153 ,  21\" href=\"docs.php\">\n";
 	print "  <area shape=\"rect\" coords=\"157 ,   0 , 240 ,  21\" href=\"download.php\">\n";
 	print "  <area shape=\"rect\" coords=\"244 ,   0 , 292 ,  21\" href=\"bugs.php\">\n";
-	print "  <area shape=\"rect\" coords=\"296 ,   0 , 362 ,  21\" href=\"contact\">\n";
+	print "  <area shape=\"rect\" coords=\"296 ,   0 , 362 ,  21\" href=\"contact.php\">\n";
 	print "  <area shape=\"rect\" coords=\"366 ,   0 , 459 ,  21\" href=\"developers.php\">\n";
 	print "</map>\n";
 	print "<table border=0>\n";
