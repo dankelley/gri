@@ -1,0 +1,39 @@
+#!/usr/bin/perl
+# Script run to update version number in all relevant files
+require "getopts.pl";
+&Getopts('hv:');
+$usage ="
+UpdateVersion:
+
+ Script run to update version number in all relevant files
+
+Usage: 
+
+ To update all files to Version 2.6.0:
+
+     ./UpdateVersion -v 2.6.0
+
+ Then erase all .bak after looking at diffs.
+ Eventually, I'll trust it and will remove the .bak file creation.
+
+Options: 
+      -v VERSION
+      -h :  display this message.
+
+ToDo: Handle release date in version.cc
+";
+
+die "$usage" if ($opt_h || ! $opt_v || ($opt_v == ""));
+
+# Get current version number
+$version = `awk '(/VERSION =/) {print \$3}' Makefile.in`;
+chop($version);
+
+die "Version is up-to-date" if ($opt_v eq $version);
+
+$regexp = $version;
+$regexp =~ s/\./\\./g;
+
+`perl -pi.bak -e 's/$regexp/$opt_v/g' Makefile.in gri-2.5.1.spec gri.cmd`;
+`perl -pi.bak -e 'next if (/^\\\@item/);s/$regexp/$opt_v/g' doc/gri.texi`;
+`perl -pi.bak -e 's/_gri_number\\[\\] = "$regexp"/_gri_number[] = "$opt_v"/g' version.cc`;
