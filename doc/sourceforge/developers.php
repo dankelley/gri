@@ -42,6 +42,8 @@ print "Trackers: ";
 print "[<A HREF=\"$sf_url/tracker/?atid=35$gri_group_id&amp;group_id=$gri_group_id&amp;func=browse\">Feature requests</A>] ";
 print "[<A HREF=\"$sf_url/tracker/?atid=10$gri_group_id&amp;group_id=$gri_group_id&amp;func=browse\">Bug reports</A>] ";
 print "[<A HREF=\"$sf_url/tracker/?atid=30$gri_group_id&amp;group_id=$gri_group_id&amp;func=browse\">Patch submissions</A>]\n";
+print "<br> Dan Kelley:";
+print "[<a HREF=\"$sf_url/developer/diary.php?diary_user=31559\">Diary</a>]\n";
 print "[<A HREF=\"$sf_url/pm/task.php?group_project_id=8706&amp;group_id=$gri_group_id&amp;func=browse\">To-do list</A>].\n";
 print "<br>";
 print "CVS:\n";
