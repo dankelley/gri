@@ -1,16 +1,22 @@
-gri (2.11.0-0) unstable; urgency=low
+gri (2.12.0-1) unstable; urgency=low
 
-  * CVS version (unofficial package not uploaded to Debian)
+  * New upstream version
     New Features:
     - Add 'sed' RPN operator, to work on strings.
+    - Add 'skewness and 'kurtosis' RPN operators, to work on columns.
+    Bug Fixes:
+    - Fix SourceForge bug #600395 (won't compile with recently released
+      version (3.2) of GCC compiler.)
+    - Fix SourceForge bug #600233 (segfaults if some RPN operators are
+      used on stacks that do not contain enough entries).
   
- -- Peter S Galbraith <psg@debian.org>  Wed,  5 Jun 2002 14:05:34 -0400
+ -- Peter S Galbraith <psg@debian.org>  Fri,  6 Sep 2002 20:08:21 -0400
 
 gri (2.10.1-1) unstable; urgency=low
 
   * New upstream version
     Bug Fixes:
-    - Fix Sourceforge bug 562911 (won't build with gcc-3.0; closes: #148572)
+    - Fix Sourceforge bug #562911 (won't build with gcc-3.0; closes: #148572)
     - Fix SourceForge bug #558463 (in HTML docs, the ``press'' margin tag
       was misdirected; this was patched into the 2.10.0-1 Debian package)
     - Fix SourceForge bug #562014 (won't build if 'popt' library is
