@@ -5,7 +5,7 @@
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.59 (24 January 2002)
+;; Version:   2.60 (25 January 2002)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -394,6 +394,10 @@
 ;; V2.59 24Jan02 RCS 1.85 - Support gv -watch option.  When using gri-run,
 ;;   an existing gv process will be stopped during figure regeneration, and
 ;;   therafter continued.  gv will then redisplay automatically.
+;; V2.60 25Jan02 RCS 1.86 - Fix support for gv -watch option in Emacs20.
+;;   Sending (signal-process ID 'SIGCONT) doesn't change the process status
+;;   from 'stop, even though the process did start up again.  I need to do:
+;;   (continue-process PROCESS) to change the status.  Bug in emacs20?
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -2811,7 +2815,9 @@ Usually used to send debugging flags."
            ((and gri-view-process
                  gri*view-watch
                  (eq (process-status gri-view-process) 'stop))
-            (signal-process (process-id gri-view-process) 'SIGCONT))      
+            (signal-process (process-id gri-view-process) 'SIGCONT)
+            ;; In Emacs20, the status doesn't change from 'stop, so do this:
+            (continue-process gri-view-process))
            ((and gri*view-after-run
                  (not inhibit-gri-view))
             (gri-view)))
@@ -4686,7 +4692,7 @@ static char * gri_info24x24_xpm[] = {
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.59 (c) 24 Jan 2002 --  Peter Galbraith <psg@debian.org>
+V2.60 (c) 25 Jan 2002 --  Peter Galbraith <psg@debian.org>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
