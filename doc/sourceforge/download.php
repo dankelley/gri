@@ -53,13 +53,13 @@ a somewhat <A HREF="<?php print "$ftp_site/gri_2.8.6-0potato1_i386.deb";?>">
 old package</a>
 suitable for the Potato distribution,
 along with two up-to-date packages:
-<A HREF="<?php print "$ftp_site/gri_$gri_stable_version-1_i386.deb";?>">
-the standard (still woody-compatible) Debian package
+<A HREF="<?php print "$ftp_site/gri_$gri_stable_version-0woody1_i386.deb";?>">
+the 2.12.0 package compiled for woody
 </a>
 , and
-<A HREF="<?php print "$ftp_site/gri-${gri_stable_version}static_2.10.1-1_i386.deb";?>">
-an unofficial statically linked package
-</a>.  The unofficial package is
+<A HREF="<?php print "$ftp_site/gri-${gri_stable_version}static_2.12.0-1_i386.deb";?>">
+an unofficial statically linked package of 2.12.0
+</a>.  The statically linked package is
 for installation alongside other Gri releases, yielding
 backwards compatibility, and therefore it lacks Info files or the Emacs 
 gri-mode.  
