@@ -8,7 +8,7 @@ bin_PROGRAMS = gri
 gri_LDADD = @LIBS@ popt/libgripopt.a
 gridir = $(datadir)/gri
 
-gri_DATA = gri.cmd
+#gri_DATA = gri.cmd
 nodist_gri_SOURCES = startup.debian startup.redhat 
 
 gri_SOURCES = G_string.cc GriColor.cc GriPath.cc GriState.cc assert.cc\
@@ -89,18 +89,18 @@ author_check:
 	@perl $(srcdir)/check.pl
 
 check:
-	@./gri -directory $(srcdir)/. -c 0 $(srcdir)/../doc/tst_suite/tst_var_syn.gri 
-	@./gri -directory $(srcdir)/. -c 0 $(srcdir)/../doc/tst_suite/tst_control.gri
-	@./gri -directory $(srcdir)/. -c 0 $(srcdir)/../doc/tst_suite/tst_rpn.gri
+	@./gri -directory . -c 0 $(srcdir)/../doc/tst_suite/tst_var_syn.gri 
+	@./gri -directory . -c 0 $(srcdir)/../doc/tst_suite/tst_control.gri
+	@./gri -directory . -c 0 $(srcdir)/../doc/tst_suite/tst_rpn.gri
 # 	The next few lines are a kludge since I got bored with trying
 # 	to figure out how to redirect things for automake.
 	@cp $(srcdir)/../doc/tst_suite/tst_IO.gri   .
 	@cp $(srcdir)/../doc/tst_suite/tst_IO_1.dat .
 	@cp $(srcdir)/../doc/tst_suite/tst_IO_2.dat .
-	@./gri -directory $(srcdir)/. -c 0 tst_IO.gri
+	@./gri -directory . -c 0 tst_IO.gri
 	@rm -f tst_IO.gri tst_IO_1.dat tst_IO_2.dat
 #	@cat $(srcdir)/version.cc    | perl -ane 'if(/_number/)             {$$v=$$F[3]; $$v=~s/[^"]*"//; $$v=~s/".*//; die "ERROR: version number in version.cc is $$v, which disagrees with the version in the Makefile, $(PACKAGE_VERSION).  You MUST fix this.\n" if ("$$v" ne "$(PACKAGE_VERSION)"); print "Version number in version.cc       ... is OK\n";}'
-	@cat $(srcdir)/gri.cmd       | perl -ane 'if(/\(version ([^)]*)\)/) {$$v=$$1; die "ERROR: Version in gri.cmd is $$v, which disagrees with the version in the Makefile, $(PACKAGE_VERSION).  You MUST fix this.\n" if ("$$v" ne "$(PACKAGE_VERSION)"); print "Version number in gri.cmd          ... is OK\n";}'
+#	@cat $(srcdir)/gri.cmd       | perl -ane 'if(/\(version ([^)]*)\)/) {$$v=$$1; die "ERROR: Version in gri.cmd is $$v, which disagrees with the version in the Makefile, $(PACKAGE_VERSION).  You MUST fix this.\n" if ("$$v" ne "$(PACKAGE_VERSION)"); print "Version number in gri.cmd          ... is OK\n";}'
 #	@cat $(srcdir)/../doc/gri.texi  | perl -ane 'if(/GRI-VERSION (.*)/)    {$$v=$$1; die "ERROR: Version in ../doc/gri.texi is $$v, which disagrees with the version in the Makefile, $(PACKAGE_VERSION).  You MUST fix this.\n" if ("$$v" ne "$(PACKAGE_VERSION)"); print "Version number in ../doc/gri.texi    ... is OK\n";}'
 	@cat $(srcdir)/../gri.spec      | perl -ane 'if(/griversion (.*)/)     {$$v=$$1; if ("$$v" ne "$(PACKAGE_VERSION)") {warn "ERROR: Version in gri.spec is $$v, which disagrees with the version in the Makefile, $(PACKAGE_VERSION).  You SHOULD fix this.\n"} else { print "Version number in gri.spec         ... is OK\n";}}'
 	@cat $(srcdir)/../debian/changelog | perl -ne 'if (($$. == 1)&&(/\(([^-]+)-/)) {if ("$$1" ne "$(PACKAGE_VERSION)") {print "**WARNING: Version in debian/changelog is $$1,\n** which disagrees with the version in the Makefile, $(PACKAGE_VERSION).\n** You should fix this for official releases.\n"} else { print "Version number in debian/changelog ... is OK\n";}}'
@@ -156,9 +156,13 @@ else
 the_startup_file = $(srcdir)/startup.msg
 endif
 
-all-local:
-	cat $(the_startup_file) | sed -e s,VERSION,${PACKAGE_VERSION}, -e s,PREFIX,$(prefix), > startup.msg-tmp
-	cat gri.cmd-skel        | sed -e s,VERSION,${PACKAGE_VERSION}, > gri.cmd
+gri.cmd: gri.cmd-skel
+	cat $(srcdir)/gri.cmd-skel | sed -e s,VERSION,${PACKAGE_VERSION}, > gri.cmd
+startup.msg-tmp: $(the_startup_file)
+	cat $(the_startup_file)    | sed -e s,VERSION,${PACKAGE_VERSION}, -e s,PREFIX,$(prefix), > startup.msg-tmp
+
+all-local: gri.cmd startup.msg-tmp
+
 install-exec-local:
 	mkdir -m 755 -p                                  $(DESTDIR)$(prefix)/bin
 	$(INSTALL_PROGRAM) $(srcdir)/gri_unpage          $(DESTDIR)$(prefix)/bin/gri_unpage
@@ -168,9 +172,12 @@ install-data-local:
 	$(INSTALL_DATA)    $(srcdir)/gri-mode.el         $(DESTDIR)$(prefix)/share/emacs/site-lisp/gri-mode.el
 	mkdir -m 755 -p                                  $(DESTDIR)$(prefix)/share/gri
 	$(INSTALL_DATA)    startup.msg-tmp               $(DESTDIR)$(prefix)/share/gri/startup.msg
+	$(INSTALL_DATA)    gri.cmd                       $(DESTDIR)$(prefix)/share/gri/gri.cmd
 uninstall-local:
 	rm -f $(DESTDIR)$(prefix)/bin/gri_unpage
 	rm -f $(DESTDIR)$(prefix)/bin/gri_merge
 	rm -f $(DESTDIR)$(prefix)/share/emacs/site-lisp/gri-mode.el
 	rm -f $(DESTDIR)$(prefix)/share/gri/startup.msg
+	rm -f $(DESTDIR)$(prefix)/share/gri/gri.cmd
 	rm -f startup.msg-tmp
+	rm -f gri.cmd
