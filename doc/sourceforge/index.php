@@ -2,16 +2,11 @@
 
 <!-- HOW TO INSTALL ON SOURCEFORGE:
 
-  scp index.php dankelley@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
-  scp index.php psg@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
+scp index.php dankelley@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
+scp index.php psg@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
 
 -->
 
-
-<!-- colors (copied from SF colors):
-  dark, under headings headings:        #737b9c
-  light, table background               #EEEEF8
--->
 
 <html>
   <head>
@@ -19,9 +14,43 @@
     <meta name="Copyright" content="2001 Dan Kelley, Dalhousie University, Halifax, Nova Scotia, Canada">
     <meta name="Author" content="Dan Kelley, Dan.Kelley@Dal.Ca">
     <meta name="keywords" content="Gri, graphics, Scientific Computing">
-    <LINK rel="stylesheet" href="./gri.css" type="text/css">
+    <!--    <LINK rel="stylesheet" href="./gri.css" type="text/css"> -->
+
+    <style type="text/css">
+    <!--
+    BODY { background-color: #FFFFFF }
+
+    A { text-decoration: none; color #6666DD; }
+    A:visited { text-decoration: none; color: #6666DD; }
+    A:link { text-decoration: none; color: #6666DD; }
+    A:active { text-decoration: none; color: #6666DD; }
+    A:hover { text-decoration: underline; color: #6666DD; }
+    A:mail { text-decoration: none; color: #6666DD; font-weight: bold }
+    OL,UL,P,BODY,TD,TR,TH,FORM,SPAN { font-family: arial,helvetica,sans-serif;color: #333333 }
+    H1,H2,H3,H4,H5,H6 { font-family: arial,helvetica,sans-serif }
+    PRE,TT { font-family: courier,sans-serif }
+
+    SPAN.center { text-align: center }
+    SPAN.boxspace { font-size: 2pt; }
+
+    A.maintitlebar { color: #FFFFFF;  }
+    A.bottombar { color: #FFFFFF; text-decoration: none;  }
+    A.sortbutton { color: #FFFFFF; text-decoration: none; }
+    A.menus { color: #6666DD; text-decoration: none; }
+    A.menus:hover { text-decoration: underline; }
+    A.tabs { color: #000000; text-decoration: none; }
+    A.date { color: #ff0000; text-decoration: none; }
+    SPAN.alignright { text-align: right }
+    SPAN.maintitlebar { font-size: 10pt; color: #FFFFFF; font-weight: bold  }
+    SPAN.bottombar { font-size: 10pt; color: #FFFFFF; font-weight: bold }
+    SPAN.titlebar { text-align: center; font-size: 10pt; color: #FFFFFF; font-weight: bold }
+    TD.featurebox { font-size: small; }
+    TD.newsbox { font-size: 8pt; }
+    TD.menus { color: #000000; }
+    -->
+    </style>
   </head>
-  
+
   <body bgcolor=#FFFFFF topmargin="0" bottommargin="0" leftmargin="0" rightmargin="0" marginheight="0" marginwidth="0">
 
     <TABLE width="100%" border=0 cellspacing=0 cellpadding=0 bgcolor="#737b9c">
@@ -187,7 +216,6 @@ Search gri manual for (may be a regular expression):<p>
     </tr>
     <tr> 
       <td  class="menubox">
-        <font size="-1">
         <!-- Vsn 2.8.0: 2001-jul-27</br> -->
 	Stable version 
 	<a href="http://sourceforge.net/project/showfiles.php?group_id=5511&release_id=45649">2.8.0</a>
@@ -217,7 +245,6 @@ Search gri manual for (may be a regular expression):<p>
 	    echo floor($seconds), " seconds ago";
         }
 	?>
-        </font>
       </td>
     </tr>
   </table>
