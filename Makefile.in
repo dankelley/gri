@@ -155,7 +155,7 @@ install_linux_redhat:
 	-rm -f tmp
 	# lets install some man and info docs
 	/usr/bin/install -m 644  doc/gri-manpage-redhat.1      $(DESTDIR)$(prefix)/man/man1/gri.1
-	-rm $(DESTDIR)$(prefix)/info/gri.info*
+	-rm -f $(DESTDIR)$(prefix)/info/gri.info*
 	/usr/bin/install -m 644  doc/gri.info*                 $(DESTDIR)$(prefix)/info
 	cd $(DESTDIR)$(prefix)/info ; gzip -f --best gri.info*
 
