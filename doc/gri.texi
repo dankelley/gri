@@ -1,6 +1,5 @@
 \input texinfo 
 
-@c $Id: gri.texi,v 1.152 2003/09/03 22:35:46 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -74,11 +73,11 @@
 
 @subtitle A Program to Make Science Graphs
 @subtitle Version @value{GRI-VERSION}
-@subtitle 2003
+@subtitle 2004
 @author Dan E. Kelley (@value{AUTHOR-EMAIL})
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 1991-2003 Dan Kelley
+Copyright @copyright{} 1991-2004 Dan Kelley
 @sp 2
 @end titlepage
 
@@ -9391,14 +9390,21 @@ This is the list of @code{rapidograph} linewidths:
 @cindex missing values
 
 @example
-`set missing value .value.'
+`set missing value .value.|none'
 @end example
 
 @noindent
-Set missing-value code (stored in the builtin variable
-@code{..missingvalue..} and builtin synonym @code{\.missingvalue..}) to
-@code{.value.}, which mean that data within 0.1 percent of this value are
-ignored.  The initial default is 1.0e22.
+If a numerical value is given, set the 
+missing-value code to that value, and also 
+store this value in the builtin variable
+@code{..missingvalue..} and the builtin synonym @code{\.missingvalue..}
+also.  After this command, Gri will ignore any data that are within 
+0.1 percent of this value.  (This feature is commonly used in geophysical
+data.)
+
+If @code{none} is given, turn off this feature.
+
+The default is that the feature is turned off.
 
 
 
@@ -16423,6 +16429,20 @@ only in the fixing of bugs.
 @cindex version 2.12
 
 @comment ADD-NEW-BUG-FIXES-HERE
+
+@subsubsection Version 2.12.8 [2004]
+@strong{Bug Fixes}
+@itemize @bullet
+
+@item
+Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=871477&group_id=5511&atid=105511,#871477}
+@dots{} the `missing value' feature should not be the default.  The solution
+involved adding a new command @code{set missing value none}, which 
+is now the default.
+
+@end itemize
+
 
 @subsubsection Version 2.12.7 [2003 Sep 4]
 
