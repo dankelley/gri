@@ -21,6 +21,7 @@
 #include "macro.hh"
 #define AXES_RECTANGULAR	0	// normal axes style (rect)
 
+using namespace std;		// needed for g++-3 
 extern GriState _griState;	// <-> gri.cc
 
 // The following globals have symbolic names associated with them, and
