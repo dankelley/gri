@@ -39,11 +39,11 @@ manual</a><br>
 <p>
 For <b>RedHat Linux</b>,
 both
-<A HREF="<?php print "$ftp_site/gri-$gri_stable_version-1.src.rpm";?>">
+<A HREF="<?php print "$ftp_site/gri-$gri_stable_version-1.i386.rpm";?>">
 binary
 </a>
 and
-<A HREF="<?php print "$ftp_site/gri-$gri_stable_version-1.i386.rpm";?>">
+<A HREF="<?php print "$ftp_site/gri-$gri_stable_version-1.src.rpm";?>">
 source
 </a>
 RPM packages are available.
