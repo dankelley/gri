@@ -57,18 +57,6 @@
 	    <tr>
 	      <TD align="center" bgcolor="#737b9c">
 		<IMG src="./images/blank.gif" height="1" width="1" border=0 alt=""><BR>
-		<span class="maintitlebar"><font color="#ffffff">Developer's Corner</font></span>
-	      </td> </tr>
-	    <tr><td class="menus" align="right">
-                <A  class="menus" HREF="http://www.sourceforge.net/project/?group_id=5511">SourceForge Gri page</A><br>
-		<A  class="menus" HREF="http://www.sourceforge.net/cvs/?group_id=5511">Download today's source</a><br>
-		<A  class="menus" HREF="http://cvs.sourceforge.net/cgi-bin/cvsweb.cgi/gri/?cvsroot=gri">Browse source history</a><br>
-                <A  class="menus" HREF="http://sourceforge.net/pm/task.php?group_project_id=8706&group_id=5511&func=browse">To-do list</A><br>
-                <A  class="menus" HREF="http://www.sourceforge.net/patch/?group_id=5511">Patch manager</A><br>
-	      </td></tr>
-	    <tr>
-	      <TD align="center" bgcolor="#737b9c">
-		<IMG src="./images/blank.gif" height="1" width="1" border=0 alt=""><BR>
 		<span class="maintitlebar"><font color="#ffffff">Download (Unstable)</font></span>
 	      </td> </tr>
 	    <tr><td class="menus" align="right">
@@ -95,8 +83,9 @@
 	  
 Gri is an open-source language for scientific graphics programming.
 It is command-driven, as opposed to point/click.  Some users consider
-Gri similar to latex, since both provide extensive power as a reward
-for tolerating a learning curve.
+Gri similar to LaTeX, since both provide extensive power as a reward
+for tolerating a learning curve.  The output is industry-standard
+PostScript as output, suitable for inclusion in other documents.
 
 <p>
 Gri can make 
@@ -109,32 +98,18 @@ contour
 <a href="./gridoc/html/Image.html">
 image
 </a>
-graphs.  In addition to high-level capabilities, it has enough
-low-level capabilities to allow users to achieve a high degree of
-customization.  Precise control is extended to all aspects of drawing,
-including line-widths, colors, and fonts.  Text includes a subset of
-the tex language, so that it is easy to incorporate Greek letters and
-mathematical symbols in labels.  Gri provides simple linkage to the
-operating system so you can use familiar tools for your work.  Gri
-produces industry-standard PostScript as output, suitable for
-inclusion in other documents.
+graphs.  Fine control is provided over all aspects of drawing,
+e.g. line widths, colors, fonts, etc.  Greek letters and mathematical
+symbols are available in a TeX-like syntax.
 
-<p>For example, you can draw a linegraph by the commands:
+<p>Folks who write 1000-line Gri scripts usually start with something
+as simple as the following.
 <pre>
+   # Draw a linegraph
    open file.dat
    read columns x y
    draw curve
 </pre>
-See an overview of Gri in a <A
-HREF="http://www2.linuxjournal.com/lj-issues/issue75/3743.html">Linux
-Journal Article</A>, and examples of gri usage in the Gri
-<A HREF="./gri-cookbook/index.html">cookbook</A>.
-More complete details are provided
-in the manual, in <A
-HREF="./gridoc/html/index.html">http</a> and <A
-HREF="./gri.pdf">pdf</a> forms.
-
-
 
 <p>
 
@@ -170,7 +145,26 @@ HREF="./gri.pdf">pdf</a> forms.
       </td>
     </tr>
   </table>
-
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <TR>
+        <TD align="center" bgcolor="#737b9c">
+	  <span class="maintitlebar"><font color="#ffffff">Developer's Corner</font></span>
+        </TD>
+      </TR>
+      <TR>
+      <td class="menus" align="left">
+        <A class="menus" HREF="http://www.sourceforge.net/project/?group_id=5511">SourceForge Gri page</A><br>
+	<A class="menus" HREF="http://www.sourceforge.net/cvs/?group_id=5511">Download CVS source</a><br>
+	<A class="menus" HREF="http://cvs.sourceforge.net/cgi-bin/cvsweb.cgi/gri/?cvsroot=gri">Browse CVS history</a><br>
+	<A class="menus" HREF="http://sourceforge.net/pm/task.php?group_project_id=8706&group_id=5511&func=browse">To-do list</A><br>
+	<A class="menus" HREF="http://www.sourceforge.net/patch/?group_id=5511">Patch manager</A><br>
+      </TD>
+    </TR>
+    <TR>
+      <TD align="center" bgcolor="#737b9c">
+        <IMG src="./images/blank.gif" height="1" width="1" border=0 alt=""><BR>
+     </TR>
+  </TABLE>
 
   <!-- News -->
   <table width="100%" border="0" cellspacing="0" cellpadding="0">
