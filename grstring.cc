@@ -115,8 +115,36 @@ gr_show_at(/*const*/ char *s, double xcm, double ycm, gr_textStyle style, double
 	case svg: {
 		double r, g, b;
 		_griState.color_text().getRGB(&r, &g, &b);
-		fprintf(_grSVG, "<text\nx=\"%.3f\"\ny=\"%.3f\"\nstyle=\"font-family:helvetica; font-size:%.2f; fill:#%02x%02x%02x; font-style:normal;\">\n", xcm * PT_PER_CM, ycm * PT_PER_CM, gr_currentfontsize_pt(), int(255*r+0.5), int(255*g+0.5), int(255*b+0.5));
-	}
+#if 1
+		char *fn;
+		switch(CurrentFont.id) {
+		case gr_font_Courier:            fn = "Courier";            break;
+		case gr_font_CourierOblique:     fn = "Courier-Italic";     break;
+		case gr_font_CourierBold:        fn = "Courier-Bold";       break;
+		case gr_font_CourierBoldOblique: fn = "Courier-BoldItalic"; break;
+		case gr_font_Helvetica:          fn = "Helvetica";          break;
+		case gr_font_HelveticaOblique:   fn = "Helvetica-Italic";   break;
+		case gr_font_HelveticaBold:      fn = "Helvetica-Bold";     break;
+		case gr_font_PalatinoRoman: 
+		case gr_font_PalatinoItalic:
+		case gr_font_PalatinoBold:
+		case gr_font_PalatinoBoldItalic:
+			fn = "Times";
+			warning("SVG cannot handle Palatino font yet");
+			break;
+		case gr_font_Symbol:             fn = "Symbol";           break;
+		case gr_font_TimesRoman:         fn = "Times";            break;
+		case gr_font_TimesItalic:        fn = "Times-Italic";     break;
+		case gr_font_TimesBold:          fn = "Times-Bold";       break;
+		case gr_font_TimesBoldItalic:    fn = "Times-BoldItalic"; break;
+		default: 
+			fn = "Times";
+			warning("SVG defaulting to Times font");
+			break;
+		}
+#endif
+		fprintf(_grSVG, "<text\nx=\"%.3f\"\ny=\"%.3f\"\nstyle=\"font-family:%s; font-size:%.2f; fill:#%02x%02x%02x; font-style:normal;\">\n", xcm * PT_PER_CM, ycm * PT_PER_CM, fn, gr_currentfontsize_pt(), int(255*r+0.5), int(255*g+0.5), int(255*b+0.5));
+		}
 		break;
 	case  gif:
 		fprintf(stderr, "INTERNAL error at %s:%d -- nothing known for GIF\n\n", __FILE__, __LINE__);
