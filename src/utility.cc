@@ -1,3 +1,4 @@
+//#define DEBUG_RESOLVE_PATH
 //#define DEBUG_RE
 //#define DEBUG_UNDERSCORE 
 
@@ -586,7 +587,7 @@ full_path_name(std::string& f)
 	}
 	return true;
 }
-
+
 bool
 resolve_filename(std::string& f, bool trace_path, char c_or_d)
 {
@@ -664,12 +665,23 @@ resolve_filename(std::string& f, bool trace_path, char c_or_d)
 	// HAD: path.assign(GRIINPUTS); // in defaults.hh ".:/usr/local/lib/gri"
 	std::string::size_type start = 0;
 	std::string::size_type colon;
+#ifdef DEBUG_RESOLVE_PATH
+	printf("DEBUG(%s:%d) resolve_filename has path '%s'\n",__FILE__,__LINE__,path.c_str());
+#endif
 	do {
 		colon = path.find(":", start);
-		std::string test_file = path.substr(start, colon);
+#ifdef DEBUG_RESOLVE_PATH
+		printf("DEBUG(%s:%d) resolve_filename top of loop colon=%d  start=%d string='%s'\n",__FILE__,__LINE__,int(colon),int(start),path.c_str()+start);
+#endif
+		std::string test_file = path.substr(start, colon - start);
+#ifdef DEBUG_RESOLVE_PATH
+		printf("DEBUG(%s:%d) resolve_filename isolated    colon=%d  start=%d string='%s'\n",__FILE__,__LINE__,int(colon),int(start),test_file.c_str());
+#endif
 		test_file.append("/");
 		test_file.append(f);
-		//printf("resolve_filename trying file named '%s'\n", test_file.c_str());
+#ifdef DEBUG_RESOLVE_PATH
+		printf("DEBUG(%s:%d) resolve_filename trying file named '%s'\n", __FILE__,__LINE__,test_file.c_str());
+#endif
 		FILE *fp = fopen(test_file.c_str(), "r");
 		if (fp != NULL) {
 			fclose(fp);
