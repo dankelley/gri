@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.192 2002/05/30 14:59:15 psg Exp $
+@c $Id: gri.texim,v 1.193 2002/05/31 22:27:15 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16258,11 +16258,18 @@ only in the fixing of bugs.
 @subsection Version 2.10
 @cindex version 2.10
 
-@subsubsection Version 2.10.1 [2002 May 30] 
+@subsubsection Version 2.10.1 [2002 May 31]
 
 @strong{Bug Fixes}
 
 @itemize
+
+@item
+Fix SourceForge bug
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=562558&group_id=5511&atid=105511">
+#562558
+@c HTML </a>
+(@code{draw title} terminates program if have non-positive data and had initially specified log axes)
 
 @item
 Fix SourceForge bug
