@@ -300,9 +300,11 @@ gri - scientific graphic program (version @value{GRI-VERSION})
  GPL Copyright 2000 by Dan E. Kelley.
 
  Type `help' to view list of commands, or
- type `show license' to view license.  View
- /usr/doc/gri-@value{GRI-VERSION}/html/gri1.html or access `gri'
- INFO node for the online manual.
+ type `show license' to view license.  
+ View /usr/local/share/doc/gri/html/index.html
+ or access `gri' INFO node for the online manual.
+
+gri:
 @end example
 
 @noindent
@@ -1100,8 +1102,8 @@ Specifies the directory where Gri looks for the startup file
 report an error and die if it cannot find this file.)  If this switch is
 not provided -- and it is normally not -- then Gri looks for
 @code{gri.cmd} in a standard system directory (normally
-@file{/usr/share/gri}) which was specified during the compilation of the
-Gri program itself.
+@file{/usr/local/share/gri/@value{GRI-VERSION}}) which was specified 
+during the compilation of the Gri program itself.
 @item  @code{-directory_default} 
 @cindex @code{-directory_default} command-line option
 Reports directory where @file{gri.cmd} is expected to be found, either
@@ -9559,7 +9561,8 @@ beginning with slash or period), then that particular file will be used.
 For filenames beginning with a letter or number, though, Gri will search
 for the file in the list of directories stored in your @code{GRIINPUTS}
 unix environment variable, or in the list (@file{.},
-@file{/usr/share/gri}) if that environment variable is not set.
+@file{/usr/local/share/gri/@value{GRI-VERSION}}) if that environment 
+variable is not set.
 
 
 
@@ -13894,15 +13897,28 @@ or a @emph{Red Hat Powertools} package users can skip this, as it's done
 for them)
 
 You may skip this section if gri is installed on your system as
-@file{/usr/local/bin/gri} and @file{/usr/local/share/gri/gri.cmd} (the
-default when compiling gri yourself).  If not, then you need to set the
-Emacs variable @code{gri*directory-tree} in a startup file such as in
-your @file{~/.emacs} file.
+@file{/usr/local/bin/gri-@value{GRI-VERSION}} and
+@file{/usr/local/share/gri/@value{GRI-VERSION}/gri.cmd} (the default
+when compiling gri yourself).  If not, then you may need to set the Emacs
+variable @code{gri*directory-tree} in a startup file such as in your
+@file{~/.emacs} file.
 
 The Emacs variable @code{gri*directory-tree} is used to configure
-gri-mode to tell it where Gri is installed on your system.  If you have
-only one version of gri installed on your system, gri-mode expects to
-find gri.cmd and the gri executable like so:
+gri-mode to tell it where Gri is installed on your system. For the
+default gri installation paths used in this gri release, gri-mode
+expects to find the gri executable and the file gri.cmd as:
+
+@example
+   @code{gri*directory-tree}/@value{GRI-VERSION}/gri.cmd
+and
+   /usr/local/bin/gri-@value{GRI-VERSION}
+@end example
+
+where @code{gri*directory-tree} is by default set to
+@file{/usr/local/share/gri/}.
+
+If you have only one version of gri installed on your system, gri-mode
+will also look to find gri.cmd and the gri executable like so:
 
 @example
    @code{gri*directory-tree}/gri.cmd 
@@ -13986,14 +14002,14 @@ of them:
  corresponding to a given version number.
 
 @item
- If you had multiple versions of Gri installed like so: 
+ If you had multiple versions of Gri installed like so (this reflects
+ the installation paths used in older gri releases): 
  @example
   /opt/gri/2.040/bin/gri
   /opt/gri/2.040/lib/gri.cmd
   /opt/gri/2.041/bin/gri
   /opt/gri/2.041/lib/gri.cmd
  @end example
-
 then you'd use:
  @example
   (setq gri*directory-tree "/opt/gri/")
@@ -14333,18 +14349,26 @@ break old scripts.  This is less so of changes since about 1998 or so,
 since the syntax became pretty firm about that time.  
 
 Still, disk costs are so cheap that you would be well advised to keep a
-backup version of Gri, whenever you update.  This is pretty simple.  You
-need to copy the executable (normally called @file{/usr/local/bin/gri})
-and the startup file (normally called
-@file{/usr/local/share/gri/gri.cmd}) to some location (Gri RPM or Debian
-packages will have these files under /usr/share rather than under
-/usr/local/share) .  Let's say, for convenience, that this location is
-the directory @file{/usr/local/share/gri/@value{GRI-VERSION}}.  Then,
-just create a shellscript named @code{/usr/local/bin/gri-@value{GRI-VERSION}}
-that reads
+backup version of Gri, whenever you update.  This is pretty simple.
+Let's assume you have the RPM-packaged version of gri installed.  You
+need to keep a copy of @file{/usr/bin/gri} and
+@file{/usr/share/gri/gri.cmd} before you upgrade the package.  You could
+copy both to the directory
+@file{/usr/local/share/gri/@value{GRI-VERSION}/} and create a wrapper
+script called @file{/usr/local/bin/gri-@value{GRI-VERSION}} to invoke
+this version of gri.  The script would look like:
 @example
 #!/usr/bin/sh
 /usr/local/share/gri/@value{GRI-VERSION}/gri -directory /usr/local/share/gri/@value{GRI-VERSION}
+@end example
+
+To be able to acces this old version of gri from within the Emacs
+gri-mode, you would reset the Emacs variable @code{gri*directory-tree}
+like so in the file @file{~/.emacs} 
+(@ref{Step 2} in 
+@ref{Installing gri-mode.el})
+@example
+  (setq gri*directory-tree '("/usr/local/share/gri/" "/usr/share/gri/"))
 @end example
 
 The next sections outline the changes made in Gri.
@@ -14586,66 +14610,63 @@ Most users get Gri from the anonymous ftp site
 @subsection Unix Installation
 @cindex directory structure of Gri installation
 
-@emph{NOTE: THE DIRECTORY STRUCTURE INDICATED HERE IS WRONG.  A FUTURE VERSION OF THE MANUAL WILL FIX THIS.  IN THE MEANTIME, TYPE 'make -n install' TO SEE WHERE GRI WILL GO, AND EDIT THE MAKEFILE IF YOU DISLIKE THIS.  SORRY -- DAN.}
-
 The directory structure for Gri is as follows, where in this example the
 most up-to-date version is @value{GRI-VERSION}, and @code{OLD} is meant
-to represent an older numbered version.
+to represent an older numbered version which could co-exist on the system.
 
 @example
-                          /opt/gri/
-                             |
-                             |
-                             |
-src/   lib/   bin/         @value{GRI-VERSION}/              OLD/
- |      |      |             |                   |
- |      |      |             |                   |
- |      |      |             |                   |
-...  gri.cmd  gri    src/   lib/  bin/     src/  lib/  bin/
-                      |      |     |        |     |     |
-                      |      |     |        |     |     |
-                      |      |     |        |     |     |
-                     ...  gri.cmd gri      ... gri.cmd gri
+usr
+`-- local
+    |-- bin
+    |   |-- gri -> gri-@value{GRI-VERSION}
+    |   |-- gri-@value{GRI-VERSION}
+    |   |-- gri-OLD
+    |   |-- gri_merge
+    |   `-- gri_unpage
+    |-- info
+    |   |-- gri.info-1.gz
+    |   |   ...
+    |   `-- gri.info.gz
+    `-- share
+        |-- doc
+        |   `-- gri
+        |       |-- examples
+        |       |    [Examples useful for new users are stored here]
+        |       `-- html
+        |           |-- index.html
+        |           `[All files for the HTML are below here]
+        `-- gri
+            `-- @value{GRI-VERSION}
+                |-- gri.cmd
+                |-- license.txt
+                |-- logo.dat
+                `-- startup.msg
+            `-- OLD
+                |-- gri.cmd
+                |-- license.txt
+                |-- logo.dat
+                `-- startup.msg
 @end example
 
-On some systems, the base directory is @file{/usr/local/lib/} or
-something similar, instead of @file{/opt/gri/}; this can be set during
-the compilation of Gri (@ref{Uncompiled Unix}).
+On some systems, the base directory can be modified from
+@file{/usr/local/share/gri/}; this can be set during the compilation of
+Gri (@ref{Uncompiled Unix}).  For example, packaged versions of gri (for
+Red Hat and Debian) omit the @file{/local} part.  Additionally, the Red
+Hat packaging omits the @file{@value{GRI-VERSION}} version-number
+directory and store @file{gri.cmd} directly under @file{usr/share/gri/}.
 
-The subdirectory with the highest number holds the current version of
-Gri.  During installation, this is linked in two stages, all the way
-back to a file installed in the PATH of all users.
-
-First, the relevant @emph{numbered} executable and library files are
-linked back to @emph{unnumbered} directories.  For example,
-@file{/opt/gri/@value{GRI-VERSION}/bin/gri} is linked to
-@file{/opt/gri/bin/gri} and @file{gri.cmd} is handled similarly.  Thus
-the unnumbered directories always contain the most up-to-date versions
-of Gri, while various numbered directories may contain old copies, if
-the system manager has elected to not delete them.
-
-Second, @file{/opt/gri/bin/gri} is in turn linked to a file in the
-system path, normally @file{/usr/local/bin/gri}.  At the same time, a
-duplicate link is made, to a numbered executable
-(e.g. @file{/usr/local/bin/gri-NNNN}, where @file{NNNN} is the version
-number) inserted in the system path.  Thus the current version of Gri
-can be accessed by users by typing either @code{gri} or
-e.g. @code{gri-NNNN} where @file{NNNN} is the version number.  Any
-older versions of Gri which were not removed by the person doing the
-installation will also be available, e.g. by typing @code{gri-2.039}.
-Each of these numbered versions knows to look for it's library file in
-the appropriately named library file, e.g.  @code{gri-2.039} will use
-@file{/opt/gri/2.039/lib/gri.cmd}.  Therefore, older library files
-should be kept if older executables are kept.  The default installation
-is to keep all old executables and library files.
-
-Note: The library file @file{/opt/gri/lib/gri.cmd} is not actually used
-by Gri.  It uses @emph{numbered} files like
-@file{/opt/gri/@value{GRI-VERSION}/lib/gri.cmd}.  The unnumbered library
-files are provided for use by the Emacs gri-mode, when it tries to
-``complete'' partially typed commands (@ref{Emacs Mode}).
-
-
+The latest installed gri executable
+(e.g. @file{/usr/local/bin/gri-@value{GRI-VERSION}}) is linked to the
+command name @file{gri} in the system path, normally
+@file{/usr/local/bin/gri}.  Thus the current version of Gri can be
+accessed by users by typing either @code{gri} or
+e.g. @code{gri-@value{GRI-VERSION}}.  Any older versions of Gri which
+were not removed by the person doing the installation will also be
+available, e.g. by typing @code{gri-2.039}.  Each of these numbered
+versions knows to look for it's library file in the appropriately named
+library file, e.g.  @code{gri-2.039} will use
+@file{/usr/local/share/gri/2.039/gri.cmd}.  Therefore, older library
+files should be kept if older executables are kept.
 
 Here are details for installation on unix computers:
 @menu
@@ -14690,7 +14711,6 @@ indicated files.
 @item
 Follow the instructions in the @file{README} file to install Gri.
 @end enumerate
-
 
 
 @node   Linux, Uncompiled Unix, Precompiled Unix, Unix-install
@@ -14749,6 +14769,10 @@ your computer type, or look in the @file{various_machines} file.
 @item
 Type 
 @example
+tar zxvf gri-source-@value{GRI-VERSION}.tar.gz
+@end example
+or
+@example
 gunzip -c gri-source-@value{GRI-VERSION}.tar.gz | tar xvf -
 @end example
 or
@@ -14785,11 +14809,10 @@ reasonable default is provided, if you just answer with
 carriage-return.)  If you know about this in advance, you can run the
 configure script as e.g.
 @example
-./configure --prefix=/opt/gri
+./configure --prefix=/usr
 @end example
 This says that you want Gri to exist in a directory called
-@file{/opt/gri}, which will have subdirectories such as
-@file{/opt/gri/bin} and @file{/opt/gri/lib}.
+@file{/usr/share/gri} and the executable in @file{/usr/bin/gri}.
 @item
 Gri uses a C++ feature called 'templates'.  Unfortunately, templates are
 handled in different ways by different compilers.  At least as of Spring
@@ -14813,10 +14836,10 @@ If optional system libraries like the netCDF library, if it exists, are
 installed in nonstandard places, you might have to change the
 unix environment variable @code{LD_LIBRARY_PATH}.  For example, on my machine
 the @code{netcdf} library is not installed in @file{/usr/lib}, as the
-@code{configure} script assumes, but rather in @file{/opt/netcdf/lib}.
+@code{configure} script assumes, but rather in @file{/usr/local/share/netcdf/lib}.
 Therefore I have the following line in one of my startup files:
 @example
-export LD_LIBRARY_PATH=/usr/lib:/opt/netcdf/lib
+export LD_LIBRARY_PATH=/usr/lib:/usr/local/share/netcdf/lib
 @end example
 @end enumerate
 @item
@@ -14834,7 +14857,6 @@ Now compile Gri by typing
 @example
 make
 @end example
-@noindent
 (or, if the previous step failed, type @code{make -f Makefile.generic}). 
 @item
 Assuming compilation succeeds, install @file{gri} and the ancillary file
@@ -14842,22 +14864,16 @@ Assuming compilation succeeds, install @file{gri} and the ancillary file
 @example
 make install
 @end example
-@noindent
-This will try to install them in the installation directories
-@file{/opt/gri/bin} and @file{/opt/gri/lib}, with a link for the
-executable to a directory in the system path, normally
-@file{/usr/local/bin}.
-@item
-If you wish to install numbered versions of Gri, you should now type
+If you wish to see where files where be installed, first try a dry run
+typing 
 @example
-make install-numbered
+make -n install
 @end example
 @item
 Once these things are done, you may type
 @example
 make clean
 @end example
-@noindent
 to clean up some files.
 @end enumerate
 
