@@ -1,1 +1,1 @@
-(setq gri*WWW-page "file:/usr/doc/gri/html/index.html")
+(setq gri*WWW-page "file:/usr/share/doc/gri/html/index.html")
