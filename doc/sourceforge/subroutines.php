@@ -3,7 +3,7 @@
 $ftp_site = "http://ftp1.sourceforge.net/gri";
 $development_site = "http://gri.sourceforge.net";
 $development_site_name = "SourceForge";
-$gri_stable_version = "2.12.3";
+$gri_stable_version = "2.12.4";
 $gri_group_id = "5511";
 $sf_url = "http://sourceforge.net";
 $sf_ftp = "http://ftp1.sourceforge.net";
@@ -26,7 +26,9 @@ function age() {
 # Vsn 2.12.2: 2003-02-07 10:00 Halifax time, 6:00 SF time
 #	$diff = time() - mktime(6, 00, 0, 2, 7, 2003);
 # Vsn 2.12.3: 2003-03-01 16:28 Halifax time, 12:28 SF time
-	$diff = time() - mktime(12, 28, 0, 3, 1, 2003);
+#	$diff = time() - mktime(12, 28, 0, 3, 1, 2003);
+# Vsn 2.12.4: 2003-04-11 11:40 Halifax time, 07:40 SF time
+	$diff = time() - mktime(7, 40, 0, 4, 11, 2003);
 
 	$days = floor($diff / 24 / 60 / 60);
 	$weeks = floor($days / 7);
