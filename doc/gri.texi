@@ -431,7 +431,7 @@ scales for the axes, based on the range of the data.  The next chapter
 illustrates that Gri also gives you control over such things.
 
 
-@c HTML <!-- newfile FancyExample.html "Gri: fancy example" "Fancy example" -->
+@c HTML <!-- newfile GettingMoreControl.html "Gri: getting more control" "Getting more control" -->
 
 @node   Getting More Control, Axis Scaling, Simple Example, Top
 @comment  node-name,  next,  previous,  up

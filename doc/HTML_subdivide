@@ -150,7 +150,7 @@ for ($i = 1; $i < $num_files; $i++) {
 <br>
 <a href=\"Introduction.html\">1: Introduction</a><br>
 <a href=\"SimpleExample.html\">2: Simple example</a><br>
-<a href=\"FancyExample.html\">3: Fancy example</a><br>
+<a href=\"GettingMoreControl.html\">3: Controlling Things</a><br>
 <a href=\"InvokingGri.html\">4: Running Gri</a><br>
 <a href=\"Programming.html\">5: Programming</a><br>
 <a href=\"X-Y.html\">6: X-Y Plots</a><br>
