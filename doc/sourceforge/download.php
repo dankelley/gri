@@ -31,7 +31,9 @@ manual</a><br>
 <b>Source Code</b>
 <br>
 - <A HREF="<?php print "$ftp_site/gri-$gri_stable_version.tgz";				?>">tarball		</a><br>
+<!--
 - <A HREF="<?php print "$ftp_site/gri-$gri_stable_version-arch-indep.tgz";		?>">w/ docs prebuilt	</a><br>
+-->
 - <A HREF="<?php print "$sf_url/cvs/?group_id=$gri_group_id";				?>">CVS  		</a><br>
 <br>
 <?php set_up_rhs(); ?>
