@@ -697,7 +697,7 @@ list @ref{Unary Operators}).
 To make Gri extract the commands that created a PostScript file:
 @cindex recovering commands from a PostScript file
 @cindex command-line option @code{-creator}
-@cindex @code{-creator} command-line option TEST2
+@cindex @code{-creator} command-line option
 @example
 `gri -creator PostScriptFile'
 @end example
