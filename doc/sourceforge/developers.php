@@ -32,12 +32,13 @@ Gri  development is hosted on the
 
 <p>
 <?php
-print "<A HREF=\"$sf_url/forum/forum.php?forum_id=16976\">Developer forum</A><br>\n";
+print "Forums: ";
+print "<A HREF=\"$sf_url/forum/forum.php?forum_id=16976\">developer</A> ... \n";
+print "<A HREF=\"$sf_url/forum/forum.php?forum_id=16974\">open</A> ... \n";
+print "<A HREF=\"$sf_url/forum/forum.php?forum_id=16975\">help</A>.<br>\n";
 print "<A HREF=\"$sf_url/tracker/?atid=35$gri_group_id&group_id=$gri_group_id&func=browse\">Feature requests</A><br>\n";
-print "<A HREF=\"$sf_url/forum/forum.php?forum_id=16974\">Open forum</A><br>\n";
-print "<A HREF=\"$sf_url/forum/forum.php?forum_id=16975\">Help forum</A><br>\n";
 print "<A HREF=\"$sf_url/tracker/?atid=10$gri_group_id&group_id=$gri_group_id&func=browse\">Bug reports</A><br>\n";
-print "<A HREF=\"$sf_url/tracker/?atid=35$gri_group_id&group_id=$gri_group_id&func=browse\">Feature requests</A><br>\n";
+print "<A HREF=\"$sf_url/tracker/?atid=30$gri_group_id&group_id=$gri_group_id&func=browse\">Patch submissions</A><br>\n";
 print "<A HREF=\"$sf_url/cvs/?group_id=$gri_group_id\">Get CVS source</a><br>\n";
 print "<A HREF=\"http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/gri/gri/\">View CVS history</a><br>\n";
 ?>

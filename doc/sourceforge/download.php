@@ -2,31 +2,34 @@
 require("subroutines.php");
 set_up_navigation_tabs("download", "download.png");
 set_up_lhs();
-print "<b>Redhat Linux</b><br>\n";
-print "- <A HREF=\"$ftp_site/gri-$gri_stable_version-1.src.rpm\">binary</a><br>\n";
-print "- <A HREF=\"$ftp_site/gri-$gri_stable_version-1.i386.rpm\">source</a><br>\n";
-print "<br>\n";
-print "<b>Debian/GNU Linux</b><br>\n";
-print "- <A HREF=\"$ftp_site/gri_2.8.6-0potato1_i386.deb\">potato [old]</a><br>\n";
-print "- <A HREF=\"$ftp_site/gri_$gri_stable_version-1_i386.deb\">woody</a><br>\n";
-print "- <A HREF=\"$ftp_site/gri-${gri_stable_version}static_2.10.1-1_i386.deb\">static</a><br>\n";
-print "<br>\n";
-print "<b>Other OS</b><br>\n";
-print "- <A HREF=\"$ftp_site/gri-$gri_stable_version-SunOS5.tar.gz\">SunOS</a><br>\n";
-print "- <A HREF=\"http://gnuwin32.sourceforge.net/packages/gri.htm\">Windows</a><br>\n";
-print "- <A HREF=\"http://fink.sourceforge.net/pdb/package.php/gri\">Apple OS-X</a><br>\n";
-print "<br>\n";
-print "<br>\n";
-print "<b>Any OS/version</b><br>\n";
-print "- <A HREF=\"$sf_url/project/showfiles.php?group_id=$gri_group_id\">list</a>\n";
-print "<br>\n";
-print "<br>\n";
-print "<br>\n";
-print "<b>Source Code</b><br>\n";
-print "- <A HREF=\"$ftp_site/gri-$gri_stable_version.tgz\">tarball</a><br>\n";
-print "- <A HREF=\"$ftp_site/gri-$gri_stable_version-arch-indep.tar.gz\">\" w/ docs prebuilt</a>\n";
-set_up_rhs();
 ?>
+<b>Redhat Linux</b>
+<br>
+- <A HREF="<?php print "$ftp_site/gri-$gri_stable_version-1.src.rpm";			?>">binary		</a><br>
+- <A HREF="<?php print "$ftp_site/gri-$gri_stable_version-1.i386.rpm";			?>">source		</a><br>
+<br>
+<b>Debian/GNU Linux</b><br>
+- <A HREF="<?php print "$ftp_site/gri_2.8.6-0potato1_i386.deb";				?>">potato [old]	</a><br>
+- <A HREF="<?php print "$ftp_site/gri_$gri_stable_version-1_i386.deb";			?>">woody		</a><br>
+- <A HREF="<?php print "$ftp_site/gri-${gri_stable_version}static_2.10.1-1_i386.deb";	?>">static		</a><br>
+<br>
+<b>Other OS</b><br>
+- <A HREF=<?php print "$ftp_site/gri-$gri_stable_version-SunOS5.tar.gz";		?>">SunOS		</a><br>
+- <A HREF=<?php print "http://gnuwin32.sourceforge.net/packages/gri.htm";		?>">Windows		</a><br>
+- <A HREF=<?php print "http://fink.sourceforge.net/pdb/package.php/gri";		?>">Apple OS-X		</a><br>
+<br><br>
+<b>Any OS/version</b><br>
+- <A HREF="<?php print "$sf_url/project/showfiles.php?group_id=$gri_group_id";		?>">list		</a><br>
+<br>
+<b>Source Code</b>
+<br>
+- <A HREF="<?php print "$ftp_site/gri-$gri_stable_version.tgz";				?>">tarball		</a><br>
+- <A HREF="<?php print "$ftp_site/gri-$gri_stable_version-arch-indep.tar.gz";		?>">\" w/ docs prebuilt	</a><br>
+<br><br>
+<b>CVS</b><br>
+- <A HREF="<?php print "$sf_url/cvs/?group_id=$gri_group_id";				?>">unpackaged		</a><br>
+<br>
+<?php set_up_rhs(); ?>
 
 <h1>Pre-compiled Packages</h1>
 <p>
@@ -41,7 +44,7 @@ an
 <?php
 print "<A HREF=\"$ftp_site/gri_2.8.6-0potato1_i386.deb\">old package</a> for the Potato distribution, a newer package for the \n";
 print "<A HREF=\"$ftp_site/gri_$gri_stable_version-1_i386.deb\">woody</a> distribution, and\n";
-print "a <A HREF=\"$ftp_site/gri-${gri_stable_version}static_2.10.1-1_i386.deb\">static</a> package, with no documentation files.</a>\n";
+print "a <A HREF=\"$ftp_site/gri-${gri_stable_version}static_2.10.1-1_i386.deb\">static</a> package, with no documentation files.\n";
 ?>
 The Potato package is the last version of gri which would build without
 changes in that distribution (due to uncompatible changes in debhelper
@@ -79,6 +82,12 @@ The Gri source code is provided in two tarballs: a
 for which documentation files are created during the building process, and a
 <?php print "<A HREF=\"$ftp_site/gri-$gri_stable_version-arch-indep.tar.gz\">larger package</a>\n"; ?>
 which has pre-built documentation files.
+</p>
+
+<p> If you're adventurous and/or interested in helping with Gri developement,
+you might want to try building the
+<A HREF="<?php print "$sf_url/cvs/?group_id=$gri_group_id";?>">CVS version</a>,
+which is the very latest version, and which may not even compile.
 </p>
 
 <?php
