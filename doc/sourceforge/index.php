@@ -213,11 +213,11 @@ Search gri manual for (may be a regular expression):<p>
 <!-- right menus -->
 <TD WIDTH="155" VALIGN="top" ALIGN="right" bgcolor="#EEEEF8">
   
-  <!-- Status -->
+  <!-- This Version -->
   <table width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr  bgcolor="#737b9c"> 
       <td align="center"> 
-        <span class="maintitlebar"><font color="#ffffff">Status</font></span>
+        <span class="maintitlebar"><font color="#ffffff">This Version</font></span>
       </td>
     </tr>
     <tr> 
@@ -262,13 +262,25 @@ Search gri manual for (may be a regular expression):<p>
 	} else {
 	    echo floor($seconds), " seconds ago";
         }
-        echo ";<br>";
 	?>
-       pre-release #5 of 2.8.7 is <a href="./pre5/">here</a>, scheduled
-       for full release at end of March.
       </td>
     </tr>
   </table>
+
+   <!-- Next Version -->
+   <table width="100%" border="0" cellspacing="0" cellpadding="0">
+     <tr  bgcolor="#737b9c"> 
+       <td align="center"> 
+	 <span class="maintitlebar"><font color="#ffffff">Next Version</font></span>
+       </td>
+     </tr>
+     <tr>
+       <td align="left">
+       Version 2.8.7 arriving at end of March; pre-release #5 is
+       <a href="./pre5/">available</a> for testing
+       </td>
+     </tr>
+   </table>
 
    <!-- News -->
    <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -281,7 +293,8 @@ Search gri manual for (may be a regular expression):<p>
        <td  class="menus" align="left">
 <!--	 <a class="menus" href="http://www.sourceforge.net/forum/forum.php?forum_id=134278">Announcements</a></b>-->
 	 <a class="menus" href="http://www.sourceforge.net/news/?group_id=5511">News forum</a></b>
-         <br><A class="menus"
+         <br>
+<A class="menus"
 HREF="http://gri.sourceforge.net/gridoc/html/Version_2_8.html#Version2.8">History of version 2.8.x</a><br>
 
        </td>
@@ -318,6 +331,7 @@ HREF="http://gri.sourceforge.net/gridoc/html/Version_2_8.html#Version2.8">Histor
     </tr>
     <tr>
       <td class="menus" align="left">
+        <A class="menus" href="http://www.sourceforge.net/news/?group_id=5511">News forum</a></br>
 	<A class="menus" HREF="http://www.sourceforge.net/forum/forum.php?forum_id=16974">Discussion forum</A><br>
 	<A class="menus" HREF="http://www.sourceforge.net/forum/forum.php?forum_id=16975">Help forum</A><br>
 	<A class="menus" HREF="http://sourceforge.net/tracker/?atid=105511&group_id=5511&func=browse">Bug reports</A><br>
