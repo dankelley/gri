@@ -64,7 +64,7 @@ build-indep: debian/copyright Makefile
 	(cd doc; make html)
 
 # Install (as root) architecture-independent files here.
-binary-indep: build-arch
+binary-indep: build-indep
 	dh_testdir -i
 	dh_testroot -i
 	(cd doc; make debian-ps DOC_DIR=../debian/gri-ps-doc/usr/share/doc/gri)
@@ -85,7 +85,7 @@ binary-indep: build-arch
 	dh_builddeb -i
 
 # Install (as root) architecture-dependent files here.
-binary-arch: build install
+binary-arch: build-arch install
 	dh_testdir -a
 	dh_testroot -a
 	(cd debian/gri/usr/share/gri/$(version) ; ln -fs ../../common-licenses/GPL license.txt)
