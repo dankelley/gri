@@ -104,7 +104,7 @@
 		<b>General tarball</b><br>
                 N/A<br>
                 <b>Linux Pre-packaged</b><br>
-                N/A<br>
+                 <A class="menus" HREF="http://people.debian.org/~psg/gri-cvs.html">CVS Debian Packages</A><br>
               </td>
             </tr>
 
