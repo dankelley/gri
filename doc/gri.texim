@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.206 2002/08/19 20:25:19 psg Exp $
+@c $Id: gri.texim,v 1.207 2002/08/26 14:27:28 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -17088,8 +17088,10 @@ na/
 @itemize
 
 @item
-n/a
-
+Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=600223&group_id=5511&atid=105511,#600233}
+@dots{} segfaults if some RPN operators are used on stacks that do
+not contain enough entries (e.g. @code{show @{rpn cosh@}}). 
 @end itemize
 
 
