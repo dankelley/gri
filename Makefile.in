@@ -93,7 +93,7 @@ template.o: template.cc
 
 
 # Handle startup in special way since it needs version number.
-startup.o: version.cc startup.cc
+startup.o: version.cc startup.cc Makefile.in
 	$(CXX) -c $(CXXFLAGS) $(EXTRA_CFLAGS) $(CPPFLAGS) $(DEFS) -I$(srcdir) startup.cc
 
 debian-lib = $(debian)/usr/share/gri/$(VERSION)
