@@ -160,7 +160,8 @@ get_command_line(void)
 		}
 	}
 	_cmdFILE.back().increment_line(); // BUG line numbers wrong BUG
-	insert_cmd_in_ps(_cmdLine/*, "doline.cc:154"*/);
+	if (_cmdFILE.back().get_save2ps())
+		insert_cmd_in_ps(_cmdLine/*, "doline.cc:154"*/);
 	if (((unsigned) superuser()) & FLAG_AUT1) {
 		insert_source_indicator(_cmdLine);
 	}

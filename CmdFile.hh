@@ -15,6 +15,7 @@ public:
 		name.assign("");
 		fp = (FILE*)NULL;		// for now anyway
 		interactive = true;
+		save2ps = false;
 		line = 0;
 	}
 	CmdFile(const CmdFile& c) {
@@ -25,6 +26,7 @@ public:
 			exit(1);
 		}
 		interactive = c.get_interactive();
+		save2ps = c.get_save2ps();
 		line = c.get_line();
 	}
 	~CmdFile() {
@@ -40,10 +42,11 @@ public:
 			exit(1);
 		}
 		interactive = c.get_interactive();
+		save2ps = c.get_save2ps();
 		line = c.get_line();
 		return *this;
 	}
-	void set(const char *n, FILE *f, bool i, int l) {
+	void set(const char *n, FILE *f, bool i, int l, bool save_in_ps = true) {
 		name.assign(n);
 		fp = f;
 		if (fp == (FILE*)NULL) {
@@ -51,17 +54,20 @@ public:
 			exit(1);
 		}
 		interactive = i;
+		save2ps = save_in_ps;
 		line = l;
 	}
-	void increment_line()			{ line++;		}
-	const char *get_name() const		{ return name.c_str();	}
-	FILE *get_fp()         const		{ return fp;		}
-	bool get_interactive() const		{ return interactive;	}
-	int  get_line()        const		{ return line;		}
+	void increment_line()        { line++;		        }
+	const char *get_name() const { return name.c_str();	}
+	FILE *get_fp()         const { return fp;		}
+	bool get_interactive() const { return interactive;	}
+	int  get_line()        const { return line;		}
+	bool get_save2ps()     const { return save2ps;          }
 private:
 	FILE           *fp;
 	string          name;
 	bool            interactive;
+	bool            save2ps;
 	int             line;
 };
 #endif
