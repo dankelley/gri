@@ -58,15 +58,16 @@
 -->
 		    <b>General tarball</b><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.4.tgz">gri-2.6.4.tgz</a><br>
-		    <b>Linux Pre-packaged</b><br>
+		    <b>Linux (RedHat)</b><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.4-1.src.rpm">gri-2.6.4-1.src.rpm</a><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.4-1.i386.rpm">gri-2.6.4-1.i386.rpm</a><br>
+		    <b>Linux (Debian)</b><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.6.4-0potato1_i386.deb">gri_2.6.4-0potato1_i386.deb</a><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.6.4-1_i386.deb">gri_2.6.4-1_i386.deb</a><br>
                     <A class="menus" HREF="http://packages.debian.org/unstable/science/gri.html">gri-2.6.4 at Debian</A><br>
                     <A class="menus" HREF="http://packages.debian.org/unstable/doc/gri-html-doc.html">HTML manual at Debian</A><br>
                     <A class="menus" HREF="http://packages.debian.org/unstable/doc/gri-ps-doc.html">PS manual at Debian</A><br>
-		    <b>Solaris Pre-packaged</b><br>
+		    <b>Unix (Solaris)</b><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.0-SunOS5.tar.gz">gri-2.6.0-SunOS6.tar.gz</a><br>
 
                   </td>
