@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.100 2001/06/23 16:21:24 dankelley Exp $
+@c $Id: gri.texim,v 1.101 2001/07/03 19:35:23 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -1717,7 +1717,7 @@ quit
 @subsection Discussion of Methods
 
 The various commands for converting columns to a grid are given in
-(@ref{Convert Columns to Grid}).  Generally, the Barnes method is best.
+(@ref{Convert Columns To Grid}).  Generally, the Barnes method is best.
 
 
 @c HTML <!-- newfile Images.html "Gri: image plots" "Image Plots" -->
@@ -3914,20 +3914,20 @@ otherwise close the indicated file.
 
 @c HTML <!-- newfile Convert.html "Gri: `convert' command" "Gri Commands" -->
 
-@node   Convert, Convert Columns to Grid, Close, List Of Gri Commands
+@node   Convert, Convert Columns To Grid, Close, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
 @subsection The @code{convert} commands
 
 @menu
 * Convert Columns To Grid::      Create grid from (x,y,f) data
-* Convert Columns to Spline::    Create spline (x',y') from (x,y) data
+* Convert Columns To Spline::    Create spline (x',y') from (x,y) data
 * Convert Grid To Columns::      Create (x,y,f) data from grid
 * Convert Grid To Image::        Create an image from grid data
 * Convert Image To Grid::        Create a grid from image data
 @end menu
 
 
-@node   Convert Columns to Grid, Convert Columns to Spline, Convert, Convert
+@node   Convert Columns To Grid, Convert Columns To Spline, Convert, Convert
 @comment  node-name,  next,  previous,  up
 @subsubsection @code{convert columns to grid}
 @findex convert columns to grid
@@ -4285,7 +4285,7 @@ tunable parameters: @code{(L_x,L_y,gamma)}.
 
 
 
-@node   Convert Columns To Spline, Convert Grid to Columns, Convert Columns To Grid, Convert
+@node   Convert Columns To Spline, Convert Grid To Columns, Convert Columns To Grid, Convert
 @comment  node-name,  next,  previous,  up
 @subsubsection @code{convert columns to spline}
 @cindex spline, fitting to (x,y) data
@@ -4364,7 +4364,7 @@ convert columns to grid
 @end example
 
 
-@node   Convert Grid To Image, Convert Image to Grid, Convert Grid to Columns, Convert
+@node   Convert Grid To Image, Convert Image To Grid, Convert Grid To Columns, Convert
 @comment  node-name,  next,  previous,  up
 @subsubsection @code{convert grid to image}
 @findex convert grid to image
@@ -4420,7 +4420,7 @@ can be changed using the @code{set image missing value color to}@dots{}
 command.
 
 
-@node   Convert Image to Grid, Create, Convert Grid To Image, Convert
+@node   Convert Image To Grid, Create, Convert Grid To Image, Convert
 @comment  node-name,  next,  previous,  up
 @subsubsection @code{convert image to grid}
 @findex convert image to grid
@@ -4456,7 +4456,7 @@ the image x/y grids have already been defined.
 
 @c HTML <!-- newfile Create.html "Gri: `create' command" "Gri Commands" -->
 
-@node   Create, Create Columns From Function, Convert Image to Grid, List Of Gri Commands
+@node   Create, Create Columns From Function, Convert Image To Grid, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
 @subsection The @code{create} commands
 @menu
@@ -16077,7 +16077,7 @@ for interactive usage
 @enumerate
 
 @item Add optimal interpolation as another method for gridding
-data (@ref{Convert Columns to Grid}).
+data (@ref{Convert Columns To Grid}).
 
 @item Add ability to read PNG images (@ref{Read Image})
 (Docs on this are at @url{http://www.libpng.org/pub/png/}.)
