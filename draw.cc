@@ -83,7 +83,7 @@ no_scales_error()
 	err("Either x or y scale not defined.  Try using `set x axis' or `set y axis'.");
 }
 
-// `draw box .ll_x. .ll_y. .ur_x. .ur_y. [cm|pt]'
+// `draw box .xleft. .ybottom. .xright. .ytop. [cm|pt]'
 bool
 draw_boxCmd()
 {
@@ -142,7 +142,7 @@ draw_boxCmd()
 	}
 }
 
-// `draw box filled .ll_x. .ll_y. .ur_x. .ur_y. [cm|pt]'
+// `draw box filled .xleft. .ybottom. .xright. .ytop. [cm|pt]'
 bool
 draw_box_filledCmd()
 {
@@ -1696,7 +1696,7 @@ draw_isopycnalCmd()
 	return true;
 }
 
-// `draw image histogram [box .ll_x_cm. .ll_y_cm. .ur_x_cm. .ur_y_cm.]'
+// `draw image histogram [box .xleft_cm. .ybottom_cm. .xright_cm. .ytop_cm.]'
 bool
 draw_image_histogramCmd()
 {
@@ -1734,13 +1734,12 @@ draw_image_histogramCmd()
 		dy = 2.5;
 		break;
 	case 7:
-		err("Sorry, but the old `draw histogram .ll_x. .ll_y. .dx. .dy.' is\n\
-now `draw image histogram [box .ll_x_cm. .ll_y_cm. .ur_x_cm. .ur_y_cm.]'.\n\
+		err("Sorry, but the old `draw histogram .xleft. .ybottom. .dx. .dy.' is\n\
+now `draw image histogram [box .xleft_cm. .ybottom_cm. .xright_cm. .ytop_cm.]'.\n\
 Note the extra word `box', and the new meaning of the last 2 parameters.");
 		return false;
 	case 8:
-		// `draw image histogram [box .ll_x_cm. .ll_y_cm. .ur_x_cm.
-		// .ur_y_cm.]'
+		// `draw image histogram [box .xleft_cm. .ybottom_cm. .xright_cm. .ytop_cm.]'
 		if (4 == get_cmd_values(_word, _nword, "box", 4, _dstack)) {
 			x_ll_cm = _dstack[0];
 			y_ll_cm = _dstack[1];

@@ -1370,7 +1370,7 @@ convert_grid_to_imageCmd()
 				    _ymatrix[_num_ymatrix_data - 1]);
 		break;
 	default:
-		err("`box .ll_x. .ll_y. .ur_x. .ur_y.' needs exactly 4 parameters");
+		err("`box .xleft. .ybottom. .xright. .ytop.' needs exactly 4 parameters");
 		return false;
 	}
 	if (width < 2) { err("Can't have grid < 2 wide"); return false; }

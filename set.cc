@@ -240,7 +240,7 @@ set_beepCmd()
 	return true;
 }
 
-//`set bounding box .ll_x. .ll_y. .ur_x. .ur_y. [cm|pt]'
+//`set bounding box .xleft. .ybottom. .xright. .ytop. [cm|pt]'
 bool
 set_bounding_boxCmd()
 {
@@ -250,22 +250,22 @@ set_bounding_boxCmd()
 	if (_nword == 7) {		// user-units
 		if (!getdnum(_word[3], &ll_x)) {
 			demonstrate_command_usage();
-			err("Can't read .ll_x. in `\\", _word[3], "'.", "\\");
+			err("Can't read .xleft. in `\\", _word[3], "'.", "\\");
 			return false;
 		}
 		if (!getdnum(_word[4], &ll_y)) {
 			demonstrate_command_usage();
-			err("Can't read .ll_y. in `\\", _word[4], "'.", "\\");
+			err("Can't read .ybottom. in `\\", _word[4], "'.", "\\");
 			return false;
 		}
 		if (!getdnum(_word[5], &ur_x)) {
 			demonstrate_command_usage();
-			err("Can't read .ur_x. in `\\", _word[5], "'.", "\\");
+			err("Can't read .xright. in `\\", _word[5], "'.", "\\");
 			return false;
 		}
 		if (!getdnum(_word[6], &ur_y)) {
 			demonstrate_command_usage();
-			err("Can't read .ur_y. in `\\", _word[6], "'.", "\\");
+			err("Can't read .ytop. in `\\", _word[6], "'.", "\\");
 			return false;
 		}
 		double          xmargin = XMARGIN_DEFAULT;
@@ -303,22 +303,22 @@ set_bounding_boxCmd()
 
 		if (!getdnum(_word[3], &ll_x_cm)) {
 			demonstrate_command_usage();
-			err("Can't read .ll_x. in `\\", _word[3], "'.", "\\");
+			err("Can't read .xleft. in `\\", _word[3], "'.", "\\");
 			return false;
 		}
 		if (!getdnum(_word[4], &ll_y_cm)) {
 			demonstrate_command_usage();
-			err("Can't read .ll_y. in `\\", _word[4], "'.", "\\");
+			err("Can't read .ybottom. in `\\", _word[4], "'.", "\\");
 			return false;
 		}
 		if (!getdnum(_word[5], &ur_x_cm)) {
 			demonstrate_command_usage();
-			err("Can't read .ur_x. in `\\", _word[5], "'.", "\\");
+			err("Can't read .xright. in `\\", _word[5], "'.", "\\");
 			return false;
 		}
 		if (!getdnum(_word[6], &ur_y_cm)) {
 			demonstrate_command_usage();
-			err("Can't read .ur_y. in `\\", _word[6], "'.", "\\");
+			err("Can't read .ytop. in `\\", _word[6], "'.", "\\");
 			return false;
 		}
 		if (in_pt) {
@@ -329,7 +329,7 @@ set_bounding_boxCmd()
 		}
 
 	} else {
-		err("Must specify .ll_x. .ll_y. .ur_x. .ur_y. [cm]");
+		err("Must specify .xleft. .ybottom. .xright. .ytop. [cm]");
 	}
 	_bounding_box_user.set(ll_x_cm, ll_y_cm, ur_x_cm, ur_y_cm);
 	_user_gave_bounding_box = true;
