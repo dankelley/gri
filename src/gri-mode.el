@@ -2030,7 +2030,7 @@ Sets gri-last-complete-status to 1 if show completions next time
                               to 2 if expand complete match next time
                                (used by gri-complete only, not here)
                               to 0 in other cases."
-  (let ((the-default) (unique) (match-count 0) (expansion-list))
+  (let ((unique) (match-count 0) (expansion-list))
     (save-excursion
       (gri-lookat-syntax-file 0)
       (let ((case-fold-search))
@@ -2409,7 +2409,8 @@ it.  If you make a mistake, note that the normal Emacs undo works."
 ;;                   remove options on either side of brackets
 ;;                   remove brackets
   (let ((beg-line (progn (save-excursion (beginning-of-line) (point))))
-        (here-point (progn (save-excursion (forward-char 1)(point)))))
+     ;;;(here-point (progn (save-excursion (forward-char 1)(point))))
+        )
     (save-excursion
       (skip-chars-backward "^ |[]{}")
       (gri-del-group-opt-backward))
@@ -2426,7 +2427,8 @@ it.  If you make a mistake, note that the normal Emacs undo works."
           (gri-del-group-opt-forward))
         (delete-char 1)       ;; delete the opening bracket
         (gri-del-group-opt-backward)
-        (setq here-point (point))))
+     ;;;(setq here-point (point))
+        ))
     (gri-next-option)))
     
 (defun gri-del-group-opt-forward ()
@@ -2920,7 +2922,7 @@ up a new gv process)."
           (setq psfile (concat psfile ".gz"))))
     (let ((shell-command-switch
            (or (and (boundp 'shell-command-switch) shell-command-switch) "-c"))
-          (directory default-directory)
+       ;;;(directory default-directory)
           (command (or (and (symbolp gri*view-command)
                             (symbol-name gri*view-command))
                        gri*view-command)))
@@ -3109,8 +3111,7 @@ Code from objective-C-mode."
 (defun gri-function-skeleton ()
   "Build a routine skeleton prompting for name."
   (interactive)
-  (let ((the-name (read-string "gri function name: "))
-        (the-user (user-full-name)))
+  (let ((the-name (read-string "gri function name: ")))
     (if (string-equal the-name "")
         (error "No name given."))
     (goto-char (point-min))
@@ -3412,7 +3413,8 @@ gets the following comment:
  #  80 31.224'N  11 48.633'W 10:03:18.2 07/05/93"
   (interactive "p")
   (let ((name (gri-file-name-at-point))
-        (the-end))
+     ;;;(the-end)
+        )
     (if (not name)
         (message "Sorry, could not detect file name under editing point")
       (save-excursion
@@ -3425,7 +3427,8 @@ gets the following comment:
           (insert "# ")
           (forward-line 1)
           (setq number-of-lines (1- number-of-lines)))
-        (setq the-end (point))))))
+     ;;;(setq the-end (point))
+        ))))
 
 (defun gri-string-at-point (chars &optional punct)
   "Return maximal string around point, of chars specified by string CHARS.
