@@ -219,6 +219,28 @@ dnl     Don't use AC_PROG_AWK, since gets 'mawk' before 'gawk'
 define(DEK_PROG_AWK, [AC_CHECK_PROGS(AWK, gawk nawk mawk awk,)])dnl
 DEK_PROG_AWK
 
+dnl	Check for Imgemagick's convert, needed to make PNG files in HTML manual
+AC_CHECK_PROG(HAVE_CONVERT, convert, "yes", "no")
+if test $HAVE_CONVERT = "no" ; then
+	echo " **WARNING:  Cannot make proper HTML manual without Imagemagick."
+	echo " **WARNING:  It is needed to make PNG images from PostScript files."
+	echo " **WARNING:  Expect broken image links in the manual!"
+fi
+
+dnl	AC_MSG_CHECKING(for ImageMagick's convert)
+dnl	define(CHECK_FOR_CONVERT, [
+dnl		if test -f /usr/bin/convert ; then
+dnl			HAVE_CONVERT="yes"
+dnl			echo "yes"
+dnl		else
+dnl			HAVE_CONVERT="no"
+dnl			echo "no.  Cannot make HTML manual without it"
+dnl		fi
+dnl		AC_SUBST(HAVE_CONVERT)dnl
+dnl	])dnl
+dnl	dnl
+dnl	CHECK_FOR_CONVERT
+
 dnl     checks for UNIX variants that set `DEFS'
 
 dnl     checks for header files

@@ -99,9 +99,21 @@ startup.o: version.cc startup.cc Makefile.in
 
 # Install all relevant files, creating directories, destroying old
 # links and creating new links as necessary.
+HAVE_CONVERT=@HAVE_CONVERT@
 install: all install-bin
-	echo "Installing into '$(prefix)' directory"
+	@echo "Installing into '$(prefix)' directory"
+        ifeq "$(HAVE_CONVERT)" "no"
+		@echo "** Warning: ImageMagick's convert is not on your system, and is needed"
+		@echo "**          to make PNG images in the HTML manual."
+		@echo "**          Expect broken image links in the manual!"
+        endif
 	cd doc; prefix=$(prefix) make install
+        ifeq "$(HAVE_CONVERT)" "no"
+		@echo "** Repeating this to make sure you see it..."
+		@echo "** Warning: ImageMagick's convert is not on your system, and is needed"
+		@echo "**          to make PNG images in the HTML manual."
+		@echo "**          Expect broken image links in the manual!"
+        endif
 
 install-bin:
 	cat startup.msg | sed -e s,VSN,${VERSION}, -e s,PREFIX,$(prefix), > tmp
@@ -119,7 +131,7 @@ install-bin:
 
 debian-lib = $(debian)/usr/share/gri/$(VERSION)
 install_linux_debian: gri
-	echo "Installing into '$(debian)' directory"
+	@echo "Installing into '$(debian)' directory"
 	install -d $(debian-lib)
 	if test -f startup.debian; then sed -e s,VSN,${VERSION}, startup.debian > $(debian-lib)/startup.msg; else echo "WARNING: no startup.debian file!"; fi;
 	install -d         $(debian)/usr/bin
@@ -133,7 +145,7 @@ install_linux_debian: gri
 	install -m 644 gri-mode.el $(debian)/usr/share/emacs/site-lisp/
 
 install_linux_debian_grionly: gri
-	echo "Installing into '$(debian)' directory"
+	@echo "Installing into '$(debian)' directory"
 	install -d             $(debian-lib)
 	install -m 644 gri.cmd  $(debian-lib)/gri.cmd
 	install -m 644 logo.dat $(debian-lib)/logo.dat

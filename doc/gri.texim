@@ -15065,15 +15065,25 @@ Follow the instructions in the @file{README} file to install Gri.
 The following steps indicate how to compile Gri on unix computers.  The
 procedure is quite standard.
 
-You'll need a C++ compiler that is modern enough to handle 'templates'
-(i.e. almost any compiler from 1998 onward).  Don't worry -- if your
-compiler isn't new enough, you'll see that in a minute or two!
-
 @cindex configure script, how to use to compile gri
 @cindex compiling gri
 @cindex how to compile gri
 
 @table @emph
+@item Requirements
+You'll need a C++ compiler that is modern enough to handle 'templates'
+(i.e. almost any compiler from 1998 onward).  Don't worry -- if your
+compiler isn't new enough, you'll see that in a minute or two!  
+
+You'll need TeX and texinfo to make the info files, and optionally the
+netCDF library (if you wish gri to be able to read netCDF binary data
+files).  To make the HTML manual, you'll need imagemagick, info, gs and its
+fonts.
+
+On Debian GNU/Linux systems, the required packages are listed as
+Build-Depends in the @file{control} file found in the @file{debian}
+directory, to which you must add the package @file{build-essential}.
+
 @item Unpack the source
 Type 
 @example

@@ -13,10 +13,10 @@ pdf:	gri-screenshot-1.pdf gri-screenshot-2.pdf gri-screenshot-3.pdf \
 
 
 %.pgm : %.png
-	convert  -geometry 500x999 $< $@
+	-convert  -geometry 500x999 $< $@
 
 %.eps : %.pgm
-	convert $< $@
+	-convert $< $@
 
 %.pdf : %.eps
 	ps2pdf $< $@
@@ -24,10 +24,10 @@ pdf:	gri-screenshot-1.pdf gri-screenshot-2.pdf gri-screenshot-3.pdf \
 # This was good for color; 
 # now let's put them in grayscale for the PostScript manual
 #%.eps : %.png
-#	convert  -geometry 500x999 $< eps2:$@
+#	-convert  -geometry 500x999 $< eps2:$@
 
 %-tiny.png : %.png
-	convert -geometry 999x120 $< $@
+	-convert -geometry 999x120 $< $@
 
 clean:
 	rm -f *-tiny.png *.eps *.pgm *.pdf *~ 

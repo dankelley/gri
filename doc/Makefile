@@ -37,7 +37,7 @@ test:
 
 html: gri.texi gri.info
 	cd examples ; make png
-	cp examples/*.png ./
+	-cp examples/*.png ./
 	cd examples ; make html
 	cp examples/*.html ./
 	cd tst_suite ; make html
@@ -76,8 +76,8 @@ html-install:	html
 	install -d             $(HTML_DIR)/tst_suite
 	chmod a+rx             $(HTML_DIR)/tst_suite
 	cp tst_suite/*html     $(HTML_DIR)/tst_suite
-	cp examples/*.png      $(HTML_DIR)/
-	chmod 644              $(HTML_DIR)/*.png
+	-cp examples/*.png      $(HTML_DIR)/
+	-chmod 644              $(HTML_DIR)/*.png
 	install -d             $(HTML_DIR)/screenshots
 	chmod a+rx             $(HTML_DIR)/screenshots
 	cp screenshots/*.png   $(HTML_DIR)/screenshots

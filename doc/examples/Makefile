@@ -8,7 +8,7 @@ GRI = gri -y -p
 	cp $< $@
 
 %.png : %.ps
-	convert $< $@
+	-convert $< $@
 
 %.pdf : %.ps
 	ps2pdf $< $@
@@ -17,7 +17,7 @@ GRI = gri -y -p
 	perl ../gri2html `basename $< .gri`
 
 %-tiny.png : %.png
-	convert -geometry 90x999 $< $@
+	-convert -geometry 90x999 $< $@
 
 example10color.eps : example10color.ps
 	-convert example10color.ps example10color.eps
