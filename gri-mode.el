@@ -5,7 +5,7 @@
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.41 (20 Feb 2001)
+;; Version:   2.42 (21 Feb 2001)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -360,6 +360,7 @@
 ;; V2.39 20Feb01 RCS 1.64 - add imenu support.
 ;; V2.40 20Feb01 RCS 1.65 - add gri-idle-display-defaults.
 ;; V2.41 20Feb01 RCS 1.66 - gri-idle-display-defaults set outside of X too.
+;; V2.42 21Feb01 RCS 1.68 - move idle timer startup into gri-mode proper.
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -786,6 +787,9 @@ In the above example, you'd set gri-command-postarguments to
 Use `M-x gri-set-command-postarguments' to set this locally for one gri file.
 This variable is only locally set for a particular file.")
 (make-variable-buffer-local 'gri-command-postarguments)
+
+(defvar gri-idle-timer nil
+  "Holds gri's idle timer when set.")
 
 (defun gri-set-local-version ()
   "Set the version of gri to use on this file only.
@@ -1494,14 +1498,6 @@ Used for gri-display-default-syntax."
       (let ((default-string (gri-syntax-default-this-command)))
         (if (stringp default-string)
             (message "%s" default-string)))))
-
-(if gri-idle-display-defaults
-    (setq gri-idle-timer
-          (run-with-idle-timer 2 t 'gri-idle-function)))
-
-;;; To cancel:
-;; (cancel-timer gri-idle-timer)
-;; (setq gri-idle-timer nil)))
 
 (defun gri-prompt-for-command (user-flag)
   "Prompt user for gri command name, providing minibuffer completion.
@@ -4471,7 +4467,7 @@ static char *magick[] = {
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.41 (c) 20 Feb 2001 --  Peter Galbraith <psg@debian.org>
+V2.42 (c) 21 Feb 2001 --  Peter Galbraith <psg@debian.org>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
@@ -4709,6 +4705,19 @@ PLANNED ADDITIONS:
   ;; Figure Out what version of gri to use, where to call it
   (hack-local-variables)
   (gri-initialize-version t)
+  (cond
+   ((and gri-idle-display-defaults
+         gri-cmd-file
+         (file-exists-p gri-cmd-file)
+         (not gri-idle-timer))
+    ;; Initiate timer
+    (setq gri-idle-timer (run-with-idle-timer 2 t 'gri-idle-function)))
+   ((and (not gri-idle-display-defaults)
+         gri-idle-timer)
+    ;; Cancel timer
+    (cancel-timer gri-idle-timer)
+    (setq gri-idle-timer nil)))
+
   (if (and (not (boundp 'gri-commands-menu)) 
       ;; Maybe I should redo it all the time in case frame size was changed?
            (not (equal gri-cmd-file "")))
