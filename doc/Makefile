@@ -52,7 +52,7 @@ html: gri.texi
 	perl archive-to-html.pl > Newsgroup.html
 	touch html
 
-card-install: FORCE
+card-install-redhat: FORCE
 	install -m 644 refcard.ps    $(CARD_DIR)
 	install -m 644 cmdrefcard.ps $(CARD_DIR)
 
