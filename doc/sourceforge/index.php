@@ -334,6 +334,7 @@ Search gri manual for (may be a regular expression):<p>
 <!--	<a class="menus" href="http://sourceforge.net/project/showfiles.php?group_id=5511">File download area</a><br> -->
         <A class="menus" HREF="http://www.sourceforge.net/patch/?group_id=5511">Submit a patch</A><br>
         <A class="menus" HREF="http://sourceforge.net/pm/task.php?group_project_id=8706&group_id=5511&func=browse">View to-do list</A><br>
+<p>
         <A class="menus" HREF="./main.php">Visit new page mockup</A><br>
 
 <!-- <A class="menus" HREF="./checklist_for_release">Packaging checklist</A><br> -->
