@@ -16,6 +16,14 @@ gri (2.9.0-0) unstable; urgency=low
 
  -- Peter S Galbraith <psg@debian.org>  Mon,  4 Feb 2002 14:07:39 -0500
 
+gri (2.8.6-2) unstable; urgency=high
+
+  * debian/control: added imagemagick, info, gs, gsfonts to Build-Depends.
+    They were in Build-Depends-Indep, but apparently the arch-independent
+    stuff is needlessly built by the autobuilders anyway (closes: #140982).
+
+ -- Peter S Galbraith <psg@debian.org>  Wed,  3 Apr 2002 09:50:14 -0500
+
 gri (2.8.6-1) unstable; urgency=low
 
   * New upstream version
