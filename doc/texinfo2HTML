@@ -9,21 +9,39 @@ texinfo2HTML [-h] [filename]
 Convert texinfo doc to HTML format, through processing of 
 texinfo comments as follows:
 
-\@c HTML some-stuff
- 	Pass \"some-stuff\", or in other words all the text following
- 	the HTML token on the same line, directly to the output file.
-\@c HTML <!-- newfile filename other_words_for_title -->
- 	If it occurs on a line all by itself, causes 
- 	this perlscript to chop files here.  The filename
-	will be as specified.  The other_words 
-	will be used as the title.  If neither the
-	filename nor the other_words are present, then
-	this script makes up filenames using numbers, e.g.,
-	gri1.html, gri2.html.  If the filename is \".\",
-	then this same naming scheme is used, but the titles
-	are used.
-\@c HTML <!-- latex: some-stuff -->
- 	Plants a comment to be stripped out as a latex-only command.
+1. Pass single line to HTML but not to other forms of manual
+------------------------------------------------------------
+
+    \@c HTML some-stuff
+
+
+2. Commented-out portions
+-------------------------
+
+    \@c HTML <!--
+    This line won't appear in the html
+    \@c HTML -->
+
+
+3. Break file here
+------------------
+
+    \@c HTML <!-- newfile filename other_words_for_title -->
+	    If it occurs on a line all by itself, causes 
+	    this perlscript to chop files here.  The filename
+	    will be as specified.  The other_words 
+	    will be used as the title.  If neither the
+	    filename nor the other_words are present, then
+	    this script makes up filenames using numbers, e.g.,
+	    gri1.html, gri2.html.  If the filename is \".\",
+	    then this same naming scheme is used, but the titles
+	    are used.
+
+4. Insert latex command
+-----------------------
+
+    \@c HTML <!-- latex: some-stuff -->
+	    Plants a comment to be stripped out as a latex-only command.
 
 BUGS:
 	Does not search for closing braces properly, so that lines like
@@ -56,7 +74,20 @@ $in_example = 0;
 $last_was_node = 0;
 print "<!-- Created automatically from texinfo source -->\n";
 print "<!-- $date -->\n";
-while(<>) {
+sub get_a_line() {
+    $_ = <>;
+    if (/^\@c\s*HTML\s*<!--\s*$/) {
+	while(<>) {
+	    print STDERR "SKIPPING $_";
+	    if (/^\@c\s*HTML\s*-->\s*$/) {
+		$_ = <>;
+		return $_;
+	    }
+	}
+    }
+    return $_;
+}
+while(get_a_line()) {
     $line++ if $debug;
     print STDERR "$0 at line: $line\n" if ($debug && ($line == 2000 * int($line / 2000)));
     next if /\@cindex/;
@@ -65,7 +96,7 @@ while(<>) {
 	while (/{[^}]*$/o) {
 	    $a = $_;
 	    $a =~ s/\n/ /o;
-	    $_ = <>;
+	    $_ = get_a_line();
 	    $_ = $a . $_;
 	}
     } else {
@@ -121,7 +152,7 @@ while(<>) {
     # Ignore contents of @dircategory and @direntry block
     next if /\@dircategory/;
     if (/^\@direntry/o) {
-	while(<>) {
+	while(get_a_line()) {
 	    if (/^\@end direntry/o) {
 		$_ = "";
 		last;
@@ -130,7 +161,7 @@ while(<>) {
     }
     # Ignore contents of tex and iftex blocks
     if (/^\@tex/o) {
-	while(<>) {
+	while(get_a_line()) {
 	    if (/^\@end tex/o) {
 		$_ = "";
 		last;
@@ -138,7 +169,7 @@ while(<>) {
 	}
     }
     if (/^\@iftex/o) {
-	while(<>) {
+	while(get_a_line()) {
 	    if (/^\@end iftex/o) {
 		$_ = "";
 		last;
@@ -173,7 +204,7 @@ while(<>) {
     s,\@TeX{},TeX,og;
     s,\@dots{},...,og;
     if (/^\@titlepage/o) {
-	while(<>) {
+	while(get_a_line()) {
 	    s,\@value\{(.*)\},$value{$1},g; # set/value pair
 	    if (/\@author\s*(.*)/o) {
 		$author = $1;
@@ -239,7 +270,7 @@ while(<>) {
     # Convert Menus to UL (was DL before)
     if (/\@menu/o) {
 	print "<UL>\n";
-	while(<>) {
+	while(get_a_line()) {
 	    if (/^\@end menu/o) {
 		$_ = "";
 		last;
@@ -260,7 +291,7 @@ while(<>) {
 	    $start_item = "<i>"; $end_item = "</i>"
 	}
 	print "<dl>\n";
-	while(<>) {
+	while(get_a_line()) {
 	    next if /\@sp/;
 	    next if /\@cindex/;
 	    &process_examples();

@@ -115,7 +115,6 @@ moderate learning curve.
 The Gri web homepage is at
 @url{http://www.phys.ocean.dal.ca/~kelley/gri}.
 
-
 @c HTML -->
 
 @c HTML <H1>Gri: a language for scientific graphics</H1>
@@ -175,8 +174,8 @@ The Gri web homepage is at
 @c HTML of the Gri language, called
 @c HTML <a href="http://www.phys.ocean.dal.ca/~kelley/gre"> Gre.</a>
 @c HTML <br>
-@c HTML <H2>Table of contents</H2>
 
+@c HTML <!--
 @menu
 * Introduction::                What Gri is for
 * Simple Example::              Introductory example
@@ -203,7 +202,7 @@ Indices
 * Index of Builtins::           Builtin variables
 * Concept Index::               Detailed index
 @end menu
-
+@c HTML -->
 
 @c HTML <!-- newfile Introduction.html "Gri: introduction" "Introduction" -->
 
@@ -362,7 +361,7 @@ you in a directory @file{.../gri/examples} on unix machines.
 
 @section Gri Command file
 
-@cindex example 1, linegraph using data in a separate file
+@cindex example 01, linegraph using data in a separate file
 
 Here is a Gri command file to plot a linegraph of a set of (x,y) data,
 stored as space-separated columns in a file called @file{example1.dat}:
@@ -430,7 +429,7 @@ The output PostScript file is called @file{example1.ps}.
 @comment OLD }
 @comment OLD @end tex
 @image{./examples/example1}
-@cindex example 1, linegraph using data in a separate file
+@cindex example 01, linegraph using data in a separate file
 
 To view Gri output, use your favorite PostScript previewer;
 @xref{Viewing}.
@@ -475,7 +474,7 @@ what is being done, and consult the plot as you read the commandfile.
 For more details on controlling these things, @pxref{Axes}.
 
 @cindex multiple panels
-@cindex example 3 (controlling scales, etc)
+@cindex example 03 (controlling scales, etc)
 
 
 
@@ -497,7 +496,7 @@ For more details on controlling these things, @pxref{Axes}.
 @comment OLD }
 @comment OLD @end tex
 @image{./examples/example3}
-@cindex example 3, controlling scales, etc
+@cindex example 03, controlling scales, etc
 
 
 
@@ -4288,7 +4287,7 @@ The following Gri commands will draw a linegraph.  For the output graph
 @cindex linegraphs
 @cindex x-y graphs
 @cindex drawing linegraphs
-@cindex example 1, linegraph using data in a separate file
+@cindex example 01, linegraph using data in a separate file
 
 This plots a simple linegraph.
 
@@ -4606,7 +4605,7 @@ on your system.)
 To get a simple contour graph based on pre-gridded
 data, with full control of axes, etc, do something like this:
 @cindex drawing contours of pregridded data
-@cindex example 4 (contouring pregridded data)
+@cindex example 04 (contouring pregridded data)
 
 @c HTML <A HREF="example4.jpg">
 @c HTML <IMG ALT="Example 4" SRC="example4-tiny.jpg"
@@ -4750,7 +4749,7 @@ Figures 5 and 6 of that paper to the results shown here.
 @comment OLD }
 @comment OLD @end tex
 @image{./examples/example5}
-@cindex example 5 - Contouring ungridded data, from figure
+@cindex example 05 - Contouring ungridded data, from figure
 
 
 @c HTML <!--
@@ -5006,7 +5005,7 @@ Examples are shown for linear mapping and histogram mapping.
 @comment OLD }
 @comment OLD @end tex
 @image{./examples/example6histogram}
-@cindex example 6, plot IR image of Gulf of Maine
+@cindex example 06, plot IR image of Gulf of Maine
 
 @c HTML <!--
 @example
@@ -5160,7 +5159,7 @@ plot @xref{New Commands}.
 @comment OLD @end tex
 @image{./examples/example7}
 
-@cindex example 7, box plots of mixing efficiency vs density ratio (meddy)
+@cindex example 07, box plots of mixing efficiency vs density ratio (meddy)
 
 
 @c HTML <!--
@@ -5242,7 +5241,7 @@ on execution, so the time stamp was not drawn.)
 @comment OLD @end tex
 @image{./examples/example8}
 
-@cindex example 8, plot T=T(x,rho) section of eubex data
+@cindex example 08, plot T=T(x,rho) section of eubex data
 
 
 
@@ -5414,7 +5413,7 @@ on execution, so the time stamp was not drawn.)
 @comment OLD @end tex
 @image{./examples/example9}
 
-@cindex example 9, plot dTdrho-rho section
+@cindex example 09, plot dTdrho-rho section
 
 
 @c HTML <!--
@@ -14213,7 +14212,7 @@ First debian release.  Versions exist for intel, alpha, 68K and powerpc.
 
 @node   Plans, Accessing, Version 2.2, History
 @comment  node-name,  next,  previous,  up
-@section Development versions
+@section Plans
 @c FOR NEXT RELEASE:
 @c 1) Fix bug in @code{read colorname} that caused it to try to
 @c    interpret comments in the X11 color-name file as though
