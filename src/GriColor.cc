@@ -8,6 +8,7 @@
 GriColor& GriColor::operator=(const GriColor& color)
 {
 	t = color.get_type();
+	transparency = color.getT();
 	switch (t) {
 	case rgb:
 		a = color.getR();
@@ -29,6 +30,7 @@ GriColor& GriColor::operator=(const GriColor& color)
 GriColor::GriColor(const GriColor& color)
 {
 	t = color.get_type();
+	transparency = color.getT();
 	switch (t) {
 	case rgb:
 		a = color.getR();
@@ -52,6 +54,7 @@ GriColor::setRGB(double R, double G, double B)
 	a = pin0_1(R);
 	b = pin0_1(G);
 	c = pin0_1(B);
+	transparency = 0.0;
 	t = rgb;
 }
 void GriColor::setHSV(double H, double S, double V)
@@ -59,6 +62,7 @@ void GriColor::setHSV(double H, double S, double V)
 	a = pin0_1(H);
 	b = pin0_1(S);
 	c = pin0_1(V);
+	transparency = 0.0;
 	t = hsv;
 }
 
@@ -68,6 +72,7 @@ GriNamedColor::GriNamedColor()
 	if (!name) OUT_OF_MEMORY;
 	name[0] = '\0';
 	a = b = c = 0.0;
+	transparency = 0.0;
 	t = rgb;
 }
 
@@ -79,6 +84,7 @@ GriNamedColor::GriNamedColor(const char *n, double R, double G, double B)
 	a = R;
 	b = G;
 	c = B;
+	transparency = 0.0;
 	t = rgb;
 }
 
@@ -89,6 +95,7 @@ GriNamedColor::GriNamedColor(const GriNamedColor& color)
 	if (!name) OUT_OF_MEMORY;
 	strcpy(name, cp);
 	t = color.get_type();
+	transparency = 0.0;
 	switch (t) {
 	case rgb:
 		a = color.getR();
@@ -121,6 +128,7 @@ GriNamedColor& GriNamedColor::operator=(const GriNamedColor& color)
 	}
 	strcpy(name, cp);
 	t = color.get_type();
+	transparency = 0.0;
 	switch (t) {
 	case rgb:
 		a = color.getR();
@@ -148,6 +156,7 @@ void GriNamedColor::setNameRGB(const char *newName, double R, double G, double B
 	}
 	strcpy (name, newName);
 	t = rgb;
+	transparency = 0.0;
 	a = pin0_1(R);
 	b = pin0_1(G);
 	c = pin0_1(B);

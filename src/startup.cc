@@ -329,6 +329,7 @@ first argument looks like a PostScript filename.  Older versions\n\
 static void
 create_builtin_colors()
 {
+	printf("OK? %s:%d\n",__FILE__,__LINE__);
 	GriNamedColor color;
 	color.setNameRGB("white",		1.000,	1.000,	1.000);
 	colorStack.push_back(color);
@@ -360,6 +361,7 @@ create_builtin_colors()
 	colorStack.push_back(color);
 	color.setNameRGB("magenta",		1.000,	0.000,	1.000);
 	colorStack.push_back(color);
+	printf("OK? %s:%d\n",__FILE__,__LINE__);
 }
 
 bool

@@ -3702,6 +3702,12 @@ Prevent printing command lines (default).
     extern "C" bool set_traceCmd(void);
 }
 
+`set transparency .transparency.'
+Set the transparency of drawn items, 0 for opaque and 1 for invisibly faint.
+{
+    extern "C" bool set_transparencyCmd(void);
+}
+
 `set u scale .cm_per_unit.|{as x}'
 Set scale for x-component of arrows.
 
