@@ -98,6 +98,7 @@
             </tr>
             <tr>
               <td class="menus" align="right">
+                <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.0-pre4.tgz">2.6.0-pre4.tgz</a><br>
                 <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.0-pre3.tgz">2.6.0-pre3.tgz</a><br>
                 <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.0-pre2.tgz">2.6.0-pre2.tgz</a><br>
               </td>
@@ -168,7 +169,7 @@ as simple as the following.
     <tr> 
       <td  class="menubox">
         <font size="-1">
-        Debugging vsn <font color="red">2.6.0</font><br>
+        Packaging <font color="red">2.6.0</font> for release<br>
         </font>
       </td>
     </tr>
