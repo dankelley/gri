@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.108 2001/07/13 21:28:18 dankelley Exp $
+@c $Id: gri.texim,v 1.109 2001/07/16 15:00:31 psg Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -14881,6 +14881,7 @@ written by Peter S. Galbraith
 * Gri-mode screenshots::                  What it looks like.
 * Installing gri-mode.el::                The nuts and bolts.
 * Major Gri-mode commands::               It knows about Gri commands.
+* Other features::                        IMenu, Toolbar, etc.
 * Dealing with many Gri versions::        gri-mode handles it.
 * Filename arguments when running gri::   gri-set-command-postarguments.
 @end menu
@@ -14895,10 +14896,10 @@ Gri mode has all the wonderful things you've come to expect from Emacs modes.
 Here's a brief overview of the features:
 @itemize @bullet
 @item
-It can @strong{complete} partially typed commands (@code{gri-complete},
-@key{M-Tab}) and help you edit the syntax that was thus inserted for you
-(@code{gri-option-select}, @kbd{C-c C-o}; @code{gri-option-kill}, 
-@kbd{C-c C-k}).
+It can @strong{complete} partially typed commands, builtin variables
+and synonyms (@code{gri-complete}, @key{M-Tab}) and help you edit the
+syntax that was thus inserted for you (@code{gri-option-select},
+@kbd{C-c C-o}; @code{gri-option-kill}, @kbd{C-c C-k}).
 @item
 It can provide a short help synopsis concerning the command on the
 current line (@code{gri-help-this-command}, @kbd{C-c C-h}), or load the
@@ -14917,8 +14918,7 @@ containing a given word (@code{gri-apropos}, @kbd{C-c C-a}).
 @item
 It fontifies your Gri code using colour coding.
 @item
-It @strong{indents} if statements, loops, and so on
-(@code{gri-indent-line}, @key{Tab}).
+It indents if statements, loops, and so on (@code{gri-indent-line}, @key{Tab}).
 @item
 It can let you run Gri and view its output without leaving the editor 
 (@code{gri-run}, @kbd{C-c C-r}).  If an error is encountered, Emacs will 
@@ -15339,12 +15339,14 @@ they can increase your productivity.
 
 
 @menu
-* Gri command names::    How gri-mode names all gri commands.
-* Possible completions:: A list of all valid commands matching so far.
-* Editing the syntax::   What to do after gri-complete.
-* User commands::        gri-mode knows about ~/.grirc.
-* Gri code fragments::   Use them as short-cuts.
-* Info interface::       Getting help about the current command.
+* Gri command names::     How gri-mode names all gri commands.
+* Possible completions::  A list of all valid commands matching so far.
+* Command abbreviations:: Abbreviating many words at one time.
+* Variable completion::   Completion of builtin variable and synonyms. 
+* Editing the syntax::    What to do after gri-complete.
+* User commands::         gri-mode knows about ~/.grirc.
+* Gri code fragments::    Use them as short-cuts.
+* Info interface::        Getting help about the current command.
 @end menu
 
 @c HTML <!-- newfile GriModeCommandNames.html "Gri Mode: command names" "Gri Mode: command names" -->
@@ -15355,7 +15357,7 @@ they can increase your productivity.
 @cindex gri-mode, how it names gri commands
 
 A major feature of Gri mode is the completion of partially typed
-commands.  Before you can understand that, you must understand how
+commands.  Let's examine how
 gri-mode decides to name gri commands.  A name is determined by removing
 bracketed options from the syntax line of a given command.  This is
 different from what the gri parser does.  In this way, the gri command
@@ -15371,12 +15373,13 @@ stays in the name because it is not optional.  So when you see
 to associate the name with what the command actually does.
 
 @c HTML <!-- newfile GriModeCompletions.html "Gri Mode: command completion" "Gri Mode: command completion" -->
-@node   Possible completions, Editing the syntax, Gri command names, Major Gri-mode commands
+@node   Possible completions, Command abbreviations, Gri command names, Major Gri-mode commands
 @comment  node-name,  next,  previous,  up
 @subsection Possible completions of gri command names
 @cindex gri-mode, possible completions
 
-When you press @key{M-tab} to complete a command name, gri-mode will
+When you press @key{M-tab} to complete a command name (or a variable
+or synonym name as described below), gri-mode will
 expand it as much as it can and do nothing further.  If you type in
 nothing more and insist by using @code{gri-complete} (@key{M-tab})
 again, gri-mode will respond by showing all possible completions in the
@@ -15420,12 +15423,73 @@ if the completions window is already displayed or if there are 3
 possibilities or less.  In this case they are displayed in the
 minibuffer.
 
-The @file{*completions*} window is deleted after a command is fully
+Note: The @file{*completions*} window is deleted after a command is fully
 completed.  @code{gri-complete} uses its own @file{*completions*}
 buffer, which is not displayed in the buffer-list to avoid clutter.
 
+@c HTML <!-- newfile GriModeCompletions2.html "Gri Mode: command completion" "Gri Mode: command completion" -->
+@node   Command abbreviations, Variable completion, Possible completions, Major Gri-mode commands
+@comment  node-name,  next,  previous,  up
+@subsection Command name abbreviation
+@cindex gri-mode, command name abbreviation
+
+gri-mode uses command name abbreviations in a non-Unix way in that all
+words that compose the command name may be abbreviated (and not only
+the word preceding the cursor).  For example, one can type in 
+
+@example
+dr x a@key{M-tab}
+@end example
+
+@noindent
+and it will expand1 all the words to
+
+@example
+draw x axis [at bottom|top|@{.y. [cm]@} [lower|upper]]
+@end example
+
+This is reminiscent of VMS, which the author was used to when
+gri-mode.el was initially created.  It's likely that a gri-mode.el
+rewritten from scratch wouldn't have this feature since it's not part
+of the Unix mindset.
+
+@c HTML <!-- newfile GriModeCompletionVarSyn.html "Gri Mode: variable completion" "Gri Mode: variable completion" -->
+@node   Variable completion, Editing the syntax, Command abbreviations, Major Gri-mode commands
+@comment  node-name,  next,  previous,  up
+@subsection Variable (and synonym) completion
+@cindex gri-mode, variable completion
+@cindex gri-mode, sysnonym completion
+
+It's also possible to do @key{M-tab} completion on gri builtin
+variable and synonym names while editing a command.  Simply type in
+the leading @code{.} (dot) or @code{\} (slash) character and
+invoke completion with @key{M-tab}.
+
+For example, 
+
+@example
+..x@key{M-tab}
+@end example
+
+@noindent
+displays a completions buffer listing the possible completions:
+
+@example
+..xmargin..                        ..xsize.. 
+..xleft..                          ..xright.. 
+..xlast..
+@end example
+
+@noindent
+Typing in an extra @code{m} will complete to @code{..xmargin..} and
+the following help information will be displayed in the minibuffer:
+
+@example
+margin to left of axis area. Default is 6 cm.
+@end example
+
 @c HTML <!-- newfile GriModeEditing.html "Gri Mode: editing completed syntax" "Gri Mode: editing completed syntax" -->
-@node   Editing the syntax, User commands, Possible completions, Major Gri-mode commands
+@node   Editing the syntax, User commands, Variable completion, Major Gri-mode commands
 @comment  node-name,  next,  previous,  up
 @subsection Editing the syntax output by gri-complete
 @cindex gri-mode, editing gri syntax
@@ -15536,7 +15600,7 @@ choices.  The gri commands used to replace them are found in the
 @file{*gri-syntax*} buffer.
 
 @c HTML <!-- newfile GriModeUserInterface.html "Gri Mode: user interface" "Gri Mode: user interface" -->
-@node   Info interface, Dealing with many Gri versions, Gri code fragments, Major Gri-mode commands
+@node   Info interface, Other features, Gri code fragments, Major Gri-mode commands
 @comment  node-name,  next,  previous,  up
 @subsection Info interface for help on current command
 @cindex gri-mode, Info interface
@@ -15556,8 +15620,40 @@ which will prompt you (using @key{tab} completion) for any command to
 list Info about.  There's also a menu-bar pull-down menu which lists all
 gri commands, and you can get to Info from that too.
 
+@c HTML <!-- newfile EmacsFeatures.html "Gri: Other Features of gri-mode" "Emacs Mode: Other Features of gri-mode" -->
+@node  Other features, Dealing with many Gri versions, Info interface, Emacs Mode
+@comment  node-name,  next,  previous,  up
+@section Other features of gri-mode
+@cindex gri-mode, imenu support
+@cindex gri-mode, toolbar
+
+@itemize @bullet
+@item
+@code{IMenu support}:
+IMenu is a GNU/Emacs package used to source code files.  It can be
+setup for a particular mode to list a menu of function definitions and
+variable declarations.  In gri-mode, the IMenu is available from the
+menubar and provides links to @code{new command declarations} as well
+as value settings for @code{variables} and @code{synomyns}.
+@item
+@code{Toolbar support}: 
+XEmacs21 and Emacs-21 have support for a toolbar (a set of iconic
+buttons that are shortcuts for commands), however the two editors
+don't not have compatible toolbar setups.  Currently gri-mode only
+defines a single icon for XEmacs (to run gri on the current buffer)
+and defines three for GNU/Emacs (to run gri, to view the postscript
+file, and to lookup Info about the command on the current line).
+@item
+@code{Idle Help}: 
+When GNU/Emacs sits idle with the cursor on a command line, it looks
+up any defaults the command may have and displays the information in
+the minibuffer.  For example, sitting on a line that says @code{set
+font size 10}, it will display @code{set font size: default is 12 point in variable ..fontsize..}.  
+@end itemize
+
+
 @c HTML <!-- newfile Emacs4.html "Gri: Dealing with many Gri versions" "Emacs Mode: Dealing with many Gri versions" -->
-@node   Dealing with many Gri versions, Filename arguments when running gri, Info interface, Emacs Mode
+@node   Dealing with many Gri versions, Filename arguments when running gri, Other features, Emacs Mode
 @comment  node-name,  next,  previous,  up
 @section Dealing with many Gri versions, gri-mode handles it.
 @cindex gri-mode, handling multiple Gri versions
@@ -15620,13 +15716,13 @@ $ gri somefile.gri *.dat
 The arguments are accessed with RPN operators @file{argc} and
 @file{argv} (@ref{Unary Operators}).
 
-It's possible to edit such a gri script using gri-mode and test it using
-@code{gri-run}.  The way this done while editing in gri-mode is by
-setting default arguments which will be locally-defined in a specific
-gri command file.  Use the gri-mode command
-@code{gri-set-command-postarguments} to setup a string that gri-mode
-will use, and the gri-mode command
-@code{gri-unset-command-postarguments} to unset it.  The string will be
+gri-mode provides a method to set the arguments (usually filenames) to
+use when @code{gri-run} is called in a specific gri script.  Use the
+gri-mode command @code{gri-set-command-postarguments} to setup a
+string that gri-mode will use, and the gri-mode command
+@code{gri-unset-command-postarguments} to clear it.  For ease-of-use,
+these commands are made available from the menubar under the
+@code{Perform -> Run Settings} entries.  The specified string will be
 stored in the locally-defined (aka buffer-local) variable
 @code{gri-command-postarguments} and will be written within a gri
 comment at the bottom of the file such that Emacs remembers it across
