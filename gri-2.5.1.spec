@@ -83,7 +83,8 @@ if [ "$1" = 1 ]
 then
 	if ! grep -i gri /usr/info/dir
 	then
-		/sbin/install-info --dir-file="/usr/info/dir" --entry="* GRI: (gri). Scientific graphics language." --info-file=/usr/info/gri
+#		/sbin/install-info --dir-file="/usr/info/dir" --entry="* GRI: (gri). Scientific graphics language." --info-file=/usr/info/gri.info
+		/sbin/install-info --dir-file="/usr/info/dir" /usr/info/gri.info
 		chmod a+r /usr/info/dir
 	fi
 fi
@@ -94,16 +95,21 @@ if [ "$1" = 0 ];
 then
 	if grep -i "gri" /usr/info/dir
 	then
-		grep -vi "gri" /usr/info/dir > /usr/info/dir.tmp
-		mv /usr/info/dir.tmp /usr/info/dir
+		/sbin/install-info --dir-file="/usr/info/dir" --remove /usr/info/gri.info
+#		grep -vi "gri" /usr/info/dir > /usr/info/dir.tmp
+#		mv /usr/info/dir.tmp /usr/info/dir
 		chmod a+r /usr/info/dir
 	fi
 fi
 
 %changelog
+* Thu May 11 2000 Peter S Galbraith <psg@debian.org>
+- Change info files to .info file extension.
+- Tweaked install-info rules.  I hope they work.
+
 * Sat Apr 01 2000 Dan Kelley <dan.kelley@dal.ca>
 - Fix spec-file error in the install-info command.  However,
-  to my great frustration, this is still broken 9or install-info
+  to my great frustration, this is still broken or install-info
   is broken) since the command doesn't install an entry for gri.
   After hand-editing to insert a Gri entry, I uncovered another
   bug, and so I have added a chmod of /usr/info/dir file so 

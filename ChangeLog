@@ -1,3 +1,12 @@
+2000-05-11  Peter S. Galbraith <psg@debian.org>
+
+	* Patch texinfo2HTML to skip over the @dircategory line and
+	  the @direntry block.
+	* Uncomment them in gri.texi
+	* Make gri.texi produce .info extensions (@setfilename gri.info)
+	* Patch gri-2.5.1.spec, Makefile.in and doc/Makefile targets to
+	  use .info extension.
+
 2000-05-07  Dan E. Kelley  <kelley@Intrusion.Phys.Ocean.Dal.Ca>
 
 	* VERSION 2.4.4
