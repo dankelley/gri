@@ -364,6 +364,10 @@
 ;; V2.43 11Apr01 RCS 1.68 - gri-common-in-list: fix bug introduced in
 ;;   completion of "set color" when compared to "set colorname"
 ;; V2.44 01May01 RCS 1.69 - XEmacs has IMenu after all.
+;; V2.45 03May01 RCS 1.70 - Fix byte-compiled gri-mode's imenu from
+;;   imenu-progress-message macro definition (can't rely on variable
+;;   defined here for loading of imenu during byte-compilation).
+;;   (Closes SF Bug #421076)
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -4334,9 +4338,10 @@ By error, I mean un improperly balanced sexp."
 ;; and make a simple `imenu-prev-index-position-function' to move backwards
 ;; to these regexps.  (See gri-imenu-prev-index-position-function below).
 
-;;FIXME:  XEmacs consideration here!
-(if gri*use-imenu
-    (require 'imenu))
+(if (fboundp 'imenu)			;Make sure it's auto-loaded
+    (eval-when-compile 
+      (require 'imenu)))
+
 (if (and (= emacs-major-version 20)
          (<= emacs-minor-version 2))
     (defun imenu-add-to-menubar (name)
@@ -4372,7 +4377,9 @@ See the command `imenu' for more information."
         (let ((index-alist '())
               (index-var-alist '())
               (index-syn-alist '())
-              prev-pos)
+              (prev-pos)
+              (imenu-scanning-message 
+               "Scanning gri functions, variables and synonyms (%3d%%)"))
           (setq gri-imenu-counter -99) ;IDs menu entries starting at -100
           (goto-char (point-max))
           (imenu-progress-message prev-pos 0 t)
