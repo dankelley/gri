@@ -72,16 +72,15 @@ manext = 1
 
 #SHELL = /bin/sh
 
-OBJS = GriColor.o GriPath.o GriState.o chopword.o close.o command.o \
-convert.o debug.o delete.o differ.o doline.o draw.o endup.o \
-expect.o file.o filter.o flip.o gr.o gr_coll.o graxes.o grcntour.o \
-gri.o grimage.o grinterp.o grsmooth.o grstring.o heal.o \
-help.o if.o ignore.o image.o input.o insert.o interp.o mask.o math.o new.o \
-open.o popen.o query.o quit.o read.o regress.o reorder.o rescale.o \
-rewind.o rpn.o rpncalc.o scales.o set.o show.o skip.o smooth.o \
-startup.o state.o stats.o storage.o synonyms.o template.o timer.o \
-utility.o variable.o version.o while.o write.o
-
+OBJS = assert.o chopword.o close.o command.o convert.o debug.o delete.o \
+differ.o doline.o draw.o endup.o expect.o file.o filter.o flip.o \
+graxes.o grcntour.o gr_coll.o GriColor.o grimage.o grinterp.o gri.o \
+GriPath.o GriState.o gr.o grsmooth.o grstring.o G_string.o heal.o \
+help.o if.o ignore.o image.o input.o insert.o interp.o mask.o math.o \
+new.o open.o popen.o query.o quit.o read.o regress.o reorder.o \
+rescale.o rewind.o rpncalc.o rpn.o scales.o set.o show.o skip.o \
+sleep.o smooth.o source.o startup.o state.o stats.o storage.o \
+synonyms.o template.o timer.o variable.o version.o while.o write.o
 
 all:  gri
 
