@@ -96,6 +96,7 @@ bool            delete_file(const char *filename);
 bool            delete_syn(const char *name);
 bool            delete_var(const char *name);
 bool            demonstrate_command_usage(void);
+char            *de_reference(char *syn);
 void            display_cmd_being_done_stack();
 void            display_cmd_stack(const char *s);
 void            display_data_stack(const char *s);
