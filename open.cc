@@ -81,6 +81,7 @@ Third word of `open filename' must be \"binary\", not `\\",
 bool
 open_file(DataFile::type type)
 {
+	put_syn("\\.return_value.", "", true);
 	// Must decode filename, which may have "/" in it which got expanded to "
 	// / " by expand_blanks().
 	// If filename is quoted, either read from a pipe (if last nonblank
@@ -161,6 +162,7 @@ open_file(DataFile::type type)
 			err("`open' can't find (or successfully open) file `\\", completefilename.c_str(), "' due to system error `", strerror(errno), "'.", "\\");
 			return false;
 		}
+		put_syn("\\.return_value.", completefilename.c_str(), true);
 	}
 	return true;
 }

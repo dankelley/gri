@@ -1,5 +1,5 @@
 @c -*-mode: texinfo; -*-
-@c $Id: gri.texim,v 1.62 2001/03/19 15:39:10 dankelley Exp $
+@c $Id: gri.texim,v 1.63 2001/03/19 16:29:48 dankelley Exp $
 \input texinfo @c -*-texinfo-*-
 @c
 @comment *** Start of HTML stuff ***
@@ -7893,12 +7893,12 @@ in the main gri program, do the same thing as @code{quit}.
 @cindex @code{rewind} command
 
 @example
-`rewind'
+`rewind \filename'
 @end example
 
 @noindent
-Rewind data-file to the beginning.
-
+Rewind a data-file to the beginning.  If no filename is given, this is
+done for the currently active file; otherwise the named file is rewound.
 
 
 @c HTML <!-- newfile Rpnfunction.html "Gri: `rpnfunction' command" "Gri Commands" -->
@@ -9398,10 +9398,12 @@ set path to "/atlases/world:/atlases/northern_hemisphere"
 open britain.dat        # we don't know where file is ...
 \gb = "\.return_value." # ... until now!
 
-# Can later do e.g.
+# Can later do command such as
 #    read from \gb
-# to ensure reading is done from this file, and
-# not, another file that just happens to be
+# or
+#    rewind \gb
+# to work with this particular file, even if
+# there is another file open that also is
 # named "britain.dat".
 @end example
 
@@ -15570,6 +15572,9 @@ like so in the file @file{~/.emacs}
 @section Version 2.6
 @table @emph
 @item 2.6.0 [2001-month-day] (Not released yet.)
+
+@sp 1
+Permit @code{rewind} to take a filename.
 
 @sp 1
 Make @code{open} set @code{\.return_value.} to the full pathname of the

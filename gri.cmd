@@ -2723,8 +2723,10 @@ the main gri program, do the same thing as `quit'.
     quit
 }
 
-`rewind'
-Rewind data-file to the beginning.
+`rewind [filename]'
+Rewind a data-file to the beginning.  If no filename is given, this 
+is done for the currently active file; otherwise the named
+file is rewound.
 {
     extern "C" bool rewindCmd(void);
 }
