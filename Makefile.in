@@ -198,7 +198,7 @@ distclean:
 
 # Source distribution
         SOURCE_NAME = gri-$(VERSION)
-           DEST_DIR = /home/kelley
+           DEST_DIR = .
 source:
 #	Clean directory, if existent.
 	-rm -rf $(SOURCE_NAME)
