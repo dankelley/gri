@@ -3,7 +3,7 @@ Version: 2.12.8
 Revision: 1
 Depends:
 Source: /Users/kelley/GRITEST/gri-%v.tgz
-Source-MD5: 933545b439708afa3a26b9e34bf39352
+Source-MD5: 3dd65b520b5d2e740b03ceff332357f8
 DocFiles: README
 Description: Scientific graphics language
 DescDetail: <<
