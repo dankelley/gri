@@ -1,7 +1,7 @@
 %!PS-Adobe-2.0 EPSF-1.2
-%%Creator: Gri2.2.4 (released 1999-Oct-20).  User=kelley, commandfile=example3.gri
+%%Creator: Gri2.4.2 (released 2000-Mar-25).  User=rhogee, commandfile=example3.gri
 %%Title: example3.ps
-%%CreationDate: Thu Oct 21 11:30:26 1999
+%%CreationDate: Wed May 31 09:54:20 2000
 %%Pages: (atend)
 %%BoundingBox: (atend)
 %%TemplateBox: 0 0 612 792
@@ -470,7 +470,6 @@ end
 %%Page: 1 1
 /Helvetica-ISOLatin1 findfont 12.00 sc sf
 %gri:# Example 3 -- Controlling scales, etc
-%gri:# $Id: example3.ps,v 1.1 2000/05/11 15:07:57 dankelley Exp $
 %gri:
 %gri:#
 %gri:# Example of how to control axis scales, etc.  This example makes
@@ -906,19 +905,16 @@ n 419.6 142.2 m 4.3 _bull S
 %gri:set font size 20
 /Helvetica-ISOLatin1 findfont 20.00 sc sf
 %gri:\label = "Example 3 -- scales, axes, etc"
-%gri:draw label "\label" at              {rpn 8.5 2.54 * "\label" width - 2 /}     {rpn ..ytop.. yusertocm 2 +}    cm
+%gri:draw label "\label" centered at     {rpn 2 5 + .5 + }     {rpn ..ytop.. yusertocm 2 +} cm
 %^ scale 1 284.5 0 142.25 1 56.9 10 28.45
 % gr_show_at() BEGIN
 0 g
 0 G
-S
-n
-173.3 398.3 m
-(Example 3 -- scales, axes, etc) sh
+79.5 398.3 m (Example 3 -- scales, axes, etc) sh
 % gr_show_at() END
 %gri:quit
 showpage
 %%Trailer
-%%BoundingBox: 15 13 443 415
+%%BoundingBox: 15 13 432 415
 %%DocumentFonts: Courier Helvetica Palatino-Roman Palatino-Italic Symbol Times-Roman
 %%Pages: 1
