@@ -298,13 +298,17 @@ gr_drawstring(const char *s)
 					// Draw single character in math mode.  If it's a digit,
 					// do not do in italics!
 					if (isdigit(*s) || ispunct(*s)) {
-						STOP_OLD_TEXT;
-						gr_setfont(original_font);
-						START_NEW_TEXT;
-						gr_DrawChar(s);
-						STOP_OLD_TEXT;
-						gr_setfont(slant_font);
-						START_NEW_TEXT;
+						if (*s == '/' && !isdigit(slast)) {
+							gr_DrawChar(s);
+						} else {
+							STOP_OLD_TEXT;
+							gr_setfont(original_font);
+							START_NEW_TEXT;
+							gr_DrawChar(s);
+							STOP_OLD_TEXT;
+							gr_setfont(slant_font);
+							START_NEW_TEXT;
+						}
 					} else {
 						gr_DrawChar(s);
 					}
@@ -352,13 +356,17 @@ gr_drawstring(const char *s)
 					// Draw single character in math mode.  If it's a digit,
 					// do not do in italics!
 					if (isdigit(*s) || ispunct(*s)) {
-						STOP_OLD_TEXT;
-						gr_setfont(original_font);
-						START_NEW_TEXT;
-						gr_DrawChar(s);
-						STOP_OLD_TEXT;
-						gr_setfont(slant_font);
-						START_NEW_TEXT;
+						if (*s == '/' && !isdigit(slast)) {
+							gr_DrawChar(s);
+						} else {
+							STOP_OLD_TEXT;
+							gr_setfont(original_font);
+							START_NEW_TEXT;
+							gr_DrawChar(s);
+							STOP_OLD_TEXT;
+							gr_setfont(slant_font);
+							START_NEW_TEXT;
+						}
 					} else {
 						gr_DrawChar(s);
 					}
@@ -404,13 +412,17 @@ gr_drawstring(const char *s)
 				// Draw single character in math mode.  If it's a digit, do
 				// not do in italics!
 				if (isdigit(*s) || ispunct(*s)) {
-					STOP_OLD_TEXT;
-					gr_setfont(original_font);
-					START_NEW_TEXT;
-					gr_DrawChar(s);
-					STOP_OLD_TEXT;
-					gr_setfont(slant_font);
-					START_NEW_TEXT;
+					if (*s == '/' && !isdigit(slast)) {
+						gr_DrawChar(s);
+					} else {
+						STOP_OLD_TEXT;
+						gr_setfont(original_font);
+						START_NEW_TEXT;
+						gr_DrawChar(s);
+						STOP_OLD_TEXT;
+						gr_setfont(slant_font);
+						START_NEW_TEXT;
+					}
 				} else {
 					gr_DrawChar(s);
 				}
