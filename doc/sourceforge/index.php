@@ -91,9 +91,9 @@
             <tr>
               <td class="menus" align="right">
 		<b>General tarball</b><br>
-                <i>N/A</i><br>
+                N/A<br>
                 <b>Linux Pre-packaged</b><br>
-                <i>N/A</i><br>
+                N/A<br>
               </td>
             </tr>
 
@@ -108,13 +108,9 @@
             </td>
             <tr>
               <td class="menus" align="right">
-                <a class="menus" href="http://sourceforge.net/project/showfiles.php?group_id=5511">File Download Area</a><br>
+                <a class="menus" href="http://sourceforge.net/project/showfiles.php?group_id=5511">To file download area</a><br>
               </td>
             </tr>
-
-
-
-
           </table>
       </td>
 
@@ -181,7 +177,7 @@ as simple as the following.
     <tr> 
       <td  class="menubox">
         <font size="-1">
-        Version 2.6.0 released</br>
+        Version 2.6.0 released 2001-apr-01</br>
         </font>
       </td>
     </tr>
