@@ -5,7 +5,7 @@
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.47 (10 May 2001)
+;; Version:   2.48 (01 June 2001)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -372,6 +372,7 @@
 ;;   imenu--create-gri-index: fix for few variables and synonym cases.
 ;; V2.47 10May01 RCS 1.72 - locally set resize-mini-windows to nil when
 ;;   running shell--command to run gri.
+;; V2.48 01May01 RCS 1.73 - Add emacs21 icons for gri-info and gri-view
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -4568,9 +4569,87 @@ static char * gri24x24_xpm[] = {
 \"....................... \",
 \"  .    .    .    .    . \",
 \"  .    .    .    .    . \"
-};"
-)
+};")
   "The run gri icon.")
+
+  (defvar gri::toolbar-view-icon
+    (gri-mode-toolbar-make-button
+"/* XPM */
+static char * gri_gv24x24_xpm[] = {
+/* columns rows colors chars-per-pixel */
+\"24 24 6 1\",
+\" 	c None\",
+\".	c #01be01be01be\",
+\"X	c white\",
+\"o	c black\",
+\"O	c Gray62\",
+\"+	c #e625e625e625\",
+/* pixels */
+\"                        \",
+\"....................... \",
+\"  .XXXXXXXXXXXXXXXXXXX. \",
+\"  .XXXXXXXXXXXXXXXXXXX. \",
+\"  .XXXXXXXXXXXXXXXXXXX. \",
+\"  .XXXXXooooXXoXXXXoXX. \",
+\"...XXXXooXXooXoXXXXoXX. \",
+\"  .XXXooXXXooXoXXXXoXX. \",
+\"  .XXXooXXXoOXooXX+oXX. \",
+\"  .XXXXooooo+XXoXXooXX. \",
+\"  .XXXXXXXXoXXXoXXoXXX. \",
+\"...XXXXXXXXoXXXoXXoXXX. \",
+\"  .XXXXXXXXoXXX+oXoXXX. \",
+\"  .XXXoXXXooXXXXooXXXX. \",
+\"  .XXXooXooXXXXXooXXXX. \",
+\"  .XXXXoooXXXXXXXXXXXX. \",
+\"...XXXXXXXX+++++++XXXX. \",
+\"  .XXX+++++++++++XXXXX. \",
+\"  .XXX+XXXXXXXXXXXXXXX. \",
+\"  .XXXXXXXXXXXXXXXXXXX. \",
+\"  .XXXXXXXXXXXXXXXXXXX. \",
+\"....................... \",
+\"  .    .    .    .    . \",
+\"  .    .    .    .    . \"
+};")
+  "The gri view icon.")
+
+  (defvar gri::toolbar-info-icon
+    (gri-mode-toolbar-make-button
+"/* XPM */
+static char * gri_info24x24_xpm[] = {
+/* columns rows colors chars-per-pixel */
+\"24 24 5 1\",
+\" 	c None\",
+\".	c #01be01be01be\",
+\"X	c white\",
+\"o	c #e625e625e625\",
+\"O	c Gray62\",
+/* pixels */
+\"                        \",
+\"....................... \",
+\"  .XXXXXXXXXXXXXXXXXXX. \",
+\"  .XXXXXXoOOOXXXXXXXXX. \",
+\"  .XXXXXXoOOOXXXXXXXXX. \",
+\"  .XXXXXXoOOOXXXXXXXXX. \",
+\"...XXXXXXXXXXXXXXXXXXX. \",
+\"  .XXXXXXOOOOXXXXXXXXX. \",
+\"  .XXXXXXOOOOXXXXXXXXX. \",
+\"  .XXXXXXOOOOXXXXXXXXX. \",
+\"  .XXXXXXOOOOXXXXXXXXX. \",
+\"...XXXXXXXOOOXXXXXXXXX. \",
+\"  .XXXXXXXOOOXXXXXXXXX. \",
+\"  .XXXXXXXOOOXXXXXXXXX. \",
+\"  .XXXXXXXOOOXXXXXXXXX. \",
+\"  .XXXXXXXOOOXXXXXXXXX. \",
+\"...XXXXXXXOOOXXXXXXXXX. \",
+\"  .XXXXXXOOOOOXXXXXXXX. \",
+\"  .XXXXXXOOOOOXXXXXXXX. \",
+\"  .XXXXXXXXXXXXXXXXXXX. \",
+\"  .XXXXXXXXXXXXXXXXXXX. \",
+\"....................... \",
+\"  .    .    .    .    . \",
+\"  .    .    .    .    . \"
+};")
+  "The gri Info icon.")
 
 ;;  (define-key global-map [tool-bar gri-run]
 ;;    '(menu-item "Run Gri" gri-run
@@ -4580,7 +4659,15 @@ static char * gri24x24_xpm[] = {
     '([gri::toolbar-run-icon
        gri-run
        t
-       "Run gri on this file"]))
+       "Run gri on this file"]
+      [gri::toolbar-view-icon
+       gri-view
+       t
+       "View PostScript file"]
+      [gri::toolbar-info-icon
+       gri-info-this-command
+       t
+       "Lookup Info about currently command"]))
 
   (mapcar (lambda (x)            
             (let* ((icon (aref x 0))
@@ -4600,7 +4687,7 @@ static char * gri24x24_xpm[] = {
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.47 (c) 10 May 2001 --  Peter Galbraith <psg@debian.org>
+V2.48 (c) 01 June 2001 --  Peter Galbraith <psg@debian.org>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
