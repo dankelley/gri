@@ -13,7 +13,7 @@ will be able to find it
 	fink fetch gri
 
 4. Build it
-	fink build gri
+	fink rebuild gri
 
 5. Install it
 	fink install gri
