@@ -1,24 +1,42 @@
 gri (2.6.0-1) unstable; urgency=low
 
   * New upstream version.
+    - Permit `rewind' to take a filename. 
+    - Make `open' set `\.return_value.' to the full pathname of the file
+      that was opened. 
+    - Add `set path' command.
+    - Remove functioning of `GRIINPUTS' environment variable, since this
+      is more cleanly handled with the newly added `set path to' command.
+    - Remove `\.awk.' synonym, which was deemed to be unhelpful.
+    - Change the format of images in the PostScript output file, as a
+      workaround for a bug in the `ps2pdf' program.
+    - Add ``ampersand'' (`\&' and `\&&') syntax to permit newcommands to
+      look up the name and nesting level of changeable arguments.
+    - Add ``at-sign'' (`@') syntax for aliases.
+    - Add ability to embed newlines in `show' commands with the `\<<' sequence.
+    - Add ability to embed TAB characters in `show' commands with the
+      `\>>'sequence.
+    - Make various `read' commands able to decode synonyms as well as
+      variables and simple numbers. 
+    - Add `strlen' RPN operator.
+    - Add `default' option to `set x format' and `set y format' commands. 
     - Add `new postscript file' command. 
     - No longer remove comments from data lines that are read.
-    - Add de-referenced synonyms (see De-referenced Synonyms). 
+    - Let newcommands have changeable arguments.
     - Remove `-s' as an abbreviation for the commandline option `-superuser'. 
     - Add commandline option `-output PS_file_name'. 
     - Add `assert' command.
     - Add `sleep' command.
-    - Add a method to access individual words within synonyms.
+    - Permit indexing of synonym words with variables, in addition to 
+      constants. 
     - Add `set colorname' command. 
     - Add `source' command. 
     - Add RPN operators `wordc' and `wordv' for accessing the words in
       the present Gri command. 
     - Add RPN operators `argc' and `argv' for accessing the command-line
       arguments. 
-    - Add automatic support for compressed data files.  So far, this
-      only works with gzipped files (See docs for Open command).
+    - Add automatic support for gzipped compressed data files.
     - Add two new RPN operators, `file_exists' and `directory_exists'.
-    - Bug fixes.
     - Reorganize parts of manual (e.g. changing the section about the 
       Emacs `gri-mode.el' into a chapter, with screenshots). 
     - Improve the HTML form of the manual (e.g. color-code the Gri syntax
@@ -29,6 +47,8 @@ gri (2.6.0-1) unstable; urgency=low
   * Info files have .info suffix now.
   * gri-html-doc suggests doc-base (otherwise it's not registered).  
   * gri.emacsen-remove: delete ${destination}/gri-mode.CompilationLog.gz
+  * gri.postinst: delete obsolete gri-mode.CompilationLog.gz files from
+    prior versions.
   * Updated to Standards-Version 3.5.2 with DEB_BUILD_OPTIONS variable
     (Default build no longer complies with debugging symbols, -g)
 
