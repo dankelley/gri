@@ -1,11 +1,11 @@
 ;; gri-mode.el - major mode for Gri, a scientific graphics programming language
 
-;; Copyright (C) 1994-2002 Peter S. Galbraith
+;; Copyright (C) 1994-2003 Peter S. Galbraith
  
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.63 (31 Jul 2002)
+;; Version:   2.64 (02 Apr 2003)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -4615,7 +4615,7 @@ static char * gri_info24x24_xpm[] = {
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.63 (c) 31 Jul 2002 --  Peter Galbraith <psg@debian.org>
+V2.64 (c) 02 April 2003 --  Peter Galbraith <psg@debian.org>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
