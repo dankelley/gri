@@ -13843,6 +13843,20 @@ things with gri".  A @emph{real} advantage of the SourceForge group is,
 in fact, that old messages are archived and threaded, and trivial to
 peruse on the web.
 
+Other commands, each to be emailed to 
+@c HTML <a href="mailto:majordomo@phys.ocean.dal.ca">
+@code{majordomo@@phys.ocean.dal.ca}
+@c HTML </a>
+in the @emph{body} (not the subjectline), are:
+@example
+info gri
+@end example
+@noindent (to get info on gri)
+@example
+unsubscribe gri
+@end example
+@noindent (to unsubscribe from the gri list)
+
 
 @c HTML <!-- newfile Emacs.html "Gri: Emacs editing mode" "Emacs editing mode" -->
 
