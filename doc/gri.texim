@@ -1,5 +1,5 @@
 @c -*-mode: texinfo; -*-
-@c $Id: gri.texim,v 1.53 2001/03/07 20:36:45 dankelley Exp $
+@c $Id: gri.texim,v 1.54 2001/03/12 14:54:40 dankelley Exp $
 \input texinfo @c -*-texinfo-*-
 @c
 @comment *** Start of HTML stuff ***
@@ -10476,47 +10476,6 @@ print "Q: was a 100?\n";
 EOF
 @end example
 
-Here is an Awk example.  Note that the commandline flags @code{-f -} are
-required to force awk to take commands from standard input.  Note also
-the absence of a final newline in the string; Awk does not require one,
-while Perl does.  (Finally, as usual, note that the synonym
-@code{\.awk.} is being used instead of @code{awk}, to ensure
-portability.) 
-
-@example
-\m = "Foo bar"
-system \.awk. -f - <<"EOF"
-BEGIN@{
-a = 100;
-print "foobar is \m, and a=", a, "\n";
-@}
-EOF
-@end example
-
-@noindent
-which, written more safely (avoiding the string @code{\n}), is
-
-@example
-\message = "Foo bar"
-system \.awk. -f - <<"EOF"
-BEGIN@{
-a = 100;
-print "foobar is \message, and a=", a;
-@}
-EOF
-@end example
-
-To get the awkscript to read its input from a named file, do e.g.
-
-@example
-system \.awk. -f - tst.dat <<"EOF"
-@{print $1;@}
-EOF
-@end example
-
-@noindent
-where the file @file{tst.dat} contains lines the first item of which
-will be printed to the screen by this awkscript. 
 @end itemize
 
 
@@ -10583,14 +10542,14 @@ on your system.)
 NOTE Under unix, this command calls the Bourne shell, not the C-shell
 that is often used interactively.  For many simple uses, the only
 difference from normal interactive use will be that @code{~} is not
-expanded to the home directory.  For example, you'd do
+expanded to the home directory.  For example, you should write
 
 @example
 system \.awk. -f $HOME/foo/bar/cmd.gawk
 @end example
 
 @noindent
-instead of the
+instead of the 
 
 @example
 system \.awk. -f ~/foo/bar/cmd.gawk

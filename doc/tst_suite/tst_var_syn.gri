@@ -290,17 +290,17 @@ nest1 &.a. &\s
 check_defined &.a.
 
 # System
-\t = system \.awk. -f - <<"EOF" 
+\t = system perl <<"EOF" 
 {print "Hi"}; 
 EOF 
 assert {rpn "\t" "Hi" ==}                       " failed test 19.1"
-\t = system \.awk. -f - <<"EOF" 
+\t = system perl <<"EOF" 
 {print "Hello"}; 
  EOF 
 assert {rpn "\t" "Hello" ==}                    " failed test 19.2"
 `NC4'
 { 
-    \t = system \.awk. -f - <<"EOF" 
+    \t = system perl <<"EOF" 
     {print "Howdie"};
 EOF 
 } 
@@ -308,7 +308,7 @@ NC4
 assert {rpn "\t" "Howdie" ==}                   " failed test 19.3"
 `NC5'
 { 
-    \t = system \.awk. -f - <<"EOF" 
+    \t = system perl <<"EOF" 
         {print "G'day"};
     EOF 
 } 
