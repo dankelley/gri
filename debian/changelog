@@ -16,6 +16,34 @@ gri (2.9.0-0) unstable; urgency=low
 
  -- Peter S Galbraith <psg@debian.org>  Mon,  4 Feb 2002 14:07:39 -0500
 
+gri (2.8.6-1) unstable; urgency=low
+
+  * New upstream version
+   - Fix SourceForge bug #513002 (minor error in docs for set clip)
+   - Fix SourceForge bug #506592 (HTML docs had misordered indices)
+   - Fix SourceForge bug #506534 (map axes give wrong minutes in negative
+     regions)
+   - Fix SourceForge bug #508088 (gri-mode.el: gv should update, not be 
+     relaunched)  
+   - Fix SourceForge bug #506490 (-v commandline option returned wrong
+     version number).  Note that this was already fixed in Debian release
+     2.8.5-2.
+  * Various debian directory tweaks merged-in from CVS:
+  * Updated to Standards-Version 3.5.6 (debian/rules uses build-arch and
+    build-indep targets).  
+  * debian/rules: Use DH_COMPAT=3 (so that Emacs startup file under
+    /etc/emacs get tagged as conffiles automatically)
+    (closes: #132834, #132840); 
+    substitute /debian/tmp by /debian/gri/;
+  * debian/gri.emacsen-install: Edit $(flags) such that XEmacs
+    byte-compilation doesn't load Debian startup files under /etc/emacs.
+  * debian/gri-html-doc.preinst: delete /usr/share/doc/gri-html-doc/html/.dhelp
+    and move potato version of /etc/emacs startup file to .dpkg-old
+  * debian/control: Depends on emacsen-common because of gri-mode install.
+  * debian/gri-html-doc.emacsen-startup: /usr/doc -> /usr/share/doc
+
+ -- Peter S Galbraith <psg@debian.org>  Thu,  7 Feb 2002 16:00:55 -0500
+
 gri (2.8.5-2) unstable; urgency=medium
 
   * Gri had a internal version number mismatch, thinking it was version
