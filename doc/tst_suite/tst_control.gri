@@ -1,2 +1,53 @@
 show "doc/tst_suite/tst_control.gri ..." ...
+
+# If statements
+if 0
+    assert 0				" failed test 1"
+end if
+if 1
+else
+    assert 0				" failed test 2"
+end if
+
+# Loops.
+
+# Loop with if inside
+.i. = 0
+while {rpn .i. 3 >}
+    .i. += 1
+    if 1
+    else
+	assert 0			" failed test 3"
+    end if
+end while
+assert {rpn .i. 3 ==}			" failed test 4"
+
+# Loop inside if
+if 1
+    .i. = 0
+    while {rpn .i. 3 >}
+	.i. += 1
+    end while
+    assert {rpn .i. 3 ==}		" failed test 5"
+else
+    assert 0				" failed test 6"
+    .i. = 0
+    while {rpn .i. 3 >}
+	.i. += 1
+    end while
+    assert 0				" failed test 7"
+end if
+
+# Nested loops
+.i. = 0
+while {rpn .i. 2 >}
+    .j. = 0
+    while {rpn .j. 4 >}
+	.j. += 1
+    end while
+    .i. += 1
+end while
+assert {rpn .i. 2 ==}			" failed test 8"
+assert {rpn .j. 4 ==}			" failed test 9"
+
 show " passed"
