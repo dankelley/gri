@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.120 2001/07/24 14:13:53 dankelley Exp $
+@c $Id: gri.texim,v 1.121 2001/07/24 14:26:49 psg Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -15825,7 +15825,7 @@ Give @key{M-Tab} the
 ability to complete builtin variables and synonyms as well as
 commands
 @item
-Add ``idle-timer help'' to display defaults for builtin
+Add ``idle-timer minibuffer help'' to display defaults for builtin
 variables under the cursor.
 @item
 Add fontification of builtin variables @emph{only}
