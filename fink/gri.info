@@ -1,7 +1,7 @@
 Package: gri
 Version: 2.12.10
 Revision: 1
-BuildDepends: imagemagick tetex
+BuildDepends: imagemagick, tetex
 Depends:
 Source: mirror:sourceforge:%n/%n-%v.tgz
 Source-MD5: 4de6c149bbfff5e207c4485dfbbf3216
