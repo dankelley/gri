@@ -1,9 +1,8 @@
 #!/usr/bin/perl
-# Convert Gri file to texi file.  Supply without suffix
-# $Id: gri2texi,v 1.2 2000/11/08 21:09:04 psg Exp $
-die "Usage: gri2texi file (no suffix on filename)" if ($#ARGV !=0);
-open(IN,  "$ARGV[0].gri")   || die "Can't open `$ARGV[0].gri'  for input\n";
-open(OUT, ">$ARGV[0].texi") || die "Can't open `$ARGV[0].html' for output\n";
+# Convert Gri file to texi file.
+die "Usage: gri2texi file.gri file.texi" if ($#ARGV !=1);
+open(IN,  "$ARGV[0]")  || die "Can't open `$ARGV[0]' for input\n";
+open(OUT, ">$ARGV[1]") || die "Can't open `$ARGV[1]' for output\n";
 
 $now = localtime;
 print OUT "\@c Created $now by $0 from $ARGV[0].gri\n" ;

@@ -14,7 +14,7 @@ GRI = gri -y -p
 	ps2pdf $< $@
 
 %.html : %.gri
-	perl ../gri2html `basename $< .gri`
+	perl ../gri2html $< $@
 
 %-tiny.png : %.png
 	-convert -geometry 90x999 $< $@

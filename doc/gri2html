@@ -1,7 +1,9 @@
 #!/usr/bin/perl
-die "Usage: gri2html file.gri" if ($#ARGV !=0);
-open(IN,  "$ARGV[0].gri")   || die "Can't open `$ARGV[0].gri'  for input\n";
-open(OUT, ">$ARGV[0].html") || die "Can't open `$ARGV[0].html' for output\n";
+die "Usage: gri2html file.gri file.html" if ($#ARGV !=1);
+$filename_gri = $ARGV[0];
+$filename_html = $ARGV[1];
+open(IN,  "$filename_gri")   || die "Can't open `$filename_gri'  for input\n";
+open(OUT, ">$filename_html") || die "Can't open `$filename_html' for output\n";
 
 print OUT "<html>\n";
 print OUT "<head>\n";
