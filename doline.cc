@@ -81,8 +81,10 @@ insert_cmd_in_ps(const char *cmd, const char *note="")
 	unsigned int first_nonwhite = 0;
 	while (isspace(*(cmd + first_nonwhite)))
 		first_nonwhite++;
+#if 0				// removed 2001-feb-22 for SF bug #133135
 	if (!strncmp(cmd + first_nonwhite, "insert", 6))
 		return;		// don't want 'insert' commands (confusing eh)
+#endif
 	strcpy(_grTempString, "gri:");
 	int ii = 4;			// where to start insert
 	int len = strlen(cmd);
