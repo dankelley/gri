@@ -22,14 +22,14 @@ gri (2.6.0-1) unstable; urgency=low
     - Reorganize parts of manual (e.g. changing the section about the 
       Emacs `gri-mode.el' into a chapter, with screenshots). 
     - Improve the HTML form of the manual (e.g. color-code the Gri syntax
-      in examples, provide access to all the indices, use Jpeg format, etc.). 
+      in examples, provide access to all the indices, use PNG format, etc.). 
     - Numerous gri-mode.el enhancements (including new pull-down menu
       listing all Gri commands).
   * Use debhelper.
   * Info files have .info suffix now.
   * gri-html-doc suggests doc-base (otherwise it's not registered).  
   * gri.emacsen-remove: delete ${destination}/gri-mode.CompilationLog.gz
-  * Updated to Standards-Version 3.2.1 with DEB_BUILD_OPTIONS variable
+  * Updated to Standards-Version 3.5.2 with DEB_BUILD_OPTIONS variable
     (Default build no longer complies with debugging symbols, -g)
 
  -- Peter S Galbraith <psg@debian.org>  Mon, 29 Jan 2001 12:43:02 -0500
