@@ -954,7 +954,7 @@ warning(const char *s,...)
 int
 ExtractQuote(char *sout, const char *s)
 {
-	int             i = 0, last_char = 0;
+	int             i = 0;
 	while (*(s + i) != '"') {
 		if (*(s + i) == '\0') {
 			*sout = '\0';
@@ -963,10 +963,12 @@ ExtractQuote(char *sout, const char *s)
 		i++;
 	}
 	strcpy(sout, s + i + 1);
-	last_char = i;
+	int last_char = i;
 	i = 0;
 	while (*(sout + i) != '\0') {
-		if (*(sout + i) == '"' && i > 0 && *(sout + i - 1) != '\\') {
+		if (*(sout + i) == '"') {
+			if (i > 0 && *(sout + i - 1) == '\\')
+				continue; // it was escaped
 			*(sout + i) = '\0';
 			return (2 + last_char + i);
 		}
