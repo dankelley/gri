@@ -59,16 +59,21 @@ html-tar:
 	gzip -f --best gridoc.tar
 
 html-install:
+# 	NB. Be careful in editing this target.  Things that are
+# 	created during the building process do not have $(srcdir)
+#	in their names; only things in the tarball have that prefix.
 	${INSTALL} -d                                 $(HTML_DIR)
 	${INSTALL} -d                                 $(HTML_DIR)/resources
 	$(INSTALL_DATA) $(srcdir)/resources/*.gif     $(HTML_DIR)/resources
 	${INSTALL} -d                                 $(HTML_DIR)/tst_suite
 #	$(INSTALL_DATA) $(srcdir)/tst_suite/*html     $(HTML_DIR)/tst_suite
 	$(INSTALL_DATA) tst_suite/*html               $(HTML_DIR)/tst_suite
-	$(INSTALL_DATA) $(srcdir)/examples/*.html     $(HTML_DIR)/
-	$(INSTALL_DATA) $(srcdir)/examples/*.png      $(HTML_DIR)/
+#	$(INSTALL_DATA) $(srcdir)/examples/*.html     $(HTML_DIR)/
+	$(INSTALL_DATA) examples/*.html     $(HTML_DIR)/
+	$(INSTALL_DATA) examples/*.png      $(HTML_DIR)/
 	${INSTALL} -d                                 $(HTML_DIR)/screenshots
 	$(INSTALL_DATA) $(srcdir)/screenshots/*.png   $(HTML_DIR)/screenshots
+#	$(INSTALL_DATA) screenshots/*.png   $(HTML_DIR)/screenshots
 	$(INSTALL_DATA) *.html                        $(HTML_DIR)
 	${INSTALL} -d                                 $(EXAMPLES_DIR)
 	$(INSTALL_DATA) $(srcdir)/examples/model*     $(EXAMPLES_DIR)
