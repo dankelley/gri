@@ -147,28 +147,27 @@ install_linux_redhat:
 	/usr/bin/install -m 644  license.txt                   $(DESTDIR)$(prefix)/share/gri/license.txt
 	#
 	# gri mode (tweaked a bit for redhat since debian goes to web to see manual)
-	cp -f gri-mode.el tmp
-	# Following sed conversion broken -- no idea why
-	sed -e 's,WWW-page "http://phys.ocean.dal.ca/~kelley/gri/gri1.html",WWW-page "file:$(prefix)/doc/gri-$(VERSION)/html/index.html",' tmp > gri-mode.el
-
-	/usr/bin/install -m 644  gri-mode.el                   $(DESTDIR)$(prefix)/share/emacs/site-lisp
-	mv tmp gri-mode.el
+	sed -e 's,WWW-page "http://www.phys.ocean.dal.ca/~kelley/gri/gri1.html",WWW-page "file:$(prefix)/doc/gri-$(VERSION)/html/index.html",;s,gri\*directory-tree "/usr/local/share/gri",gri*directory-tree "/usr/share/gri",' gri-mode.el > tmp
+	/usr/bin/install -m 644  tmp                           $(DESTDIR)$(prefix)/share/emacs/site-lisp/gri-mode.el
+	-rm -f tmp
 	# lets install some man and info docs
 	/usr/bin/install -m 644  doc/gri-manpage-redhat.1      $(DESTDIR)$(prefix)/man/man1/gri.1
-	cd doc ; gzip --best gri.info*
+	-rm $(DESTDIR)$(prefix)/info/gri.info*
 	/usr/bin/install -m 644  doc/gri.info*                 $(DESTDIR)$(prefix)/info
+	cd $(DESTDIR)$(prefix)/info ; gzip -f --best gri.info*
 
 # Install all relevant files, creating directories, destroying old
 # links and creating new links as necessary.
 install: all
 	echo "Installing into '$(prefix)' directory"
 	cat startup.msg | sed -e s,VSN,${VERSION}, > tmp
-	if test ! -d $(prefix)/share/gri ; then mkdir -m 755 -p $(prefix)/share/gri ; fi
+	$(INSTALL_PROGRAM) -d $(prefix)/share/gri
 	$(INSTALL_DATA) tmp $(prefix)/share/gri/startup.msg
 	rm -f tmp
-	$(INSTALL_PROGRAM)      gri             $(prefix)/bin/gri
 	$(INSTALL_DATA)         gri.cmd         $(prefix)/share/gri/gri.cmd
 	$(INSTALL_DATA)         license.txt     $(prefix)/share/gri/license.txt
+	$(INSTALL_PROGRAM) -d                   $(prefix)/bin
+	$(INSTALL_PROGRAM)      gri             $(prefix)/bin/gri
 	$(INSTALL_PROGRAM)      gri_merge       $(prefix)/bin/gri_merge
 	$(INSTALL_PROGRAM)      gri_unpage      $(prefix)/bin/gri_unpage
 	cd doc; prefix=$(prefix) make html-install

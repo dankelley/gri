@@ -1,12 +1,11 @@
 # Makefile for Gri documentation files.
 
-            GRI_DIR = /opt/gri
-           DEST_BIN = /doc/info
+           HTML_DIR = $(prefix)/doc/gri/html
                  RM = rm -f
             REFCARD = refcard
         CMD_REFCARD = cmdrefcard
      HTML_LONG_NAME = gri-long
-           INFO_DIR = $(PREFIX)/usr/info
+           INFO_DIR = $(prefix)/info
 
 FORCE:
 
@@ -48,23 +47,16 @@ html: gri.texi
 	perl archive-to-html.pl > Newsgroup.html
 	touch html
 
-html-install:
-	# GRI_DIR = /opt/gri
-	if test ! -d $(GRI_DIR)                    ; then mkdir -m 755 -p $(GRI_DIR)                    ; fi
-	if test ! -d $(GRI_DIR)/doc                ; then mkdir -m 755 -p $(GRI_DIR)/doc                ; fi
-	if test ! -d $(GRI_DIR)/doc/html           ; then mkdir -m 755 -p $(GRI_DIR)/doc/html           ; fi
-	if test ! -d $(GRI_DIR)/doc/html/examples  ; then mkdir -m 755 -p $(GRI_DIR)/doc/html/examples  ; fi
-	if test ! -d $(GRI_DIR)/doc/html/resources ; then mkdir -m 755 -p $(GRI_DIR)/doc/html/resources ; fi
-	-cp ./resources/*.gif    $(GRI_DIR)/doc/html/resources
-	-chmod a+r               $(GRI_DIR)/doc/html/resources/*
-	-cp ./examples/*         $(GRI_DIR)/doc/html/examples
-	-chmod a+r               $(GRI_DIR)/doc/html/examples/*
-	-cp ./*.html             $(GRI_DIR)/doc/html
-	-cp ./resources/logo.eps $(GRI_DIR)/doc/html/resources
-	-cp ./resources/logo.gif $(GRI_DIR)/doc/html/resources
-	-cp ./resources/logo.gri $(GRI_DIR)/doc/html/resources
-	-chmod a+r               $(GRI_DIR)/*
-	-make html-clean
+html-install:	html
+	install -d $(HTML_DIR)
+	install -d $(HTML_DIR)/examples
+	install -d $(HTML_DIR)/resources
+	install -m 644 ./resources/logo.eps $(HTML_DIR)/resources
+	install -m 644 ./resources/logo.gif $(HTML_DIR)/resources
+	install -m 644 ./resources/logo.gri $(HTML_DIR)/resources
+	install -m 644 ./resources/*.gif    $(HTML_DIR)/resources
+	install -m 644 ./examples/*         $(HTML_DIR)/examples
+	install -m 644 ./*.html             $(HTML_DIR)
 
 html-clean:
 	-cp FAQ.html save
@@ -168,7 +160,7 @@ gri1.html: gri.texi
 	rm -f index.html
 
 # Debian stuff follows
-# $(PREFIX) is either ../debian/gri-html-doc/usr/doc
+# $(prefix) is either ../debian/gri-html-doc/usr/doc
 #                     ../debian/gri-ps-doc/usr/doc
 #                     ../debian/tmp/usr/doc
 # or the same with /usr/share/doc instead.
@@ -184,8 +176,8 @@ cmdrefcard.ps:
 
 # make debian PREFIX=../debian/tmp/usr/doc INFO_DIR=../debian/tmp/usr/info
 debian: refcard.ps cmdrefcard.ps debian-info
-	install -d $(PREFIX)/gri
-	install -m 644 refcard.ps cmdrefcard.ps $(PREFIX)/gri
+	install -d $(prefix)/gri
+	install -m 644 refcard.ps cmdrefcard.ps $(prefix)/gri
 	install -d $(INFO_DIR)
 	install -m 644 gri.info* $(INFO_DIR)
 
@@ -201,23 +193,23 @@ debian-info: gri.texi
 
 # make debian-html PREFIX=../debian/gri-html-doc/usr/doc
 debian-html: gri1.html
-	install -d $(PREFIX)/gri-html-doc/html
-	install -m 644 *.html $(PREFIX)/gri-html-doc/html
-	rm -f $(PREFIX)/gri-html-doc/html/index.html
-	(cd $(PREFIX)/gri-html-doc/html; ln -sf gri1.html index.html)
-	install -d $(PREFIX)/gri-html-doc/html/resources
-	-cp ./resources/*.gif $(PREFIX)/gri-html-doc/html/resources
-	-cp ./resources/logo.gri $(PREFIX)/gri-html-doc/html/resources
-	-cp ./resources/logo.eps $(PREFIX)/gri-html-doc/html/resources
-	install -d $(PREFIX)/gri-html-doc/examples
-	install -m 644 ./examples/* $(PREFIX)/gri-html-doc/examples
-	chmod +x $(PREFIX)/gri-html-doc/examples/FEM.pl
-	(cd $(PREFIX)/gri-html-doc/html; ln -sf ../examples)
+	install -d $(prefix)/gri-html-doc/html
+	install -m 644 *.html $(prefix)/gri-html-doc/html
+	rm -f $(prefix)/gri-html-doc/html/index.html
+	(cd $(prefix)/gri-html-doc/html; ln -sf gri1.html index.html)
+	install -d $(prefix)/gri-html-doc/html/resources
+	-cp ./resources/*.gif $(prefix)/gri-html-doc/html/resources
+	-cp ./resources/logo.gri $(prefix)/gri-html-doc/html/resources
+	-cp ./resources/logo.eps $(prefix)/gri-html-doc/html/resources
+	install -d $(prefix)/gri-html-doc/examples
+	install -m 644 ./examples/* $(prefix)/gri-html-doc/examples
+	chmod +x $(prefix)/gri-html-doc/examples/FEM.pl
+	(cd $(prefix)/gri-html-doc/html; ln -sf ../examples)
 
 # make debian-ps PREFIX=../debian/gri-ps-doc/usr/doc
 debian-ps: gri.ps
-	install -d $(PREFIX)/gri-ps-doc
-	install -m 644 gri.ps $(PREFIX)/gri-ps-doc
+	install -d $(prefix)/gri-ps-doc
+	install -m 644 gri.ps $(prefix)/gri-ps-doc
 
 debian-clean:
 	-rm debian-info
