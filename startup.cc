@@ -200,10 +200,15 @@ start_up(int argc, char **argv)
 	PUT_VAR("..trace..", trace_old);
 
 	// DataFile stack
+	if (((unsigned) superuser()) & FLAG_AUT1) {
+		printf("DEBUG: %s:%d about to create a new datafile\n",__FILE__,__LINE__);
+		printf("DEBUG: cmdfile length is %d\n",_cmdFILE.size());
+	}
 	DataFile new_data_file;
+	if (((unsigned) superuser()) & FLAG_AUT1)printf("DEBUG: %s:%d pushing back a datafile at address %x\n",__FILE__,__LINE__,int(&new_data_file));
 	_dataFILE.push_back(new_data_file);
 
-    // Figure out if there was a cmdfile supplied on options line.
+	// Figure out if there was a cmdfile supplied on options line.
 	if (argc < 2 + last_optional_arg) {
 		// There was no cmdfile given, so take commands from stdin
 		_margin.assign("  ");
@@ -244,6 +249,7 @@ start_up(int argc, char **argv)
 	}
 	_first = true;
 	_bounding_box.set(0., 0., 0., 0.);
+	if (((unsigned) superuser()) & FLAG_AUT1)printf("++++++++++++++ DEBUG: left scope of first datafile\n");
 	return true;
 }
 

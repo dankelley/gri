@@ -283,36 +283,31 @@ is_punctuation(int c)
 		) ? true : false);
 }
 
-char *
+// Creates new storage that should be removed with free().
+char*
 complete_filename(const char *filename)
 {
-	char *            return_value;
-#if defined(VMS)
-	return_value = strdup(filename);
-	return return_value;
-#elif defined(MSDOS)
+	char *return_value;
+#if defined(VMS) || defined(MSDOS)
 	return_value = strdup(filename);
 	return return_value;
 #else
 	string rval;
 	if (filename[0] == '~') {
-		if (strlen(filename) < 2)
-			return NULL; // broken filename
+		if (strlen(filename) < 2) {
+			printf("gri-%s error at %s:%d. Broken filename `%s'\n",VERSION,__FILE__,__LINE__,filename);
+			return "";
+		}
 		rval.append(egetenv("HOME"));
 		rval.append(filename + 1);
-		return_value = new char[1 + rval.size()];
-		if (!return_value) OUT_OF_MEMORY;
+		GET_STORAGE(return_value, char, 1 + rval.size());
 		strcpy(return_value, rval.c_str());
 	} else if (filename[0] == '/' || filename[0] == '\\') {
-		return_value = new char[1 + strlen(filename)];
-		if (!return_value) OUT_OF_MEMORY;
+		GET_STORAGE(return_value, char, 1 + strlen(filename));
 		strcpy(return_value, filename);
 	} else {
 		// Normal file.  Prepend current working directory
-		return_value = new char[2
-				       + strlen(_current_directory.c_str())
-				       + strlen(filename)];
-		if (!return_value) OUT_OF_MEMORY;
+		GET_STORAGE(return_value, char, 2 + _current_directory.size() + strlen(filename));
 		strcpy(return_value, _current_directory.c_str());
 #if defined(MSDOS)
 		strcat(return_value, "\\");
@@ -788,7 +783,7 @@ fatal_err(const char *string,...)
 	} else {
 		if (block_level() > 0) {
 			if (block_source_file() != NULL) {
-				printf("DEBUG utility.cc:fatal_err(): block_source_line()=%d\n",block_source_line());
+				if (((unsigned) superuser()) & FLAG_AUT1)printf("DEBUG utility.cc:fatal_err(): block_source_line()=%d\n",block_source_line());
 				sprintf(msg,
 					" Error detected at %s:%d\n",
 					block_source_file(),
@@ -814,7 +809,7 @@ fatal_err(const char *string,...)
 	}
 }
 
-char           *
+const char *
 what_file()
 {
 	if (block_level() > 0) {
@@ -972,7 +967,7 @@ ExtractQuote(char *sout, const char *s)
 	last_char = i;
 	i = 0;
 	while (*(sout + i) != '\0') {
-		if (*(sout + i) == '"' && *(sout + i - 1) != '\\') {
+		if (*(sout + i) == '"' && i > 0 && *(sout + i - 1) != '\\') {
 			*(sout + i) = '\0';
 			return (2 + last_char + i);
 		}

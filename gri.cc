@@ -135,22 +135,24 @@ GriColumn _colWEIGHT;
 // Command stack
 #define	COMMAND_STACK_SIZE	1000
 typedef struct {
-    char           *syntax;	// The 'name' of command
-    char           *help;	// Help, if any
-    char           *procedure;	// Commands to do
-    char           *filename;	// Where defined
-    int             fileline;	// Where defined
+	char           *syntax;	// The 'name' of command
+	char           *help;	// Help, if any
+	char           *procedure;	// Commands to do
+	char           *filename;	// Where defined
+	int             fileline;	// Where defined
 }               GRI_COMMAND;	// 
 GRI_COMMAND     _command[COMMAND_STACK_SIZE];
 
 int
 main(int argc, char **argv)
 {
-    start_up(argc, argv);
-    do
-	do_command_line();
-    while (!_done);
-    warning("\\\\");		// notify of pending repeated warnings
-    end_up();
-    return _exit_value;
+	start_up(argc, argv);
+	do
+		do_command_line();
+	while (!_done);
+	warning("\\\\");		// notify of pending repeated warnings
+	if (((unsigned) superuser()) & FLAG_AUT1)printf("\n** about to end_up()...\n");
+	end_up();
+	if (((unsigned) superuser()) & FLAG_AUT1)printf("\n\t... did the end_up() OK\n");
+	return _exit_value;
 }

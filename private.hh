@@ -233,7 +233,7 @@ void            warning(const char *string, ...);
 
 bool            warn_if_slow(GriTimer *t, double fraction_done, const char *cmd);
 int             what_line(void);
-char           *what_file(void);
+const char     *what_file(void);
 bool            well_ordered(double min, double max, double inc);
 bool            word_is(int i, const char *word);
 void            write_prompt(void);

@@ -92,8 +92,7 @@ bool
 open_file(DataFile::type type)
 {
 	// Must decode filename, which may have "/" in it which got expanded to "
-	// / " by expand_blanks(). Note that complete_filename will get space if
-	// required.
+	// / " by expand_blanks().
 	// If filename is quoted, either read from a pipe (if last nonblank
 	// character is '|') or just ignore the quotes
 	if (*_word[1] == '"') {
@@ -151,11 +150,14 @@ open_file(DataFile::type type)
 					err("`open' needs a filename; \"\" won't do!");
 					return false;
 				}
-				string fullname((char *) complete_filename(filename.c_str()));
-				if (!push_data_file(fullname.c_str(), type, "r", false)) {
-					err("`open' can't find file `\\", fullname.c_str(), "'", "\\");
+				char *ptr = complete_filename(filename.c_str());
+				string completefilename(ptr);
+				if (!push_data_file(completefilename.c_str(), type, "r", false)) {
+					err("`open' can't find file `\\", completefilename.c_str(), "'", "\\");
+					free(ptr);
 					return false;
 				}
+				free(ptr);
 			}
 		}
 	} else {
@@ -164,11 +166,14 @@ open_file(DataFile::type type)
 			err("`open' needs a filename");
 			return false;
 		}
-		string fullname(complete_filename(_word[1]));
-		if (!push_data_file(fullname.c_str(), type, "r", false)) {
-			err("`open' can't find file `\\", fullname.c_str(), "'", "\\");
+		char *ptr = complete_filename(_word[1]);
+		string completefilename(ptr);
+		if (!push_data_file(completefilename.c_str(), type, "r", false)) {
+			free(ptr);
+			err("`open' can't find file `\\", completefilename.c_str(), "'", "\\");
 			return false;
 		}
+		free(ptr);
 	}
 	return true;
 }

@@ -100,7 +100,7 @@ insert_source_indicator(char *cl)
 	char line[1024];
 	sprintf(line, " \"%s:%d\"", _cmdFILE.back().get_name(), _cmdFILE.back().get_line());
 	strcat(cl, line);
-	if (cl[len - 1] == '\n')
+	if (len > 0 && cl[len - 1] == '\n')
 		cl[len - 1] = PASTE_CHAR;
 	else
 		cl[len] = PASTE_CHAR;
@@ -649,7 +649,7 @@ remove_comment(char *s)
 	// are added to newline in PC-ish systems), by converting
 	// them to nulls
 	len = strlen(s);
-	while (s[len - 1] == '\n' || s[len - 1] == '\r')
+	while (len > 1 && (s[len - 1] == '\n' || s[len - 1] == '\r'))
 		s[--len] = '\0';
 
 	// Discard comment on end
