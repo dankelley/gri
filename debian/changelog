@@ -1,8 +1,24 @@
-gri (2.6.1-0) unstable; urgency=low
+gri (2.6.1-1) unstable; urgency=low
 
-  * New CVS upstream version (Note the debian version 0 !!!).
+  * New upstream version (bug fixes only).
+    - Fix SourceForge bug #420499 (gri-mode.el compatibility issues with
+      emacs-21; Mostly bad old code.)
+    - Fix SourceForge bug #421076 (byte-compiled gri-mode.el has
+      broken IMenu support; Affects Debian package.)
+    - Fix SourceForge bug #419599 (wouldn't compile under GNU g++ 3.x compiler)
+    - Fix SourceForge bug #418065 (documentation mentions back-tic
+      notation, which is not available)
+    - Fix SourceForge bug #417333 (vague error message `RPN string operator')
+    - Fix SourceForge bug #415277 (make fails on MSDOS)
+    - Fix SourceForge bug #415149 (`file.cc' parse error on MSDOS)
+    - Fix SourceForge bug #414520 (`draw symbol ... at' should
+      automatically produces axes unless the location is in `cm' coordinates)
+    - Fix SourceForge bug #414010 (items in the html concept index were
+      in an odd order)
+    - Fix SourceForge bug #413986 (`~username' was broken in `open')
+    - Fix SourceForge bug #411904 (`/' was ugly in math mode)
 
- -- Peter S Galbraith <psg@debian.org>  Mon,  9 Apr 2001 10:29:25 -0400
+ -- Peter S Galbraith <psg@debian.org>  Fri, 11 May 2001 10:48:25 -0400
 
 gri (2.6.0-1) unstable; urgency=low
 
