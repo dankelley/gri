@@ -260,10 +260,9 @@ rpn(int nw, char **w, char ** result)
 			do_operation(oper);
 		} else {
 			// Must be an operand
-			operand_type    type;
 			unsigned int    ii, which;
 			char           *Wnew[MAX_nword];	// for function case 
-			type = is_operand((const char*)W[i], &operand_value);
+			operand_type type = is_operand((const char*)W[i], &operand_value);
 			RpnItem item;
 			switch (type) {
 			case NUMBER:
@@ -1489,7 +1488,7 @@ do_operation(operator_name oper)
 		}
 		if (!strcmp(NAME(2), "x")) {
 			if (index > int(_colX.size() - 1)) {
-				sprintf(_grTempString, "Cannot index %d-th value of x column; valid range is 0 to %d", index, _colX.size() - 1);
+				sprintf(_grTempString, "Cannot index %d-th value of x column; valid range is 0 to %d", index, int(_colX.size() - 1));
 				err(_grTempString);
 				RpnError = GENERAL_ERROR;
 				return false;
@@ -1498,7 +1497,7 @@ do_operation(operator_name oper)
 			rS.pop_back();
 		} else if (!strcmp(NAME(2), "y")) {
 			if (index > int(_colY.size() - 1)) {
-				sprintf(_grTempString, "Cannot index %d-th value of y column; valid range is 0 to %d", index, _colY.size() - 1);
+				sprintf(_grTempString, "Cannot index %d-th value of y column; valid range is 0 to %d", index, int(_colY.size() - 1));
 				err(_grTempString);
 				RpnError = GENERAL_ERROR;
 				return false;
@@ -1507,7 +1506,7 @@ do_operation(operator_name oper)
 			rS.pop_back();
 		} else if (!strcmp(NAME(2), "z")) {
 			if (index > int(_colZ.size() - 1)) {
-				sprintf(_grTempString, "Cannot index %d-th value of z column; valid range is 0 to %d", index, _colZ.size() - 1);
+				sprintf(_grTempString, "Cannot index %d-th value of z column; valid range is 0 to %d", index, int(_colZ.size() - 1));
 				err(_grTempString);
 				RpnError = GENERAL_ERROR;
 				return false;
@@ -1516,7 +1515,7 @@ do_operation(operator_name oper)
 			rS.pop_back();
 		} else if (!strcmp(NAME(2), "u")) {
 			if (index > int(_colU.size() - 1)) {
-				sprintf(_grTempString, "Cannot index %d-th value of u column; valid range is 0 to %d", index, _colU.size() - 1);
+				sprintf(_grTempString, "Cannot index %d-th value of u column; valid range is 0 to %d", index, int(_colU.size() - 1));
 				err(_grTempString);
 				RpnError = GENERAL_ERROR;
 				return false;
@@ -1525,7 +1524,7 @@ do_operation(operator_name oper)
 			rS.pop_back();
 		} else if (!strcmp(NAME(2), "v")) {
 			if (index > int(_colV.size() - 1)) {
-				sprintf(_grTempString, "Cannot index %d-th value of v column; valid range is 0 to %d", index, _colV.size() - 1);
+				sprintf(_grTempString, "Cannot index %d-th value of v column; valid range is 0 to %d", index, int(_colV.size() - 1));
 				err(_grTempString);
 				RpnError = GENERAL_ERROR;
 				return false;
@@ -1534,7 +1533,7 @@ do_operation(operator_name oper)
 			rS.pop_back();
 		} else if (!strcmp(NAME(2), "r")) {
 			if (index > int(_colR.size() - 1)) {
-				sprintf(_grTempString, "Cannot index %d-th value of r column; valid range is 0 to %d", index, _colR.size() - 1);
+				sprintf(_grTempString, "Cannot index %d-th value of r column; valid range is 0 to %d", index, int(_colR.size() - 1));
 				err(_grTempString);
 				RpnError = GENERAL_ERROR;
 				return false;
@@ -1543,7 +1542,7 @@ do_operation(operator_name oper)
 			rS.pop_back();
 		} else if (!strcmp(NAME(2), "theta")) {
 			if (index > int(_colTHETA.size() - 1)) {
-				sprintf(_grTempString, "Cannot index %d-th value of theta column; valid range is 0 to %d", index, _colTHETA.size() - 1);
+				sprintf(_grTempString, "Cannot index %d-th value of theta column; valid range is 0 to %d", index, int(_colTHETA.size() - 1));
 				err(_grTempString);
 				RpnError = GENERAL_ERROR;
 				return false;

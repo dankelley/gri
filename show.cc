@@ -413,7 +413,7 @@ show_columns_statisticsCmd()
 		sprintf(_grTempString, "\
 x[1-%4d]:         mean       stddev     skewness     kurtosis\n\
           %12g %12g %12g %12g\n",
-			_colX.size(), ave, sdev, skew, kurt);
+			int(_colX.size()), ave, sdev, skew, kurt);
 		gr_textput(_grTempString);
 		sprintf(_grTempString, "\
                 minimum           q1       median           q3      maximum\n\
@@ -427,7 +427,7 @@ x[1-%4d]:         mean       stddev     skewness     kurtosis\n\
 		sprintf(_grTempString, "\
 y[1-%4d]:         mean       stddev     skewness     kurtosis\n\
            %12g %12g %12g %12g\n",
-			_colY.size(), ave, sdev, skew, kurt);
+			int(_colY.size()), ave, sdev, skew, kurt);
 		gr_textput(_grTempString);
 		sprintf(_grTempString, "\
                 minimum           q1       median           q3      maximum\n\
@@ -441,7 +441,7 @@ y[1-%4d]:         mean       stddev     skewness     kurtosis\n\
 		sprintf(_grTempString, "\
 z[1-%4d]:         mean       stddev     skewness     kurtosis\n\
            %12g %12g %12g %12g\n",
-			_colZ.size(), ave, sdev, skew, kurt);
+			int(_colZ.size()), ave, sdev, skew, kurt);
 		gr_textput(_grTempString);
 		sprintf(_grTempString, "\
                 minimum           q1       median           q3      maximum\n\
@@ -455,7 +455,7 @@ z[1-%4d]:         mean       stddev     skewness     kurtosis\n\
 		sprintf(_grTempString, "\
 u[1-%4d]:         mean       stddev     skewness     kurtosis\n\
            %12g %12g %12g %12g\n",
-			_colU.size(), ave, sdev, skew, kurt);
+			int(_colU.size()), ave, sdev, skew, kurt);
 		gr_textput(_grTempString);
 		sprintf(_grTempString, "\
                 minimum           q1       median           q3      maximum\n\
@@ -469,7 +469,7 @@ u[1-%4d]:         mean       stddev     skewness     kurtosis\n\
 		sprintf(_grTempString, "\
 v[1-%4d]:         mean       stddev     skewness     kurtosis\n\
            %12g %12g %12g %12g\n",
-			_colV.size(), ave, sdev, skew, kurt);
+			int(_colV.size()), ave, sdev, skew, kurt);
 		gr_textput(_grTempString);
 		sprintf(_grTempString, "\
                 minimum           q1       median           q3      maximum\n\
@@ -483,7 +483,7 @@ v[1-%4d]:         mean       stddev     skewness     kurtosis\n\
 		sprintf(_grTempString, "\
 r[1-%4d]:         mean       stddev     skewness     kurtosis\n\
            %12g %12g %12g %12g\n",
-			_colR.size(), ave, sdev, skew, kurt);
+			int(_colR.size()), ave, sdev, skew, kurt);
 		gr_textput(_grTempString);
 		sprintf(_grTempString, "\
                 minimum           q1       median           q3      maximum\n\
@@ -497,7 +497,7 @@ r[1-%4d]:         mean       stddev     skewness     kurtosis\n\
 		sprintf(_grTempString, "\
 theta[1-%4d]:         mean       stddev     skewness     kurtosis\n\
                    %12g %12g %12g %12g\n",
-			_colY.size(), ave, sdev, skew, kurt);
+			int(_colY.size()), ave, sdev, skew, kurt);
 		gr_textput(_grTempString);
 		sprintf(_grTempString, "\
                     minimum           q1       median           q3      maximum\n\
@@ -511,7 +511,7 @@ theta[1-%4d]:         mean       stddev     skewness     kurtosis\n\
 		sprintf(_grTempString, "\
 theta[1-%4d]:         mean       stddev     skewness     kurtosis\n\
                    %12g %12g %12g %12g\n",
-			_colWEIGHT.size(), ave, sdev, skew, kurt);
+			int(_colWEIGHT.size()), ave, sdev, skew, kurt);
 		gr_textput(_grTempString);
 		sprintf(_grTempString, "\
                     minimum           q1       median           q3      maximum\n\
@@ -651,7 +651,7 @@ show_grid(void)
 	moment(tmp.begin(), tmp.size(), &ave, &adev, &sdev, &svar, &skew, &kurt);
 	sprintf(_grTempString, 
 		"Grid statistics, for %d legitimate data: mean=%f stddev=%f skewness=%f kurtosis=%f\n",
-		tmp.size(), ave, sdev, skew, kurt);
+		int(tmp.size()), ave, sdev, skew, kurt);
 	ShowStr(_grTempString);
 #endif
 

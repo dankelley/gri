@@ -202,7 +202,7 @@ start_up(int argc, char **argv)
 	// DataFile stack
 	if (superuser() & FLAG_AUT1) {
 		printf("DEBUG: %s:%d about to create a new datafile\n",__FILE__,__LINE__);
-		printf("DEBUG: cmdfile length is %d\n",_cmdFILE.size());
+		printf("DEBUG: cmdfile length is %d\n", int(_cmdFILE.size()));
 	}
 	DataFile new_data_file;
 	if (superuser() & FLAG_AUT1)printf("DEBUG: %s:%d pushing back a datafile at address %x\n",__FILE__,__LINE__,int(&new_data_file));
