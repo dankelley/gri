@@ -1,3 +1,7 @@
+2002-02-27  Dan Kelley  <kelley@Limit.Phys.Ocean.Dal.Ca>
+
+	* set.cc: Fix Sourceforge bug #523450 (log axes detect non-positive values too late)
+
 2002-02-21  Dan Kelley  <kelley@Limit.Phys.Ocean.Dal.Ca>
 
 	* Fix Sourceforge bug #513002 (minor error in documentation of

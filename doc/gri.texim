@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.153 2002/02/24 16:24:15 dankelley Exp $
+@c $Id: gri.texim,v 1.154 2002/02/27 22:55:02 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -15837,6 +15837,24 @@ only in the fixing of bugs.
 @node   Version 2.8, Version 2.6, Stable Stream, Stable Stream
 @comment  node-name,  next,  previous,  up
 @subsection Version 2.8
+
+@subsection Version 2.8.7 [2002 ??? ??]
+@itemize @bullet
+@item
+Fix SourceForge bug
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=523450&group_id=5511&atid=105511">
+#523450
+@c HTML </a>
+(log axes detect non-positive values too late)
+@item
+Fix SourceForge bug
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=521045&group_id=5511&atid=105511">
+#521045
+@c HTML </a>
+(installation/compilation with Solaris Workshop V6 Update 2 compiler)
+@end itemize
+
+
 
 @subsection Version 2.8.6 [2002 Feb 14]
 @itemize @bullet

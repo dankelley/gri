@@ -96,6 +96,9 @@ then
 fi
 
 %changelog
+* Wed Feb 27 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
+- Fix Sourceforge bug #523450 (log axes detect non-positive values too late)
+
 * Thu Feb 21 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
 - Fix Sourceforge bug #521045 (install problem, function prototype problem)
 
