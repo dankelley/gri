@@ -1,5 +1,5 @@
  gri - scientific graphic program (version VSN)
- GPL Copyright 2000 by Dan E. Kelley.
+ GPL Copyright 2001 by Dan E. Kelley.
 
  Type `help' to view list of commands.
  Type `show license' to view license. 
