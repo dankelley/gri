@@ -131,9 +131,12 @@ binary-arch-unofficial:    debian/copyright build-arch
 	dh_testdir -a
 	dh_testroot -a
 	dh_installdocs -a -A README debian/README.Debian
-	-cp debian/gri.1 debian/gri-$(version).1
-	dh_installmanpages -a doc/gri*.1 debian/gri.1
-	-rm debian/gri-$(version).1
+	install -d debian/gri-$(version)/usr/share/man/man1
+	install debian/gri.1 debian/gri-$(version)/usr/share/man/man1/gri-$(version).1
+	install -d debian/gri-$(version)static/usr/share/man/man1
+	install debian/gri.1 debian/gri-$(version)static/usr/share/man/man1/gri-$(version).1
+#	dh_installmanpages -a doc/gri*.1 debian/gri.1
+#	-rm debian/gri-$(version).1
 	dh_installchangelogs -a 
         ifdef STRIPIT
 		dh_strip -a
