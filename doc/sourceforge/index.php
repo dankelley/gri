@@ -41,29 +41,11 @@
       </tr>
     </table>
     
+    <!-- LEFT COLUMN -->
     <table width="100%" cellspacing=0 cellpadding="2" border=0>
       <tr>
         <td valign="top" width="165" bgcolor="#EEEEF8">  <!-- light color -->
           <table width="100%" cellspacing=0 border=0 cellpadding=2 bgcolor="#EEEEF8">
-            <tr>
-              <TD align="center" bgcolor="#737b9c">
-                <IMG src="./images/blank.gif" height="1" width="1" border=0 alt=""><BR>
-                <span class="titlebar">
-                <font color="#ffffff">Documentation</font></span>
-              </td> 
-            </tr>
-            <tr>
-              <td align="right" class="menus">
-                <A class="menus" HREF="./gridoc/html/index.html">HTML manual</A><br>
-                <A class="menus" HREF="./gri.pdf">PDF manual</A><br>
-                <A class="menus" HREF="./gridoc/html/FAQ.html">FAQ</A><br>
-                <A class="menus" HREF="./gri-cookbook/index.html">Cookbook of Examples</A><br>
-                <A class="menus" HREF="./refcard.ps">Reference card</A><br>
-                <A class="menus" HREF="./cmdrefcard.ps">Command reference card</A><br>
-                <A  class="menus" HREF="http://www2.linuxjournal.com/lj-issues/issue75/3743.html">Article in Linux Journal</A><br>
-              </td>
-            </tr>
-            
 	    <!-- DOWNLOAD STABLE -->
             <tr>
               <TD align="center" bgcolor="#737b9c">
@@ -188,7 +170,7 @@ as simple as the following.
     <tr> 
       <td  class="menubox">
         <font size="-1">
-        Vsn 2.6.4: <a href="http://www.phys.ocean.dal.ca/~kelley/gri-2.6.4-PRE-1.tgz">PRERELEASE 1</a></br>
+        Vsn 2.6.4: <a class="menus" href="http://www.phys.ocean.dal.ca/~kelley/gri-2.6.4-PRE-1.tgz">pre-release #1</a></br>
         Vsn 2.6.3: broken</br>
         Vsn 2.6.2: 2001-may-20</br>
         Vsn 2.6.1: 2001-may-11</br>
@@ -210,6 +192,27 @@ as simple as the following.
        </td>
      </tr>
    </table>
+
+  <!-- Documentation -->
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr bgcolor="#737b9c"> 
+      <td align="center"> 
+            <span class="maintitlebar"><font color="#ffffff">Documentation</font></span>
+      </td>
+    </tr>
+    <tr>
+      <td class="menus" align="left">
+        <A class="menus" HREF="./gridoc/html/index.html">HTML manual</A><br>
+        <A class="menus" HREF="./gri.pdf">PDF manual</A><br>
+        <A class="menus" HREF="./gridoc/html/FAQ.html">FAQ</A><br>
+        <A class="menus" HREF="./gri-cookbook/index.html">Cookbook of Examples</A><br>
+        <A class="menus" HREF="./refcard.ps">Reference card</A><br>
+        <A class="menus" HREF="./cmdrefcard.ps">Command reference card</A><br>
+        <A  class="menus" HREF="http://www2.linuxjournal.com/lj-issues/issue75/3743.html">Article in Linux Journal</A><br>
+      </td>
+    </tr>
+  </table>
+
 
   <!-- Contacts -->
   <table width="100%" border="0" cellspacing="0" cellpadding="0">
