@@ -16,10 +16,11 @@ files="gri-mode.el"
 source=/usr/share/emacs/site-lisp/
 destination=/usr/share/${flavour}/site-lisp/
 flags="-q --no-site-file -no-site-file --batch -f batch-byte-compile"
+LOG=`tempfile -pelc_ -s.log -m644`
 
 if [ ${flavour} != emacs ]
 then
-    echo install/${package}: Byte-compiling for emacsen flavour ${flavour}
+    echo install/${package}: Handling ${flavour}, logged in ${LOG}
 
     # Copy the temp .el files into the destination directory
     install -c -m 0755 -d ${destination}
@@ -30,7 +31,8 @@ then
 
     # Byte compile them 
     cd ${destination}
-    ${flavour} ${flags} ${files} 2>&1 | gzip -9qf > gri-mode.CompilationLog.gz
+    echo ${flavour} ${flags} ${files} >> ${LOG}
+    ${flavour} ${flags} ${files} >> ${LOG} &> ${LOG} 
     rm ${files}
 else
     echo install/${package}: Ignoring emacsen flavour ${flavour}
