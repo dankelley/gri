@@ -136,7 +136,7 @@ info-install-solaris:
 	chmod 644 $(INFO_DIR_SOLARIS)/gri.info*
 
 info-clean:
-	rm -f gri.info* info debian-info
+	rm -f gri.info* info
 
 #
 # FIXME: These refcards are missing!
@@ -158,7 +158,7 @@ refcard2:
 	chmod a+r cmdrefcard.*
 	ghostview -land cmdrefcard.ps
 
-clean:	info-clean html-clean debian-clean card-clean
+clean:	info-clean html-clean card-clean
 	$(RM)				\
 		gri.pdf gri.dvi gri.ps	\
 		gri.hlp			\
@@ -231,17 +231,7 @@ cmdrefcard.ps:
 	chmod a+r cmdrefcard.ps
 
 # make debian   (does not install; only makes the files)
-debian: refcard.ps cmdrefcard.ps debian-info
-
-# make debian-info  (does not install; only makes the files)
-debian-info: gri.texi
-	rm -f a
-	sed -e "s/@dircategory Scientific Applications/@dircategory Math/;\
-                s/\* GRI: (gri).  Scientific graphics language./* Gri: (gri).              Extensible plotting program designed for scientists/;" \
-	< gri.texi > a
-	makeinfo a
-	rm -f a
-	touch debian-info
+debian: refcard.ps cmdrefcard.ps info
 
 # make debian-html DOC_DIR=../debian/gri-html-doc/usr/share/doc/gri-html-doc
 debian-html:
@@ -251,6 +241,3 @@ debian-html:
 debian-ps: gri.ps
 	install -d $(DOC_DIR)
 	install -m 644 gri.ps $(DOC_DIR)
-
-debian-clean:
-	-rm debian-info
