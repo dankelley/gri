@@ -695,6 +695,9 @@ This variable is only locally set for a particular file.")
 (defvar gri-idle-timer nil
   "Holds gri's idle timer when set.")
 
+(defvar gri-commands-menu nil)
+(defvar gri-menubar nil)
+
 (defun gri-set-local-version ()
   "Set the version of gri to use on this file only.
 This adds an emacs local-variable at the end of your file as a gri comment,
@@ -2556,6 +2559,9 @@ Return that boundary if no containing group within that boundary."
                 (delete-region (progn (end-of-line)(point)) brk-point)
               (delete-region (point) brk-point)))))))
 
+(defvar Info-directory-list)
+(defvar Info-directory)
+
 (defun gri-info-directory ()
   "Returns nil or gri info file path 
 In emacs 19, path is from Info-default-directory-list and
@@ -3149,26 +3155,15 @@ If variable gri-indent-before-return is t,
   "Face to use for gri-mode system commands.")
 
 (defun gri-font-lock-setup ()
-  (if (featurep 'font-lock)
-      (cond
-       (gri-mode-is-XEmacs
-        ;; XEmacs:
-        (make-face 'gri-mode-system-face)
-        (set-face-foreground 
-         'gri-mode-system-face "red" 'global nil 'append))
-       (gri-mode-is-Emacs2X
-	(copy-face 'font-lock-warning-face 'gri-mode-system-face))
-       (t
-        ;; emacs-19:
-        ;; Otherwise I overwrite fock-lock-face-attributes.
-        ;; font-lock.el needs a better way to add these faces!        
-        (if (not font-lock-face-attributes)
-            (font-lock-make-faces))
-        (if (not (assq 'gri-mode-system-face font-lock-face-attributes))
-            (setq font-lock-face-attributes
-                  (append 
-                   font-lock-face-attributes
-                   '((gri-mode-system-face "red" nil t nil nil))))))))
+  (when (featurep 'font-lock)
+    (cond
+     (gri-mode-is-XEmacs
+      ;; XEmacs:
+      (make-face 'gri-mode-system-face)
+      (set-face-foreground 
+       'gri-mode-system-face "red" 'global nil 'append))
+     (gri-mode-is-Emacs2X
+      (copy-face 'font-lock-warning-face 'gri-mode-system-face))))
   (make-local-variable 'font-lock-defaults)
   (setq font-lock-defaults
    '(gri-font-lock-keywords
@@ -3453,6 +3448,8 @@ Based on ffap.el from: mic@cs.ucsd.edu (Michelangelo Grigni)"
       (cond
        ((zerop (length name)) nil)
        ((file-exists-p name) name))))
+
+(defvar gri*WWW-process nil)
 
 (defun gri-WWW-manual ()
   "Start world-wide-web browser displaying gri manual.
@@ -4634,7 +4631,7 @@ PLANNED ADDITIONS:
        gri-mode-menu1
        (fboundp 'add-submenu)     ;Insurance for emacs
        (set-buffer-menubar (copy-sequence current-menubar))
-       (if (boundp 'gri-commands-menu)
+       (if (and (boundp 'gri-commands-menu) gri-commands-menu)
 	   (add-submenu nil gri-commands-menu))
        (add-submenu nil gri-mode-menu1)
        (add-submenu nil gri-mode-menu2)
@@ -4662,7 +4659,8 @@ PLANNED ADDITIONS:
     (cancel-timer gri-idle-timer)
     (setq gri-idle-timer nil)))
 
-  (if (and (not (boundp 'gri-commands-menu)) 
+  (if (and (or (not (boundp 'gri-commands-menu))
+               (not gri-commands-menu))
       ;; Maybe I should redo it all the time in case frame size was changed?
            (not (equal gri-cmd-file "")))
       (gri-menubar-cmds-build))
@@ -4771,6 +4769,9 @@ over system scripts."
    (t
     (message "gri-line-type: other"))))
 
+(defvar gri-last-indent-type "unknown"
+  "String to tell line type.")
+
 (defun gri-indent-type ()
   "Display type of current or previous nonempty line.  Used in debugging."
   (interactive)
@@ -4780,9 +4781,6 @@ over system scripts."
   "Fill the region of comments."
   (interactive "r")
   (message "gri-fill-region not implemented yet."))
-
-(defvar gri-last-indent-type "unknown"
-  "String to tell line type.")
 
 (defun gri-calc-indent ()
   "Return the appropriate indentation for this line as an int."
@@ -4902,6 +4900,11 @@ syntax for a new Gri command."
     (end-of-line)
     (point)))
 
+(defconst gri-block-beg-kw "\\(if\\|else\\|else if\\|while\\)"
+  "Regular expression for keywords which begin blocks in Gri-mode.")
+(defconst gri-block-end-kw "\\(\\end if\\|else\\|end while\\)"
+  "Regular expression for keywords which end blocks.")
+
 (defun gri-block-beg-line ()
   "Returns t if line contains beginning of Gri block."
   (save-excursion
@@ -4909,18 +4912,12 @@ syntax for a new Gri command."
     (skip-chars-forward " \t")
     (looking-at gri-block-beg-kw)))
 
-(defconst gri-block-beg-kw "\\(if\\|else\\|else if\\|while\\)"
-  "Regular expression for keywords which begin blocks in Gri-mode.")
-
 (defun gri-block-end-line ()
   "Returns t if line contains end of Gri block."
   (save-excursion
     (beginning-of-line)
     (skip-chars-forward " \t")
     (looking-at gri-block-end-kw)))
-
-(defconst gri-block-end-kw "\\(\\end if\\|else\\|end while\\)"
-  "Regular expression for keywords which end blocks.")
 
 (defun gri-block-beg-end-line ()
   "Returns t if line contains matching block begin-end in Gri-mode."
