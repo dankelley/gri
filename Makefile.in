@@ -233,7 +233,7 @@ source-copy:
 	    install -m 644 popt.h findme.h poptint.h \
 	                   ../$(SOURCE_NAME)/popt )
 	(cd popt ; \
-	    install -m 644 popt.c findme.c poptparse.c poptconfig.c popthelp.c Makefile.in \
+	    install -m 644 popt.c findme.c poptparse.c poptconfig.c popthelp.c \
 	                   ../$(SOURCE_NAME)/popt )
 	(cd popt ; \
 	    install -m 755 configure \
