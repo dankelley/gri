@@ -286,6 +286,7 @@ gr_drawstring(const char *s)
 					MoveUp();
 					// Draw single character in math mode.  If it's a digit,
 					// do not do in italics!
+#if 0
 					if (*s == '-') {
 						// Use 'endash' for minus sign.  This is more similar
 						// to tex than either 'minus' or 'emdash'.
@@ -308,6 +309,19 @@ gr_drawstring(const char *s)
 					} else {
 						gr_DrawChar(s);
 					}
+#else
+					if (isdigit(*s) || ispunct(*s)) {
+						STOP_OLD_TEXT;
+						gr_setfont(original_font);
+						START_NEW_TEXT;
+						gr_DrawChar(s);
+						STOP_OLD_TEXT;
+						gr_setfont(slant_font);
+						START_NEW_TEXT;
+					} else {
+						gr_DrawChar(s);
+					}
+#endif
 					PopStack();
 				}
 			} else if (*s == '_') {
@@ -403,6 +417,7 @@ gr_drawstring(const char *s)
 			} else {
 				// Draw single character in math mode.  If it's a digit, do
 				// not do in italics!
+#if 0
 				if (*s == '-') {
 					// Use 'endash' for minus sign.  This is more similar to
 					// tex than either 'minus' or 'emdash'.
@@ -425,6 +440,19 @@ gr_drawstring(const char *s)
 				} else {
 					gr_DrawChar(s);
 				}
+#else
+				if (isdigit(*s) || ispunct(*s)) {
+					STOP_OLD_TEXT;
+					gr_setfont(original_font);
+					START_NEW_TEXT;
+					gr_DrawChar(s);
+					STOP_OLD_TEXT;
+					gr_setfont(slant_font);
+					START_NEW_TEXT;
+				} else {
+					gr_DrawChar(s);
+				}
+#endif
 			}
 		} else {
 			// draw simple character outside math mode
