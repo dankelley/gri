@@ -1,5 +1,5 @@
 %.eps : %.png
-	convert  -geometry 500x999 $< $@
+	convert  -geometry 500x999 $< eps2:$@
 
 %.jpg : %.png
 	convert $< $@
