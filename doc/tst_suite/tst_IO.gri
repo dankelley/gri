@@ -1,16 +1,92 @@
-show "doc/tst_suite/tst_IO.gri     ..." ...
+show "doc/tst_suite/tst_IO.gri      ..." ...
 
-# File with newline at end ...
-open test_IO_1.dat
+# Test some I/O features.  NOTE: this will make _no_ sense
+# to you unless you have a look at the test files!
+
+# Read columns from file with newline at the end ...
+open tst_IO_1.dat
 read columns x y
 close
-assert {rpn ..num_col_data.. 2 ==}      " failed test 1"
+assert {rpn ..num_col_data.. 2 ==}      " failed test 1-a"
+assert {rpn x 0 @  1 ==}                " failed test 1-b"
+assert {rpn x 1 @  2 ==}                " failed test 1-c"
+assert {rpn y 0 @ 11 ==}                " failed test 1-d"
+assert {rpn y 1 @ 22 ==}                " failed test 1-e"
 
-# File without newline at end ...
-open test_IO_2.dat
+# ... as above, but from a file without newline at the end.
+open tst_IO_2.dat
 read columns x y
 close
-assert {rpn ..num_col_data.. 2 ==}      " failed test 2"
+assert {rpn ..num_col_data.. 2 ==}      " failed test 2-a"
+assert {rpn x 0 @  1 ==}                " failed test 2-b"
+assert {rpn x 1 @  2 ==}                " failed test 2-c"
+assert {rpn y 0 @ 11 ==}                " failed test 2-d"
+assert {rpn y 1 @ 22 ==}                " failed test 2-e"
+
+# Read a line into a synonym.
+open tst_IO_1.dat
+read line \s
+assert {rpn "\s" "1 11" ==}             " failed test 3-a"
+read line \s
+assert {rpn "\s" "2 22" ==}             " failed test 3-b"
+close
+open tst_IO_2.dat
+read line \s
+assert {rpn "\s" "1 11" ==}             " failed test 3-c"
+read line \s
+assert {rpn "\s" "2 22" ==}             " failed test 3-d"
+close
+
+# Read variable/synonym, in various orders.
+open tst_IO_1.dat
+read .a. .b.
+assert {rpn .a.  1 ==}                  " failed test 4-a"
+assert {rpn .b. 11 ==}                  " failed test 4-b"
+read \a \b
+assert {rpn "\a"  "2" ==}               " failed test 4-c"
+assert {rpn "\b" "22" ==}               " failed test 4-d"
+rewind
+read .a. \b
+assert {rpn .a.  1 ==}                  " failed test 4-e"
+assert {rpn "\b" "11" ==}               " failed test 4-f"
+read \a .b.
+assert {rpn "\a" "2" ==}                " failed test 4-g"
+assert {rpn .b.  22  ==}                " failed test 4-h"
+close
+open tst_IO_2.dat
+read .a. .b.
+assert {rpn .a.  1 ==}                  " failed test 4-i"
+assert {rpn .b. 11 ==}                  " failed test 4-j"
+read \a \b
+assert {rpn "\a"  "2" ==}               " failed test 4-k"
+assert {rpn "\b" "22" ==}               " failed test 4-l"
+rewind
+read .a. \b
+assert {rpn .a.  1 ==}                  " failed test 4-m"
+assert {rpn "\b" "11" ==}               " failed test 4-n"
+read \a .b.
+assert {rpn "\a" "2" ==}                " failed test 4-o"
+assert {rpn .b.  22  ==}                " failed test 4-p"
+close
+
+if 0				# NOTE: change to 1 do some non-assert tests
+    # Grids
+    open tst_IO_1.dat
+    read grid x
+    show grid
+    close
+    open tst_IO_2.dat
+    read grid x
+    show grid
+    close
+    open tst_IO_1.dat
+    read grid y
+    show grid
+    close
+    open tst_IO_2.dat
+    read grid y
+    show grid
+    close
+end if
 
 show " passed"
-

@@ -48,15 +48,19 @@ void GriString::convert_slash_to_MSDOS()
 // at end; if file ends before newline, tack one on anyhow.
 //
 // RETURN true if file at EOF before reading any data
-bool GriString::line_from_FILE(FILE *fp)
+eof_status GriString::line_from_FILE(FILE *fp)
 {
+	//printf("line_from_FILE %s:%d\n",__FILE__,__LINE__);
 	unsigned int i = 0;
+	bool got_eof = false;
 	if (feof(fp)) {
 		value[0] = '\0';
-		return true;
+		return eof_before_data;
 	}
 	do {
 		value[i] = getc(fp);
+		if (got_eof = feof(fp))
+			break;
 		if (i >= capacity - 1) { // Get more space if required
 			capacity += capacity;
 			char *more_space = new char[capacity];
@@ -68,11 +72,16 @@ bool GriString::line_from_FILE(FILE *fp)
 		}
 		if (value[i++] == '\n')
 			break;
-	} while (!feof(fp));
-	if (feof(fp))
-		value[i - 1] = '\n';	// tack newline on
+	} while (!got_eof);
+	if (got_eof) {
+		//printf("got eof i= %d\n",i);
+		value[i++] = '\n';	// tack newline on
+		value[i] = '\0';
+		//printf("%s:%d {{{{{{%s}}}}}}}}}}}\n",__FILE__,__LINE__,value);
+		return eof_after_data;
+	}
 	value[i] = '\0';
-	return false;
+	return no_eof;
 }
 
 // Read word from file, enlarging if neccessary.  Leave newline if

@@ -43,7 +43,7 @@ static bool     read_netCDF_column(int iword, GriColumn *col, int *expected_leng
 #endif
 bool            read_synonym_or_variableCmd(void);
 bool            read_lineCmd();
-static bool     get_next_data_line(const char *prompt, unsigned int expected_fields);
+static eof_status get_next_data_line(const char *prompt, unsigned int expected_fields);
 static bool     get_next_data_word(void);
 
 // Defined elsewhere
@@ -246,7 +246,7 @@ read_columnsCmd()
 	int             number_to_read, number_read = 0;
 	bool            number_specified;
 	int             maxCol, row;
-	bool            end_of_data = false;	// flag for end of data
+	eof_status        end_of_data = no_eof;	// flag for end of data
 	int             number_outside_window = 0, number_made_missing = 0;
 	bool            old = _ignore_error;
 	bool            append = false; // appending to end of existing?
@@ -418,7 +418,7 @@ read_columnsCmd()
 			maxCol = colweight;
 		// Read data.
 		row = 0;
-		while (!end_of_data && (!number_specified || number_read < number_to_read)) {
+		while (end_of_data == no_eof && (!number_specified || number_read < number_to_read)) {
 			int             numCols;
 			// Keep an eye on storage space.
 			char prompt[20];
@@ -426,23 +426,24 @@ read_columnsCmd()
 			// Dump data into inLine.
 			end_of_data = get_next_data_line(prompt, maxCol);
 			number_read++;
-			if (end_of_data)
-				break;
+#if 0
+			if (end_of_data == eof_after_data) {
+				warning("Got EOF on end of data line; should have a newline there");
+			}
+#endif
+			//printf("end_of_data %d  contents '%s'\n",end_of_data,inLine.getValue());
 			remove_comment(inLine.getValue());
 			chop_into_data_words(inLine.getValue(), _word, &numCols, MAX_nword);
 #if 0
-			printf("\n");
-			printf("LINE IS:\n");
+			printf("%s:%d LINE IS:\n", __FILE__,__LINE__);
 			for (int iii = 0; iii < numCols; iii++) {
 				printf("<%s> ", _word[iii]);
 			}
 			printf("\n");
 #endif
-
-
 			PUT_VAR("..words_in_dataline..", double(numCols));
 			if (numCols < 1) {	// blank line means done
-				end_of_data = true;
+				end_of_data = eof_before_data; // trick
 				break;
 			}
 			//printf("numCols= %d        maxCol= %d\n", numCols, maxCol);
@@ -695,13 +696,13 @@ read_columnsCmd()
 	// All done reading.
 	PUT_VAR("..num_col_data..", double(_colX.size()));
 	PUT_VAR("..num_col_data_missing..", double(number_missing_cols()));
-	if (end_of_data && _colX.size() == 0 && !batch())
+	if (end_of_data == eof_before_data && _colX.size() == 0 && !batch())
 		warning("`read columns' found EOF or blank line before finding data.");
 	if (number_specified) {
 		double          trace = 0.0;
 		get_var("..trace..", &trace);
 		// number was specified
-		if (end_of_data) {
+		if (end_of_data != no_eof) {
 			sprintf(_grTempString, "%sOnly found %d rows\n", 
 				_margin.c_str(), int(_colX.size()));
 			gr_textput(_grTempString);
@@ -795,7 +796,7 @@ read_grid_xCmd()
 	double           repeat = 0.0;
 	unsigned int i;
 	unsigned int number_to_read;
-	bool            end_of_data = false;
+	eof_status        end_of_data = no_eof;	// flag for end of data
 	bool            number_specified;	// was number given?
 	if (_dataFILE.back().get_type() == DataFile::bin_netcdf) {
 #if defined(HAVE_LIBNETCDF)
@@ -916,7 +917,7 @@ Grid width %d disagrees with existing x-grid (%d); first `delete grid'",
 			gr_Error("ran out of storage");
 		// Read data
 		i = 0;
-		while (!end_of_data && (!number_specified || i < number_to_read)) {
+		while (end_of_data == no_eof && (!number_specified || i < number_to_read)) {
 			int             numCols;
 			// Keep an eye on storage space.
 			if (i >= _num_xmatrix_data) {
@@ -930,13 +931,16 @@ Grid width %d disagrees with existing x-grid (%d); first `delete grid'",
 			char prompt[20];
 			sprintf(prompt, "row %3d: ", i);
 			end_of_data = get_next_data_line(prompt, 1);
-			if (end_of_data)
-				break;
+#if 0
+			if (end_of_data == eof_after_data) {
+				warning("Got EOF on end of data line; should have a newline there");
+			}
+#endif
 			remove_comment(inLine.getValue());
 			chop_into_data_words(inLine.getValue(), _word, &numCols, MAX_nword);
 			PUT_VAR("..words_in_dataline..", double(numCols));
 			if (numCols < 1) {	// blank line means done
-				end_of_data = true;
+				end_of_data = eof_before_data; // trick
 				break;
 			}
 			if (!getdnum(_word[0], _xmatrix + i))
@@ -991,7 +995,7 @@ read_grid_yCmd()
 {
 	double           repeat = 0.0;
 	unsigned int number_to_read;
-	bool            end_of_data = false;
+	eof_status        end_of_data = no_eof;	// flag for end of data
 	bool            number_specified;	// was number given?
 	unsigned int i, n;
 	if (_dataFILE.back().get_type() == DataFile::bin_netcdf) {
@@ -1115,7 +1119,7 @@ Grid height %d disagrees with existing y-grid (%d); first `delete grid'",
 			gr_Error("ran out of storage");
 		// Read data
 		i = 0;
-		while (!end_of_data && (!number_specified || i < number_to_read)) {
+		while (end_of_data == no_eof && (!number_specified || i < number_to_read)) {
 			int             numCols;
 			// Keep an eye on storage space.
 			if (i >= _num_ymatrix_data) {
@@ -1129,13 +1133,16 @@ Grid height %d disagrees with existing y-grid (%d); first `delete grid'",
 			char prompt[20];
 			sprintf(prompt, "row %3d: ", i);
 			end_of_data = get_next_data_line(prompt, 1);
-			if (end_of_data)
-				break;
+#if 0
+			if (end_of_data == eof_after_data) {
+				warning("Got EOF on end of data line; should have a newline there");
+			}
+#endif
 			remove_comment(inLine.getValue());
 			chop_into_data_words(inLine.getValue(), _word, &numCols, MAX_nword);
 			PUT_VAR("..words_in_dataline..", double(numCols));
 			if (numCols < 1) {	// blank line means done
-				end_of_data = true;
+				end_of_data = eof_before_data; // trick
 				break;
 			}
 			if (!getdnum(_word[0], _ymatrix + i))
@@ -1510,14 +1517,14 @@ Grid height %ld disagrees with existing y-grid, which is %d high",
 		}
 		for (row = 0; row < nrow; row++) {
 			int             expected_words = ncol + startcol + skip_at_end;
-			bool            end_of_data = false;
+			eof_status        end_of_data = no_eof;	// flag for end of data
 			char prompt[20];
 			sprintf(prompt, "row %3d: ", row);
 			end_of_data = get_next_data_line(prompt, expected_words);
 			remove_comment(inLine.getValue());
 			chop_into_data_words(inLine.getValue(), _word, &_nword, MAX_nword);
 			PUT_VAR("..words_in_dataline..", double(_nword));
-			if (end_of_data || _nword == 0) {
+			if (end_of_data == eof_before_data || _nword == 0) {
 				char msg[100];
 				sprintf(msg, "\
 `read grid data' encountered early blank-line or end-of-file while\n\
@@ -2616,13 +2623,14 @@ read_synonym_or_variableCmd()
 bool
 read_lineCmd()
 {
-	bool            end_of_data = false;
 	Require (_nword == 3,
 		 err("`read line' what?"));
 	Require(is_syn(_word[2]),
 		err("`read line' what?"));
+	eof_status        end_of_data = no_eof;	// flag for end of data
 	end_of_data = get_next_data_line("", 1);
-	if (end_of_data) {
+	//printf("\n  %s:%d (read_lineCmd) <%s>  end_of_data= %d\n",__FILE__,__LINE__,inLine.getValue(),end_of_data);
+	if (end_of_data == eof_before_data) {
 		if (_ignore_eof) {
 			warning("`read line' hit end-of-file");
 			return false;
@@ -2644,10 +2652,17 @@ read_lineCmd()
 // 
 // If expected_fields > 0 then, for binary files, that number of items will be
 // read and put into inLine; for ascii files, the parameter will be ignored.
-static bool
+// 
+// RETURN VALUE: 0 if didn't hit EOF
+//               1 if hit EOF before anything else
+//               2 if hit EOF after some material on the line 
+// Thus, an return value of 2 means that the data line was not terminated
+// with newline, but that data were found nonetheless.
+static eof_status
 get_next_data_line(const char *prompt, unsigned int expected_fields)
 {
-	bool got_eof = false;
+	//printf("\n  %s:%d (get_next_data_line)...\n",__FILE__,__LINE__);
+ 	eof_status got_eof = no_eof;
 	// Get line from either commandfile, data-file, or new-command.
 	extern bool     _store_cmds_in_ps;	// startup.c
 	if (_dataFILE.back().get_type() == DataFile::from_cmdfile) {
@@ -2660,12 +2675,9 @@ get_next_data_line(const char *prompt, unsigned int expected_fields)
 			_cmdFILE.back().increment_line();
 		} else {
 			got_eof = inLine.line_from_FILE(_cmdFILE.back().get_fp());
-			if (got_eof) {
-//OLD
-//OLD				inLine.line_from_FILE(_cmdFILE.back().get_fp());
-//OLD				if (feof(_cmdFILE.back().get_fp())) {
+			if (got_eof != no_eof) {
 				set_eof_flag_on_data_file();
-				return true;
+				return got_eof;
 			}
 			_cmdFILE.back().increment_line();
 				// Take care of special case of data files created by VAX
@@ -2675,9 +2687,9 @@ get_next_data_line(const char *prompt, unsigned int expected_fields)
 			    && ignore_initial_newline()) {
 				warning("Skipping initial empty line in data file");
 				got_eof = inLine.line_from_FILE(_cmdFILE.back().get_fp());
-				if (got_eof) {
+				if (got_eof != no_eof) {
 					set_eof_flag_on_data_file();
-					return true;
+					return got_eof;
 				}
 			}
 		}
@@ -2690,6 +2702,7 @@ get_next_data_line(const char *prompt, unsigned int expected_fields)
 		// Get line from data-file.
 		if (_dataFILE.back().get_type() == DataFile::ascii) { // ASCII file, non interactive
 			got_eof = inLine.line_from_FILE(_dataFILE.back().get_fp());
+			//printf("get_next_data_line %s:%d got_eof=%d\n",__FILE__,__LINE__,got_eof);
 		} else {		// binary file
 			unsigned int    i;
 			char            achar[LineLength];
@@ -2700,7 +2713,7 @@ get_next_data_line(const char *prompt, unsigned int expected_fields)
 					unsigned char   a;
 					if (1 != fread((char *) & a, sizeof(a), 1, _dataFILE.back().get_fp())) {
 						set_eof_flag_on_data_file();
-						return true;
+						return i == 0 ? eof_before_data : eof_after_data;
 					}
 					sprintf(achar, "%f ", double(a));
 					inLine.catSTR(achar);
@@ -2711,7 +2724,7 @@ get_next_data_line(const char *prompt, unsigned int expected_fields)
 					unsigned short int a;
 					if (1 != fread((char *) & a, sizeof(a), 1, _dataFILE.back().get_fp())) {
 						set_eof_flag_on_data_file();
-						return true;
+						return i == 0 ? eof_before_data : eof_after_data;
 					}
 					sprintf(achar, "%f ", double(a));
 					inLine.catSTR(achar);
@@ -2722,7 +2735,7 @@ get_next_data_line(const char *prompt, unsigned int expected_fields)
 					int             a;
 					if (1 != fread((char *) & a, sizeof(a), 1, _dataFILE.back().get_fp())) {
 						set_eof_flag_on_data_file();
-						return true;
+						return i == 0 ? eof_before_data : eof_after_data;
 					}
 					sprintf(achar, "%f ", double(a));
 					inLine.catSTR(achar);
@@ -2733,7 +2746,7 @@ get_next_data_line(const char *prompt, unsigned int expected_fields)
 					float           a;
 					if (1 != fread((char *) & a, sizeof(a), 1, _dataFILE.back().get_fp())) {
 						set_eof_flag_on_data_file();
-						return true;
+						return i == 0 ? eof_before_data : eof_after_data;
 					}
 					sprintf(achar, "%f ", double(a));
 					inLine.catSTR(achar);
@@ -2744,7 +2757,7 @@ get_next_data_line(const char *prompt, unsigned int expected_fields)
 					double          a;
 					if (1 != fread((char *) & a, sizeof(a), 1, _dataFILE.back().get_fp())) {
 						set_eof_flag_on_data_file();
-						return true;
+						return i == 0 ? eof_before_data : eof_after_data;
 					}
 					sprintf(achar, "%f ", double(a));
 					inLine.catSTR(achar);
@@ -2755,18 +2768,21 @@ get_next_data_line(const char *prompt, unsigned int expected_fields)
 			}
 		}
 		// If ran out of data, set a flag and return.
-		if (got_eof) {
+		if (got_eof != no_eof) {
+			//printf("get_next_data_line %s:%d setting eof flag.\n",__FILE__,__LINE__);
 			set_eof_flag_on_data_file();
-			return true;
+			return got_eof;
 		}
 	}
 	_dataFILE.back().increment_line();
 	// If no newline, over-ran buffer.
 	// Check that newline-terminated; note already checked for EOF
-	Require(inLine[inLine.size() - 1] == '\n',
-		err("Internal bug with inLine buffer: please report to author."));
+	if (inLine.size() > 0 && inLine[inLine.size() - 1] != '\n') {
+		err("Internal bug with inLine buffer: please report to author.");
+		return eof_before_data;
+	}
 	// Return flag that didn't run out of data.
-	return false;
+	return no_eof;
 }
 
 // get next word from datafile.  Fail if file not open.  Return true if EOF

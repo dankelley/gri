@@ -19,6 +19,19 @@
 #endif
 static vector<GriNamedColor> colorStack;
 
+typedef struct {
+	unsigned int code;
+	char *action;
+} superuser_flag;
+static superuser_flag sflag[] = {
+	{FLAG_SYN,  "Print cmdline before/after sub synonyms"},
+	{FLAG_RPN,  "Print cmdline before/after sub rpn"},
+	{FLAG_NEW,  "Print new commands being defined"},
+	{FLAG_SYS,  "Print system commands before passing"},
+	{FLAG_AUT2, "Variable; for use by developers only"},
+	{FLAG_AUT1, "Variable; for use by developers only"},
+	{0, NULL}
+};
 static string psname("");
 
 extern char     _grTempString[];
@@ -711,6 +724,15 @@ interpret_optional_arguments(int argc, char *argv[])
 				} else if (!strcmp(argv[i], "-no_expecting")) {
 					warning("Gri no longer demands to find an `expecting' command, so the `-no_expecting' option can be dropped.");
 				} else if (!strncmp(argv[i], "-superuser", 10)) {
+					if ('?' == *(argv[i] + 10)) {
+						superuser_flag *sf = sflag;
+						printf("Superuser flags:\n");
+						while (sf->action != NULL) {
+							printf("-superuser%d -- %s\n", sf->code, sf->action);
+							sf++;
+						}
+						gri_exit(0);
+					}
 					if (1 == sscanf(argv[i], "-superuser%d", &val)) {
 						PUT_VAR("..superuser..", ((double) val));
 					} else {

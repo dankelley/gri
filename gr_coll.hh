@@ -12,12 +12,20 @@
 #include <stddef.h>
 #include <stdio.h>
 
+#include "gr.hh"
 #include "errors.hh"
 #include "types.hh"
 #include "CmdFile.hh"
 #include "DataFile.hh"
 #include "GCounter.hh"
 #include "GriColor.hh"
+// EOF indicator.
+enum eof_status {
+	no_eof,
+	eof_after_data,
+	eof_before_data
+};
+
 
 class GriString
 {
@@ -27,7 +35,7 @@ public:
 	GriString(unsigned int len);
 	~GriString() {delete [] value;}
 	void convert_slash_to_MSDOS();
-	bool line_from_FILE(FILE *fp); // Get Line from file, true if EOF
+	eof_status line_from_FILE(FILE *fp); // Get Line from file, true if EOF
 	bool word_from_FILE(FILE *fp); // Get word from file, true if EOF
 	void fromSTR(const char *s);   // Grow if necessary
 	void catSTR(const char *s);	   // Grow if necessary

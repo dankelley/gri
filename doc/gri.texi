@@ -1083,12 +1083,15 @@ end if
 (This option is included here only for completeness.  It should only be
 used by developers (who will alter the code to print debugging
 information if @code{-superuser} is set in addition to @code{-debug}).
-An optional value can be inserted (e.g. -s2) to set the debugging level
-(retrievable by the function superuser()) to indicated integer value.
-Specifying the @code{-superuser} command-line option sets the built-in
-variable @code{..superuser..} to 1 or the specified value.)
+An optional value can be inserted (e.g. @code{-superuser2}) to set the
+debugging level (retrievable by the function superuser()) to indicated
+integer value.  Specifying the @code{-superuser} command-line option
+sets the built-in variable @code{..superuser..} to 1 or the specified
+value.)
 
 For flag meanings, see @code{superuser} command (@ref{Superuser}).
+Using the question-mark symbol @code{?} instead of a flag number makes
+Gri print out the list of flags.
 
 @item  @code{-trace} or @code{-t}
 @cindex @code{-trace} command-line option
@@ -14776,9 +14779,57 @@ if you need something else that I've not listed.
 
 @enumerate
 
-@item Add support for both little-endian and big-endian data.
+@item Add a de-referencing scheme, to permit call-by-reference.  I have not finalized
+the syntax yet, but at the moment the idea is that Gri would recognize a
+the symbol @code{&} followed by a quoted name of variable or a synonym,
+and would treat it though the variable-name or synonym-name had occured
+at that location.  
 
-@item Add a test suite for use in verifying correct functioning.
+For example, @code{&".a."} could be used anywhere @code{.a.} would be
+used in a script.  The same goes for synonyms; @code{&"\\a"} would take
+the place of @code{\a} anywhere in a Gri program.  (Note that the
+synonym name must be protected in the string, by the double-backslash.
+Otherwise, Gri would try to substitute the synonym value.)
+
+@emph{Note:} the @code{&} symbol is chosen to be similar to C-like
+languages.
+
+Some example might help make this clearer.  First, consider the simplest case:
+@example
+.a. = 3.14
+assert @{rpn &".a." 3.14 ==@} "Error de-referencing a variable"
+\a = "Pi"
+assert @{rpn &"\\a" "Pi" ==@} "Error de-referencing a synonym"
+@end example
+
+The main use of this new syntax will likely be in new commands, so a
+more useful example might be:
+@example
+`demo1 \vname \sname'
+@{
+    assert @{rpn &".\word1." .a.  ==@} "Error de-referencing a variable"
+    assert @{rpn &".\word2." "\a" ==@} "Error de-referencing a synonym"
+@}
+.a. = 3.14
+\a  = "Pi"
+demo1 ".a." "\\a"
+@end example
+
+This would work in assignment as well as, e.g.
+@example
+`demo2 \vname \sname'
+@{
+    &".\word1." = 10
+    &".\word2." = "Ten"
+@}
+.a. = 3.14
+\a  = "Pi"
+demo2 ".a." "\\a"
+assert @{rpn .a.  10    ==@} "Error de-referencing a variable"
+assert @{rpn "\a" "Ten" ==@} "Error de-referencing a synonym"
+@end example
+
+@item Add support for both little-endian and big-endian data.
 
 @item Add readline support, to handle history, command-line editing, etc, 
 for interactive usage [probably for version 2.8]

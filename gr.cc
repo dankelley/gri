@@ -725,13 +725,21 @@ gr_drawsymbol(double xcm, double ycm, gr_symbol_type symbol_name)
 void
 gr_end(const char *filename)
 {
+	extern bool _drawingstarted;
+	if (!_drawingstarted) {
+		delete_ps_file();
+		return;
+	}
 	extern bool     _grNeedBegin;
 	extern bool     _grPathExists;
 	extern FILE    *_grPS;
 	if (_grNeedBegin)
 		return;
+	printf("%s:%d in gr_end(%s)\n",__FILE__,__LINE__,filename);
 	fprintf(_grPS, PS_showpage);
+	printf("%s:%d in gr_end(%s)\n",__FILE__,__LINE__,filename);
 	fprintf(_grPS, "%%%%Trailer\n");
+	printf("%s:%d in gr_end(%s)\n",__FILE__,__LINE__,filename);
 	if (_no_bounding_box) {	// use fullpage
 		fprintf(_grPS, "%%%%BoundingBox: %d %d %d %d\n",
 			0,

@@ -267,12 +267,7 @@ test:
 	@./gri -directory . -c0 doc/tst_suite/tst_var_syn.gri 
 	@./gri -directory . -c0 doc/tst_suite/tst_control.gri
 	@./gri -directory . -c0 doc/tst_suite/tst_rpn.gri
-#	Next to be removed when gri is changed to only save ps if drawing done
-	@rm -f doc/tst_suite/tst_var_syn.ps
-	@rm -f doc/tst_suite/tst_control.ps
-	@rm -f doc/tst_suite/tst_rpn.ps
-
-
+	@cd doc/tst_suite ; ../../gri -directory ../.. -c0 tst_IO.gri
 
 what_is_new:
 	@for f in *.spec gri.cmd logo.dat *cc *hh Makefile.in configure.in doc/gri.texi doc/Makefile;\

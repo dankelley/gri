@@ -1,3 +1,4 @@
+#if 0				// Maybe keep for later!
 #include <string>
 #include <stdio.h>
 //##include <string.h>
@@ -10,9 +11,12 @@
 // RETURN true if got to EOF
 bool G_string::line_from_FILE(FILE *fp)
 {
+	printf("line_from_FILE %s:%d\n",__FILE__,__LINE__);
 	assign("");
-	if (feof(fp))
+	if (feof(fp)) {
+		printf("line_from_FILE %s:%d.  HEY, eof at start!\n",__FILE__,__LINE__);
 		return true;
+	}
 	char c[2];
 	c[1] = '\0';
 	do {
@@ -21,8 +25,11 @@ bool G_string::line_from_FILE(FILE *fp)
 		if (c[0] == '\n')
 			break;
 	} while (!feof(fp));
-	if (feof(fp))
+	printf("line_from_FILE %s:%d.  done loop.  Got '%s'\n",__FILE__,__LINE__,c_str());
+	if (feof(fp)) {
+		printf("line_from_FILE %s:%d.  had eof so tacking newline\n",__FILE__,__LINE__);
 		append("\n");	// tack newline on
+	}
 	return false;
 }
 
@@ -186,4 +193,5 @@ G_string::draw(double xcm, double ycm, gr_textStyle s, double angle) const
 		      vector_max(tmpx, 4), vector_max(tmpy, 4));
 	bounding_box_update(box);
 }
+#endif
 #endif

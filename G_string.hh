@@ -1,3 +1,4 @@
+#if 0
 #if !defined(_GString_hh_)
 #define _GString_hh_
 
@@ -19,4 +20,5 @@ public:
 	void sed(const char *cmd);	  // Modify by (limited) sed command
 #endif
 };
+#endif
 #endif

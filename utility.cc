@@ -1,10 +1,10 @@
 //#define DEBUG_RE
 
-#include	<string>
-#include	<ctype.h>
-#include	<math.h>
-#include	<stdio.h>
-#include        <stdarg.h>
+#include <string>
+#include <ctype.h>
+#include <math.h>
+#include <stdio.h>
+#include <stdarg.h>
 
 #if defined(MSDOS)		// need all these?
 #include <stdlib.h>
@@ -130,20 +130,22 @@ check_psfile()
 bool
 delete_file(const char *filename)
 {
+#if defined(HAVE_UNISTD_H)
+	return !(unlink(filename));
+#else  // will have to delete it 'manually'
 	char            sys_cmd[200];
 #if defined(VMS)
 	sprintf(sys_cmd, "DEL %s;*", filename);
 	call_the_OS(sys_cmd, __FILE__, __LINE__);
-	return true;
 #elif defined(MSDOS)
 	sprintf(sys_cmd, "DEL %s", filename);
 	call_the_OS(sys_cmd, __FILE__, __LINE__);
-	return true;
 #else
 	sprintf(sys_cmd, "rm %s", filename);
 	call_the_OS(sys_cmd, __FILE__, __LINE__);
-	return true;
 #endif
+#endif // whether have unlink
+	return true;
 }
 
 // Convert full filename to tilde name

@@ -19,7 +19,5 @@ end_up()
 	if (postscript_clipping_on)
 		fprintf(_grPS, "Q %% turn clipping off (user forgot to)\n");
 	close_data_files();
-	if (!_drawingstarted)
-		delete_ps_file();
 	gr_end("!");
 }

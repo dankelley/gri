@@ -69,6 +69,7 @@ typedef struct {
 	int             buf_capacity;	// chars in buffer
 	int             buf_position;	// next char to read in buffer
 }               FBUFFER;
+
 
 // Axis properties
 typedef enum {
