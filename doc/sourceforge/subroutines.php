@@ -1,11 +1,11 @@
 <?php
-
+# lines that may need modification for each release are marked "// !!!"
 $ftp_site = "http://ftp1.sourceforge.net/gri";
 $development_site = "http://gri.sourceforge.net";
 $development_site_name = "SourceForge";
 $gri_stable_version_major = "2";
-$gri_stable_version_intermediate = "12";
-$gri_stable_version_minor = "4";
+$gri_stable_version_intermediate = "12"; // !!!
+$gri_stable_version_minor = "5"; // !!!
 $gri_stable_version = "$gri_stable_version_major.$gri_stable_version_intermediate.$gri_stable_version_minor";
 $gri_group_id = "5511";
 $sf_url = "http://sourceforge.net";
@@ -31,7 +31,9 @@ function age() {
 # Vsn 2.12.3: 2003-03-01 16:28 Halifax time, 12:28 SF time
 #	$diff = time() - mktime(12, 28, 0, 3, 1, 2003);
 # Vsn 2.12.4: 2003-04-11 11:40 Halifax time, 07:40 SF time
-	$diff = time() - mktime(7, 40, 0, 4, 11, 2003);
+#	$diff = time() - mktime(7, 40, 0, 4, 11, 2003); // !!!
+# Vsn 2.12.5: 2003-05-20 19:51 Halifax time, 15:51 SF time
+	$diff = time() - mktime(15, 51, 0, 5, 20, 2003); // !!!
 
 	$days = floor($diff / 24 / 60 / 60);
 	$weeks = floor($days / 7);
