@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.81 2001/05/08 13:47:56 psg Exp $
+@c $Id: gri.texim,v 1.82 2001/05/08 14:51:01 psg Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -15629,11 +15629,6 @@ Fix SourceForge bug
 @c HTML </a>
 (@code{/} was ugly in math mode)
 @item
-Fix SourceForge bug
-@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=410603&group_id=5511&atid=105511">
-#410603
-@c HTML </a>
-(cannot compile docs in Solaris)
 @end itemize
 
 
