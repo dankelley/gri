@@ -358,7 +358,7 @@ rpn(int nw, char **w, char ** result)
 		return GENERAL_ERROR;
 	case COLUMN_NAME:
 	case NOT_OPERAND:
-	case UNKNOWN;
+	case UNKNOWN:
 		break;
 	}
 	return NO_ERROR;
