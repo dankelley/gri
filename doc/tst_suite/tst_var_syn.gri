@@ -1,49 +1,49 @@
 show "doc/tst_suite/tst_var_syn.gri ..." ...
-rpnfunction same - abs 1e-10 >		# tests if two numbers match to 1e-10
+rpnfunction same - abs 1e-10 >          # tests if two numbers match to 1e-10
 
 # New and delete (variables)
  .v. = 1
 new .v.
 .v. = 2
-assert {rpn .v. 2 same}			" failed test 1.1"
-assert {rpn ".v." defined}		" failed test 1.2"
+assert {rpn .v. 2 same}                 " failed test 1.1"
+assert {rpn ".v." defined}              " failed test 1.2"
 delete .v.
-assert {rpn .v. 1 same}			" failed test 1.3"
-assert {rpn ".v." defined}		" failed test 1.4"
+assert {rpn .v. 1 same}                 " failed test 1.3"
+assert {rpn ".v." defined}              " failed test 1.4"
 delete .v.
-assert {rpn ".v." defined !}		" failed test 1.4"
+assert {rpn ".v." defined !}            " failed test 1.4"
 
 # New and delete (synonyms)
 \v = "hi"
 new \v
 \v = "hello"
-assert {rpn "\v" "hello" ==}		" failed test 2.1"
-assert {rpn "\\v" defined}		" failed test 2.2"
+assert {rpn "\v" "hello" ==}            " failed test 2.1"
+assert {rpn "\\v" defined}              " failed test 2.2"
 delete \v
-assert {rpn "\v" "hi" ==}		" failed test 2.3"
-assert {rpn "\\v" defined}		" failed test 2.4"
+assert {rpn "\v" "hi" ==}               " failed test 2.3"
+assert {rpn "\\v" defined}              " failed test 2.4"
 delete \v
-assert {rpn "\\v" defined !}		" failed test 2.5"
+assert {rpn "\\v" defined !}            " failed test 2.5"
 
 # Multi-word synonyms
 \h = "Hi there buddy"
-assert {rpn "\[0]h" "Hi" ==}		" failed test 3.1"
-assert {rpn "\[1]h" "there" ==}		" failed test 3.2"
-assert {rpn "\[2]h" "buddy" ==}		" failed test 3.3"
+assert {rpn "\[0]h" "Hi" ==}            " failed test 3.1"
+assert {rpn "\[1]h" "there" ==}         " failed test 3.2"
+assert {rpn "\[2]h" "buddy" ==}         " failed test 3.3"
 \h = "Hi means \"hello\""
-assert {rpn "\[0]h" "Hi" ==}		" failed test 3.4"
-assert {rpn "\[1]h" "means" ==}		" failed test 3.5"
-assert {rpn "\[2]h" "\"hello\"" ==}	" failed test 3.6"
+assert {rpn "\[0]h" "Hi" ==}            " failed test 3.4"
+assert {rpn "\[1]h" "means" ==}         " failed test 3.5"
+assert {rpn "\[2]h" "\"hello\"" ==}     " failed test 3.6"
 .i. = 1
-assert {rpn "\[.i.]h" "means" ==}	" failed test 3.7"
+assert {rpn "\[.i.]h" "means" ==}       " failed test 3.7"
 \i = "1"
-assert {rpn "\[\i]h"  "means" ==}	" failed test 3.8"
+assert {rpn "\[\i]h"  "means" ==}       " failed test 3.8"
 
 # Setting by quoted name
 set ".var." to 10
-assert {rpn .var. 10 ==}		" failed test 4.1"
+assert {rpn .var. 10 ==}                " failed test 4.1"
 set "\\syn" to "hi"
-assert {rpn "\syn" "hi" ==}		" failed test 4.2"
+assert {rpn "\syn" "hi" ==}             " failed test 4.2"
 
 # Setting by quoted name, in a new command
 `hi pi "\\Greeting" ".Pi."'
@@ -52,19 +52,19 @@ assert {rpn "\syn" "hi" ==}		" failed test 4.2"
     set "\.word3." to 3.14
 }
 hi pi "\\g" ".p."
-assert {rpn "\g" "hi" ==}			" failed test 5.1"
-assert {rpn .p.  3.14 ==}			" failed test 5.2"
+assert {rpn "\g" "hi" ==}                       " failed test 5.1"
+assert {rpn .p.  3.14 ==}                       " failed test 5.2"
 
 # Execution of synonyms
 \ret = "\string = \"Hello\""
 \ret
-assert {rpn "\string" "Hello" ==}		" failed test 6.1"
+assert {rpn "\string" "Hello" ==}               " failed test 6.1"
 
 # Parsing of individual words in synonyms (tests SourceForge bug 114983)
 `Newcommand "\pat"''
 {
     \t = "A .2" 
-    assert {rpn "\[0].word1." "\[0]t" ==}	" failed test 7.1"
+    assert {rpn "\[0].word1." "\[0]t" ==}       " failed test 7.1"
 } 
 Newcommand "A .2" 
 
@@ -74,102 +74,152 @@ Newcommand "A .2"
 # single or a double backslash, and either with 
 # enclosing double-quotes, or not.
 \a = "HI"
-assert {rpn "\\a"    defined   }		" failed test 8.1"
+assert {rpn "\\a"    defined   }                " failed test 8.1"
 delete \a
-assert {rpn "\\a"    defined ! }		" failed test 8.2"
+assert {rpn "\\a"    defined ! }                " failed test 8.2"
 \a = "HI"
 delete \\a
-assert {rpn "\\a"    defined ! }		" failed test 8.3"
+assert {rpn "\\a"    defined ! }                " failed test 8.3"
 \a = "HI"
 delete "\a"
-assert {rpn "\\a"    defined ! }		" failed test 8.4"
+assert {rpn "\\a"    defined ! }                " failed test 8.4"
 \a = "HI"
 delete "\\a"
-assert {rpn "\\a"    defined ! }		" failed test 8.5"
+assert {rpn "\\a"    defined ! }                " failed test 8.5"
 
 # Part 2. test redirection.
 \a = "hi"
 \name = "\\a"
-assert {rpn "\\@name" defined   }		" failed test 8.6"
+assert {rpn "\\@name" defined   }               " failed test 9.1"
 delete \@name
-assert {rpn "\\a"     defined ! }		" failed test 8.7"
+assert {rpn "\\a"     defined ! }               " failed test 9.2"
 
 # Part 3. test 'new' and 'delete' with re-directed ...
 new \@name
-assert {rpn "\\a"     defined   }		" failed test 8.8"
+assert {rpn "\\a"     defined   }               " failed test 10.1"
 \a = "greeting"
-assert {rpn "\\a"     defined   }		" failed test 8.9"
+assert {rpn "\\a"     defined   }               " failed test 10.2"
 delete \\@name
-assert {rpn "\\a"     defined ! }		" failed test 8.10"
+assert {rpn "\\a"     defined ! }               " failed test 10.3"
 
 # Part 4. also, check new/delete the old way!
 new \a
-assert {rpn "\\a"     defined   }		" failed test 8.11"
+assert {rpn "\\a"     defined   }               " failed test 11.1"
 \a = "greeting"
-assert {rpn "\\a"     defined   }		" failed test 8.12"
+assert {rpn "\\a"     defined   }               " failed test 11.2"
 delete \a
-assert {rpn "\\a"     defined ! }		" failed test 8.13"
+assert {rpn "\\a"     defined ! }               " failed test 11.3"
 
 # Part 5. sprintf on normal and de-referenced synonyms (SF bug 117413)
 sprintf \a "%.1f" 10
-assert {rpn "\a" "10.0" == }			" failed test 8.14"
+assert {rpn "\a" "10.0" == }                    " failed test 12.1"
 \alias_for_a = "\\a"
 sprintf \@alias_for_a "%.1f" 20
-assert {rpn "\a" "20.0" == }			" failed test 8.15"
+assert {rpn "\a" "20.0" == }                    " failed test 12.2"
 
 # Part 6. Environment variables (SF bug 117415)
 \alias_for_a = "\\a"
 get env \@alias_for_a "SHELL"
 get env \b "SHELL"
-assert {rpn "\a" "\b" ==}			" failed test 8.16"
+assert {rpn "\a" "\b" ==}                       " failed test 13.1"
 
 # Part 7 'read' (SF bug 117412)
 system echo "Hello" > test.dat
 open "test.dat"
 read \a
-assert {rpn "\a" "Hello" ==}			" failed test 8.17"
+assert {rpn "\a" "Hello" ==}                    " failed test 14.1"
 \a = "JUNK"
 \alias_for_a = "\\a"
 rewind
 read \\a
-assert {rpn "\a" "Hello" ==}			" failed test 8.18"
+assert {rpn "\a" "Hello" ==}                    " failed test 14.2"
 \a = "JUNK"
 \alias_for_a = "\\a"
 rewind
 read \@alias_for_a
-assert {rpn "\a" "Hello" ==}			" failed test 8.19"
+close
+assert {rpn "\a" "Hello" ==}                    " failed test 14.3"
 system rm -f test.dat
 
-# Part 8. New commands with variables (fixes SF bug 131315)
+#
+\a1 = "1"
+\b1 = "2"
+\a2 = "10"
+\b2 = "20"
+read columns x y
+\a1 \b1
+\a2 \b2
+
+assert {rpn x 0 @  1 ==}                        " failed test 15.1"
+assert {rpn x 1 @ 10 ==}                        " failed test 15.2"
+assert {rpn y 0 @  2 ==}                        " failed test 15.3"
+assert {rpn y 1 @ 20 ==}                        " failed test 15.4"
+
+`NC ...'
+{
+    read columns x y
+    \.word1 \.word2.
+    
+}
+NC 1 10
+assert {rpn x 0 @  1 ==}                        " failed test 16.1"
+assert {rpn y 0 @ 10 ==}                        " failed test 16.2"
+
+\a = "1  2"
+\b = "10 20"
+\index = "0"
+read columns x y
+\[\index]a \[1]b
+
+assert {rpn x 0 @  1 ==}                        " failed test 17.1"
+assert {rpn y 0 @ 20 ==}                        " failed test 17.2"
+
+
+`NC2 ...'
+{
+    read columns x y
+    \[0].word1. \[0].word2.
+    \[1].word1. \[1].word2.
+    
+}
+NC2 "1 2" "100 200"
+assert {rpn x 0 @   1 ==}                        " failed test 18.1"
+assert {rpn x 1 @   2 ==}                        " failed test 18.2"
+assert {rpn y 0 @ 100 ==}                        " failed test 18.3"
+assert {rpn y 1 @ 200 ==}                        " failed test 18.4"
+
+
+# Part 9. New commands with variables (fixes SF bug 131315)
 `double ...'
 {
     \@.word1. *= 2
 }
 .a. = 10
 double ".a."
-assert {rpn .a. 20 ==} 			        " failed test 8.20"
+assert {rpn .a. 20 ==}                          " failed test 19.1"
 `halve ...'
 {
     \@.word1. = {rpn \@.word1. 2 /}
 }
 halve ".a."
-assert {rpn .a. 10 ==} 			        " failed test 8.21"
+assert {rpn .a. 10 ==}                          " failed test 19.2"
 
-# Part 9. New commands with synonyms
-`NC \\fnl'
+# Part 10. New commands with synonyms
+`NC3 \\fnl'
 {
     \@.word1. = "Howdy"
 }
-NC \\fnl
-assert {rpn "\fnl" "Howdy" ==}                 " failed test 8.22"
+NC3 \\fnl
+assert {rpn "\fnl" "Howdy" ==}                  " failed test 20.1"
 
-# Test pointing synonyms
+
+# Part 11. Pointing synonyms
 `postpend_dat *\filename'
 {
     *\.word1. = {rpn "*\.word1." ".dat" strcat}
 }
 \filename = "test"
 postpend_dat &\filename
-assert {rpn "\filename" "test.dat" ==}         " failed test 9.1"
+assert {rpn "\filename" "test.dat" ==}          " failed test 21.1"
 
 show " passed"

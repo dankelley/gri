@@ -13,8 +13,13 @@ vector<int> synonymPointer;	// used for e.g. \sp = &\\s
 
 static inline int end_of_synonym(char c, bool inmath, bool need_brace);
 static bool get_starred_synonym(const char* name, bool want_value/*or name*/, string& result);
+static int get_num_cmdwords();
+static bool get_cmdword(unsigned int index, string& cmdword);
+static int find_synonym_name(const string& s, string& name, bool in_math);
 
-int
+
+
+static int
 get_num_cmdwords()
 {
 	extern int      _num_command_word;
@@ -593,8 +598,6 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 {
 	if (((unsigned) superuser()) & FLAG_SYN) printf("\n\nsubstitute_synonyms('%s',...)\n",s);
 	bool            inmath = false; // are we within a math string?
-	int             trailing_dots_in_name = 0;
-	int             dots_in_name = 0;
 	int             slen = strlen(s);
 	string sname;
 
@@ -607,7 +610,6 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 
 	for (int i = 0; i < slen; i++) {
 		//printf("%s:%d  i=%d     s+i = [%s]\n",__FILE__,__LINE__,i,s+i);
-		int             found = 0;
 		// If entering or leaving math mode, just paste $ onto the end and
 		// skip to the next character.
 		//
@@ -709,99 +711,26 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 		}
 
 		// Now know that it's the start of a synonym.  Isolate it, then find
-		// value.   But first, take note of whether name has a period at the
-		// start (since this determines whether a period can be used to end
-		// it).
-		bool            report_num_words = false;
-		bool            report_a_word = false;
-		int             word_to_report = -1;
-		bool            need_brace = (s[i + 1] == '{');
-		if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d at start of synonym i= %d  s+i= '%s'\n",__FILE__,__LINE__,i,s+i);
-		if (s[i + 1] == '.') {
-			dots_in_name = 1;
-			for(int ii = i + 2; ii < slen; ii++) {
-				if (s[ii] == '.')
-					dots_in_name++;
-				else
-					break;
-			}
-			//printf("DEBUG dots_in_name %d      <%s>\n",dots_in_name,s+i);
-		} else if (s[i + 1] == '#') {
-			printf("DEBUG %s:%d got a # 1 character into <%s>\n",__FILE__,__LINE__,s+i);
-		} else if (s[i + 1] == '[') {
-			//printf("DEBUG 1 %s:%d\n",__FILE__,__LINE__);
-			// Indexing a word within synonym
-			int index_length = -1;
-			for (int j = i + 2; j < slen; j++) {
-				if (s[j] == ']') {
-					index_length = j - i - 2;
-					break;
-				}
-			}
-			if (index_length == 0) {
-				report_num_words = true;
-			} else {
-				report_a_word = true;
-				char *num = (char *)malloc(sizeof(char)*(index_length + 1));
-				int j;
-				for (j = 0; j < index_length; j++) 
-					num[j] = s[i + 2 + j];
-				num[j] = '\0';
-				double tmp;
-				getdnum(num, &tmp);
-				//printf("DEBUG report_a_word %s:%d  num [%s]   word_to_report=%d\n",__FILE__,__LINE__,num,word_to_report);
-				word_to_report = int(floor(0.5 + tmp));
-				free(num);
-			}
-			i += index_length + 2;
-			// Check to see if synonym-name has dots in it
-			if (s[i + 1] == '.') {
-				dots_in_name = 1;
-				for(int ii = i + 1; ii < slen; ii++) {
-					if (s[ii] == '.')
-						dots_in_name++;
-					else
-						break;
-				}
-			}
-		}
-		trailing_dots_in_name = 0;
-		if (strlen(s + i) > _grTempStringLEN) {
-			printf("DEBUG %s:%d strlen(s+i)= %d    _grTempStringLEN = %d\n",__FILE__,__LINE__,strlen(s+i),_grTempStringLEN);
-			fatal_err("in synonyms.cc: insufficient space for string `\\", s + i, "'", "\\");
-		}
-		// To find length, scan the string, checking characters against
-		// stopper characters.
-		unsigned int syn_len = 1; // We will want to focus on just the synonym, of course ...
-		sname =  "\\";	          // ... and so far we have one character in our list. 
+		// value.
+		sname =  "\\";
 		sname.append(s + i + 1);
-		syn_len += dots_in_name; // perhaps some dots
-		if (((unsigned) superuser()) & FLAG_SYN) printf("%s:%d about to try to find syn name in '%s'   syn_len= %d  dots_in_name= %d\n", __FILE__, __LINE__, sname.c_str(), syn_len, dots_in_name);
-		while (syn_len < sname.size() && !end_of_synonym(sname[syn_len], inmath, need_brace)) {
-			// Also end synonym if its an unmatched dot
-			if (sname[syn_len] == '.') {
-				trailing_dots_in_name++;
-				if (trailing_dots_in_name > dots_in_name) {
-					break;
-				} else if (trailing_dots_in_name == dots_in_name) {
-					syn_len++;
-					break;
-				}
-			}
-			syn_len++;
+		string the_syn_name;
+		int syn_name_len = find_synonym_name(sname, the_syn_name, inmath);
+		if (syn_name_len != 0) {
+			sname = the_syn_name;
+			i += syn_name_len - 1;
 		}
-		if (need_brace) {
-			syn_len++;
-		}
-		sname.STRINGERASE(syn_len, sname.size() - syn_len);
 
 		if (((unsigned) superuser()) & FLAG_SYN) printf("  %s:%d the sname is '%s'\n",__FILE__, __LINE__, sname.c_str());
 
+#if 0
 		// Catch '\ ', which is not a synonym, and which can come in by
 		// malformed continuation lines
 		if (sname[1] == ' ') {
 			warning("Found `\\ ', which is not legal; is this a malformed continuation?");
 		}
+#endif
+
 		// Substitute known synonym, then skip over the space the synonym
 		// name occupied.
 		string synonym_value;
@@ -811,42 +740,10 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 			}
 			strcpy(svalue, synonym_value.c_str());
 			if (((unsigned) superuser()) & FLAG_SYN) printf("Syn value is <%s>\n", svalue);
-			if (report_num_words) {
-				char *w[MAX_nword];
-				unsigned int nw;
-				chop_into_words(svalue, w, &nw, MAX_nword);
-				char tmp[30];
-				sprintf(tmp, "%d", nw);
-				sout.append(tmp);
-			} else if (report_a_word) {
-				char *w[MAX_nword]; // BUG: wasteful
-				unsigned int nw;
-				chop_into_words(svalue, w, &nw, MAX_nword);
-				if (word_to_report < 0) {
-					; // nothing to do here
-				} else if (word_to_report < int(nw)) {
-					sout.append(w[word_to_report]);
-				} else {
-					; // nothing to do here
-				}
-			} else {
-				if (((unsigned) superuser()) & FLAG_SYN) printf("    %s:%d the sname value is '%s'\n",__FILE__, __LINE__, svalue);
-				sout.append(svalue);
-			}
-			i += syn_len - 1;
-			report_a_word = false;	// reset
-			report_num_words = false;
+			sout.append(synonym_value.c_str());
 		} else {
-			// leave unknown synonym in place.
-			if (!found) {
-				//printf("\n'%s' WAS NOT FOUND\n", s+i);
-				sout += '\\'; // don't forget that!
-				while (!end_of_synonym(s[++i], inmath, need_brace))
-					sout += s[i];
-				i--; // otherwise we'll miss the next character
-			}
+			sout.append(sname.c_str()); 
 		}
-		dots_in_name = 0; // reset
 	}
 	// Paste on final blank [can't remember why, but what the heck].
 	sout.append(" ");
@@ -854,10 +751,80 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 	return true;
 }
 
+static int			// return length
+find_synonym_name(const string &s, string& name, bool inmath)
+{
+	unsigned int slen = s.size();
+	if (s[0] != '\\')
+		return 0;
+	unsigned int dots_in_name = 0;
+	name += '\\';
+	unsigned int len = 1;
+	if (s[len] == '[') {
+		name += '[';
+		len++;
+		while (len < slen) {
+			name += s[len];
+			if (s[len++] == ']')
+				break;
+		}
+		// BUG: should check for missing ']'
+	} 
+	if (s[len] == '.') {
+		dots_in_name++;
+		name += '.';
+		len++;
+		while (len < slen && s[len] == '.') {
+			dots_in_name++;
+			name += '.';
+			len++;
+		}
+	}
+	while (len < slen) {
+		char c = s[len];
+		if (c == ' ')  break;
+		if (c == '\t') break;
+		if (c == '\n') break;
+		if (c == '`')  break;
+		if (c == '\\') break;
+		if (c == '"')  break;
+		if (c == '|')  break;
+		if (c == ':')  break;
+		if (c == ';')  break;
+		if (c == '#')  break;
+		if (c == '(')  break;
+		if (c == ')')  break;
+		if (c == '{')  break;
+		if (c == '}')  break;
+		if (c == '/')  break;
+		if (c == '*')  break;
+		if (c == '-')  break;
+		if (c == '+')  break;
+		if (c == '<')  break;
+		if (c == '>')  break;
+		if (c == '=')  break;
+		if (c == '>')  break;
+		if (c == '$')  break;
+		if (c == ',' && !inmath)
+			break;
+		if (c == '.') {
+			unsigned int trailing_dots = 0;
+			while (len < slen && s[len] == '.' && trailing_dots < dots_in_name) {
+				name += s[len];
+				len++;
+			}
+			break;
+		}
+		name += s[len++];
+	}
+	if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d got syn-name '%s'\n",__FILE__,__LINE__,name.c_str());
+	return len;
+}
+
 static inline int
 end_of_synonym(char c, bool inmath, bool need_brace)
 {
-	//if (((unsigned) superuser()) & FLAG_SYN) printf("\tend_of_synonym (%c,%d)\n",c, need_brace);
+	if (((unsigned) superuser()) & FLAG_SYN) printf("\tend_of_synonym (%c,%d)\n",c, need_brace);
 	if (need_brace) {
 		//if (((unsigned) superuser()) & FLAG_SYN) printf("\t\t returning %d  (since need_brace)\n", c == '}');
 		return c == '}';
@@ -877,8 +844,8 @@ end_of_synonym(char c, bool inmath, bool need_brace)
 	case '#':
 	case '(':
 	case ')':
-	case '[':
-	case ']':
+//	case '[':
+//	case ']':
 	case '{':
 	case '}':
 	case '/':
