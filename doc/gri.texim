@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.158 2002/03/18 23:10:40 dankelley Exp $
+@c $Id: gri.texim,v 1.159 2002/04/03 19:08:01 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -15841,17 +15841,17 @@ only in the fixing of bugs.
 @comment  node-name,  next,  previous,  up
 @subsection Version 2.8
 
-@subsection Version 2.8.7 [2002 ??? ??]
+@subsection Version 2.8.7 [2002 Apr 03]
 @itemize @bullet
 @item
 Fix SourceForge bug
-@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=#482120&group_id=5511&atid=105511">
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=482120&group_id=5511&atid=105511">
 #482120
 @c HTML </a>
 (@code{regress} ignores data weights)
 @item
 Fix SourceForge bug
-@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=#508657&group_id=5511&atid=105511">
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=508657&group_id=5511&atid=105511">
 #508657
 @c HTML </a>
 (missing backslash in drawing undefined synonyms)
