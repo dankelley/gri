@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.148 2002/02/07 13:35:43 dankelley Exp $
+@c $Id: gri.texim,v 1.149 2002/02/07 13:38:40 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -15838,8 +15838,14 @@ only in the fixing of bugs.
 @comment  node-name,  next,  previous,  up
 @subsection Version 2.8
 
-@subsection Version 2.8.6 [2002 Jan 28]
+@subsection Version 2.8.6 [2002 Feb 14]
 @itemize @bullet
+@item
+Fix SourceForge bug
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=513002&group_id=5511&atid=105511">
+#513002
+@c HTML </a>
+(minor documentation error in @code{set clip})
 @item
 Fix SourceForge bug
 @c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=509592&group_id=5511&atid=105511">
