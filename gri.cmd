@@ -4719,9 +4719,9 @@ rpnfunction linear_intercept exch dup roll_left roll_left roll_left dup roll_rig
 #
 # @variable ..R2..                    squared correlation coefficient (defined if regression has been done)
 # @variable ..coeff0..                intercept in linear regression (defined if regression has been done)
-# @variable ..coeff0_sig..            95% C.I. on intercept in linear regression (only defined if regression has been done)
-# @variable ..coeff1..                slope in linear regression (only defined if regression has been done)
-# @variable ..coeff1_sig..            95% C.I. on slope in linear regression (only defined if regression has been done)
+# @variable ..coeff0_sig..            95% C.I. on intercept in linear regression (defined if regression has been done)
+# @variable ..coeff1..                slope in linear regression (defined if regression has been done)
+# @variable ..coeff1_sig..            95% C.I. on slope in linear regression (defined if regression has been done)
 # @variable ..num_col_data..          number of column data
 # @variable ..num_col_data_missing..  number of missing column data
 # @variable ..arrowsize..             size of arrow heads @unit cm @default 0.2
@@ -4759,3 +4759,20 @@ rpnfunction linear_intercept exch dup roll_left roll_left roll_left dup roll_rig
 # @variable ..ylast..                 last value of y column @default 0
 # @variable ..image_width..           pixel width of image @default 0
 # @variable ..image_height..          pixel height of image @default 0
+# @variable \.missingvalue. missing value code @default 1e22
+# @variable \.return_value. return value from last command
+# @variable \.version. version of gri being used
+# @variable \.pid. process id of this job
+# @variable \.wd. present working directory
+# @variable \.time. day, date and time
+# @variable \.user. name of user who started this job
+# @variable \.host. name of computer on which job is running
+# @variable \.system. name of operating system
+# @variable \.home. name of this users home directory
+# @variable \.lib_dir. directory that holds gri library files
+# @variable \.command_file. name of command file for this job
+# @variable \.readfrom_file. name of file being read for data
+# @variable \.ps_file. name of PostScript file being created
+# @variable \.path_data. directory path for finding data
+# @variable \.path_commands. directory path for finding commands
+
