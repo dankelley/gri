@@ -96,6 +96,8 @@ then
 fi
 
 %changelog
+* Sun Jan 11 2004 <Dan.Kelley@Dal.Ca>
+- fix SF bug 874483 ('dash' properties ignored by 'save state')
 * Thu Jan 8 2004 <Dan.Kelley@Dal.Ca>
 - fix SF bug 873245 (inaccurate warnings on slow operations)
 * Wed Jan 7 2004 <Dan.Kelley@Dal.Ca>

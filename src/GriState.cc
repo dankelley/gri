@@ -1,5 +1,4 @@
-// #define DASH
-
+// #define DEBUG_DASH
 #include <string>
 #include "GriColor.hh"
 #include "GriState.hh"
@@ -20,6 +19,8 @@ GriState::GriState()
 	is_separate_text_color = false;
 	the_trace              = false;
 	the_superuser          = 0;
+	colorLine.setRGB(0.0, 0.0, 0.0);
+	colorText.setRGB(0.0, 0.0, 0.0);
 }
 
 GriState::GriState(const GriState& n)
@@ -51,11 +52,16 @@ GriState::GriState(const GriState& n)
 	the_linewidth_symbol = n.linewidth_symbol();
 	the_superuser        = n.superuser();
 	the_trace            = n.trace();
-#ifdef DASH
-	the_dash.erase();
-	for (unsigned int i = 0; i < (n.dash).size(); i++)
-		the_dash.push_back(n.dash[i]);
+	the_dash.erase(the_dash.begin(), the_dash.end());
+	for (unsigned int i = 0; i < (n.the_dash).size(); i++)
+		the_dash.push_back(n.the_dash[i]);
+#ifdef DEBUG_DASH
+	printf("GriState COPY CONSTRUCTOR LEAVING dash: ");
+	for (unsigned int i = 0; i < (n.the_dash).size(); i++)
+		printf(" %f ", the_dash[i]);
+	printf("\n");
 #endif
+
 }
 GriState& GriState::operator=(const GriState& n)
 {
@@ -88,26 +94,20 @@ GriState& GriState::operator=(const GriState& n)
 	the_linewidth_symbol = n.linewidth_symbol();
 	the_superuser        = n.superuser();
 	the_trace            = n.trace();
-#ifdef DASH
-	the_dash.erase();
-	for (unsigned int i = 0; i < (n.dash).size(); i++)
-		the_dash.push_back(n.dash[i]);
+	the_dash.erase(the_dash.begin(), the_dash.end());
+	for (unsigned int i = 0; i < (n.the_dash).size(); i++)
+		the_dash.push_back(n.the_dash[i]);
+#ifdef DEBUG_DASH
+	printf("GriState ASSIGNMENT CONSTRUCTOR LEAVING dash: ");
+	for (unsigned int i = 0; i < (n.the_dash).size(); i++) 
+		printf(" %f ", the_dash[i]); 
+	printf("\n");
 #endif
 	return *this;
 }
 
 GriState::~GriState()
 {
-	colorText.~GriColor();
-	colorLine.~GriColor();
+	colorText.~GriColor(); // BUG: should I be calling the destructor??
+	colorLine.~GriColor(); // BUG: should I be calling the destructor??
 }
-
-//void GriState::set_color_line(const GriColor& c)
-//{
-//	colorLine = c;
-//}
-//
-//void GriState::set_color_text(const GriColor& c)
-//{
-//	colorText = c;
-//}

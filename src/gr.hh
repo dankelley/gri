@@ -261,6 +261,7 @@ void            gr_scale125(double xl, double xr, int n, double *xlr, double *xr
 void            gr_set_clip_ps_curve(const double *xc, const double *yc, unsigned int len);
 void            gr_set_clip_ps_rect(double ll_x_pt, double ll_y_pt, double ur_x_pt, double ur_y_pt);
 void            gr_set_clip_ps_off();
+bool            gr_set_dash(std::vector<double> dash);
 void            gr_setfont(gr_fontID newID, bool force = false);
 #define gr_setfontsize_cm(f) (gr_setfontsize_pt(f * PT_PER_CM))
 void            gr_setfontsize_pt(double new_fontsize_pt);

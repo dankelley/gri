@@ -1,4 +1,4 @@
-// #define DASH
+#define DASH
 
 #if !defined(_GriState_h_)
 #define _GriState_h_
@@ -16,11 +16,17 @@ class GriState
 public:
 	GriState();
 	GriState(const GriState& n);
+	GriState& operator=(const GriState& n);
 	~GriState();
-	void set_color_line(const GriColor& c)  {colorLine = c;}
-	void set_color_text(const GriColor& c)  {colorText = c;}
-	void set_transparency_line(double tr)   {colorLine.setT(tr);}
-	void set_transparency_text(double tr)   {colorText.setT(tr);}
+	// 
+	// Members to set values...
+	void set_color_line(const GriColor& c)  {colorLine = c;			}
+	void set_color_text(const GriColor& c)  {colorText = c;			}
+#ifdef DASH
+	void set_dash(std::vector<double> d)     {the_dash = d;			}
+#endif
+	void set_transparency_line(double tr)   {colorLine.setT(tr);		}
+	void set_transparency_text(double tr)   {colorText.setT(tr);		}
 	void set_separate_text_color(bool f)	{is_separate_text_color = f;    }
 	void set_fontsize(double fs)		{the_font.size_pt     = fs;	}
 	void set_font(gr_font f)		{the_font             = f;	}
@@ -31,21 +37,22 @@ public:
 	void set_linewidth_symbol(double w)	{the_linewidth_symbol = w;	}
 	void set_superuser(unsigned int s)	{the_superuser	      = s;	}
 	void set_trace(bool t)			{the_trace	      = t;	}
-	const GriColor& color_line() const 	{return colorLine;		}
-	const GriColor& color_text() const	{return colorText;		}
-	bool	separate_text_color() const	{return is_separate_text_color; }
-	gr_font	font() const			{return the_font;		}
-	int         line_cap() const		{return the_line_cap;           }
-	int         line_join() const		{return the_line_join;          }
-	double	linewidth_axis() const		{return the_linewidth_axis;	}
-	double	linewidth_line() const		{return the_linewidth_line;	}
-	double	linewidth_symbol() const	{return the_linewidth_symbol;	}
-	unsigned int superuser() const		{return the_superuser;		}
-	bool	trace() const			{return the_trace;		}
+	// 
+	// Members to get values...
+	const GriColor& color_line() const 	        {return colorLine;		}
+	const GriColor& color_text() const	        {return colorText;		}
+	bool	        separate_text_color() const	{return is_separate_text_color; }
+	gr_font	        font() const			{return the_font;		}
+	int             line_cap() const		{return the_line_cap;           }
+	int             line_join() const		{return the_line_join;          }
+	double	        linewidth_axis() const		{return the_linewidth_axis;	}
+	double          linewidth_line() const		{return the_linewidth_line;	}
+	double	        linewidth_symbol() const	{return the_linewidth_symbol;	}
+	unsigned int    superuser() const		{return the_superuser;		}
+	bool	        trace() const			{return the_trace;		}
 #ifdef DASH
-	const std::vector<float>& dash() const       {return *the_dash;}
+	const std::vector<double> dash() const   {return the_dash;}
 #endif
-	GriState& operator=(const GriState& n);
 private:
 	double		the_linewidth_axis;
 	double		the_linewidth_line;
@@ -59,7 +66,7 @@ private:
 	bool		the_trace;
 	unsigned int	the_superuser;
 #ifdef DASH
-	std::vector<float> *the_dash;
+	std::vector<double> the_dash;
 #endif
 	// FOR MORE, SEE extern.hh:21
 };

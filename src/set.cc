@@ -976,17 +976,19 @@ set_dashCmd()
 {
 	// Start by clearing existing dash list
 	_dash.erase(_dash.begin(), _dash.end()); // go to solid
-	extern FILE *_grPS;
-
 	// Solid line
 	if (word_is(_nword - 1, "off")) { // solid line
+		return gr_set_dash(_dash); // BUG: needed? (set in GriPath anyway)
+#if 0
 		fprintf(_grPS, "[] 0 d\n");
+#endif
 		return true;		// solid line
 	}
 	if (_nword == 2) {
 		// `set dash'
 		_dash.push_back(0.2);
 		_dash.push_back(0.1);
+		return gr_set_dash(_dash); // BUG: needed? (set in GriPath anyway)
 		return true;
 	}
 	if (_nword == 3) {
@@ -998,56 +1000,57 @@ set_dashCmd()
 		}
 		switch ((int) (0.5 + fabs((double) tmp))) {
 		case 0:
-			return true;
+			return gr_set_dash(_dash); // BUG: needed? (set in GriPath anyway)
 		case 1:
 			_dash.push_back(0.2);
 			_dash.push_back(0.1);
-			return true;
+			return gr_set_dash(_dash); // BUG: needed? (set in GriPath anyway)
 		case 2:
 			_dash.push_back(0.4);
 			_dash.push_back(0.1);
-			return true;
+			return gr_set_dash(_dash); // BUG: needed? (set in GriPath anyway)
 		case 3:
 			_dash.push_back(0.6);
 			_dash.push_back(0.1);
-			return true;
+			return gr_set_dash(_dash); // BUG: needed? (set in GriPath anyway)
 		case 4:
 			_dash.push_back(0.8);
 			_dash.push_back(0.1);
-			return true;
+			return gr_set_dash(_dash); // BUG: needed? (set in GriPath anyway)
 		case 5:
 			_dash.push_back(1.0);
 			_dash.push_back(0.1);
-			return true;
+			return gr_set_dash(_dash); // BUG: needed? (set in GriPath anyway)
 		case 10:
 			_dash.push_back(_griState.linewidth_line() / PT_PER_CM);
 			_dash.push_back(_griState.linewidth_line() / PT_PER_CM);
-			return true;
+			return gr_set_dash(_dash); // BUG: needed? (set in GriPath anyway)
 		case 11:
 			_dash.push_back(_griState.linewidth_line() / PT_PER_CM);
 			_dash.push_back(2.0 * _griState.linewidth_line() / PT_PER_CM);
-			return true;
+			return gr_set_dash(_dash); // BUG: needed? (set in GriPath anyway)
 		case 12:
 			_dash.push_back(_griState.linewidth_line() / PT_PER_CM);
 			_dash.push_back(3.0 * _griState.linewidth_line() / PT_PER_CM);
-			return true;
+			return gr_set_dash(_dash); // BUG: needed? (set in GriPath anyway)
 		case 13:
 			_dash.push_back(_griState.linewidth_line() / PT_PER_CM);
 			_dash.push_back(4.0 * _griState.linewidth_line() / PT_PER_CM);
-			return true;
+			return gr_set_dash(_dash); // BUG: needed? (set in GriPath anyway)
 		case 14:
 			_dash.push_back(_griState.linewidth_line() / PT_PER_CM);
 			_dash.push_back(5.0 * _griState.linewidth_line() / PT_PER_CM);
-			return true;
+			return gr_set_dash(_dash); // BUG: needed? (set in GriPath anyway)
 		case 15:
 			_dash.push_back(_griState.linewidth_line() / PT_PER_CM);
 			_dash.push_back(6.0 * _griState.linewidth_line() / PT_PER_CM);
-			return true;
+			return gr_set_dash(_dash); // BUG: needed? (set in GriPath anyway)
 		default:
 			_dash.push_back(0.2);
 			_dash.push_back(0.1);
-			return true;
+			return gr_set_dash(_dash); // BUG: needed? (set in GriPath anyway)
 		}
+		return gr_set_dash(_dash); // BUG: need this? (set in GriPath anyway)
 	} else {
 		// Long list of values
 		for (unsigned int i = 0; i < _nword - 2; i++) {
@@ -1060,10 +1063,22 @@ set_dashCmd()
 			_dash.push_back(tmp);
 		}
 	}
+#if 0
 	fprintf(_grPS, "[");
 	for (unsigned int i = 0; i < _dash.size(); i++)
 		fprintf(_grPS, "%.3f ", _dash[i] * PT_PER_CM);
 	fprintf(_grPS, "] %d d\n", int(_dash.size()));
+#endif
+	return gr_set_dash(_dash); // BUG: need this? (set in GriPath anyway)
+}
+bool
+gr_set_dash(const std::vector<double> dash)
+{
+	extern FILE *_grPS;
+	fprintf(_grPS, "[");
+	for (unsigned int i = 0; i < dash.size(); i++)
+		fprintf(_grPS, "%.3f ", dash[i] * PT_PER_CM);
+	fprintf(_grPS, "] %d d\n", int(dash.size()));
 	return true;
 }
 

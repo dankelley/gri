@@ -1,3 +1,4 @@
+// #define DEBUG_STATE
 #include	<math.h>
 #include	"gr.hh"
 #include        "extern.hh"
@@ -57,6 +58,11 @@ state_restore()
 	// Set these since used globally (see e.g. draw_axes)
 	gr_setfontsize_pt(_griState.font().size_pt);
 	gr_setfont(_griState.font().id);
+	_dash = _griState.dash();
+	gr_set_dash(_dash);
+#ifdef DEBUG_STATE
+	printf("restored dash ... size %d\n",_dash.size());
+#endif
 	PUT_VAR("..fontsize..", _griState.font().size_pt);
 	return true;
 }
