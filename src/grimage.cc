@@ -289,7 +289,7 @@ gr_drawimage(unsigned char *im,
 			fprintf(_grPS, "%%BEGIN_IMAGE\n");
 		fprintf(_grPS, "%f %f %f %f %d %d cim\n", xl_c, yb_c, xr_c, yt_c, (jhigh-jlow), (ihigh-ilow)); // BUG
 		/*DEK*/
-		printf("DEBUG: ilow, ihigh = %d %d      jlow, jhigh = %d %d\n",ilow,ihigh,jlow,jhigh);
+//		printf("DEBUG: ilow, ihigh = %d %d      jlow, jhigh = %d %d\n",ilow,ihigh,jlow,jhigh);
 
 		check_psfile();
 #if 0
