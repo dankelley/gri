@@ -75,8 +75,10 @@ called
 <p>For <b>Macintosh OSX</b>, a 
 <A HREF="http://fink.sourceforge.net/pdb/package.php/gri">Fink</a>  package
 is available, and a OS-X bundle will be prepared given
-sufficient interest.  For <b>MS Windows</b> a gnuwin32 package is
-<a href="http://gnuwin32.sourceforge.net/packages/gri.htm">available</a></p>
+sufficient interest.  For <b>MS Windows</b> a 
+a 
+<a href="http://gnuwin3s2.sourceforge.net/packages/gri.htm">
+gnuwin32</a> package is available.</p>
 
 <p>Upon request, versions may be provided 
 for <b>other platforms</b>, e.g. Solaris, etc.</p>
