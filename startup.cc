@@ -718,8 +718,26 @@ interpret_optional_arguments(int argc, char *argv[])
 			gri_exit(0);
 			break;	// never done
 		case FLAG_OUTPUT:
-			psname.assign(optArg);
-			gr_setup_ps_filename(psname.c_str());
+		{
+			string o(optArg);
+			std::string::size_type suffix_index = o.rfind(".");
+			if (suffix_index != STRING_NPOS) {
+				if (strEQ(o.c_str() + suffix_index, ".ps")) {
+					psname.assign(optArg);
+					gr_setup_ps_filename(psname.c_str());
+				} else if (strEQ(o.c_str() + suffix_index, ".gif")) {
+					warning("Sorry, GIF output not permitted yet; using default postscript filename instead");
+				} else if (strEQ(o.c_str() + suffix_index, ".svg")) {
+					warning("Sorry, SVG output not permitted yet; using default postscript filename instead");
+				} else {
+					warning("Sorry, cannot determine type of output file; using default postscript filename instead");
+				}
+			} else {
+				// Assume to be (an odd) ps name
+				psname.assign(optArg);
+				gr_setup_ps_filename(psname.c_str());
+			}
+		}
 			break;
 		case FLAG_WARN_OFFPAGE:
 			_warn_offpage = true;
@@ -849,8 +867,24 @@ interpret_optional_arguments(int argc, char *argv[])
 					number_optional_arg++;
 					i++;
 					if (i < argc) {
-						psname.assign(argv[i]);
-						gr_setup_ps_filename(psname.c_str());
+						string o(argv[i]);
+						std::string::size_type suffix_index = o.rfind(".");
+						if (suffix_index != STRING_NPOS) {
+							if (strEQ(o.c_str() + suffix_index, ".ps")) {
+								psname.assign(optArg);
+								gr_setup_ps_filename(psname.c_str());
+							} else if (strEQ(o.c_str() + suffix_index, ".gif")) {
+								warning("Sorry, GIF output not permitted yet; using default postscript filename instead");
+							} else if (strEQ(o.c_str() + suffix_index, ".svg")) {
+								warning("Sorry, SVG output not permitted yet; using default postscript filename instead");
+							} else {
+								warning("Sorry, cannot determine type of output file; using default postscript filename instead");
+							}
+						} else {
+							// Assume to be (an odd) ps name
+							psname.assign(argv[i]);
+							gr_setup_ps_filename(psname.c_str());
+						}
 					} else {
 						err("`gri ... -output FILENAME' needs the FILENAME!");
 						gri_exit(1);

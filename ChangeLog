@@ -1,3 +1,11 @@
+2001-10-18  Dan E. Kelley  <Dan.Kelley@Dal.Ca>
+
+	* startup.cc (interpret_optional_arguments): examine the
+	commandline argument "-output NNN" for various file types,
+	e.g. GIF and SVG files, but (so far) only actually _handle_
+	postscript file types.  I think SVG output would be nice, since I
+	think that's where free vector-graphics editors are going.
+ 
 2001-10-14  Dan E. Kelley  <Dan.Kelley@Dal.Ca>
 
 	* variable.cc (put_var): update the _xinc and _yinc values, if the
