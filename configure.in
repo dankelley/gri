@@ -304,14 +304,15 @@ define(CHECK_FOR_NETCDF, [
 dnl
 CHECK_FOR_NETCDF
 
-AC_CHECK_LIB(m,sin)
-AC_CHECK_LIB(popt,poptGetNextOpt,[
-		EXTRA_LIBS="$EXTRA_LIBS -lpopt"
-	],[
-		EXTRA_OBJS="$EXTRA_OBJS popt/findme.o popt/popt.o popt/poptconfig.o popt/popthelp.o popt/poptparse.o"
-		CXXFLAGS="$CXXFLAGS -I./popt"
-		AC_DEFINE(HAVE_OLD_POPT)
-	])
+dnl gri3 AC_CHECK_LIB(m,sin)
+dnl gri3 AC_CHECK_LIB(popt,poptGetNextOpt,[
+dnl gri3 		EXTRA_LIBS="$EXTRA_LIBS -lpopt"
+dnl gri3 	],[
+dnl gri3 		EXTRA_OBJS="$EXTRA_OBJS popt/findme.o popt/popt.o popt/poptconfig.o popt/popthelp.o popt/poptparse.o"
+dnl gri3 		CXXFLAGS="$CXXFLAGS -I./popt"
+dnl gri3 		AC_DEFINE(HAVE_OLD_POPT)
+dnl gri3 	])
+
 AC_SUBST(EXTRA_CXXFLAGS)
 AC_SUBST(EXTRA_OBJS)
 AC_SUBST(EXTRA_LIBS)

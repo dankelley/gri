@@ -1,3 +1,7 @@
+2002-05-07  Dan Kelley  <kelley@Limit.Phys.Ocean.Dal.Ca>
+
+	* configure.in (PROGS): remove the check for popt, which won't be used in the 2.x series (but remains, commented-out, for the 3.x series)
+
 2002-05-04  Dan Kelley  <kelley@Limit.Phys.Ocean.Dal.Ca>
 
 	* rpn.cc: Fix SourceForge bug #552009 (`rpn' can segfault if `!=' operator is written as `=!')
