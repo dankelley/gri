@@ -286,10 +286,10 @@ README-ftp:
 	chmod a+r README-ftp
 
 test:
-	@./gri -directory . -c0 doc/tst_suite/tst_var_syn.gri 
-	@./gri -directory . -c0 doc/tst_suite/tst_control.gri
-	@./gri -directory . -c0 doc/tst_suite/tst_rpn.gri
-	@cd doc/tst_suite ; ../../gri -directory ../.. -c0 tst_IO.gri
+	@./gri -directory . -c 0 doc/tst_suite/tst_var_syn.gri 
+	@./gri -directory . -c 0 doc/tst_suite/tst_control.gri
+	@./gri -directory . -c 0 doc/tst_suite/tst_rpn.gri
+	@cd doc/tst_suite ; ../../gri -directory ../.. -c 0 tst_IO.gri
 
 what_is_new:
 	@for f in gri*.spec gri.cmd logo.dat *cc *hh Makefile.in configure.in doc/gri.texi doc/Makefile;\

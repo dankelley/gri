@@ -232,7 +232,7 @@ dnl
 CHECK_FOR_NETCDF
 
 AC_CHECK_LIB(m,sin)
-
+AC_CHECK_LIB(popt,poptGetNextOpt)
 
 dnl	Check for Imgemagick's convert, needed to make PNG files in HTML manual
 AC_CHECK_PROG(HAVE_CONVERT, convert, "yes", "no")

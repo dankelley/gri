@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.127 2001/08/13 20:09:51 dankelley Exp $
+@c $Id: gri.texim,v 1.128 2001/08/14 22:22:40 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -468,11 +468,12 @@ or more of the following (explained below):
 [-no_startup_message]
 [-output PS_file_name]
 [-publication]
-[-superuser[N]]
+[-superuser N]
 [-trace]
 [-yes]
 [-version]
 [-warn_offpage]
+[-no_warn_offpage]
 @end example
 @noindent
 @cindex colon on commandline
@@ -590,6 +591,12 @@ PostScript file as comments.  (These comments can be used by the
 @code{-creator} commandline option (see above), but they take up a little
 bit of space and users might sometimes want to get rid of them.)
 
+@item  @code{-no_warn_offpage}
+@cindex postscript bounding box
+@cindex bounding box
+@cindex @code{-no_warn_offpage} command-line option
+Do not warn if items are offpage.  (Contrast this with @code{-warn_offpage}.)
+
 @item @code{-output PS_file_name}
 @cindex specifying the PostScript file name
 @cindex PostScript file name, specifying
@@ -626,7 +633,7 @@ end if
 (This option is included here only for completeness.  It should only be
 used by developers (who will alter the code to print debugging
 information if @code{-superuser} is set in addition to @code{-debug}).
-An optional value can be inserted (e.g. @code{-superuser2}) to set the
+An optional value can be inserted (e.g. @code{-superuser 2}) to set the
 debugging level (retrievable by the function superuser()) to indicated
 integer value.  Specifying the @code{-superuser} command-line option
 sets the built-in variable @code{..superuser..} to 1 or the specified
@@ -650,7 +657,7 @@ Display version information and exit successfully.
 @cindex command-line option @code{-warn_offpage}
 @cindex @code{-warn_offpage} command-line option
 Causes warnings to be issued for all items drawn far off a 8.5x11 inch
-page.
+page.  This is the default.  (Contrast with @code{-no_warn_offpage}.)
 
 @item  @code{-yes} or @code{-y}
 @cindex @code{-yes} command-line option
@@ -740,24 +747,19 @@ parsing, not at the time of execution.  Also, @code{insert}
 if user demand for tracing continues, it will be added in a future
 version.
 
-
-@section Fixing a broken PostScript file
-To make Gri repair a PostScript file created by a Gri job that failed
-midway through:
-
-@example
-gri -repair bad.ps good.ps
-@end example
-
-This may very well not work, and the author only provides it in case it
-may help you.  Essentially all it does it try to complete a so-called
-PostScript "path", if Gri died in the middle of drawing a path.  Please
-don't expect too much from this command, and don't expect bug fixes to
-it.
-
-
-
-
+@c REMOVED_AFTER_2_8_x @section Fixing a broken PostScript file
+@c REMOVED_AFTER_2_8_x To make Gri repair a PostScript file created by a Gri job that failed
+@c REMOVED_AFTER_2_8_x midway through:
+@c REMOVED_AFTER_2_8_x
+@c REMOVED_AFTER_2_8_x @example
+@c REMOVED_AFTER_2_8_x gri -repair bad.ps good.ps
+@c REMOVED_AFTER_2_8_x @end example
+@c REMOVED_AFTER_2_8_x
+@c REMOVED_AFTER_2_8_x This may very well not work, and the author only provides it in case it
+@c REMOVED_AFTER_2_8_x may help you.  Essentially all it does it try to complete a so-called
+@c REMOVED_AFTER_2_8_x PostScript "path", if Gri died in the middle of drawing a path.  Please
+@c REMOVED_AFTER_2_8_x don't expect too much from this command, and don't expect bug fixes to
+@c REMOVED_AFTER_2_8_x it.
 
 @c HTML <!-- newfile GettingMoreControl.html "Gri: getting more control" "Getting more control" -->
 
@@ -16242,6 +16244,11 @@ Fix SourceForge bug
 #450465
 @c HTML </a>
 (@code{create columns from function} was broken).
+@item
+Remove @code{gri -repair old.ps new.ps} since (a) it was only half
+functional, (b) it was hard to code in the new scheme of
+argument-processing and (c) the author was not aware of anybody every
+having used it.
 @end itemize
 
 @c HTML <!-- newfile Plans.html "Gri: plans for future versions" "Gri: plans for future versions" -->

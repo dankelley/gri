@@ -37,7 +37,7 @@ template void  sort(vector<double>::iterator, vector<double>::iterator);
 #pragma define_template vector<float>
 #pragma define_template vector<int>
 #pragma define_template vector<unsigned char>
-#pragma define_template vector<char*>
+#pragma define_template vector<const char*>
 #pragma define_template GriMatrix<bool>
 #pragma define_template GriMatrix<double>
 #endif // DEC compiler
@@ -67,7 +67,7 @@ template class std::vector<double>;
 template class std::vector<float>;
 template class std::vector<int>;
 template class std::vector<unsigned char>;
-template class std::vector<char*>;
+template class std::vector<const char*>;
 template class GriMatrix<bool>;
 template class GriMatrix<double>;
 

@@ -36,7 +36,7 @@ bool            _warn_offpage;
 std::vector<double>       _dash;
 std::vector<DataFile>     _dataFILE;
 std::vector<CmdFile>      _cmdFILE;
-std::vector<char*>        _argv;
+std::vector<const char*>  _argv;
 
 
 char            _input_data_separator; // ' ' (general whitespace) or '\t'
@@ -144,7 +144,7 @@ GRI_COMMAND     _command[COMMAND_STACK_SIZE];
 
 
 int
-main(int argc, char **argv)
+main(int argc, const char **argv)
 {
 	start_up(argc, argv);
 	do

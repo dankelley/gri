@@ -1,4 +1,4 @@
-#define TEST_POPT // uncomment this to test the POPT library
+//#define TEST_POPT // uncomment this to test the POPT library
 
 #include	<string>
 #include	<unistd.h>

@@ -1399,7 +1399,7 @@ do_operation(operator_name oper)
 		return true;
 	}
 	if (oper == ARGC) {
-		extern std::vector<char*>_argv;
+		extern std::vector<const char*>_argv;
 		RpnItem item;
 		item.set("", double(_argv.size()), NUMBER);
 		rS.push_back(item);
@@ -1414,7 +1414,7 @@ do_operation(operator_name oper)
 			RpnError = NEED_GT_1;
 			return false;
 		}
-		extern std::vector<char*>_argv;
+		extern std::vector<const char*>_argv;
 		if (index >= int(_argv.size())) {
 			SET(1, "\" \"", 0.0, STRING);
 			return true;
