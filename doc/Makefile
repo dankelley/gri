@@ -1,6 +1,7 @@
 # Makefile for Gri documentation files.
 
            HTML_DIR = $(prefix)/doc/gri/html
+   HTML_DIR_SOLARIS = $(prefix)/share/gri
                  RM = rm -f
             REFCARD = refcard
         CMD_REFCARD = cmdrefcard
@@ -16,6 +17,10 @@ all:
 install:
 	make info-install
 	make html-install
+
+install-solaris:
+	make info-install-solaris
+	make html-install-solaris
 
 read:
 	chmod a+r Makefile
@@ -69,6 +74,17 @@ html-install:	html
 	install -m 644 screenshots/*.jpg   $(HTML_DIR)/screenshots
 	install -m 644 *.html              $(HTML_DIR)
 
+html-install-solaris:	html
+	install -d $(HTML_DIR_SOLARIS)/examples
+	install -d $(HTML_DIR_SOLARIS)/resources
+	install -d $(HTML_DIR_SOLARIS)/screenshots
+	install -m 644 resources/*.gif     $(HTML_DIR_SOLARIS)/resources
+	install -m 644 examples/*.jpg      $(HTML_DIR_SOLARIS)
+	install -m 644 examples/{model*,*.dat,*.gri,*.ps} $(HTML_DIR_SOLARIS)/examples
+	install -m 755 examples/FEM.pl     $(HTML_DIR_SOLARIS)/examples
+	install -m 644 screenshots/*.jpg   $(HTML_DIR_SOLARIS)/screenshots
+	install -m 644 *.html              $(HTML_DIR_SOLARIS)
+
 card-clean:
 	-rm -f refcard.dvi refcard.log refcard.ps
 	-rm -f cmdrefcard.dvi cmdrefcard.log cmdrefcard.ps
@@ -93,6 +109,11 @@ info-install:
 	gzip --best *.info
 	cp *info.gz $(INFO_DIR)
 	chmod a+r   $(INFO_DIR)/gri*
+	make info-clean
+
+info-install-solaris:
+	chmod a+r *.info
+	cp *.info /opt/gnu/info
 	make info-clean
 
 info-clean:
