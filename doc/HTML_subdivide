@@ -24,7 +24,8 @@ $num_files = 1;
 die "Need 2 arg (eg chop_into_subfiles gri.hml \"The Gri graphing language\")" if ($#ARGV != 1);
 
 $basefile = "gri";
-$file = "$basefile$num_files.html";
+#$file = "$basefile$num_files.html";
+$file = "index.html";
 $basetitle = $ARGV[1];
 $title = $basetitle;
 $marginnote[0] = "Gri";
@@ -33,7 +34,7 @@ print STDOUT "$file " if $debug;
 open (OUT, ">$file") || die "Cannot open $file";
 $file_list[$num_files++] = $file;
 
-$name_of_top_node = "gri1.html#Top";
+$name_of_top_node = "index.html#Top";
 
 
 print OUT "<html>\n";
@@ -75,8 +76,9 @@ while(<>) {
         if (length($3) > 0) {
 	    $marginnote[$num_files] = $3;
 	}
+        $titleList{$file} = $title;
         print OUT "</table>
-<img src=\"./resources/bottom_banner.gif\" alt=\"bottom banner\" usemap=\"#navigate_bottom\" border=\"0\">
+<img src=\"./resources/bottom_banner.gif\" usemap=\"#navigate_bottom\" border=\"0\">
 ";
 	close OUT;
 	open (OUT, ">$file") || die "Cannot open $file";
@@ -140,7 +142,7 @@ for ($i = 1; $i < $num_files; $i++) {
 		$this_chapter = "Gri";
 	    }
             print PASS3 "
-<img src=\"./resources/top_banner.gif\" alt=\"top banner\" usemap=\"#navigate_top\" border=\"0\">
+<img src=\"./resources/top_banner.gif\" usemap=\"#navigate_top\" border=\"0\">
 <table summary=\"top banner\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
 <tr>
 <td width=\"150\" valign=\"top\">
@@ -172,21 +174,21 @@ for ($i = 1; $i < $num_files; $i++) {
 </font>
 <td width=\"500\" valign=\"top\">
 ";
-            if ($file ne "gri1.html") {
+            if ($file ne "index.html") {
                 print PASS3 "<map name=\"navigate_top\">\n";
-		print PASS3 "<area alt=\"navigate\" shape=\"rect\" coords=\"5,2,218,24\" href=\"$name_of_top_node\">\n";
+		print PASS3 "<area alt=\"$name_of_top_node\" shape=\"rect\" coords=\"5,2,218,24\" href=\"$name_of_top_node\">\n";
 		if ($node_parent ne "") {
-		    print PASS3 "<area alt=\"navigate\" shape=\"rect\" coords=\"516,2,532,24\" href=\"$node_parent\">\n";
+		    print PASS3 "<area alt=\"$node_parent\" shape=\"rect\" coords=\"516,2,532,24\" href=\"$node_parent\">\n";
 		}
-		print PASS3 "<area alt=\"navigate\" shape=\"rect\" coords=\"557,2,573,24\" href=\"",
+		print PASS3 "<area alt=\"$titleList{$file_list[$i-1]}\" shape=\"rect\" coords=\"557,2,573,24\" href=\"",
 		    $file_list[$i-1], "\">\n";
-		print PASS3 "<area alt=\"navigate\" shape=\"rect\" coords=\"581,2,599,24\" href=\"",
+		print PASS3 "<area alt=\"$titleList{$file_list[$i+1]}\" shape=\"rect\" coords=\"581,2,599,24\" href=\"",
 		    $file_list[$i+1], "\">\n";
 		print PASS3 "</map>\n";
 		print PASS3 "<map name=\"navigate_bottom\">\n";
-		print PASS3 "<area alt=\"navigate\" shape=\"rect\" coords=\"5,2,218,24\" href=\"",
+		print PASS3 "<area alt=\"$name_of_top_node\" shape=\"rect\" coords=\"5,2,218,24\" href=\"",
 	            $name_of_top_node, "\">\n";
-	        print PASS3 "<area alt=\"navigate\" shape=\"rect\" coords=\"581,2,599,24\" href=\"",
+	        print PASS3 "<area alt=\"$titleList{$file_list[$i+1]}\" shape=\"rect\" coords=\"581,2,599,24\" href=\"",
 		    $file_list[$i+1], "\"></map>\n";
             }
         } else {

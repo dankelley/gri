@@ -120,10 +120,10 @@ The Gri web homepage is at
 
 @c HTML <H1>Gri: a language for scientific graphics</H1>
 @c HTML <map name="navigate_top">
-@c HTML <area alt="navigate" shape="rect" coords="581,2,599,24" href="Introduction.html">
+@c HTML <area alt="Introduction" shape="rect" coords="581,2,599,24" href="Introduction.html">
 @c HTML </map>
 @c HTML <map name="navigate_bottom">
-@c HTML <area alt="navigate" shape="rect" coords="581,2,599,24" href="Introduction.html">
+@c HTML <area alt="Introduction" shape="rect" coords="581,2,599,24" href="Introduction.html">
 @c HTML </map>
 @c HTML
 @c HTML <A HREF="./resources/logo.gri">
