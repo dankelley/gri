@@ -219,7 +219,7 @@ source-copy:
 	    install-SunOS5 README-SunOS5 \
 	        $(SOURCE_NAME)
 	(cd popt ; \
-	    install -m 644 popt.h popt.cc ../$(SOURCE_NAME)/popt)
+	    install -m 644 popt.h popt.cc README COPYING ../$(SOURCE_NAME)/popt)
 	install -m 755 configure install-sh $(SOURCE_NAME)
 	install -d $(SOURCE_NAME)/debian
 	(cd debian; \
