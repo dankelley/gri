@@ -150,14 +150,12 @@ open_file(DataFile::type type)
 					err("`open' needs a filename; \"\" won't do!");
 					return false;
 				}
-				char *ptr = complete_filename(filename.c_str());
-				string completefilename(ptr);
+				string completefilename(filename);
+				resolve_filename(completefilename, true);
 				if (!push_data_file(completefilename.c_str(), type, "r", false)) {
 					err("`open' can't find file `\\", completefilename.c_str(), "'", "\\");
-					free(ptr);
 					return false;
 				}
-				free(ptr);
 			}
 		}
 	} else {
@@ -166,14 +164,12 @@ open_file(DataFile::type type)
 			err("`open' needs a filename");
 			return false;
 		}
-		char *ptr = complete_filename(_word[1]);
-		string completefilename(ptr);
+		string completefilename(_word[1]);
+		resolve_filename(completefilename, true);
 		if (!push_data_file(completefilename.c_str(), type, "r", false)) {
-			free(ptr);
 			err("`open' can't find file `\\", completefilename.c_str(), "'", "\\");
 			return false;
 		}
-		free(ptr);
 	}
 	return true;
 }

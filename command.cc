@@ -164,6 +164,16 @@ parse_C_commandCmd(const char *s)
 		}
 		// Scan to find command name.
 		i = 0;
+#if 0				// test name lengths
+		while (c_fcn[i].fcn) {
+			if (strlen(c_fcn[i].name)!= c_fcn[i].name_len) {
+				printf("code wants %d for \"%s\" but actually is %d\n", c_fcn[i].name_len,c_fcn[i].name,strlen(c_fcn[i].name));
+			}
+			i++;
+		}
+		exit(0);
+#endif
+
 		while (c_fcn[i].fcn) {
 			if (length == strlen(c_fcn[i].name)
 			    && !strncmp(s + start, c_fcn[i].name, length)) {

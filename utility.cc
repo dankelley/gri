@@ -283,63 +283,73 @@ is_punctuation(int c)
 		) ? true : false);
 }
 
-// Creates new storage that should be removed with free().
-char*
-complete_filename(const char *filename)
+bool
+resolve_filename(string& f, bool trace_path)
 {
-	char *return_value = "";
-#if defined(VMS) || defined(MSDOS)
-	return_value = strdup(filename);
-	return return_value;
-#else
-	string rval;
-	if (filename[0] == '~') {
-		if (strlen(filename) < 2) {
-			printf("gri-%s error at %s:%d. Broken filename `%s'\n",VERSION,__FILE__,__LINE__,filename);
-			return "";
+	unsigned int len;
+	if (f[0] == '"') {
+		f.STRINGERASE(0,1);
+		len = f.size();
+		if (len < 2)
+			return false;
+		if (f[len - 1] != '"')
+			return false;
+		f.STRINGERASE(len-1, 1);
+	}
+	// Change any escaped quotes to quotes (not sure why
+	// anybody would do this, but what the heck).
+	unsigned int i;
+	len = f.size();
+	for (i = 1; i < len; i++) {
+		if (f[i] == '"' && f[i-1] == '\\') {
+			f.STRINGERASE(i - 1, 1);
+			if (--len == 0)
+				return false;
 		}
-		rval.append(egetenv("HOME"));
-		rval.append(filename + 1);
-		GET_STORAGE(return_value, char, 1 + rval.size());
-		strcpy(return_value, rval.c_str());
-	} else if (filename[0] == '/' || filename[0] == '\\') {
-		GET_STORAGE(return_value, char, 1 + strlen(filename));
-		strcpy(return_value, filename);
-	} else {
-		// Normal file.  Prepend current working directory
-		GET_STORAGE(return_value, char, 2 + _current_directory.size() + strlen(filename));
-		strcpy(return_value, _current_directory.c_str());
-#if defined(MSDOS)
-		strcat(return_value, "\\");
-#else
-		strcat(return_value, "/");
-#endif
-		strcat(return_value, filename);
 	}
-	remove_trailing_blanks(return_value);
-	return return_value;
-#endif
-}
-
-char *
-tilde_expand(const char *filename)
-{
-	char *return_value;
-	if (filename[0] != '~') {
-		return_value = new char[1 + strlen(filename)];
-		if (!return_value) OUT_OF_MEMORY;
-		strcpy(return_value, filename);
-	} else {
-		char *home = egetenv("HOME");
-		return_value = new char[1 + strlen(filename) - 2 + strlen(home)];
-		if (!return_value) OUT_OF_MEMORY;
-		strcpy(return_value, home);
-		strcat(return_value, "/");
-		strcat(return_value, filename + 2); // skip the ~/ chars
+	if (f[0] == '~') {
+		f.STRINGERASE(0, 1);
+		f.insert(0, egetenv("HOME"));
+		return true;
 	}
-	return return_value;
+
+	// BUG: probably should substitute any env-vars here, e.g. $HOME
+
+	// Done, unless we have to trace the path ...
+	if (!trace_path)
+		return true;
+
+	// ... but can even skip that, if the pathname is complete already ...
+	if (f[0] == '.' || f[0] == '/')
+		return true;
+
+	// ... ok, now we know we should trace!
+	string path(egetenv("GRIINPUTS"));
+	if (path.size() < 1)
+		path.assign(GRIINPUTS); // in defaults.hh ".:/usr/local/lib/gri"
+	string::size_type start = 0;
+	string::size_type colon;
+	do {
+		colon = path.find(":", start);
+		string test_file = path.substr(start, colon);
+		test_file.append("/");
+		test_file.append(f);
+		printf("resolve_filename trying file named '%s'\n", test_file.c_str());
+		FILE *fp = fopen(test_file.c_str(), "r");
+		if (fp != NULL) {
+			fclose(fp);
+			f = test_file;
+			return true;
+		}
+		start = colon + 1; // skip the ':'
+	} while (colon != STRING_NPOS);
+
+	// Well, we just can't find this file.  Too bad.
+	return false;
 }
+
 
+
 char *
 pwd()
 {
@@ -384,11 +394,16 @@ pwd()
 char *
 egetenv(const char *s)
 {
+	char *rval = "";
 	if (!strcmp(s, "PWD")) {
 		return (char *) pwd();
 	} else if (!strcmp(s, "USER")) {
 #if defined(HAVE_GETENV)
-		return (char *) getenv(s);
+		rval = (char *)getenv(s);
+		if (rval == NULL)
+			return "";
+		else
+			return rval;
 #else
 		return "unknown";
 #endif
@@ -402,34 +417,51 @@ egetenv(const char *s)
 #endif
 	} else if (!strcmp(s, "HOST")) {
 #if defined(HAVE_GETENV)
-		return (char *) getenv(s);
+		rval = (char *)getenv(s);
+		if (rval == NULL)
+			return "";
+		else
+			return rval;
 #else
 		return "unknown";
 #endif
 	} else if (!strcmp(s, "HOME")) {
 #if defined(HAVE_GETENV)
-		return (char *) getenv(s);
+		rval = (char *)getenv(s);
+		if (rval == NULL)
+			return "";
+		else
+			return rval;
 #else
 		return "unknown";
 #endif
 	} else if (!strcmp(s, "PAGER")) {
 #if defined(HAVE_GETENV)
-		return (char *) getenv(s);
+		rval = (char *)getenv(s);
+		if (rval == NULL)
+			return "";
+		else
+			return rval;
 #else
 		return "unknown";
 #endif
 	} else if (!strcmp(s, "GRIINPUTS")) {
-		/*
-		 * Of form ".:/usr/local/lib/gri"
-		 */
 #if defined(HAVE_GETENV)
-		return (char *) getenv(s);
+		rval = (char *)getenv(s);
+		if (rval == NULL)
+			return "";
+		else
+			return rval;
 #else
-		return NULL;		/* will use default */
+		return "";
 #endif
 	} else {
 #if defined(HAVE_GETENV)
-		return (char *) getenv(s);
+		rval = (char *)getenv(s);
+		if (rval == NULL)
+			return "";
+		else
+			return rval;
 #else
 		return "unknown";
 #endif

@@ -1416,8 +1416,8 @@ Type `help' followed by a command-name:
  pwd         query         quit          read
  regress     reorder       rescale       resize
  return      rewind        set           show
- skip        smooth        sprintf       state
- superuser   system        write
+ skip        smooth        source        sprintf
+ state       superuser     system        write
 Or type `help -' followed by a topic in:
  example     extending     files         math
  strings     synonyms      variables     manual
@@ -7016,7 +7016,7 @@ Here is a list of all comands:
 * If::                          If and if/else statements
 * Ignore::                      Ignore some of data recently read in
 * Input::                       Input PostScript file into output file
-* Insert::                      Insert a separate file into the current one
+* Insert::                      Run another command file
 * Interpolate::                 Interpolate grid data to new x/y grid
 * List::                        List source of a gri command
 * Ls::                          List files in current directory
@@ -7040,6 +7040,7 @@ Here is a list of all comands:
 * Show::                        Show values of various things
 * Skip::                        Skip some lines in data file
 * Smooth::                      Smooth data
+* Source::                      Run another command file
 * Sprintf::                     Print variable values into a synonym
 * State::                       Save or restore the graphics state
 * Superuser::                   Enable some programmers debugging commands
@@ -9554,16 +9555,20 @@ the (translation, scaling, rotation) operations.
 `insert \filename'
 @end example
 @noindent
-Insert instructions in named file into current file.  This is useful as
-a way of sharing global information between several Gri programs.  On
-unix systems, if a full filename is specified (i.e., a filename
-beginning with slash or period), then that particular file will be used.
-For filenames beginning with a letter or number, though, Gri will search
-for the file in the list of directories stored in your @code{GRIINPUTS}
-unix environment variable, or in the list (@file{.},
-@file{/usr/local/lib/gri}) if that environment 
-variable is not set.
+Perform the commands in the indicated file.
 
+If the file name is absolute (i.e. starts with @code{.}, or with
+@code{/} or with @code{~}) then an error results if the file is not
+present (or cannot be read by this user).
+
+However, if the file name starts with a normal letter, Gri will try
+harder to locate the file.  If it is not in the local directory, then
+Gri will search the colon-separated directories indicated in the
+@code{GRIINPUTS} environment variable, if that is defined, or in the
+list @file{.:/usr/local/lib/gri} if @code{GRIINPUTS} is not defined.
+
+Contrast this with the @code{source} command, which does not search the
+@code{GRIINPUTS} path (@ref{Source}).
 
 
 @c HTML <!-- newfile Interpolate.html "Gri: `interpolate' command" "Gri Commands" -->
@@ -12692,7 +12697,7 @@ binary files, skip backward @code{.n.} bytes.
 
 @c HTML <!-- newfile Smooth.html "Gri: `smooth' command" "Gri Commands" -->
 
-@node   Smooth, Sprintf, Skip, Commands
+@node   Smooth, Source, Skip, Commands
 @comment  node-name,  next,  previous,  up
 @section The @code{smooth} Command
 @cindex columns, filtering
@@ -12775,10 +12780,26 @@ which allows for more sophisticated filters.
 
 
 
+@c HTML <!-- newfile Source.html "Gri: `source' command" "Gri Commands" -->
+
+@node   Source, Sprintf, Smooth, Commands
+@comment  node-name,  next,  previous,  up
+@section The @code{source} Command
+@findex source
+@cindex @code{source} command, for running another command file
+@cindex running a commandfile
+@example
+`source \filename'
+@end example
+@noindent
+Perform the commands in the indicated file.  If the file cannot be
+found, an error results.  Contrast this with @code{insert}, which will
+search for the file if it is not found (@ref{Insert}).
+
 
 @c HTML <!-- newfile Sprintf.html "Gri: `sprintf' command" "Gri Commands" -->
 
-@node   Sprintf, State, Smooth, Commands
+@node   Sprintf, State, Source, Commands
 @comment  node-name,  next,  previous,  up
 @section The @code{sprintf} Command
 @findex sprintf
@@ -14392,6 +14413,9 @@ The next sections outline the changes made in Gri.
 @subsection Version 2.6
 @table @emph
 @item 2.6.0 [2000-Jun-23]
+
+@sp 1
+Add @code{source} command (@ref{Source}).
 
 @sp 1
 Add RPN operators @code{wordc} (@ref{Solitary Operators}) and

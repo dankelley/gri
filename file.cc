@@ -171,14 +171,11 @@ push_data_file(const char* name, DataFile::type the_type, const char* status, bo
 int
 data_file_index(const char * name)
 {
-	char *ptr = complete_filename(name);
-	string completefilename(ptr);
+	string completefilename(name);
+	resolve_filename(completefilename, true);
 	for (unsigned int i = 0; i < _dataFILE.size(); i++)
-		if (_dataFILE[i].get_name() == completefilename) {
-			free(ptr);
+		if (_dataFILE[i].get_name() == completefilename)
 			return i;
-		}
-	free(ptr);
 	return -1;
 }
 

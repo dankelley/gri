@@ -612,7 +612,7 @@ labelling plots, etc, use the `draw arrow from .x0. .y0.  to .x1. .y1.
 Draw axes frame if required.  Used within gri commands that auto-draw
 axes.  NOTE: this should only be done by developers.
 {
-    extern "C" bool draw_axes_if_needed(void);
+    extern "C" bool draw_axes_if_neededCmd(void);
 }
 
 `draw axes [.style.|frame|none]'
@@ -2972,7 +2972,7 @@ plotting commands will make use of anything set by either a `set'
 command or by direct manipulation of builtin variables like
 `..xsize..', etc.  NOTE: this should *only* be done by developers.
 {
-    extern "C" bool set_environment(void);
+    extern "C" bool set_environmentCmd(void);
 }
 
 `set error action to core dump'
@@ -2996,7 +2996,7 @@ emulate_gre   9jun97  'E' format on axes yields scientific notation
 kelley1      17jun97  for kelley only - quit contour trace if hit nonlegit
 kelley2      17jun97  for kelley only - print out tons of info as trace contour
 {
-    extern "C" bool set_flag(void);
+    extern "C" bool set_flagCmd(void);
 }
 
 `set font color \name|{rgb .red. .green. .blue.}|{hsb .hue. .saturation. .brightness.}'
@@ -3164,7 +3164,7 @@ With no options specified, the histogram is done from 0 in the image
 to 255 in the image.  If the black/white options are specified, the
 histogram is done between these values.
 {
-    extern "C" bool set_image_grayscale_using_histogramCmd(void);
+    extern "C" bool set_image_grayscale_using_histogram(void);
 }
 
 `set image greyscale using histogram [black .bl. white .wh.]'
@@ -4161,6 +4161,15 @@ BUG: only line characteristics (width, color) and font characteristics
 should be saved has not yet been finalized by the author.
 {
     extern "C" bool stateCmd(void);
+}
+
+`source \filename'
+Insert instructions in named file into current file.  This is useful as
+a way of sharing global information between several Gri programs.  On
+unix systems, if a full filename is specified (i.e., a filename
+beginning with slash or period), then that particular file will be used.
+{
+    extern "C" bool sourceCmd(void);
 }
 
 `superuser'

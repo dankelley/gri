@@ -16,8 +16,8 @@ inputCmd()
 		fname.STRINGERASE(0, 1);
 	if (fname[-1 + fname.size()] == '"')
 		fname.STRINGERASE(-1 + fname.size(), 1);
-	char *ptr = complete_filename(fname.c_str());
-	string  completefilename(ptr);
+	string completefilename(fname);
+	resolve_filename(completefilename, true);
 	switch (_nword) {
 	case 7:
 		getdnum(_word[6], &angle);
@@ -51,7 +51,6 @@ inputCmd()
 			  longfilename.c_str(),
 			  "'",
 			  "\\");
-		free(ptr);
 		return false;
 	}
 	/*
@@ -71,6 +70,5 @@ inputCmd()
 	}
 	fprintf(_grPS, "Q %% End of `input' file named `%s'\n", longfilename.c_str());
 	fclose(fp);
-	free(ptr);
 	return true;
 }
