@@ -2881,6 +2881,17 @@ Alternate spelling of 'color'.
 {
     extern "C" bool set_colorCmd(void);
 }
+
+`set colorname \\name {rgb .red. .green. .blue.}|{hsb .hue. .saturation. .brightness.}'
+Create a colorname with the indicated color.  The color components
+range from 0 to 1, and will be clipped to these values if they are
+outside this range.  EXAMPLE (borrowing a color from /usr/lib/X11/rgb.txt):
+
+  set colorname peachpuff rgb 1 \{rpn 218 255 /} \{rpn 185 255 /}
+  draw box filled 2 2 3 3 cm
+{
+    extern "C" bool set_colornameCmd(void);
+}
 
 `set contour format \style|default'
 Normally, Gri draws the numeric labels of contour using a format code

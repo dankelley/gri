@@ -546,6 +546,45 @@ set_colorCmd()
 		return false;
 	}
 }
+
+
+// `set colorname \name {rgb .red. .green. .blue.}|{hsb .hue. .saturation. .brightness.}
+bool
+set_colornameCmd()
+{
+	double red, green, blue;
+	switch (_nword) {
+	case 7:
+		if (strEQ(_word[3], "rgb")) {
+			Require(getdnum(_word[4], &red), READ_WORD_ERROR(".red."));
+			Require(getdnum(_word[5], &green), READ_WORD_ERROR(".green."));
+			Require(getdnum(_word[6], &blue), READ_WORD_ERROR(".blue."));
+		} else if (strEQ(_word[3], "hsb")) {
+			double hue, saturation, brightness;
+			Require(getdnum(_word[4], &hue), READ_WORD_ERROR(".hue."));
+			Require(getdnum(_word[5], &saturation), READ_WORD_ERROR(".saturation."));
+			Require(getdnum(_word[6], &brightness), READ_WORD_ERROR(".brightness."));
+			hue = pin0_1(hue);
+			saturation = pin0_1(saturation);
+			brightness = pin0_1(brightness);
+			gr_hsv2rgb(hue, saturation, brightness, &red, &green, &blue);
+		} else {
+			demonstrate_command_usage();
+			err("word must be `rgb' or `hsb', not `\\", _word[3], "' as given.", "\\");
+			return false;
+		}
+		red = pin0_1(red);
+		green = pin0_1(green);
+		blue = pin0_1(blue);
+		create_color(_word[2], red, green, blue);
+		//printf("set colorname '%s' %f %f %f\n", _word[2], red, green, blue);
+		break;
+	default:
+		NUMBER_WORDS_ERROR;
+		return false;
+	}
+	return true;
+}
 
 bool
 set_x_typeCmd()
@@ -743,7 +782,7 @@ set_font_colorCmd()
 		_griState.set_separate_text_color(true);
 		return true;
 	case 7:
-		if (!strcmp(_word[3], "rgb")) {
+		if (strEQ(_word[3], "rgb")) {
 			// `set color rgb .red. .green. .blue.'
 			Require(getdnum(_word[4], &red), READ_WORD_ERROR(".red."));
 			Require(getdnum(_word[5], &green), READ_WORD_ERROR(".green."));
@@ -774,7 +813,7 @@ set_font_colorCmd()
 			c.setRGB(red, green, blue);
 			_griState.set_color_text(c);
 			return true;
-		} else if (!strcmp(_word[3], "hsb")) {
+		} else if (strEQ(_word[3], "hsb")) {
 			// `set color hsb .hue. .saturation. .brightness.'
 			double          hue, saturation, brightness;
 			Require(getdnum(_word[4], &hue), READ_WORD_ERROR(".hue."));

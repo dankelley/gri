@@ -2,8 +2,7 @@
 
 #define _tags_hh_
 #include "gr.hh"
-bool
-cdCmd(void),
+bool	cdCmd(void),
 	closeCmd(void),
 	convert_col_fro_pol_to_recCmd(void),
 	convert_col_fro_rec_to_polCmd(void),
@@ -91,6 +90,7 @@ cdCmd(void),
 	set_bounding_boxCmd(void),
 	set_clipCmd(void),
 	set_colorCmd(void),
+	set_colornameCmd(void),
 	set_contour_formatCmd(void),
 	set_contour_labelCmd(void),
 	set_contour_labelsCmd(void),
@@ -265,6 +265,7 @@ C_FCN           c_fcn[] = {
 	{set_bounding_boxCmd,		"set_bounding_boxCmd",				19},
 	{set_clipCmd,			"set_clipCmd",					11},
 	{set_colorCmd,			"set_colorCmd",					12},
+	{set_colornameCmd,		"set_colornameCmd",				16},
 	{set_contour_formatCmd,		"set_contour_formatCmd",			21},
 	{set_contour_labelCmd,		"set_contour_labelCmd",				20},
 	{set_contour_labelsCmd,		"set_contour_labelsCmd",			21},

@@ -10046,6 +10046,11 @@ unix command..  To view the names and RGB values of the colors Gri
 knows, including builtin ones and ones from @code{read colornames}, use
 @code{show colornames}.
 
+This command is akin to @code{set colorname} (@ref{Set Colorname}),
+except that the latter uses the Gri notation of color constituents being
+in the range from 0 to 1, whereas for @code{read colornames} uses an
+X11 database, so that the color constitutents range from 0 to 255.
+
 
 @node   Read Columns, Read Grid, Read Colornames, Read
 @comment  node-name,  next,  previous,  up
@@ -10774,6 +10779,7 @@ Set various flags and parameters which Gri will use in later commands.
 * Set Bounding Box::            Set PostScript bounding box
 * Set Clip::                    Set clipping region
 * Set Color::                   Set color of pen
+* Set Colorname::               Create a color name
 * Set Contour Format::          Set format for numbers on contours
 * Set Contour Label For::       Set existence of contour labels
 * Set Contour Label Position::  Set spacing of contour labels
@@ -11011,7 +11017,7 @@ Turn PostScript clipping off.
 @end itemize
 
 
-@node   Set Color, Set Contour Format, Set Clip, Set
+@node   Set Color, Set Colorname, Set Clip, Set
 @comment  node-name,  next,  previous,  up
 @subsection The @code{set color} @dots{} Command
 @findex set color
@@ -11069,9 +11075,30 @@ set color hsb .333 1   1 # pure, bright green
 @end example
 
 
+@node   Set Colorname, Set Contour Format, Set Color, Set
+@comment  node-name,  next,  previous,  up
+@subsection The @code{set colorname} @dots{} Command
+@findex set colorname
+@cindex @code{set color name} command
+@example
+`set colorname \name @{rgb .red. .green. .blue.@}|@{hsb .hue. .saturation. .brightness.@}'
+@end example
+@noindent
+Create a colorname with the indicated color.  The color components range
+from 0 to 1, and will be clipped to these values if they are outside
+this range.  EXAMPLE (borrowing a color from @file{/usr/lib/X11/rgb.txt}):
+@example
+set colorname peachpuff rgb 1 @{rpn 218 255 / @}  @{rpn 185 255 / @}
+draw box filled 2 2 3 3 cm
+@end example
+This command is akin to @code{read colornames} (@ref{Read Colornames}),
+except that the latter uses an X11 database, so the color constituents
+range from 0 to 255, whereas for @code{set colorname} they range from 0
+to 1.
 
 
-@node   Set Contour Format, Set Contour Label For, Set Color, Set
+
+@node   Set Contour Format, Set Contour Label For, Set Colorname, Set
 @comment  node-name,  next,  previous,  up
 @subsection The @code{set contour format} @dots{} Command
 @findex set contour format
@@ -14416,6 +14443,9 @@ The next sections outline the changes made in Gri.
 @subsection Version 2.6
 @table @emph
 @item 2.6.0 [2000-Jun-23]
+
+@sp 1
+Add @code{set colorname} command (@ref{Set Colorname}).
 
 @sp 1
 Add @code{source} command (@ref{Source}).

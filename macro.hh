@@ -2,6 +2,9 @@
 #if !defined(_macro_hh_)
 #define _macro_h_
 
+#define strEQ(s1, s2) (!strcmp((s1), (s2)))
+#define strNE(s1, s2) ( strcmp((s1), (s2)))
+
 #define GRI_ABS(x) ((x) < 0.0 ? (-(x)) : (x))
 
 #define show_words() {                                          \
