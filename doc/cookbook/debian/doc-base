@@ -1,9 +1,0 @@
-Document: gri-cookbook
-Title: Gri Plotting Package Cookbook
-Author: Dan E. Kelley and various Gri users
-Abstract: This cookbook shows examples of what you can do with Gri.
-Section: Apps/Math
-
-Format: HTML
-Index: /usr/doc/gri-cookbook/index.html
-Files: /usr/doc/gri-cookbook/*.html
