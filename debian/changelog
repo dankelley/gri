@@ -1,11 +1,19 @@
-gri (2.12.6-1) UNRELEASED; urgency=low
+gri (2.12.6-1) unstable; urgency=low
 
   * New upstream version
+    New Features:
+    - Add `age' RPN function, for testing file ages.
     Bug Fixes:
+    - Fix SourceForge bug 773850 (bounding-box is increased by `draw symbol'
+      even if (rectangular) postscript clipping is active.)
+    - Fix SourceForge bug 760130 (Solaris cannot compile with `C-l' in
+      Makefile.
     - Fix SourceForge bug 743134 (bounding box not limited by 'set clip
       postscript')
+    - Fix SourceForge bug 750561 (during compilation, `make' rebuilds HTML
+      docs even if up-to-date)
 
- -- Peter S Galbraith <psg@debian.org>  Tue, 10 Jun 2003 09:28:53 -0400
+ -- Peter S Galbraith <psg@debian.org>  Mon,  1 Sep 2003 19:51:32 -0400
   
 gri (2.12.5-1) unstable; urgency=low
 
