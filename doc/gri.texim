@@ -13756,21 +13756,24 @@ this way a newcommand can have its own private versions of variables,
 created by @code{new}, that won't be misinterpreted for the
 identically-named variables in the calling program.
 
-The format of these specially-encoded strings is as follows.  It begins
-with the backspace character @code{\b} (hexadecimal 08 in the ascii
-table), followed by a hash-sign character @code{#}.  Following these two
-characters is the variable or synonym name, followed by another
-@code{#}.  Following that is the current newcommand nesting level
-(e.g. 0 if this is in the main program).  Following that is a @code{#}
-followed by a @code{\b}.  It is hoped that this string is odd enough
-that you seldom enter it yourself by mistake @dots{} but half the reason
-for the existence of this section is to warn you of the possibility!
+The format of these specially-encoded strings is
+@code{#\bn\ba\bm\be\b:\bN \b_ \bl\be\bv\be\bl\b:\bL#\b},
+where @code{N} stands for
+the name of the variable/synonym, @code{L} stands for the current level,
+and @code{\b} is the backspace character (hexadecimal 08 in the ascii
+table).  This string is designed to be strange enough that users are
+unlikely to use it themselves.  The coding scheme is not entirely
+arbitrary, however; note that if the backspace characters are ignored
+the result has the form @code{name:N_level:L}.  It's also worth noting
+that if this string were printed on a terminal that erased characters
+when typing backspaces the result would be of the form @code{N_L}.
 
-Examples: if @code{@.a.} were to be encountered in the main program, it
-would be converted into the string @code{\b#.a.#0#\b} and if
-@code{&\my_syn} were encountered inside a newcommand called by the main
-program (nested 1 deep), it would be converted into the string
-@code{\b#\my_syn#1#\b}.
+Examples: @code{@.a.} in the main program
+(i.e. at level 0) encodes to
+@code{#\bn\ba\bm\be\b:\b.a. \b_ \bl\be\bv\be\bl\b:\b0#\b}
+and @code{&\my_syn} inside a newcommand called by the main program
+(i.e. at level 1) encodes to
+@code{#\bn\ba\bm\be\b:\b\my_syn \b_ \bl\be\bv\be\bl\b:\b1#\b}.
 
 Inside a newcommand, Gri checks to see if builtin synonyms
 (e.g. @code{\.word1.}) hold such specially-encoded strings.  If so, then
