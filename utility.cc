@@ -1,4 +1,5 @@
 //#define DEBUG_RE
+//#define DEBUG_UNDERSCORE 
 
 #include <string>
 #include <ctype.h>
@@ -28,6 +29,80 @@
 static void     show_pattern(char *target, int tlen, int star, int plus);
 #endif
 extern double   strtod(const char *, char **);
+
+bool
+get_normal_number(const char *s, double *d)
+{
+	extern double _grMissingValue;
+	char *ptr = NULL;
+	*d = strtod(s, &ptr);
+	if (*ptr == '\0') {
+		// Normal number; check for infinity/not-a-number
+#if defined(HAVE_ISNAN) && defined(HAVE_ISINF)
+#if !defined(__MACHTEN__)
+		if (isinf(*d) || isnan(*d))
+			*d = (double) _grMissingValue;
+#endif
+#endif
+		return true;
+	} else {
+		return false;
+	}
+}
+
+bool
+get_number_with_underscores(const char *s, double *value)
+{
+	const char *si = s;
+	static string ss;	// keep in storage 
+	ss.assign("");
+	unsigned int slen = strlen(s);
+	unsigned int last_underline = 0;
+	if (!isdigit(*si) && *si != '.' && *si != '+' && *si != '-')
+		return false;
+	for (unsigned int i = 0; i < slen; i++) {
+		if (isdigit(*si) || *si == '.' 
+		    || *si == '-' || *si == '+'
+		    || *si == 'e' || *si == 'E' 
+		    || *si == 'd' || *si == 'D') {
+			ss += *si;
+		} else if (*si == '_') {
+			if (last_underline != 0) {
+				if (i - last_underline == 3) {
+					;
+				} else {
+					warning("misplaced _ in constant `\\", s, "'", "\\");
+				}
+			}
+			last_underline = i;
+		} else {
+#ifdef DEBUG_UNDERSCORE
+			printf("%s:%d NOT A NUMBER '%s'\n", __FILE__,__LINE__,s);
+#endif
+			return false;
+		}
+		si++;
+	}
+#ifdef DEBUG_UNDERSCORE
+	printf("%s:%d last_underscore %d    end at %d\n", __FILE__,__LINE__,last_underline, slen);
+#endif
+	if (last_underline != 0 && (slen - 1 - last_underline != 3)) {
+		warning("misplaced _ in constant `\\", s, "'", "\\");
+	}
+#ifdef DEBUG_UNDERSCORE
+	printf("%s:%d OK, translated '%s' -> '%s'\n", __FILE__,__LINE__,s,ss.c_str());
+#endif
+	if (get_normal_number(ss.c_str(), value)) {
+#ifdef DEBUG_UNDERSCORE
+		printf("%s:%d Right this is a number '%s' -> '%s' -> %e\n", __FILE__,__LINE__,s,ss.c_str(), *value);
+#endif
+		return true;
+	}
+#ifdef DEBUG_UNDERSCORE
+	printf("%s:%d Not a number '%s' -> '%s'\n", __FILE__,__LINE__,s,ss.c_str());
+#endif
+	return false;
+}
 
 
 bool
@@ -822,7 +897,7 @@ getinum(const char *s, int *i)
 		return 0;
 	extern double   _grMissingValue;
 	double          d;
-	char *            ptr = NULL;
+	char           *ptr = NULL;
 	d = _grMissingValue;
 	*i = (int) strtod(s, &ptr);
 	if (*ptr == '\0') {
@@ -896,22 +971,25 @@ bool
 getdnum(const char *s, double *d)
 {
 	if (*s == '\0')
-		return 0;
-	extern double   _grMissingValue;
-	char *ptr = NULL;
-	*d = strtod(s, &ptr);
-	if (*ptr == '\0') {
-		// Normal number; check for infinity/not-a-number
-#if defined(HAVE_ISNAN) && defined(HAVE_ISINF)
-#if !defined(__MACHTEN__)
-		if (isinf(*d) || isnan(*d))
-			*d = (double) _grMissingValue;
-#endif
+		return false;
+	if (get_normal_number(s, d)) {
+#ifdef DEBUG_UNDERSCORE
+		printf("%s:%d normal number '%s' = %e\n", __FILE__,__LINE__,s, *d);
 #endif
 		return true;
 	}
+	if (get_number_with_underscores(s, d)) {
+#ifdef DEBUG_UNDERSCORE
+		printf("%s:%d decoded underline '%s' to be %e\n", __FILE__,__LINE__,s, *d);
+#endif
+		return true;
+	}
+#ifdef DEBUG_UNDERSCORE
+	printf("%s:%d OK, not any kinda number '%s'\n", __FILE__,__LINE__,s);
+#endif
 	// Cannot read as a normal number.  Check to see if it's a variable or
 	// NaN/Inf.
+	extern double _grMissingValue;
 	if (is_var(s)) {
 		if (get_var(s, d)) {
 			return true;
@@ -931,6 +1009,7 @@ getdnum(const char *s, double *d)
 		//printf("DEBUG %s:%d '%s' exists= %d  value [%s]\n",__FILE__,__LINE__,s,exists,syn_value.c_str());
 		if (exists) {
 			const char* vptr = syn_value.c_str();
+			char *ptr;
 			ptr = NULL;	// reset this
 			*d = strtod(vptr, &ptr);
 			if (*ptr == '\0') {
@@ -951,6 +1030,7 @@ getdnum(const char *s, double *d)
 		int loc;
 		loc=tmp_string.find('d'); if (-1!=loc) tmp_string.replace(loc,1,"e");
 		loc=tmp_string.find('D'); if (-1!=loc) tmp_string.replace(loc,1,"e");
+		char *ptr;
 		*d = (double)strtod(tmp_string.c_str(), &ptr);
 		if (*ptr == '\0')
 			return true;
