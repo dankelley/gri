@@ -44,6 +44,7 @@ print OUT "<title>$title</title>\n";
 print OUT "<META NAME=\"author\" CONTENT=\"Dan E. Kelley\">\n";
 print OUT "<META NAME=\"keywords\" CONTENT=\"gri gre science scientific graphics graph\">\n";
 print OUT "<META NAME=\"description\" CONTENT=\"Gri is an extensible plotting language for producing scientific graphs, such as x-y plots, contour plots, and image plots.  It was written by a scientist and therefore has the sorts of things a scientist needs.  It is much like LaTeX, in that it rewards users who climb the learning curve, in a way that GUI-based programs do not.  Gri is a free version of the more powerful commercial program Gre (still in development).\">\n";
+print OUT "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">";
 print OUT "</head>\n";
 
 
@@ -91,6 +92,7 @@ while(<>) {
 	print OUT "<html>\n";
 	print OUT "<head>\n";
         print OUT "<title>$title</title>\n";
+	print OUT "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">";
         print OUT "</head>\n";
 	print OUT "$body_start\n";
         print "Creating $file\n" if $debug;
