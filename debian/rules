@@ -5,6 +5,7 @@
 
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
+export DH_COMPAT=3
 
 version=$(shell expr `pwd` : '.*-\([0-9.]*\)')
 #version=2.8.0
@@ -42,7 +43,7 @@ install: gri
 	dh_testroot
 	dh_clean -k
 	dh_installdirs
-	$(MAKE) install_linux_debian debian=`pwd`/debian/tmp
+	$(MAKE) install_linux_debian debian=`pwd`/debian/gri
 
 debian/copyright:
 	sed -e 's/VSN/$(version)/g' \
@@ -87,7 +88,7 @@ binary-indep: build-arch
 binary-arch: build install
 	dh_testdir -a
 	dh_testroot -a
-	(cd debian/tmp/usr/share/gri/$(version) ; ln -fs ../../common-licenses/GPL license.txt)
+	(cd debian/gri/usr/share/gri/$(version) ; ln -fs ../../common-licenses/GPL license.txt)
 	rm -f debian/*debhelper
 	dh_installdocs -a README doc/refcard.ps doc/cmdrefcard.ps
 	dh_installexamples -a
@@ -114,13 +115,13 @@ binary-arch: build install
 # See files 00Porters.readme and README.Debian.unofficial
 binary-arch-unofficial:    debian/copyright build-arch
 	rm -f debian/*debhelper
-	rm -rf debian/tmp debian/gri-$(version)static
+	rm -rf debian/gri debian/gri-$(version)static
 	-cp debian/control debian/control.real 
 	sed -e 's/VSN/$(version)/g' debian/control.unofficial > debian/control 
 	-cp debian/README.Debian debian/README.Debian.real 
 	-cp debian/README.Debian.unofficial debian/README.Debian
-	make install_linux_debian_grionly debian=debian/tmp
-	(cd debian/tmp/usr/share/gri/$(version) ; ln -s ../../common-licenses/GPL license.txt)
+	make install_linux_debian_grionly debian=debian/gri
+	(cd debian/gri/usr/share/gri/$(version) ; ln -s ../../common-licenses/GPL license.txt)
 	mv gri gri.real
 	-rm debian/substvars
 	make LIBS="-lm  -L/usr/lib/netcdf -lnetcdf -static"

@@ -15,7 +15,7 @@ package=gri
 files="gri-mode.el"
 source=/usr/share/emacs/site-lisp/
 destination=/usr/share/${flavour}/site-lisp/
-flags="--no-site-file --no-init-file --batch -f batch-byte-compile"
+flags="-q --no-site-file -no-site-file --batch -f batch-byte-compile"
 
 if [ ${flavour} != emacs ]
 then
