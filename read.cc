@@ -2621,7 +2621,7 @@ read_synonym_or_variableCmd()
 					warning("`read synonym|variable' hit end-of-file");
 					return false;
 				} else {
-					printf("DEBUG 1\n");
+					//printf("DEBUG 1\n");
 					return true;
 				}
 			}
