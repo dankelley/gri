@@ -2778,10 +2778,11 @@ Set axes to be rectangular, with an x-y axes frame labelled at
 the left and bottom.
 
 `set axes style 1'
-Set axes to be rectangular, with an x-y frame will be without
-tics at the top right.
+As style `0' but only put tics on the lower and left axes.
 
 `set axes style 2'
+As style `0' but without labels or tics on any axis, i.e. just an axis frame.
+
 Set axes to be rectangular, with an x-y frame without tics or
 numbers on any side.
 

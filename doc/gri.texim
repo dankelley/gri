@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.185 2002/05/16 22:50:47 dankelley Exp $
+@c $Id: gri.texim,v 1.187 2002/05/17 17:53:01 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -2858,7 +2858,7 @@ line 4-n:
 @comment  node-name,  next,  previous,  up
 @section Temperature-Salinity Diagram
 @cindex oceanographic plots
-@cindex oceanographic plots: isopycnals on TS diagrams
+@cindex oceanographic plots, isopycnals on TS diagrams
 @cindex T-S diagram, example of drawing
 @cindex temperature-salinity diagram
 @cindex isopycnals
@@ -5229,7 +5229,7 @@ Draw black/white image made by @code{convert grid to image} or by
 @cindex T-S diagram, drawing isopycnals on
 @cindex temperature-salinity diagram, drawing isopycnals on
 @cindex isopycnals
-@cindex oceanographic plots: isopycnals on TS diagram
+@cindex oceanographic plots isopycnals on TS diagram
 
 @example
 `draw isopycnal \
@@ -5335,7 +5335,7 @@ the y-axis.
 @cindex T-S diagram, drawing spice lines on
 @cindex temperature-salinity diagram, drawing spice lines on
 @cindex spice lines, on TS diagram
-@cindex oceanographic plots: iso-spice lines on TS diagrams
+@cindex oceanographic plots, iso-spice lines on TS diagrams
 
 @example
 `draw isospice .spice. [unlabelled]'
@@ -8171,15 +8171,14 @@ Tell Gri how you want the axes to look, when they are drawn later.
 
 @item @code{set axes style 0}
 Set axes to be rectangular, with an x-y axis frame labelled at the left
-and bottom.
+and bottom and tic marks on all axes.
 
 @item @code{set axes style 1}
-Set axes to be rectangular, with an x-y frame without tics at
-the top and right.
+As style @code{0}, but only put tics on the lower and left axes.
 
 @item @code{set axes style 2}
-Set axes to be rectangular, with an x-y frame without tics or numbers on
-any side.
+As style @code{0} but without labels or tics on any axis, 
+i.e. just an axis frame.
 
 @item @code{set axes style offset [.dist_cm.]}
 Set axes so that the actual x and y axes will be drawn with a space
@@ -13395,7 +13394,7 @@ end while
 
 @cindex maximum, column data
 @cindex minimum, column data
-@cindex column data: minimum, maximum, mean
+@cindex column data -- minimum, maximum, mean
 The mean value is available from the @code{mean} operator (e.g.,
 @code{.xmean. = @{rpn x mean @}}, while the standard deviation is given
 by @code{stddev} and the minimal and maximal values are given by
@@ -13416,10 +13415,10 @@ for data with $i$ ranging $0$--$..num\_col\_data..-1$
 @end tex
 
 @subsubsection Grid
-@cindex grid data, accessing individual values and stats
+@cindex grid data -- accessing individual values and stats
 @cindex maximum, grid data
 @cindex minimum, grid data
-@cindex grid data: minimum, maximum, mean
+@cindex grid data -- minimum, maximum, mean
 
 Grid data can be accessed with e.g. @code{@{rpn grid min @} },
 @code{@{rpn grid max @} }, and @code{@{rpn grid mean @} }.
@@ -13774,7 +13773,7 @@ braces, as in LaTeX.
 
 @cindex text, inserting forward/backward space
 @cindex space in text
-@cindex  superscripts and subscripts: how to align using @code{\!}
+@cindex superscripts and subscripts -- how to align using @code{\!}
 @cindex aligning superscripts and subscripts with @code{\!}
 
 @TeX{} and La@TeX{} handle combinations of superscripts and subscripts
@@ -14733,7 +14732,6 @@ help information.
 
 @cindex system calls, using dollar-parenthesis shell syntax
 @cindex protecting Gri programs against datafile movement
-@cindex hint: protecting Gri programs against datafile movement
 @cindex unix, dollar-parenthesis notation within Gri commands
 @cindex @code{\$()} syntax for system commands
 @cindex dollar-parenthesis syntax for system commands
