@@ -5,6 +5,7 @@ static bool permit_missing_value_in_comparisons = 0;
 #include	<ctype.h>
 #include	<stdio.h>
 #include	<math.h>
+#include <time.h>
 #if defined(HAVE_ACCESS)
 #include        <unistd.h>
 #endif
@@ -895,15 +896,12 @@ do_operation(operator_name oper)
 	}
 	if (oper == AGE) {
 		NEED_ON_STACK(1); NEED_IS_TYPE(1, STRING);
+		static time_t present_time;
+		time(&present_time);
+		//printf("DEBUG: B. present_time %d\n", (unsigned int)(present_time));
 #ifdef HAVE_STAT
 		struct stat buf;
-#if 0
-		string filename(_current_directory);
-		filename.append("/");
-		filename.append(NAME(1));
-#else
 		string filename(NAME(1));
-#endif
 		un_double_quote(filename);
 		//printf("BEFORE... [%s]\n",filename.c_str());
 		extern bool full_path_name(std::string& f);
@@ -911,21 +909,16 @@ do_operation(operator_name oper)
 		//printf("AFTER... [%s]\n",filename.c_str());
 		if (0 == stat(filename.c_str(), &buf)) {
 			double seconds = buf.st_ctime;
-			SET(1, "", seconds, NUMBER, true);
+			SET(1, "", present_time - seconds, NUMBER, true);
 		} else {
-			err("Cannot do stat() on file named \\", filename.c_str(), "\\");
-			printf("errno= %d\n", errno);
-			perror("The error is... ");
-			RpnError = GENERAL_ERROR;
-			return false;
+			SET(1, "", present_time, NUMBER, true);
+			//warning("warning: cannot find age of file named `\\", filename.c_str(), "' so using an 'infinite' age", "\\");
 		}
-		return true;
 #else
-		SET(1, "", 0, NUMBER, true);
-		err("This computer cannot do stat() on file named \\", filename.c_str(), "\\");
-		RpnError = COMPUTER_LIMITATION
-		return false;
+		SET(1, "", present_time, NUMBER, true);
+		warning("This computer cannot do stat() on file named `\\", filename.c_str(), "' so using an 'infinite' age'", "\\");
 #endif		
+		return true;
 	}
 	if (oper == ASINE) {
 		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);

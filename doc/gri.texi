@@ -1,7 +1,7 @@
 \input texinfo 
 
 
-@c $Id: gri.texi,v 1.139 2003/06/26 19:20:32 dankelley Exp $
+@c $Id: gri.texi,v 1.140 2003/06/27 15:05:53 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -13014,18 +13014,33 @@ argument must equal or exceed 1, or an error results.)
 @item @{rpn "filename" age@}
 @cindex @code{age} rpn operator
 @cindex rpn operator @code{age}
-Calculate the ``age'' of the indicated file.  This is either the
-creation date or the last modification date, whichever is older.  The
-result is the number of seconds since the start of 1 Jan 1970, on a
-unix machine with the @code{stat()} system function available; on
-other machines, using this RPN operator may cause an error.  A typical
-use of this command is shown below
+Calculate the ``age'' of the indicated file, in seconds.  An age of
+zero indicates that the file was created, or last modified, within 1
+second of the execution of the @code{age} operator.
+
+On unix (and similar) machines, the calculation is done on unix
+machines with the @code{stat()} subroutine.  On other machines, the
+@code{age} operator may cause an error.
+
+The age of a non-existent file is reported as the number of seconds
+since the system clock's reference time, i.e. since 1970-jan-1 on unix
+machines.  This convention is so that scripts like that in the example
+below will work as intended.
+
+A typical use of this command is the creation of data-files from shell
+scripts, as illustrated below.  The idea is to update (or create) the
+file @file{file.dat} using the system-executable script
+@file{creator.pl}, but only to do so if @file{creator.pl} is younger
+than @file{file.dat}.
 @example
-if @{rpn "file.dat" age "creator.pl" age >@}
+if @{rpn "file.dat" age "creator.pl" age <@}
    system "./creator.pl > file.dat"
 end if
 open file.dat
 @end example
+and for this reason, a non-existent file is assigned an ``infinite''
+age, i.e. it is reported to have been created
+
 
 @item @{rpn 0.5 asin@}
 @cindex @code{asin} rpn operator
