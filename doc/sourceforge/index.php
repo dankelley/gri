@@ -85,9 +85,9 @@ scp index.php psg@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
                 </td> </tr>
                 <tr>
                   <td class="menus" align="right">
-		    <b>Source tarball</b><br>
+		    <b>Source [buildable docs]</b><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.1.tgz">gri-2.8.1.tgz</a><br>
-		    <b>with pre-made docs</b><br>
+		    <b>Source [pre-built docs]</b><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.1-arch-indep.tar.gz">gri-2.8.1-arch-indep.tar.gz</a><br>
 		    <b>RedHat Linux</b><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.1-1.src.rpm">gri-2.8.1-1.src.rpm</a><br>
@@ -148,10 +148,10 @@ scp index.php psg@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
       <TD VALIGN="top" ALIGN="left" >
       <table align="center" width="95%"><tr><td>
           
-Gri is an open-source language for scientific graphics programming.
-It is command-driven, as opposed to point/click, and its output is a
-PostScript file.  Some users consider Gri similar to LaTeX, since both
-provide extensive power as a reward for tolerating a learning curve.
+Gri is a language for scientific graphics programming.  The word
+"language" is important: Gri is command-driven, not point/click.  Some
+users consider Gri similar to LaTeX, since both provide extensive
+power as a reward for tolerating a learning curve.
 
 <p>
 Gri can make 
@@ -164,7 +164,7 @@ contour
 <a href="./gridoc/html/Images.html">
 image
 </a>
-graphs.  Fine control is provided over all aspects of drawing,
+graphs.  The output is in PostScript.  Fine control is provided over all aspects of drawing,
 e.g. line widths, colors, and fonts.  A TeX-like syntax provides the
 ability to use common Mathematical symbols.
 
@@ -179,7 +179,7 @@ as simple as the following.
 </font>
 </pre>
 
-To see the recent changes, go <A class="menus"
+A list of the recent changes is <A class="menus"
 HREF="http://gri.sourceforge.net/gridoc/html/Version_2_8.html#Version2.8">here</a>.<br>
 
 <p>
@@ -193,7 +193,7 @@ Search gri manual for (may be a regular expression):<p>
         <hr noshade="noshade">
         <center>
           <small>
-            Copyright &copy; 2001 by Dan Kelley<br>
+            Copyright &copy; 2001 by Dan Kelley and Peter Galbraith<br>
             This material may be distributed only subject to the terms and conditions 
             set forth in the GNU Publication License
           </small>
@@ -278,7 +278,7 @@ Search gri manual for (may be a regular expression):<p>
         <A class="menus" HREF="./gri.pdf">PDF manual</A><br>
         <A class="menus" HREF="./gridoc/html/FAQ.html">FAQ</A><br>
         <A class="menus" HREF="./gri-cookbook/index.html">Cookbook</A><br>
-        <A class="menus" HREF="./refcard.ps">Reference card</A><br>
+        <A class="menus" HREF="./refcard.ps">Basic refcard</A><br>
         <A class="menus" HREF="./cmdrefcard.ps">Command refcard</A><br>
         <A class="menus" HREF="http://www2.linuxjournal.com/lj-issues/issue75/3743.html"><i>Linux Journal</i> article</A><br>
       </td>
@@ -324,7 +324,7 @@ Search gri manual for (may be a regular expression):<p>
 <!-- <A class="menus" HREF="./checklist_for_release">Packaging checklist</A><br> -->
         <br>
 
-        <A CLASS="menus" HREF="./gri-2.8.2-pre1.tgz">2.8.2 pre-release #1</a>
+        <A CLASS="menus" HREF="./gri-2.8.2-pre2.tgz">2.8.2 pre-release #2</a>
 
       </TD>
     </TR>
