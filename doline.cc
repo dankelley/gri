@@ -106,6 +106,7 @@ insert_source_indicator(char *cl)
 		cl[len] = PASTE_CHAR;
 }
 #endif
+
 // get_command_line() -- get a command line (skip full-line C comments)
 bool
 get_command_line(void)
@@ -123,6 +124,7 @@ get_command_line(void)
 		// Cmd-file is non-interactive.
 		if (true == get_cmd(_cmdLine, LineLength_1, _cmdFILE.back().get_fp())) {
 			if (strlen(_cmdLine) < 1) {
+				if (((unsigned) superuser()) & FLAG_AUT2) printf("%s:%d debug 2\n",__FILE__,__LINE__);
 				return false;
 			} else {
 				warning("Missing newline at end of command file.");
@@ -142,15 +144,10 @@ get_command_line(void)
 	}
 	_cmdFILE.back().increment_line(); // BUG line numbers wrong BUG
 	insert_cmd_in_ps(_cmdLine);
-	if (!strncmp(_cmdLine + skip_space(_cmdLine), "/*", 2)) {
-		while (strncmp(_cmdLine + skip_space(_cmdLine), "*/", 2) && !_done) {
-			get_command_line();
-		}
-		get_command_line();
-	}
 	if (((unsigned) superuser()) & FLAG_AUT1) {
 		insert_source_indicator(_cmdLine);
 	}
+	if (((unsigned) superuser()) & FLAG_AUT2) printf("%s:%d  get_command_line returning [%s]\n",__FILE__,__LINE__,_cmdLine);
 	return true;
 }
 
@@ -510,7 +507,8 @@ systemCmd()
 	}
 	// See if last word starts with "<<"; if so, then the stuff to be done
 	// appears on the lines following, ended by whatever word follows the
-	// "<<".
+	// "<<". 
+	// ... compare set.cc near line 3288.
 	int i = strlen(s) - 2;
 	static string read_until;
 	read_until.assign("");
@@ -551,7 +549,9 @@ systemCmd()
 	if (using_read_until) {
 		// It is of the <<WORD form
 		cmd.append("\n");
+		printf("%s:%d ABOUT TO GOBBLE\n",__FILE__,__LINE__);
 		while (get_command_line()) {
+			printf("%s:%d cmd line is [%s]\n",__FILE__,__LINE__,_cmdLine);
 			// Trim filename/fileline indicator
 			unsigned int l = strlen(_cmdLine);
 			for (unsigned int ii = 0; ii < l; ii++) {
@@ -1050,6 +1050,7 @@ get_cmd(char *buf, int max, FILE *fp)
 		// Check for EOF 
 		if (thisc == EOF) {
 			*(buf + i) = '\0';
+			if (((unsigned) superuser()) & FLAG_AUT2) printf("%s:%d get_cmd hit EOF, now returning TRUE with [%s]\n",__FILE__,__LINE__,buf);
 			return true;
 		}
 		// See if NEWLINE  (even if quoted) 
@@ -1061,6 +1062,7 @@ get_cmd(char *buf, int max, FILE *fp)
 				continue;
 			} else {
 				*(buf + i) = '\0';
+				if (((unsigned) superuser()) & FLAG_AUT2) printf("%s:%d get_cmd IN MIDDLE returning FALSE with [%s]\n",__FILE__,__LINE__,buf);
 				return false;
 			}
 		}
@@ -1069,5 +1071,6 @@ get_cmd(char *buf, int max, FILE *fp)
 		lastc = thisc;
 	} while (i++ < max);
 	*(buf + i - 1) = '\0';	// didn't get to end - bad 
+	printf("%s:%d get_cmd AT END returning FALSE with [%s]\n",__FILE__,__LINE__,buf);
 	return false;
 }

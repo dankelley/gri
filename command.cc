@@ -461,8 +461,10 @@ extract_procedure(FILE * fp, char *line)
 			err("Missing `}' in procedure body.");
 			return false;
 		}
-		if (*line == '}')
+		if (*line == '}') {
+			if (((unsigned) superuser()) & FLAG_AUT2) printf("%s:%d got procedure: <%s>\n",__FILE__,__LINE__,_command[_num_command].procedure);
 			return true;
+		}
 		_cmdFILE.back().increment_line();
 		unsigned len = 0;
 		while (line[len] != '\0' ) {

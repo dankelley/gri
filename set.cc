@@ -3282,12 +3282,13 @@ This computer can't `\\synonym = system ...' since no popen() subroutine.");
 		// See if last word starts with "<<"; if so, then the stuff to be done
 		// appears on the lines following, ended by whatever word follows the
 		// "<<".
+		// ... compare doline.cc near line 510.
 		int i = strlen(s) - 2;
 		string read_until;
 		bool            using_read_until = false;
 		while (--i) {
 			if (!strncmp((s + i), "<<", 2)) {
-				//printf("- looking for <<\n");
+				printf("- looking for <<\n");
 				bool            quoted_end_string = false;
 				int             spaces = 0;
 				while (isspace(*(s + i + 2 + spaces))) {
@@ -3305,22 +3306,25 @@ This computer can't `\\synonym = system ...' since no popen() subroutine.");
 					cut_at = read_until.find("\"");
 				else
 					cut_at = read_until.find(" ");
-				//printf("READING UNTIL '%s' ... i.e.\n", read_until.c_str());
+				printf("READING UNTIL '%s' ... i.e.\n", read_until.c_str());
 				if (cut_at != STRING_NPOS)
 					read_until.STRINGERASE(cut_at, read_until.size() - cut_at);
 				if (read_until.size() < 1) {
 					err("`system ... <<STOP_STRING' found no STOP_STRING");
 					return false;
 				}
-				//printf("reading until '%s'\n",read_until.c_str());
+				printf("reading until '%s'\n",read_until.c_str());
 				break;
 			}
 		}
-		string cmd(s);
+		static string cmd; // might save time in loops
+		cmd.assign(s);
 		if (using_read_until) {
 			// It is of the <<WORD form
 			cmd.append("\n");
+			printf("%s:%d ABOUT TO GOBBLE\n",__FILE__,__LINE__);
 			while (get_command_line()) {
+				printf("%s:%d cmd line is [%s]\n",__FILE__,__LINE__,_cmdLine);
 				// Trim filename/fileline indicator
 				unsigned int l = strlen(_cmdLine);
 				for (unsigned int ii = 0; ii < l; ii++) {
@@ -3336,8 +3340,10 @@ This computer can't `\\synonym = system ...' since no popen() subroutine.");
 				}
 			}
 			string cmd_sub;
+			printf("THE cmd <%s>\n",cmd.c_str());
 			substitute_synonyms_cmdline(cmd.c_str(), cmd_sub, false);
 			cmd = cmd_sub;
+
 		} else {
 			// No, it is not of the <<WORD form
 			string::size_type loc = 0;
