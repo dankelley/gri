@@ -485,7 +485,7 @@ set_colorCmd()
 		cname.assign(_word[2]);
 		un_double_quote(cname);
 		if (!look_up_color(cname.c_str(), &red, &green, &blue)) {
-			err("`set color' given unknown colorname `\\", cname.c_str(), "'", "\\");
+			err("`set color' given unknown colorname `\\", cname.c_str(), "'.  Use command `show colornames' to see available colors.", "\\");
 			return false;
 		}
 		PUT_VAR("..red..", red);
@@ -773,7 +773,7 @@ set_font_colorCmd()
 	switch (_nword) {
 	case 4:
 		if (!look_up_color(_word[3], &red, &green, &blue)) {
-			err("`set font color' given unknown colorname `\\", _word[3], "'", "\\");
+			err("`set font color' given unknown colorname `\\", _word[3], "'.  Use command `show colornames' to see available colors.", "\\");
 			return false;
 		}
 		c.setRGB(red, green, blue);
@@ -1431,13 +1431,13 @@ set_image_colorscaleCmd()
 	if (_nword == 7) {
 		// `set image colorscale \name .im_value. \name .im_value.'
 		if (!look_up_color(_word[3], &rA, &gA, &bA)) {
-			err("Unknown colorname `\\", _word[3], "'", "\\");
+			err("Unknown colorname `\\", _word[3], "'.  Use command `show colornames' to see available colors.", "\\");
 			return false;
 		}
 		if (!getdnum(_word[4], &valA))
 			return false;
 		if (!look_up_color(_word[5], &rB, &gB, &bB)) {
-			err("Unknown colorname `\\", _word[5], "'", "\\");
+			err("Unknown colorname `\\", _word[5], "'.  Use command `show colornames' to see available colors.", "\\");
 			return false;
 		}
 		if (!getdnum(_word[6], &valB))
@@ -1448,13 +1448,13 @@ set_image_colorscaleCmd()
 // `set image colorscale \name .im_value. \name .im_value. increment
 // .im_value.
 		if (!look_up_color(_word[3], &rA, &gA, &bA)) {
-			err("Unknown colorname `\\", _word[3], "'", "\\");
+			err("Unknown colorname `\\", _word[3], "'.  Use command `show colornames' to see available colors.", "\\");
 			return false;
 		}
 		if (!getdnum(_word[4], &valA))
 			return false;
 		if (!look_up_color(_word[5], &rB, &gB, &bB)) {
-			err("Unknown colorname `\\", _word[5], "'", "\\");
+			err("Unknown colorname `\\", _word[5], "'.  Use command `show colornames' to see available colors.", "\\");
 			return false;
 		}
 		if (!getdnum(_word[6], &valB))
