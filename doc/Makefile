@@ -141,6 +141,7 @@ clean:	info-clean html-clean debian-clean card-clean
 		FAQ cmdrefcard.ps refcard.ps
 	(cd examples; make clean)
 	(cd screenshots; make clean)
+	(cd resources; make clean)
 
 help:
 	@echo "Options:"
