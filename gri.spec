@@ -96,8 +96,9 @@ then
 fi
 
 %changelog
-* Fri Dec 6 2002  Dan Kelley <Dan.Kelley@Dal.Ca>
+* Sat Dec 7 2002  Dan Kelley <Dan.Kelley@Dal.Ca>
 - Version 2.12.2
+- fix SourceForge bug 649132 (LDFLAGS not used in Makefile.in)
 - fix SourceForge bug 649134 (tweak gcc optimization)
 - fix SourceForge bug 649136 (examples 8 and 9 out-dated)
 - fix SourceForge bug 641406 (RPN too aggressive on missing values)
