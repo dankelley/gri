@@ -1704,6 +1704,11 @@ draw_isopycnalCmd()
 bool
 draw_image_histogramCmd()
 {
+#if 1
+	enum y_axis_type {log, percentage};
+	y_axis_type the_y_axis_type = log;
+#endif
+
 	int             i;
 	double          x_ll_cm = XMARGIN_DEFAULT, y_ll_cm, x_ur_cm, y_ur_cm;
 	double          dx = XSIZE_DEFAULT, dy;
@@ -1727,7 +1732,18 @@ draw_image_histogramCmd()
 		err("First `set image grayscale'");
 		return false;
 	}
-	switch (_nword) {
+#if 1
+	// The optional last word may indicate the type of y axis.
+	int nword = _nword;
+	if (strEQ(_word[_nword - 1], "percentage")) {
+		the_y_axis_type = percentage;
+		nword--;
+	} else if (strEQ(_word[_nword - 1], "log")) {
+		the_y_axis_type = log;
+		nword--;
+	}
+#endif
+	switch (nword) {
 	case 3:
 		// `draw image histogram' 
 		if (!get_var("..xmargin..", &x_ll_cm))
@@ -1744,7 +1760,7 @@ Note the extra word `box', and the new meaning of the last 2 parameters.");
 		return false;
 	case 8:
 		// `draw image histogram [box .xleft_cm. .ybottom_cm. .xright_cm. .ytop_cm.]'
-		if (4 == get_cmd_values(_word, _nword, "box", 4, _dstack)) {
+		if (4 == get_cmd_values(_word, nword, "box", 4, _dstack)) {
 			x_ll_cm = _dstack[0];
 			y_ll_cm = _dstack[1];
 			x_ur_cm = _dstack[2];
@@ -1764,30 +1780,72 @@ Note the extra word `box', and the new meaning of the last 2 parameters.");
 	calculate_image_histogram();
 	set_environment();
 	// Draw the histogram, using 125 scaling of x axis
-	gr_setxtransform(gr_axis_LINEAR);
-	gr_setytransform(gr_axis_LOG);
-	gr_setxsubdivisions(1);
-	gr_setysubdivisions(1);
-	gr_setxlabel("");
-	gr_setylabel("");
-	gr_scale125((double) _image0, (double) _image255, 4, &left, &right, &num);
-	gr_setxscale((double) x_ll_cm, (double) x_ll_cm + dx, left, right);
-	gr_setyscale((double) y_ll_cm, (double) y_ll_cm + dy, yMin, yMax);
-	gr_drawxaxis(yMin, left, (right - left) / num, right, gr_axis_BOTTOM);
-	gr_drawyaxis((double) left, yMin, 1., yMax, gr_axis_LEFT);
-	GriPath p;
-	p.push_back(left, yMin, 'm');
-	p.push_back(left, yMax, 'l');
-	p.push_back(right, yMax, 'l');
-	p.push_back(right, yMin, 'l');
-	xval = _image0;
-	dxval = (_image255 - _image0) / 255.0;
-	p.push_back(_image0, yMin, 'm');
-	for (i = 0; i < 256; i++) {
-		p.push_back(xval, yMin + _imageHist[i], 'l');
-		xval += dxval;
+#if 1
+	if (the_y_axis_type == log) {
+		yMin = 1.0e-4;
+		yMax = 1.0;
+		gr_setytransform(gr_axis_LOG);
+		gr_setysubdivisions(1);
+		gr_setxsubdivisions(1);
+		gr_setxlabel("");
+		gr_setylabel("");
+		gr_scale125((double) _image0, (double) _image255, 4, &left, &right, &num);
+		gr_setxscale((double) x_ll_cm, (double) x_ll_cm + dx, left, right);
+		gr_setyscale((double) y_ll_cm, (double) y_ll_cm + dy, yMin, yMax);
+		gr_drawxaxis(yMin, left, (right - left) / num, right, gr_axis_BOTTOM);
+		gr_drawyaxis((double) left, yMin, 1., yMax, gr_axis_LEFT);
+		GriPath p;
+		p.push_back(left, yMin, 'm');
+		p.push_back(left, yMax, 'l');
+		p.push_back(right, yMax, 'l');
+		p.push_back(right, yMin, 'l');
+		xval = _image0;
+		dxval = (_image255 - _image0) / 255.0;
+		p.push_back(_image0, yMin, 'm');
+		gr_setytransform(gr_axis_LOG);
+		gr_setysubdivisions(1);
+		for (i = 0; i < 256; i++) {
+			p.push_back(xval, yMin + _imageHist[i], 'l');
+			xval += dxval;
+		}
+		p.stroke(units_user);
+	} else if (the_y_axis_type == percentage) {
+		yMin = 0.0;
+		yMax = 100.0;
+		gr_setytransform(gr_axis_LINEAR);
+		gr_setysubdivisions(1);
+		gr_setxsubdivisions(1);
+		gr_setxlabel("");
+		gr_setylabel("");
+		extern char _grNumFormat_y[];
+		string old_y_fmt;
+		old_y_fmt.assign(_grNumFormat_y);
+		gr_setynumberformat("%.0lf%%");
+		gr_scale125((double) _image0, (double) _image255, 4, &left, &right, &num);
+		gr_setxscale((double) x_ll_cm, (double) x_ll_cm + dx, left, right);
+		gr_setyscale((double) y_ll_cm, (double) y_ll_cm + dy, yMin, yMax);
+		gr_drawxaxis(yMin, left, (right - left) / num, right, gr_axis_BOTTOM);
+		gr_setysubdivisions(4);
+		gr_drawyaxis((double) left, yMin, 25., yMax, gr_axis_LEFT);
+		gr_setynumberformat(old_y_fmt.c_str());
+		GriPath p;
+		p.push_back(left, yMin, 'm');
+		p.push_back(left, yMax, 'l');
+		p.push_back(right, yMax, 'l');
+		p.push_back(right, yMin, 'l');
+		xval = _image0;
+		dxval = (_image255 - _image0) / 255.0;
+		p.push_back(_image0, yMin, 'm');
+		for (i = 0; i < 256; i++) {
+			p.push_back(xval, yMin + 100*_imageHist[i], 'l');
+			xval += dxval;
+		}
+		p.stroke(units_user);
+	} else {
+		err("'draw image histogram' cannot understand type `\\'", _word[_nword - 1], "'", "\\");
+		return false;
 	}
-	p.stroke(units_user);
+#endif
 	gr_setytransform(gr_axis_LINEAR);
 	if ((y_ll_cm + dy) > _top_of_plot)
 		_top_of_plot = y_ll_cm + dy;
