@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.180 2002/05/09 13:45:40 dankelley Exp $
+@c $Id: gri.texim,v 1.181 2002/05/09 15:16:29 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -492,20 +492,16 @@ or more of the following (explained below):
 @cindex @code{argc}, RPN operator to access commandline arguments
 
 Here, the optional @code{optional_arguments} are a mechanism to
-customize the action of the given Gri script from the commandline.  If
-there are any unused options, they are stored in a buffer that can be
-accessed with RPN operators @file{argc} and @file{argv} (@ref{Unary
-Operators}) and are accessible with the @code{query} command.  A single
-token is given to the @code{query} command, not the entire list.  Tokens
-are separated by whitespace, so if you need whitespace in your token,
-enclose it in double-quote or single-quote marks.  (This is the usual
-unix method.)  Successive @code{query} commands are given the tokens,
-one by one.  In addition, the tokens are available with the RPN
-operators @code{argc}, a solitary operator which yields the number of
-tokens (@ref{Solitary Operators}), and @code{argv}, a unary operator
-which yields a numbered token from the list (@ref{Unary Operators}).
-For usage within the Emacs gri-mode, see 
-@ref{Filename arguments when running gri}.
+customize the action of the given Gri script from the commandline.
+After Gri processes standard arguments (e.g. @code{-t} for tracing), it
+puts the remaining commandline arguments into a list.  This behavior is
+borrowed from C and othe languages, so Gri borrows the name of the list
+as well: it's called the "arg" list, and its elements are available with
+the RPN operators named @file{argc} (@ref{Solitary Operators})
+and @file{argv} (@ref{Unary Operators}).
+
+For a note on usage within the Emacs gri-mode, see @ref{Filename
+arguments when running gri}.
 
 
 @strong{Details of command-line options}
