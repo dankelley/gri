@@ -3,7 +3,7 @@ Version: 2.12.10
 Revision: 1
 Depends:
 Source: mirror:sourceforge:%n/%n-%v.tgz
-Source-MD5: ae89cef059b9d2788d83c8cb269adbe7
+Source-MD5: a3f576df05243cf38f59c24360d1bc92
 DocFiles: README doc/*html
 InfoDocs: gri.info gri.info-1 gri.info-2 gri.info-3
 Description: Scientific graphics language
