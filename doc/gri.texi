@@ -943,19 +943,18 @@ or more of the following (explained below):
 @cindex @code{argc}, RPN operator to access commandline arguments
 
 Here, the optional @code{optional_arguments} are a mechanism to
-customize the action of the given Gri script from the commandline.
-Whatever (optionally) follows a @code{:} in the commandline (which must
-itself follow the commandfile name) is stored in a buffer.  If there are
-any @code{query} commands in the commandfile, Gri looks first in this
-buffer for answers.  A single token is given to the @code{query}
-command, not the entire list.  Tokens are separated by whitespace, so if
-you need whitespace in your token, enclose it in double-quote or
-single-quote marks.  (This is the usual unix method.)  Successive
-@code{query} commands are given the tokens, one by one.  In addition,
-the tokens are available with the RPN operators @code{argc}, a solitary
-operator which yields the number of tokens (@ref{Solitary Operators}), and
-@code{argv}, a unary operator which yields a numbered token from the
-list (@ref{Unary Operators}).
+customize the action of the given Gri script from the commandline.  If
+there are any unused options, they are stored in a buffer that can be
+accessed with RPN operators @file{argc} and @file{argv} (@ref{Unary
+Operators}) and are accessible with the @code{query} command.  A single
+token is given to the @code{query} command, not the entire list.  Tokens
+are separated by whitespace, so if you need whitespace in your token,
+enclose it in double-quote or single-quote marks.  (This is the usual
+unix method.)  Successive @code{query} commands are given the tokens,
+one by one.  In addition, the tokens are available with the RPN
+operators @code{argc}, a solitary operator which yields the number of
+tokens (@ref{Solitary Operators}), and @code{argv}, a unary operator
+which yields a numbered token from the list (@ref{Unary Operators}).
 
 @emph{Details of command-line options}
 @cindex options on Gri command-line
@@ -2721,24 +2720,31 @@ Calculate inverse hyperbolic tangent of 0.5, yielding 0.549306
 @cindex @code{argv} rpn operator, access commandline arguments
 @cindex arguments on command line, accessing with @code{argv} rpn operator
 @cindex commandline arguments, accessing with @code{argv} rpn operator
-Returns the first optional argument following a @code{:} on the command
-line that invoked Gri (@ref{Invoking Gri}).  (The 0 indicates
-the number of arguments to skip, so that e.g. the second option is
-accessed by @code{rpn 1 argv}.)  A string consisting of a single blank
-character results if one tries to access beyond the list of arguments
-that were actually supplied.  See also the @code{argc} solitary operator
-(@ref{Solitary Operators}), which returns the number of optional
-arguments.
+Returns the first optional argument on the command line that invoked Gri
+(@ref{Invoking Gri}).  (The 0 indicates the number of arguments to skip,
+so that e.g. the second option is accessed by @code{rpn 1 argv}.)  A
+string consisting of a single blank character results if one tries to
+access beyond the list of arguments that were actually supplied.  See
+also the @code{argc} solitary operator (@ref{Solitary Operators}), which
+returns the number of optional arguments.
 
-For example, the following gri code would display all filename
-arguments following the @code{:} character on the command line:
+For example, if Gri is invoked as
+@example
+gri myscript.gri file1.dat file2.dat
+@end example
+and if @file{myscript.gri} contained
 @example
 .n. = @{rpn argc@}
 .i. = 0
 while @{rpn .n. .i. <@}
-    show "argument " .i. " of " .n. " is " @{rpn .i. argv@}
+    show "argument " .i. " is " @{rpn .i. argv@}
     .i. += 1
 end while
+@end example
+then the output would be
+@example
+argument 0 is file1.dat
+argument 1 is file2.dat
 @end example
 
 @item @{rpn "hi" ascent@}
@@ -2987,10 +2993,9 @@ The solitary operators are illustrated below, in alphabetical order.
 @table @code
 @item @{rpn argc@}
 Yields number of (optional) extra command-line arguments given by the
-user when Gri was invoked.  These are arguments which follow the
-@code{:} on the commandline.  Thus, invoking Gri as
+user when Gri was invoked.  Thus, invoking Gri as
 @example
-    gri myfile.gri : file1.dat file2.dat
+    gri myfile.gri file1.dat file2.dat
 @end example
 yields 2, for arguments @code{file1.dat} and @code{file2.dat}.  These
 arguments are accessible through the @code{argv} unary operator
