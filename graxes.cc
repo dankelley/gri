@@ -410,7 +410,7 @@ void
 gr_drawyaxis(double x, double yb, double yinc, double yt, gr_axis_properties side)
 {
 #if 1				// 2.9.x
-	bool user_gave_labels = (_x_labels.size() != 0);
+	bool user_gave_labels = (_y_labels.size() != 0);
 #endif // 2.9.x
 	GriString label;
 	std::string slabel;
