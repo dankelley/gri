@@ -9,6 +9,7 @@
      HTML_LONG_NAME = gri-long
 #          INFO_DIR = $(prefix)/info
            INFO_DIR = %{_infodir}
+            INSTALL = install
 
 FORCE:
 
@@ -59,8 +60,8 @@ html: gri.texi gri.info texinfo2HTML HTML_subdivide
 	touch html
 
 card-install-redhat: FORCE
-	install -m 644 refcard.ps    $(CARD_DIR)
-	install -m 644 cmdrefcard.ps $(CARD_DIR)
+	$(INSTALL) -m 644 refcard.ps    $(CARD_DIR)
+	$(INSTALL) -m 644 cmdrefcard.ps $(CARD_DIR)
 
 html-tar: html
 	make html-install DOC_DIR=./gridoc
@@ -68,18 +69,18 @@ html-tar: html
 	gzip -f --best gridoc.tar
 
 html-install:	html
-	install -d             $(HTML_DIR)
+	$(INSTALL) -d          $(HTML_DIR)
 	chmod a+rx             $(HTML_DIR)
-	install -d             $(HTML_DIR)/resources
+	$(INSTALL) -d          $(HTML_DIR)/resources
 	chmod a+rx             $(HTML_DIR)/resources
 	cp resources/*.gif     $(HTML_DIR)/resources
 	chmod 644              $(HTML_DIR)/resources/*.gif
-	install -d             $(HTML_DIR)/tst_suite
+	$(INSTALL) -d          $(HTML_DIR)/tst_suite
 	chmod a+rx             $(HTML_DIR)/tst_suite
 	cp tst_suite/*html     $(HTML_DIR)/tst_suite
-	-cp examples/*.png      $(HTML_DIR)/
-	-chmod 644              $(HTML_DIR)/*.png
-	install -d             $(HTML_DIR)/screenshots
+	-cp examples/*.png     $(HTML_DIR)/
+	-chmod 644             $(HTML_DIR)/*.png
+	$(INSTALL) -d          $(HTML_DIR)/screenshots
 	chmod a+rx             $(HTML_DIR)/screenshots
 	cp screenshots/*.png   $(HTML_DIR)/screenshots
 	chmod a+rx             $(HTML_DIR)/screenshots
@@ -87,7 +88,7 @@ html-install:	html
 	cp *.html              $(HTML_DIR)
 	chmod 644              $(HTML_DIR)/*.html
 #       Now install the examples
-	install -d             $(EXAMPLES_DIR)
+	$(INSTALL) -d          $(EXAMPLES_DIR)
 	chmod a+rx             $(EXAMPLES_DIR)
 	cp examples/model*     $(EXAMPLES_DIR)
 	chmod 644              $(EXAMPLES_DIR)/model*
@@ -99,7 +100,7 @@ html-install:	html
 	chmod 644              $(EXAMPLES_DIR)/*.ps
 	cp examples/FEM.pl     $(EXAMPLES_DIR)
 	chmod 755              $(EXAMPLES_DIR)/FEM.pl
-	(cd $(HTML_DIR); ln -sf ../examples)
+	(cd $(HTML_DIR); rm -rf examples ; ln -sf ../examples)
 
 card-clean:
 	-rm -f refcard.dvi refcard.log refcard.ps
@@ -125,7 +126,7 @@ gri.info: gri.texi
 	makeinfo gri.texi
 
 info-install:
-	install -d $(INFO_DIR)
+	$(INSTALL) -d $(INFO_DIR)
 	cp gri.info* $(INFO_DIR)
 	(cd $(INFO_DIR) ; gzip -f --best gri.info gri.info-[0-9] gri.info-[0-9][0-9])
 	chmod 644 $(INFO_DIR)/gri.info*
@@ -239,5 +240,5 @@ debian-html:
 
 # make debian-ps DOC_DIR=../debian/gri-ps-doc/usr/share/doc/gri-ps-doc
 debian-ps: gri.ps
-	install -d $(DOC_DIR)
-	install -m 644 gri.ps $(DOC_DIR)
+	$(INSTALL) -d $(DOC_DIR)
+	$(INSTALL) -m 644 gri.ps $(DOC_DIR)
