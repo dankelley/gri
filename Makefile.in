@@ -54,10 +54,6 @@ popt/popthelp.o: popt/popthelp.c
 popt/poptparse.o: popt/poptparse.c
 	cd popt ; $(CC) -c poptparse.c
 
-
-popt/libpopt.a:
-	cd popt ; ./configure ; make
-
 # Here are a few explicit rules used by the author for debugging;
 # it is emphaticallyy *not* a complete list.  It is only as
 # up-to-date as the last time the author was working on the
