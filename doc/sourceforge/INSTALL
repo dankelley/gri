@@ -3,7 +3,7 @@
 
 export CVS_RSH=ssh
 export CVSROOT=dankelley@cvs.gri.sourceforge.net:/cvsroot/gri
-export PHP="bugs.php contact.php developers.php docs.php download.php subroutines.php main.php news.php"
+export PHP="index.php bugs.php contact.php developers.php docs.php download.php subroutines.php news.php"
 export PNG="bugs.png contact.png developers.png docs.png download.png main.png news.png"
 
 scp $PHP $PNG dankelley@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
