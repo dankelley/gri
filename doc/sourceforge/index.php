@@ -176,7 +176,25 @@ HREF="http://gri.sourceforge.net/gridoc/html/Version_2_6.html#Version2.6">here</
     <tr> 
       <td  class="menubox">
         <font size="-1">
-        Vsn 2.6.4: 2001-jul-04</br>
+        <!-- Vsn 2.6.4: 2001-jul-04</br> -->
+        Version 2.6.4 released
+	<? 
+	# mktime(hour,minute,second,month,day,year)
+	$diff = time() - mktime(14, 29, 0, 7, 4, 2001);
+	$days = floor($diff / 24 / 60 / 60);
+	$hours = floor(($diff - $days * 24) / 60 / 60);
+	$minutes = floor($diff - $days * 24 * 60 * 60 - $hours * 60 * 60) / 60;
+	$seconds = floor($diff - $days * 24 * 60 * 60 - $hours * 60 * 60 - $minutes * 60);
+	if ($days > 1) {
+	    echo "$days days ago";
+	} else if ($hours > 1) {
+	    echo "$hours hours ago";
+	} else if ($minutes > 1) {
+	    echo "$minutes minutes ago";
+	} else {
+	    echo floor($seconds), " seconds ago";
+        }
+	?>
         </font>
       </td>
     </tr>
