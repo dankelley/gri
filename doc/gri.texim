@@ -13546,11 +13546,12 @@ passed as arguments, using a syntax that is quite similar to that
 employed by the C++ language.
 
 @menu
-* The Ampersand Syntax::        Denoting changeable arguments with @code{&}
-* Doubling A Variable::         Example using e.g. @code{&.variable.}
-* Manipulating A Synonym::      Example using e.g. @code{&\synonym}
-* Nesting::                     Newcommands called by newcommands
-* Using New And Delete::        Isolating local variables and synonyms
+* The Ampersand Syntax::                Denoting changeable arguments
+* Doubling A Variable::                 Variables (e.g. @code{&.variable.})
+* Manipulating A Synonym::              Synonyms (e.g. @code{&\synonym})
+* Nesting::                             Newcommands called by newcommands
+* Using New And Delete::                Isolating local variables and synonyms
+* Implementation of Ampersand Syntax::  Algorithm Gri uses
 @end menu
 
 
@@ -13694,7 +13695,7 @@ A: it prints @code{apples are tasty}.
 
 
 
-@node   Using New And Delete, Hints, Nesting, Changeable Command Arguments
+@node   Using New And Delete, Implementation of Ampersand Syntax, Nesting, Changeable Command Arguments
 @comment  node-name,  next,  previous,  up
 @subsubsection What @code{new} and @code{delete} do with changeable arguments
 
@@ -13735,9 +13736,53 @@ newcommand, in line 6.  This modification involves the use of a synonym,
 being created in line 3 and destroyed in line 6.  
 
 
+@node   Implementation of Ampersand Syntax, Hints, Using New And Delete, Changeable Command Arguments
+@comment  node-name,  next,  previous,  up
+@subsubsection How Gri implements the @code{&} syntax
+
+@cindex @code{&} syntax, how it is parsed
+@cindex parsing of the @code{&} syntax
+
+When the parser encounters an unquoted @code{&} followed immediately by
+the name of a variable or a synonym, it converts the whole token
+(@code{&} plus name) into a specially-encoded string that can be
+recognized inside newcommands.  (This is @emph{only} done if the
+@code{&} and the variable name are @emph{not} enclosed in double
+quotes.)
+
+This specially-encoded string contains not just the name of the variable
+or synonym, but also the current level of nesting of newcommands.  In
+this way a newcommand can have its own private versions of variables,
+created by @code{new}, that won't be misinterpreted for the
+identically-named variables in the calling program.
+
+The format of these specially-encoded strings is as follows.  It begins
+with the backspace character @code{\b} (hexadecimal 08 in the ascii
+table), followed by a hash-sign character @code{#}.  Following these two
+characters is the variable or synonym name, followed by another
+@code{#}.  Following that is the current newcommand nesting level
+(e.g. 0 if this is in the main program).  Following that is a @code{#}
+followed by a @code{\b}.  It is hoped that this string is odd enough
+that you seldom enter it yourself by mistake @dots{} but half the reason
+for the existence of this section is to warn you of the possibility!
+
+Examples: if @code{@.a.} were to be encountered in the main program, it
+would be converted into the string @code{\b#.a.#0#\b} and if
+@code{&\my_syn} were encountered inside a newcommand called by the main
+program (nested 1 deep), it would be converted into the string
+@code{\b#\my_syn#1#\b}.
+
+Inside a newcommand, Gri checks to see if builtin synonyms
+(e.g. @code{\.word1.}) hold such specially-encoded strings.  If so, then
+the appropriate versions of the variables are used in preference to any
+variables that may have been newly created by @code{new} inside the
+newcommand.
+
+
+
 @c HTML <!-- newfile Hints.html "Gri: Hints for Gri programming" "Programming Gri" -->
 
-@node   Hints, Debugging, Using New And Delete, Programming
+@node   Hints, Debugging, Implementation of Ampersand Syntax, Programming
 @comment  node-name,  next,  previous,  up
 @section Hints for Gri Programming
 @cindex hints
