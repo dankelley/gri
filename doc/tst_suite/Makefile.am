@@ -7,16 +7,11 @@ the_html = tst_IO.html tst_control.html tst_rpn.html tst_var_syn.html
 EXTRA_DIST =  tst_IO.gri tst_IO_1.dat tst_IO_2.dat tst_control.gri\
  tst_rpn.gri tst_var_syn.gri $(the_texi)
 DISTCLEANFILES = $(the_html)
-#%.texi : $(srcdir)/%.gri
-#	perl $(srcdir)/../gri2texi $< $@
 %.texi : %.gri
 	perl $(srcdir)/../gri2texi $< $@
-#%.html : $(srcdir)/%.gri
-#	perl $(srcdir)/../gri2html $< $@
 %.html : %.gri
 	perl $(srcdir)/../gri2html $< $@
 
 all: texi html
-
 texi: $(the_texi)
 html: $(the_html)
