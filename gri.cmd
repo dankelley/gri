@@ -2985,7 +2985,7 @@ but no whiting out is done.
     extern "C" bool set_contour_labelsCmd(void);
 }
 
-#* @param .type. style of dash to use (range 0 to 15) @default 2
+#* @param .type. style of dash to use (range 0 to 15) @default 2 -> 0.4 cm dashes and 0.1 cm blanks
 `set dash [.type.|{.dash_cm. .blank_cm. ...}|off]'
 Control dash-style for following `draw curve' and `draw line' commands.
 
