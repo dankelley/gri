@@ -1128,7 +1128,7 @@ getdnum(const char *s, double *d)
  * "\\".
  */
 void
-fatal_err(const char *string,...)
+fatal_err(const char *str,...)
 {
 	char            msg[1024];
 	bool            several = false;
@@ -1138,9 +1138,9 @@ fatal_err(const char *string,...)
 	if (!_error_in_cmd && _gri_beep)
 		gr_textput("\007");
 
-	if (string != NULL) {
-		va_start(ap, string);
-		strcpy(msg, string);
+	if (str != NULL) {
+		va_start(ap, str);
+		strcpy(msg, str);
 		len = strlen(msg);
 		if (msg[len - 1] == '\\') {
 			msg[len - 1] = '\0';
@@ -1230,7 +1230,7 @@ what_line()
  * "\\".
  */
 void
-err(const char *string,...)
+err(const char *str,...)
 {
 	char            msg[1024];
 	bool            several = false;
@@ -1239,9 +1239,9 @@ err(const char *string,...)
 	va_list         ap;
 	if (!_error_in_cmd && _gri_beep)
 		gr_textput("\007");
-	if (string != NULL) {
-		va_start(ap, string);
-		strcpy(msg, string);
+	if (str != NULL) {
+		va_start(ap, str);
+		strcpy(msg, str);
 		len = strlen(msg);
 		if (msg[len - 1] == '\\') {
 			msg[len - 1] = '\0';

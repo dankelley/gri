@@ -2699,7 +2699,7 @@ set_x_axisCmd()
 					demonstrate_command_usage();
 					return false;
 				}
-				string l = _word[i];
+				std::string l = _word[i];
 				un_double_quote(l);
 				_x_labels.push_back(l);
 
@@ -3161,7 +3161,7 @@ set_y_axisCmd()
 					demonstrate_command_usage();
 					return false;
 				}
-				string l = _word[i];
+				std::string l = _word[i];
 				un_double_quote(l);
 				_y_labels.push_back(l);
 			}

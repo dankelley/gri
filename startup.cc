@@ -722,7 +722,7 @@ interpret_optional_arguments(int argc, char *argv[])
 			break;	// never done
 		case FLAG_OUTPUT:
 		{
-			string o(optArg);
+			std::string o(optArg);
 			std::string::size_type suffix_index = o.rfind(".");
 			if (suffix_index != STRING_NPOS) {
 				if (strEQ(o.c_str() + suffix_index, ".ps")) {
@@ -881,7 +881,7 @@ interpret_optional_arguments(int argc, char *argv[])
 					number_optional_arg++;
 					i++;
 					if (i < argc) {
-						string o(argv[i]);
+						std::string o(argv[i]);
 						std::string::size_type suffix_index = o.rfind(".");
 						if (suffix_index != STRING_NPOS) {
 							if (strEQ(o.c_str() + suffix_index, ".ps")) {
