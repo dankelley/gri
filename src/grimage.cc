@@ -135,10 +135,27 @@ gr_drawimage(unsigned char *im,
 		ihigh = int(floor(0.5 + (_clip_ps_xright  - xl)*imax/((xr-xl)))); // BUG: this can exceed available memory!
 		jlow =  int(floor(0.5 + (_clip_ps_ybottom - yb)*jmax/((yt-yb))));
 		jhigh = int(floor(0.5 + (_clip_ps_ytop    - yb)*jmax/((yt-yb))));
+
+		/*DEK*/printf("DEBUG: initially ilow,ihigh= %d %d      jlow,jhigh=%d %d\n",ilow,ihigh,jlow,jhigh);
+
 		ilow = LARGER_ONE(ilow, 0);
 		ihigh = SMALLER_ONE(ihigh, imax);
 		jlow = LARGER_ONE(jlow, 0);
 		jhigh = SMALLER_ONE(jhigh, jmax);
+
+		/*DEK*/
+		if (ihigh < ilow) {
+			int tmp = ihigh;
+			ihigh = ilow;
+			ilow = tmp;
+		}
+		if (jhigh < jlow) {
+			int tmp = jhigh;
+			jhigh = jlow;
+			jlow = tmp;
+		}
+		/*DEK*/
+
 		if (ilow > 0)     xl_c = xl + ilow * (xr - xl) / imax;
 		if (ihigh < imax) xr_c = xl + ihigh * (xr - xl) / imax;
 		if (jlow > 0)     yb_c = yb + jlow * (yt - yb) / jmax;
@@ -270,6 +287,9 @@ gr_drawimage(unsigned char *im,
 		if (insert_placer)
 			fprintf(_grPS, "%%BEGIN_IMAGE\n");
 		fprintf(_grPS, "%f %f %f %f %d %d cim\n", xl_c, yb_c, xr_c, yt_c, (jhigh-jlow), (ihigh-ilow)); // BUG
+		/*DEK*/
+		printf("DEBUG: ilow, ihigh = %d %d      jlow, jhigh = %d %d\n",ilow,ihigh,jlow,jhigh);
+
 		check_psfile();
 #if 0
 		if (have_mask == true) {
