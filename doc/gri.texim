@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.177 2002/05/07 18:13:34 dankelley Exp $
+@c $Id: gri.texim,v 1.178 2002/05/07 19:51:47 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16278,7 +16278,8 @@ Add @code{set x axis labels} @ref{Set X Axis} and
 @code{set y axis labels} @ref{Set X Axis} commands.
 
 @item
-Permit specification of @code{pt} units for @code{draw label} @ref{Draw Box},
+Permit specification of @code{pt} units for 
+@code{draw label} @ref{Draw Label}, 
 @code{draw box} @ref{Draw Box},
 @code{draw symbol at} @ref{Draw Symbol At},
 and
