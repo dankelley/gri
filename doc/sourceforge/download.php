@@ -10,8 +10,14 @@ set_up_lhs();
 <br>
 <b>Debian/GNU Linux</b><br>
 - <A HREF="<?php print "$ftp_site/gri_2.8.6-0potato1_i386.deb";				?>">potato [old]	</a><br>
-- <A HREF="<?php print "$ftp_site/gri_$gri_stable_version-1_i386.deb";			?>">woody		</a><br>
-- <A HREF="<?php print "$ftp_site/gri-${gri_stable_version}static_2.10.1-1_i386.deb";	?>">static		</a><br>
+- <A HREF="<?php print "$ftp_site/gri_$gri_stable_version-1_i386.deb";			?>">woody/sid		</a><br>
+- <A HREF="<?php print "$ftp_site/gri-${gri_stable_version}static_2.10.1-1_i386.deb";
+        ?>">statically linked		</a><br>
+- <A HREF="http://packages.debian.org/unstable/science/gri.html">Gri
+at Debian</a><br>
+- <A HREF="http://packages.debian.org/unstable/doc/gri-html-doc.html">HTML manual</a><br>
+- <A HREF="http://packages.debian.org/unstable/doc/gri-ps-doc.html">PostScript
+manual</a><br>
 <br>
 <b>Other OS</b><br>
 - <A HREF=<?php print "$ftp_site/gri-$gri_stable_version-SunOS5.tar.gz";		?>">SunOS		</a><br>
@@ -24,7 +30,7 @@ set_up_lhs();
 <b>Source Code</b>
 <br>
 - <A HREF="<?php print "$ftp_site/gri-$gri_stable_version.tgz";				?>">tarball		</a><br>
-- <A HREF="<?php print "$ftp_site/gri-$gri_stable_version-arch-indep.tar.gz";		?>">\" w/ docs prebuilt	</a><br>
+- <A HREF="<?php print "$ftp_site/gri-$gri_stable_version-arch-indep.tar.gz";		?>">w/ docs prebuilt	</a><br>
 - <A HREF="<?php print "$sf_url/cvs/?group_id=$gri_group_id";				?>">CVS  		</a><br>
 <br>
 <?php set_up_rhs(); ?>
@@ -46,17 +52,25 @@ RPM packages are available.
 a somewhat <A HREF="<?php print "$ftp_site/gri_2.8.6-0potato1_i386.deb";?>">
 old package</a>
 for the Potato distribution,
-along with two up-to-date packages for Woody,
+along with two up-to-date packages:
 <A HREF="<?php print "$ftp_site/gri_$gri_stable_version-1_i386.deb";?>">
-one
+the standard woody Debian package
 </a>
-that uses runtime libaries, and
+, and
 <A HREF="<?php print "$ftp_site/gri-${gri_stable_version}static_2.10.1-1_i386.deb";?>">
-the other
+an unofficial statically linked package
 </a>
-that is statically linked.  For more on these and related packages, consult the
+made to live alongside other releases of the regular gri package, yielding
+backwards compatibility. It does not contain Info files or the Emacs 
+gri-mode; install a regular version of the Gri package to get those.
+To distinguish this package from the regular gri package, it is named 
+<i>
+<?php print "gri-${gri_stable_version}static";?>
+</i> as opposed to <i>gri</i>.
+Consult the
 <a href="http://packages.debian.org/unstable/science/gri.html">
-Gri debian site</a>.
+Gri page at Debian</a> for packages available for each Debian release as well
+as documentation packages.
 </p>
 
 <p>For <b>Solaris OS5</b>,
