@@ -307,13 +307,10 @@ README-ftp:
 	lynx -dump README-ftp.html > README-ftp
 	chmod a+r README-ftp
 
-check:
+author_check:
 	@perl ./check.pl
 
-# Probably 'test' and 'test-installed' could be combined in some elegant fashion,
-# and that would be good since it would prevent them becoming different ... for 
-# now, just remember to edit both together!!
-test:
+check:
 	@./gri -directory . -c 0 doc/tst_suite/tst_var_syn.gri 
 	@./gri -directory . -c 0 doc/tst_suite/tst_control.gri
 	@./gri -directory . -c 0 doc/tst_suite/tst_rpn.gri
@@ -324,9 +321,9 @@ test:
 	@cat gri.spec      | perl -ane 'if(/griversion (.*)/)     {$$v=$$1; if ("$$v" ne "$(VERSION)") {warn "ERROR: Version in gri.spec is $$v, which disagrees with the version in the Makefile, $(VERSION).  You SHOULD fix this.\n"} else { print "Version number in gri.spec         ... is OK\n";}}'
 	@cat debian/changelog | perl -ne 'if (($$. == 1)&&(/\(([^-]+)-/)) {if ("$$1" ne "$(VERSION)") {print "**WARNING: Version in debian/changelog is $$1,\n** which disagrees with the version in the Makefile, $(VERSION).\n** You should fix this for official releases.\n"} else { print "Version number in debian/changelog ... is OK\n";}}'
 	@echo ""
-	@echo "    /----------------------------------------------\\"
-	@echo "    | NOTE: Developers should do 'make check' next |"
-	@echo "    \\----------------------------------------------/"
+	@echo "    /---------------------------------------------------\\"
+	@echo "    | NOTE: Developers should do 'make auto_check' next |"
+	@echo "    \\---------------------------------------------------/"
 	@echo ""
 
 test-installed:
