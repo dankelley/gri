@@ -263,10 +263,3 @@ dnl     checks for operating system services
 dnl     other checks for UNIX variants
 
 AC_OUTPUT(Makefile)
-
-echo
-echo "*  Note to developers: to get debugging malloc library,"
-echo "*  edit the Makefile and follow the directions in lines"
-echo "*  enclosed by comments like"
-echo "* # <<<--- DEVELOPERS: YOU MAY NEED TO EDIT THIS SECTION ------------------->>>"
-echo "* # <<<--- DEVELOPERS: END OF SECTION YOU MIGHT NEED TO EDIT --------------->>>"
