@@ -1,42 +1,67 @@
 GRITEST = ../../gri -directory ../.. -y
-GRI = gri -y
-eps:
-	cp FEM.ps FEM.eps
-	cp example1.ps example1.eps
-	cp example2.ps example2.eps
-	cp example3.ps example3.eps
-	cp example4.ps example4.eps
-	cp example5.ps example5.eps
-	cp example6.ps example6.eps
-	cp example6color.ps example6color.eps
-	cp example6histogram.ps example6histogram.eps
-	cp example7.ps example7.eps
-	cp example8.ps example8.eps
-	cp example9.ps example9.eps
-	cp example10.ps example10.eps
-	cp example10color.ps example10color.eps
-	cp example11.ps example11.eps
-	cp example12.ps example12.eps
-	cp example13.ps example13.eps
+GRI = gri -y -p
 
-ps:
-	$(GRI) FEM.gri
-	$(GRI) example1.gri
-	$(GRI) example2.gri
-	$(GRI) example3.gri
-	$(GRI) example4.gri
-	$(GRI) example5.gri
-	$(GRI) example6.gri
-	$(GRI) example6color.gri
-	$(GRI) example6histogram.gri
-	$(GRI) example7.gri
-	$(GRI) example8.gri
-	$(GRI) example9.gri
-	$(GRI) example10.gri
-	$(GRI) example10color.gri
-	$(GRI) example11.gri
-	$(GRI) example12.gri
-	$(GRI) example13.gri
+%.ps : %.gri
+	$(GRI) $<
+
+%.eps : %.ps
+	cp $< $@
+
+%.jpg : %.ps
+	convert $< $@
+
+%.html : %.gri
+	../gri2html $(basename $<)
+
+%-tiny.jpg : %.jpg
+	convert -geometry 90x999 $< $@
+
+example8.jpg : example8.ps
+	convert -rotate 90 example8.ps example8.jpg
+
+example9.jpg : example9.ps
+	convert -rotate 90 example9.ps example9.jpg
+
+example8-tiny.jpg : example8.ps
+	convert -geometry 90x999 -rotate 90 example8.ps example8-tiny.jpg
+
+example9-tiny.jpg : example9.ps
+	convert -geometry 90x999 -rotate 90 example9.ps example9-tiny.jpg
+
+example10color.eps : example10color.ps
+	convert example10color.ps example10color.eps
+
+all:
+	make eps
+	make html
+	make jpg
+
+html:	FEM.html example1.html example2.html example3.html example4.html \
+	example5.html example6.html example6color.html example6histogram.html \
+	example7.html example8.html example9.html example10.html \
+	example10color.html example11.html example12.html example13.html 
+
+eps:	FEM.eps example1.eps example2.eps example3.eps example4.eps \
+	example5.eps example6.eps example6color.eps example6histogram.eps \
+	example7.eps example8.eps example9.eps example10.eps \
+	example10color.eps example11.eps example12.eps example13.eps 
+
+jpg:	FEM.jpg example1.jpg example2.jpg example3.jpg example4.jpg \
+	example5.jpg example6.jpg example6color.jpg example6histogram.jpg \
+	example7.jpg example8.jpg example9.jpg example10.jpg \
+	example10color.jpg example11.jpg example12.jpg example13.jpg \
+	FEM-tiny.jpg example1-tiny.jpg example2-tiny.jpg example3-tiny.jpg \
+	example4-tiny.jpg example5-tiny.jpg example6-tiny.jpg \
+	example6color-tiny.jpg example6histogram-tiny.jpg example7-tiny.jpg \
+	example8-tiny.jpg example9-tiny.jpg example10-tiny.jpg \
+	example10color-tiny.jpg example11-tiny.jpg example12-tiny.jpg \
+	example13-tiny.jpg 
+
+ps:	FEM.ps example1.ps example2.ps example3.ps example4.ps \
+	example5.ps example6.ps example6color.ps example6histogram.ps \
+	example7.ps example8.ps example9.ps example10.ps \
+	example10color.ps example11.ps example12.ps example13.ps 
+
 testps:
 	$(GRITEST) FEM.gri
 	$(GRITEST) example1.gri
@@ -57,4 +82,4 @@ testps:
 	$(GRITEST) example13.gri
 
 clean:
-	rm -rf *.eps *~
+	rm -rf *.eps *.jpg *.html *~ 
