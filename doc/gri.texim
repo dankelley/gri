@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.162 2002/04/04 19:00:32 dankelley Exp $
+@c $Id: gri.texim,v 1.163 2002/04/04 21:34:35 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -9771,7 +9771,7 @@ NOTE: this only works if the y-scale is LINEAR (see @code{set y type}).
 `set x axis decreasing'
 `set x axis unknown'
 `set x axis .left. .right. [.incBig. [.incSml.]]'
-`set x axis labels .position_1. "label_1" [.position_2. "label_2" [...]]'
+`set x axis labels [add] .position_1. "label_1" [.position_2. "label_2" [...]]'
 `set x axis labels automatic'
 @end example
 
@@ -9826,13 +9826,17 @@ Override the automatic labelling at axis tics, and instead put the
 indicated labels at the indicated x values.  For example, a
 day-of-week axis can be created by the code:
 
-
 @example
 set x axis 0 7 1
 set x axis labels 0.5 "Mon" 1.5 "Tue" 2.5 "Wed" \
                   3.5 "Thu" 4.5 "Fri" 5.5 "Sat" \
                   6.5 "Sun"
 @end example
+
+The command replaces any existing labels, unless the `add' keyword is
+present, in which case the new label information is appended to any
+existing information.
+
 
 @item @code{set x axis labels automatic}
 Return to automatically-generated axis labels, undoing the command of
@@ -10024,7 +10028,7 @@ BUG: this only has an effect if the axis is not already of type
 `set y axis increasing'
 `set y axis decreasing'
 `set y axis .bottom. .top. [.incBig. [.incSml.]]'
-`set y axis labels .position_1. "label_1" [.position_2. "label_2" [...]]'
+`set y axis labels [add] .position_1. "label_1" [.position_2. "label_2" [...]]'
 `set y axis labels automatic'
 @end example
 
@@ -10084,6 +10088,11 @@ physical-condition axis can be created by the code:
 set y axis 0 1 0.5
 set y axis labels 0.25 "Weak" 0.75 "Strong"
 @end example
+
+The command replaces any existing labels, unless the `add' keyword is
+present, in which case the new label information is appended to any
+existing information.
+
 
 @item @code{set y axis labels automatic}
 Return to automatically-generated axis labels, undoing the command of

@@ -2730,17 +2730,20 @@ set_x_axisCmd()
 		if (word_is(4, "automatic")) {
 			_x_labels.erase(_x_labels.begin(), _x_labels.end());
 			_x_label_positions.erase(_x_label_positions.begin(), _x_label_positions.end());
-			//printf("DEBUG: cleared x axis labels\n");
 			return true;
 		} else {
-			_x_labels.erase(_x_labels.begin(), _x_labels.end());
-			_x_label_positions.erase(_x_label_positions.begin(), _x_label_positions.end());
-			//printf("DEBUG: setting x axis labels...\n");
-			for (unsigned int i = 4; i < _nword; i++) {
+			unsigned int start = 4;
+			if (word_is(start, "add")) {
+				start++;
+			} else {
+				_x_labels.erase(_x_labels.begin(), _x_labels.end());
+				_x_label_positions.erase(_x_label_positions.begin(), _x_label_positions.end());
+			}
+			for (unsigned int i = start; i < _nword; i++) {
 				double tmp;
-				//printf("d <%s>\n", _word[i]);
 				if (!getdnum(_word[i], &tmp)) {
-					READ_WORD_ERROR(".position.");
+					READ_WORD_ERROR(".pos.");
+					demonstrate_command_usage();
 					return false;
 				}
 				_x_label_positions.push_back(tmp);
@@ -2749,13 +2752,11 @@ set_x_axisCmd()
 					demonstrate_command_usage();
 					return false;
 				}
-				//printf("s <%s>\n", _word[i]);
 				string l = _word[i];
 				un_double_quote(l);
 				_x_labels.push_back(l);
 
 			}
-			//printf("%d %d\n",_x_labels.size(),_x_label_positions.size());
 			return true;
 		}
 	}
@@ -3191,17 +3192,20 @@ set_y_axisCmd()
 		if (word_is(4, "automatic")) {
 			_y_labels.erase(_y_labels.begin(), _y_labels.end());
 			_y_label_positions.erase(_y_label_positions.begin(), _y_label_positions.end());
-			//printf("DEBUG: cleared x axis labels\n");
 			return true;
 		} else {
-			_y_labels.erase(_y_labels.begin(), _y_labels.end());
-			_y_label_positions.erase(_y_label_positions.begin(), _y_label_positions.end());
-			//printf("DEBUG: setting x axis labels...\n");
-			for (unsigned int i = 4; i < _nword; i++) {
+			unsigned int start = 4;
+			if (word_is(start, "add")) {
+				start++;
+			} else {
+				_y_labels.erase(_y_labels.begin(), _y_labels.end());
+				_y_label_positions.erase(_y_label_positions.begin(), _y_label_positions.end());
+			}
+			for (unsigned int i = start; i < _nword; i++) {
 				double tmp;
-				//printf("d <%s>\n", _word[i]);
 				if (!getdnum(_word[i], &tmp)) {
-					READ_WORD_ERROR(".position.");
+					READ_WORD_ERROR(".pos.");
+					demonstrate_command_usage();
 					return false;
 				}
 				_y_label_positions.push_back(tmp);
@@ -3210,12 +3214,10 @@ set_y_axisCmd()
 					demonstrate_command_usage();
 					return false;
 				}
-				//printf("s <%s>\n", _word[i]);
 				string l = _word[i];
 				un_double_quote(l);
 				_y_labels.push_back(l);
 			}
-			//printf("%d %d\n",_y_labels.size(),_y_label_positions.size());
 			return true;
 		}
 	}
