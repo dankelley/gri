@@ -62,9 +62,6 @@ html-install:	html
 	install -d $(HTML_DIR)/examples
 	install -d $(HTML_DIR)/resources
 	install -d $(HTML_DIR)/screenshots
-	install -m 644 resources/logo.eps  $(HTML_DIR)/resources
-	install -m 644 resources/logo.gri  $(HTML_DIR)/resources
-	install -m 644 resources/logo.html $(HTML_DIR)/resources
 	install -m 644 resources/*.gif     $(HTML_DIR)/resources
 	install -m 644 examples/*.jpg      $(HTML_DIR)/
 	install -m 644 examples/{model*,*.dat,*.gri,*.ps} $(HTML_DIR)/examples
