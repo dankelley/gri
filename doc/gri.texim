@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.179 2002/05/08 14:11:04 psg Exp $
+@c $Id: gri.texim,v 1.180 2002/05/09 13:45:40 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -971,13 +971,16 @@ values of the @strong{axes} in the variables @code{..xleft..},
 stores the increments used in labelling these axes in the
 @code{..xinc..}  and @code{..yinc..} variables.
 
-To determine the minimum and maximum values of the @strong{data}, you
-should use the built-in rpnfunctions @code{min}, @code{max}, and
-@code{mean} (@ref{Rpnfunction}).  It stores the last (x,y) pair on a
-curve (whether data or axis) as (@code{..xlast..},@code{..ylast..}).
-Also, Gri stores the axis sizes in @code{..xsize..} and
-@code{..ysize..}.  It stores the space to the left of the plot in
-@code{..xmargin..} and the space below the plot in @code{..ymargin..}.
+To determine the minimum and maximum values of column data, you
+may use the built-in RPN functions @code{min}, @code{max}, and
+@code{mean} (@ref{Manipulation of Columns etc}).  
+
+Gri stores the last (x,y) pair on a curve (whether data or axis) in the
+@code{..xlast..} and @code{..ylast..} variables
+
+Gri stores the axis sizes in @code{..xsize..} and @code{..ysize..}.  It
+stores the space to the left of the plot in @code{..xmargin..} and the
+space below the plot in @code{..ymargin..}.
 
 
 @c HTML <!-- newfile LogAndLinearAxes.html "Gri: log and linear axes" "Getting more control" -->
