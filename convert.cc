@@ -1132,6 +1132,7 @@ convert_col_to_splineCmd()
 	}
 	// Get storage
 	double *xs, *ys, *coef, *break_point, *scrtch;
+	xs = ys = coef = break_point = scrtch = (double*)NULL;
 	GET_STORAGE(xs, double, (size_t)steps);
 	GET_STORAGE(ys, double, (size_t)steps);
 	GET_STORAGE(coef, double, (size_t)(4 * 2 * steps));

@@ -139,7 +139,7 @@ filter_columnCmd()
 		a[i] = atof(_word[4 + i]);
 		b[i] = atof(_word[4 + i + nab]);
 	}
-	double *copy;
+	double *copy = (double*)NULL;
 	GET_STORAGE(copy, double, (size_t)num);
 	filter_butterworth(orig, copy, num, a, b);
 	for (i = 0; i < num; i++)
@@ -161,7 +161,7 @@ filter_butterworth(double* x,
 	int nab = a.size();
 	if (nab >= nx)
 		return false;
-	double *z;
+	double *z = (double*)NULL;
 	GET_STORAGE(z, double, (size_t)nx);
 	register int    ix, iab;
 	// pass 1 -- forward

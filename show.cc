@@ -641,7 +641,7 @@ show_grid(void)
 	ShowStr(_grTempString);
 
 #if 1
-	double *tmp;
+	double *tmp = (double*)NULL;
 	GET_STORAGE(tmp, double, _num_xmatrix_data * _num_ymatrix_data);
 	unsigned int tmp_len = 0;
 	for (unsigned int i = 0; i < _num_xmatrix_data; i++) {
