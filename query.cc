@@ -188,16 +188,16 @@ show_valid_choices(char *hint, char *def_word[], int def_words)
 static          bool
 find_hint_and_def(char *hint, char *def)
 {
-	int             i;
-	int             len = strlen(_cmdLine);
-	char            lastc = '\0';
 	hint[0] = '\0';
 	def[0] = '\0';
 	// Find and extract hint, as first quoted string.
 #ifdef DEBUG
 	printf("CMDLINE [%s]\n",_cmdLine);
 #endif
-	int ii;
+	int i;
+	int len = strlen(_cmdLine);
+	char lastc = '\0';
+	int ii = 0;
 	for (i = 0; i < len; i++) {
 		if (*(_cmdLine + i) == '\"') {
 			bool valid = false;

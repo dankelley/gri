@@ -419,12 +419,12 @@ gr_drawyaxis(double x, double yb, double yinc, double yt, gr_axis_properties sid
 	double          angle = 0.0; // angle of axis tics, labels, etc
 	bool            increasing = ((yt > yb) ? true : false);
 	double          tic, tic_sml; // length of tic marks
-	double          xcm, ycm;	  // used to step along axis
-	double          xcm2, ycm2;	  // tmp, allowed to mess with
+	double          xcm, ycm; // used to step along axis
+	double          xcm2, ycm2; // tmp, allowed to mess with
 	double          labelx_cm, labely_cm; // where tic label will go
-	double          offset;		  // for numbers
+	double          offset;	// for numbers
 	double          present, next, final = yt, smallinc = 0.0;
-	int             decade_between_labels;	// for log axes
+	int             decade_between_labels; // for log axes
 	double          max_num_width_cm = 0.0;	// use for positioning label
 	double          tmp0, tmp1, tmp2;
 	GriPath         axis_path;
@@ -562,7 +562,7 @@ gr_drawyaxis(double x, double yb, double yinc, double yt, gr_axis_properties sid
 			for (unsigned int i = 0; i < _y_labels.size(); i++) {
 				label.fromSTR(_y_labels[i].c_str()); // BUG: should interpolate into this string
 				gr_usertocm(x, _y_label_positions[i], &xcm, &ycm);
-				xcm = labelx_cm;
+				labelx_cm = xcm;
 				labely_cm = ycm + offset * sin(angle) - 0.5 * CapHeight;
 				//printf("%f %f %f %f\n", ycm, offset*sin(angle),CapHeight, labely_cm);
 				if (side == gr_axis_LEFT)
