@@ -49,7 +49,7 @@ draw curve
 # the sum of the old x margin (stored in the variable
 # ..xmargin..) and the old plot width (stored in
 # the variable ..xsize..), plus an extra 1 cm
-set x margin bigger {rpn ..xsize.. ..xmargin.. + 1 +}
+set x margin {rpn ..xsize.. ..xmargin.. + 1 +}
 # 
 # Set the line thickness for the curve to 1 point (0.3 mm) and the
 # axis line thickness to 0.2 points (0.1 mm).
