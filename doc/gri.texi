@@ -14095,6 +14095,11 @@ First debian release.  Versions exist for intel, alpha, 68K and powerpc.
 Add automatic support for compressed data files.  So far, this only
 works with gzipped files @xref{Open}.
 
+The manual gets a new section about the Emacs @file{gri-mode.el}
+complete with screenshots.  Additionally, HTML navigation tags are
+bettered, the gri code examples are HTML'ed with colour fontification,
+example images are now in Jpeg format instead of Gif.
+
 @item 2.5.2 [2000-May-18]
 Add new features to @code{gri-mode.el}, bringing it up to version 2.25:
 @end table
