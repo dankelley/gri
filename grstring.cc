@@ -22,14 +22,14 @@ static gr_font  CurrentFont = {
 
 // Q: should this be done in Moveup() routine? [then what about $N$N though]
 #define START_NEW_TEXT {\
-    if (_grWritePS) { \
+    if (_output_file_type == postscript && _grWritePS) { \
 	fprintf(_grPS, "(");\
 	check_psfile();\
     }\
 }
 
 #define STOP_OLD_TEXT {\
-    if (_grWritePS) {\
+    if (_output_file_type == postscript && _grWritePS) {\
         fprintf(_grPS, ") sh\n");\
         check_psfile();\
     }\
@@ -51,6 +51,7 @@ static const double SubMoveDown =0.375;	// Move down for sub = 3/8
 #define PS_stroke       "s\n"
 
 extern FILE    *_grPS;
+extern FILE    *_grSVG;
 extern bool     _grNeedBegin;
 extern bool     _grPathExists;
 extern bool     _grWritePS;
@@ -107,7 +108,29 @@ gr_show_at(/*const*/ char *s, double xcm, double ycm, gr_textStyle style, double
 		 || ycm > OFFPAGE_TOP)) {
 		warning("Drawing text at a location which is offpage.");
 	}
-	fprintf(_grPS, "%% gr_show_at() BEGIN\n");
+	switch (_output_file_type) {
+	case  postscript:
+		fprintf(_grPS, "%% gr_show_at() BEGIN\n");
+		break;
+	case svg: {
+		double r, g, b;
+		_griState.color_text().getRGB(&r, &g, &b);
+		fprintf(_grSVG, "<text\nx=\"%.3f\"\ny=\"%.3f\"\nstyle=\"font-family:helvetica; font-size:%.2f; fill:#%02x%02x%02x; font-style:normal;\">\n", xcm * PT_PER_CM, ycm * PT_PER_CM, gr_currentfontsize_pt(), int(255*r+0.5), int(255*g+0.5), int(255*b+0.5));
+	}
+		break;
+	case  gif:
+		fprintf(stderr, "INTERNAL error at %s:%d -- nothing known for GIF\n\n", __FILE__, __LINE__);
+		exit(99);
+		break;
+	}
+	if (_output_file_type == svg) {
+		fprintf(stderr, "%s:%d attempting highly approximate text output of '%s' at %f %f cm\n", __FILE__, __LINE__, s, xcm, ycm);
+		fprintf(_grSVG, "%s\n", s);
+		if (style != TEXT_LJUST) fprintf(stderr, "%s:%d ignoring justification (code=%d) of text '%s'\n", __FILE__,__LINE__,style,s);
+		if (angle_deg != 0.0) fprintf(stderr, "%s:%d ignoring angle of text '%s'\n", __FILE__,__LINE__,s);
+	}
+
+
 	void set_ps_color(char what);
 	set_ps_color('t');
 	gr_setfontsize_pt(oldfontsize_pt);
@@ -161,8 +184,18 @@ gr_show_at(/*const*/ char *s, double xcm, double ycm, gr_textStyle style, double
 		fprintf(_grPS, "%.2f rotate ", -angle_deg);
 		check_psfile();
 	}
-	fprintf(_grPS, "%% gr_show_at() END\n");
-
+	switch (_output_file_type) {
+	case  postscript:
+		fprintf(_grPS, "%% gr_show_at() END\n");
+		break;
+	case svg:
+		fprintf(_grSVG, "</text>\n");
+		break;
+	case gif:
+		fprintf(stderr, "INTERNAL error at %s:%d -- nothing known for GIF\n\n", __FILE__, __LINE__);
+		exit(99);
+		break;
+	}
 	// Update bounding box
 	bounding_box_update(box);
 	_drawingstarted = true;
