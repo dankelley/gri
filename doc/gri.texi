@@ -15263,15 +15263,11 @@ Japanese with English abstract)
 @comment  node-name,  next,  previous,  up
 @chapter License
 @cindex license
-Gri is distributed under the GPL public license, which has been judged
-an acceptable Open Source license.  The full text of the GPL license is
-given below.
+Gri is distributed under the GPL public license, an Open Source license
+that provides certain rights and freedom to users, notably the access
+to source code and the right to modify it and/or redistribute it.
+The full text of the GPL license is given below.
 @example
-Gri is distributed under the GPL public license,
-which has been judged an acceptable Open Source
-license.  The full text of the GPL license is
-given below.
-
 		    GNU GENERAL PUBLIC LICENSE
 		       Version 2, June 1991
 
