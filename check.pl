@@ -92,12 +92,12 @@ print "\t... gri.cmd  also matches\n";
 print "Check 2: have various dated files been updated recently?\n";
 
 # ChangeLog
-open(CHANGELOG, "ChangeLog") or die "Can't open ChangeLog file";
+open(CHANGELOG, "changelog") or die "Can't open changelog file";
 $_ = <CHANGELOG>;
 close(CHANGELOG);
 @_ = split;
 $date_changelog = &ParseDate($_[0]);
-indicate_age($date_changelog, "       ChangeLog");
+indicate_age($date_changelog, "       changelog");
 
 # gri.spec
 open(SPEC, "gri.spec") or die "Can't open gri.spec";
