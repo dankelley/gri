@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.137 2001/12/13 15:04:19 dankelley Exp $
+@c $Id: gri.texim,v 1.138 2001/12/14 19:48:17 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -7041,7 +7041,7 @@ Print current directory (which can be set by @code{cd}).
 
 @example
 `query \synonym|.variable. \
-  ["\prompt" [("\default"|.default)]]'
+  ["\prompt" ["\default"|.default.]]'
 @end example
 
 @noindent
@@ -12266,7 +12266,7 @@ RPN operations can be divided roughly into the following groups.
 
 @menu
 * Stack Operators::             Operate on the rpn stack
-* Rpn Function::                Define a new rpn operator
+* Rpn Functions::               Define a new rpn operator
 * Tertiary Operators::          Act on top three items on stack
 * Binary Operators::            Act on top two items on stack
 * Unary Operators::             Act on top item on stack
@@ -12277,7 +12277,7 @@ RPN operations can be divided roughly into the following groups.
 
 @c HTML <!-- newfile StackOperators.html "Gri: RPN stack operators" "Programming Gri" -->
 
-@node   Stack Operators, Rpn Function, rpn Mathematics, rpn Mathematics
+@node   Stack Operators, Rpn Functions, rpn Mathematics, rpn Mathematics
 @comment  node-name,  next,  previous,  up
 @subsection Stack Operators
 @cindex @code{pop} rpn stack operator
@@ -12319,9 +12319,9 @@ show @{rpn 1 2 roll_right -@} " ... yields  1"
 
 
 
-@c HTML <!-- newfile RpnFunction.html "Gri: RPN function" "Programming Gri" -->
+@c HTML <!-- newfile RpnFunction.html "Gri: RPN functions" "Programming Gri" -->
 
-@node   Rpn Function, Tertiary Operators, Stack Operators, rpn Mathematics
+@node   Rpn Functions, Tertiary Operators, Stack Operators, rpn Mathematics
 @comment  node-name,  next,  previous,  up
 @subsection Rpn function Operators
 @code{rpnfunction} operators are user-defined operators.  The parser
@@ -12334,7 +12334,7 @@ or even other legal @code{rpnfunction} constructs.  For details,
 
 @c HTML <!-- newfile TertiaryOperators.html "Gri: tertiary operators" "Programming Gri" -->
 
-@node   Tertiary Operators, Binary Operators, Rpn Function, rpn Mathematics
+@node   Tertiary Operators, Binary Operators, Rpn Functions, rpn Mathematics
 @comment  node-name,  next,  previous,  up
 @subsection Tertiary Rpn Operators
 
