@@ -1,7 +1,7 @@
 // Object for command files
 #if !defined(_CmdFile_hh_)
 #define _CmdFile_hh_
-#include <string.h>
+#include <string>
 #include <stdio.h>
 #include "types.hh"
 #include "macro.hh"

@@ -12,7 +12,7 @@
 #include <stddef.h>
 #include <stdio.h>
 
-#include "gr.hh"
+//#include "gr.hh"
 #include "errors.hh"
 #include "types.hh"
 #include "CmdFile.hh"
