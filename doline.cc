@@ -523,9 +523,9 @@ systemCmd()
 			// trim junk from end of the 'read until' string
 			string::size_type cut_at;
 			if (quoted_end_string)
-				cut_at = read_until.find_first_of("\"");
+				cut_at = read_until.find("\"");
 			else
-				cut_at = read_until.find_first_of(" ");
+				cut_at = read_until.find(" ");
 			//printf("READING UNTIL '%s' ... i.e.\n", read_until.c_str());
 			if (cut_at != STRING_NPOS)
 				read_until.STRINGERASE(cut_at, read_until.size() - cut_at);

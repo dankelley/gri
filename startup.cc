@@ -151,7 +151,7 @@ start_up(int argc, char **argv)
 		// Only have cmdname, so have to make up a psname
 		psname = last_name(argv[last_optional_arg + 1]);
 		//printf("psname -> '%s'\n", psname.c_str());
-		string::size_type slash_location = psname.find_last_of("/");
+		string::size_type slash_location = psname.rfind("/");
 		if (slash_location != STRING_NPOS)
 			psname.STRINGERASE(0, slash_location+1);
 		//printf("psname -> '%s'\n", psname.c_str());
