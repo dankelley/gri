@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.200 2002/06/05 17:42:19 dankelley Exp $
+@c $Id: gri.texim,v 1.201 2002/06/05 17:47:27 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -12878,7 +12878,10 @@ resulting remainder.
 @cindex rpn operator @code{sed}
 Switch all instances of @code{L} into @code{l}, yielding the string
 @code{"hello"} on the stack.  This can be helpful for working with
-filenames, etc.
+filenames, etc.  The work is preformed with a system call to the
+@code{sed} utility (present on unix systems), and therefore this
+command will fail if @code{sed} is not installed, or if the OS cannot
+be contacted.
 
 
 @item @{rpn "file" ".dat" strcat@}

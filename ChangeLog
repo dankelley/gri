@@ -1,3 +1,7 @@
+2002-06-05  Dan Kelley  <kelley@limit.phys.ocean.dal.ca>
+
+	* rpncalc.cc (do_operation): Add 'sed' binary operator
+
 2002-06-01  Dan Kelley  <kelley@limit.phys.ocean.dal.ca>
 
 	* Fix Sourceforge bug 562911 (won't build with gcc-3.0)
