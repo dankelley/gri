@@ -121,7 +121,6 @@ pdf: gri.ps
 clean:	info-clean html-clean debian-clean card-clean
 	$(RM)				\
 		gri.pdf gri.dvi gri.ps	\
-		gri gri.1 gri-[0-9]*	\
 		gri.hlp			\
 		*~			\
 		*.log *.dvi *.aux	\
@@ -132,7 +131,7 @@ clean:	info-clean html-clean debian-clean card-clean
 		gri.pg gri.pgs		\
 		gri.tp gri.tps		\
 		gri.vr gri.vrs 		\
-		cmdrefcard.ps refcard.ps
+		FAQ cmdrefcard.ps refcard.ps
 	(cd examples; make clean)
 	(cd screenshots; make clean)
 
