@@ -10,7 +10,7 @@ scp index.php psg@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
 
 <html>
   <head>
-    <title>Gri: Welcome</title>
+    <title>Gri</title>
     <meta name="Copyright" content="2001 Dan Kelley, Dalhousie University, Halifax, Nova Scotia, Canada">
     <meta name="Author" content="Dan Kelley, Dan.Kelley@Dal.Ca">
     <meta name="keywords" content="Gri, graphics, Scientific Computing">
