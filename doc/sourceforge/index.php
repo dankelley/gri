@@ -54,16 +54,16 @@
                 </td> </tr>
                 <tr>
                   <td class="menus" align="right">
-		   <a class="menus" href="http://www.phys.ocean.dal.ca/~kelley/gri-2.6.4-PRE-5.tgz">vsn 2.6.4 pre-release #5</a></br>
-
+<!--		   <a class="menus" href="http://www.phys.ocean.dal.ca/~kelley/gri-2.6.4-PRE-5.tgz">vsn 2.6.4 pre-release #5</a></br>
+-->
 		    <b>General tarball</b><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.2.tgz">gri-2.6.2.tgz</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.4.tgz">gri-2.6.4.tgz</a><br>
 		    <b>Linux Pre-packaged</b><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.2-1.src.rpm">gri-2.6.2-1.src.rpm</a><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.2-1.i386.rpm">gri-2.6.2-1.i386.rpm</a><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.6.2-0potato1_i386.deb">gri_2.6.2-0potato1_i386.deb</a><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.6.2-1_i386.deb">gri_2.6.2-1_i386.deb</a><br>
-                    <A class="menus" HREF="http://packages.debian.org/unstable/science/gri.html">gri-2.6.2 at Debian</A><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.4-1.src.rpm">gri-2.6.4-1.src.rpm</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.4-1.i386.rpm">gri-2.6.4-1.i386.rpm</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.6.4-0potato1_i386.deb">gri_2.6.4-0potato1_i386.deb</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.6.4-1_i386.deb">gri_2.6.4-1_i386.deb</a><br>
+                    <A class="menus" HREF="http://packages.debian.org/unstable/science/gri.html">gri-2.6.4 at Debian</A><br>
                     <A class="menus" HREF="http://packages.debian.org/unstable/doc/gri-html-doc.html">HTML manual at Debian</A><br>
                     <A class="menus" HREF="http://packages.debian.org/unstable/doc/gri-ps-doc.html">PS manual at Debian</A><br>
 		    <b>Solaris Pre-packaged</b><br>
@@ -175,7 +175,7 @@ HREF="http://gri.sourceforge.net/gridoc/html/Version_2_6.html#Version2.6">here</
     <tr> 
       <td  class="menubox">
         <font size="-1">
-        Vsn 2.6.4: 2001-jul-04??</br>
+        Vsn 2.6.4: 2001-jul-04</br>
         Vsn 2.6.3: broken</br>
         Vsn 2.6.2: 2001-may-20</br>
         Vsn 2.6.1: 2001-may-11</br>
