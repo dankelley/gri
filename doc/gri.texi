@@ -6672,59 +6672,30 @@ quit
 
 
 
-@c HTML <!-- newfile HandlingData.html "Gri: handling data" "Handling Data" -->
+@c HTML <!-- newfile HandlingData.html "Gri: handling data" "Examples" -->
 
-@node   Handling Data, Handling Headers, New Commands, Top
+@node   Handling Data, Handling Headers, New Commands, Examples
 @comment node-name,  next,  previous,  up
 @section Handling Data
 @cindex data, dealing with odd datasets
 
-Gri can handle many different sorts of data file formats, including
-ascii files, binary files in machine format, and the very powerful and
-increasingly popular netCDF format.
-(For more information on netCDF format, see
-@c HTML <a href="http://www.unidata.ucar.edu/packages/netcdf/index.html">
-@code{http://www.unidata.ucar.edu/packages/netcdf/index.html})
-@c HTML </a>
-
-This chapter concentrates on ascii format.  The overall message is that
-you should @emph{not} have to modify your data files to work with Gri.
-For example, many oceanographic data files have header lines at the
-start.  With other plotting systems, users find themselves stripping off
-these headers as a first step in data analysis.  This is done to make
-the data look like a tabular list, or matrix, for reading by matlab or
-various spreadsheet-like programs.  (It is not necessary to do this in
-matlab, by the way; you should use the matlab @code{fgets} command
-instead, to read and skip the header lines.  However, it is almost
-always necessary to do this in spreadsheet-like programs, especially the
-GUI-based ones, because the paradigm is often to click on columns of the
-data that represent variables of interest.)
-
-The difficulty with stripping off header lines is that unless you are
-careful, you can lose the header information unless you are careful to
-put it in a separate file with an appropriate filename, and then just as
-careful to archive the header along with the data, and to send both to
-your colleague who has requested the data, etc.  Often the header
-information seems unimportant to you at the moment, but it may be
-crucial to you later on, or to the next person who looks at the data!
-
-In Gri it is very easy to handle headers within files.  It's also easy
-to handle data that are in somewhat odd formats, or that must be
-manipulated mathematically or textually to make sense.
-
 @menu
 * Handling Headers::            How to skip or read header lines
-* Manipulating Columns::        How to mess about with column data
+* Ignoring Columns::            Ignoring columns that are not of interest
+* Column Algebra::              How to do algebra on columns
+* Combining Columns::           Combining columns from separate files
+* Plotting Several Columns::    Plotting several y-columns vs one x-column
 @end menu
 
-@node   Handling Headers, Manipulating Columns, Handling Data, Handling Data
+
+@node   Handling Headers, Ignoring Columns, Handling Data, Handling Data
 @comment  node-name,  next,  previous,  up
 
-@section Handling headers
-@subsection Case 1 -- known number of header lines
+@subsection Handling headers
+
 @cindex skipping header lines
 @cindex header lines, skipping
-
+@b{Case 1 -- known number of header lines.}
 This is easy.  If you know that the file has, say, 10 header lines, you
 can just do this:
 @example
@@ -6734,7 +6705,7 @@ read columns x y
 ...
 @end example
 
-@subsection Case 2 -- header itself indicates number of header lines
+@b{Case 2 -- header itself indicates number of header lines.}
 Quite often the first line of a file will indicate the number of header
 lines.  For example, suppose the first line contains a single number,
 indicating the number of header lines to follow:
@@ -6746,7 +6717,7 @@ read columns x y
 ...
 @end example
 
-@subsection Case 3 -- header lines marked by a textual key
+@b{Case 3 -- header lines marked by a textual key.}
 Sometimes header lines are indicated by a textual key, for example, the
 characters @code{HEADER} at the start of the line in the file.  The easy
 way to skip such a header is to use a system command.  Depending on your
@@ -6761,10 +6732,9 @@ prints lines which do not match the indicated string
 the start of the line (@ref{Grep}).  Thus all lines with the key word at the
 @emph{start} of the line are skiped.
 
-@subsection Case 4 -- reading and using information in header
 @cindex reading information from header lines
 @cindex header lines, reading information from
-
+@b{Case 4 -- reading and using information in header.}
 Consider a dataset in which the first line gives the time of
 observation, followed by a list of observations.  This might be, for
 example, an indication of the data taken from a weather balloon released
@@ -6810,34 +6780,9 @@ sprintf \label "Decimal day is %.4f" .dday.
 kept the extra mathematical step -- nothing is lost by being
 straightforward!)
 
-@cindex waterfall plots
-Data set often have information on observation location as well as time,
-and I hope the above suggests how to handle that.  It is very common, by
-the way, to want to draw so-called "waterfall" plots, in which many
-curves are drawn, each one offset by some amount.  Sometimes you'll want
-the offset to be constant, but just as often you'll want the offset to
-be dependent on information in a header, such as the time of
-observation.  I hope the above indicates roughly how you might handle
-this, but a snippet is:
-@example
-open file1
-read .time.
-read columns x y
-y += @{rpn .time. 100 /@}
-draw curve
-
-open file2
-read .time.
-read columns x y
-y += @{rpn .time. 100 /@}
-draw curve
-...
-@end example
-@noindent
-Here a scale factor of 100 has been applied to y, to convert time units
-into an offset in terms of y.
-
-@section Ignoring columns that are not of interest
+@node   Ignoring Columns, Column Algebra, Handling Headers, Handling Data
+@comment  node-name,  next,  previous,  up
+@subsection Ignoring columns that are not of interest
 Quite often a dataset will have many columns, of which only a couple are
 of interest to you.  Consider for example an oceanographic data which
 has columns storing, in order, these variables: (1) depth in water
@@ -6871,13 +6816,10 @@ draw curve
 @noindent
 For more on the Gawk command see @ref{Awk}.
 
-@node   Manipulating Columns, Commands, Handling Headers, Handling Data
+
+@node   Column Algebra, Combining Columns, Ignoring Columns, Handling Data
 @comment  node-name,  next,  previous,  up
-@section Manipulating columns
-
-@cindex manipulating columns
-@cindex columns, manipulating
-
+@subsection Algebra on column data
 Suppose the file contains (x,y), but you wish to plot 2y times x.  You
 could do the doubling of y within Gri, as
 @example
@@ -6908,7 +6850,9 @@ read columns x y
 draw curve
 @end example
 
-@section Combining columns from different files
+@node   Combining Columns, Plotting Several Columns, Column Algebra, Handling Data
+@comment  node-name,  next,  previous,  up
+@subsection Combining columns from different files
 Suppose you want to plot a column (@code{y}, say) from one file versus a
 second column (@code{x}) from a second data file.  The easy way is to
 use a system command to create a new file, for example the Unix command
@@ -6920,12 +6864,74 @@ read columns x y
 draw curve
 @end example
 
+@node   Plotting Several Columns, Commands, Combining Columns, Handling Data
+@comment  node-name,  next,  previous,  up
+@subsection Plotting several y-columns versus on x-column
+Sometimes you'll have a datafile with the first column being x, and the
+other columns being various things to plot versus x.  For example, you
+might have the data
+@example
+1  8 11  9
+2 22 21 20
+3 11 10  9
+4 20 15 10
+@end example
+in a file called @code{test.dat}.  Let's say the x-column is time, and
+the y-columns are the readings from three temperature sensors.  The
+following illustrates how you might plot these data.  If you think the
+new-command which starts this script is useful, just insert it in your
+@file{~/.grirc} file and you can just use it without re-defining it each
+time.  This will give Gri a command called @code{draw curves}.
+@example
+`draw curves \xname \y1name ...'
+Draw multiple y columns versus an x column.  Assumes
+that the datafile is open, and that x is in the first
+column, with the y values in one or more following 
+columns.
+
+The number of columns is figured out from the options, 
+as is the name of the x-axis, and the labels to be 
+used on each of the y curves.
+@{
+  # NB. the 3 below lets us skip the words 'draw' 
+  # and 'curves', and the name of the x-column.
+  .num_of_y_columns. = @{rpn wordc 3 -@}
+  if @{rpn .num_of_y_columns. 1 >@}
+    show "ERROR: `draw curves' needs at least 1 y column!"
+    quit
+  end if
+
+  set x name @{rpn 2 wordv@}
+  set y name ""
+
+  # Loop through the columns.
+  .col. = 0
+  while @{rpn .num_of_y_columns. .col. <@}
+    # The x-values will be in column 1, with y-values
+    # in columns 2, 3, ..., of the file.
+    .ycol. = @{rpn .col. 2 +@}
+    rewind
+    read columns x=1 y=.ycol.
+    # At this point, you may want to change line thickness,
+    # thickness, color, dash-type, etc.  For illustration,
+    # let's set dash type to the column number.
+    set dash .col.
+    draw curve
+    draw label for last curve @{rpn .col. 3 + wordv@}
+    .col. += 1
+  end while
+@}
+
+open test.dat
+draw curves time y1 y2 y3
+@end example
+
 
 
 
 @c HTML <!-- newfile Commands.html "Gri: complete list of commands" "Gri Commands" -->
 
-@node   Commands, Overview Of Gri Commands, Manipulating Columns, Top
+@node   Commands, Overview Of Gri Commands, Plotting Several Columns, Top
 @comment  node-name,  next,  previous,  up
 @chapter List of Commands in the Gri Language
 @cindex programming, complete list of Gri commands
