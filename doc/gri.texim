@@ -1,6 +1,5 @@
-@c -*-mode: texinfo; -*-
-@c $Id: gri.texim,v 1.72 2001/04/05 13:55:41 dankelley Exp $
-\input texinfo @c -*-texinfo-*-
+\input texinfo 
+@c $Id: gri.texim,v 1.73 2001/04/19 21:43:33 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
