@@ -2763,6 +2763,7 @@ fi
     echo "$as_me:$LINENO: result: $gri_cv_is_apple" >&5
 echo "${ECHO_T}$gri_cv_is_apple" >&6
     if test $gri_cv_is_apple = yes; then
+        CXXFLAGS="$CXXFLAGS -O0"
         cat >>confdefs.h <<\_ACEOF
 #define IS_APPLE 1
 _ACEOF

@@ -122,6 +122,7 @@ AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([
 ], gri_cv_is_apple=yes, gri_cv_is_apple=no)])
     AC_MSG_RESULT($gri_cv_is_apple)
     if test $gri_cv_is_apple = yes; then
+        CXXFLAGS="$CXXFLAGS -O0"
         AC_DEFINE(IS_APPLE)
     fi
 )dnl
