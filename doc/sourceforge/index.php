@@ -54,7 +54,8 @@
                 </td> </tr>
                 <tr>
                   <td class="menus" align="right">
-		    <A class="menus" HREF="http://gri.sourceforge.net/gridoc/html/Version_2_6.html#Version2.6">Recent changes</a><br>
+		   <a class="menus" href="http://www.phys.ocean.dal.ca/~kelley/gri-2.6.4-PRE-1.tgz">pre-release of 2.6.4</a></br>
+
 		    <b>General tarball</b><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.2.tgz">gri-2.6.2.tgz</a><br>
 		    <b>Linux Pre-packaged</b><br>
@@ -142,6 +143,10 @@ as simple as the following.
    draw curve
 </font>
 </pre>
+
+To see the recent changes, go <A class="menus"
+HREF="http://gri.sourceforge.net/gridoc/html/Version_2_6.html#Version2.6">here</a><br>.
+
 
         <hr noshade="noshade">
         <center>
