@@ -781,6 +781,10 @@ X data must be ordered and distinct.\n\
 	sixth = 1.0 / 6.0;
 	method = 2;
 	gam = *gamma;
+	
+
+	printf("DEBUG: gam = %f\n",gam);
+
 	if (gam <= 0.0) {
 		method = 1;
 	}
@@ -788,6 +792,7 @@ X data must be ordered and distinct.\n\
 		method = 3;
 		gam += -3.0;
 	}
+	printf("DEBUG: gam=%f  method=%d\n",gam,method);
 	onemg3 = 1.0 - gam / 3.0;
 	// ------ loop over i ------
  L10:
@@ -1083,13 +1088,9 @@ X data must be ordered and distinct.\n\
 		r_1 = onemzt, r_2 = r_1;
 		coef[(*l << 2) + 4] = coef[(*l - 1 << 2) + 4] + (1. - alpha) * 
 			6. * c / (s[i + s_dim1] * (r_2 * (r_1 * r_1)));
-		coef[(*l << 2) + 3] = coef[(*l - 1 << 2) + 3] + del * coef[(*l - 1 << 
-									    2) + 4];
-		coef[(*l << 2) + 2] = coef[(*l - 1 << 2) + 2] + del * (coef[(*l - 1 <<
-									     2) + 3] + del / 2. * coef[(*l - 1 << 2) + 4]);
-		coef[(*l << 2) + 1] = coef[(*l - 1 << 2) + 1] + del * (coef[(*l - 1 <<
-									     2) + 2] + del / 2. * (coef[(*l - 1 << 2) + 3] + del / 
-												   3. * coef[(*l - 1 << 2) + 4]));
+		coef[(*l << 2) + 3] = coef[(*l - 1 << 2) + 3] + del * coef[(*l - 1 << 2) + 4];
+		coef[(*l << 2) + 2] = coef[(*l - 1 << 2) + 2] + del * (coef[(*l - 1 << 2) + 3] + del / 2. * coef[(*l - 1 << 2) + 4]);
+		coef[(*l << 2) + 1] = coef[(*l - 1 << 2) + 1] + del * (coef[(*l - 1 << 2) + 2] + del / 2. * (coef[(*l - 1 << 2) + 3] + del / 3. * coef[(*l - 1 << 2) + 4]));
 		goto L68;
 	L65:
 		coef[(*l << 2) + 2] = divdif;
@@ -1144,6 +1145,9 @@ convert_col_to_splineCmd()
 		NUMBER_WORDS_ERROR;
 		return false;
 	}
+
+	printf("DEBUG: gamma= %f\n", gamma);
+
 	Require(xmax != xmin, err("Cannot have .xmin. equaling .xmax."));
 	Require(xinc != 0, err("Cannot have .xinc. equal to zero"));
 	Require(xmax > xmin, err("Cannot have .xmin. exceeding .xmax."));
