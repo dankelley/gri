@@ -123,6 +123,10 @@ suggestions for Gri improvements or new features.
 <LI>
 <A NAME="Q3.8">Q3.8</A>
 <A HREF="#A3.8"> Can Gri draw maps?</A>
+<LI>
+<A NAME="Q3.9">Q3.9</A>
+<A HREF="#A3.9"> Can Gri draw residuals on regressions?</A>
+
 </UL>
 
 
@@ -584,6 +588,31 @@ site <A HREF="http://www.usgs.gov"> http://www.usgs.gov </A> or the
 Global Self-consistent Hierarchical High-resolution Shoreline site <A
 HREF="http://www.ngdc.noaa.gov/mgg/shorelines/gshhs.html">
 http://www.ngdc.noaa.gov/mgg/shorelines/gshhs.html </A>
+
+<p>
+<A NAME="A3.9"></A>
+<A HREF="#Q3.9"><h3>A3.9 Can Gri draw residuals on regressions?</h3></A>
+<p>There is no builtin command for that, but it's easy enough to
+code, as follows:</p>
+<pre>
+read columns x y
+0.05 12.5  
+0.25 19    
+0.5  15    
+0.75 15    
+0.95 13
+
+draw regression line
+# Draw the residuals individually
+.i. = 0
+while {rpn .i. ..num_col_data.. >}
+    .x. = {rpn x .i. @}
+    .y. = {rpn y .i. @}
+    .ypred. = {rpn x .i. @ ..coeff1.. * ..coeff0.. +}
+    draw line from .x. .y. to .x. .ypred.
+    .i. += 1
+end while
+</pre>
 
 
 <hr>
