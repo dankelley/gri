@@ -197,19 +197,17 @@ distclean:
         SOURCE_NAME = gri-$(VERSION)
            DEST_DIR = /home/kelley
 source:
-	# Clean directory, if existent.
+#	Clean directory, if existent.
 	-rm -rf $(SOURCE_NAME)
 	install -d $(SOURCE_NAME)
-	#
-	# Copy source
+#	Copy source
 	install -m 644 ChangeLog *.cc *.hh gri.cmd logo.dat license.txt \
 	    Makefile.in Makefile.dj2 configure configure.in install-sh \
 	    copyright.txt AUTHOR README* gri-mode.el gri_merge gri_unpage \
 	    startup.msg startup.debian startup.redhat gri-*.spec grilogo.gif \
 	        $(SOURCE_NAME)
 	install -m 755 configure install-sh $(SOURCE_NAME)
-	# 
-	# Copy documentation
+#	Copy documentation
 	install -d $(SOURCE_NAME)/doc
 	install -m 644 doc/gri.archive          $(SOURCE_NAME)/doc
 	install -m 755 doc/archive-to-html.pl   $(SOURCE_NAME)/doc
@@ -219,6 +217,8 @@ source:
 	install -m 644 doc/FAQ.html             $(SOURCE_NAME)/doc
 	install -m 644 doc/gri-manpage.1        $(SOURCE_NAME)/doc
 	install -m 644 doc/gri-manpage-redhat.1 $(SOURCE_NAME)/doc
+	install -m 644 doc/gri_merge.1          $(SOURCE_NAME)/doc
+	install -m 644 doc/gri_unpage.1         $(SOURCE_NAME)/doc
 	install -m 644 doc/gri.texi             $(SOURCE_NAME)/doc
 	install -m 755 doc/texinfo2HTML         $(SOURCE_NAME)/doc
 	install -m 755 doc/gri2html             $(SOURCE_NAME)/doc
