@@ -16,8 +16,6 @@ AC_PREREQ(2.1)
 
 AC_INIT(gr.hh)
 
-AC_PREFIX_DEFAULT(/usr)
-
 AC_PROG_INSTALL
 
 PROGS="gri"
