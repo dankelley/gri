@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.141 2002/01/04 14:32:27 dankelley Exp $
+@c $Id: gri.texim,v 1.142 2002/01/04 14:45:00 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16345,6 +16345,9 @@ enter the next stable stream of Gri, but it is important to note that
 main exception is bug fixes, which will enter the stable stream unless
 they are found to create new bugs.
 @itemize @bullet
+@item
+Add @code{set clip to curve} command. Caution: this needs extension, and may have a bug if called twice in succession [but is this with an intervening 'set clip off'??]
+
 @item
 Add @code{group} and @code{end group} commands ... or, at least, tags for 
 them!  The actual code will come later, probably by mid-2002 
