@@ -9792,11 +9792,11 @@ Tue_Jul_25_11:22:51 0.59
 Tue_Jul_25_11:37:51 0.56    
 @end example
 @noindent
-(stored in a file called @file{a.dat} day) and we want a graph of the
+(stored in a file called @file{foo.dat} say) and we want a graph of the
 y-variable (0.62, 0.59, 0.56) versus x-variable, time expressed say as
 seconds in the day.  Then here is how that could be done:
 @example
-open "cat a |\
+open "cat foo.dat |\
     sed -e 's/_/ /g' -e 's/:/ /g' |\
     awk '@{print ($4*3600+$5*60+$6, $7)@}' |"
 read columns x y
