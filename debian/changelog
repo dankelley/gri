@@ -1,3 +1,12 @@
+gri (2.12.9-1) unstable; urgency=low
+
+  * New upstream release
+    Bug Fixes:
+    - Fix SourceForge bug #1084123 (does not compile in fink)
+    - Fix SourceForge bug #676767 (on fink systems, `help' does not work)
+
+ -- Peter S Galbraith <psg@debian.org>  Mon, 13 Dec 2004 22:01:00 -0500
+
 gri (2.12.8-1) unstable; urgency=low
 
   * New upstream release
