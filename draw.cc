@@ -1451,7 +1451,24 @@ draw_isopycnalCmd()
 	bool first = true;
 	double Tlast = -999;
 	double S, T = -999.0;
-	double dS = (Smax - Smin) / 100;
+
+	// Next few lines determine how fine a mesh to use for S,
+	// since a fine mesh is needed if the lines are nearly
+	// vertical, but a coarser mesh is more efficient.
+	double d_rho_dS = (rho(_xleft, _ybottom, 0.0) - rho(_xright, _ybottom, 0.0)) / (_xright - _xleft);
+
+	double d_rho_dT = (rho(_xleft, _ytop, 0.0) - rho(_xleft, _ybottom, 0.0)) / (_ytop - _ybottom);
+
+	double slope_on_page = d_rho_dS*(_xright-_xleft)/(d_rho_dT*(_ytop-_ybottom));
+	double dS;
+	// BUG: the S increments are just a guess that seems ok now.
+	if (slope_on_page > 5.0) 
+		dS = (Smax - Smin) / 500.0;
+	else 
+		dS = (Smax - Smin) / 100.0;
+
+	//printf("rho_x %f   rho_y %f   slope %f\n", d_rho_dS, d_rho_dT, d_rho_dS*(_xright-_xleft)/(d_rho_dT*(_ytop-_ybottom)));
+
 	double S_cm, T_cm, S_cm_last = 0, T_cm_last = 0;
 	std::vector<double> S_label_cm;	// where to put labels
 	std::vector<double> T_label_cm;
