@@ -34,10 +34,9 @@ Description: a language for scientific graphics programming.
    draw curve           # draw the data and autoscale the axes
  .
  A full manual is also available in HTML (gri-html-doc package), in
- PostScript suitable for printing (gri-ps-doc package) and on-line at
-   http://gri.sourceforge.net/gridoc/html/
- Real world examples can be seen in the Gri cookbook at
-   http://gri.sourceforge.net/gri-cookbook/
+ PostScript suitable for printing (gri-ps-doc package) and on-line by
+ following links from the gri home page:
+   http://gri.sourceforge.net/
 
 Package: gri-html-doc
 Architecture: all
