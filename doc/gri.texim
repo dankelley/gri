@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.121 2001/07/24 14:26:49 psg Exp $
+@c $Id: gri.texim,v 1.122 2001/07/24 14:40:35 psg Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -4750,7 +4750,9 @@ at left and bottom. The value of @code{.style.} determines the style of
 axes: 
 @itemize @bullet
 @item @code{.style. = 0}
-Draw x-y axes frame labelled at left and bottom
+Draw x-y axes frame labelled at left and bottom.  Since this is the
+default, it's best to leave it out altogether to make your code easier to
+understand.
 @item @code{.style. = 1}
 Draw axes without tics at top and right
 @item @code{.style. = 2}
@@ -4758,7 +4760,8 @@ Draw axes frame with no tics or labels; same as @code{draw axes frame}
 @end itemize
 
 With the keyword @code{frame} specified, draw axes frame with no tics or
-labels (just like @code{.style.} = 2).
+labels (just like @code{.style.} = 2, but preferable because it makes for
+code that is easier to read and understand).
 
 With the keyword @code{none} specified, prevent Gri from automatically
 drawing axes when drawing curves.
