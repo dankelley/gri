@@ -21,8 +21,6 @@ at Debian</a><br>
 manual</a><br>
 <br>
 <b>Other OS</b><br>
-- <A HREF="<?php print "$ftp_site/gri-$gri_stable_version-SunOS5.tar.gz";		?>">SunOS		</a><br>
-- <A HREF="<?php print "http://gnuwin32.sourceforge.net/packages/gri.htm";		?>">Windows		</a><br>
 - <A HREF="<?php print "http://fink.sourceforge.net/pdb/package.php/gri";		?>">Apple OS-X		</a><br>
 <br><br>
 <b>Any OS/version</b><br>
