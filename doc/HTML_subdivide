@@ -152,14 +152,14 @@ Chapters:
 </br>
 &nbsp;&nbsp;<a href=\"Introduction.html\">1: Introduction</a><br>
 &nbsp;&nbsp;<a href=\"SimpleExample.html\">2: Simple example</a><br>
-&nbsp;&nbsp;<a href=\"GettingMoreControl.html\">3: Finer Control</a><br>
-&nbsp;&nbsp;<a href=\"InvokingGri.html\">4: Invocation</a><br>
-&nbsp;&nbsp;<a href=\"Programming.html\">5: Programming</a><br>
-&nbsp;&nbsp;<a href=\"X-Y.html\">6: X-Y Plots</a><br>
-&nbsp;&nbsp;<a href=\"Contour.html\">7: Contour Plots</a><br>
-&nbsp;&nbsp;<a href=\"Image.html\">8: Image Plots</a><br>
-&nbsp;&nbsp;<a href=\"Examples.html\">9: Examples</a><br>
-&nbsp;&nbsp;<a href=\"Commands.html\">10: Gri Commands</a><br>
+&nbsp;&nbsp;<a href=\"InvokingGri.html\">3: Invocation</a><br>
+&nbsp;&nbsp;<a href=\"GettingMoreControl.html\">4: Finer Control</a><br>
+&nbsp;&nbsp;<a href=\"X-Y.html\">5: X-Y Plots</a><br>
+&nbsp;&nbsp;<a href=\"Contour.html\">6: Contour Plots</a><br>
+&nbsp;&nbsp;<a href=\"Image.html\">7: Image Plots</a><br>
+&nbsp;&nbsp;<a href=\"Examples.html\">8: Examples</a><br>
+&nbsp;&nbsp;<a href=\"Commands.html\">9: Gri Commands</a><br>
+&nbsp;&nbsp;<a href=\"Programming.html\">10: Programming</a><br>
 &nbsp;&nbsp;<a href=\"Environment.html\">11: Environment</a><br>
 &nbsp;&nbsp;<a href=\"Emacs.html\">12: Emacs Mode</a><br>
 &nbsp;&nbsp;<a href=\"History.html\">13: History</a><br>
