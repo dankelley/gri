@@ -96,6 +96,9 @@ then
 fi
 
 %changelog
+* * Tue Jan 22 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
+- Fix SourceForge bug #506490 ('-v' commandline option gave wrong number)
+
 * Wed Jan  2 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
 - add `set clip to curve'
 
