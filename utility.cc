@@ -603,12 +603,14 @@ sprintfCmd()
 		err("Can only do `sprintf' for 1-20 variables");
 		return false;
 	}
-	if (!is_syn(_word[1])) {
+	string w1(_word[1]); 
+	de_reference(w1);
+	if (!is_syn(w1)) {
 		demonstrate_command_usage();
-		err("Second word of command must begin with `\\'");
+		err("Second word of command must be a synonym-name'");
 		return false;
 	}
-	if (!put_syn(_word[1], msg, true)) {
+	if (!put_syn(w1.c_str(), msg, true)) {
 		gr_Error("Ran out of storage");
 		return false;
 	}

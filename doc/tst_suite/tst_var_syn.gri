@@ -5,41 +5,41 @@ rpnfunction same - abs 1e-10 >		# tests if two numbers match to 1e-10
  .v. = 1
 new .v.
 .v. = 2
-assert {rpn .v. 2 same}			" failed test 1"
-assert {rpn ".v." defined}		" failed test 2"
+assert {rpn .v. 2 same}			" failed test 1.1"
+assert {rpn ".v." defined}		" failed test 1.2"
 delete .v.
-assert {rpn .v. 1 same}			" failed test 3"
-assert {rpn ".v." defined}		" failed test 4"
+assert {rpn .v. 1 same}			" failed test 1.3"
+assert {rpn ".v." defined}		" failed test 1.4"
 delete .v.
-assert {rpn ".v." defined !}		" failed test 5"
+assert {rpn ".v." defined !}		" failed test 1.4"
 
 # New and delete (synonyms)
 \v = "hi"
 new \v
 \v = "hello"
-assert {rpn "\v" "hello" ==}		" failed test 6"
-assert {rpn "\\v" defined}		" failed test 7"
+assert {rpn "\v" "hello" ==}		" failed test 2.1"
+assert {rpn "\\v" defined}		" failed test 2.2"
 delete \v
-assert {rpn "\v" "hi" ==}		" failed test 8"
-assert {rpn "\\v" defined}		" failed test 9"
+assert {rpn "\v" "hi" ==}		" failed test 2.3"
+assert {rpn "\\v" defined}		" failed test 2.4"
 delete \v
-assert {rpn "\\v" defined !}		" failed test 10"
+assert {rpn "\\v" defined !}		" failed test 2.5"
 
 # Multi-word synonyms
 \h = "Hi there buddy"
-assert {rpn "\[0]h" "Hi" ==}		" failed test 11"
-assert {rpn "\[1]h" "there" ==}		" failed test 12"
-assert {rpn "\[2]h" "buddy" ==}		" failed test 13"
+assert {rpn "\[0]h" "Hi" ==}		" failed test 3.1"
+assert {rpn "\[1]h" "there" ==}		" failed test 3.2"
+assert {rpn "\[2]h" "buddy" ==}		" failed test 3.3"
 \h = "Hi means \"hello\""
-assert {rpn "\[0]h" "Hi" ==}		" failed test 14"
-assert {rpn "\[1]h" "means" ==}		" failed test 15"
-assert {rpn "\[2]h" "\"hello\"" ==}	" failed test 16"
+assert {rpn "\[0]h" "Hi" ==}		" failed test 3.4"
+assert {rpn "\[1]h" "means" ==}		" failed test 3.5"
+assert {rpn "\[2]h" "\"hello\"" ==}	" failed test 3.6"
 
 # Setting by quoted name
 set ".var." to 10
-assert {rpn .var. 10 ==}		" failed test 17"
+assert {rpn .var. 10 ==}		" failed test 4.1"
 set "\\syn" to "hi"
-assert {rpn "\syn" "hi" ==}		" failed test 18"
+assert {rpn "\syn" "hi" ==}		" failed test 4.2"
 
 # Setting by quoted name, in a new command
 `hi pi "\\Greeting" ".Pi."'
@@ -48,20 +48,68 @@ assert {rpn "\syn" "hi" ==}		" failed test 18"
     set "\.word3." to 3.14
 }
 hi pi "\\g" ".p."
-assert {rpn "\g" "hi" ==}		" failed test 19"
-assert {rpn .p.  3.14 ==}		" failed test 20"
+assert {rpn "\g" "hi" ==}			" failed test 5.1"
+assert {rpn .p.  3.14 ==}			" failed test 5.2"
 
 # Execution of synonyms
 \ret = "\string = \"Hello\""
 \ret
-assert {rpn "\string" "Hello" ==}       " failed test 21"
+assert {rpn "\string" "Hello" ==}		" failed test 6.1"
 
 # Parsing of individual words in synonyms (tests SourceForge bug 114983)
 `Newcommand "\pat"''
 {
-    \t = "A B" 
-    assert {rpn "\[0].word1." "\[0]t" ==} "Failed"
+    \t = "A .2" 
+    assert {rpn "\[0].word1." "\[0]t" ==}	" failed test 7.1"
 } 
-Newcommand "A B" 
+Newcommand "A .2" 
+
+# Test de-referenced synonyms
+# 1. check to see if can delete without either a 
+# single or a double backslash, and either with 
+# enclosing double-quotes, or not.
+\a = "HI"
+assert {rpn "\\a"    defined   }		" failed test 8.1"
+delete \a
+assert {rpn "\\a"    defined ! }		" failed test 8.2"
+\a = "HI"
+delete \\a
+assert {rpn "\\a"    defined ! }		" failed test 8.3"
+\a = "HI"
+delete "\a"
+assert {rpn "\\a"    defined ! }		" failed test 8.4"
+\a = "HI"
+delete "\\a"
+assert {rpn "\\a"    defined ! }		" failed test 8.5"
+
+# 2. test redirection.
+\a = "hi"
+\name = "\\a"
+assert {rpn "\\@name" defined   }		" failed test 8.6"
+delete \@name
+assert {rpn "\\a"     defined ! }		" failed test 8.7"
+
+# 3. test 'new' and 'delete' with re-directed ...
+new \@name
+assert {rpn "\\a"     defined   }		" failed test 8.8"
+\a = "greeting"
+assert {rpn "\\a"     defined   }		" failed test 8.9"
+delete \\@name
+assert {rpn "\\a"     defined ! }		" failed test 8.10"
+
+# 4. also, check new/delete the old way!
+new \a
+assert {rpn "\\a"     defined   }		" failed test 8.11"
+\a = "greeting"
+assert {rpn "\\a"     defined   }		" failed test 8.12"
+delete \a
+assert {rpn "\\a"     defined ! }		" failed test 8.13"
+
+# 5. sprintf on normal and de-referenced synonyms
+sprintf \a "%.1f" 10
+assert {rpn "\a" "10.0" == }			" failed test 8.14"
+\pointer_to_a = "\\a"
+sprintf \@pointer_to_a "%.1f" 20
+assert {rpn "\a" "20.0" == }			" failed test 8.15"
 
 show " passed"
