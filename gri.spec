@@ -96,7 +96,7 @@ then
 fi
 
 %changelog
-* Wed May 30 2002  Dan Kelley <Dan.Kelley@Dal.Ca>
+* Wed May 29 2002  Dan Kelley <Dan.Kelley@Dal.Ca>
 - Version 2.10.1
 - Fix Sourceforge bug 562014 (won't build if popt library is unavailable)
 - Fix SourceForge bug 558463 (in HTML docs, the ``press'' margin tag was misdirected)
