@@ -5,7 +5,7 @@
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.26 (19 May 2000)
+;; Version:   2.27 (30 May 2000)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -331,6 +331,8 @@
 ;; V2.26 19May00 RCS 1.50 
 ;; - gri-info-function changed to lookup `Index of Commands' instead of raw
 ;;   list of nodes.
+;; V2.27 30May00 RCS 1.51 - default web page changed to:
+;;    http://www.phys.ocean.dal.ca/~kelley/gri/index.html 
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -4033,7 +4035,7 @@ static char *magick[] = {
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.26 (c) 19 May 2000 --  Peter Galbraith <GalbraithP@dfo-mpo.gc.ca>
+V2.27 (c) 30 May 2000 --  Peter Galbraith <GalbraithP@dfo-mpo.gc.ca>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
