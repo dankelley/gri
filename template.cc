@@ -46,8 +46,13 @@ template void  sort(vector<double>::iterator, vector<double>::iterator);
 // Instantiate on GNU c++ compiler
 #if defined(__GNUC__)
 
+#if __GNUC__ == 3
+void std::reverse(std::vector<double>::iterator, std::vector<double>::iterator);
+void std::sort(std::vector<double>::iterator, std::vector<double>::iterator);
+#else
 template void std::reverse(std::vector<double>::iterator, std::vector<double>::iterator);
 template void std::sort(std::vector<double>::iterator, std::vector<double>::iterator);
+#endif
 
 template class std::vector<BlockSource>;
 template class std::vector<CmdFile>;
