@@ -21,6 +21,7 @@ gr_symbol_type  determine_symbol_code(const char * s);
 bool            draw_symbolCmd(void);
 bool            draw_circleCmd(void);
 bool            draw_contourCmd(void);
+bool            draw_arcCmd(void);
 bool            draw_arrow_from_toCmd(void);
 bool            draw_arrowsCmd(void);
 bool            draw_axesCmd(void);
@@ -829,6 +830,77 @@ draw_contourCmd()
 	}
 	_drawingstarted = true;
 	draw_axes_if_needed();
+	return true;
+}
+
+// draw arc [filled] .xc_cm. .yc_cm. .r_cm. .angle_1. .angle_2.
+bool
+draw_arcCmd(void)
+{
+	bool filled = false;
+	int start_word = 2;
+	if (_nword == 8) {
+		if (word_is(2, "filled")) {
+			filled = true; 
+			start_word = 3;
+		} else {
+			err("`draw arc' expecting `filled' but got `\\", _word[2], "'.", "\\");
+			return false;
+		}
+	} else if (_nword != 7) {
+		demonstrate_command_usage();
+		NUMBER_WORDS_ERROR;
+		return false;
+	}
+	double xc, yc, r, angle1, angle2;
+	if (!getdnum(_word[start_word], &xc)) {
+		READ_WORD_ERROR(".xc_cm.");
+		demonstrate_command_usage(); return false; 
+	}
+	if (!getdnum(_word[start_word + 1], &yc)) {
+		READ_WORD_ERROR(".yc_cm.");
+		demonstrate_command_usage();
+		return false;
+	}
+	if (!getdnum(_word[start_word + 2], &r)) {
+		READ_WORD_ERROR(".r_cm.");
+		demonstrate_command_usage();
+		return false; 
+	}
+	if (!getdnum(_word[start_word + 3], &angle1)) { 
+		READ_WORD_ERROR(".angle_1.");
+		demonstrate_command_usage();
+		return false; 
+	}
+	if (!getdnum(_word[start_word + 4], &angle2)) { 
+		READ_WORD_ERROR(".angle_2.");
+		demonstrate_command_usage();
+		return false; 
+	}
+			    
+	extern FILE *_grPS;
+	set_environment();
+	set_line_width_curve();
+
+	if (filled) { 
+		fprintf(_grPS, "%.1f %.1f m  %.1f %.1f %.1f %.1f %.1f arc fill\n",
+			xc * PT_PER_CM + r * PT_PER_CM, yc * PT_PER_CM,
+			xc * PT_PER_CM, yc * PT_PER_CM,
+			r * PT_PER_CM,
+			angle1, angle2);
+	} else {
+		fprintf(_grPS, "%.1f %.1f m  %.1f %.1f %.1f %.1f %.1f arc stroke\n",
+			xc * PT_PER_CM + r * PT_PER_CM, yc * PT_PER_CM,
+			xc * PT_PER_CM, yc * PT_PER_CM,
+			r * PT_PER_CM,
+			angle1, angle2);
+	}
+
+	double lw = _griState.linewidth_line() / 2.0 / PT_PER_CM;
+	rectangle bbox(xc - r - lw, yc - r - lw,
+		       xc + r + lw, yc + r + lw);
+	bounding_box_update(bbox);
+	_drawingstarted = true;
 	return true;
 }
 

@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.164 2002/04/05 19:18:36 dankelley Exp $
+@c $Id: gri.texim,v 1.165 2002/04/06 14:42:05 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -4640,9 +4640,7 @@ second derivative is zero at the edges of the grid).
 
 @c HTML <!-- newfile Draw.html "Gri: About draw commands" "Gri Commands" -->
 
-
-
-@node   Draw, Draw Arrow, Differentiate, List Of Gri Commands
+@node   Draw, Draw Arc, Differentiate, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
 @subsection The @code{draw} commands
 @findex draw
@@ -4659,6 +4657,7 @@ you'll find that the axes are drawn in gray also.  To avoid this, make
 sure to do @code{draw axes} before you modify the graylevel.)
 
 @menu
+* Draw Arc::                    Draw an arc segment
 * Draw Arrow::                  Draw single arrow
 * Draw Arrows::                 Draw many arrows (using columns)
 * Draw Axes If Needed::         Draw axes if haven't done so yet
@@ -4699,7 +4698,30 @@ sure to do @code{draw axes} before you modify the graylevel.)
 * Draw Zero Line::              Draw y=0 or x=0
 @end menu
 
-@node   Draw Arrow, Draw Arrows, Draw, Draw
+@node   Draw Arc, Draw Arrow, Draw, Draw
+@comment  node-name,  next,  previous,  up
+@subsubsection The @code{draw arc} command
+@findex draw arc
+@cindex arc, drawing
+@cindex drawing arcs
+
+@example
+`draw arc [filled] .xc_cm. .yc_cm. .r_cm. .angle_1. .angle_2.'
+@end example
+
+Draw an "arc", that is, a portion of a circle.  The center of the
+circle is at the coordinate (@code{.xc_cm.}, @code{.yc_cm.}), and the
+circle radius is @code{.r_cm.}, all three quantities being in cm on
+the page, @emph{not} in user-units.  The arc starts at angle
+@code{.angle_1.}, measured in degrees counterclockwise from a
+horizontal line, and extends to angle @code{.angle_2.}, in the same
+units.
+
+If the keyword @code{filled} is present, the arc is filled with the
+current color.  Otherwise it is drawn with the current "curve"
+linewidth @ref{Set Line Width}.
+
+@node   Draw Arrow, Draw Arrows, Draw Arc, Draw
 @comment  node-name,  next,  previous,  up
 @subsubsection @code{draw arrow}
 @cindex arrows, drawing single
@@ -16791,6 +16813,9 @@ enter the next stable stream of Gri, but it is important to note that
 main exception is bug fixes, which will enter the stable stream unless
 they are found to create new bugs.
 @itemize @bullet
+
+@item
+Add @code{draw arc} command @ref{Draw Arc}
 
 @item
 Add @code{set x axis labels} @ref{Set X Axis} and

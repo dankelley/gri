@@ -598,8 +598,23 @@ the edges of the grid).
     extern "C" bool differentiateCmd(void);
 }
 
+`draw arc [filled] .xc_cm. .yc_cm. .r_cm. .angle_1. .angle_2.'
+Draw an "arc", that is, a portion of a circle.  The center of the
+circle is at the coordinate (`.xc_cm.', `.yc_cm.'), and the circle
+radius is `.r_cm.', all three quantities being in cm on the page, _not_
+in user-units.  The arc starts at angle `.angle_1.', measured in
+degrees counterclockwise from a horizontal line, and extends to angle
+`.angle_2.', in the same units.
+
+If the keyword `filled' is present, the arc is filled with the
+current color.  Otherwise it is drawn with the current "curve"
+linewidth.
+{
+    extern "C" bool draw_arcCmd(void);
+}
+
 `draw arrow from .x0. .y0. to .x1. .y1. [cm]'
-   With no optional parameters, draw an arrow from (`.x0.', `.y0.') to
+With no optional parameters, draw an arrow from (`.x0.', `.y0.') to
 (`.x1.', `.y1.'), where coordinates are in user units.  The arrow head
 will be at (`.x1.', `.y1.'), and its size is as set by most recent
 call to `set arrow size'.  With the `cm' keyword present, the
