@@ -1,4 +1,5 @@
-            VERSION = 2.5.2
+#VERSION = `head -1 version`
+VERSION = 2.5.3
 
 #### Start of system configuration section. ####
 # Prototype Gri Makefile.  Developers - read first few lines for instructions.
@@ -189,7 +190,7 @@ etags:
 	etags *.cc *.hh
 
 clean:
-	rm -f gri *.o *.rpo core *.bak *.BAK *~ config.cache \#*
+	rm -f gri *.o *.rpo core *.bak *.BAK *~ config.cache \#* tmp
 
 distclean:
 	make clean
