@@ -448,7 +448,6 @@ draw_symbolCmd()
 		yp++;
 		zp++;
 	}
-	_drawingstarted = true;
 	if (uses_color || uses_graylevel) {
 		_griState.set_color_line(old_color);
 		set_ps_color('p');

@@ -43,6 +43,7 @@ bool            _no_bounding_box = false;
 
 
 extern GriState _griState;	// <-> gri.cc
+extern bool     _drawingstarted;
 
 //
 // Utilities.
@@ -712,6 +713,7 @@ gr_drawsymbol(double xcm, double ycm, gr_symbol_type symbol_name)
 		      xcm + _grSymbolSize_pt / 2 / PT_PER_CM,
 		      ycm + _grSymbolSize_pt / 2 / PT_PER_CM);
 	bounding_box_update(box);
+	_drawingstarted = true;
 }
 
 //
