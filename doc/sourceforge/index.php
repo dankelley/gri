@@ -91,8 +91,8 @@
             </tr>
             <tr>
               <td class="menus" align="right">
+                <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.0-pre3.tgz">2.6.0-pre3.tgz</a><br>
                 <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.0-pre2.tgz">2.6.0-pre2.tgz</a><br>
-                <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.0-pre1.tgz">2.6.0-pre1.tgz</a><br>
               </td>
             </tr>
           </table>
