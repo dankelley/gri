@@ -265,7 +265,7 @@ Search gri manual for (may be a regular expression):<p>
         }
         #echo ";";
 	?>
-<!--      pre-release #5 of 2.8.6 is <a href="./pre5/">here</a>.-->
+       pre-release #1 of 2.8.7 is <a href="./pre1/">here</a>.
       </td>
     </tr>
   </table>

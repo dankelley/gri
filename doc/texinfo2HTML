@@ -210,6 +210,15 @@ while(get_a_line()) {
     s,\@{,{,og;
     s,\@TeX{},TeX,og;
     s,\@dots{},...,og;
+    # Put in place-holders for some accents.  I should check for all
+    # of them, but for now, I'm just kludging in a couple, 
+    # to solve an immediate problem and to serve as a place-holder
+    # for better coding.  A good reference on accents is
+    #    http://www.w3.org/MarkUp/html-spec/html-spec_13.html
+    # which I found on 2002-feb-24.
+    s,\@'a,TEXINFO2HTML-ACCENT-ACUTE-a,og;
+    s,\@'e,TEXINFO2HTML-ACCENT-ACUTE-e,og;
+    s,\@'o,TEXINFO2HTML-ACCENT-ACUTE-o,og;
     if (/^\@titlepage/o) {
 	while(get_a_line()) {
 	    s,\@value\{(.*)\},$value{$1},g; # set/value pair
@@ -435,5 +444,8 @@ sub sub_emphasis {
     s,\@file{([^}]*)},`<font color="$ex_color"><samp>$1</samp></font>',g;
     s,TEXINFO2HTML-CLOSE-BRACE,},g;
     s,TEXINFO2HTML-AT-AT,\@,g;
+    s,TEXINFO2HTML-ACCENT-ACUTE-a,&#225,g;
+    s,TEXINFO2HTML-ACCENT-ACUTE-e,&#233,g;
+    s,TEXINFO2HTML-ACCENT-ACUTE-o,&#243,g;
 }
 
