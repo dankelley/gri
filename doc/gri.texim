@@ -1,5 +1,5 @@
 @c -*-mode: texinfo; -*-
-@c $Id: gri.texim,v 1.61 2001/03/18 19:02:39 dankelley Exp $
+@c $Id: gri.texim,v 1.62 2001/03/19 15:39:10 dankelley Exp $
 \input texinfo @c -*-texinfo-*-
 @c
 @comment *** Start of HTML stuff ***
@@ -6696,7 +6696,7 @@ double quotes (@code{"}), e.g.
 open "foo bar.dat"
 @end example
 
-Actually, Gri accepts double-quotes on any @code{open} command and some
+Indeed, Gri accepts double-quotes on any @code{open} command and some
 folks use it on all commands, as a matter of habit.
 
 Gri can handle compressed files appropriately, e.g.
@@ -6713,8 +6713,8 @@ so that there is no need to uncompress data for use with Gri.
 @cindex opening gzipped
 @cindex opening compressed files
 
-Indeed, Gri is quite persistant in looking for your file, and if a given
-file is not found, it will then check to see if a compressed version is
+Gri is quite persistant in looking for your file, and if a given file is
+not found, it will then check to see if a compressed version is
 available, and use that instead.  Thus
 
 @example
@@ -6726,6 +6726,11 @@ will look for a file named @file{foo.dat.gz} if @file{foo.dat} is not
 available.  (Only files compressed with the GNU @code{gzip} utility are
 handled.)
 
+If the @code{open} command was successful in opening the file, it will
+set the value of the synonym @code{\.return_value.} to the @b{full}
+pathname of the file.  Thus, if @code{open a.dat} is done in directory
+@code{/home/gri}, then @code{\.return_value.} will equal
+the string @code{/home/gri/a.dat}.
 
 
 @node   Binary Files, NetCDF Files, Ascii Files, Opening Simple Files
@@ -7598,6 +7603,16 @@ for which libraries exist to ease the input.
 Cause future @code{read} commands to read from the indicated file.  If
 that file is not open, an error message will result.  Use 
 @code{read from \filename} to shuffle reading among several open files.
+
+Gri can look up filenames for @code{read from} in terms of their
+@b{full} pathnames or their @b{local} pathnames.  Thus, a local file
+called @code{a.dat} in the directory @code{/home/gri} can be referred to
+by @code{read from a.dat} or by @code{read from /home/gri/a.dat}, which
+comes in handy if you need to work with two files of the same name, in
+other directories.  However, since Gri has the ability to search for
+files in a "path" (@ref{Set Path To}), you may not have specified an
+exact path name; this is why the @code{open} command provides a return
+value which names the full pathname (@ref{Opening Simple Files}).
 
 
 @node   Read Synonym or Variable, Read Line, Read From, Read
@@ -9372,6 +9387,23 @@ The indicated path is stored in either @code{\.path_data.} or
 paths is set to @file{"."}, the current directory, and this value is
 reset if the @code{default} keyword is provided to this command.
 
+If you need to know where the file was eventually found, save the
+@code{\.return_value.} just after the @code{open} command was executed.
+For example, the following defines the synonym @code{\uk}, which is the
+full pathname of the file containing some sort of data about Great
+Britain.  
+
+@example
+set path to "/atlases/world:/atlases/northern_hemisphere"
+open britain.dat        # we don't know where file is ...
+\gb = "\.return_value." # ... until now!
+
+# Can later do e.g.
+#    read from \gb
+# to ensure reading is done from this file, and
+# not, another file that just happens to be
+# named "britain.dat".
+@end example
 
 @node   Set Postscript Filename, Set Symbol Size, Set Path To, Set
 @comment  node-name,  next,  previous,  up
@@ -15540,6 +15572,10 @@ like so in the file @file{~/.emacs}
 @item 2.6.0 [2001-month-day] (Not released yet.)
 
 @sp 1
+Make @code{open} set @code{\.return_value.} to the full pathname of the
+file that was opened.
+
+@sp 1
 Add @code{set path} command (@ref{Set Path To}).
 
 @sp 1
@@ -15822,6 +15858,8 @@ if you need something else that I've not listed.
 @b{High priority}
 
 @enumerate
+
+@item Make @code{open} handle URL addresses.
 
 @item Switch from @code{tmpname} to @code{mkstemp} subroutine, for temporary filenames.
 
