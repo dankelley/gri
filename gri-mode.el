@@ -5,7 +5,7 @@
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.35 (09 Jan 2001)
+;; Version:   2.36 (07 Feb 2001)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -354,6 +354,7 @@
 ;;    Closes SF Bug #115307
 ;; V2.35 09Jan01 RCS 1.60 - gri-mode-is-Emacs20 -> gri-mode-is-Emacs2X
 ;;                          for Emacs-21 now out in beta.
+;; V2.36 07Feb07 RCS 1.61 - add ~.grirc to auto-mode-alist
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -4223,7 +4224,7 @@ static char *magick[] = {
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.34 (c) 25 Sep 2000 --  Peter Galbraith <GalbraithP@dfo-mpo.gc.ca>
+V2.36 (c) 07 Feb 2001 --  Peter Galbraith <psg@debian.org>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
@@ -4737,6 +4738,8 @@ If FILENAME does not end in `.gri', return FILENAME."
 ;; Setup auto-mode-alist
 (if (not (assoc '"\\.gri$" auto-mode-alist))
     (setq auto-mode-alist (cons '("\\.gri$" . gri-mode) auto-mode-alist)))
+(if (not (assoc '"\\.grirc$" auto-mode-alist))
+    (setq auto-mode-alist (cons '("\\.grirc$" . gri-mode) auto-mode-alist)))
 
 (provide 'gri-mode)
 ;;; gri-mode.el ends here
