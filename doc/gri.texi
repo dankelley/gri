@@ -899,19 +899,17 @@ instead.
 If you'd rather not have @file{myscript.ps} as the PostScript output file
 name (let's say you prefer @file{graph1.ps}) you'd do
 @example
-gri myscript.gri graph1.ps
+gri -output graph1.ps myscript.gri
 @end example
 
 Few readers will need to know more than this.  But, for the rest, the
-table below details all the optional arguments that may be used when Gri
-is invoked.
+table in the next section gives full details on all the optional
+arguments that Gri can handle.
 
-@section The gory details of invoking Gri
-
-@subsection Using Gri to draw things
+@section Using Gri to draw things
 To draw things, invoke Gri as
 @example
-gri [OPTIONS] [CmdFiles [PSFile] [: optional_arguments]]
+gri [OPTIONS] [CmdFile [optional_arguments]]
 @end example
 @cindex @code{[]} syntax for optional words in commands
 @cindex optional words in commands, @code{[]} syntax
@@ -920,19 +918,21 @@ where the square brackets indicate that the enclosed items
 are optional.  The @code{OPTIONS} item may consist of one 
 or more of the following (explained below):
 @example
-[-directory pathname]
-[-directory_default]
-[-yes]
 [-batch]
-[-debug]
-[-warn_offpage]
-[-trace]
-[-publication]
-[-no_bounding_box]
-[-no_startup_message]
 [-chatty[N]]
+[-debug]
+[-directory_default]
+[-directory pathname]
+[-no_bounding_box]
 [-no_cmd_in_ps]
-[-s[uperuser][N]]
+[-no_startup_message]
+[-output PS_file_name]
+[-publication]
+[-superuser[N]]
+[-trace]
+[-yes]
+[-version]
+[-warn_offpage]
 @end example
 @noindent
 @cindex colon on commandline
@@ -964,79 +964,10 @@ For usage within the Emacs gri-mode, see
 @cindex command-line options
 
 @itemize @bullet
-@item  @code{-yes} or @code{-y}
-@cindex @code{-yes} command-line option
-@vindex @code{..use_default_for_query..}, simulate @code{-yes} commandline flag
-@cindex interaction with user, @code{-y} command-line option
-Bypasses all @code{query} commands, making Gri act as though the user
-typed a carriage-return (thus giving the default) for each @code{query}.
-@item  @code{-help} or @code{-h}
-@cindex @code{-help} command-line option
-Prints explanation of options.
 @item  @code{-batch} or @code{-b}
 @cindex batch processing
 @cindex @code{-batch} command-line option
 Stops Gri from printing out prompts and hints.
-@item  @code{-no_bounding_box}
-@cindex postscript bounding box
-@cindex bounding box
-@cindex @code{-no_bounding_box} command-line option
-Make the so-called ``bounding box'' in the PostScript file be the full
-page.  The bounding box is used by some PostScript previewers to clip
-the image to just the drawn parts of the page, and is used by the
-@code{epsfbox} macro in @code{latex} to automatically determine the
-geometry of the graph for inclusion in text.  Normally the bounding box
-is calculated automatically, to enclose all the items drawn on the page.
-But the box may also be set with the @code{set bounding box} command
-(@ref{Set Bounding Box}).
-@item  @code{-no_startup_message}
-@cindex startup message
-@cindex @code{-no_startup_message} command-line option
-Stops Gri from printing the startup message.
-@item  @code{-debug} or @code{-d}
-@cindex @code{-debug} command-line option
-@vindex @code{..debug..}, for debugging (by normal users)
-Sets the built-in variable flag @code{..debug..} that you can use to
-isolate blocks of code.
-@item  @code{-warn_offpage}
-@cindex @code{-warn_offpage} command-line option
-Causes warnings to be issued for all items drawn far off a 8.5x11 inch
-page.
-@item  @code{-directory pathname} 
-@cindex @code{-directory} command-line option
-Specifies the directory where Gri looks for the startup file
-@file{gri.cmd}.  (This file teaches Gri the standard commands; Gri will
-report an error and die if it cannot find this file.)  If this switch is
-not provided -- and it is normally not -- then Gri looks for
-@code{gri.cmd} in a standard system directory (normally
-@file{/usr/local/share/gri/@value{GRI-VERSION}}) which was specified 
-during the compilation of the Gri program itself.
-@item  @code{-directory_default} 
-@cindex @code{-directory_default} command-line option
-Reports directory where @file{gri.cmd} is expected to be found, either
-in the default location or the one specified by @code{-directory}
-commandline option.
-@item  @code{-trace} or @code{-t}
-@cindex @code{-trace} command-line option
-@cindex tracing execution, command-line option
-Makes Gri print out command lines as they are executed; this has the
-same effect as the @code{set trace} command.
-@item  @code{-publication} or @code{-p}
-@cindex @code{-publication} command-line option
-@cindex publication quality, command-line flag
-Sets the built-in variable @code{..publication..} to 1.  You may use
-this to distinguish between working plots and publication plots, as in
-this example:
-@example
-if !..publication..
-  draw time stamp
-  draw title "working version of plot"
-end if
-@end example
-@item  @code{-no_startup_message}
-@cindex @code{-no_startup_message} command-line option
-Prevent Gri from printing the startup message.  It is not a good idea to use
-this option in general.
 @item  @code{-chatty[N]} or @code{-c[N]}
 @cindex @code{-chatty} command-line option
 Make Gri print out various informative messages.  The optional numerical
@@ -1047,6 +978,7 @@ data for contouring.  Higher values make Gri tell you more:
 
 Information printed at various chatty levels:
 @itemize @bullet
+
 @item @emph{0}
 The bare minimum is printed.  Thus invoking Gri as @code{gri -c0}@dots{}
 will make it as quiet as can be.
@@ -1073,12 +1005,79 @@ were missing or outside clip region (if one exists).
 system as well as the name of the temporary file being created; also
 notifies user when the temporary file is destroyed.
 @end itemize
+
+@item  @code{-debug} or @code{-d}
+@cindex @code{-debug} command-line option
+@vindex @code{..debug..}, for debugging (by normal users)
+Sets the built-in variable flag @code{..debug..} that you can use to
+isolate blocks of code.
+
+@item  @code{-directory_default} 
+@cindex @code{-directory_default} command-line option
+Reports directory where @file{gri.cmd} is expected to be found, either
+in the default location or the one specified by @code{-directory}
+commandline option.
+
+@item  @code{-directory pathname} 
+@cindex @code{-directory} command-line option
+Specifies the directory where Gri looks for the startup file
+@file{gri.cmd}.  (This file teaches Gri the standard commands; Gri will
+report an error and die if it cannot find this file.)  If this switch is
+not provided -- and it is normally not -- then Gri looks for
+@code{gri.cmd} in a standard system directory (normally
+@file{/usr/local/share/gri/@value{GRI-VERSION}}) which was specified 
+during the compilation of the Gri program itself.
+
+@item  @code{-no_bounding_box}
+@cindex postscript bounding box
+@cindex bounding box
+@cindex @code{-no_bounding_box} command-line option
+Make the so-called ``bounding box'' in the PostScript file be the full
+page.  The bounding box is used by some PostScript previewers to clip
+the image to just the drawn parts of the page, and is used by the
+@code{epsfbox} macro in @code{latex} to automatically determine the
+geometry of the graph for inclusion in text.  Normally the bounding box
+is calculated automatically, to enclose all the items drawn on the page.
+But the box may also be set with the @code{set bounding box} command
+(@ref{Set Bounding Box}).
+
 @item  @code{-no_cmd_in_ps}
+@cindex -no_cmd_in_ps
 Prevent Gri from inserting the lines of the commandfile into the
 PostScript file as comments.  (These comments can be used by the
 @code{-creator} commandline option (see above), but they take up a little
 bit of space and users might sometimes want to get rid of them.)
-@item  @code{-superuser} or @code{-s}
+
+@item @code{-output PS_file_name}
+@cindex specifying the PostScript file name
+@cindex PostScript file name, specifying
+@cindex commandline option @code{-output PS_file_name}
+@cindex -output PS_file_name commandline option
+Specify the PostScript filename.  If this is not specified, the
+PostScript filename is derived from the name of the commandfile
+(e.g. @file{mygraph.gri} produces @file{mygraph.ps}), or, for
+interactive use, it will have a name like @file{gri-00.ps}, or
+@file{gri-01.ps} if the former file exists, etc.
+
+@item  @code{-no_startup_message}
+@cindex startup message
+@cindex @code{-no_startup_message} command-line option
+Stops Gri from printing the startup message.
+
+@item  @code{-publication} or @code{-p}
+@cindex @code{-publication} command-line option
+@cindex publication quality, command-line flag
+Sets the built-in variable @code{..publication..} to 1.  You may use
+this to distinguish between working plots and publication plots, as in
+this example:
+@example
+if !..publication..
+  draw time stamp
+  draw title "working version of plot"
+end if
+@end example
+
+@item  @code{-superuser}
 @cindex @code{-superuser} command-line option
 @vindex @code{..superuser..}, for debugging (by developers)
 (This option is included here only for completeness.  It should only be
@@ -1090,9 +1089,33 @@ Specifying the @code{-superuser} command-line option sets the built-in
 variable @code{..superuser..} to 1 or the specified value.)
 
 For flag meanings, see @code{superuser} command (@ref{Superuser}).
+
+@item  @code{-trace} or @code{-t}
+@cindex @code{-trace} command-line option
+@cindex tracing execution, command-line option
+Makes Gri print out command lines as they are executed; this has the
+same effect as the @code{set trace} command.
+
 @item  @code{-version} or @code{-v}
 @cindex @code{-version} command-line option
 Display version information and exit successfully.
+
+@item  @code{-warn_offpage}
+@cindex command-line option @code{-warn_offpage}
+@cindex @code{-warn_offpage} command-line option
+Causes warnings to be issued for all items drawn far off a 8.5x11 inch
+page.
+
+@item  @code{-yes} or @code{-y}
+@cindex @code{-yes} command-line option
+@vindex @code{..use_default_for_query..}, simulate @code{-yes} commandline flag
+@cindex interaction with user, @code{-y} command-line option
+Bypasses all @code{query} commands, making Gri act as though the user
+typed a carriage-return (thus giving the default) for each @code{query}.
+@item  @code{-help} or @code{-h}
+@cindex @code{-help} command-line option
+Prints explanation of options.
+
 @item @code{CommandFile}
 @cindex unix environment variable GRIINPUTS
 @cindex GRIINPUTS unix environment variable
@@ -1124,22 +1147,21 @@ Gri looks for commandfiles in the local directory.
 @c OLD @example
 @c OLD export GRIINPUTS=".:$HOME/lib/gri:/usr/local/lib/gri"
 @c OLD @end example
-@item @code{PostScriptFile}
-@cindex command-line, specifying PostScript file
-@cindex @code{PostScriptFile} command-line option
-@cindex postscript file
-@cindex files, PostScript-file
-If a command file is specified, then an additional file,
-@code{PostScriptFile}, can be specified as the file in which to store
-the PostScript description of the plot.  If no PostScript filename is
-given, Gri will make up a filename from the CommandFile name, by first
-removing a trailing @code{".gri"} if it exists, and then appending
-@code{".ps"}; thus @code{gri foo.gri} creates a PostScript file named
-@code{foo.ps}.  If there are multiple commandfiles separated by commas,
-Gri forms the name of the PostScript file based on the last commandfile;
-thus @code{gri foo,bar} creates @file{bar.ps}.
+@c OLD @item @code{PostScriptFile}
+@c OLD @cindex command-line, specifying PostScript file
+@c OLD @cindex @code{PostScriptFile} command-line option
+@c OLD @cindex postscript file
+@c OLD @cindex files, PostScript-file
+@c OLD If a command file is specified, then an additional file,
+@c OLD @code{PostScriptFile}, can be specified as the file in which to store
+@c OLD the PostScript description of the plot.  If no PostScript filename is
+@c OLD given, Gri will make up a filename from the CommandFile name, by first
+@c OLD removing a trailing @code{".gri"} if it exists, and then appending
+@c OLD @code{".ps"}; thus @code{gri foo.gri} creates a PostScript file named
+@c OLD @code{foo.ps}.  If there are multiple commandfiles separated by commas,
+@c OLD Gri forms the name of the PostScript file based on the last commandfile;
+@c OLD thus @code{gri foo,bar} creates @file{bar.ps}.
 @end itemize
-
 
 @emph{NOTE}:  If you don't need to supply commandline options, you can
 put the following line as the first line in your Gri program
@@ -1153,7 +1175,7 @@ typing of a few characters, but some folks like this.
 
 
 
-@subsection Extracting commandfile from a PostScript file
+@section Extracting commandfile from a PostScript file
 @cindex recovering commands from a PostScript file
 @cindex command-line option @code{-creator}
 @cindex @code{-creator} command-line option
@@ -1162,7 +1184,7 @@ gri -creator PostScriptFile
 @end example
 @noindent @emph{See also} @code{-no_cmd_in_ps}.
 
-@subsection Fixing a broken PostScript file
+@section Fixing a broken PostScript file
 To make Gri repair a PostScript file created by a Gri job that failed
 midway through:
 @example
@@ -14533,7 +14555,15 @@ The next sections outline the changes made in Gri.
 @comment  node-name,  next,  previous,  up
 @subsection Version 2.6
 @table @emph
-@item 2.6.0 [2000-Aug-29]
+@item 2.6.0 [2000-Sep-28]
+@sp 1
+Remove @code{-s} as an abbreviation for the commandline option @code{-superuser}.
+
+@sp 1
+Remove the @code{:} syntax from the commandline options.
+
+@sp 1
+Add commandline option @code{-output PS_file_name}.
 
 @sp 1
 Add @code{assert} command (@ref{Assert}).
