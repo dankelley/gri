@@ -96,7 +96,10 @@ then
 fi
 
 %changelog
-* * Tue Jan 22 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
+* Fri Jan 25 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
+- Make RPM install/uninstall run silently.
+
+* Tue Jan 22 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
 - Fix SourceForge bug #506490 ('-v' commandline option gave wrong number)
 
 * Wed Jan  2 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
