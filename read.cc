@@ -934,7 +934,6 @@ Grid width %d disagrees with existing x-grid (%d); first `delete grid'",
 		// Read data
 		i = 0;
 		while (end_of_data == no_eof && (!number_specified || i < number_to_read)) {
-			int             numCols;
 			// Keep an eye on storage space.
 			if (i >= _num_xmatrix_data) {
 				_num_xmatrix_data += COLUMN_LEN_DEFAULT;
@@ -955,10 +954,10 @@ Grid width %d disagrees with existing x-grid (%d); first `delete grid'",
 #ifdef REMOVE_COMMENTS_FROM_DATA
 			remove_comment(inLine.getValue());
 #endif
-			unsigned int numCols_ui = numCols;
+			unsigned int numCols_ui;
 			chop_into_data_words(inLine.getValue(), _word, &numCols_ui, MAX_nword);
-			PUT_VAR("..words_in_dataline..", double(numCols));
-			if (numCols < 1) {	// blank line means done
+			PUT_VAR("..words_in_dataline..", double(numCols_ui));
+			if (numCols_ui < 1) {	// blank line means done
 				end_of_data = eof_before_data; // trick
 				break;
 			}
@@ -1140,7 +1139,6 @@ Grid height %d disagrees with existing y-grid (%d); first `delete grid'",
 		// Read data
 		i = 0;
 		while (end_of_data == no_eof && (!number_specified || i < number_to_read)) {
-			int             numCols;
 			// Keep an eye on storage space.
 			if (i >= _num_ymatrix_data) {
 				_num_ymatrix_data += COLUMN_LEN_DEFAULT;
@@ -1161,10 +1159,10 @@ Grid height %d disagrees with existing y-grid (%d); first `delete grid'",
 #ifdef REMOVE_COMMENTS_FROM_DATA
 			remove_comment(inLine.getValue());
 #endif
-			unsigned int numCols_ui = numCols;
+			unsigned int numCols_ui;
 			chop_into_data_words(inLine.getValue(), _word, &numCols_ui, MAX_nword);
-			PUT_VAR("..words_in_dataline..", double(numCols));
-			if (numCols < 1) {	// blank line means done
+			PUT_VAR("..words_in_dataline..", double(numCols_ui));
+			if (numCols_ui < 1) {	// blank line means done
 				end_of_data = eof_before_data; // trick
 				break;
 			}
