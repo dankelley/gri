@@ -4759,7 +4759,7 @@ rpnfunction linear_intercept exch dup roll_left roll_left roll_left dup roll_rig
 # @variable ..ylast..                 last value of y column @default 0
 # @variable ..image_width..           pixel width of image @default 0
 # @variable ..image_height..          pixel height of image @default 0
-# @variable \.missingvalue. missing value code @default 1e22
+# @variable \.missingvalue. missing value code @default "1e22"
 # @variable \.return_value. return value from last command
 # @variable \.version. version of gri being used
 # @variable \.pid. process id of this job
@@ -4773,6 +4773,5 @@ rpnfunction linear_intercept exch dup roll_left roll_left roll_left dup roll_rig
 # @variable \.command_file. name of command file for this job
 # @variable \.readfrom_file. name of file being read for data
 # @variable \.ps_file. name of PostScript file being created
-# @variable \.path_data. directory path for finding data
-# @variable \.path_commands. directory path for finding commands
-
+# @variable \.path_data. directory path for finding data @default "."
+# @variable \.path_commands. directory path for finding commands @default "."
