@@ -1,5 +1,7 @@
 Method for updating the SourceForge site:
- cd src/gri/doc
+ make gri.pdf
+ make html-tar 
  scp gri.pdf gridoc.tar.gz  dankelley@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
- cd sourceforge
- scp index.php      dankelley@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
+
+ cd sourceforge ; SH ./INSTALL
+
