@@ -10254,7 +10254,7 @@ that file is not open, an error message will result.  Use
 @node   Read Synonym or Variable, Read Line, Read From, Read
 @comment  node-name,  next,  previous,  up
 @subsection The @code{read} @dots{} (synonym or variable) command
-@findex read ...
+@findex read
 @cindex @code{read ...} command
 @cindex variables, reading
 @cindex synonyms, reading
