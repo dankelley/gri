@@ -1,0 +1,38 @@
+This file is the gri release checklist, used to coordinate the efforts
+of the developers.
+
+A "+" beside an item means that it has been done.
+A "-" beside an item means that it has NOT been done yet.
+
+1- DEK and PSG agree to freeze the code.
+
+2- DEK does a redhat build with the version on CVS, fixing any
+   problems and letting PSG know when the build is clean.
+
+3- PSG does a debian build with the version on CVS.  If there are any
+   problems, back to step 2.
+
+4- When it builds on redhat and debian, PSG or DEK marks the
+   code by e.g.
+	cvs tag -F "GRI_2_6_1"
+   for the 2.6.1 version.
+
+5- DEK creates an official tarball and uploads it to the SourceForge
+   website (SF henceforth).
+
+6- DEK builds an official redhat package based on the official
+   tarball.  If any problems, back to step 2.
+
+7- PSG builds an official redhat package based on the official
+   tarball.  If any problems, back to step 2.
+
+8- DEK uploads the official redhat package to SF.
+
+9- PSG uploads the official debian package to SF.
+
+10- DEK edits the SF webpage to indicate that a new version has
+    been released.
+
+11- DEK updates the HTML docs on SF.
+
+12- DEK updates the PDF docs on SF
