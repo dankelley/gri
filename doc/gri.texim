@@ -1,5 +1,5 @@
 @c -*-mode: texinfo; -*-
-@c $Id: gri.texim,v 1.54 2001/03/12 14:54:40 dankelley Exp $
+@c $Id: gri.texim,v 1.55 2001/03/12 19:28:32 dankelley Exp $
 \input texinfo @c -*-texinfo-*-
 @c
 @comment *** Start of HTML stuff ***
@@ -1437,8 +1437,9 @@ quit
 @end example
 
 @noindent
-(Note the use of @code{\.awk.}, a builtin synonym naming the awk program
-on your system.)
+Note the use of @code{\.awk.}, a builtin synonym naming the awk program
+on your system (@ref{Important Builtin Synonyms})
+
 @item @emph{Let Gri calculate things for you}
 
 The simplest is to let Gri
@@ -1551,11 +1552,8 @@ draw contour
 @end example
 
 @noindent
-(Note the use of @code{\.awk.}, a builtin synonym naming the awk program
-on your system.)
-
-
-
+Note the use of @code{\.awk.}, a builtin synonym naming the awk program
+on your system (@ref{Important Builtin Synonyms})
 
 
 @subsection Complicated example
@@ -6922,8 +6920,10 @@ open "cat foo.dat | \.awk. '@{$1, $2 * 22@}' |"
 
 @noindent
 where @file{awk} has been used to multiply the second column in the file
-named @file{foo.dat} by 22.  (Note the use of @code{\.awk.}, a builtin
-synonym naming the awk program on your system.)
+named @file{foo.dat} by 22. Note the use of @code{\.awk.}, 
+a builtin synonym naming the awk program
+on your system (@ref{Important Builtin Synonyms})
+
 
 @item
 @cindex files, opening remote WWW files
@@ -10536,8 +10536,8 @@ quit
 @end example
 
 @noindent
-(Note the use of @code{\.awk.}, a builtin synonym naming the awk program
-on your system.)
+Note the use of @code{\.awk.}, a builtin synonym naming the awk program
+on your system (@ref{Important Builtin Synonyms})
 
 NOTE Under unix, this command calls the Bourne shell, not the C-shell
 that is often used interactively.  For many simple uses, the only
@@ -11693,8 +11693,17 @@ These things will be obvious to unix users; for example
 @code{\.pid.} is the process ID of the job (often used in names for
 temporary files), and @code{\.wd.} is the working directory (often used
 in @code{draw title} commands to indicate in which directory the gri job
-was run.  Some commands set @code{\.return_value.} to non-blank; the
+was run.  
+
+The @code{\.awk.} synonym is provided for convenience; it tries to name
+the "best default" variant of the Awk program on your machine
+(@ref{Awk}).
+
+Some commands set @code{\.return_value.} to non-blank; the
 meaning of the return value varies from command to command.
+
+
+
 
 
 @node   Alias Synonyms, Local Synonyms, Important Builtin Synonyms, Synonyms
@@ -14591,7 +14600,10 @@ system, you may use the synonym @code{\.awk.} in your system commands.
 Gri will take this to mean Gawk, if that is present, or the variant
 called Nawk (New-Awk) if Gawk is not present, or the tried and true Awk
 if neither of the above is present.  In the examples below, however,
-I'll use @code{awk}.
+I'll use @code{awk}.  Unfortunately, various awk-like programs have
+somewhat different styles of syntax; you would be well advised to either
+become familiar with the features of the particular awk-ish variant on
+your machine, or to avoid relying on variant-specific features.
 
 The main concept in Awk is of "patterns" and "actions."  In the Awk
 syntax, actions are written in braces following patterns written with no
