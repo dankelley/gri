@@ -1,6 +1,6 @@
 \input texinfo 
 
-@c $Id: gri.texi,v 1.128 2003/05/19 14:07:03 dankelley Exp $
+@c $Id: gri.texi,v 1.129 2003/06/05 19:09:42 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -15103,10 +15103,6 @@ Gri comes with a few ancillary programs that may be useful.  Gri also
 provides a simple scheme to use other system tools (e.g. @code{awk}).
 These are discussed here.  And speaking of discussing, this chapter ends
 with a note about a mail-list Gri discussion group.
-
-(@code{gri_merge} to merge gri-produced PostScript files,
-@code{gri_unpage} to separate the pages of a multi-page file into
-separate pages
 
 @menu
 * Extras::                      Extra things provided with Gri
