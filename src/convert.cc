@@ -99,7 +99,9 @@ int interv(double *xt, int *lxt, double *x, int *left, int *mflag);
 
 double ppvalu(double *break_, double *coef, int *l, int *k, double *x, int *jderiv);
 
-int tautsp(double *x, double *y, unsigned int *n, double *gamma, double *scrtch, double *break_, double *coef, int *l, int *k, int *iflag);
+int tautsp(double *x, double *y, unsigned int n, double *gamma, double *scrtch, double *break_, double *coef, int *l, int *k, int *iflag);
+
+
 
 
 #if 0
@@ -622,7 +624,7 @@ double ppvalu(double *break_,
 int
 tautsp(double *tau,		// input data, x, of length ntau
        double *gtau,		// input data, y, of length ntau
-       unsigned int *ntau,		// number data
+       unsigned int ntau,		// number data
        double *gamma,	// tension parameter
        double *s,		// length 6*ntau
        double *break_,	// knot locations, length=l
@@ -651,7 +653,7 @@ tautsp(double *tau,		// input data, x, of length ntau
 	// Parameter adjustments
 	--tau;			// NEED TO PROTECT (see above)
 	--gtau;			// NEED TO PROTECT (see above)
-	s_dim1 = *ntau;
+	s_dim1 = ntau;
 	s_offset = s_dim1 + 1;
 	s -= s_offset;		// NEED TO PROTECT (see above)
 	--break_;		// NEED TO PROTECT (see above)
@@ -738,15 +740,23 @@ tautsp(double *tau,		// input data, x, of length ntau
 	//  which we solve by gauss elimination without pivoting.
 
 	// there must be at least 4  interpolation points.
-	if (*ntau < 4) {
+	if (ntau < 4) {
 		err("Need more than 3 data points");
 		*iflag = 2;
 		RESTORE;
 		return 0;
 	}
 	// construct delta tau and first and second (divided) differences of data
-	ntaum1 = *ntau - 1;
+	ntaum1 = ntau - 1;
 	for (i = 1; i <= ntaum1; ++i) {
+#if 0
+		printf("i=%d\n",i);
+		printf("gtau[i  ]= %lf\n", gtau[i]);
+		printf("gtau[i+1]= %lf\n", gtau[i+1]);
+		printf("s[1+s_dim1]= %lf\n", s[1+s_dim1]);
+		printf(" i+1+(s_dim1<<2)= %d\n", i+1+(s_dim1<<2));
+		printf("s[i+1+(s_dim1<<2)]= %lf\n", s[i+1+(s_dim1<<2)]);
+#endif
 		s[i + s_dim1] = tau[i + 1] - tau[i];
 		if (s[i + s_dim1] <= 0.) {
 			sprintf(_grTempString, "\
@@ -986,7 +996,7 @@ X data must be ordered and distinct.\n\
 
 	//        ------ back substitution ------
 
-	s[*ntau + (s_dim1 << 2)] /= s[*ntau + (s_dim1 << 1)];
+	s[ntau + (s_dim1 << 2)] /= s[ntau + (s_dim1 << 1)];
 
 	do {
 		s[i + (s_dim1 << 2)] 
@@ -1089,7 +1099,7 @@ X data must be ordered and distinct.\n\
 		++(*l);
 		// L70:
 		break_[*l] = tau[i + 1];
-		if (*l > 1 + 2 * int(*ntau)) {
+		if (*l > 1 + 2 * int(ntau)) {
 			gr_error("Too many knots.  Kelley thought max was 2*n\n");
 			RESTORE;
 			return 0;		// not reached
@@ -1146,8 +1156,10 @@ convert_col_to_splineCmd()
 		return false;
 	}
 	// Get storage
+	unsigned int n = _colX.size(); // for tautsp
 	double *xs, *ys, *coef, *break_point, *scrtch;
 	xs = ys = coef = break_point = scrtch = (double*)NULL;
+#if 0
 	GET_STORAGE(xs, double, (size_t)steps);
 	printf("DEBUG %s:%d: got xs     storage at %x\n",__FILE__,__LINE__,int(xs));
 	GET_STORAGE(ys, double, (size_t)steps);
@@ -1157,17 +1169,19 @@ convert_col_to_splineCmd()
 	GET_STORAGE(break_point, double, (size_t)(2 * steps));
 	printf("DEBUG %s:%d: got break_point storage at %x\n",__FILE__,__LINE__,int(break_point));
 	GET_STORAGE(scrtch, double, (size_t)(6 * steps)); // BUG: is this enough storage??
-	printf("DEBUG %s:%d: got scrtch storage at %x\n",__FILE__,__LINE__,int(scrtch));
-	//std::vector<double> xs((size_t)steps, 0.0);
-	//std::vector<double> ys((size_t)steps, 0.0);
-	//std::vector<double> coef((size_t)(4 * 2 * steps), 0.0);
-	//std::vector<double> break_point((size_t)(2 * steps), 0.0);
-	//std::vector<double> scrtch((size_t)(6 * steps), 0.0);
-	unsigned int n = _colX.size();
+	printf("DEBUG %s:%d: got scrtch storage (%d elements) at %x\n",__FILE__,__LINE__,(6*steps),int(scrtch));
+#else
+	GET_STORAGE(coef, double, (size_t)(4 * 2 * n));
+	//printf("DEBUG %s:%d: got coef   storage at %x\n",__FILE__,__LINE__,int(coef));
+	GET_STORAGE(break_point, double, (size_t)(2 * n));
+	//printf("DEBUG %s:%d: got break_point storage at %x\n",__FILE__,__LINE__,int(break_point));
+	GET_STORAGE(scrtch, double, (size_t)(6 * n)); // BUG: is this enough storage??
+	//printf("DEBUG %s:%d: got scrtch storage (%d elements) at %x\n",__FILE__,__LINE__,(6*n),int(scrtch));
+#endif
 	int l, k, iflag;
 	tautsp(_colX.begin(),
 	       _colY.begin(),
-	       &n,
+	       n,
 	       &gamma,
 	       scrtch,
 	       break_point,
@@ -1176,6 +1190,10 @@ convert_col_to_splineCmd()
 	       &k,
 	       &iflag);
 	int zero = 0;
+	GET_STORAGE(xs, double, (size_t)steps);
+	//printf("DEBUG %s:%d: got xs     storage at %x\n",__FILE__,__LINE__,int(xs));
+	GET_STORAGE(ys, double, (size_t)steps);
+	//printf("DEBUG %s:%d: got ys     storage at %x\n",__FILE__,__LINE__,int(ys));
 	for (unsigned int i = 0; i < (unsigned int)steps; i++) {
 		xs[i] = xmin + i * xinc;
 		ys[i] = ppvalu(break_point, coef, &l, &k, &xs[i], &zero);
@@ -1187,17 +1205,17 @@ convert_col_to_splineCmd()
 		_colX[i] = xs[i];
 		_colY[i] = ys[i];
 	}
-	printf("DEBUG %s:%d: about to free xs at %x\n",__FILE__,__LINE__,int(xs));
+	//printf("DEBUG %s:%d: about to free xs at %x\n",__FILE__,__LINE__,int(xs));
 	free(xs);
-	printf("DEBUG %s:%d: about to free ys at %x\n",__FILE__,__LINE__,int(ys));
+	//printf("DEBUG %s:%d: about to free ys at %x\n",__FILE__,__LINE__,int(ys));
 	free(ys);
-	printf("DEBUG %s:%d: about to free coef at %x\n",__FILE__,__LINE__,int(coef));
+	//printf("DEBUG %s:%d: about to free coef at %x\n",__FILE__,__LINE__,int(coef));
 	free(coef);
-	printf("DEBUG %s:%d: about to free break_point at %x\n",__FILE__,__LINE__,int(break_point));
+	//printf("DEBUG %s:%d: about to free break_point at %x\n",__FILE__,__LINE__,int(break_point));
 	free(break_point);
-	printf("DEBUG %s:%d: about to free scrtch at %x\n",__FILE__,__LINE__,int(scrtch));
+	//printf("DEBUG %s:%d: about to free scrtch at %x\n",__FILE__,__LINE__,int(scrtch));
 	free(scrtch);
-	printf("DEBUG %s:%d ... after the free of scrtch\n",__FILE__,__LINE__);
+	//printf("DEBUG %s:%d ... after the free of scrtch\n",__FILE__,__LINE__);
 	return true;
 }
 
