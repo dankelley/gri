@@ -36,8 +36,8 @@
     <table bgcolor="#EEEEF8" width="100%" border=0 cellspacing=0 cellpadding=0>
       <TR bgcolor="#EEEEF8">
         <td align="center">
-          <b>
-            Gri: a language for scientific illustration
+          <b><font size="+2">
+            Gri: a language for scientific illustration</font>
           </b>
         </td>
       </tr>
@@ -86,7 +86,7 @@
             </td>
             <tr>
               <td class="menus" align="right">
-                <b>2.8.0 just released!</b>
+                <b>None available yet</b>
 <!--
 		<b>General tarball</b><br>
                   <A class="menus" HREF="http://people.debian.org/~psg/gri-cvs/gri_2.7.0.orig.tar.gz">Recent CVS sources</A><br>
@@ -109,7 +109,7 @@
             </td>
             <tr>
               <td class="menus" align="right">
-                <a class="menus" href="http://sourceforge.net/project/showfiles.php?group_id=5511">General Download</a><br>
+                <a class="menus" href="http://sourceforge.net/project/showfiles.php?group_id=5511">General download</a><br>
               </td>
             </tr>
           </table>
@@ -120,10 +120,9 @@
       <table align="center" width="95%"><tr><td>
           
 Gri is an open-source language for scientific graphics programming.
-It is command-driven, as opposed to point/click.  Some users consider
-Gri similar to LaTeX, since both provide extensive power as a reward
-for tolerating a learning curve.  The output is industry-standard
-PostScript as output, suitable for inclusion in other documents.
+It is command-driven, as opposed to point/click, and its output is a
+PostScript file.  Some users consider Gri similar to LaTeX, since both
+provide extensive power as a reward for tolerating a learning curve.
 
 <p>
 Gri can make 
@@ -137,8 +136,8 @@ contour
 image
 </a>
 graphs.  Fine control is provided over all aspects of drawing,
-e.g. line widths, colors, fonts, etc.  Greek letters and mathematical
-symbols are available in a TeX-like syntax.
+e.g. line widths, colors, and fonts.  A TeX-like syntax provides the
+ability to use common Mathematical symbols.
 
 <p>Folks who write 1000-line Gri scripts usually start with something
 as simple as the following.
@@ -232,7 +231,7 @@ Search gri manual for (may be a regular expression):<p>
      </tr>
      <tr> 
        <td  class="menus" align="left">
-	 <a class="menus" href="http://www.sourceforge.net/news/?group_id=5511">News Forum</a></b>
+	 <a class="menus" href="http://www.sourceforge.net/news/?group_id=5511">News forum</a></b>
        </td>
      </tr>
    </table>
@@ -252,7 +251,7 @@ Search gri manual for (may be a regular expression):<p>
         <A class="menus" HREF="./gri-cookbook/index.html">Cookbook of examples</A><br>
         <A class="menus" HREF="./refcard.ps">Reference card</A><br>
         <A class="menus" HREF="./cmdrefcard.ps">Command refcard</A><br>
-        <A  class="menus" HREF="http://www2.linuxjournal.com/lj-issues/issue75/3743.html">Article in Linux Journal</A><br>
+        <A  class="menus" HREF="http://www2.linuxjournal.com/lj-issues/issue75/3743.html">Article in <i>Linux Journal</i></A><br>
       </td>
     </tr>
   </table>
