@@ -2214,10 +2214,10 @@ with a variable or synonym that is named in a header line in a datafile,
 but which is not known at the time when you write your Gri commandfile.
 
 To help with such tasks, Gri provides so-called "aliasing" synonyms.
-The syntax is simple: an ampersand following a backslash indicates that
-the synonym's value itself is not of interest, but rather the value of
-the variable or synonym that it @emph{names}.  Consider the following
-code snippet.
+The syntax is simple: an "at sign (@code{@@}) following a backslash
+indicates that the synonym's value itself is not of interest, but rather
+the value of the variable or synonym that it @emph{names}.  Consider the
+following code snippet.
 
 @example
 \alias = ".a."
