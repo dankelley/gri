@@ -14680,8 +14680,6 @@ up-to-date, Gri can be compiled following the normal unix instructions.
 @section Known bugs
 @cindex bugs in Gri
 List of known bugs:
-@subsection All computers
-
 @itemize @bullet
 @item
 Polar (r-theta) graphs do not work.
