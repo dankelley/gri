@@ -96,6 +96,8 @@ then
 fi
 
 %changelog
+* Mon Dec 13 2004 <Dan.Kelley@Dal.Ca>
+- Fix SourceForge bug 1084123 (Fink packaging put info files in wrong place)
 * Mon Aug 30 2004 <Dan.Kelley@Dal.Ca>
 - Fix SourceForge bug 1019141 ('draw arc' ignores the present pen color)
 * Sun Jul 25 2004 <Dan.Kelley@Dal.Ca>
