@@ -1,17 +1,22 @@
-gri (2.5.5-0potato1) unstable; urgency=low
+gri (2.6.0-1) unstable; urgency=low
 
   * New upstream version.
-    (2.5.4) seg fault bug fix.
-    (2.5.3) Add automatic support for compressed data files.  So far, this
-       only works with gzipped files @xref{Open}.
-       The manual gets a new section about the Emacs gri-mode.el
-       complete with screenshots.  Additionally, HTML navigation tags are
-       bettered, the gri code examples are HTML'ed with colour fontification,
-       example images are now in Jpeg format instead of Gif.
-    (2.5.2) Numerous gri-mode.el enhancements (including new pull-down menu).
-    (2.5.1) Add two new RPN operators, `file_exists' and `directory_exists'.
-    (2.4.4) Issue warning instead of fatal error when attempting math
-       ops on empty data columns.
+    - Add RPN operators `argc' and `argv' for accessing the command-line
+      arguments. 
+    - Improve discussion of RPN operators in manual.
+    - Remove documentation on `gri_indent', not supplied with Gri for a long
+      time. 
+    - seg fault bug fix.
+    - Add automatic support for compressed data files.  So far, this
+      only works with gzipped files (See docs for Open).
+    - The manual gets a new section about the Emacs gri-mode.el
+      complete with screenshots.  Additionally, HTML navigation tags are
+      bettered, the gri code examples are HTML'ed with colour fontification,
+      example images are now in Jpeg format instead of Gif.
+    - Numerous gri-mode.el enhancements (including new pull-down menu).
+    - Add two new RPN operators, `file_exists' and `directory_exists'.
+    - Issue warning instead of fatal error when attempting math
+      ops on empty data columns.
   * Use debhelper.
   * Info files have .info suffix now.
   * gri-html-doc suggest doc-base (otherwise it's not registered).
