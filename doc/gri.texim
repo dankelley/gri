@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.232 2003/01/20 15:59:05 dankelley Exp $
+@c $Id: gri.texim,v 1.233 2003/01/20 16:11:34 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16353,7 +16353,7 @@ only in the fixing of bugs.
 @item
 Fix SourceForge bug
 @uref{http://sourceforge.net/tracker/index.php?func=detail&aid=671022&group_id=5511&atid=105511,#671022}
-@dots{} Did not flip images correctly, except in special circumstances.
+@dots{} @code{flip image x|y} did not flip images correctly, except in special circumstances.
 
 @item
 Fix SourceForge bug
