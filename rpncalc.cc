@@ -104,6 +104,7 @@ typedef enum {
 	YUSERTOPT,
 	AREA, VAL, MIN, MAX, MEDIAN, MEAN, STDDEV, SIZE,
 	STRINGWIDTH, STRINGASCENT, STRINGDESCENT,
+	SED,
 	DEFINED,
 	ISMISSING,
 	INTERPOLATE,
@@ -213,6 +214,7 @@ RPN_DICT        rpn_dict[] =
 	{"file_exists", 11, FILE_EXISTS},
 	{"argc", 4, ARGC},
 	{"argv", 4, ARGV},
+	{"sed", 3, SED},
 	{"width", 5, STRINGWIDTH},
 	{"ascent", 6, STRINGASCENT},
 	{"descent", 7, STRINGDESCENT},
@@ -1264,6 +1266,33 @@ do_operation(operator_name oper)
 		double          tmpy, tmpx;
 		gr_cmtouser(1.0, VALUE(1) / PT_PER_CM, &tmpx, &tmpy);
 		SET(1, "", tmpy, NUMBER);
+		return true;
+	}
+	if (oper == SED) {
+		NEED_IS_TYPE(1, STRING);
+		NEED_IS_TYPE(2, STRING);
+		{
+			string cmd;
+			cmd.assign("echo \"");
+			cmd.append(NAME(2));
+			cmd.append("\" | sed -e \"");
+			cmd.append(NAME(1));
+			cmd.append("\"");
+			FILE *pipefile = (FILE *) popen(cmd.c_str(), "r");
+			if (!pipefile) {
+				err("cannot do `sed' in RPN; failed popen() call");
+				return false;
+			}
+			char *thisline = new char[LineLength + 1];
+			thisline[0] = '"';
+			if (NULL == fgets(thisline + 1, LineLength_1, pipefile)) {
+				err("cannot read output from 'sed' system command");
+				return false;
+			}
+			thisline[-1 + strlen(thisline)] = '"';
+			SET(2, thisline, 0.0, STRING);
+			rS.pop_back();
+		}
 		return true;
 	}
 	if (oper == STRINGWIDTH) {

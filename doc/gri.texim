@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.197 2002/06/05 13:17:43 dankelley Exp $
+@c $Id: gri.texim,v 1.198 2002/06/05 17:31:23 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -55,8 +55,8 @@
 @comment %**start of header
 @setfilename gri.info
 @settitle Gri
-@set GRI-VERSION 2.10.1
-@set GRI-PREVIOUS-VERSION 2.10.0
+@set GRI-VERSION 2.11.1
+@set GRI-PREVIOUS-VERSION 2.10.1
 @set AUTHOR-EMAIL Dan.Kelley@@Dal.CA
 @c %**end of header
 @iftex
@@ -12873,6 +12873,14 @@ case, @code{2/3} rounds to an @code{n} value of zero, yielding 2 as the
 resulting remainder.
 
 
+@item @{rpn "heLLo" "s/L/l/g" sed@}
+@cindex @code{sed} rpn operator
+@cindex rpn operator @code{sed}
+Switch all instances of @code{L} into @code{l}, yielding the string
+@code{"hello"} on the stack.  This can be helpful for working with
+filenames, etc.
+
+
 @item @{rpn "file" ".dat" strcat@}
 @cindex @code{strcat} rpn operator
 @cindex rpn operator @code{strcat}
@@ -17022,7 +17030,7 @@ they are found to create new bugs.
 @itemize @bullet
 
 @item
-n/a
+Add @code{sed} RPN operator, to work on strings @ref{sed}.
 
 @end itemize
 

@@ -1,5 +1,5 @@
 Summary: A language for scientific illustration
-%define griversion 2.10.1
+%define griversion 2.11.1
 Name: gri
 Version: %{griversion}
 Release: 1
@@ -96,6 +96,8 @@ then
 fi
 
 %changelog
+* Wed Jun 5 2002  Dan Kelley <Dan.Kelley@Dal.Ca>
+- Add 'sed' rpn operator.
 * Sat Jun 1 2002  Dan Kelley <Dan.Kelley@Dal.Ca>
 - Version 2.10.1
 - Fix Sourceforge bug 562911 (won't build with gcc-3.0)
