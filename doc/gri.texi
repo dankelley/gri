@@ -157,7 +157,7 @@ The Gri web homepage is at
 @c HTML <LI>To check the syntax of a command, consult
 @c HTML the <A HREF="#Commands"> list
 @c HTML of Gri commands</A>.  You should also
-@c HTML check the list of <A HREF="#History">new features</A>
+@c HTML check the list of <A HREF="#Evolution">new features</A>
 @c HTML occasionally.
 @c HTML <LI>Become familiar with the
 @c HTML <A HREF="ConceptIndex.html">index</A>.
