@@ -1203,6 +1203,10 @@ commands) that created this PostScript file.  This is possible because
 Gri stores the commands in the PostScript file as specially-marked
 comments that can be retrieved and decoded later.
 
+Note that the commands are stored in the PostScript file at the time of
+parsing, not at the time of executation.  Also, @code{insert}
+(@ref{Insert}) threads are not traces.
+
 
 @section Fixing a broken PostScript file
 To make Gri repair a PostScript file created by a Gri job that failed
