@@ -9,6 +9,7 @@
 # @c STYLE .*               -> formatting for examples
 # @c CLICKABLE_SAMPLE .* .* -> for html, graph+code.  First is gif, second code (normally as html).
 while(<>) {
+    next if /\@c -\*- mode:/;
     foreach $target (keys (%equivalence)) {
 	s/$target/$equivalence{$target}/g;
     }
