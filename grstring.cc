@@ -154,6 +154,7 @@ gr_show_at(/*const*/ char *s, double xcm, double ycm, gr_textStyle style, double
 
 	// Update bounding box
 	bounding_box_update(box);
+	_drawingstarted = true;
 }
 
 // gr_drawstring() -- draw string, including font changes &super/subscripts
@@ -443,6 +444,7 @@ gr_drawstring(const char *s)
 	STOP_OLD_TEXT;
 	gr_setfontsize_pt(original_fontsize);
 	gr_setfont(original_font);
+	_drawingstarted = true;
 	return;
 }
 
@@ -895,6 +897,7 @@ gr_DrawChar(const char *c)
 			fprintf(_grPS, "%c", *c);
 			break;
 		}
+	_drawingstarted = true;
 	check_psfile();
 }
 
@@ -963,6 +966,7 @@ gr_show_in_box(/*const*/GriString &s,
 		   angle_deg);
 	_griState.set_color_line(old_line_color);
 	_griState.set_color_text(old_text_color);
+	_drawingstarted = true;
 }
 
 // Rotate (x,y) into (xx,yy), through `angle' degrees counterclockwise.

@@ -244,6 +244,7 @@ void GriPath::stroke_or_fill(char s_or_f, units the_units, double width)
 	delete [] xc;
 	delete [] yc;
 	delete [] ac;
+	_drawingstarted = true;
 }
 
 // Remove points in curve which lie within 'allow' centimeters
