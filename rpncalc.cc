@@ -19,6 +19,11 @@ extern "C" double atanh(double x);         // DEC-cxx needs this
 #endif
 
 static vector<RpnItem> rS;
+void
+erase_rpn_stack()
+{
+	rS.erase(rS.begin(), rS.end());
+}
 
 
 
@@ -713,17 +718,44 @@ do_operation(operator_name oper)
 		rS.pop_back();
 		return true;
 	} 
-	if (oper == POWER) {
+	if (oper == POWER) {	// x^p
+		// Solve SourceForge bug #113816 for a few legal cases with x<0
 		NEED_ON_STACK(2); NEED_IS_TYPE(1, NUMBER); NEED_IS_TYPE(2, NUMBER);
-		if (VALUE(2) < 0.0) {	// cannot raise a negative to a power
-			RpnError = NEED_GE_0;
-			rS.pop_back();	// no need, since will die
-			return false;
+		double x = VALUE(2), p = VALUE(1);
+		if (gr_missing(x) || gr_missing(p)) {
+			SET(2, "", gr_currentmissingvalue(), NUMBER);
+			rS.pop_back();
+			return true;
 		}
-		res = (gr_missing(VALUE(1)) || gr_missing(VALUE(2))) ?
-			gr_currentmissingvalue() : pow(VALUE(2), VALUE(1));
-		SET(2, "", res, NUMBER);
-		rS.pop_back();
+		if (x == 0.0) {	// I bet pow() is ok on zero, but let's be safe
+			SET(2, "", 0.0, NUMBER);
+			rS.pop_back();
+			return true;
+		}
+		if (x > 0.0) {
+			SET(2, "", pow(x, p), NUMBER);
+			rS.pop_back();
+			return true;
+		}
+		// If x<0 and p is even integer, ok;
+		// If x<0 and p is  odd integer, ok;
+		// Otherwise, we're out of luck.
+		if (x < 0.0) {
+			if (is_even_integer(p)) {
+				SET(2, "", pow(-x, p), NUMBER);
+				rS.pop_back();
+				return true;
+			} else if (is_odd_integer(p)) {
+				SET(2, "", -pow(-x, p), NUMBER);
+				rS.pop_back();
+				return true;
+			} else {
+				RpnError = NEED_GE_0;
+				rS.pop_back();	// no need, since will die
+				return false;
+			}
+		}
+		// Cannot get here.
 		return true;
 	}
 	if (oper == ACOSINE) {

@@ -1790,3 +1790,28 @@ clean_blanks_quotes(string& c)
 			c.STRINGERASE(-1 + c.size(), 1);
 	}
 }
+
+bool
+is_even_integer(double v)
+{
+	int iv = int(v);
+	if (double(iv) != v)
+		return false;	// not even an integer
+	int iiv = 2 * (iv / 2);
+	if (iv == iiv)
+		return true;
+	return false;
+}
+
+bool
+is_odd_integer(double v)
+{
+	int iv = int(v);
+	if (double(iv) != v)
+		return false;	// not even an integer
+	int iiv = 2 * (iv / 2);
+	if (iv != iiv)
+		return true;
+	return false;
+}
+

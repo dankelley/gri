@@ -144,6 +144,8 @@ bool            imageMask_exists(void);
 bool            image_scales_defined(void);
 double          image_to_value(int c);
 bool            inside_box(double x, double y);
+bool            is_even_integer(double v); 
+bool            is_odd_integer(double v); 
 bool            is_create_new_command(const char *cmdline);
 bool            is_punctuation(int c);
 bool            is_syn(const char *name);

@@ -36,6 +36,7 @@ rpnfunctionCmd()
 #define NEED_GT_1 10		/* need operand > 1  */
 #define COMPUTER_LIMITATION 11	/* can't do on this machine */
 #define GENERAL_ERROR  12	/* some other error */
+
 /*
  * Substitute an rpn expression.  Return 1 if found an expression.  This is
  * called repeatedly by other functions, until it returns 0, at which time
@@ -46,6 +47,8 @@ rpnfunctionCmd()
 bool
 substitute_rpn_expressions(const char *s, char *sout)
 {
+	void erase_rpn_stack();
+	erase_rpn_stack();
 	if (((unsigned) superuser()) & FLAG_RPN) printf("DEBUG %s:%d  substitute_rpn_expressions(%s,...)\n", __FILE__,__LINE__,s);
 	// To speed action, maintain a buffer in which 's' will be copied,
 	// prior to chopping into words.  BUG: this buffer is only cleaned
