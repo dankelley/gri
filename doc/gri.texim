@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.118 2001/07/24 12:37:11 dankelley Exp $
+@c $Id: gri.texim,v 1.119 2001/07/24 13:46:36 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -4763,6 +4763,11 @@ labels (just like @code{.style.} = 2).
 With the keyword @code{none} specified, prevent Gri from automatically
 drawing axes when drawing curves.
 
+Note: @code{set axes style} can also be used to set axes properties,
+and then simply using @code{draw axes}, or letting axes be auto-drawn,
+will result in the desired effect (@ref{Set Axes Style}).  However, if
+the @code{draw axes} command explicitly asks for a particular style,
+then it over-rides the style set by @code{Set Axes Style}.
 
 
 @node   Draw Border Box, Draw Box, Draw Axes, Draw
@@ -8026,7 +8031,7 @@ set axes style .style.     \
 @end example
 
 @noindent
-Tell Gri how you want the axes to look.
+Tell Gri how you want the axes to look, when they are drawn later.
 
 @itemize @bullet
 @item @code{set axes style 0}
