@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <stdlib.h>
+#include <errno.h>
 #include "extern.hh"
 #include "files.hh"
 #include "superus.hh"

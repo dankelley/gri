@@ -1,6 +1,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
+#include <errno.h>
 #include "extern.hh"
 #include "private.hh"
 #include "gr.hh"
