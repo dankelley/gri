@@ -1,13 +1,17 @@
 # Makefile for Gri documentation files.
 
             DOC_DIR = $(prefix)/share/doc/gri
+    DOC_DIR_SOLARIS = $(prefix)/share/gri/doc
            HTML_DIR = $(DOC_DIR)/html
+   HTML_DIR_SOLARIS = $(DOC_DIR_SOLARIS)/html
         EXAMPLE_DIR = $(DOC_DIR)/examples
+EXAMPLE_DIR_SOLARIS = $(DOC_DIR_SOLARIS)/examples
                  RM = rm -f
             REFCARD = refcard
         CMD_REFCARD = cmdrefcard
      HTML_LONG_NAME = gri-long
            INFO_DIR = $(prefix)/info
+   INFO_DIR_SOLARIS = /opt/gnu/info
 
 FORCE:
 
@@ -21,7 +25,7 @@ install:
 
 install-solaris:
 	make info-install-solaris
-	make html-install DOC_DIR=$(prefix)/share/gri/doc
+	make html-install-solaris
 
 read:
 	chmod a+r Makefile
@@ -76,6 +80,18 @@ html-install:	html
 	install -m 644 *.html              $(HTML_DIR)
 	(cd $(HTML_DIR); ln -sf ../examples)
 
+html-install-solaris:	html
+	install -d $(EXAMPLE_DIR_SOLARIS)
+	install -d $(HTML_DIR_SOLARIS)/resources
+	install -d $(HTML_DIR_SOLARIS)/screenshots
+	install -m 644 resources/*.gif     $(HTML_DIR_SOLARIS)/resources
+	install -m 644 examples/*.jpg      $(HTML_DIR_SOLARIS)/
+	install -m 644 examples/{model*,*.dat,*.gri,*.ps} $(EXAMPLE_DIR_SOLARIS)
+	install -m 755 examples/FEM.pl     $(EXAMPLE_DIR_SOLARIS)
+	install -m 644 screenshots/*.jpg   $(HTML_DIR_SOLARIS)/screenshots
+	install -m 644 *.html              $(HTML_DIR_SOLARIS)
+	(cd $(HTML_DIR_SOLARIS); ln -sf ../examples)
+
 card-clean:
 	-rm -f refcard.dvi refcard.log refcard.ps
 	-rm -f cmdrefcard.dvi cmdrefcard.log cmdrefcard.ps
@@ -102,8 +118,8 @@ info-install:
 	(cd $(INFO_DIR) ; gzip -f --best gri.info*)
 
 info-install-solaris:
-	install -d $(INFO_DIR)
-	install -m 644 gri.info* $(INFO_DIR)
+	install -d $(INFO_DIR_SOLARIS)
+	install -m 644 gri.info* $(INFO_DIR_SOLARIS)
 
 info-clean:
 	rm -f gri.info* info debian-info
