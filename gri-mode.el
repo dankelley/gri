@@ -5,7 +5,7 @@
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.36 (07 Feb 2001)
+;; Version:   2.37 (15 Feb 2001)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -354,7 +354,8 @@
 ;;    Closes SF Bug #115307
 ;; V2.35 09Jan01 RCS 1.60 - gri-mode-is-Emacs20 -> gri-mode-is-Emacs2X
 ;;                          for Emacs-21 now out in beta.
-;; V2.36 07Feb07 RCS 1.61 - add ~.grirc to auto-mode-alist
+;; V2.36 07Feb01 RCS 1.61 - add ~.grirc to auto-mode-alist
+;; V2.37 15Feb01 RCS 1.62 - modify syntax table for strings with embedded "
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -3511,7 +3512,10 @@ Any output (errors?) is put in the buffer `gri-WWW-manual'."
   ;;(modify-syntax-entry ?_ "_" gri-mode-syntax-table)
   (modify-syntax-entry ?_ "w" gri-mode-syntax-table)
   (modify-syntax-entry ?. "w" gri-mode-syntax-table)
-  (modify-syntax-entry ?\\ "_" gri-mode-syntax-table)
+
+;;(modify-syntax-entry ?\\ "_" gri-mode-syntax-table)
+;; For strings like:  "a string with an embedded \" character"
+  (modify-syntax-entry ?\\ "\\" gri-mode-syntax-table)
 
   (modify-syntax-entry ?+ "." gri-mode-syntax-table)
   (modify-syntax-entry ?- "." gri-mode-syntax-table)
@@ -4224,7 +4228,7 @@ static char *magick[] = {
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.36 (c) 07 Feb 2001 --  Peter Galbraith <psg@debian.org>
+V2.37 (c) 15 Feb 2001 --  Peter Galbraith <psg@debian.org>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
