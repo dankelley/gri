@@ -83,7 +83,7 @@ binary-arch: debian/copyright build install
 #	dh_installmenu -a
 	dh_installemacsen -a
 	dh_installinfo doc/gri.info*
-	dh_installmanpages -a doc/gri-manpage-redhat.1 doc/gri-manpage.1
+	dh_installmanpages -a doc/gri-manpage*.1
 	dh_installchangelogs -a 
         ifdef STRIPIT
 		dh_strip -a
@@ -119,7 +119,9 @@ binary-arch-unofficial:    debian/copyright build
 	dh_testdir -a
 	dh_testroot -a
 	dh_installdocs -a -A README debian/README.Debian
-	dh_installmanpages -a doc/gri-manpage-redhat.1 doc/gri-manpage.1
+	-cp debian/gri.1 debian/gri-$(version).1
+	dh_installmanpages -a doc/gri*.1 debian/gri.1
+	-rm debian/gri-$(version).1
 	dh_installchangelogs -a 
         ifdef STRIPIT
 		dh_strip -a

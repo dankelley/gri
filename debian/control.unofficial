@@ -9,7 +9,7 @@ Package: gri-VSN
 Architecture: any
 Depends: ${shlibs:Depends}
 Conflicts: gri (= VSN), gri-VSNstatic
-Description: a language for scientific graphics programming (without extras). 
+Description: a language for scientific illustration (without extras).
  This is not an official Debian package. 
  .
  Gri is a command-driven application, as opposed to a click/point
@@ -29,13 +29,14 @@ Description: a language for scientific graphics programming (without extras).
  This version-specific package exists to live alongside a newer release of
  the regular gri package, thus providing backwards compatibility for your
  old code that may depend on this version of Gri.  To distinguish this
- package from the regular `gri' package, it is named as `gri-VERSION'.
+ package from the regular `gri' package, it is named as `gri-VERSION', 
+ e.g. gri-VSN.
 
 Package: gri-VSNstatic
 Architecture: any
 Depends: ${shlibs:Depends}
 Conflicts: gri (= VSN), gri-VSN
-Description: a language for scientific graphics programming (without extras). 
+Description: a language for scientific illustration (without extras).
  This is not an official Debian package. 
  .
  Gri is a command-driven application, as opposed to a click/point
@@ -56,4 +57,4 @@ Description: a language for scientific graphics programming (without extras).
  a newer release of the regular gri package, thus providing backwards
  compatibility for your old code that may depend on this version of Gri.
  To distinguish this package from the regular `gri' package, it is named as
- `gri-staticVERSION'.
+ `gri-VERSIONstatic', e.g. gri-VSNstatic.
