@@ -1,5 +1,8 @@
 2001-10-14  Dan E. Kelley  <Dan.Kelley@Dal.Ca>
 
+	* doc/gri.texim: update the history sections to account for
+	versions 2.8.3 and 2.8.4
+
 	* startup.redhat: rewrite to shorten and clarify; also, put in a
 	pointer to the SourceForge website.
 

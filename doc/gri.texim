@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.135 2001/10/13 14:55:11 dankelley Exp $
+@c $Id: gri.texim,v 1.136 2001/10/14 17:32:07 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -15795,6 +15795,32 @@ only in the fixing of bugs.
 @node   Version 2.8, Version 2.6, Stable Stream, Stable Stream
 @comment  node-name,  next,  previous,  up
 @subsection Version 2.8
+
+@subsection Version 2.8.4 [2001 Oct 4]
+@itemize @bullet
+@item
+Fix SourceForge bug
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=467973&group_id=5511&atid=105511">
+#467973
+@c HTML </a>
+(@code{gri -version} gave wrong version number, breaking the Emacs Gri mode.)
+@item
+Fix SourceForge bug
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=468014&group_id=5511&atid=105511">
+#468014
+@c HTML </a>
+(@code{draw grid} disobeyed pencolor.)
+@end itemize
+
+@subsection Version 2.8.3 [2001 Oct 1]
+@itemize @bullet
+@item
+Fix SourceForge bug
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=462243&group_id=5511&atid=105511">
+#462243
+@c HTML </a>
+(endian problem in Rasterfile images + reading problem in PGM images).
+@end itemize
 
 @subsection Version 2.8.2 [2001 Sep 19]
 @itemize @bullet
