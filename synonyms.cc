@@ -349,7 +349,7 @@ substitute_synonyms_cmdline(const char *s, string& sout, bool allow_math)
 	}
 	// Pass `read \syn ...', `read .var. ...' and `read line \syn' through
 	if (strEQ(_Words2[0], "read")) {
-		if (nword == 2
+		if (nword >= 2
 		    && (is_syn(_Words2[1]) || is_var(_Words2[1]))) {
 			sout = s;
 			return true;
