@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.209 2002/09/01 14:53:53 dankelley Exp $
+@c $Id: gri.texim,v 1.210 2002/09/06 22:40:53 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -55,7 +55,7 @@
 @comment %**start of header
 @setfilename gri.info
 @settitle Gri
-@set GRI-VERSION 2.11.0
+@set GRI-VERSION 2.12.0
 @set GRI-PREVIOUS-VERSION 2.10.1
 @set AUTHOR-EMAIL Dan.Kelley@@Dal.CA
 @c %**end of header
@@ -16300,7 +16300,7 @@ and adjust the "status" menu to read "closed".
 
 
 @c HTML <!-- newfile StableStream.html "Gri: Stable Stream" "Gri: History" -->
-@node   Stable Stream, Version 2.10, History, History
+@node   Stable Stream, Version 2.12, History, History
 @comment  node-name,  next,  previous,  up
 @section Stable Stream
 
@@ -16311,6 +16311,7 @@ compared to any of the @code{2.4.x} versions, but @code{2.6.1} differs
 only in the fixing of bugs.
 
 @menu
+* Version 2.12::
 * Version 2.10::
 * Version 2.8::
 * Version 2.6::
@@ -16318,8 +16319,57 @@ only in the fixing of bugs.
 * Version 2.2::
 @end menu
 
+@c HTML <!-- newfile Version_2_12.html "Gri: Version 2.12" "Gri: Version 2.12" -->
+@node   Version 2.12, Version 2.10, Stable Stream, Stable Stream
+@comment  node-name,  next,  previous,  up
+@subsection Version 2.12
+@cindex version 2.12
+
+@subsubsection Version 2.12.1 [2002 Sep 13]
+
+@subsubsection New Features
+
+@itemize @bullet
+
+@item
+Add @code{sed} RPN operator, to work on strings @ref{Binary Operators}.
+
+@item
+Add @code{skewness} and @code{kurtosis} RPN operators, to work on 
+columns @ref{Manipulation of Columns etc}.
+
+@end itemize
+
+
+@subsubsection Removed Features
+
+@itemize
+
+@item
+n/a
+
+@end itemize
+
+
+@subsubsection Bug Fixes
+
+@itemize
+
+@item
+Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=600395&group_id=5511&atid=105511,#600395}
+@dots{} won't compile with recently released version (3.2) of GCC compiler.
+
+@item
+Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=600223&group_id=5511&atid=105511,#600233}
+@dots{} segfaults if some RPN operators are used on stacks that do
+not contain enough entries (e.g. @code{show @{rpn cosh@}}). 
+@end itemize
+
+
 @c HTML <!-- newfile Version_2_10.html "Gri: Version 2.10" "Gri: Version 2.10" -->
-@node   Version 2.10, Version 2.8, Stable Stream, Stable Stream
+@node   Version 2.10, Version 2.8, Version 2.12, Stable Stream
 @comment  node-name,  next,  previous,  up
 @subsection Version 2.10
 @cindex version 2.10
@@ -17069,41 +17119,24 @@ they are found to create new bugs.
 @subsubsection New Features
 
 @itemize @bullet
-
 @item
-Add @code{sed} RPN operator, to work on strings @ref{Binary Operators}.
-
-@item
-Add @code{skewness} and @code{kurtosis} RPN operators, to work on 
-columns @ref{Manipulation of Columns etc}.
-
+n/a
 @end itemize
 
 
 @subsubsection Removed Features
 
-@itemize
-
+@itemize @bullet
 @item
-na/
-
+n/a
 @end itemize
 
 
 @subsubsection Bug Fixes
 
-@itemize
-
+@itemize @bullet
 @item
-Fix SourceForge bug
-@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=600395&group_id=5511&atid=105511,#600395}
-@dots{} won't compile with recently released version (3.2) of GCC compiler.
-
-@item
-Fix SourceForge bug
-@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=600223&group_id=5511&atid=105511,#600233}
-@dots{} segfaults if some RPN operators are used on stacks that do
-not contain enough entries (e.g. @code{show @{rpn cosh@}}). 
+n/a
 @end itemize
 
 

@@ -1,5 +1,5 @@
 Summary: A language for scientific illustration
-%define griversion 2.11.0
+%define griversion 2.12.0
 Name: gri
 Version: %{griversion}
 Release: 1
@@ -96,6 +96,13 @@ then
 fi
 
 %changelog
+* Fri Sep 13 2002  Dan Kelley <Dan.Kelley@Dal.Ca>
+- Version 2.12.0
+- add 'sed' RPN operator
+- add 'skewness' RPN operator
+- add 'kurtosis' RPN operator
+- fix SourceForge bug 600395 (won't compile with recently released version (3.2) of GCC compiler)
+- fix SourceForge bug 600233 (segfaults if some RPN operators are used on too-small stack)
 * Sun Jun 16 2002  Dan Kelley <Dan.Kelley@Dal.Ca>
 - Add 'hex2dec' and 'dec2hex' rpn operators.
 * Wed Jun  5 2002  Dan Kelley <Dan.Kelley@Dal.Ca>
