@@ -4,9 +4,9 @@
 #include	<unistd.h>
 #include	<stdio.h>
 #include	<time.h>
-#if defined(HAVE_LIBPOPT)
+//#if defined(HAVE_LIBPOPT)
 #include        <popt.h>
-#endif
+//#endif
 #include	"gr.hh"
 #include	"extern.hh"
 #include        "private.hh"
@@ -123,10 +123,12 @@ last_name(char *s)
 bool
 start_up(int argc, const char **argv)
 {
+/*
 #if defined(TEST_POPT)
 	printf("DEBUG: %s:%d: FYI, start_up() found the raw args to be:\n",__FILE__,__LINE__);
 	for (int i = 0; i < argc; i++) printf("DEBUG:                     '%s'\n", argv[i]);
 #endif
+*/
 	// Record version number
 	int major_version, minor_version, minor_minor_version;
 	extern char _input_data_separator; // defined in gri.cc
@@ -606,7 +608,7 @@ create_builtin_variables()
 static int
 interpret_optional_arguments(int argc, const char *argv[])
 {
-#if defined(HAVE_LIBPOPT) && defined(TEST_POPT)
+#if 1 //defined(HAVE_LIBPOPT) && defined(TEST_POPT)
 #define FLAG_DIRECTORY		1000
 #define FLAG_DIRECTORY_DEFAULT	1001
 #define FLAG_CREATOR            1002
@@ -656,29 +658,29 @@ interpret_optional_arguments(int argc, const char *argv[])
 		switch (arg) {
 		case 'b':
 			PUT_VAR("..batch..", 1.0);
-		        printf("DEBUG: %s:%d set to 'batch' mode\n",__FILE__,__LINE__);
+		        //printf("DEBUG: %s:%d set to 'batch' mode\n",__FILE__,__LINE__);
 			break;
 		case 'c':
 			number_optional_arg++;
-			printf("DEBUG: %s:%d <%s>\n",__FILE__,__LINE__,optArg);
+			//printf("DEBUG: %s:%d <%s>\n",__FILE__,__LINE__,optArg);
 			if (1 == sscanf(optArg, "%d", &ival))
 				_chatty = ival;
 			else
 				_chatty = 1;
-		        printf("DEBUG: %s:%d set to 'chatty' level %d\n",__FILE__,__LINE__, _chatty);
+		        //printf("DEBUG: %s:%d set to 'chatty' level %d\n",__FILE__,__LINE__, _chatty);
 			break;
 		case 'd':
-		        printf("DEBUG: %s:%d set to 'debug' mode\n",__FILE__,__LINE__);
+		        //printf("DEBUG: %s:%d set to 'debug' mode\n",__FILE__,__LINE__);
 			PUT_VAR("..debug..", 1);
 			_debugFlag = 1;
 			break;
 		case 'h':
 			give_help();
-			printf("DEBUG: %s:%d set the 'help' flag\n",__FILE__,__LINE__);
+			//printf("DEBUG: %s:%d set the 'help' flag\n",__FILE__,__LINE__);
 			gri_exit(0);
 			break;	// never executed
 		case 't':
-			printf("DEBUG: %s:%d set the 'trace' flag\n",__FILE__,__LINE__);
+			//printf("DEBUG: %s:%d set the 'trace' flag\n",__FILE__,__LINE__);
 			PUT_VAR("..trace..", 1.0);
 			break;
 		case 'v':
@@ -769,7 +771,7 @@ interpret_optional_arguments(int argc, const char *argv[])
 		}
 	}
 	const char *last_option = poptBadOption(optCon,arg);
-	printf("DEBUG %s:%d last_option = '%s'  arg=%d\n",__FILE__,__LINE__,last_option,arg);
+	//printf("DEBUG %s:%d last_option = '%s'  arg=%d\n",__FILE__,__LINE__,last_option,arg);
 	if (arg <= 0 && *last_option == '-') {
 		fprintf(stderr, "Unknown option `%s'.  Type `gri -h' for valid options\n", last_option);
 		gri_exit(1);
@@ -916,7 +918,7 @@ interpret_optional_arguments(int argc, const char *argv[])
 			}
 		}
 	}
-#endif
+#endif // BUG: this block should be trimmed when I see that popt is OK.
 	put_syn("\\.lib_dir.", _lib_directory.c_str(), true);
 	return number_optional_arg;
 }

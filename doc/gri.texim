@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.128 2001/08/14 22:22:40 dankelley Exp $
+@c $Id: gri.texim,v 1.129 2001/08/16 14:35:47 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -459,19 +459,28 @@ or more of the following (explained below):
 
 @example
 [-batch]
-[-chatty[N]]
+[-b]
+[-chatty N]
+[-c      N]
 [-debug]
+[-d]
 [-directory_default]
 [-directory pathname]
+[-help]
+[-h]
 [-no_bounding_box]
 [-no_cmd_in_ps]
 [-no_startup_message]
 [-output PS_file_name]
-[-publication]
+[-publication] 
+[-p]
 [-superuser N]
 [-trace]
+[-t]
 [-yes]
+[-y]
 [-version]
+[-v]
 [-warn_offpage]
 [-no_warn_offpage]
 @end example
@@ -509,10 +518,10 @@ For usage within the Emacs gri-mode, see
 @cindex batch processing
 @cindex @code{-batch} command-line option
 Stops Gri from printing out prompts and hints.
-@item  @code{-chatty[N]} or @code{-c[N]}
+@item  @code{-chatty N} or @code{-c N}
 @cindex @code{-chatty} command-line option
-Make Gri print out various informative messages.  The optional numerical
-value -- inserted with NO space -- gives a level of chattiness.  A value
+Make Gri print out various informative messages.  The numerical
+value gives a level of chattiness.  A value
 of 1, the default if the @code{-chatty} code is not supplied, tells Gri to
 keep you informed of some important things, like the success in gridding
 data for contouring.  Higher values make Gri tell you more:
@@ -521,7 +530,7 @@ Information printed at various chatty levels:
 @itemize @bullet
 
 @item @strong{0}
-The bare minimum is printed.  Thus invoking Gri as @code{gri -c0}@dots{}
+The bare minimum is printed.  Thus invoking Gri as @code{gri -c 0}@dots{}
 will make it as quiet as can be.
 @item @strong{1 or higher} (the default)
 The full filenames of the commandfiles are displayed at startup time.
@@ -16236,6 +16245,8 @@ enter the next stable stream of Gri, but it is important to note that
 main exception is bug fixes, which will enter the stable stream unless
 they are found to create new bugs.
 @itemize @bullet
+@item
+Make the @code{-chatty} commandline option require a value (@ref{Invoking Gri}).
 @item
 Make the @code{open} command accept URLs as filenames (@ref{Open}).
 @item
