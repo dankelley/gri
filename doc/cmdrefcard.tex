@@ -1,7 +1,7 @@
 % scp cmdrefcard.ps dankelley@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
 
-\def\griversion{2.6}
-\def\date{2001 Apr 11}
+\def\griversion{2.8}
+\def\date{2001 July 30}
 
 % Reference Card for Gri
 %**start of header
@@ -35,6 +35,9 @@
 %  Dan Kelley (copied from a Unix reference card written by Steven Matheson)
 %  Internet: matehson@open.dal.ca
 %
+% Note by Peter Galbraith, July 2001:  It's pretty obvious to me that Steve
+% based his reference card on emacs' refcard written by Stephen Gildea.
+%  Therefore, this file is a derived product and is licensed under the GPL.
 
 \def\shortnotice{\vskip 1ex plus 2 fill
   \centerline{\small Gri version \versionnumber}}
@@ -300,6 +303,8 @@ Here are the commands:
 
 % INSERT stuff from cmdrefcard.pl schellscript here (to line 'end of INSERT')
 
+assert .condition. ["message"]
+
 cd [$\backslash$pathname]
 
 close [$\backslash$filename]
@@ -307,10 +312,6 @@ close [$\backslash$filename]
 convert columns to grid [neighbor $\mid$ $\lbrace$objective$\mid$boxcar .xr. .yr. [.n. .e.]$\rbrace$ $\mid$ $\lbrace$barnes [.xr. .yr. .gamma. .iter.]$\rbrace$]
 
 convert columns to spline [.gamma.] [.xmin. .xmax. .xinc.]
-
-convert columns from polar to rectangular
-
-convert columns from rectangular to polar
 
 convert grid to columns
 
@@ -356,9 +357,7 @@ draw curve
 
 draw essay "text"$\mid$reset
 
-draw gri logo [size .fontsize. at .xcm. .ycm.]
-
-draw gri logo2 size .fontsize. at .xcm. .ycm. $\backslash$topcolor $\backslash$bottomcolor
+draw gri logo .x\_cm. .y\_cm. .height\_cm. .style. $\backslash$fgcolor $\backslash$bgcolor
 
 draw grid
 
@@ -370,9 +369,7 @@ draw image histogram [box .ll\_x\_cm. .ll\_y\_cm. .ur\_x\_cm. .ur\_y\_cm.]
 
 draw image
 
-draw isopycnal .density. [unlabelled]
-
-draw isopycnal1 .density. [unlabelled]
+draw isopycnal [unlabelled] .density. [.P\_sigma. [.P\_theta.]]
 
 draw isospice .spice. [unlabelled]
 
@@ -394,13 +391,11 @@ draw patches .width. .height. [cm]
 
 draw polygon [filled] .x0. .y0. .x1. .y1. .x2. .y2. [...]
 
-draw regression line
+draw regression line [clipped]
 
 draw symbol legend $\backslash$symbol\_name "label" at .x. .y. [cm]
 
-draw symbol .code.$\mid$$\backslash$name at .x. .y. [cm]
-
-draw symbol [[.code.$\mid$$\backslash$name] [color [hue z$\mid$.h.] [brightness z$\mid$.b.] [saturation z$\mid$.s.]]]
+draw symbol [.code.$\mid$$\backslash$name [at .x. .y. [cm]] [graylevel z]$\mid$[color [hue z$\mid$.h.] [brightness z$\mid$.b.] [saturation z$\mid$.s.]]]
 
 draw time stamp [fontsize .points. [at .x\_cm. .y\_cm. cm [with angle .deg.]]]
 
@@ -420,7 +415,7 @@ draw zero line [horizontally$\mid$vertically]
 
 expecting version .n.
 
-filter column x$\mid$y$\mid$z$\mid$u$\mid$v$\mid$r$\mid$theta recursively .a0. .a1. ... .b0. .b1. ...
+filter column x$\mid$y$\mid$z$\mid$u$\mid$v recursively .a0. .a1. ... .b0. .b1. ...
 
 filter grid rows$\mid$columns recursively .a0. .a1. ... .b0. .b1. ...
 
@@ -452,9 +447,11 @@ mask image [to $\lbrace$uservalue .u.$\rbrace$$\mid$$\lbrace$imagevalue .i.$\rbr
 
 new page
 
+new postscript file $\backslash$name
+
 new .variable\_name.$\mid$$\backslash$synonym\_name [.variable\_name.$\mid$$\backslash$synonym\_name [...]]
 
-open $\lbrace$$\backslash$filename$\rbrace$$\mid$$\lbrace$"system command$\mid$"$\rbrace$ $\lbrace$[binary [uchar$\mid$int$\mid$float$\mid$double]]$\rbrace$$\mid$$\lbrace$netCDF$\rbrace$
+open $\lbrace$$\backslash$filename$\rbrace$$\mid$$\lbrace$"system command$\mid$"$\rbrace$ $\lbrace$[binary [uchar$\mid$int$\mid$float$\mid$double$\mid$16bit]]$\rbrace$$\mid$$\lbrace$netCDF$\rbrace$
 
 postscript $\backslash$string
 
@@ -469,6 +466,26 @@ read colornames from RGB $\backslash$filename
 read columns ...
 
 read grid $\lbrace$x [.rows.$\mid$$\lbrace$="name"$\rbrace$]$\rbrace$$\mid$$\lbrace$y [.cols.]$\lbrace$="name"$\rbrace$$\rbrace$$\mid$$\lbrace$data $\lbrace$[spacers] [.rows. .cols.] [spacers] [bycolumns]$\rbrace$$\mid$$\lbrace$="name"$\rbrace$$\rbrace$
+
+read grid x [.rows.]
+
+read grid y [.rows.]
+
+read grid data [spacers] [.rows. .cols.] [spacers] [bycolumns]
+
+read grid x = "variable name"
+
+read grid y = "variable name"
+
+read grid data = "variable name"
+
+set x grid', `set y grid
+
+read grid x' sets `$\backslash$.return\_value to `N cols
+
+read grid y' sets `$\backslash$.return\_value' to `N rows
+
+read grid data' sets `$\backslash$.return\_value to `N rows N cols
 
 read image colorscale [rgb$\mid$hsb]
 
@@ -488,7 +505,9 @@ read image .rows. .cols. [box .ll\_x. .ll\_y. .ur\_x. .ur\_y.] [bycolumns]
 
 read from $\backslash$filename
 
-read line $\backslash$synonym
+read line [raw] $\backslash$synonym
+
+read [raw] [* [*...]] $\backslash$synonym$\mid$$\lbrace$.variable. [.variable. ...]$\rbrace$
 
 read [* [*...]] $\backslash$synonym$\mid$$\lbrace$.variable. [.variable. ...]$\rbrace$
 
@@ -502,35 +521,73 @@ rescale
 
 resize x for maps
 
+resize x for maps
+
+resize y for maps
+
 resize y for maps
 
 return
 
-rewind
+rewind [filename]
 
-set axes style .style. $\mid$ $\lbrace$offset [.dist\_cm.]$\rbrace$ $\mid$ rectangular $\mid$ polar $\mid$ none $\mid$ default
+set axes style .style. $\mid$ $\lbrace$offset [.dist\_cm.]$\rbrace$ $\mid$ rectangular $\mid$ none $\mid$ default
+
+set axes style 0
+
+set axes style 1
+
+set axes style 2
+
+set axes style offset [.dist\_cm.]
+
+set axes style rectangular
+
+set axes style none
+
+set axes style default
 
 set arrow size .size.$\mid$$\lbrace$as .num. percent of length$\rbrace$$\mid$default
+
+set arrow size .size.
+
+set arrow size as .num. percent of length
+
+set arrow size default
 
 set arrow type .which.
 
 set beep on$\mid$off
 
+set bounding box .ll\_x. .ll\_y. .ur\_x. .ur\_y. [cm$\mid$pt]
+
 set clip [postscript] $\lbrace$on [.xleft. .xright. .ybottom. .ytop.]$\rbrace$$\mid$off
+
+set clip on
+
+set clip on .xleft. .xright. .ybottom. .ytop.
+
+set clip off
+
+set clip postscript on .xleft. .xright. .ybottom. .ytop.
+
+set clip postscript off
 
 set color $\backslash$name$\mid$$\lbrace$rgb .red. .green. .blue.$\rbrace$$\mid$$\lbrace$hsb .hue. .saturation. .brightness.$\rbrace$
 
 set colour $\backslash$name$\mid$$\lbrace$rgb .red. .green. .blue.$\rbrace$$\mid$$\lbrace$hsb .hue. .saturation. .brightness.$\rbrace$
 
+set colorname $\backslash$$\backslash$name $\lbrace$rgb .red. .green. .blue.$\rbrace$$\mid$$\lbrace$hsb .hue. .saturation. .brightness.$\rbrace$
+
 set contour format $\backslash$style$\mid$default
 
 set contour label for lines exceeding .x. cm
 
-set contour label position $\lbrace$.start\_cm. .between\_cm.$\rbrace$$\mid$default
+set contour label position $\lbrace$.start\_cm. .between\_cm.$\rbrace$$\mid$centered$\mid$default
 
 set contour labels rotated$\mid$horizontal$\mid$whiteunder$\mid$nowhiteunder
 
-set dash [.n.$\mid$$\lbrace$.dash\_cm. .blank\_cm. ...$\rbrace$$\mid$off]
+set dash [.type.$\mid$$\lbrace$.dash\_cm. .blank\_cm. ...$\rbrace$$\mid$off]
 
 set environment
 
@@ -542,7 +599,15 @@ set font color $\backslash$name$\mid$$\lbrace$rgb .red. .green. .blue.$\rbrace$$
 
 set font colour $\backslash$name$\mid$$\lbrace$rgb .red. .green. .blue.$\rbrace$$\mid$$\lbrace$hsb .hue. .saturation. .brightness.$\rbrace$
 
+set font encoding PostscriptStandard $\mid$ isolatin1
+
 set font size $\lbrace$.size. [cm]$\rbrace$$\mid$default
+
+set font size .size.
+
+set font size .size. cm
+
+set font size default
 
 set font to $\backslash$fontname
 
@@ -551,6 +616,10 @@ set graylevel .brightness.$\mid$white$\mid$black
 set greylevel .brightness.$\mid$white$\mid$black
 
 set grid missing $\lbrace$above$\mid$below .intercept. .slope.$\rbrace$$\mid$$\lbrace$inside curve$\rbrace$
+
+set grid missing above$\mid$below .intercept. .slope
+
+set grid missing inside curve
 
 set ignore initial newline [off]
 
@@ -568,7 +637,7 @@ set image grayscale [black .bl. white .wh. [increment .inc.]]
 
 set image greyscale [black .bl. white .wh. [increment .inc.]]
 
-set image missing value color to white$\mid$black$\mid$$\lbrace$graylevel .brightness.$\rbrace$
+set image missing value color to white$\mid$black$\mid$$\lbrace$graylevel .brightness.$\rbrace$$\lbrace$rgb .red. .green. .blue.$\rbrace$
 
 set image missing value colour to white$\mid$black$\mid$$\lbrace$graylevel .brightness.$\rbrace$
 
@@ -576,11 +645,27 @@ set image range .min\_value. .max\_value.
 
 set input data window x$\mid$y $\lbrace$.min. .max.$\rbrace$$\mid$off
 
+set input data window x .min. .max.
+
+set input data window x off
+
+set input data window y .min. .max.
+
+set input data window y off
+
+set input data separator TAB$\mid$default
+
+set line cap .type.
+
+set line join .type.
+
 set line width [axis$\mid$symbol$\mid$all] .width\_pt.$\mid$$\lbrace$rapidograph $\backslash$name$\rbrace$$\mid$default
 
 set missing value .value.
 
 set postscript filename "$\backslash$string"
+
+set page size letter$\mid$legal$\mid$folio$\mid$tabloid$\mid$A0$\mid$A1$\mid$A2$\mid$A3$\mid$A4$\mid$A5
 
 set page portrait$\mid$landscape$\mid$$\lbrace$factor .mag.$\rbrace$$\mid$$\lbrace$translate .xcm. .ycm.$\rbrace$
 
@@ -588,13 +673,29 @@ set panel .row. .col.
 
 set panels .rows. .cols. [.dx\_cm. .dy\_cm.]
 
-set symbol size .size\_cm.$\mid$default
+set path to "$\backslash$path"$\mid$default for data$\mid$commands
+
+set symbol size .diameter\_cm.$\mid$default
+
+set symbol size .diameter\_cm.
+
+set symbol size default
 
 set tic size .size.$\mid$default
+
+set tic size .size.
+
+set tic size default
 
 set tics in$\mid$out
 
 set trace [on$\mid$off]
+
+set trace
+
+set trace on
+
+set trace off
 
 set u scale .cm\_per\_unit.$\mid$$\lbrace$as x$\rbrace$
 
@@ -604,37 +705,111 @@ set u scale as x
 
 set v scale .cm\_per\_unit.$\mid$$\lbrace$as y$\rbrace$
 
+set v scale .cm\_per\_unit.
+
+set v scale as y
+
 set x axis top$\mid$bottom$\mid$increasing$\mid$decreasing$\mid$$\lbrace$.left. .right. [.incBig. [.incSml.]]$\rbrace$$\mid$unknown
 
-set x format $\backslash$format$\mid$off
+set x axis top
+
+set x axis bottom
+
+set x axis increasing
+
+set x axis decreasing
+
+set x axis .left. .right.
+
+set x axis .left. .right. .incBig.
+
+set x axis .left .right. .incBig. .incSml.
+
+set x format $\backslash$format$\mid$default$\mid$off
+
+%e' and `%g') are permitted.  For example, `set x format %.1f
 
 set x grid .left. .right. .inc.$\mid$$\lbrace$/.cols.$\rbrace$
 
+set x grid .left. .right. .inc.
+
+set x grid .left. .right. /.cols.
+
 set x margin $\lbrace$[bigger$\mid$smaller] .size.$\rbrace$ $\mid$ default
 
-set x name "$\backslash$string"
+set x margin .size.
+
+set x margin bigger .size.
+
+set x margin smaller .size.
+
+set x margin default
+
+set x name "$\backslash$name"$\mid$default
 
 set x size .width\_cm.$\mid$default
+
+set x size .width\_cm.
+
+set x size default
 
 set x type linear$\mid$log$\mid$$\lbrace$map E$\mid$W$\mid$N$\mid$S$\rbrace$
 
 set y axis label horizontal$\mid$vertical
 
+set y axis label horizontal
+
+set y axis label vertical
+
 set y axis left$\mid$right$\mid$increasing$\mid$decreasing$\mid$$\lbrace$.bottom. .top. [.incBig. [.incSml.]]$\rbrace$$\mid$unknown
 
-set y format $\backslash$format$\mid$off
+set y axis left
+
+set y axis right
+
+set y axis increasing
+
+set y axis decreasing
+
+set y axis .bottom. .top.
+
+set y axis .bottom. .top. .incBig.
+
+set y axis .bottom. .top. .incBig. .incSml.
+
+set y format $\backslash$format$\mid$default$\mid$off
+
+%e' and `%g') are permitted.  For example, `set y format %.1f
 
 set y grid .bottom. .top. .inc.$\mid$$\lbrace$/.rows.$\rbrace$
 
+set y grid .bottom. .top. .inc.
+
+set y grid .bottom. .top. /.rows.
+
 set y margin $\lbrace$[bigger$\mid$smaller] .size.$\rbrace$ $\mid$ default
 
-set y name "$\backslash$string"
+set y margin .size.
+
+set y margin bigger .size.
+
+set y margin smaller .size.
+
+set y margin default
+
+set y name "$\backslash$name"$\mid$default
 
 set y size .height\_cm.$\mid$default
+
+set y size .height\_cm.
+
+set y size default
 
 set y type linear$\mid$log$\mid$$\lbrace$map N$\mid$S$\mid$E$\mid$W$\rbrace$
 
 set z missing above$\mid$below .intercept. .slope.
+
+set "..."
 
 show all
 
@@ -654,6 +829,8 @@ show hint of the day
 
 show image
 
+show license
+
 show misc
 
 show next line
@@ -670,9 +847,13 @@ show variables
 
 show .value. $\mid$ $\lbrace$rpn ...$\rbrace$ $\mid$ "$\backslash$text" [.value.$\mid$$\lbrace$rpn ...$\rbrace$$\mid$text [...]]
 
+skip [forward$\mid$backward] [.n.]
+
+sleep .sec.
+
 smooth $\lbrace$x [.n.]$\rbrace$ $\mid$ $\lbrace$y [.n.]$\rbrace$ $\mid$ $\lbrace$grid data [.f.$\mid$$\lbrace$along x$\mid$y$\rbrace$]$\rbrace$
 
-skip [forward$\mid$backward] [.n.]
+source $\backslash$filename
 
 sprintf $\backslash$synonym "format" .variable. [.variable. [...]]
 
@@ -700,6 +881,8 @@ write image mask [pgm$\mid$rasterfile] to $\backslash$filename
 
 write image [pgm$\mid$rasterfile] to $\backslash$filename
 
+unlink $\backslash$filename
+
 ?draw axes exploded
 
 ?contour xyz data
@@ -707,6 +890,7 @@ write image [pgm$\mid$rasterfile] to $\backslash$filename
 ?set axes
 
 ?draw image BW raster
+
 
 
 \endexample
