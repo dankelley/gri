@@ -2942,7 +2942,7 @@ get_next_data_word()
 			unsigned int eol;
 			bool status = inLine.word_from_FILE(_cmdFILE.back().get_fp(), &eol);
 			for (unsigned int e = 0; e < eol; e++) {
-				printf("DEBUG: %s:%d incrementing line number in command file\n", __FILE__, __LINE__);
+				//printf("DEBUG: %s:%d incrementing line number in command file\n", __FILE__, __LINE__);
 				_cmdFILE.back().increment_line();
 			}
 			if (status) {
