@@ -310,6 +310,12 @@ README-ftp:
 check:
 	perl ./check.pl
 
+installedtest:
+	@gri -c0 doc/tst_suite/tst_var_syn.gri 
+	@gri -c0 doc/tst_suite/tst_control.gri
+	@gri -c0 doc/tst_suite/tst_rpn.gri
+	@cd doc/tst_suite ; gri -c0 tst_IO.gri
+
 test:
 	@./gri -directory . -c 0 doc/tst_suite/tst_var_syn.gri 
 	@./gri -directory . -c 0 doc/tst_suite/tst_control.gri
