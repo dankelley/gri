@@ -31,6 +31,27 @@ extern double   strtod(const char *, char **);
 // multiple allocation/deallocation for scratch strings
 static string tmp_string;
 
+bool
+is_assignment_op(const char *s)
+{
+	if (!strcmp(s, "="))
+		return true;
+	if (!strcmp(s, "+="))
+		return true;
+	if (!strcmp(s, "*="))
+		return true;
+	if (!strcmp(s, "-="))
+		return true;
+	if (!strcmp(s, "/="))
+		return true;
+	if (!strcmp(s, "^="))
+		return true;
+	if (!strcmp(s, "_="))
+		return true;
+	return false;
+}
+
+
 // Return true if string is all space/tab chars
 bool
 string_is_blank(const char *s)

@@ -142,6 +142,7 @@ int             index_of_variable(const char *name);
 int             index_of_synonym(const char *name);
 void            insert_cmd_in_ps(const char *cmd, const char *note="");
 bool            inside_box(double x, double y);
+bool            is_assignment_op(const char *s);
 bool            is_even_integer(double v); 
 bool            is_odd_integer(double v); 
 bool            is_create_new_command(const char *cmdline);

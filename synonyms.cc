@@ -465,9 +465,33 @@ substitute_synonyms_cmdline(const char *s, string& sout, bool allow_math)
 		offset += skip_nonspace(s + offset); // item
 		offset += skip_space(s + offset);    // blanks
 	}
-	// Protect first word of `\name = "value"', but not of `\syn ...'. In
-	// other words, protect first word if matches \synonym[ ]*=.*
-	if (*_Words2[0] == '\\') {
+
+	// Catch e.g. \@.word1 = ...
+	if (!strncmp(_Words2[0], "\\@", 2) && nword > 1 && is_assignment_op(_Words2[1])) {
+		string tmp("\\");
+		tmp.append(2 + _Words2[0]);
+		string unaliased;
+		//printf("tmp <%s>\n",tmp.c_str());
+		get_syn(tmp.c_str(), unaliased);
+		//printf("unaliased <%s>\n", unaliased.c_str());
+		if (unaliased[0] == '\\') {
+			//printf("SYN.\n");
+			sout.append(unaliased.c_str());
+			sout.append(" "); 
+			offset = 1 + strlen(_Words2[0]);
+		} else if (unaliased[0] == '.') {
+			//printf("VAR.\n");
+			sout.append(unaliased.c_str());
+			sout.append(" "); 
+			offset = 1 + strlen(_Words2[0]);
+		} else {
+			err("The purported alias `\\", _Words2[0], "' doesn't name a synonym or a variable.", "\\");
+			return false;
+		}
+	} else if (*_Words2[0] == '\\') {
+
+		// Protect first word of `\name = "value"', but not of `\syn ...'. In
+		// other words, protect first word if matches \synonym[ ]*=.*
 		if (nword > 1 && !strcmp(_Words2[1], "=")) {
 			sout = _Words2[0];
 			sout.append(" ");
@@ -573,36 +597,39 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 		// Catch \@ [alias synonyms]
 		if (s[i + 1] == '@') {
 			i += 2;	// skip the '\\' and the '@'
-			//printf("DEREF start with <%s>\n", s);
+			//printf("ALIAS start with <%s>\n", s);
 			string tmp("\\");
 			while (i < slen && !end_of_synonym(s[i], false /*inmath*/, false/*need_brace*/)) {
 				tmp += s[i++];
 			}
-			//printf("DEREF tmp [%s]\n", tmp.c_str());
-			string deref_name;
-			get_syn(tmp.c_str(), deref_name);
-			//printf("this syn value is [%s]\n", deref_name);
-			string deref_value;
-			if (deref_name[0] == '\\') {
-				if (get_syn(deref_name.substr(1, deref_name.size()).c_str(), deref_value)) {
-					sout.append(deref_value);
-					//printf("DEBUG %s:%d looked up '%s' (after skipping) to get '%s'\n",__FILE__,__LINE__,deref_name,deref_value);
+			//printf("ALIAS tmp [%s]\n", tmp.c_str());
+			string alias_name;
+			get_syn(tmp.c_str(), alias_name);
+			//printf("this syn value is [%s]\n", alias_name);
+			string alias_value;
+			if (alias_name[0] == '\\') {
+				if (get_syn(alias_name.substr(1, alias_name.size()).c_str(), alias_value)) {
+					sout.append(alias_value);
+					//printf("DEBUG %s:%d looked up '%s' (after skipping) to get '%s'\n",__FILE__,__LINE__,alias_name,alias_value);
 				} else {
-					err("Cannot de-reference `\\", deref_name.c_str(), "'.", "\\");
+					err("Cannot un-alias `\\", alias_name.c_str(), "'.", "\\");
+					return false;
+				}
+			} else if (alias_name[0] == '.') {
+				double value = 0.0;
+				if (get_var(alias_name.c_str(), &value)) {
+					//printf("OK %d   isvar=%d\n",ok,is_var(alias_name));
+					//printf("looked up '%s' to get %f NUM\n",alias_name,value);
+					char alias_value_buffer[100];
+					sprintf(alias_value_buffer, "%f", value);
+					sout.append(alias_value_buffer);
+				} else {
+					err("Cannot un-alias `\\", alias_name.c_str(), "'.", "\\");
 					return false;
 				}
 			} else {
-				double value = 0.0;
-				if (get_var(deref_name.c_str(), &value)) {
-					//printf("OK %d   isvar=%d\n",ok,is_var(deref_name));
-					//printf("looked up '%s' to get %f NUM\n",deref_name,value);
-					char deref_value_buffer[100];
-					sprintf(deref_value_buffer, "%f", value);
-					sout.append(deref_value_buffer);
-				} else {
-					err("Cannot de-reference `\\", deref_name.c_str(), "'.", "\\");
-					return false;
-				}
+				err("The purported alias `\\", alias_name.c_str(), "' doesn't name a synonym or a variable.", "\\");
+				return false;
 			}
 			i--;	// BUG: not sure on this!
 			continue;
