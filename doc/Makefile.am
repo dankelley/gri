@@ -37,7 +37,7 @@ EXTRA_DIST = \
  make_html_index make_html_commandindex make_html_builtinindex\
  mdate-sh
 
-html: $(srcdir)/gri.texi texinfo2HTML HTML_subdivide
+html: $(srcdir)/gri.texi
 	cd examples ; make
 	cd tst_suite ; make
 # 	Make the info page (even if rewritten later) to get indices ...
@@ -54,6 +54,7 @@ html: $(srcdir)/gri.texi texinfo2HTML HTML_subdivide
 	rm -f $(HTML_LONG_NAME)
 	rm -f *.pass2
 	if test ! -f index.html ; then ln -s gri1.html index.html ; fi
+	touch html
 
 install-refcards:
 	$(INSTALL_DATA) refcard.ps    $(CARD_DIR)
@@ -87,18 +88,22 @@ html-install:
 	$(INSTALL_PROGRAM) $(srcdir)/examples/FEM.pl  $(EXAMPLES_DIR)
 	(cd $(HTML_DIR); rm -rf examples ; ln -sf ../examples)
 
-card-clean:
-	-rm -f refcard.dvi refcard.log refcard.ps
-	-rm -f cmdrefcard.dvi cmdrefcard.log cmdrefcard.ps
-	-rm -f card
+# Sun Jun  8 11:40:52 UTC 2003  [Dan Kelley]
+# This is commented-out because it's not used.  Later it will be deleted.
+#card-clean:
+#	-rm -f refcard.dvi refcard.log refcard.ps
+#	-rm -f cmdrefcard.dvi cmdrefcard.log cmdrefcard.ps
+#	-rm -f card
 
-html-clean:
-	rm -rf HIDE_FILE
-	mkdir HIDE_FILE
-	mv FAQ.html HIDE_FILE
-	-rm -f *.html *.png html
-	mv HIDE_FILE/FAQ.html .
-	rm -rf HIDE_FILE
+# Sun Jun  8 11:40:52 UTC 2003  [Dan Kelley]
+# This is commented-out because it's not used.  Later it will be deleted.
+#html-clean:
+#	rm -rf HIDE_FILE
+#	mkdir HIDE_FILE
+#	mv FAQ.html HIDE_FILE
+#	-rm -f *.html *.png html
+#	mv HIDE_FILE/FAQ.html .
+#	rm -rf HIDE_FILE
 
 info-install-solaris:
 	$(INSTALL) -d $(INFO_DIR_SOLARIS)
@@ -185,7 +190,9 @@ endif
 
 uninstall-local:
 	rm -f `ls ../*ps ../license.txt *.html gri.info* $(HTML_DIR)/examples/* $(HTML_DIR)/resources/* $(HTML_DIR)/tst_suite/* $(HTML_DIR)/screenshots/* $(HTML_DIR)/*`
+	rm -f html
 	rm -f $(DOC_DIR)/license.txt $(DOC_DIR)/refcard.ps $(DOC_DIR)/cmdrefcard.ps
 	rm -f refcard* cmdrefcard*
 	rm -f $(DESTDIR)$(prefix)/share/man/man1/gri*
 	rm -f $(DESTDIR)$(prefix)/share/info/gri.info*
+
