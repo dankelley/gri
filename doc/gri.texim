@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.147 2002/01/28 19:40:20 dankelley Exp $
+@c $Id: gri.texim,v 1.148 2002/02/07 13:35:43 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -8240,9 +8240,9 @@ the recommended procedure is something like
 
 @example
 draw axes
-set postscript clip on 10 20 0 1
+set clip postscript on 10 20 0 1
 draw curve
-set postscript clip off
+set clip postscript off
 @end example
 
 @item @code{set clip postscript off}

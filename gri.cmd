@@ -2885,9 +2885,9 @@ outside the named box.  Note that it will also prevent axis
 drawing, so the recommended procedure is something like
 
 draw axes
-set postscript clip on 10 20 0 1
+set clip postscript on 10 20 0 1
 draw curve
-set postscript clip off
+set clip postscript off
 
 `set clip postscript off'
 Turn PostScript clipping off.  SEE ALSO: `set input data window'
