@@ -96,6 +96,8 @@ then
 fi
 
 %changelog
+* Sat Apr 05 2003 Dan Kelley <Dan.KelleyDal.Ca>
+- fix SourceForge bug 715884 (mixup on quoted strings)
 * Sat Mar 29 2003 Dan Kelley <Dan.KelleyDal.Ca>
 - fix SourceForge bug 711354 (program name wrong in PostScript Creator: comment)
 - fix SourceForge bug 706202 (Page orientation hint missing in Postscript)

@@ -215,7 +215,6 @@ massage_command_line(char *cmd)
 		remove_source_indicator(cmd);
 	}
 	remove_comment(cmd);
-
 	if (!is_system_command(cmd))
 		check_usage(cmd);
 	strcpy(_cmdLineCOPY, cmd + skip_space(cmd));
@@ -712,12 +711,13 @@ remove_comment(char *s)
 		bool in_dquote = false;
 		bool in_squote = false;
 		for (int i = 0; i < len; i++) {
-			if (s[i] == '"') {
+			if (s[i] == '"' && (i == 0 || s[i-1] != '\\')) {
+				//printf("got s[%d]=\". with in_dquote=%s  in_squote=%s\n",i,in_dquote?"T":"F",in_squote?"T":"F");
 				if (!in_squote)
 					in_dquote = !in_dquote;
 				continue;
 			}
-			if (s[i] == '\'') {
+			if (s[i] == '\'' && (i == 0 || s[i-1] != '\\')) {
 				if (!in_dquote)
 					in_squote = !in_squote;
 				continue;
@@ -740,7 +740,7 @@ remove_comment(char *s)
 		for (int ii = 0; ii < len; ii++) {
 			//printf("\tEXAMINE [%c]\n", s[ii]);
 			if (!isspace(s[ii])) {
-				//printf("\t\tRETURNING false [%s]\n", s);
+				//printf("\t\tRETURNING non-BOTTOM false [%s]\n", s);
 				return false;
 			}
 		}

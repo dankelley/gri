@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.243 2003/04/05 12:51:38 dankelley Exp $
+@c $Id: gri.texim,v 1.244 2003/04/05 16:17:14 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16348,6 +16348,11 @@ only in the fixing of bugs.
 @subsubsection Version 2.12.4 [2003 Apr 05]
 @strong{Bug Fixes}
 @itemize
+@item
+Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=715884&group_id=5511&atid=105511,#715884}
+@dots{} mixup on protected-quotes within double-quoted strings
+
 @item
 Fix Debian bug
 @uref{http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=183912,#183912}

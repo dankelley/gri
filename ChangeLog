@@ -1,3 +1,7 @@
+2003-04-05  Dan E. Kelley  <kelley@Limit.Phys.Ocean.Dal.Ca>
+
+	* doline.cc (remove_comment): fix problem in scanning double-quoted strings
+
 2003-01-08  Dan E. Kelley  <kelley@Limit.Phys.Ocean.Dal.Ca>
 
 	* read.cc (read_pgm_image): fix SF bug 664388 ('read image P5' broken)

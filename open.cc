@@ -15,7 +15,7 @@ bool            openCmd(void);
 bool
 openCmd()
 {
-	if (((unsigned) superuser()) & FLAG_AUT1)printf("\nDEBUG: %s:%d opening file named '%s'.  Before doing that, datafile stack_len= %d\n",__FILE__,__LINE__, _word[1], int(_dataFILE.size()));
+	if (((unsigned) superuser()) & FLAG_AUT1)printf("DEBUG: %s:%d opening file named '%s'.  Before doing that, datafile stack_len= %d\n",__FILE__,__LINE__, _word[1], int(_dataFILE.size()));
 	switch (_nword) {
 	case 2:
 		open_file(DataFile::ascii);
