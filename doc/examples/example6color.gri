@@ -40,4 +40,4 @@ draw image
 draw image palette left \minT right \maxT increment \incT
 draw image histogram
 draw title "Example 6: colorscale"
-quit
+

@@ -49,4 +49,4 @@ draw symbol bullet
 set font size 14
 set color black
 draw title "Example 13 -- TS diagram, with isopycnals"
-quit
+

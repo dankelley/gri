@@ -10,5 +10,5 @@ read columns x y
 # Note that a blank line ended the data set
 draw curve
 draw title "Example 2"
-quit
+
 

@@ -81,4 +81,3 @@ draw title "Example 9"
 if {"\dohisto" == "yes"}
     draw title "Histogram enhanced grayscales"
 end if
-quit

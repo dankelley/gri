@@ -119,4 +119,4 @@ else
     Plot Contours
     draw title "Example 8"
 end if
-quit
+

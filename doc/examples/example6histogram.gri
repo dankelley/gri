@@ -49,4 +49,4 @@ if {"\histo" == "yes"}
 else
     draw title "Example 6: grayscale linear \minT to \maxT"
 end if
-quit
+

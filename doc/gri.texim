@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.114 2001/07/18 23:42:34 psg Exp $
+@c $Id: gri.texim,v 1.115 2001/07/20 13:55:53 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -305,8 +305,9 @@ gri:
 @end example
 
 @noindent
-The last line is a prompt.  You can type commands; type @code{quit} to
-quit gri.
+
+The last line is a prompt, suggesting that you type in Gri commands.
+You may type @code{quit} to get out of gri.
 
 The first line gives the version number.  You can also get this by
 running Gri with the command @code{gri -v}.  Version numbers have three
@@ -348,7 +349,6 @@ open example1.dat     # Open the data file
 read columns x y      # Read (x,y) columns
 draw curve            # Draw data curve
 draw title "Example 1"# Title above plot
-quit                  # End the plot
 @end example
 
 @noindent
@@ -907,7 +907,6 @@ draw label "\label" at          \
     @{rpn 8.5 2.54 * "\label" width - 2 /@} \
     @{rpn ..ytop.. yusertocm 2 +@}\
     cm
-quit
 @end example
 @c HTML -->
 
@@ -1249,7 +1248,6 @@ open example1.dat      # Open the data file
 read columns x y       # Read (x,y) columns
 draw curve             # Draw data curve
 draw title "Example 1" # Title above plot
-quit                   # End the plot
 @end example
 
 Here's what the command lines mean:
@@ -1431,7 +1429,6 @@ open "awk 'BEGIN@{for(i=0;i<3.141;i+=0.05)\
 read columns x y
 close
 draw curve
-quit
 @end example
 
 @noindent
@@ -1472,7 +1469,6 @@ draw curve
 draw title "DASHED LINE \function"
 
 draw title "b = \b"
-quit
 @end example
 
 Here's another example, in which the curve @code{y = 1/(\int + \sl*x)}
@@ -1594,7 +1590,6 @@ read grid data
 # ranging from 1 to 10 with an increment of 2.)
 draw contour
 draw title "Example 4"
-quit
 @end example
 @c HTML -->
 
@@ -1708,7 +1703,6 @@ set font size 10
 draw contour 0 40 2
 set font size 12
 draw title "Example 5 -- wind (Fig5 Koch et al, 1983)"
-quit
 @end example
 @c HTML -->
 
@@ -1977,7 +1971,6 @@ if @{"\histo" == "yes"@}
 else
     draw title "Example 6: grayscale linear \minT to \maxT"
 end if
-quit
 @end example
 @c HTML -->
 
@@ -2079,7 +2072,6 @@ set y type log
 set y axis 0.01 10 1
 draw axes
 draw title "Example 7 -- Box plot"
-quit
 @end example
 @c HTML -->
 
@@ -2237,7 +2229,6 @@ else
     Plot Contours
     draw title "Example 8"
 end if
-quit
 @end example
 @c HTML -->
 
@@ -2356,7 +2347,6 @@ draw title "Example 9"
 if @{"\dohisto" == "yes"@}
     draw title "Histogram enhanced grayscales"
 end if
-quit
 @end example
 @c HTML -->
 
@@ -2421,7 +2411,6 @@ end if
 draw axes
 draw image palette left -1 right 21 increment 5
 draw title "Example 10 -- file=\file header=`\header'"
-quit
 @end example
 @c HTML -->
 
@@ -2499,8 +2488,6 @@ set font size 9
 
 # Title tells what method used
 draw title "Used `draw image colorscale \scale'"
-
-quit
 @end example
 @c HTML -->
 
@@ -2707,7 +2694,6 @@ draw label "\label" at          \
 if !..publication..
     draw time stamp
 end if
-quit
 @end example
 @c HTML -->
 
@@ -2812,7 +2798,6 @@ draw label "4 = Model 2B" at    \
     @{rpn ..ytop.. yusertocm .key_topleft_y. -@} cm
 
 draw title "Example 12 -- Total heating vs height of boundary layer"
-quit
 @end example
 @c HTML -->
 
@@ -2953,7 +2938,6 @@ read columns x y
 draw symbol bullet
 set font size ..
 draw title "Example 13 -- TS diagram, with isopycnals"
-quit
 @end example
 @c HTML -->
 
@@ -4494,7 +4478,6 @@ EXAMPLE
 \xinc     = "0.1"
 create columns from function
 draw curve
-quit
 @end example     
 
 @noindent
@@ -6148,8 +6131,6 @@ if @{rpn "\dir" "" ==@}
     show "do something like"
     show "export DIR_BRAVO='/data/Bravo/'"
     show "in your ~/.environment file"
-    quit
-
     quit
 end if
 open \dir/data
@@ -10619,7 +10600,6 @@ read columns x y
 close
 system rm tmp.\.pid.
 draw curve
-quit
 @end example
 
 @strong{Note}: in unix, this command calls the Bourne shell, not the C-shell

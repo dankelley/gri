@@ -4,4 +4,3 @@ open example1.dat		# Open the data file
 read columns x y		# Read (x,y)
 draw curve			# Draw data curve
 draw title "Example 1"		# A title for plot
-quit				# End the plot

@@ -74,4 +74,4 @@ set font size 20
 draw label "\label" centered at \
     {rpn 2 5 + .5 + } \
     {rpn ..ytop.. yusertocm 2 +} cm
-quit
+

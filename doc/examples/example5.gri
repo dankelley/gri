@@ -26,4 +26,4 @@ set font size 10
 draw contour 0 40 2
 set font size 12
 draw title "Example 5 -- wind (Fig5 Koch et al, 1983)"
-quit
+

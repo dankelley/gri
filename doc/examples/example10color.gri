@@ -57,5 +57,3 @@ set font size 9
 
 # Title tells what method used
 draw title "Used `draw image colorscale \scale'"
-
-quit

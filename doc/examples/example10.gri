@@ -30,4 +30,4 @@ end if
 draw axes
 draw image palette left -1 right 21 increment 5
 draw title "Example 10 -- file=\file header=`\header'"
-quit
+

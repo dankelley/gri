@@ -35,4 +35,4 @@ set y type log
 set y axis 0.01 10 1
 draw axes
 draw title "Example 7 -- Box plot"
-quit
+

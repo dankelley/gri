@@ -25,4 +25,4 @@ read grid data
 # ranging from 1 to 10 with an increment of 2.)
 draw contour
 draw title "Example 4"
-quit
+

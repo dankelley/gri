@@ -166,4 +166,3 @@ draw label "\label" at          \
 if !..publication..
     draw time stamp
 end if
-quit

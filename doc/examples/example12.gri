@@ -72,4 +72,4 @@ draw label "4 = Model 2B" at    \
     {rpn ..ytop.. yusertocm .key_topleft_y. -} cm
 
 draw title "Example 12 -- Total heating vs height of boundary layer"
-quit
+
