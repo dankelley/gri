@@ -217,6 +217,10 @@ while(get_a_line()) {
 	}
 	next;
     }
+    while (/\@url{(.*)}/) {
+	$the_url = $1;
+        s:\@url{.*}:<a href="$the_url">\@code{$the_url}</a>:;
+    }
     #
     # Convert cross-references
     if (/^\@node\s*([^,]*), ([^,]*), ([^,]*), ([^\n]*)/o) {
