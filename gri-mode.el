@@ -5,7 +5,7 @@
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.42 (21 Feb 2001)
+;; Version:   2.43 (11 Apr 2001)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -360,7 +360,9 @@
 ;; V2.39 20Feb01 RCS 1.64 - add imenu support.
 ;; V2.40 20Feb01 RCS 1.65 - add gri-idle-display-defaults.
 ;; V2.41 20Feb01 RCS 1.66 - gri-idle-display-defaults set outside of X too.
-;; V2.42 21Feb01 RCS 1.68 - move idle timer startup into gri-mode proper.
+;; V2.42 21Feb01 RCS 1.67 - move idle timer startup into gri-mode proper.
+;; V2.43 11Apr01 RCS 1.68 - gri-common-in-list: fix bug introduced in
+;;   completion of "set color" when compared to "set colorname"
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -1276,11 +1278,11 @@ ARG2 is gri-syntax buffer."
                     (while (and (looking-at "^#\\*")
                                 (= 0 (forward-line -1))))
                     (forward-line 1)
-                    (when (re-search-forward "@default +\\([^@\n]+\\)" 
+                    (when (re-search-forward "@default +\\([^@\n]+\\) ?" 
                                              help-limit t)
                       (setq the-default (match-string 1))
                       (beginning-of-line)
-                      (if (re-search-forward "@unit +\\([a-zA-Z0-9.]+\\)"
+                      (if (re-search-forward "@unit +\\([a-zA-Z0-9.]+\\) ?"
                                              (save-excursion (end-of-line)(point))
                                              t)
                           (setq the-default
@@ -2095,6 +2097,8 @@ Sets gri-last-complete-status to 1 if show completions next time
     (setq work-list (cdr work-list))
     (while work-list
       (setq current-string (car work-list))
+      (if (< (length current-string) match-len)
+          (setq match-len (length current-string)))
       (if current-string ;; nil last time around
           (progn
             (while (and (<= i match-len) match-flag)
@@ -3796,7 +3800,8 @@ Any output (errors?) is put in the buffer `gri-WWW-manual'."
      ["Gri Manual on WWW"                   gri-WWW-manual t]
      ["Display syntax for current command"  gri-display-syntax t]
      ["List gri commands containing string" gri-help-apropos t]
-     ["Customize Gri" (list 'lambda () (interactive)(customize-group "gri")) t]
+;;   ["Customize Gri" (list 'lambda () (interactive)(customize-group "gri")) t]
+     ["Customize Gri" (customize-group "gri") t]
      ))
   (easy-menu-define
    gri-mode-menu3 gri-mode-map "Menu keymap for gri-mode."
@@ -3833,6 +3838,8 @@ Any output (errors?) is put in the buffer `gri-WWW-manual'."
      ["View existing PostScript"      gri-view  t]
      ("gv scale selection"
       ["0.1" 
+;;FIXME: simply this code!
+;;Try  (setq gri*view-scale -5)
        (list 'lambda () (interactive)(setq gri*view-scale -5))
        :style radio :selected (equal gri*view-scale -5)]
       ["0.125" 
@@ -4467,7 +4474,7 @@ static char *magick[] = {
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.42 (c) 21 Feb 2001 --  Peter Galbraith <psg@debian.org>
+V2.43 (c) 11 Apr 2001 --  Peter Galbraith <psg@debian.org>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
