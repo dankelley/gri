@@ -353,6 +353,7 @@ sub process_examples() {
 	s,\s*\@end example,</PRE>\n</TD>\n</TR>\n</TABLE>,;
 	$in_example = 0;
     } else {
+        s,\@value\{([^}]*)\},$value{$1},g; # Substitute set/value pair
         s,\@},},og;
         s,\@{,{,og;
     }

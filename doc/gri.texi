@@ -53,6 +53,7 @@
 @setfilename gri.info
 @settitle Gri
 @set GRI-VERSION 2.6.0
+@set GRI-PREVIOUS-VERSION 2.4.0
 @set AUTHOR-EMAIL Dan.Kelley@@Dal.CA
 @c %**end of header
 @iftex
@@ -174,7 +175,7 @@ The Gri web homepage is at
 * Environment::                 Related tools
 * Emacs Mode::                  Editing Gri code inside Emacs
 * History::                     Changes to Gri over time
-* Accessing::                   How to access/install Gri
+* Installation::                How to install Gri
 * Bugs::                        List of bugs, and how to report more
 * Acknowledgments::             People who have helped me develop Gri
 * License::                     The Gri license
@@ -14543,7 +14544,7 @@ there were errors on the commandline.
 First debian release.  Versions exist for intel, alpha, 68K and powerpc.
 @end table
 
-@node   Plans, Accessing, Version 2.2, History
+@node   Plans, Installation, Version 2.2, History
 @comment  node-name,  next,  previous,  up
 @section Plans
 @c FOR NEXT RELEASE:
@@ -14601,28 +14602,11 @@ and "unstable" releases instead of "compatible" and "incompatible" changes.
 
 
 
-@c HTML <!-- newfile Access.html "Gri: accessing/installing Gri" "Installing Gri" -->
+@c HTML <!-- newfile Access.html "Gri: installing Gri" "Installing Gri" -->
 
-@node   Accessing, Unix-install, Plans, Top
+@node   Installation, Unix-install, Plans, Top
 @comment  node-name,  next,  previous,  up
-@chapter Accessing and Installing Gri
-
-@section Accessing
-@cindex accessing gri
-
-No special setup is required, except for optionally creating a resource
-file (@ref{Resource File}), or defining the @code{GRIINPUTS} environment
-variable (@ref{Options On Command Line}).
-
-
-@section Installation
-@cindex installing Gri
-Most users get Gri from the anonymous ftp site
-@c HTML <A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri">
-@code{ftp.phys.ocean.dal.ca/pub/users/kelley/gri}
-@c HTML </A>
-<P>
-
+@chapter Installing Gri
 
 @menu
 * Unix-install::                
@@ -14631,78 +14615,53 @@ Most users get Gri from the anonymous ftp site
 * Mac-install::               
 @end menu
 
-@node   Unix-install, Precompiled Unix, Accessing, Accessing
+@c HTML <!-- newfile Unix-install.html "Gri: installing Gri" "Installing Gri" -->
+
+@node   Unix-install, Linux, Installation, Installation
 @comment  node-name,  next,  previous,  up
-@subsection Unix Installation
+@section Unix Installation
 @cindex directory structure of Gri installation
 
-The directory structure for Gri is as follows, where in this example the
-most up-to-date version is @value{GRI-VERSION}, and @code{OLD} is meant
-to represent an older numbered version which could co-exist on the system.
-
-@example
-usr
-`-- local
-    |-- bin
-    |   |-- gri -> gri-@value{GRI-VERSION}
-    |   |-- gri-@value{GRI-VERSION}
-    |   |-- gri-OLD
-    |   |-- gri_merge
-    |   `-- gri_unpage
-    |-- info
-    |   |-- gri.info-1.gz
-    |   |   ...
-    |   `-- gri.info.gz
-    `-- share
-        |-- doc
-        |   `-- gri
-        |       |-- examples
-        |       |    [Examples useful for new users are stored here]
-        |       `-- html
-        |           |-- index.html
-        |           `[All files for the HTML are below here]
-        `-- gri
-            `-- @value{GRI-VERSION}
-                |-- gri.cmd
-                |-- license.txt
-                |-- logo.dat
-                `-- startup.msg
-            `-- OLD
-                |-- gri.cmd
-                |-- license.txt
-                |-- logo.dat
-                `-- startup.msg
-@end example
-
-On some systems, the base directory can be modified from
-@file{/usr/local/share/gri/}; this can be set during the compilation of
-Gri (@ref{Uncompiled Unix}).  For example, packaged versions of gri (for
-Red Hat and Debian) omit the @file{/local} part.  Additionally, the Red
-Hat packaging omits the @file{@value{GRI-VERSION}} version-number
-directory and store @file{gri.cmd} directly under @file{usr/share/gri/}.
-
-The latest installed gri executable
-(e.g. @file{/usr/local/bin/gri-@value{GRI-VERSION}}) is linked to the
-command name @file{gri} in the system path, normally
-@file{/usr/local/bin/gri}.  Thus the current version of Gri can be
-accessed by users by typing either @code{gri} or
-e.g. @code{gri-@value{GRI-VERSION}}.  Any older versions of Gri which
-were not removed by the person doing the installation will also be
-available, e.g. by typing @code{gri-2.039}.  Each of these numbered
-versions knows to look for it's library file in the appropriately named
-library file, e.g.  @code{gri-2.039} will use
-@file{/usr/local/share/gri/2.039/gri.cmd}.  Therefore, older library
-files should be kept if older executables are kept.
-
-Here are details for installation on unix computers:
 @menu
-* Precompiled Unix::            Installing precompiled versions
 * Linux::                       Installing on linux
+* Precompiled Unix::            Installing precompiled versions
 * Uncompiled Unix::             Compiling and installing
 @end menu
 
+@c HTML <!-- newfile linux-install.html "Gri: installing Gri" "Installing Gri" -->
 
-@node   Precompiled Unix, Linux, Unix-install, Unix-install
+@node   Linux, Precompiled Unix, Unix-install, Unix-install
+@comment  node-name,  next,  previous,  up
+@subsection Installation on Linux computers
+
+@cindex linux distributions
+@cindex debian
+@cindex redhat
+@cindex RPM version of installation package
+@cindex installation, debian linux
+@cindex installation, redhat linux
+@cindex installation, linux redhat/debian
+
+Installation is easy on RedHat and Debian flavors of linux.  Versions
+are available from the official distributions and also at
+@c HTML <A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri">
+@file{ftp://ftp.phys.ocean.dal.ca/users/kelley/gri}
+@c HTML </A>
+
+The RedHat version supports intel platforms only, while the Debian
+version supports intel, alpha, 68K and powerpc.  Installation follows
+the normal method for these distributions ... if you have the
+distribution, you surely know what to do.  If you don't, you may want to
+switch when you see that you can install Gri by clicking an icon in a
+window, or by typing, e.g. in RedHat linux:
+@example
+rpm -i gri-@value{GRI-VERSION}
+@end example
+
+
+@c HTML <!-- newfile precompiled-unix.html "Gri: installing Gri" "Installing Gri" -->
+
+@node   Precompiled Unix, Uncompiled Unix, Linux, Unix-install
 @comment  node-name,  next,  previous,  up
 @subsection Pre-compiled unix versions
 Pre-compiled versions of Gri exist for various computers, e.g. SPARC
@@ -14739,152 +14698,149 @@ Follow the instructions in the @file{README} file to install Gri.
 @end enumerate
 
 
-@node   Linux, Uncompiled Unix, Precompiled Unix, Unix-install
+@c HTML <!-- newfile uncompiled-unix.html "Gri: installing Gri" "Installing Gri" -->
+
+@node   Uncompiled Unix, Msdos-install, Precompiled Unix, Unix-install
 @comment  node-name,  next,  previous,  up
-@subsection Installation on Linux computers
+@section Compilation on Unix computers
+The following steps indicate how to compile Gri on unix computers.  The
+procedure is quite standard.
 
-@cindex linux distributions
-@cindex debian
-@cindex redhat
-@cindex RPM version of installation package
-@cindex installation, debian linux
-@cindex installation, redhat linux
-@cindex installation, linux redhat/debian
-
-Installation is easy on RedHat and Debian flavors of linux.  Versions
-are available from the official distributions and also at
-@c HTML <A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri">
-@c HTML ftp://ftp.phys.ocean.dal.ca/users/kelley/gri
-@c HTML </A>
-@example
-ftp://ftp.phys.ocean.dal.ca/users/kelley/gri
-@end example
-
-
-The RedHat version supports intel platforms only, while the Debian
-version supports intel, alpha, 68K and powerpc.  Installation follows
-the normal method for these distributions ... if you have the
-distribution, you surely know what to do!
-
-For other linux distributions, follow the compile/install procedure for
-other flavors of unix (@ref{Uncompiled Unix}).
-
-
-@node   Uncompiled Unix, Msdos-install, Linux, Unix-install
-@comment  node-name,  next,  previous,  up
-@subsection Compilation on Unix computers
-To compile Gri on unix computers, do the following, starting with the
-tarred, compressed distribution file, with a name like
-@file{gri-source-@value{GRI-VERSION}.tar.gz} (the number in the filename
-is the version number).
-
-@emph{Choice of compilers} you will have best success with the FSF C++
-compiler called @file{g++}, version 2.7.x or later (see any Free
-Software Foundation site, e.g.  @file{prep.ai.mit.edu}), although any
-C++ compiler which handles "templates" properly should work.
-
-@emph{If compilation fails} If the procedure below fails, look in the
-@file{PORTS} directory for a file or directory with a name indicating
-your computer type, or look in the @file{various_machines} file.
+You'll need a C++ compiler that is modern enough to handle 'templates'
+(i.e. almost any compiler from 1998 onward).  Don't worry -- if your
+compiler isn't new enough, you'll see that in a minute or two!
 
 @cindex configure script, how to use to compile gri
 @cindex compiling gri
 @cindex how to compile gri
 
-@enumerate
-@item
+@table @emph
+@item Unpack the source
 Type 
 @example
-tar zxvf gri-source-@value{GRI-VERSION}.tar.gz
+gunzip gri-@value{GRI-VERSION}.tgz
+tar xvf gri-@value{GRI-VERSION}.tar
 @end example
-or
+(or similar commands) to uncompress and untar the contents.  This will
+yield a new directory named @file{gri-@value{GRI-VERSION}} which
+contains many files.
+
+@item Move to the Gri directory
 @example
-gunzip -c gri-source-@value{GRI-VERSION}.tar.gz | tar xvf -
+cd gri-@value{GRI-VERSION}
 @end example
-or
-@example
-zcat gri-source-@value{GRI-VERSION}.tar.gz | tar xvf -
-@end example
-to uncompress and untar the contents.  You should get a new directory,
-with a name like @file{gri-source-@value{GRI-VERSION}}, which contains
-many files.
-@item
-Move to this new directory, and type
+
+@item Configure your compiler
+Next you must "configure" the Gri source files.  During this step, a
+series of tests will be made about your operating system and your
+compiler.  Most of these tests need no interaction from you, but there
+is one overall choice that you may wish to make: the place on your
+filesystem where Gri (and many associated library and documentation
+files) will reside.  To get the default installation, with files
+residing within the directory @file{/usr/local}, type
 @example
 ./configure
 @end example
-to create a @file{Makefile} for use by the compiler.  The configure
-script determines properties of your compiler and operating system, and
-adjusts the compilation procedure appropriately.  It determines some of
-these properties itself, and asks for advice from you on others (see
-below).  If the permission of the @file{configure} file is wrong, you'll
-get an error like @code{Permission denied}; if so, 
-try typing @code{sh ./configure}.  If that fails, you will have to use
-the generic Makefile called @file{Makefile.generic}, and hope for the
-best.  Before doing anything, though, you should read the file
-@file{PORT-HIST} for a history of porting problems; you might get some
-good hints here.
-
-Notes:
-@enumerate
-@item
-The @file{configure} script needs to know where to install the Gri
-executable file and library files.  Normally, it will print out a
-message explaining the issue, and asking where to put these things.  (A
-reasonable default is provided, if you just answer with
-carriage-return.)  If you know about this in advance, you can run the
-configure script as e.g.
+at this time.  If you'd rather the files go into another location, run
+the @code{configure} script differently, e.g.  to get the Gri files to
+reside within the @file{/opt} directory, type:
 @example
-./configure --prefix=/usr
+./configure --prefix=/opt
 @end example
-This says that you want Gri to exist in a directory called
-@file{/usr/share/gri} and the executable in @file{/usr/bin/gri}.
-@item
-Gri uses a C++ feature called 'templates'.  Unfortunately, templates are
-handled in different ways by different compilers.  At least as of Spring
-1997, the GNU compiler, vsn 2.7.x (used by many Gri folks) has problems
-with templates.  Therefore the configure script will check to see if you
-are using the GNU c++ compiler, and if you are it will check whether the
-("template repository") compiler flag @code{-frepo} is known on your
-machine.  If it is not, an alternative method of templates will be
-used.  But if it is, you'll be asked, for confirmation, whether you wish
-to use the @code{-frepo} flag.  On many machines (e.g. Solaris) you
-should answer @code{n} to this question.  The prompt will explain.
-Also, note that you can avoid the prompt by running configure as either
-of the two below:
+In response, you'll see the results of several tests of the properties
+of your operating system, your C++ compiler, etc.  Normally you can
+ignore these results.
+
+@cindex handling multiple gri versions
+@cindex multiple gri versions
+@cindex versions, handling multiple
+
+As an example, typing @code{./configure} without a @code{--prefix}
+option yields the directory tree (@code{...} indicates several files not
+displayed in this list, for brevity).  In this example,
+the most up-to-date version is @value{GRI-VERSION}, but a previous
+version @value{GRI-PREVIOUS-VERSION} has also been retained.  (Note that
+only one copy of the documentation is retained; this is all that's
+needed, since old versions are documented there as well as new
+versions.)
+@example
+/usr/local
+|-- bin
+|   |-- gri -> gri-@value{GRI-VERSION}
+|   |-- gri-@value{GRI-PREVIOUS-VERSION}
+|   |-- gri_merge
+|   `-- gri_unpage
+|-- info
+|   |-- ...
+`-- share
+    `-- gri
+        |-- 2.6.0
+        |   |-- gri.cmd
+        |   |-- license.txt
+        |   |-- logo.dat
+        |   `-- startup.msg
+        |-- 2.4.0
+        |   |-- gri.cmd
+        |   |-- license.txt
+        |   |-- logo.dat
+        |   `-- startup.msg
+        `-- doc
+            |-- examples
+            |   |-- ...
+            `-- html
+                |-- ...
+                |-- resources
+                |   |-- ...
+                `-- screenshots
+                    |-- ...
+@end example
+
+@b{Trouble-shooting 1}: If the permission of the @file{configure} file is
+wrong, you'll get an error like @code{Permission denied}; if so, try
+typing @code{sh ./configure} to run it in the Bourne shell.  If that
+fails, you are going to have to do some old-fashioned work!  Start by
+copying the generic Makefile called @file{Makefile.generic} into
+@file{Makefile}, and try the following steps, perhaps editing the
+@file{Makefile} if you run into errors.
+
+
+@b{Trouble-shooting 2}: Gri uses a C++ feature called 'templates'.
+Unfortunately, templates are handled in different ways by different
+compilers.  At least as of Spring 1997, the GNU compiler, vsn 2.7.x
+(used by many Gri folks) has problems with templates.  Therefore the
+configure script will check to see if you are using the GNU c++
+compiler, and if you are it will check whether the ("template
+repository") compiler flag @code{-frepo} is known on your machine.  If
+it is not, an alternative method of templates will be used.  But if it
+is, you'll be asked, for confirmation, whether you wish to use the
+@code{-frepo} flag.  On many machines (e.g. Solaris) you should answer
+@code{n} to this question.  The prompt will explain.  Also, note that
+you can avoid the prompt by running configure as either of the two
+below:
 @example
 ./configure --enable-frepo
 ./configure --disable-frepo
 @end example
 (Such switches will be ignored unless you're using the GNU compiler.)
-@item
-If optional system libraries like the netCDF library, if it exists, are
-installed in nonstandard places, you might have to change the
-unix environment variable @code{LD_LIBRARY_PATH}.  For example, on my machine
-the @code{netcdf} library is not installed in @file{/usr/lib}, as the
-@code{configure} script assumes, but rather in @file{/usr/local/share/netcdf/lib}.
-Therefore I have the following line in one of my startup files:
+
+@b{Trouble-shooting 3}: If optional system libraries like the netCDF
+library, if it exists, are installed in nonstandard places, you might
+have to change the unix environment variable @code{LD_LIBRARY_PATH}.
+For example, on my machine the @code{netcdf} library is not installed in
+@file{/usr/lib}, as the @code{configure} script assumes, but rather in
+@file{/usr/local/share/netcdf/lib}.  Therefore I have the following line
+in one of my startup files:
 @example
 export LD_LIBRARY_PATH=/usr/lib:/usr/local/share/netcdf/lib
 @end example
-@end enumerate
-@item
-@cindex developers, how to compile a Gri that debugs storage allocation
-@emph{Developers only}: if you wish, you can compile Gri with a
-debugging version of the malloc/string libraries.  To do this, edit the
-@file{Makefile}, searching for the item that starts with the
-following comment fragment:
-@example
-# <<<--- DEVELOPERS:
-@end example
-Make the changes as appropriate.
-@item
+
+@item Compiling Gri
 Now compile Gri by typing
 @example
 make
 @end example
-(or, if the previous step failed, type @code{make -f Makefile.generic}). 
-@item
+
+@item Installing Gri
 Assuming compilation succeeds, install @file{gri} and the ancillary file
 @file{gri.cmd}, by typing
 @example
@@ -14895,18 +14851,25 @@ typing
 @example
 make -n install
 @end example
-@item
+
+@item Cleaning up
 Once these things are done, you may type
 @example
 make clean
+cd doc ; make clean
 @end example
-to clean up some files.
-@end enumerate
+to clean up some files.  Of course, you could just erase the whole
+source, but the source is probably worth a penny of hard-drive space,
+isn't it?
+@end table
 
 
-@node   Msdos-install,  OS2-install, Uncompiled Unix, Accessing
+
+@c HTML <!-- newfile msdos-install.html "Gri: installing Gri" "Installing Gri" -->
+
+@node   Msdos-install,  OS2-install, Uncompiled Unix, Installation
 @comment  node-name,  next,  previous,  up
-@subsection Compilation on x86 (PC-style) Computers
+@section Compilation on x86 (PC-style) Computers
 
 Versions exist for MSDOS, windows, and Linux operating systems.
 (Actually, the windows version is just the MSDOS version, which can be
@@ -14985,9 +14948,12 @@ The compiled version is with a name like
 @code{gri-binary-solaris-2.1.10.tar.gz}; treat it as in other unix
 systems (@ref{Uncompiled Unix}).
 
-@node   OS2-install, Mac-install, Msdos-install, Accessing
+
+
+@c HTML <!-- newfile os2-install.html "Gri: installing Gri" "Installing Gri" -->
+@node   OS2-install, Mac-install, Msdos-install, Installation
 @comment  node-name,  next,  previous,  up
-@subsection Compilation under OS/2
+@section Compilation under OS/2
 @cindex compilation under OS/2
 @cindex OS/2 unix compilation
 
@@ -14998,7 +14964,9 @@ account for whether the netCDF library is installed, etc.
 
 
 
-@node   Mac-install, Bugs, OS2-install, Accessing
+@c HTML <!-- newfile mac-install.html "Gri: installing Gri" "Installing Gri" -->
+
+@node   Mac-install, Bugs, OS2-install, Installation
 @comment  node-name,  next,  previous,  up
 @subsection Compilation under Macintosh Unix
 @cindex compilation under Macintosh Unix
