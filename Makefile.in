@@ -120,6 +120,7 @@ install_linux_debian_grionly: gri
 	install -d         $(debian)/usr/bin
 	install -m 755 gri $(debian)/usr/bin/gri-$(VERSION)
 
+
 install_linux_redhat:
 	# create the needed dirs in the BuildRoot (this is what $(DESTDIR) is being
 	# used for)
@@ -134,6 +135,10 @@ install_linux_redhat:
 	/usr/bin/install -m 755  gri                           $(DESTDIR)$(prefix)/bin/gri
 	/usr/bin/install -m 755  gri_merge                     $(DESTDIR)$(prefix)/bin/gri_merge
 	/usr/bin/install -m 755  gri_unpage                    $(DESTDIR)$(prefix)/bin/gri_unpage
+
+
+
+
 	/usr/bin/install -m 644  gri.cmd                       $(DESTDIR)$(prefix)/share/gri/gri.cmd
 	/usr/bin/install -m 644  logo.dat                      $(DESTDIR)$(prefix)/share/gri/logo.dat
 	/usr/bin/install -m 644  license.txt                   $(DESTDIR)$(prefix)/share/gri/license.txt
@@ -144,9 +149,12 @@ install_linux_redhat:
 	-rm -f tmp
 	# lets install some man and info docs
 	/usr/bin/install -m 644  doc/gri-manpage-redhat.1      $(DESTDIR)$(prefix)/man/man1/gri.1
+	/usr/bin/install -m 644  doc/gri_merge.1               $(DESTDIR)$(prefix)/man/man1/gri_merge.1
+	/usr/bin/install -m 644  doc/gri_unpage.1              $(DESTDIR)$(prefix)/man/man1/gri_unpage.1
 	-rm -f $(DESTDIR)$(prefix)/info/gri.info*
 	/usr/bin/install -m 644  doc/gri.info*                 $(DESTDIR)$(prefix)/info
 	cd $(DESTDIR)$(prefix)/info ; gzip -f --best gri.info*
+
 
 # Install all relevant files, creating directories, destroying old
 # links and creating new links as necessary.

@@ -62,8 +62,10 @@ rm -rf $RPM_BUILD_ROOT
 %doc docinst/html
 /usr/bin/gri
 /usr/share/gri
-/usr/man/*/gri*
-/usr/info/gri*
+/usr/man/*/gri.*
+/usr/man/*/gri_unpage.*
+/usr/man/*/gri_merge.*
+/usr/info/gri.info*
 /usr/share/emacs/site-lisp/gri-mode.el
 /usr/bin/gri_unpage
 /usr/bin/gri_merge
