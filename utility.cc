@@ -133,15 +133,15 @@ delete_file(const char *filename)
 	char            sys_cmd[200];
 #if defined(VMS)
 	sprintf(sys_cmd, "DEL %s;*", filename);
-	system(sys_cmd);
+	call_the_OS(sys_cmd, __FILE__, __LINE__);
 	return true;
 #elif defined(MSDOS)
 	sprintf(sys_cmd, "DEL %s", filename);
-	system(sys_cmd);
+	call_the_OS(sys_cmd, __FILE__, __LINE__);
 	return true;
 #else
 	sprintf(sys_cmd, "rm %s", filename);
-	system(sys_cmd);
+	call_the_OS(sys_cmd, __FILE__, __LINE__);
 	return true;
 #endif
 }
@@ -1231,7 +1231,7 @@ more_file_to_terminal(const char *filename)
 		ShowStr(sys_cmd);
 		ShowStr("\n");
 	}
-	system(sys_cmd);
+	call_the_OS(sys_cmd, __FILE__, __LINE__);
 }
 
 bool
@@ -1751,3 +1751,30 @@ tmp_file_name()
 #endif
 #endif
 }
+
+int
+call_the_OS(const char* cmd, const char* calling_filename, int calling_line) 
+{
+	string c(cmd);
+	printf("DEBUG 1. <%s>\n",c.c_str());
+	while (isspace(c[0]))
+		c.STRINGERASE(0,1);
+	printf("DEBUG 2. <%s>\n",c.c_str());
+	if (c[0] == '"')
+		c.STRINGERASE(0,1);
+	printf("DEBUG 3. <%s>\n",c.c_str());
+	while (isspace(c[-1 + c.size()]))
+		c.STRINGERASE(-1 + c.size(), 1);
+	printf("DEBUG 4. <%s>\n",c.c_str());
+	if (c[-1 + c.size()] == '"')
+		c.STRINGERASE(-1 + c.size(), 1);
+	printf("DEBUG 5. <%s>\n",c.c_str());
+	c.append("\n");
+	printf("DEBUG 6. <%s>\n",c.c_str());
+	if (((unsigned) superuser()) & FLAG_SYS) {
+		printf("Sending the following command to the operating system [ref: %s:%d]:\n%s\n", 
+		       calling_filename, calling_line, c.c_str());
+	}
+	return system(c.c_str());
+}
+

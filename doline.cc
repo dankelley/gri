@@ -557,14 +557,7 @@ systemCmd()
 		}
 		//printf("AFTER [%s]\n",cmd.c_str());
 	}
-	if (((unsigned) superuser()) & FLAG_SYS) {
-		ShowStr("\n`system' sending the following command to the operating system:\n");
-		ShowStr(cmd.c_str());
-		ShowStr("\n");
-	}
-
-	int status = system(cmd.c_str());
-
+	int status = call_the_OS(cmd.c_str(), __FILE__, __LINE__);
 	PUT_VAR("..exit_status..", (double) status);
 	sprintf(_grTempString, "%d status\n", status);
 	RETURN_VALUE(_grTempString);

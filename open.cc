@@ -132,12 +132,7 @@ open_file(DataFile::type type)
 				pipecmd.append(" > ");
 				string tmpfile_name(tmp_file_name());
 				pipecmd.append(tmpfile_name.c_str());
-				if (((unsigned) superuser()) & FLAG_SYS) {
-					ShowStr("\n`open' sending the following command to the operating system:\n");
-					ShowStr(pipecmd.c_str());
-					ShowStr("\n");
-				}
-				system(pipecmd.c_str());
+				call_the_OS(pipecmd.c_str(), __FILE__, __LINE__);
 				if (!push_data_file(tmpfile_name.c_str(), type, "r", true)) {
 					err("`open' can't find file `\\", tmpfile_name.c_str(), "'", "\\");
 					return false;
@@ -258,11 +253,11 @@ lsCmd()
 	switch (_nword) {
 	case 1:
 		sprintf(command, "ls -CF %s/", _current_directory.c_str());
-		system(command);
+		call_the_OS(command, __FILE__, __LINE__);
 		break;
 	case 2:
 		sprintf(command, "ls -CF %s/%s", _current_directory.c_str(), _word[1]);
-		system(command);
+		call_the_OS(command, __FILE__, __LINE__);
 		break;
 	default:
 		demonstrate_command_usage();

@@ -1129,11 +1129,11 @@ gr_reopen_postscript(const char *new_name)
 	fclose(_grPS);
 #ifdef VMS
 	sprintf(grTempString, "DEL %s;*", gr_currentPSfilename());
-	system(grTempString);
+	call_the_OS(grTempString, __FILE__, __LINE__);
 	strcpy(ps_filename_used, new_name);
 #else
 	sprintf(grTempString, "rm -f %s", gr_currentPSfilename());
-	system(grTempString);
+	call_the_OS(grTempString, __FILE__, __LINE__);
 	strcpy(ps_filename_used, new_name);
 #endif
 	_grPS = new_file;

@@ -92,12 +92,7 @@ push_data_file(const char* name, DataFile::type the_type, const char* status, bo
 			pipecmd.append(" > ");
 			string tmpfile_name(tmp_file_name());
 			pipecmd.append(tmpfile_name);
-			if (((unsigned) superuser()) & FLAG_SYS) {
-				ShowStr("\n`open' sending the following command to the operating system:\n");
-				ShowStr(pipecmd.c_str());
-				ShowStr("\n");
-			}
-			system(pipecmd.c_str());
+			call_the_OS(pipecmd.c_str(), __FILE__, __LINE__);
 			FILE *fp = fopen(tmpfile_name.c_str(), status);
 			if (NULL == fp) {
 				err("Cannot open file `\\", tmpfile_name.c_str(), "'.", "\\");
@@ -135,12 +130,7 @@ push_data_file(const char* name, DataFile::type the_type, const char* status, bo
 				string tmpfile_name(tmp_file_name());
 				pipecmd.append(" > ");
 				pipecmd.append(tmpfile_name);
-				if (((unsigned) superuser()) & FLAG_SYS) {
-					ShowStr("`open' sending the following command to the operating system:\n");
-					ShowStr(pipecmd.c_str());
-					ShowStr("\n");
-				}
-				system(pipecmd.c_str());
+				call_the_OS(pipecmd.c_str(), __FILE__, __LINE__);
 				fp = fopen(tmpfile_name.c_str(), status);
 				if (NULL == fp) {
 					//printf("%s:%d 2222  Cannot open.  err is '%s'\n", __FILE__, __LINE__, strerror(errno));
@@ -231,12 +221,7 @@ pop_data_file(int file)
 		}
 		string sys_cmd("rm -f ");
 		sys_cmd.append(_dataFILE[file].get_name());
-		if (((unsigned) superuser()) & FLAG_SYS) {
-			ShowStr("\n`system' sending the following command to the operating system:\n");
-			ShowStr(sys_cmd.c_str());
-			ShowStr("\n");
-		}
-		system(sys_cmd.c_str());
+		call_the_OS(sys_cmd.c_str(), __FILE__, __LINE__);
 	}
 	//display_data_stack("BEFORE the erasure of a file\n");
 	_dataFILE.erase(_dataFILE.begin() + file);

@@ -382,12 +382,10 @@ file_in_list(const char *name, bool show_nonlocal_files, bool show_local_files)
 #ifdef VMS
 		char tmp[1024];
 		sprintf(tmp, "DEL %s;*", gr_currentPSfilename());
-		//printf("Should system '%s'\n", tmp);
-		system(tmp);
+		call_the_OS(tmp, __FILE__, __LINE__);
 #else
 		sprintf(tmp, "rm -f %s", gr_currentPSfilename());
-		//printf("Should system '%s'\n", tmp);
-		system(tmp);
+		call_the_OS(tmp, __FILE__, __LINE__);
 #endif
 		gri_exit(1);
 		return NULL;		// never done, actually

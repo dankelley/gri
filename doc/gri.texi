@@ -197,7 +197,7 @@ simple applications, the learning curve is less than an hour.  Many
 users regard Gri as the plotting equivalent of the La@TeX{} document
 preparation system.
 
-@emph{Computers Gri works on} unix computers of many types, for example
+@emph{Computers Gri works on:} unix computers of many types, for example
 linux, sunOS/solaris, HP, IBM, DEC alpha, and Macintosh machten.  It was
 developed on a solaris platform and linux platforms, so these are best
 tested.  It also works, after a fashion, on windows-style computers.
@@ -237,7 +237,7 @@ output is therefore of high quality, device-independent, capable of
 being inserted into popular text processors (e.g. LaTeX), and easily
 displayed.
 
-@emph{Online help} is got with the Gri command @code{help} makes Gri
+@emph{Online help:} the Gri command @code{help} makes Gri
 list the first words of all known commands, along with a hint for
 getting further help.  To get more information, type @code{help}
 followed by a command-name (e.g. @code{help read}).  There is also a
@@ -278,13 +278,12 @@ cookbook
 @cindex Gri newsgroup
 @cindex newsgroup
 and several reference cards.  It also has several discussion groups
-(@ref{Discussion Group}).
-
+(@ref{Discussion Group}) and a
 mail-in newsgroup, which you can join by sending an email to
 @c HTML <A HREF="mailto:majordomo@phys.ocean.dal.ca">
 @code{majordomo@@phys.ocean.dal.ca}
 @c HTML </A>
-with contents @code{subscribe gri}.  But, this newsgroup is rapidly
+with contents @code{subscribe gri}.  But this newsgroup is rapidly
 showing signs of age, and you should really be using the groups maintained at
 the Source Forge site 
 @c HTML <a href="http://gri.sourceforge.net">
@@ -336,7 +335,7 @@ versions have this digit being even.
 @cindex hint, first-time usage
 @cindex beginners, simple example
 @cindex drawing x-y graphs, simple
-This chapter introduces Gri with a common example: a x-y graph.  The
+This chapter introduces Gri with a common example: an x-y graph.  The
 example is discussed in detail later (@ref{X-y Plots}).  The data files
 and command files here and throughout the manual should be available to
 you in a directory @file{.../gri/examples} on unix machines.
@@ -361,8 +360,8 @@ quit                  # End the plot
 @end example
 
 @noindent
-The first line is a comment, as are all things following double slashes.
-(An exception to this double-slash rule is made within strings contained
+The first line is a comment, as are all things following hash symbols (@code{#}).
+(An exception to this rule is made within strings contained
 within the double-quote character @code{"}.  This allows @code{sed}
 system commands to work as expected; (@ref{System}).)
 
@@ -459,8 +458,8 @@ simple, e.g. @code{set x size 15} makes the x-axis be 15 centimeters
 long, instead of the default of 10 centimeters.  Indeed, you can control
 anything you want in gri, e.g. graph size, line width, fonts, etc etc.
 Speaking of fonts, the @code{$\alpha$} type of latex formatting of Greek
-letters in a limited way.  Also, Gri handles iso-latin-1 encodings as
-well as the U.S. style.
+letters is supported in a limited way.  
+Also, Gri handles iso-latin-1 encodings as well as the U.S. style.
 
 
 The example below illustrates a few more @code{set} commands.  This
@@ -745,7 +744,7 @@ string, etc.
 
 @node   Graylevel, Colorlevel, Pen Color, Pen Color
 @comment  node-name,  next,  previous,  up
-@subsection Controlling graylevel of the ``pen''
+@subsection Controlling the graylevel of the ``pen''
 @cindex graylevel, explanation
 @cindex lines, gray, explanation
 
@@ -827,7 +826,7 @@ you are familiar with how colors add (e.g. red plus green yields
 yellow), then you might like this, but most people find it easier to use
 the @code{set color hsb ...} style described below.
 
-The the individual color components as follows.  The numbers
+Set the individual color components as follows.  The numbers
 @code{.red.}, @code{.green.} and @code{.blue.} range from 0 (for no
 contribution of that color component to the final color) to 1 (for
 maximal contribution).  Values less than 0 are clipped to 0; values
@@ -849,7 +848,7 @@ parameter.  Many people find this easier than using the corresponding
 @code{rgb} command.
 
 @cindex hint, color palette range
-The the individual color components as follows.  The numbers
+Set the individual color components as follows.  The numbers
 @code{.hue.}, @code{.saturation.} and @code{.brightness.} range from 0
 to 1.  The color, represented by @code{.hue.}, ranges from 0 for pure
 red, through 1/3 for pure green, and 2/3 for pure blue, and back to 1
@@ -859,7 +858,7 @@ of hue you use to 2/3, instead of 1; otherwise you'll get confused by
 to range from 1/3 to 1, or 0 to 2/3.)  The purity of the color,
 represented by @code{.saturation.}, ranges from 0 (none of the hue is
 visible) to 1 (the maximal amount is present).  Less saturated colours
-are like those you would get from mixing black paint into coloured
+are like those you would get from mixing black paint into colored
 paint.  The brightness of the color, represented by @code{.brightness.},
 ranges from 0 (black) to 1 (maximal brightness).  Lowering brightness is
 like decreasing the intensity of the light you shine on a painting.
@@ -1460,8 +1459,8 @@ read columns .num. x y
 You can get variables interactively from the user, using the
 @code{query} command.  (If the user types carriage-return, or if the
 command-line flag @code{-y} was specified when invoking Gri, the value
-100 will be assigned to @code{.num.}.)
-example, 
+100 will be assigned to @code{.num.}).
+For example, 
 @example
 query .num. "Number of rows to read?" (100)
 read columns .num. x y
@@ -1534,8 +1533,6 @@ To see the values of the built-in variables (along with the user
 variables), use @code{show variables}.  Here are some useful builtin
 variables: 
 
-@emph{Meanings of the built-in variables}
-
 @itemize @bullet
 @item @code{..arrowsize..}
 @cindex arrows, size of heads stored in @code{..arrowsize..}
@@ -1563,7 +1560,7 @@ end if
 @end example
 When you run the program with command-line @code{gri -debug file.gri}
 the code in the @code{if} block will print out the columnar data, but
-when you run it with @code{gri file.gri} these lines are not done.  
+when you run it with @code{gri file.gri} these lines are not printed.
 @item @code{..eof..}
 @vindex @code{..eof..}, flag indicating end-of-file
 Flag indicating whether an end-of-file was encountered on the last
@@ -1609,10 +1606,10 @@ Height of image, or 0 if no image defined yet.
 Width of image, or 0 if no image defined yet.
 @item @code{..length_dash..}
 @vindex @code{..length_dash..}, length/cm of dashes
-Length/cm of dashes in dashed lines.
+Length in cm of dashes in dashed lines.
 @item @code{..length_blank..}
 @vindex @code{..length_blank..}, length/cm of blanks
-Length/cm of blanks in dashed lines.
+Length in cm of blanks in dashed lines.
 @item @code{..linewidth..}
 @vindex @code{..linewidth..}, width of lines
 Width of lines for data curves (@ref{Set Line Width}).
@@ -1806,6 +1803,7 @@ convention use a colon (@code{:}) to separate variable name and
 attribute name (@ref{Read Synonym or Variable}).
 
 For more information on netCDF format, see
+
 @code{http://www.unidata.ucar.edu/packages/netcdf/index.html}
 @c HTML <a href="http://www.unidata.ucar.edu/packages/netcdf/index.html">
 @c HTML here </a>.
@@ -1924,7 +1922,7 @@ end if
 
 Here the strings are compared with the @code{==} operator.  Inequality
 is tested with @code{!=}.  One can do string comparisons in @code{rpn}
-expressions, e.g. @code{if @{rpn "\item" "S"==@}}
+expressions, e.g. @code{if @{rpn "\item" "S" ==@}}
 (@ref{rpn Mathematics}).
 
 
@@ -1985,7 +1983,7 @@ Note: this is often used together with @code{read \synonym}, to allow
 the Gri program to access individual words in a data file.
 
 
-@subsubsection Interactively User-supplied Strings
+@subsubsection User-supplied Strings (Interactive)
 
 You can ask the user for the contents of strings:
 @example

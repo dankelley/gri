@@ -762,23 +762,13 @@ perform_block(const char *block, const char *source_file, int source_line)
 				if (!skipping_through_if()) {
 					string cmd_new;
 					substitute_synonyms_cmdline(cmd.c_str(), cmd_new, false);
-					if (_griState.superuser() & FLAG_SYS) {
-						ShowStr("\n`system' sending the following command to the operating system:\n");
-						ShowStr(cmd_new.c_str());
-						ShowStr("\n");
-					}
-					status = system(cmd_new.c_str());
+					status = call_the_OS(cmd_new.c_str(), __FILE__, __LINE__);
 					PUT_VAR("..exit_status..", (double) status);
 				}
 			} else {
 				// It's just a simple system command. 
 				if (!skipping_through_if()) {
-					if (_griState.superuser() & FLAG_SYS) {
-						ShowStr("\n`system' sending the following command to the operating system:\n");
-						ShowStr(s);
-						ShowStr("\n");
-					}
-					status = system(s);
+					status = call_the_OS(s, __FILE__, __LINE__);
 					PUT_VAR("..exit_status..", (double) status);
 				}
 			}

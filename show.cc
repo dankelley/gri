@@ -708,10 +708,10 @@ show_hintCmd()
 	char cmd[200];
 	if (get_new_hints) {
 		sprintf(cmd, "echo '%s' > %s\n", now, filename.c_str());
-		system(cmd);
+		call_the_OS(cmd, __FILE__, __LINE__);
 		sprintf(cmd, lynx_cmd, filename.c_str());
 		ShowStr("Getting new hints file from Gri WWW site ...");
-		system(cmd);
+		call_the_OS(cmd, __FILE__, __LINE__);
 		ShowStr(" done\n");
 	}
 	// Now see if we have an up-to-date hints file
@@ -721,7 +721,7 @@ show_hintCmd()
 		return true;		// do not fail only because of this
 	}
 	sprintf(cmd, "cat %s\n", filename.c_str());
-	system(cmd);
+	call_the_OS(cmd, __FILE__, __LINE__);
 	return true;
 }
 #endif
