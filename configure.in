@@ -232,8 +232,14 @@ dnl
 CHECK_FOR_NETCDF
 
 AC_CHECK_LIB(m,sin)
-AC_CHECK_LIB(popt,poptGetNextOpt)
-AC_CHECK_LIB(popt,poptGetNextOpt,EXTRA_OBJS="",EXTRA_OBJS="$EXTRA_OBJS popt.o")
+AC_CHECK_LIB(popt,poptGetNextOpt,[
+		EXTRA_OBJS="";
+		LIBS="$LIBS -lpopt"
+	],[
+		EXTRA_OBJS="$EXTRA_OBJS popt.o";
+		CXXFLAGS="$CXXFLAGS -I./popt"
+	])
+AC_SUBST(EXTRA_CXXFLAGS)
 AC_SUBST(EXTRA_OBJS)
 
 
