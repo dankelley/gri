@@ -1,6 +1,14 @@
 gri (2.12.5-1) unstable; urgency=low
 
   * New upstream version
+    Bug Fixes:
+    - Fix SourceForge bug 743134 (bounding box not limited by 'set clip postscript')
+
+ -- Peter S Galbraith <psg@debian.org>  Tue, 10 June 2003 10:28:24 -0400
+  
+gri (2.12.5-1) unstable; urgency=low
+
+  * New upstream version
     New Features:
     - Add hexadecimal colornames (Pen Color)
     Bug Fixes:
