@@ -276,8 +276,8 @@ Search gri manual for (may be a regular expression):<p>
      </tr>
      <tr>
        <td align="left">
-       Version 2.8.7 to be released in mid April; a pre-release is
-       <a href="./pre5/">available</a> for testing
+       Version 2.8.7 to be released in mid April; 
+       see <a href="./pre6/">pre-release #6</a>
        </td>
      </tr>
    </table>
