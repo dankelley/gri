@@ -21,27 +21,9 @@ What Gri is
 Compiling and Installing Gri
 ============================
  
-  1) Uncompress and then untar the file, by typing:
+See full instructions at the URL:
 
-	 gunzip gri-2.2.0.tgz
-	 tar xvf gri-2.2.0.tar
-
-     The version number 2.2.0 has been used for example in the above.
-
-
-  2) Compile gri and prepare the manuals by typing:
-
-	 make all
-
-     You'll need:
-
-       C++ compiler for compiling gri
-       netcdf libraries (if you want to be able to read netCDF files)
-       tex, texinfo, imagemagick, info, gs and its fonts to build the manual.
-
-  3) Install gri and the manuals, by typing:
-
-	 make install
+  http://gri.sourceforge.net/gridoc/html/Access.html#Installation
 
 
 Copyright restrictions
