@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.157 2002/03/16 22:41:46 dankelley Exp $
+@c $Id: gri.texim,v 1.158 2002/03/18 23:10:40 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -5375,15 +5375,15 @@ Draw a label for the last curve drawn, using the @code{..xlast..} and
 
 @example
 `draw label "\string" [centered|rightjustified] \
-    at .x. .y. [cm] \
+    at .x. .y. [cm|pt] \
     [rotated .deg.]'
 @end example
 
 @noindent
 With no optional parameters, draw string at given location in USER units.
 
-With the @code{cm} keyword present, the location is in centimetres on
-the page.
+With the @code{cm} or @code{pt} keyword is present, the location is in
+centimetres or points on the page.
 
 With the @code{rotated} keyword present, the angle in degrees from the
 horizontal, measured positive in the counterclockwise direction, is
@@ -16426,14 +16426,12 @@ they are found to create new bugs.
 @itemize @bullet
 
 @item
-Permit specification of @code{pt} units for @code{draw box} @ref{Draw Box}.
+Permit specification of @code{pt} units for @code{draw label} @ref{Draw Box},
+@code{draw box} @ref{Draw Box},
+@code{draw symbol at} @ref{Draw Symbol At},
+and
+@code{draw line from}  @ref{Draw Line From}.
 
-@item
-Permit specification of @code{pt} units for @code{draw symbol} @ref{Draw Symbol At}.
-
-@item
-Permit specification of @code{pt} units for @code{draw line from} 
-@ref{Draw Line From}.
 
 @item
 Fix SourceForge bug

@@ -1,3 +1,7 @@
+2002-03-18  Dan Kelley  <kelley@Limit.Phys.Ocean.Dal.Ca>
+
+	* draw.cc (draw_labelCmd): Permit 'draw label' coordinates in pt
+
 2002-03-16  Dan Kelley  <kelley@Limit.Phys.Ocean.Dal.Ca>
 
 	* regress.cc (regressCmd): Fix Sourceforge bug ##482120 ('regress'

@@ -263,7 +263,7 @@ Search gri manual for (may be a regular expression):<p>
 	} else {
 	    echo floor($seconds), " seconds ago";
         }
-        #echo ";";
+        echo ";<br>";
 	?>
        pre-release #4 of 2.8.7 is <a href="./pre4/">here</a>.
       </td>

@@ -2058,7 +2058,7 @@ draw_labelCmd()
 		err("Where do you want this label drawn?  (missing `at' word)");
 		return false;
 	}
-	user_units = strcmp(_word[_nword - 1], "cm") ? true : false;
+	user_units = !word_is(_nword - 1, "cm") && !word_is(_nword - 1, "pt");
 	set_environment();
 	if (user_units) {
 		if (!scales_defined()) {
@@ -2082,15 +2082,32 @@ draw_labelCmd()
 		}
 		gr_usertocm(tmp1, tmp2, &xcm, &ycm);
 	} else {
-		// cm units 
-		if (!getdnum(_word[coord_word], &xcm)) {
-			demonstrate_command_usage();
-			READ_WORD_ERROR(".xcm.");
-			return false;
-		}
-		if (!getdnum(_word[coord_word + 1], &ycm)) {
-			demonstrate_command_usage();
-			READ_WORD_ERROR(".ycm.");
+		if (word_is(_nword - 1, "cm")) {
+			if (!getdnum(_word[coord_word], &xcm)) {
+				demonstrate_command_usage();
+				READ_WORD_ERROR(".xcm.");
+				return false;
+			}
+			if (!getdnum(_word[coord_word + 1], &ycm)) {
+				demonstrate_command_usage();
+				READ_WORD_ERROR(".ycm.");
+				return false;
+			}
+		} else if (word_is(_nword - 1, "pt")) {
+			if (!getdnum(_word[coord_word], &xcm)) {
+				demonstrate_command_usage();
+				READ_WORD_ERROR(".xpt.");
+				return false;
+			}
+			if (!getdnum(_word[coord_word + 1], &ycm)) {
+				demonstrate_command_usage();
+				READ_WORD_ERROR(".ypt.");
+				return false;
+			}
+			xcm /= PT_PER_CM;
+			ycm /= PT_PER_CM;
+		} else {
+			err("Expecting 'cm' or 'pt', but got \\", _word[_nword - 1], "\\");
 			return false;
 		}
 	}

@@ -1108,7 +1108,7 @@ be given if the isospice line does not intersect the clipping region.
 
 `draw label boxed "\string" at .ll_x. .ll_y. [cm]'
 Draw boxed label for plot, located with lower-left corner at indicated
-(x,y) position (specified in user units or in cm on the page).  The
+(x,y) position (specified in user units, or in cm on the page).  The
 current font size and pen color are used.  The geometry derives from
 the current font size, with the label being centered within the box.
 {
@@ -1228,12 +1228,12 @@ Draw a label for the last curve drawn, using the `..xlast..' and
     end if
 }
 
-`draw label "\string" [centered|rightjustified] at .x. .y. [cm] [rotated .deg.]'
+`draw label "\string" [centered|rightjustified] at .x. .y. [cm|pt] [rotated .deg.]'
 With no optional parameters, draw string at given location in USER
 units.
 
-   With the `cm' keyword present, the location is in centimetres on
-the page.
+   With the `cm' or `pt' keyword is present, the location is in
+centimetres or points on the page.
 
    With the `rotated' keyword present, the angle in degrees from the
 horizontal, measured positive in the counterclockwise direction, is

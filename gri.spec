@@ -96,6 +96,9 @@ then
 fi
 
 %changelog
+* Mon Mar 18 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
+- Permit 'draw label' coordinates in pt
+
 * Sat Mar 16 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
 - Fix Sourceforge bug #508657 (missing backslash in drawing undefined synonyms)
 - Fix Sourceforge bug #482120 ('regress' ignores data weights)
