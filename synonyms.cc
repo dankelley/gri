@@ -428,7 +428,7 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 				inmath = inmath ? false : true;
 			}
 			sout.append("$");
-			printf("    DONE appending 1\n");
+			//printf("    DONE appending 1\n");
 			continue;
 		}
 
