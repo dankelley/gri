@@ -52,7 +52,7 @@ html: gri.texi gri.info
 	rm -f $(HTML_LONG_NAME)
 	rm -f *.pass2
 #	if test ! -f index.html ; then ln -s gri1.html index.html ; fi
-	perl archive-to-html.pl > Newsgroup.html
+#	perl archive-to-html.pl > Newsgroup.html
 	touch html
 
 card-install-redhat: FORCE

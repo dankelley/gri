@@ -172,7 +172,7 @@ The Gri web homepage is at
 @menu
 * Introduction::                What Gri is for
 * Simple Example::              Introductory example
-* Fancy Example::               More complicated example
+* Getting More Control::        Controlling axes, text, color, etc.
 * Invoking Gri::                Running/viewing/printing Gri
 * Programming::                 How to program in the Gri language
 * X-y Plots::                   Drawing x-y linegraphs/scattergraphs
@@ -224,7 +224,7 @@ e.g., Gri draws xy graphs (@pxref{X-y Plots}), contour plots
 not draw pie-charts unless you teach it how.  The list of capabilities
 of Gri is similar to many packages, but unlike many of the other
 packages, Gri gives you control over line widths, fonts, grayscales, etc
-@xref{Fancy Example}, and it is a programming language of moderate
+@xref{Getting More Control}, and it is a programming language of moderate
 power.
 
 @emph{The Gri drawing metaphor} is that of pen on paper.  The ink in the
@@ -336,7 +336,7 @@ time, since the program is meant to be relatively stable and bug-free.
 
 @c HTML <!-- newfile SimpleExample.html "Gri: simple example" "Simple example" -->
 
-@node   Simple Example, Fancy Example, Introduction, Top
+@node   Simple Example, Getting More Control, Introduction, Top
 @comment  node-name,  next,  previous, up
 @chapter Simple Gri Program and How to Run it
 @cindex first-time usage
@@ -430,11 +430,13 @@ Note that in the above example, Gri automatically chose reasonable
 scales for the axes, based on the range of the data.  The next chapter
 illustrates that Gri also gives you control over such things.
 
+
 @c HTML <!-- newfile FancyExample.html "Gri: fancy example" "Fancy example" -->
 
-@node   Fancy Example, Invoking Gri, Simple Example, Top
+@node   Getting More Control, Axis Scaling, Simple Example, Top
 @comment  node-name,  next,  previous,  up
-@chapter Fancy Gri Plots
+@chapter Getting More Control over Axes, Fonts, Colors, etc
+@section An example
 @cindex scales
 @cindex axes, scales
 @cindex font, selecting
@@ -463,7 +465,6 @@ The example below illustrates a few more @code{set} commands.  This
 example is intentionally complicated, being about a good example of the
 level of complexity of many plots made by Gri.  Read the comments to see
 what is being done, and consult the plot as you read the commandfile.
-For more details on controlling these things, @pxref{Axes}.
 
 @cindex multiple panels
 @cindex example 03 (controlling scales, etc)
@@ -573,10 +574,314 @@ quit
 @end example
 @c HTML -->
 
+Gri provides a great many things that you can control, if you want to.
+An introduction to some of these things is presented in the sections
+below.
+
+@menu
+* Axis Scaling::                Gri automatically scales and draws axes
+* Log And Linear::              Selecting log/linar axes
+* Length::                      Adjusting axis length
+* Range::                       Adjusting axis range
+* Labels::                      Adjusting labels on axes
+* Position::                    Positioning the axes
+* Fonts::                       Setting fonts
+* Pen Color::                   Controlling Pen color
+@end menu
+
+@node   Axis Scaling, Log And Linear, Getting More Control, Getting More Control
+@comment  node-name,  next,  previous,  up
+@section Axis scaling
+@cindex axes, and mathematical operations on columns
+@cindex axes, autoscaling of
+@vindex @code{..xlast..}, last drawn x value
+@vindex @code{..ylast..}, last drawn y value
+@vindex @code{..xmargin..}, left margin
+@vindex @code{..ymargin..}, bottom margin
+@vindex @code{..xsize..}, x-axis length
+@vindex @code{..ysize..}, y-axis length
+@vindex @code{..xleft..}, x value at left of plot
+@vindex @code{..xright..}, x value at right of plot
+@vindex @code{..ybottom..}, y value at bottom of plot
+@vindex @code{..ytop..}, y value at top of plot
+Gri normally assumes that you are plotting scientific graphs, and
+therefore whenever it sees a command like @code{draw curve} or
+@code{draw symbol}, it draws an appropriate axis first.  You can turn
+this feature off, by using @code{draw axes none} before the other
+@code{draw} command.
+
+Furthermore, Gri picks axis scales by itself, by scanning the (@code{x},
+@code{y}) columns.  If you don't like the scales Gri picks, you can
+override them (@pxref{Range}).
+
+Gri normally draws axes labelled at left and bottom, and with an axis
+frame with tics all around.  If you don't like this default axis style
+you can specify other styles.  For example, if the commands 
+@code{draw x axis} and @code{draw y axis} are placed before the @code{draw curve}
+command, Gri will realize you've already specified axes, and just draw
+them on the left and bottom sides of the box, without completing the
+axis frame.
+
+For your general use, Gri stores the minimum and maximum x and y values
+of the @emph{axes} in the variables @code{..xleft..}, @code{..xright..},
+@code{..ybottom..}, and @code{..ytop..}; for the minimum and maximum
+values of the @emph{data}, use the built-in rpnfunctions @code{min},
+@code{max}, and @code{mean}.  (@pxref{Rpnfunction}).  It stores the last
+(x,y) pair on a curve (whether data or axis) as
+(@code{..xlast..},@code{..ylast..}).  Also, Gri stores the axis sizes in
+@code{..xsize..} and @code{..ysize..}.  It stores the space to the left
+of the plot in @code{..xmargin..} and the space below the plot in
+@code{..ymargin..}.
+
+The axis scales are @emph{not} changed by mathematical operations on the
+columns, regardless of whether the scales were set manually (by a
+@code{set x|y axis} command), or by Gri (during a @code{read columns}
+command).  In the former case, this is what you probably want, but in
+the latter case it can lead to graphs with no data, because the scale
+does not apply to the transformed data.  This might be considered a bug;
+in any case, you can avoid it by transforming the built-in variables
+@code{..xleft..} and @code{..xright..} whenever you transform the x
+column, and @code{..ybottom..} and @code{..ytop..} whenever you
+transform the y column.
+
+
+@node   Log And Linear, Length, Axis Scaling, Getting More Control
+@comment  node-name,  next,  previous,  up
+@section Logarithmic and linear axes
+@cindex logarithmic axes
+@cindex axes, logarithmic
+@cindex linear axes
+@cindex axes, linear
+Axes are linear by default; to make logarithmic axes, use commands
+@code{set x type log} and @code{set y type log}.
+
+
+
+@node   Length, Range, Log And Linear, Getting More Control
+@comment  node-name,  next,  previous,  up
+@section Length
+@cindex axes, guide to choosing length of
+@cindex length of axes, guide on choosing
+@cindex data files, protecting against movement of
+The axes are normally 10 centimetres long.  To set the axis lengths (in
+centimetres), use commands like @code{set x size 5} and 
+@code{set y size 7}.  Some people like the ratio of axes to be in the
+so-called golden ratio @code{(root(5)-1)/2}; to get that, you could do
+this: 
+@cindex axis sizes, scaled with golden ratio
+@cindex golden ratio, used for axes sizes
+@example
+set x size 15
+set y size @{rpn ..xsize.. 5 0.5 power 1 - 2 / *@}
+@end example
+
+@cindex scaling for maps
+@cindex maps, scaling
+For maps, you'll want the plot scaled so that shapes retain their aspect
+ratio.  To do this, do @code{set x size .cm.} and then do 
+@code{resize y for maps} (or vice versa).
+
+@node   Range, Labels, Length, Getting More Control
+@comment  node-name,  next,  previous,  up
+@section Range
+@cindex axes, range of values on
+@cindex range of axes
+To override axis ranges set by Gri, use @code{set x axis} and 
+@code{set y axis}.  With these commands, you specify the range of the axes; you
+may also set the interval for numbered tics, and an interval for
+unnumbered tics.  The unnumbered tics must be at an interval that
+divides evenly into the numbered tic interval, but the numbered tic
+interval need not divide into the min/max range.  Thus, 
+@code{set x axis 0 1.1 0.5} will create an axis that will range from 0 to 1.1, with
+labelled tics at the values 0, 0.5 and 1.
+
+@node   Labels, Position, Range, Getting More Control
+@comment  node-name,  next,  previous,  up
+@section Labels
+@cindex labels, on axes
+@cindex axes, labels for
+To set the name of the x axis, use @code{set x name "string"}, and
+similarly for the y-axis.  The default names are @code{x} and @code{y}.
+
+
+@node   Position, Fonts, Labels, Getting More Control
+@comment  node-name,  next,  previous,  up
+@section Axis location
+@cindex axes, location of
+@cindex positioning axes
+If you don't like the default position of axes (at left and bottom), you
+may get Gri to draw axes anywhere you like, using commands like
+@code{draw y axis at right} (so the y axis is at the right-hand end of
+the x range) or @code{draw x axis at top} (so the x axis is at the top
+of the plot); you may even specify an exact location, such as 
+@code{draw x axis at 22.2}.
+
+Normally, the x axis is placed at the bottom end of the y axis, and the
+y axis is placed at the left end of the x axis.  Some people prefer a
+style in which the axes are positioned a small offset away from these
+locations.  (See example 3, @pxref{Getting More Control}, for an
+example.)  To get this effect, you may either position the axes
+yourself, or simply use the @code{set axes style offset} command
+(@pxref{Set}).  If you want this axis style for all their plots, put the
+line @code{set axes style offset} in your @file{~/.grirc} startup file
+(@pxref{Resource File}).
+
+
+@node   Fonts, Pen Color, Position, Getting More Control
+@comment  node-name,  next,  previous,  up
+@section Controlling Fonts
+Fonts are selected with @code{set font to} @ref{Set Font To} and font
+sizes are selected with @code{set font size} @ref{Set Font Size}.
+
+
+@node   Pen Color, Graylevel, Fonts, Getting More Control
+@comment  node-name,  next,  previous,  up
+@section Controlling the color of the pen
+@cindex color
+Besides color images, Gri permits the use of arbitrary grayscale or
+color in any drawn item, whether it be a line, a symbol, an axis, a text
+string, etc.
+@menu
+* Graylevel::                   Controlling the graylevel of the "pen"
+* Colorlevel::                  Controlling the color of the "pen"
+@end menu
+
+@node   Graylevel, Colorlevel, Pen Color, Pen Color
+@comment  node-name,  next,  previous,  up
+@subsection Controlling graylevel of the ``pen''
+@cindex graylevel, explanation
+@cindex lines, gray, explanation
+
+The darkness of the ``pen'' used in drawing commands (for either lines or
+for text) is set by @code{set graylevel .brightness.}.  A brightness
+value of 0 corresponds to black ink, and a brightness value of 1
+corresponds to white ink.  Values outside this range are clipped to the
+nearer endpoint.  Values inside this range choose a proportional
+graylevel in between; for example, @code{set graylevel 0.5} gives a 50
+percent gray tone.
+
+The graylevel applies to text as well as lines.  Often you'll want to
+draw a gray line and a black label beside it, or you'll want to set a
+graylevel temporarily.  Here's how to do it:
+@example
+# Save old graylevl, set, then reset to old
+.old_gray. = ..graylevel..
+set graylevel 0.5
+draw curve
+set graylevel 0
+draw label for last curve "TEST"
+set graylevel .old_gray.
+@end example
+
+
+@node   Colorlevel, Invoking Gri, Graylevel, Pen Color
+@comment node-name, next, previous, up
+@subsection Controlling color of the ``pen''
+
+The color of the "pen" may be set to any value you can describe with an
+RGB (red, green, blue) or HSB (hue, saturation, brightness)
+specification, or a color name.  This pen color applies to everything,
+even text.
+
+@subsubsection The @code{set color \name} Command
+
+Set the pen color to the indicated name.  By default, only a handful of
+colors are known.  You @emph{MUST} give color names as written here,
+obeying the capitilization shown.  The color mixes are identical to
+those used in X11.  The following lists some of the colors Gri knows by
+default.
+
+@cindex builtin colors, list of 
+@cindex colors, list of
+@example
+NAME               RED    GREEN  BLUE
+"white"            1.000  1.000  1.000
+"LightGray"        0.827  0.827  0.827
+"darkslategray"    0.184  0.310  0.310
+"black"            0.000  0.000  0.000
+"red"              1.000  0.000  0.000
+"brown"            0.647  0.165  0.165
+"tan"              0.824  0.706  0.549
+"orange"           1.000  0.647  0.000
+"yellow"           1.000  1.000  0.000
+"green"            0.000  1.000  0.000
+"ForestGreen"      0.133  0.545  0.133
+"cyan"             0.000  1.000  1.000
+"blue"             0.000  0.000  1.000
+"skyblue"          0.529  0.808  0.922
+"magenta"          1.000  0.000  1.000
+@end example
+
+@noindent
+To get more colors than this, use the @code{read colornames} command.
+
+You should do a test case for your printer to see which colors you find
+most to your liking.  You'll want to pick colors that look different
+from each other.  In some cases you might want to avoid dithered colors,
+since they look too broken on really thin lines.  For example, on my
+printer I like the following colors: @code{black}, @code{red},
+@code{yellow}, @code{green}, @code{cyan}, and @code{magenta}.
+
+
+@subsubsection The @code{set color rgb .red. .green. .blue.} Command
+
+This command sets the color using the red-green-blue color model.  If
+you are familiar with how colors add (e.g. red plus green yields
+yellow), then you might like this, but most people find it easier to use
+the @code{set color hsb ...} style described below.
+
+The the individual color components as follows.  The numbers
+@code{.red.}, @code{.green.} and @code{.blue.} range from 0 (for no
+contribution of that color component to the final color) to 1 (for
+maximal contribution).  Values less than 0 are clipped to 0; values
+greater than 1 are clipped to 1. EXAMPLES:
+@example
+set color rgb 0   0   0  # black
+set color rgb 1   1   1  # white
+set color rgb 1   0   0  # bright red
+set color rgb 0.5 0   0  # dark red
+set color rgb 0   1   0  # pure green
+set color rgb 1   1   0  # yellow: red + green
+@end example
+
+
+@subsubsection The @code{set color hsb .hue. .saturation. .brightness.} Command
+
+In this color model, the color ("hue") is specified with a single
+parameter.  Many people find this easier than using the corresponding
+@code{rgb} command.
+
+@cindex hint, color palette range
+The the individual color components as follows.  The numbers
+@code{.hue.}, @code{.saturation.} and @code{.brightness.} range from 0
+to 1.  The color, represented by @code{.hue.}, ranges from 0 for pure
+red, through 1/3 for pure green, and 2/3 for pure blue, and back to 1
+again for pure red.  (HINT: It is a good idea to limit the total range
+of hue you use to 2/3, instead of 1; otherwise you'll get confused by
+(nearly) repeated colors at the crossover.  For example, limit the hue
+to range from 1/3 to 1, or 0 to 2/3.)  The purity of the color,
+represented by @code{.saturation.}, ranges from 0 (none of the hue is
+visible) to 1 (the maximal amount is present).  Less saturated colours
+are like those you would get from mixing black paint into coloured
+paint.  The brightness of the color, represented by @code{.brightness.},
+ranges from 0 (black) to 1 (maximal brightness).  Lowering brightness is
+like decreasing the intensity of the light you shine on a painting.
+
+Hue, saturation, and brightness values are all clipped to the range 0 to 1.
+EXAMPLES:
+@example
+set color hsb 0    1   1  # pure, bright red
+set color hsb 0    1 0.5  # half black, half red
+set color hsb .333 1   1  # pure, bright green
+@end example
+
+
+
+
 
 @c HTML <!-- newfile InvokingGri.html "Gri: running" "Running Gri" -->
 
-@node   Invoking Gri, Launching, Fancy Example, Top
+@node   Invoking Gri, Launching, Colorlevel, Top
 @comment  node-name,  next,  previous,  up
 @chapter Running Gri and Viewing and Printing Output
 This chapter tells how to run Gri, and how to view and print Gri output. 
@@ -944,13 +1249,17 @@ the Free Software Foundation's @code{Ghostscript} (or ``@code{gs}'')
 program, which works very well.
 
 On a unix system, you may invoke both Gri and the previewer on the same
-commandline, e.g., @code{gri foo.gri && gs foo.ps} (many users create a
-shellscript that does this).
+commandline, e.g.
+@example
+gri foo.gri && gs foo.ps
+@end example
+(many users create a shellscript that does this).
 
 Gri PostScript output is standard, and can be viewed with standard
 viewers such as @code{ghostview} or @code{gv}.
 
 
+@c HTML <!-- newfile Printing.html "Gri: Printing Gri output" "Running Gri" -->
 
 @node   Printing, Programming, Viewing, Invoking Gri
 @comment  node-name,  next,  previous,  up
@@ -958,18 +1267,25 @@ viewers such as @code{ghostview} or @code{gv}.
 @cindex printing, PostScript devices
 @cindex postscript printing
 
-Gri output files are in the PostScript page description language.
+Gri output files are in the PostScript page description language, so
+print them in whatever way you normally print PostScript files, e.g. in
+linux one might do
+@example
+lpr file.ps
+@end example
+(since @code{lpr} will recognize the file type) and on other unix
+systems you may do
+@example
+lpr -ps file.ps
+@end example
+to let @code{lpr} know that it is a PostScript file.
 
-@itemize @bullet
-@item @emph{Unix}
-Use a command like @code{lpr file.ps}.
-@end itemize
 
 
 
 @c HTML <!-- newfile Programming.html "Gri: programming" "Programming Gri" -->
 
-@node   Programming, Online Help, Printing, Top
+@node   Programming, Defaults, Printing, Top
 @comment  node-name,  next,  previous,  up
 @chapter Programming in the Gri Language
 @cindex programming in Gri
@@ -982,8 +1298,9 @@ statements against its list of known commands.  This list is extensible;
 it is easy to add new commands as extensions to Gri.
 
 @menu
+* Defaults::                    How Gri normally acts
 * Online Help::                 Getting help from gri itself
-* Command Lines::               Continued lines, multiple statements
+* Long Command Lines::          Continued lines
 * Variables::                   Variables (for storing numbers) 
 * Synonyms::                    Synonyms (for storing character strings) 
 * If Statements::               If statements
@@ -997,17 +1314,74 @@ it is easy to add new commands as extensions to Gri.
 * Debugging::                   Debugging Gri programs
 * Error Messages::              What to do about Gri error messages
 * Missing Values::              Missing value code
-* Axes::                        How to control them
-* Color::                       Controlling the pen color
 * Interaction::                 Talking with user
 * Operating System::            Using Gri in OS and OS in Gri
 * Resource File::               Personalizing Gri
-* Defaults::                    How Gri normally acts
 @end menu
 
 
+@c HTML <!-- newfile Defaults.html "Gri: defaults" "Programming Gri" -->
 
-@node   Online Help, Command Lines, Programming, Programming
+@node   Defaults, Online Help, Programming, Programming
+@comment  node-name,  next,  previous,  up
+@section Defaults
+@cindex default values
+At startup time, Gri sets the values of some things, like font size.
+Since Gri is still under development, some of these defaults might
+change, so you should not rely on them remaining the same.    Presently,
+the defaults are equivalent to:
+@example
+set arrow size 0.2         # (cm)
+set axes style 0
+set beep off
+set clip off
+set clip postscript off
+set contour format %lg
+set contour label position ? ?
+set contour labels horizontal
+set contour labels whiteunder
+set dash off
+set font size 12           # (pt)
+set font to helvetica
+set graylevel 0            # Black ink
+set ignore initial newline off
+set input data window x off
+set input data window y off
+# Following set (curve, axes, symbol) widths to width
+# of rapidograph pens called (6x0, 3x0,  6x0)
+set line width 0.709        # (pt) for curves
+set line width axis 0.369   # (pt) for axes
+set line width symbol 0.369 # (pt) for symbols
+set missing value 1.0e22
+set page portrait
+set page factor 1
+set symbol size 0.1        # (cm)
+set tic size 0.2           # (cm)
+set tics out
+set trace off
+set x format %lg
+set x margin 6.0           # (cm)
+set x name "x"
+set x size 10              # (cm)
+set x type linear
+set y axis label vertical
+set y format %lg
+set y margin 6.0           # (cm)
+set y name "y"
+set y size 10              # (cm)
+set y type linear
+@end example
+
+@noindent
+(NOTE: Programmers may alter the gri source file
+@file{defaults.h} and then recompile Gri, if they feel the need to
+change these things.  Also, see the file @file{startup.c} and the
+function @code{gr_begin()} in @file{gr.c}.)
+
+
+@c HTML <!-- newfile OnlineHelp.html "Gri: online help" "Programming Gri" -->
+
+@node   Online Help, Long Command Lines, Defaults, Programming
 @comment  node-name,  next,  previous,  up
 @section Online Help
 @cindex help, online
@@ -1067,9 +1441,12 @@ starts with an upper-case character and ends with a period, to indicate
 that it's an English description) follows that, indented by an
 additional 2 spaces.
 
-@node  Command Lines, Variables, Online Help, Programming
+
+@c HTML <!-- newfile LongCommandLines.html "Gri: long command lines" "Programming Gri" -->
+
+@node  Long Command Lines, Variables, Online Help, Programming
 @comment  node-name,  next,  previous,  up
-@section Command Lines
+@section Long Command Lines
 
 @cindex continued lines
 @cindex commands extending over several lines
@@ -1087,7 +1464,7 @@ draw line from \
 
 @c HTML <!-- newfile Variables.html "Gri: variables" "Programming Gri" -->
 
-@node   Variables, About Variables, Command Lines, Programming
+@node   Variables, About Variables, Long Command Lines, Programming
 @comment  node-name,  next,  previous,  up
 @section Variables
 @cindex numbers, stored in variables
@@ -2044,7 +2421,7 @@ to store vector fields).
 
 The axis scales are @emph{not} changed by mathematical operations on the
 columns, regardless of whether the scales were set manually or by Gri
-command) @xref{Autoscaling}.
+command) @xref{Axis Scaling}.
 
 Elements of columns are available by the @code{@@} reverse polish
 operator (@pxref{rpn Mathematics}).
@@ -3597,7 +3974,7 @@ sure that a Gri bug must underly them.
 
 
 @c HTML <!-- newfile MissingValues.html "Gri: missing values" "Programming Gri" -->
-@node   Missing Values, Axes, Error Messages, Programming
+@node   Missing Values, Interaction, Error Messages, Programming
 @comment  node-name,  next,  previous,  up
 @section Missing data
 @cindex data, missing values
@@ -3623,303 +4000,11 @@ since this would have the side-effect of making the data no longer be
 considered missing.
 
 
-@c HTML <!-- newfile Axes.html "Gri: axes" "Programming Gri" -->
-@node   Axes, Autoscaling, Missing Values, Programming
-@comment  node-name,  next,  previous,  up
-@section Axes and How to Control Them
-@menu
-* Autoscaling::                 Gri automatically scales and draws axes
-* Log And Linear::              Selecting log/linar axes
-* Length::                      Adjusting axis length
-* Range::                       Adjusting axis range
-* Labels::                      Adjusting labels on axes
-* Position::                    Positioning the axes
-@end menu
-
-@node   Autoscaling, Log And Linear, Axes, Axes
-@comment  node-name,  next,  previous,  up
-@subsection Autoscaling of Axes
-@cindex axes, and mathematical operations on columns
-@cindex axes, autoscaling of
-@vindex @code{..xlast..}, last drawn x value
-@vindex @code{..ylast..}, last drawn y value
-@vindex @code{..xmargin..}, left margin
-@vindex @code{..ymargin..}, bottom margin
-@vindex @code{..xsize..}, x-axis length
-@vindex @code{..ysize..}, y-axis length
-@vindex @code{..xleft..}, x value at left of plot
-@vindex @code{..xright..}, x value at right of plot
-@vindex @code{..ybottom..}, y value at bottom of plot
-@vindex @code{..ytop..}, y value at top of plot
-Gri normally assumes that you are plotting scientific graphs, and
-therefore whenever it sees a command like @code{draw curve} or
-@code{draw symbol}, it draws an appropriate axis first.  You can turn
-this feature off, by using @code{draw axes none} before the other
-@code{draw} command.
-
-Furthermore, Gri picks axis scales by itself, by scanning the (@code{x},
-@code{y}) columns.  If you don't like the scales Gri picks, you can
-override them (@pxref{Range}).
-
-Gri normally draws axes labelled at left and bottom, and with an axis
-frame with tics all around.  If you don't like this default axis style
-you can specify other styles.  For example, if the commands 
-@code{draw x axis} and @code{draw y axis} are placed before the @code{draw curve}
-command, Gri will realize you've already specified axes, and just draw
-them on the left and bottom sides of the box, without completing the
-axis frame.
-
-For your general use, Gri stores the minimum and maximum x and y values
-of the @emph{axes} in the variables @code{..xleft..}, @code{..xright..},
-@code{..ybottom..}, and @code{..ytop..}; for the minimum and maximum
-values of the @emph{data}, use the built-in rpnfunctions @code{min},
-@code{max}, and @code{mean}.  (@pxref{Rpnfunction}).  It stores the last
-(x,y) pair on a curve (whether data or axis) as
-(@code{..xlast..},@code{..ylast..}).  Also, Gri stores the axis sizes in
-@code{..xsize..} and @code{..ysize..}.  It stores the space to the left
-of the plot in @code{..xmargin..} and the space below the plot in
-@code{..ymargin..}.
-
-The axis scales are @emph{not} changed by mathematical operations on the
-columns, regardless of whether the scales were set manually (by a
-@code{set x|y axis} command), or by Gri (during a @code{read columns}
-command).  In the former case, this is what you probably want, but in
-the latter case it can lead to graphs with no data, because the scale
-does not apply to the transformed data.  This might be considered a bug;
-in any case, you can avoid it by transforming the built-in variables
-@code{..xleft..} and @code{..xright..} whenever you transform the x
-column, and @code{..ybottom..} and @code{..ytop..} whenever you
-transform the y column.
-
-
-@node   Log And Linear, Length, Autoscaling, Axes
-@comment  node-name,  next,  previous,  up
-@subsection Logarithmic and linear axes
-@cindex logarithmic axes
-@cindex axes, logarithmic
-@cindex linear axes
-@cindex axes, linear
-Axes are linear by default; to make logarithmic axes, use commands
-@code{set x type log} and @code{set y type log}.
-
-
-
-@node   Length, Range, Log And Linear, Axes
-@comment  node-name,  next,  previous,  up
-@subsection Length
-@cindex axes, guide to choosing length of
-@cindex length of axes, guide on choosing
-@cindex data files, protecting against movement of
-The axes are normally 10 centimetres long.  To set the axis lengths (in
-centimetres), use commands like @code{set x size 5} and 
-@code{set y size 7}.  Some people like the ratio of axes to be in the
-so-called golden ratio @code{(root(5)-1)/2}; to get that, you could do
-this: 
-@cindex axis sizes, scaled with golden ratio
-@cindex golden ratio, used for axes sizes
-@example
-set x size 15
-set y size @{rpn ..xsize.. 5 0.5 power 1 - 2 / *@}
-@end example
-
-@cindex scaling for maps
-@cindex maps, scaling
-For maps, you'll want the plot scaled so that shapes retain their aspect
-ratio.  To do this, do @code{set x size .cm.} and then do 
-@code{resize y for maps} (or vice versa).
-
-@node   Range, Labels, Length, Axes
-@comment  node-name,  next,  previous,  up
-@subsection Range
-@cindex axes, range of values on
-@cindex range of axes
-To override axis ranges set by Gri, use @code{set x axis} and 
-@code{set y axis}.  With these commands, you specify the range of the axes; you
-may also set the interval for numbered tics, and an interval for
-unnumbered tics.  The unnumbered tics must be at an interval that
-divides evenly into the numbered tic interval, but the numbered tic
-interval need not divide into the min/max range.  Thus, 
-@code{set x axis 0 1.1 0.5} will create an axis that will range from 0 to 1.1, with
-labelled tics at the values 0, 0.5 and 1.
-
-@node   Labels, Position, Range, Axes
-@comment  node-name,  next,  previous,  up
-@subsection Labels
-@cindex labels, on axes
-@cindex axes, labels for
-To set the name of the x axis, use @code{set x name "string"}, and
-similarly for the y-axis.  The default names are @code{x} and @code{y}.
-
-@node   Position, Color, Labels, Axes
-@comment  node-name,  next,  previous,  up
-@subsection Axis location
-@cindex axes, location of
-@cindex positioning axes
-If you don't like the default position of axes (at left and bottom), you
-may get Gri to draw axes anywhere you like, using commands like
-@code{draw y axis at right} (so the y axis is at the right-hand end of
-the x range) or @code{draw x axis at top} (so the x axis is at the top
-of the plot); you may even specify an exact location, such as 
-@code{draw x axis at 22.2}.
-
-Normally, the x axis is placed at the bottom end of the y axis, and the
-y axis is placed at the left end of the x axis.  Some people prefer a
-style in which the axes are positioned a small offset away from these
-locations.  (See example 3, @pxref{Fancy Example}, for an
-example.)  To get this effect, you may either position the axes
-yourself, or simply use the @code{set axes style offset} command
-(@pxref{Set}).  If you want this axis style for all their plots, put the
-line @code{set axes style offset} in your @file{~/.grirc} startup file
-(@pxref{Resource File}).
-
-
-@c HTML <!-- newfile Color.html "Gri: color" "Programming Gri" -->
-
-@node   Color, Graylevel, Position, Programming
-@comment  node-name,  next,  previous,  up
-@section Color
-@cindex color
-Besides color images, Gri permits the use of arbitrary grayscale or
-color in any drawn item.  
-@menu
-* Graylevel::                   Controlling the graylevel of the "pen"
-* Colorlevel::                  Controlling the color of the "pen"
-@end menu
-
-@node   Graylevel, Colorlevel, Color, Color
-@comment  node-name,  next,  previous,  up
-@subsection Controlling graylevel of the ``pen''
-@cindex graylevel, explanation
-@cindex lines, gray, explanation
-
-The darkness of the ``pen'' used in drawing commands (for either lines or
-for text) is set by @code{set graylevel .brightness.}.  A brightness
-value of 0 corresponds to black ink, and a brightness value of 1
-corresponds to white ink.  Values outside this range are clipped to the
-nearer endpoint.  Values inside this range choose a proportional
-graylevel in between; for example, @code{set graylevel 0.5} gives a 50
-percent gray tone.
-
-The graylevel applies to text as well as lines.  Often you'll want to
-draw a gray line and a black label beside it, or you'll want to set a
-graylevel temporarily.  Here's how to do it:
-@example
-# Save old graylevl, set, then reset to old
-.old_gray. = ..graylevel..
-set graylevel 0.5
-draw curve
-set graylevel 0
-draw label for last curve "TEST"
-set graylevel .old_gray.
-@end example
-
-
-@node   Colorlevel, Interaction, Graylevel, Color
-@comment node-name, next, previous, up
-@subsection Controlling color of the ``pen''
-
-The color of the "pen" may be set to any value you can describe with an
-RGB (red, green, blue) or HSB (hue, saturation, brightness)
-specification, or a color name.  This pen color applies to everything,
-even text.
-
-@subsubsection The @code{set color \name} Command
-
-Set the pen color to the indicated name.  By default, only a handful of
-colors are known.  You @emph{MUST} give color names as written here,
-obeying the capitilization shown.  The color mixes are identical to
-those used in X11.  The following lists some of the colors Gri knows by
-default.
-
-@cindex builtin colors, list of 
-@cindex colors, list of
-@example
-NAME               RED    GREEN  BLUE
-"white"            1.000  1.000  1.000
-"LightGray"        0.827  0.827  0.827
-"darkslategray"    0.184  0.310  0.310
-"black"            0.000  0.000  0.000
-"red"              1.000  0.000  0.000
-"brown"            0.647  0.165  0.165
-"tan"              0.824  0.706  0.549
-"orange"           1.000  0.647  0.000
-"yellow"           1.000  1.000  0.000
-"green"            0.000  1.000  0.000
-"ForestGreen"      0.133  0.545  0.133
-"cyan"             0.000  1.000  1.000
-"blue"             0.000  0.000  1.000
-"skyblue"          0.529  0.808  0.922
-"magenta"          1.000  0.000  1.000
-@end example
-
-@noindent
-To get more colors than this, use the @code{read colornames} command.
-
-You should do a test case for your printer to see which colors you find
-most to your liking.  You'll want to pick colors that look different
-from each other.  In some cases you might want to avoid dithered colors,
-since they look too broken on really thin lines.  For example, on my
-printer I like the following colors: @code{black}, @code{red},
-@code{yellow}, @code{green}, @code{cyan}, and @code{magenta}.
-
-
-@subsubsection The @code{set color rgb .red. .green. .blue.} Command
-
-This command sets the color using the red-green-blue color model.  If
-you are familiar with how colors add (e.g. red plus green yields
-yellow), then you might like this, but most people find it easier to use
-the @code{set color hsb ...} style described below.
-
-The the individual color components as follows.  The numbers
-@code{.red.}, @code{.green.} and @code{.blue.} range from 0 (for no
-contribution of that color component to the final color) to 1 (for
-maximal contribution).  Values less than 0 are clipped to 0; values
-greater than 1 are clipped to 1. EXAMPLES:
-@example
-set color rgb 0   0   0  # black
-set color rgb 1   1   1  # white
-set color rgb 1   0   0  # bright red
-set color rgb 0.5 0   0  # dark red
-set color rgb 0   1   0  # pure green
-set color rgb 1   1   0  # yellow: red + green
-@end example
-
-
-@subsubsection The @code{set color hsb .hue. .saturation. .brightness.} Command
-
-In this color model, the color ("hue") is specified with a single
-parameter.  Many people find this easier than using the corresponding
-@code{rgb} command.
-
-@cindex hint, color palette range
-The the individual color components as follows.  The numbers
-@code{.hue.}, @code{.saturation.} and @code{.brightness.} range from 0
-to 1.  The color, represented by @code{.hue.}, ranges from 0 for pure
-red, through 1/3 for pure green, and 2/3 for pure blue, and back to 1
-again for pure red.  (HINT: It is a good idea to limit the total range
-of hue you use to 2/3, instead of 1; otherwise you'll get confused by
-(nearly) repeated colors at the crossover.  For example, limit the hue
-to range from 1/3 to 1, or 0 to 2/3.)  The purity of the color,
-represented by @code{.saturation.}, ranges from 0 (none of the hue is
-visible) to 1 (the maximal amount is present).  Less saturated colours
-are like those you would get from mixing black paint into coloured
-paint.  The brightness of the color, represented by @code{.brightness.},
-ranges from 0 (black) to 1 (maximal brightness).  Lowering brightness is
-like decreasing the intensity of the light you shine on a painting.
-
-Hue, saturation, and brightness values are all clipped to the range 0 to 1.
-EXAMPLES:
-@example
-set color hsb 0    1   1  # pure, bright red
-set color hsb 0    1 0.5  # half black, half red
-set color hsb .333 1   1  # pure, bright green
-@end example
-
 
 
 @c HTML <!-- newfile Interaction.html "Gri: interaction" "Programming Gri" -->
 
-@node   Interaction, Operating System, Colorlevel, Programming
+@node   Interaction, Operating System, Missing Values, Programming
 @comment  node-name,  next,  previous,  up
 @section Interacting with the user
 Use the @code{query} command to interact with the user @xref{Query}.  The
@@ -4134,7 +4219,7 @@ esac
 
 @c HTML <!-- newfile ResourceFile.html "Gri: The Gri resource file" "Programming Gri" -->
 
-@node   Resource File, Defaults, Using Gri Inside OS, Programming
+@node   Resource File, X-y Plots, Using Gri Inside OS, Programming
 @comment  node-name,  next,  previous,  up
 @section Sample Resource File
 @cindex files, @file{~/.grirc} initialization file
@@ -4187,70 +4272,12 @@ Plot in portrait mode, big size.
 
 
 
-@c HTML <!-- newfile Defaults.html "Gri: defaults" "Programming Gri" -->
-
-@node   Defaults, X-y Plots, Resource File, Programming
-@comment  node-name,  next,  previous,  up
-@section Defaults
-@cindex default values
-At startup time, Gri sets the values of some things, like font size.
-Since Gri is still under development, some of these defaults might
-change, so you should not rely on them remaining the same.    Presently,
-the defaults are equivalent to:
-@example
-set arrow size 0.2         # (cm)
-set axes style 0
-set beep off
-set clip off
-set clip postscript off
-set contour format %lg
-set contour label position ? ?
-set contour labels horizontal
-set contour labels whiteunder
-set dash off
-set font size 12           # (pt)
-set font to helvetica
-set graylevel 0            # Black ink
-set ignore initial newline off
-set input data window x off
-set input data window y off
-# Following set (curve, axes, symbol) widths to width
-# of rapidograph pens called (6x0, 3x0,  6x0)
-set line width 0.709        # (pt) for curves
-set line width axis 0.369   # (pt) for axes
-set line width symbol 0.369 # (pt) for symbols
-set missing value 1.0e22
-set page portrait
-set page factor 1
-set symbol size 0.1        # (cm)
-set tic size 0.2           # (cm)
-set tics out
-set trace off
-set x format %lg
-set x margin 6.0           # (cm)
-set x name "x"
-set x size 10              # (cm)
-set x type linear
-set y axis label vertical
-set y format %lg
-set y margin 6.0           # (cm)
-set y name "y"
-set y size 10              # (cm)
-set y type linear
-@end example
-
-@noindent
-(NOTE: Programmers may alter the gri source file
-@file{defaults.h} and then recompile Gri, if they feel the need to
-change these things.  Also, see the file @file{startup.c} and the
-function @code{gr_begin()} in @file{gr.c}.)
-
 
 
 
 @c HTML <!-- newfile X-Y.html "Gri: xy plots" "X-Y Plots" -->
 
-@node   X-y Plots, Linegraphs, Defaults, Top
+@node   X-y Plots, Linegraphs, Resource File, Top
 @comment  node-name,  next,  previous,  up
 @chapter x-y Plots
 
@@ -4264,7 +4291,7 @@ function @code{gr_begin()} in @file{gr.c}.)
 @comment  node-name,  next,  previous,  up
 @section Linegraphs
 The following Gri commands will draw a linegraph.  For the output graph
-@xref{Simple Example}.
+@xref{Getting More Control}.
 @cindex linegraphs
 @cindex x-y graphs
 @cindex drawing linegraphs
@@ -4344,7 +4371,7 @@ centered above the plot. The title @emph{must} be enclosed in quotes.
 to see the plot.
 @end itemize
 
-Gri will draw axes automatically, and pick its own scales.  @xref{Axes}.
+Gri will draw axes automatically, and pick its own scales.
 
 If you wish to draw several curves which cross each other, you should
 try using @code{draw curve overlying} instead of
@@ -4365,7 +4392,7 @@ of grid data.
 To get a scattergraph with symbols at the data points, substitute
 @code{draw symbol} for @code{draw curve}.  Both symbols and a curve
 result if both @code{draw curve} and @code{draw symbols} are used.
-@pxref{Fancy Example} for an example.
+@pxref{Getting More Control} for an example.
 
 By default, the symbol used is an x.  To get another symbol, use a
 command like @code{draw symbol 0} or @code{draw symbol plus}.  These are
@@ -9706,7 +9733,7 @@ open "zcat myfile.dat.Z | "
 @cindex WWW data files, opening
 @cindex world-wide web data files, opening
 Files may be opened across the WWW (world-wide web).  Below is a
-replacement for example1.gri @xref{Simple Example}.
+replacement for example1.gri @xref{Getting More Control}.
 @example
 open "lynx -dump \
   http://www.phys.ocean.dal.ca/~kelley\
@@ -13293,7 +13320,7 @@ GS> quit
 @node   Discussion Group, Emacs Mode, Extractor Of Images, Extras
 @comment  node-name,  next,  previous,  up
 @cindex discussion Group
-@cindex newsgroup
+@cindex email list
 @section Gri Discussion Group
 Before emailing to the Gri newsgroup, it's a good idea to consult the
 @c HTML <A HREF="./FAQ.html"> 
@@ -13330,8 +13357,6 @@ with contents
 info gri
 @end example
 and the program will respond by sending the FAQ.
-
-@c HTML An archive of posted messages to the newsgroup is <a href="Newsgroup.html">here</a>.
 
 
 @c HTML <!-- newfile Emacs.html "Gri: Emacs editing mode" "Emacs editing mode" -->
@@ -15145,7 +15170,6 @@ Japanese with English abstract)
 
 
 
-
 @c HTML <!-- newfile License.html  "Gri: License" "License" -->
 
 @node   License, Index of Commands, Acknowledgments, Top
@@ -15635,8 +15659,6 @@ GNU Library General Public License instead of
 this License.
 @end example
 
-
-@c HTML <!-- newfile DiscussionGroup.html "Gri: Discussion Group" "Gri Extras" -->
 
 
 
