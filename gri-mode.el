@@ -5,7 +5,7 @@
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.60 (25 January 2002)
+;; Version:   2.61 (09 May 2002)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -398,6 +398,7 @@
 ;;   Sending (signal-process ID 'SIGCONT) doesn't change the process status
 ;;   from 'stop, even though the process did start up again.  I need to do:
 ;;   (continue-process PROCESS) to change the status.  Bug in emacs20?
+;; V2.61 09May02 RCS 1.88 - Add support for 'gv -noantialias' option.
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -532,6 +533,14 @@ the file."
   :group 'gri
   :type 'boolean)
 (make-variable-buffer-local 'gri*view-watch)
+
+(defcustom gri*view-noantialias nil
+  "When true, use -noantialias option with gv.
+The current version of 'gv' has known rendering bugs using -antialias,
+so try setting this if parts of a figure don't show up on the screen."
+  :group 'gri
+  :type 'boolean)
+(make-variable-buffer-local 'gri*view-noantialias)
 
 (defcustom gri*WWW-program nil
   "Program name for World-Wide-Web browser, used by command gri-WWW-manual.
@@ -2896,7 +2905,7 @@ up a new gv process)."
                     (concat (file-name-nondirectory 
                              (filename-sans-gri-suffix buffer-file-name))
                             ".ps")))
-        (landscape "") (scale "") (scalearg "") (watch ""))
+        (landscape "") (scale "") (scalearg "") (watch "") (noantialias ""))
     (save-excursion
       (goto-char (point-min))
       (if (re-search-forward "^[ \t]*set[ ]+page[ ]+landscape" nil t)
@@ -2904,21 +2913,23 @@ up a new gv process)."
     (if (equal gri*view-command "gv")
         (setq scale "-scale"
               scalearg (int-to-string gri*view-scale)))
-    (if (and (equal gri*view-command "gv") gri*view-watch)        
+    (if (and (equal gri*view-command "gv") gri*view-watch)
         (setq watch "-watch"))
+    (if (and (equal gri*view-command "gv") gri*view-noantialias)
+        (setq noantialias "-noantialias"))
     (if (not (file-readable-p psfile))
         (if (not (file-readable-p (concat psfile ".gz")))
             (error "%s not found or not readable" psfile)
           ;;Found gzipped version of file
           (setq psfile (concat psfile ".gz"))))
-    (message "%s %s %s %s %s %s" 
-             gri*view-command psfile landscape scale scalearg watch)
+    (message "%s %s %s %s %s %s %s" gri*view-command 
+             psfile landscape scale scalearg watch noantialias)
     (let ((shell-command-switch
            (or (and (boundp 'shell-command-switch) shell-command-switch) "-c"))
           (directory default-directory))
       (setq gri-view-process (start-process "gri-view" nil gri*view-command
                                             psfile landscape watch scale 
-                                            scalearg))
+                                            scalearg noantialias))
     ;;(setq mode-line-process '(":%s"))
     ;;(set-process-sentinel gri-view-process 'shell-command-sentinel)
       (set-process-filter   gri-view-process 'gri-insertion-filter))))
@@ -3900,10 +3911,14 @@ Any output (errors?) is put in the buffer `gri-WWW-manual'."
      ["View existing PostScript"      gri-view  t]
      ("gv settings"
       "Run-Time Options"
-      ["gv -watch" (if gri*view-watch 
-                       (setq gri*view-watch nil)
-                     (setq gri*view-watch t))
+      ["-watch" (if gri*view-watch 
+                    (setq gri*view-watch nil)
+                  (setq gri*view-watch t))
        :style toggle :selected gri*view-watch]
+      ["-noantialias" (if gri*view-noantialias
+                          (setq gri*view-noantialias nil)
+                        (setq gri*view-noantialias t))
+       :style toggle :selected gri*view-noantialias]
       "Scale Selection"
       ["0.1" 
 ;;FIXME: simply this code!
@@ -4695,7 +4710,7 @@ static char * gri_info24x24_xpm[] = {
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.60 (c) 25 Jan 2002 --  Peter Galbraith <psg@debian.org>
+V2.61 (c) 09 May 2002 --  Peter Galbraith <psg@debian.org>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
