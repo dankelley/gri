@@ -354,6 +354,7 @@ draw_symbolCmd()
 					PUT_VAR("..xlast..", x);
 					PUT_VAR("..ylast..", y);
 				}
+				draw_axes_if_needed();
 				return true;
 			case 7:
 				// `draw symbol .code.|\name at .x. .y. cm' 
