@@ -72,12 +72,25 @@ html-install:	html
 	install -d $(EXAMPLE_DIR)
 	install -d $(HTML_DIR)/resources
 	install -d $(HTML_DIR)/screenshots
-	install -m 644 resources/*.gif     $(HTML_DIR)/resources
-	install -m 644 examples/*.jpg      $(HTML_DIR)/
-	install -m 644 examples/{model*,*.dat,*.gri,*.ps} $(EXAMPLE_DIR)
-	install -m 755 examples/FEM.pl     $(EXAMPLE_DIR)
-	install -m 644 screenshots/*.jpg   $(HTML_DIR)/screenshots
-	install -m 644 *.html              $(HTML_DIR)
+	chmod 644 resources/* examples/* screenshots/*
+	cp resources/*.gif     $(HTML_DIR)/resources
+	chmod 644              $(HTML_DIR)/resources/*
+	cp examples/*.jpg      $(HTML_DIR)/
+	chmod 644              $(HTML_DIR)/resources/*.jpg
+	cp examples/model*     $(EXAMPLE_DIR)
+	chmod 644              $(EXAMPLE_DIR)/model*
+	cp examples/*.dat      $(EXAMPLE_DIR)
+	chmod 644              $(EXAMPLE_DIR)/*.dat
+	cp examples/*.gri      $(EXAMPLE_DIR)
+	chmod 644              $(EXAMPLE_DIR)/*.gri
+	cp examples/*.ps       $(EXAMPLE_DIR)
+	chmod 644              $(EXAMPLE_DIR)/*.ps
+	cp examples/FEM.pl     $(EXAMPLE_DIR)
+	chmod 755              $(EXAMPLE_DIR)/FEM.pl
+	cp screenshots/*.jpg   $(HTML_DIR)/screenshots
+	chmod 644              $(HTML_DIR)/screenshots/*.jpg
+	cp *.html              $(HTML_DIR)
+	chmod 644              $(HTML_DIR)/*.html
 	(cd $(HTML_DIR); ln -sf ../examples)
 
 html-install-solaris:	html
@@ -118,13 +131,14 @@ gri.info: gri.texi
 
 info-install:
 	install -d $(INFO_DIR)
-	install -m 644 gri.info* $(INFO_DIR)
+	cp gri.info* $(INFO_DIR)
 	(cd $(INFO_DIR) ; gzip -f --best gri.info gri.info-[0-9] gri.info-[0-9][0-9])
+	chmod 644 $(INFO_DIR)/gri.info.*
 
 info-install-solaris:
 	$(INSTALL) -d $(INFO_DIR_SOLARIS)
 	cp gri.info* $(INFO_DIR_SOLARIS)
-	chmod a+r $(INFO_DIR_SOLARIS)/gri.info*
+	chmod 644 $(INFO_DIR_SOLARIS)/gri.info*
 
 info-clean:
 	rm -f gri.info* info debian-info
