@@ -1762,7 +1762,9 @@ call_the_OS(const char* cmd, const char* calling_filename, int calling_line)
 		printf("Sending the following command to the operating system [ref: %s:%d]:\n%s\n", 
 		       calling_filename, calling_line, c.c_str());
 	}
-	return system(c.c_str());
+	int status = system(c.c_str());
+	PUT_VAR("..exit_status..", double(status));
+	return status;
 }
 
 void
