@@ -11,7 +11,14 @@ gri (2.12.10-1) UNRELEASED; urgency=low
     - Fix SourceForge bug #867515 (problem with junk appearing in images.)
     - Fix SourceForge bug #875881 (problem compiling with gcc 2.95.3 compiler)
 
- -- Peter S Galbraith <psg@debian.org>  Wed, 12 Jan 2005 19:23:18 -0500
+ -- Peter S Galbraith <psg@debian.org>  Tue,  1 Mar 2005 22:40:38 -0500
+
+gri (2.12.9-2) unstable; urgency=low
+
+  * Bug fix: "gri-el: incompatible with new version of gv", thanks to
+    Scott Webster for reporting this (Closes: #296692).
+
+ -- Peter S Galbraith <psg@debian.org>  Tue,  1 Mar 2005 22:38:36 -0500
 
 gri (2.12.9-1) unstable; urgency=low
 
