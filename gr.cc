@@ -243,9 +243,9 @@ gr_begin(int specifications)
 	_grNeedBegin = false;
 	_grSpecifications = specifications;
 	// open gri.ps file, avoiding overwriting existing ones
-	printf("DEBUG 1\n");
+	//printf("DEBUG 1\n");
 	if (user_gave_ps_filename) {
-		printf("DEBUG 2. '%s'\n",ps_filename);
+		//printf("DEBUG 2. '%s'\n",ps_filename);
 		strcpy(ps_filename_used, ps_filename);
 	} else {
 #if defined(VMS)
@@ -1282,7 +1282,7 @@ gr_setup_creatorname(const char *s)
 void
 gr_setup_ps_filename(const char *new_name)
 {
-	printf("%s:%d %d\n",__FILE__,__LINE__,_grNeedBegin);
+	//printf("%s:%d %d\n",__FILE__,__LINE__,_grNeedBegin);
 	if (_grNeedBegin) {
 		user_gave_ps_filename = true;
 		if (strlen(new_name) > 0)

@@ -599,8 +599,7 @@ perform_gri_cmd(int cmd)
 void
 push_command_word_buffer()
 {
-	int             i;
-	char            *cp = NULL;		// assignment prevents warning
+	char *cp = NULL;		// assignment prevents warning
 	GET_STORAGE(cp, char, 1 + strlen(_command_word_separator));
 	strcpy(cp, _command_word_separator);
 	_command_word[_num_command_word] = cp;
@@ -608,9 +607,25 @@ push_command_word_buffer()
 	if (_num_command_word >= MAX_cmd_word) {
 		gr_Error("ran out of storage (must increase MAX_cmd_word in private.hh");
 	}
-	for (i = 0; i < _nword; i++) {
-		GET_STORAGE(cp, char, 1 + strlen(_word[i]));
-		strcpy(cp, _word[i]);
+	for (int i = 0; i < _nword; i++) {
+#if 1				// 2000-dec-18 SF bug 122893
+		if (is_var(_word[i])) {
+			double v;
+			bool ok = get_var(_word[i], &v);
+			if (ok) {
+				char value[100];
+				sprintf(value, "%e", v);
+				GET_STORAGE(cp, char, 1 + strlen(value));
+				strcpy(cp, value);
+			} else {
+				GET_STORAGE(cp, char, 2);
+				strcpy(cp, "0");
+			}
+		} else {
+			GET_STORAGE(cp, char, 1 + strlen(_word[i]));
+			strcpy(cp, _word[i]);
+		}
+#endif
 		_command_word[_num_command_word] = cp;
 		//printf("DEBUG %s:%d pushed command word %d as '%s'\n", __FILE__, __LINE__, _num_command_word, _command_word[_num_command_word]);
 		_num_command_word++;
@@ -623,11 +638,10 @@ push_command_word_buffer()
 void
 pop_command_word_buffer()
 {
-	int             i;
 	// Trash last end-point, then find new start-point by looking backwards
 	// for most recently pushed separator
 	if (_num_command_word > 1) {
-		for (i = _num_command_word - 1; i > -1; i--) {
+		for (int i = _num_command_word - 1; i > -1; i--) {
 			if (!strcmp(_command_word[i], _command_word_separator)) {
 				_num_command_word = i;
 				free((char *) _command_word[i]);

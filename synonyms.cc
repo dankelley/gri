@@ -623,9 +623,9 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 static inline int
 end_of_synonym(char c, bool inmath, bool need_brace)
 {
-	if (((unsigned) superuser()) & FLAG_SYN) printf("\tend_of_synonym (%c,%d)\n",c, need_brace);
+	//if (((unsigned) superuser()) & FLAG_SYN) printf("\tend_of_synonym (%c,%d)\n",c, need_brace);
 	if (need_brace) {
-		if (((unsigned) superuser()) & FLAG_SYN) printf("\t\t returning %d  (since need_brace)\n", c == '}');
+		//if (((unsigned) superuser()) & FLAG_SYN) printf("\t\t returning %d  (since need_brace)\n", c == '}');
 		return c == '}';
 	}
 	switch (c) {
@@ -662,6 +662,6 @@ end_of_synonym(char c, bool inmath, bool need_brace)
 		if (((unsigned) superuser()) & FLAG_SYN) printf("\t\t returning %d at place 3\n", !inmath);
 		return (!inmath);
 	}
-	if (((unsigned) superuser()) & FLAG_SYN) printf("\t\t returning FALSE at place 4\n");
+	//if (((unsigned) superuser()) & FLAG_SYN) printf("\t\t returning FALSE at place 4\n");
 	return false;
 }
