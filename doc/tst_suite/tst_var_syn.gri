@@ -113,4 +113,21 @@ get env \@point_to_a "SHELL"
 get env \b "SHELL"
 assert {rpn "\a" "\b" ==}			" failed test 8.16"
 
+# DE-REF on 'read' (SF bug 117412)
+system echo "Hello" > test.dat
+open "test.dat"
+read \a
+assert {rpn "\a" "Hello" ==}			" failed test 8.17"
+\a = "JUNK"
+\point_to_a = "\\a"
+rewind
+read \\a
+assert {rpn "\a" "Hello" ==}			" failed test 8.18"
+\a = "JUNK"
+\point_to_a = "\\a"
+rewind
+read \@point_to_a
+assert {rpn "\a" "Hello" ==}			" failed test 8.19"
+system rm -f test.dat
+
 show " passed"

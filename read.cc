@@ -2529,15 +2529,19 @@ read_synonym_or_variableCmd()
 		gr_Error("Cannot read int grid data yet");
 	} else if (_dataFILE.back().get_type() == DataFile::bin_float) {
 		for (int w = 1; w < _nword; w++) {
-			if (!word_is(w, "*")) {
-				if (is_var(_word[w])) {
+			string the_word(_word[w]);
+			un_double_quote(the_word);
+			un_double_slash(the_word);
+			de_reference(the_word);
+			if (the_word == "*") {
+				if (is_var(the_word)) {
 					float tmp;
 					if (1 == fread((char *)&tmp, sizeof(float), 1, _dataFILE.back().get_fp())) {
-						PUT_VAR(_word[w], tmp);
+						PUT_VAR(the_word.c_str(), tmp);
 					} else {
 						err("Can't read \\", _word[w], "'", "\\");
 					}
-				} else if (is_syn(_word[w])) {
+				} else if (is_syn(the_word)) {
 					err("Cannot read synonyms from binary file");
 					return false;
 				} else {
@@ -2565,47 +2569,42 @@ read_synonym_or_variableCmd()
 				}
 			}
 			remove_comment(inLine.getValue());
-			if (word_is(w, "*")) {
+			string the_word(_word[w]);
+			un_double_quote(the_word);
+			un_double_slash(the_word);
+			de_reference(the_word);
+			if (the_word == "*") {
 				continue;
-			} else if (is_var(_word[w])) {
+			} else if (is_var(the_word)) {
 				if (0 < strlen(inLine.getValue())) {
 					double tmp;
 					if (getdnum(inLine.getValue(), &tmp)) {
-						PUT_VAR(_word[w], tmp);
+						PUT_VAR(the_word.c_str(), tmp);
 					} else {
 						err("Can't read \\", _word[w], " in `", inLine.getValue(), "'", "\\");
 					}
 				} else {
-					PUT_VAR(_word[w], gr_currentmissingvalue());
+					PUT_VAR(the_word.c_str(), gr_currentmissingvalue());
 				} 
-			} else if (is_syn(_word[w])) {
+			} else if (is_syn(the_word)) {
 				char *copy = new char [1 + strlen(inLine.getValue())];
 				if (!copy) OUT_OF_MEMORY;
 				strcpy(copy, inLine.getValue());
 				if (copy[strlen(copy) - 1] == '\n')
 					copy[strlen(copy) - 1] = '\0';
-				if (!put_syn(_word[w], copy, true)) {
+				if (!put_syn(the_word.c_str(), copy, true)) {
 					delete [] copy;
 					err("Synonym stack exhausted");
 					return false;
 				}
 				delete [] copy;
 			} else {
-				// check for non-dot at end
-				if (*(_word[w]) == '.' && *(_word[w] + strlen(_word[w]) - 1) != '.') {
-					err("The period at the beginning of item `\\",
-					    _word[w],
-					    "' might indicate \n       a variable, but variables require a period at end also", "\\");
-					demonstrate_command_usage();
-					return false;
-				} else {
-					err("`read' what? (Item `\\",
-					    _word[w],
-					    "' is neither a synonym-name nor a variable-name.)",
-					    "\\");
-					demonstrate_command_usage();
-					return false;
-				}
+				err("`read' what? (Item `\\",
+				    _word[w],
+				    "' is neither a synonym-name nor a variable-name.)",
+				    "\\");
+				demonstrate_command_usage();
+				return false;
 			}
 		}
 	}

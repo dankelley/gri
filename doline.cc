@@ -344,11 +344,13 @@ perform_command_line(FILE *fp, bool is_which)
 		// an assignment operator)
 		string w0(_word[0]);
 		de_reference(w0);
-		_word[0] = w0.c_str(); // BUG BUG scope??
+		char *cp = strdup(w0.c_str());
+		_word[0] = cp;
 		// Handle `\name = "value"' command
 		if (w0[0] == '\\') {
 			if (_nword >= 3 && !strcmp(_word[1], "=")) {
 				assign_synonym();
+				free(cp);
 				return true;
 			}
 		}
@@ -376,6 +378,7 @@ perform_command_line(FILE *fp, bool is_which)
 				   || word_is(1, "^=")
 				   || word_is(1, "_=")) {
 					mathCmd();
+					free(cp);
 					return true;
 				}
 			} else if (_nword == 4 
@@ -383,6 +386,7 @@ perform_command_line(FILE *fp, bool is_which)
 							     || word_is(1, "x")
 							     || word_is(1, "y")) ) {
 				mathCmd();
+				free(cp);
 				return true;
 			} else if (_nword == 4
 				   && word_is(0, "image") && (word_is(1, "grayscale")
@@ -390,10 +394,12 @@ perform_command_line(FILE *fp, bool is_which)
 							      || word_is(1, "colorscale")
 							      || word_is(1, "colourscale"))) {
 				mathCmd();
+				free(cp);
 				return true;
 			} else {
 				err("Unknown command.  Were you trying to manipulate `\\",
 				    _word[0], "' mathematically?", "\\");
+				free(cp);
 				return false;
 			}
 		}
@@ -404,26 +410,33 @@ perform_command_line(FILE *fp, bool is_which)
 			push_cmd_being_done_stack(cmd - 1);
 			if (!perform_gri_cmd(cmd - 1)) {
 				err("Can't perform/parse following command");
+				free(cp);
 				return false;
 			}
 			pop_cmd_being_done_stack();
+			free(cp);
 			return true;
 		} else {
 			// No syntax registered for this command.  Check special cases,
 			// where it's a stray "break," or "continue"
 			if (word_is(0, "break")) {
 				err("Cannot have `break' outside loops");
+				free(cp);
 				return false;
 			} else if (word_is(0, "continue")) {
 				err("Cannot have `continue' outside loops");
+				free(cp);
 				return false;
 			} else if (string_is_blank(_word[0])) {
+				free(cp);
 				return true;
 			} else {
 				err("Unknown command encountered.");
+				free(cp);
 				return false;
 			}
 		}
+		free(cp);
 	}
 	return true;
 }
@@ -482,7 +495,6 @@ is_system_command(const char *s)
 bool
 systemCmd()
 {
-	printf("in SYSTEM %s:%d\n",__FILE__,__LINE__);
 	if (skipping_through_if())
 		return true;
 	// Much of following code duplicated in assign_synonym(), so if any
