@@ -4,6 +4,7 @@
 #include <limits.h>
 #include <time.h>
 #include <sys/times.h>
+#include "gr.hh"
 
 
 void gr_textput(const char *s);
@@ -57,7 +58,7 @@ GriTimer::GriTimer()
 }
 char* GriTimer::now_ascii()
 {
-	time_t          sec;
+	SECOND_TYPE sec;
 	time(&sec);
 	return(asctime(localtime(&sec)));
 }

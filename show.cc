@@ -671,15 +671,7 @@ lynx -dump \"http://www.phys.ocean.dal.ca/cgi-bin/ocean/gri_hints\" | tail +7 >>
 	if (!filename) OUT_OF_MEMORY;
 	strcpy(filename, home);
 	strcat(filename, name);
-#if defined(VMS) || defined(MSDOS) || defined(IS_DEC_ALPHA)
-	time_t          sec;
-#else
-#if defined(__DECCXX)
-	int             sec;
-#else
-	long            sec;
-#endif
-#endif
+	SECOND_TYPE sec;
 	time(&sec);
 	char now[30];		// 27 should be enough by Sun manpage
 	strcpy(now, asctime(localtime(&sec)));
@@ -887,15 +879,7 @@ show_tracebackCmd()
 bool
 show_timeCmd()
 {
-#if defined(VMS) || defined(MSDOS) || defined(IS_DEC_ALPHA)
-	time_t          sec;
-#else
-#if defined(__DECCXX)
-	int             sec;
-#else
-	long            sec;
-#endif
-#endif
+	SECOND_TYPE sec;
 	time(&sec);
 	sprintf(_grTempString, "%s", asctime(localtime(&sec)));
 	ShowStr(_grTempString);

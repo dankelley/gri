@@ -352,16 +352,6 @@ static void set_page_characteristics()
 static void
 insert_ps_header(FILE * fp)
 {
-#if defined(VMS) || defined(MSDOS) || defined(IS_DEC_ALPHA)
-	time_t          sec;
-#else
-#if defined(__DECCXX)
-	int             sec;
-#else
-	long            sec;
-#endif
-#endif
-	int             i = 0;
 	/*
 	 * write conforming postscript prolog
 	 */
@@ -369,6 +359,7 @@ insert_ps_header(FILE * fp)
 	fprintf(fp, "%%!PS-Adobe-2.0 EPSF-1.2\n");
 	fprintf(fp, "%%%%Creator: %s\n", creator_name);
 	fprintf(fp, "%%%%Title: %s\n", ps_filename_used);
+	SECOND_TYPE sec;
 	time(&sec);
 	fprintf(fp, "%%%%CreationDate: %s", asctime(localtime(&sec)));
 	fprintf(fp, "%%%%Pages: (atend)\n");
@@ -377,6 +368,7 @@ insert_ps_header(FILE * fp)
 		0, 0, (int) (8.5 * 72.0), (int) (11.0 * 72.0));
 	fprintf(fp, "%%%%DocumentFonts: (atend)\n");
 	fprintf(fp, "%%%%Endcomments\n");
+	int i = 0;
 	while (PS_dict[i])
 		fprintf(fp, "%s\n", PS_dict[i++]);
 	handle_landscape_scale(fp);

@@ -502,15 +502,6 @@ create_builtin_synonyms()
 	char *            os;
 	char *            wd;
 	char *            home;
-#if defined(VMS) || defined(MSDOS) || defined(IS_DEC_ALPHA)
-	time_t          sec;
-#else
-#if defined(__DECCXX)
-	int             sec;
-#else
-	long            sec;
-#endif
-#endif
 	// Use this for return codes
 	if (!put_syn("\\.return_value.", "", true)) OUT_OF_MEMORY;
 	// \.awk. (name of awk program)
@@ -525,6 +516,7 @@ create_builtin_synonyms()
 	wd = pwd();
 	if (!put_syn("\\.wd.", wd, true)) OUT_OF_MEMORY;
 	// \.time. (time)
+	SECOND_TYPE sec;
 	time(&sec);
 	strcpy(_grTempString, asctime(localtime(&sec)));
 	_grTempString[strlen(_grTempString) - 1] = '\0';
