@@ -716,7 +716,7 @@ gr_drawsymbol(double xcm, double ycm, gr_symbol_type symbol_name)
 		 || xcm > OFFPAGE_RIGHT
 		 || ycm < OFFPAGE_BOTTOM
 		 || ycm > OFFPAGE_TOP)) {
-		warning("Drawing a symbol at a location which is offpage.");
+		warning("Drawing a symbol at a location that is offpage.");
 	}
 	switch (symbol_name) {
 	case gr_plus_symbol:

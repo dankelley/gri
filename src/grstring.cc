@@ -106,7 +106,7 @@ gr_show_at(/*const*/ char *s, double xcm, double ycm, gr_textStyle style, double
 		 || xcm > OFFPAGE_RIGHT
 		 || ycm < OFFPAGE_BOTTOM
 		 || ycm > OFFPAGE_TOP)) {
-		warning("Drawing text at a location which is offpage.");
+		warning("Drawing text at a location that is offpage.");
 	}
 	char *fn_svg = NULL;
 	double r, g, b;
