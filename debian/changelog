@@ -7,6 +7,14 @@ gri (2.12.9-1) unstable; urgency=low
 
  -- Peter S Galbraith <psg@debian.org>  Mon, 13 Dec 2004 22:01:00 -0500
 
+gri (2.12.8-2) unstable; urgency=low
+
+  * Remove DEBUG printouts.
+  * gri-el: Adapt to new texinfo's "Index of Commands" which includes a
+    line offset number.  This fixes Info lookup for gri commands.
+
+ -- Peter S Galbraith <psg@debian.org>  Thu, 16 Dec 2004 20:58:18 -0500
+
 gri (2.12.8-1) unstable; urgency=low
 
   * New upstream release
