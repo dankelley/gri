@@ -58,7 +58,7 @@ AC_MSG_CHECKING(for gcc compiler)
 ], GCC=yes, GCC=no)
 if test $GCC = yes; then
   EXTRA_CFLAGS_TEMPLATE="$EXTRA_CFLAGS -Wall"
-  EXTRA_CFLAGS="$EXTRA_CFLAGS -Wall -fno-implicit-templates"
+  EXTRA_CFLAGS="$EXTRA_CFLAGS -Wall"
   AC_SUBST(EXTRA_CFLAGS)
   AC_SUBST(EXTRA_CFLAGS_TEMPLATE)
 fi
@@ -66,6 +66,12 @@ AC_MSG_RESULT($GCC)
 ])dnl
 dnl
 GCC_TWEAK1
+
+dnl Note: prior to 2.9.x, we used to have
+dnl   EXTRA_CFLAGS="$EXTRA_CFLAGS -Wall -fno-implicit-templates"
+dnl above.  But now, this seems not to be needed, at least
+dnl on intel (linux), with g++-2.96 and g++-3.0
+
 
 dnl On DEC computers, with cxx compiler, need something special
 AC_DEFUN(IS_THIS_A_DECCXX_COMPILER,
