@@ -1,3 +1,11 @@
+gri (2.10.1-1) unstable; urgency=low
+
+  * New upstream version
+    - startup.cc: hide references to popt.h since it's not yet in use and
+      not required for compilation (closes: #148493).
+
+ -- Peter S Galbraith <psg@debian.org>  Wed, 29 May 2002 14:13:21 -0400
+
 gri (2.10.0-1) unstable; urgency=low
 
   * New upstream version
