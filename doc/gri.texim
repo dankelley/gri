@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.160 2002/04/04 14:47:12 dankelley Exp $
+@c $Id: gri.texim,v 1.161 2002/04/04 14:50:01 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -9819,9 +9819,12 @@ special meaning: if it is positive then small tics are put at values 2,
 no such small tics are used.
 
 @item @code{set x axis labels .position. "label" [.position. "label" [...]]}
+@cindex axis labels, controlling
+@cindex day-of-week axis
 Override the automatic labelling at axis tics, and instead put the
 indicated labels at the indicated x values.  For example, a
 day-of-week axis can be created by the code:
+
 
 @example
 set x axis 0 7 1

@@ -1,3 +1,11 @@
+2002-04-04  Dan Kelley  <kelley@Limit.Phys.Ocean.Dal.Ca>
+
+	* set.cc (set_x_axisCmd): Add user-supplied axis labels (same for
+	y axis)
+
+	* graxes.cc (gr_drawxaxis): Add user-supplied axis labels (same
+	for y axis)
+
 2002-03-18  Dan Kelley  <kelley@Limit.Phys.Ocean.Dal.Ca>
 
 	* draw.cc (draw_labelCmd): Permit 'draw label' coordinates in pt
