@@ -1,3 +1,4 @@
+// #define DEBUG
 #include	<stdio.h>
 #include	<string.h>
 #include	"extern.hh"
@@ -193,11 +194,15 @@ find_hint_and_def(char *hint, char *def)
 	hint[0] = '\0';
 	def[0] = '\0';
 	// Find and extract hint, as first quoted string.
+#ifdef DEBUG
+	printf("CMDLINE [%s]\n",_cmdLine);
+#endif
+	int ii;
 	for (i = 0; i < len; i++) {
 		if (*(_cmdLine + i) == '\"') {
 			bool valid = false;
 			i++;
-			for (int ii = 0; ii < len - i; ii++) {
+			for (ii = 0; ii < len - i; ii++) {
 				if (_cmdLine[i + ii] == '"' && lastc != '\\') {
 					hint[ii] = '\0';
 					valid = true;
@@ -212,7 +217,11 @@ find_hint_and_def(char *hint, char *def)
 			}
 		}
 	}
-	// Extract default, as last string enclosed in parentheses
+
+	// Return now if no default was given ...
+	if (i + ii == len - 1)
+		return true;
+	// ... or extract it, if it was given.
 	int def_start = -1, def_end = -1;
 	int level = 0;
 	for (i = len - 1; i > 0; i--) {
@@ -242,6 +251,28 @@ find_hint_and_def(char *hint, char *def)
 		for (i = def_start; i <= def_end; i++)
 			def[i - def_start] = _cmdLine[i];
 		def[1 + def_end - def_start] = '\0';
+	}
+#ifdef DEBUG
+	printf("HINT [%s] DEFAULT [%s]\n", hint, def);
+#endif
+
+	// If the default is a variable, parse it into the hint
+	// that will be presented to the user.
+	if (is_var(def)) {
+#ifdef DEBUG
+		printf("it is a var [%s]\n",def);
+#endif
+		double def_value;
+		bool ok = get_var(def, &def_value);
+		if (ok) {
+			sprintf(def, "%f", def_value); // BUG: assume will fit
+#ifdef DEBUG
+			printf("WROTE [%s]\n",def);
+#endif
+		}
+#ifdef DEBUG
+		printf("def is now [%s]\n",def);
+#endif
 	}
 	return true;
 }
