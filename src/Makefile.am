@@ -51,8 +51,8 @@ EXTRA_CFLAGS_TEMPLATE = @EXTRA_CFLAGS_TEMPLATE@ $(LINUX_EXTRA_CFLAGS)
 template.o: template.cc
 	$(CXX) -c $(CXXFLAGS) $(EXTRA_CFLAGS_TEMPLATE) $(DEFS) -I$(srcdir) $<
 
-.cc.o:
-	$(CXX) -c $(CXXFLAGS) $(EXTRA_CFLAGS) $(AM_CXXFLAGS) $(DEFS) -I$(srcdir) $<
+#.cc.o:
+#	$(CXX) -c $(CXXFLAGS) $(EXTRA_CFLAGS) $(AM_CXXFLAGS) $(DEFS) -I$(srcdir) $<
 
 debian_lib = $(debian)/usr/share/gri/$(PACKAGE_VERSION)
 install_linux_debian: gri

@@ -13,7 +13,7 @@ dnl language, see the file
 dnl     /opt/gnu/share/autoconf/acspecific.m4
 
 AC_PREREQ(2.50)
-AC_INIT(gri, 2.12.5)
+AC_INIT(gri, 2.12.6)
 AC_CONFIG_SRCDIR(src/gri.cc)
 AM_INIT_AUTOMAKE
 dnl AM_CONFIG_HEADER(gr.h)
