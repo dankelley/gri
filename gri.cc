@@ -10,6 +10,7 @@
 #include        "Synonym.hh"
 #include        "Variable.hh"
 
+using namespace std;		// needed for g++-3 
 char source_indicator[256];	// BUG: length not checked
 
 // Globals from gr.
