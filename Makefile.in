@@ -1,55 +1,28 @@
-#VERSION = `head -1 version`
-VERSION = 2.5.4
-
 #### Start of system configuration section. ####
-# Prototype Gri Makefile.  Developers - read first few lines for instructions.
-# <<<--- DEVELOPERS - YOU MAY NEED TO EDIT THIS SECTION ------------------->>>
-# <<< Uncomment next line on linux machines, to get debugging malloc lib. >>>
-#LINUX_DEBUG_LIB=-L/usr/debug_include
-# <<< Uncomment next 2 lines to get debugging malloc/string library.      >>>
-#DBMALLOC_LIBS=-ldbmalloc
-#DBMALLOC_DEFS=-DUSE_DBMALLOC=1
-# <<<   Here is documentation on dbmalloc, from 'man dbmalloc'            >>>
-# <<<   As an example, to set up the session to generate a core file      >>>
-# <<<   for  every malloc warning, to drop core and exit on a malloc      >>>
-# <<<   fatal, and to log all messages to the file  "malloc_log"  do      >>>
-# <<<   the following:                                                    >>>
-# <<<                                                                     >>>
-# <<<      export MALLOC_WARN=131                                         >>>
-# <<<      export MALLOC_FATAL=1                                          >>>
-# <<<      export MALLOC_ERRFILE=malloc_log                               >>>
-# <<<   then do                                                           >>>
-# <<<      gdb gri core                                                   >>>
-# <<<   to get into debugger.  A good gdb command to know is              >>>
-# <<<      where                                                          >>>
-# <<<   which gives location in gri where problem occured.                >>>
-# <<<--- DEVELOPERS - END OF SECTION YOU MIGHT NEED TO EDIT --------------->>>
 
+VERSION = 2.5.4
 srcdir = .
-
 DESTDIR=
 AWK = gawk
-
 INSTALL = @INSTALL@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_DATA = @INSTALL_DATA@
 
 LIBS = $(DBMALLOC_LIBS) $(LINUX_DEBUG_LIB) @LIBS@
+# ***************************************
+# *  To debug memory, change above into *
+# *  LIBS = ... -lefence                *
+# ***************************************
 
 DEFS = -DVERSION=\"$(VERSION)\" -DDEFAULT_GRI_DIR=\"$(libdir)\" -DAWK=\"gawk\" $(DBMALLOC_DEFS) $(HAVE_LINUX) @DEFS@
-
 CFLAGS = @CFLAGS@
 CPPFLAGS = @CPPFLAGS@
 CXXFLAGS = @CXXFLAGS@
 EXTRA_CFLAGS = @EXTRA_CFLAGS@ $(LINUX_EXTRA_CFLAGS)
 EXTRA_CFLAGS_TEMPLATE = @EXTRA_CFLAGS_TEMPLATE@ $(LINUX_EXTRA_CFLAGS)
-
-
-
 prefix = @prefix@
 bindir = $(prefix)/bin
 libdir = $(prefix)/share/gri
-
 #### End of system configuration section. ####
 
 OBJS = G_string.o GriColor.o GriPath.o GriState.o chopword.o close.o \
