@@ -19,6 +19,7 @@
 #endif
 static vector<GriNamedColor> colorStack;
 
+static string psname("");
 
 extern char     _grTempString[];
 
@@ -67,6 +68,7 @@ create_color(const char *name, double r, double g, double b)
 	return true;
 }
 
+#if 0
 // RETURN value contents of s following the last ',' in s, or all of s
 static          char*
 last_name(char *s)
@@ -93,6 +95,7 @@ last_name(char *s)
 	}
 	return return_value;
 }
+#endif
 
 bool
 start_up(int argc, char **argv)
@@ -131,46 +134,41 @@ start_up(int argc, char **argv)
 	PUT_VAR("..image_width..", 0.0);
 	PUT_VAR("..image_height..", 0.0);
 	last_optional_arg = interpret_optional_arguments(argc, argv);
+
 	// Get name of PostScript file if it was provided.  Must do this before
 	// getting cmd file because of demands of gr_setup.  Also, check here for
 	// input_simulation words.
-	int separator = argc;
-	for (int i = argc - 1; i > -1; i--)
-		if (!strcmp(argv[i], SEPARATOR))
-			separator = i;
+	int separator = last_optional_arg;
+	if (last_optional_arg == argc - 1) {
+		_margin.assign("  ");
+		push_cmd_file("stdin", batch() ? false : true, true, "r");
+	} else {
+		separator++;
+		string fname(argv[1 + last_optional_arg]);
+
+		// If filename shorter than 4 characters, cannot have .gri suffix,
+		// so append it.
+		string::size_type p = fname.rfind(".gri");
+		if (fname.size() < 4 || p != -4 + fname.size())
+			fname.append(".gri");
+
+		// If user didn't give psname, create it
+		if (psname.empty()) {
+			psname = fname;
+			int l = psname.size();
+			psname.STRINGERASE(l - 4, l - 1);
+			psname.append(".ps");
+		}
+		if (!push_cmd_file(fname.c_str(), false, false, "r")) {
+			fprintf(stderr, "Cannot open commandfile `%s'\n", fname.c_str());
+			delete_ps_file();
+			gri_exit(1);
+		}
+		gr_setup_ps_filename(psname.c_str());
+	}
+
 	get_input_simulation(argc, argv, separator);
 
-	string psname("");
-	if (separator == 3 + last_optional_arg) {
-		// Cmdline has both cmdfile name and psfile name
-		if (!strcmp(argv[last_optional_arg + 1], argv[last_optional_arg + 2]))
-			fatal_err("Gri requires Command filename to differ from PostScript filename");
-		psname = last_name(argv[last_optional_arg + 2]);
-		gr_setup_ps_filename(psname.c_str());
-	} else if (separator == 2 + last_optional_arg) {
-		// Only have cmdname, so have to make up a psname
-		psname = last_name(argv[last_optional_arg + 1]);
-		//printf("psname -> '%s'\n", psname.c_str());
-		string::size_type slash_location = psname.rfind("/");
-		if (slash_location != STRING_NPOS)
-			psname.STRINGERASE(0, slash_location+1);
-		//printf("psname -> '%s'\n", psname.c_str());
-		unsigned int l = psname.length();
-		if (l > 4
-		    && psname[l-1] == 'i'
-		    && psname[l-2] == 'r' 
-		    && psname[l-3] == 'g'
-		    && psname[l-4] == '.') {
-			psname.STRINGERASE(l-4,4);
-		}
-		//printf("psname -> '%s'\n", psname.c_str());
-		psname.append(".ps");
-		//printf("psname -> '%s'\n", psname.c_str());
-		gr_setup_ps_filename(psname.c_str());
-	} else {
-		// Let Gri make a default name, of the form gr.ps##
-		psname = "";
-	}
 	insert_creator_name_in_PS(argc, argv, psname);
 	// Finally, ready to begin plot.
 	gr_begin(1);
@@ -192,11 +190,7 @@ start_up(int argc, char **argv)
 	// Do user's ~/.grirc file.
 	_store_cmds_in_ps = tmp;
 	dogrirc();
-#if 0				// 1999-11-27 do instead in doline.cc
-	// Show startup msg
-	if (_no_startup_message == false && !batch())
-		show_startup_msg();
-#endif
+
 	// Re-enable tracing
 	PUT_VAR("..trace..", trace_old);
 
@@ -205,48 +199,6 @@ start_up(int argc, char **argv)
 	if (superuser() & FLAG_AUT1)printf("\nDEBUG: %s:%d pushing back a datafile at address %x\n",__FILE__,__LINE__,int(&new_data_file));
 	_dataFILE.push_back(new_data_file);
 
-	//printf("last optional arg @ %d\n",last_optional_arg);
-	//printf("last optional arg is '%s'\n",argv[last_optional_arg]);
-	//printf("1+last optional arg is '%s'\n",argv[1+last_optional_arg]);
-
-	// Figure out if there was a cmdfile supplied on options line.
-	if (argc < 2 + last_optional_arg) {
-		// There was no cmdfile given, so take commands from stdin
-		_margin.assign("  ");
-		push_cmd_file("stdin", batch() ? false : true, true, "r");
-	} else if (argc >= 2 + last_optional_arg
-		   || argc >= 3 + last_optional_arg) {
-		// Command-file name given, but no postscript-file given
-		string fname(argv[1 + last_optional_arg]);
-		// Ensure that it's not a 'gre' commandfile
-		string::size_type p = fname.rfind(".gre");
-		if (fname.size() > 3 && (p == -4 + fname.size())) {
-			fprintf(stderr, "Error: gri cannot execute gre files (i.e. files ending in .gre)\n");
-			delete_ps_file();
-			gri_exit(1);
-		}
-		// If filename shorter than 4 characters, cannot have .gri suffix,
-		// so append it.
-		if (fname.size() < 4) {
-			fname.append(".gri");
-		} else {
-			string::size_type p = fname.rfind(".gri");
-			if (p != -4 + fname.size())
-				fname.append(".gri");
-		}
-		if (!push_cmd_file(fname.c_str(), false, false, "r")) {
-			fprintf(stderr, "Cannot open commandfile `%s'\n", fname.c_str());
-			delete_ps_file();
-			gri_exit(1);
-		}
-	} else {
-		delete_ps_file();
-		fatal_err("Too many items on command line (2 allowed): `\\",
-			  argv[1 + last_optional_arg], "', `",
-			  argv[2 + last_optional_arg], "', `",
-			  argv[3 + last_optional_arg], "' ...", "\\");
-		return false;           // never executed
-	}
 	_first = true;
 	_bounding_box.set(0., 0., 0., 0.);
 	return true;
@@ -694,6 +646,17 @@ interpret_optional_arguments(int argc, char *argv[])
 						_lib_directory.assign(argv[i]);
 					else {
 						err("`-directory' needs an argument.");
+						gri_exit(1);
+					}
+				} else if (!strcmp(argv[i], "-output")) {
+					printf("DEBUG yeah, output ... %s:%d\n",__FILE__,__LINE__);
+					number_optional_arg++;
+					i++;
+					if (i < argc) {
+						psname.assign(argv[i]);
+						gr_setup_ps_filename(psname.c_str());
+					} else {
+						err("`gri ... -output FILENAME' needs the FILENAME!");
 						gri_exit(1);
 					}
 				} else if (!strcmp(argv[i], "-directory_default")) {
