@@ -1,8 +1,18 @@
 gri (2.7.0-0) unstable; urgency=low
 
   * CVS development version.
+    - Enhancements to gri-mode: meta-tab completion of builtin variables
+      and synonyms, etc.
+    - Add `unlink' command.
+    - Add `make source-arch-indep' target in sources.
+    - Add `default' possibility for the `set x name and the `set y name'
+      commands.
+    - Add Perl-like ability to put underscores in numerical constants
+      (`.v. = 1_000' and `.v. = 1000' are completely equivalent).
+    - Add `set page size command.
+    - Add `substr' RPN operator.
 
- -- Peter S Galbraith <psg@debian.org>  Tue, 22 May 2001 11:11:11 -0400
+ -- Peter S Galbraith <psg@debian.org>  Tue, 17 Jul 2001 15:46:59 -0400
 
 gri (2.6.4-1) unstable; urgency=low
 
