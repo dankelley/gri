@@ -2,14 +2,18 @@
 # Script run to update version number in all relevant files
 require "getopts.pl";
 &Getopts('hv:');
-$usage ="
-UpdateVersion:
+sub get_current_version_number() 
+{
+    $version = `awk '(/VERSION =/) {print \$3}' Makefile.in`;
+    chop($version);
+}
+sub usage ()
+{
+    get_current_version_number();
+    print 
+	"UpdateVersion:  Script run to update version number in all relevant files
 
- Script run to update version number in all relevant files
-
-Usage: 
-
- To update all files to Version 2.6.0:
+USAGE: For example, to update all files to Version 2.6.0:
 
      ./UpdateVersion -v 2.6.0
 
@@ -21,10 +25,12 @@ Options:
       -h :  display this message.
 
 ToDo: Handle release date in version.cc
-      Put prior version in comments in version.cc
-";
+      Put prior version in comments in version.cc.
 
-die "$usage" if ($opt_h || ! $opt_v || ($opt_v == ""));
+NOTE: present version number is $version\n";
+}
+
+exit usage() if ($opt_h || ! $opt_v || ($opt_v == ""));
 
 die "CVSROOT not defined" if (! defined($ENV{'CVSROOT'}));
 die "CVSROOT not pointing to cvs.gri.sourceforge.net" 
@@ -41,14 +47,18 @@ die "version.cc $CVSmsg" if (! -w "version.cc");
 die "doc/gri.texim $CVSmsg" if (! -w "doc/gri.texim");
 
 # Get current version number
-$version = `awk '(/VERSION =/) {print \$3}' Makefile.in`;
-chop($version);
+get_current_version_number();
 
 die "Version is up-to-date" if ($opt_v eq $version);
 
 $regexp = $version;
 $regexp =~ s/\./\\./g;
 
-`perl -pi.bak -e 's/$regexp/$opt_v/g' Makefile.in gri.spec gri.cmd`;
-`perl -pi.bak -e 'next if (/^\\\@item/);s/$regexp/$opt_v/g' doc/gri.texim`;
-`perl -pi.bak -e 's/_gri_number\\[\\] = "$regexp"/_gri_number[] = "$opt_v"/g' version.cc`;
+`perl -pi.bak -e 's/(version $regexp)$/(version $opt_v)/' gri.cmd`
+`perl -pi.bak -e 's/VERSION = $regexp/VERSION = $opt_v/' Makefile.in`
+`perl -pi.bak -e 's/%define griversion $regexp/%define griversion $opt_v/g' gri.spec`
+`perl -pi.bak -e 's/\@set GRI-VERSION $regexp/\@set GRI-VERSION $opt_v/`;
+`perl -pi.bak -e 's/_gri_number\\[\\] = "$regexp"/_gri_number[] = "$opt_v"/' version.cc`;
+print "CAUTION: Dan modified this script 2002-nov-23 because it was
+too aggressive (doing global changes in the files), but it has NOT
+been tested yet !!\n";

@@ -1,5 +1,5 @@
 Summary: A language for scientific illustration
-%define griversion 2.12.1
+%define griversion 2.12.2
 Name: gri
 Version: %{griversion}
 Release: 1
@@ -8,7 +8,7 @@ Group: Applications/Engineering
 Source: http://ftp1.sourceforge.net/gri/gri-%{griversion}.tgz
 URL: http://gri.sourceforge.net
 Packager: Dan E. Kelley <Dan.Kelley@Dal.CA>
-Icon: grilogo.gif
+#Icon: grilogo.gif
 BuildRoot: /var/tmp/%{name}-root
 
 %description
@@ -96,11 +96,14 @@ then
 fi
 
 %changelog
+* Sat Nov 23 2002  Dan Kelley <Dan.Kelley@Dal.Ca>
+- Version 2.12.2
+- fix SourceForge bug 641406 (RPN too aggressive on missing values)
 * Wed Sep 25 2002  Dan Kelley <Dan.Kelley@Dal.Ca>
 - Version 2.12.1
 - fix SourceForge bug 613075 (sin, cos, tan problem in RPN)
 * Sun Sep 15 2002  Dan Kelley <Dan.Kelley@Dal.Ca>
-- Version 2.12.1
+- Version 2.12.0
 - add 'sed' RPN operator
 - add 'skewness' RPN operator
 - add 'kurtosis' RPN operator

@@ -1,10 +1,11 @@
 // NB: number string must agree with line 1 of gri.cmd
-char _gri_number[] = "2.12.1";
-char _gri_release_time[] = "2002-sep-25";
+char _gri_number[] = "2.12.2";
+char _gri_release_time[] = "2002-nov-23";
 char _gri_date[] = "2002";
 
 // OLDER VERSIONS:
 //
+//  2.12.2      2002-nov-23
 //  2.12.1      2002-sep-25
 //  2.12.0      2002-sep-15 Terry Fox Day (Canada)
 //  2.11.0      ...

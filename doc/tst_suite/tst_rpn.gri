@@ -88,6 +88,10 @@ read .x. .y.
 
 assert {rpn .y. ismissing}                " failed test 9.1"
 assert {rpn .y. -99 ==   }                " failed test 9.2"
-assert {rpn .y.   0 !=   }                " failed test 9.3"
-
+assert {rpn .y. -99 != ! }                " failed test 9.3"
+assert {rpn .y.   0 !=   }                " failed test 9.4"
+if {rpn .y. -99 !=}
+    show                                  " failed test 9.5"
+end if
+		    
 show " passed"

@@ -696,7 +696,7 @@ do_operation(operator_name oper)
 			else 
 				SET(2, "", missing, NUMBER, false);
 #else
-			SET(2, "", missing, NUMBER, false);
+			SET(2, "", (VALUE(1)==VALUE(2)?1.0:0.0), NUMBER, true);
 #endif
 			rS.pop_back();
 		} else {
@@ -718,7 +718,7 @@ do_operation(operator_name oper)
 			else 
 				SET(2, "", missing, NUMBER, false);
 #else
-			SET(2, "", missing, NUMBER, false);
+			SET(2, "", (VALUE(1)!=VALUE(2)?1.0:0.0), NUMBER, true);
 #endif
 			rS.pop_back();
 		} else {
