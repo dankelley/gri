@@ -2915,9 +2915,10 @@ set_x_nameCmd()
 		return false;
 	}
 	// find quote string
-	Require(ExtractQuote(_grTempString, _cmdLine),
+	string unquoted;
+	Require(ExtractQuote(_cmdLine, unquoted),
 		err("Require \"name\" in `set x name \"name\"'"));
-	_colX.setName(_grTempString);
+	_colX.setName(unquoted.c_str());
 	return true;
 }
 
@@ -3175,9 +3176,10 @@ bool
 set_y_nameCmd()
 {
 	Require(_nword > 3, err("Must specify a name"));
-	Require(ExtractQuote(_grTempString, _cmdLine),
+	string unquoted;
+	Require(ExtractQuote(_cmdLine, unquoted),
 		err("Require \"name\" in `set y name \"name\"'"));
-	_colY.setName(_grTempString);
+	_colY.setName(unquoted.c_str());
 	return true;
 }
 
@@ -3360,12 +3362,14 @@ This computer can't `\\synonym = system ...' since no popen() subroutine.");
 		}
 #endif
 	} else {
+		printf("DEBUG %s:%d syn= ... '%s' (have %d words)\n", __FILE__,__LINE__,_cmdLine, _nword);
 		// `\synonym = "..."'
 		//printf("%d words...\n",_nword);
 		//printf("0 <<%s>>\n",_word[0]);
 		//printf("1 <<%s>>\n",_word[1]);
 		//printf("2 <<%s>>\n",_word[2]);
-		if (!ExtractQuote(_errorMsg, _cmdLine)) {
+		string unquoted;
+		if (!ExtractQuote(_cmdLine, unquoted)) {
 			err("Can't extract value for synonym '\\",
 			    _word[0],
 			    "'.  The value must be in double quotes.",
@@ -3373,7 +3377,7 @@ This computer can't `\\synonym = system ...' since no popen() subroutine.");
 			return false;
 		}
 		// Store synonym
-		if (!put_syn(_word[0], _errorMsg, true)) OUT_OF_MEMORY;
+		if (!put_syn(_word[0], unquoted.c_str(), true)) OUT_OF_MEMORY;
 	}
 	return true;
 }

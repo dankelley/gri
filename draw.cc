@@ -1885,20 +1885,20 @@ draw_labelCmd()
 	bool            user_units;
 	bool            left_justified = false, centered = false, right_justified = false;
 	int             coord_word = 0;
-	GriString       label(_cmdLine);
 	if (_nword < 5) {
 		NUMBER_WORDS_ERROR;
 		demonstrate_command_usage();
 		return false;
 	}
 	// Find quote string
-	if (!(QuoteEnd = ExtractQuote(label.getValue(), _cmdLine))) {
+	string unquoted;
+	if (!(QuoteEnd = ExtractQuote(_cmdLine, unquoted))) {
 		demonstrate_command_usage();
 		err("Missing \"string\".");
 		return false;
 	}
-	strcpy(_cmdLineCOPY, _cmdLine);
-	chop_into_words(_cmdLineCOPY + QuoteEnd, _word, &_nword, MAX_nword);
+	GriString label(unquoted.c_str());
+	chop_into_words(_cmdLine + QuoteEnd, _word, &_nword, MAX_nword);
 	// Parse for text angle, in degrees from horizontal.  If the option
 	// [rotated .deg.] exists, interpret and then strip from the commandline.
 	if (1 == get_cmd_values(_word, _nword, "rotated", 1, _dstack)) {
@@ -2233,19 +2233,21 @@ draw_titleCmd()
 {
 	if (_nword > 2) {
 		// find quote string 
-		if (!ExtractQuote(_grTempString, _cmdLine)) {
+		string unquoted;
+		if (!ExtractQuote(_cmdLine, unquoted)) {
 			err("`draw title' needs \"string\"");
 			return false;
 		}
-		if (strlen(_grTempString) > 0) {
-			double          xmargin = XMARGIN_DEFAULT, xsize = XSIZE_DEFAULT;
+		if (!unquoted.empty()) {
+			double xmargin = XMARGIN_DEFAULT;
+			double xsize   = XSIZE_DEFAULT;
 			set_environment();
 			if (!get_var("..xmargin..", &xmargin))
 				warning("Sorry, don't know value of ..xmargin.. so using XMARGIN_DEFAULT");
 			if (!get_var("..xsize..", &xsize))
 				warning("Sorry, don't know value of ..xsize.. so using XSIZE_DEFAULT");
 			GriString label;
-			label.fromSTR(_grTempString);
+			label.fromSTR(unquoted.c_str());
 			label.draw(xmargin + 0.5 * xsize,
 				   _top_of_plot + OFFSET_AFTER_TITLE,
 				   TEXT_CENTERED,

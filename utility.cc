@@ -984,29 +984,35 @@ warning(const char *s,...)
  * extracted quote, if all was OK.  Otherwise 0.
  */
 int
-ExtractQuote(char *sout, const char *s)
+ExtractQuote(const char *s, string& sout)
 {
+	printf("DEBUG %s:%d input string is '%s'\n",__FILE__,__LINE__,s);
 	int             i = 0;
-	while (*(s + i) != '"') {
-		if (*(s + i) == '\0') {
-			*sout = '\0';
+	// Skip along to first quote ...
+	while (s[i] != '"') {
+		if (s[i] == '\0')
 			return 0;
+		i++;
+	}
+	i++;			// skip the quote
+	// ... then copy along until find first un-escaped quote ...
+	while (s[i] != '\0') {
+		if (s[i] == '"') {
+			if (i > 0 && s[i - 1] == '\\') {
+				sout += '"';
+			} else {
+				printf("DEBUG %s:%d returning '%s' with pos %d\n",__FILE__,__LINE__,sout.c_str(), i+1);
+				return i + 1;
+			}
+		} else {
+			sout += s[i];
 		}
 		i++;
 	}
-	strcpy(sout, s + i + 1);
-	int last_char = i;
-	i = 0;
-	while (*(sout + i) != '\0') {
-		if (*(sout + i) == '"') {
-			if (i > 0 && *(sout + i - 1) == '\\')
-				continue; // it was escaped
-			*(sout + i) = '\0';
-			return (2 + last_char + i);
-		}
-		i++;
-	}
-	return (2 + last_char + i);
+	// ... and return an index so the parser can do more
+	// work on 's' past the quote
+	printf("DEBUG %s:%d extract quote put sout '%s' from '%s'\n", __FILE__,__LINE__,sout.c_str(),s);
+	return i;
 }
 
 // Make all trailing blanks, tabs, etc, into null chars

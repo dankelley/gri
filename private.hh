@@ -108,7 +108,7 @@ bool            draw_gri_logo(void);
 char           *egetenv(const char *s);
 void            end_up(void);
 void            expand_blanks(char *cmdline);
-int             ExtractQuote(char *sout, const char *s);
+int             ExtractQuote(const char *s, string& sout);
 bool            extract_help(FILE * fp, char *line);
 bool            extract_procedure(FILE * fp, char *line);
 bool            extract_syntax(char *line);
