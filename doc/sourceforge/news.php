@@ -14,7 +14,7 @@ set_up_lhs();
 
 <p>
 Stable version 
-<?php printf(" %s released %s ago.", "$gri_stable_version", age()); ?>
+<?php printf(" %s was released %s ago.", "$gri_stable_version", age()); ?>
 
 <h1>News forum</h1>
 <p>
@@ -26,24 +26,20 @@ news
 </a>
 is available.
 
-<h1>New features</h1>
+<h1>The Past and the Future</h1>
 <p>
+The online manual discusses
 <?php
-print "<A HREF=\"$development_site/gridoc/html/Version_2_12.html#Version2.12\">\n";
+print "<A HREF=\"$development_site/gridoc/html/Version_${gri_stable_version_major}_${gri_stable_version_intermediate}.html#Version$gri_stable_version_major.$gri_stable_version_intermediate\">\n";
 ?>
-Changes
+recent changes
 </a>
-to Gri are documented in the manual.
-
-
-<h1>Plans for next stable version</h1>
-
-<p>
-A sketch of the
+to Gri, as well as ideas for
 <?php
-print "<A HREF=\"$development_site/Plans.html\">";
+print "<A HREF=\"./gridoc/html/Plans.html#Plans\">";
 ?>
-plans
-</a> for upcoming versions is available.
+upcoming features
+</a> that are under consideration.
+</p>
 
 <?php footer(); ?>

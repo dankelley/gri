@@ -3,7 +3,10 @@
 $ftp_site = "http://ftp1.sourceforge.net/gri";
 $development_site = "http://gri.sourceforge.net";
 $development_site_name = "SourceForge";
-$gri_stable_version = "2.12.4";
+$gri_stable_version_major = "2";
+$gri_stable_version_intermediate = "12";
+$gri_stable_version_minor = "4";
+$gri_stable_version = "$gri_stable_version_major.$gri_stable_version_intermediate.$gri_stable_version_minor";
 $gri_group_id = "5511";
 $sf_url = "http://sourceforge.net";
 $sf_ftp = "http://ftp1.sourceforge.net";
