@@ -298,8 +298,8 @@ Search gri manual for (may be a regular expression):<p>
         <A class="menus" HREF="./gri.pdf">PDF manual</A><br>
         <A class="menus" HREF="./gridoc/html/FAQ.html">FAQ</A><br>
         <A class="menus" HREF="./gri-cookbook/index.html">Cookbook</A><br>
-        <A class="menus" HREF="./refcard.ps">Basic refcard</A><br>
-        <A class="menus" HREF="./cmdrefcard.ps">Command refcard</A><br>
+        <A class="menus" HREF="./refcard.pdf">Basic refcard</A><br>
+        <A class="menus" HREF="./cmdrefcard.pdf">Command refcard</A><br>
         <A class="menus" HREF="http://www2.linuxjournal.com/lj-issues/issue75/3743.html"><i>Linux Journal</i> article</A><br>
       </td>
     </tr>
