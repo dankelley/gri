@@ -127,7 +127,7 @@ gr_show_at(/*const*/ char *s, double xcm, double ycm, gr_textStyle style, double
 		fprintf(stderr, "%s:%d attempting highly approximate text output of '%s' at %f %f cm\n", __FILE__, __LINE__, s, xcm, ycm);
 		fprintf(_grSVG, "%s\n", s);
 		if (style != TEXT_LJUST) fprintf(stderr, "%s:%d ignoring justification (code=%d) of text '%s'\n", __FILE__,__LINE__,style,s);
-		if (angle_deg != 0.0) fprintf(stderr, "%s:%d ignoring angle of text '%s'\n", __FILE__,__LINE__,s);
+		if (angle_deg != 0.0) fprintf(stderr, "%s:%d ignoring angle %f of text '%s'\n", __FILE__,__LINE__,angle_deg,s);
 	}
 
 
