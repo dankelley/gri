@@ -1,15 +1,12 @@
-;; gri-mode.el - major mode for Gri files
+;; gri-mode.el - major mode for Gri, a scientific graphics programming language
 
 ;; Copyright (C) 1994-2000 Peter S. Galbraith
  
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.24 (18 May 2000)
-;; Keywords:  gri, emacs, XEmacs, plotting graphics package.
-
-;; RCS $Id: gri-mode.el,v 1.3 2000/05/18 17:42:29 psg Exp $
-;; Note: RCS version number does not correspond to release number.
+;; Version:   2.25 (19 May 2000)
+;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
 
@@ -31,9 +28,9 @@
 ;;; Commentary:
 
 ;; This major mode for GNU emacs provides support for editing Gri files.
-;; Gri is a graphics plotting package (language) that produces beautiful
-;; postscript output suitable for publications.  Gri is written by 
-;; Dan Kelley, Dalhousie University.  Info about Gri is available at
+;; Gri is a graphics plotting language that produces beautiful postscript
+;; output suitable for publications.  Gri is written by Dan Kelley,
+;; Dalhousie University.  Info about Gri is available at
 ;;       http://www.phys.ocean.dal.ca/~kelley/gri/gri1.html
 
 ;; New versions of gri-mode are included with Gri itself, and may also be
@@ -327,9 +324,10 @@
 ;; V2.23 18May00 RCS 1.47
 ;; - eval Gri command list menubar only when gri-cmd-file is set correctly
 ;; - Gri info file can have .info extension now.
-;; V2.23 18May00 RCS 1.48
+;; V2.24 18May00 RCS 1.48
 ;; - tweaks for XEmacs (easymenu entries need `t' at end; 
 ;;   call add-submenu in gri-mode)
+;; V2.25 19May00 RCS 1.49 - Removed RCS Id line to avoid confusion.
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -3999,7 +3997,7 @@ static char *magick[] = {
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.24 (c) 18 May 2000 --  Peter Galbraith <GalbraithP@dfo-mpo.gc.ca>
+V2.25 (c) 19 May 2000 --  Peter Galbraith <GalbraithP@dfo-mpo.gc.ca>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
