@@ -8,13 +8,15 @@ INSTALL = @INSTALL@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_DATA = @INSTALL_DATA@
 
-LIBS = $(DBMALLOC_LIBS) $(LINUX_DEBUG_LIB) @LIBS@
-# ***************************************
-# *  To debug memory, change above into *
-# *  LIBS = ... -lefence                *
-# ***************************************
+LIBS = @LIBS@
+# ************************************************************
+# *  If you have the 'electric fence' library installed, you *
+# *  can debug memory faults and other problems by adding    *
+# *           -lefence                                       *
+# *  at the end of the LIBS line above                       *
+# ************************************************************
 
-DEFS = -DVERSION=\"$(VERSION)\" -DDEFAULT_GRI_DIR=\"$(libdir)\" -DAWK=\"gawk\" $(DBMALLOC_DEFS) $(HAVE_LINUX) @DEFS@
+DEFS = -DVERSION=\"$(VERSION)\" -DDEFAULT_GRI_DIR=\"$(libdir)\" -DAWK=\"gawk\" $(HAVE_LINUX) @DEFS@
 CFLAGS = @CFLAGS@
 CPPFLAGS = @CPPFLAGS@
 CXXFLAGS = @CXXFLAGS@
