@@ -179,11 +179,23 @@ parse_C_commandCmd(const char *s)
 			}
 			i++;
 		}
-		exit(0);
+		i = 0;
 #endif
-
+		//
+		// Using name_len, rather than strlen(.name), below,
+		// speeds up by 7% the following test program,
+		// with .n. valued 5e3, 10e3, 15e3, 20e3, and 
+		// with regression on the timed result.
+		//	.n. = 5000
+		//	.i. = 0
+		//	while {rpn .i. .n. >}
+		//		set x size 3.3
+		//		set y size 10
+		//		.i. += 1
+		//	end while
 		while (c_fcn[i].fcn) {
 			if (length == strlen(c_fcn[i].name)
+			//if (length == c_fcn[i].name_len
 			    && !strncmp(s + start, c_fcn[i].name, length)) {
 				c_fcn[i].fcn();
 				return 1;
