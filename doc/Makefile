@@ -52,7 +52,7 @@ html: gri.texi gri.info texinfo2HTML HTML_subdivide
 	make read
 	rm -f gri[1-9]*.html
 	perl HTML_subdivide  $(HTML_LONG_NAME) "The Gri graphing language"
-	rm -f $(HTML_LONG_NAME)
+#	rm -f $(HTML_LONG_NAME)
 	rm -f *.pass2
 #	if test ! -f index.html ; then ln -s gri1.html index.html ; fi
 #	perl archive-to-html.pl > Newsgroup.html

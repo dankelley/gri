@@ -2005,8 +2005,7 @@ the FTP site.
 
 Additionally, I've collected a few real life examples here.  Other
 sources are the Gri cookbook, available separately
-@c HTML <A HREF="http://gri.sourceforge.net/gri-cookbook/index.html"> 
-@c HTML (click here)</A>
+@url{http://gri.sourceforge.net/gri-cookbook/index.html}.
 
 
 @menu
@@ -9338,33 +9337,33 @@ and @code{.panel_ysize} are created, to be used by later calls to
 EXAMPLE 
 
 @example
-  # Draw 2 panels across, 3 up the page.
+# Draw 2 panels across, 3 up the page.
 
-  # The Panel interiors will be in region cornered
-  # by (2,2), (12,22) cm
-  set x margin 2
-  set y margin 2
-  set x size 10
-  set y size 20
-  set panels 2 3
+# The Panel interiors will be in region cornered
+# by (2,2), (12,22) cm
+set x margin 2
+set y margin 2
+set x size 10
+set y size 20
+set panels 2 3
 
-  # Create dummy scale
-  set x axis 0 1
-  set y axis 0 1
+# Create dummy scale
+set x axis 0 1
+set y axis 0 1
 
-  # Draw blank axes
-  set panel 1 1
-  draw axes
-  set panel 1 2
-  draw axes
-  set panel 1 3
-  draw axes
-  set panel 2 1
-  draw axes
-  set panel 2 2
-  draw axes
-  set panel 2 3
-  draw axes
+# Draw blank axes
+et panel 1 1
+raw axes
+set panel 1 2
+draw axes
+set panel 1 3
+draw axes
+set panel 2 1
+draw axes
+set panel 2 2
+draw axes
+set panel 2 3
+draw axes
 @end example
 
 @emph{See also} @code{set panel .row. .col.}
@@ -12758,7 +12757,7 @@ Yields number of command-line arguments given by the user when Gri was
 invoked.  Thus, invoking Gri as
 
 @example
-    gri myfile.gri file1.dat file2.dat
+gri myfile.gri file1.dat file2.dat
 @end example
 
 @noindent
@@ -13673,7 +13672,7 @@ Gri automatically determines whether an item is a variable or a synonym,
 and does the correct thing.  Thus, for example, if line 3 above were written as
 
 @example
-    \.word1. = "hello"                 # ERROR
+\.word1. = "hello"                 # ERROR
 @end example
 
 @noindent
@@ -14740,13 +14739,13 @@ easy to use.
 
 An older newsgroup, which will still be maintained for a while at least,
 is handled by a GNU mailman server; you may subscribe, read archived
-messages, etc, at the website
+messages, etc, at 
 @url{http://www.Phys.Ocean.Dal.Ca/mailman/listinfo/gri}.
 
 
 @c HTML <!-- newfile Emacs.html "Gri: Emacs editing mode" "Emacs editing mode" -->
 
-@node   Emacs Mode, Gri-mode screenshots, Discussion Group, Top
+@node   Emacs Mode, About Gri Mode, Discussion Group, Top
 @comment  node-name,  next,  previous,  up
 @chapter Editing Gri Files in GNU Emacs
 
@@ -14762,7 +14761,22 @@ written by Peter S. Galbraith
 @code{<psg@@debian.org>}.
 @c HTML </A>
 
-It has all the wonderful things you've come to expect from Emacs modes.
+@menu
+* About Gri Mode::
+* Gri-mode screenshots::                  What it looks like.
+* Installing gri-mode.el::                The nuts and bolts.
+* Major Gri-mode commands::               It knows about Gri commands.
+* Dealing with many Gri versions::        gri-mode handles it.
+* Filename arguments when running gri::   gri-set-command-postarguments.
+@end menu
+
+@c HTML <!-- newfile AboutGriMode.html "Gri Mode: About Gri Mode" "Gri Mode:About Gri Mode" -->
+
+@node   About Gri Mode, Gri-mode screenshots, Emacs Mode, Emacs Mode
+@comment  node-name,  next,  previous,  up
+@section About Gri Mode
+
+Gri mode has all the wonderful things you've come to expect from Emacs modes.
 Here's a brief overview of the features:
 @itemize @bullet
 @item
@@ -14810,20 +14824,13 @@ this means a substantial saving in development time.
 Inside gri-mode, type @kbd{C-h m} for help on the mode, including a list
 of all commands and key definitions.
 
-@menu
-* Gri-mode screenshots::                  What it looks like.
-* Installing gri-mode.el::                The nuts and bolts.
-* Major Gri-mode commands::               It knows about Gri commands.
-* Dealing with many Gri versions::        gri-mode handles it.
-* Filename arguments when running gri::   gri-set-command-postarguments.
-@end menu
 
-@node   Gri-mode screenshots, Installing gri-mode.el, Emacs Mode, Emacs Mode
+@c HTML <!-- newfile GriModeScreenshots.html "Gri Mode: Screenshots" "Gri Mode: Screenshots" -->
+
+@node   Gri-mode screenshots, Installing gri-mode.el, About Gri Mode, Emacs Mode
 @comment  node-name,  next,  previous,  up
 @section Gri-mode screenshots, what it looks like.
 @cindex gri-mode, screenshots
-
-
 
 @comment First handle Info version
 @c HTML <!--
@@ -14831,9 +14838,7 @@ of all commands and key definitions.
 Screenshots are not available in this Info version of the gri manual,
 however the HTML and PostScript versions have them.  You might want to
 look up 
-@c HTML <a href="http://gri.sourceforge.net/gridoc/html/Emacs.html">
-@file{http://gri.sourceforge.net/gridoc/html/Emacs.html}
-@c HTML </a>
+@url{http://gri.sourceforge.net/gridoc/html/Emacs.html}
 on the
 web and check it out.
 @end ifinfo
@@ -14947,7 +14952,7 @@ file using a pull-down menu.
 @c HTML <IMG SRC="./screenshots/gri-screenshot-4.png"></A>
 @end ifhtml
 
-@c HTML <!-- newfile Emacs2.html "Gri: Installing Emacs Mode" "Installing Emacs Mode" -->
+@c HTML <!-- newfile InstallingGriMode.html "Gri Mode: Installation" "Gri Mode: Installation" -->
 @node   Installing gri-mode.el, Step 1, Gri-mode screenshots, Emacs Mode
 @comment  node-name,  next,  previous,  up
 @section Installing gri-mode.el, the nuts and bolts.
@@ -14985,17 +14990,17 @@ system will assume that you want gri-mode if you're editing a Gri file.)
 @cindex gri-mode, Placing gri-mode.el where Emacs can find it.
 
 (Those using gri from gri's @emph{RPM} package, a @emph{Debian} package
-or a @emph{Red Hat Powertools} package users can skip this, as it is done
+or a @emph{Red Hat} package users can skip this, as it is done
 for them)
 
-Extra @file{.el} files like gri-mode.el that are not part of Emacs
+Extra @file{.el} files like @file{gri-mode.el} that are not part of Emacs
 should be stored in a directory where Emacs will find them when you ask
 it to load them.  The files should therefore be found in Emacs'
 @emph{load-path}.  To see the directory list currently in the load-path,
 do this in Emacs:
 
 @example
-    C-h v load-path
+C-h v load-path
 @end example
 
 If you have access to system directories, put gri-mode.el in a
@@ -15010,7 +15015,7 @@ created the directory @file{~/emacs} and stored gri-mode.el there, you would
 then put this near the top of your @file{~/.emacs} file:
 
 @example
-    (setq load-path (cons "~/emacs" load-path))
+(setq load-path (cons "~/emacs" load-path))
 @end example
 
 @node   Step 2, Step 3, Step 1, Installing gri-mode.el
@@ -15019,7 +15024,7 @@ then put this near the top of your @file{~/.emacs} file:
 @cindex gri-mode, Configuring gri-mode to where gri lives on your system
 
 (Those using gri from gri's @emph{RPM} package, a @emph{Debian} package
-or a @emph{Red Hat Powertools} package users can skip this, as it is done
+or a @emph{Red Hat} package users can skip this, as it is done
 for them)
 
 You may skip this section if gri is installed on your system as
@@ -15033,39 +15038,24 @@ The Emacs variable @code{gri*directory-tree} is used to configure
 gri-mode to tell it where Gri is installed on your system. For the
 default gri installation paths used in this gri release, gri-mode
 expects to find the gri executable and the file gri.cmd as:
-
-@example
-   @code{gri*directory-tree}/@value{GRI-VERSION}/gri.cmd
-and
-   /usr/local/bin/gri-@value{GRI-VERSION}
-@end example
-
+@code{gri*directory-tree/@value{GRI-VERSION}/gri.cmd}
+and @code{/usr/local/bin/gri-}@value{GRI-VERSION}
 where @code{gri*directory-tree} is by default set to
 @file{/usr/local/share/gri/}.
 
 If you have only one version of gri installed on your system, gri-mode
-will also look to find gri.cmd and the gri executable like so:
-
-@example
-   @code{gri*directory-tree}/gri.cmd 
-   and the gri executable in the PATH
-@end example
-
-@noindent
-or
-
-@example
-   @code{gri*directory-tree}/lib/gri.cmd 
-   and the gri executable in the PATH
-@end example
-
-@noindent
-or
-
-@example
-   @code{gri*directory-tree}/bin/gri
-   @code{gri*directory-tree}/lib/gri.cmd
-@end example
+will also look to find @file{gri.cmd} and the gri executable like so:
+@enumerate
+@item
+Gri executable in the PATH, with startup file
+@file{gri*directory-tree/gri.cmd}.
+@item
+Gri executable in the PATH, with startup file
+@file{gri*directory-tree/lib/gri.cmd}.
+@item
+Gri executable @code{gri*directory-tree/bin/gri}, with startup file
+@code{gri*directory-tree/lib/gri.cmd}.
+@end enumerate
 
 However, gri-mode was designed to support, and ease the use of,
 @strong{multiple installed versions} of gri.  To use this feature, you
@@ -15073,8 +15063,8 @@ must use the gri version number as a directory name under the
 @code{gri*directory-tree} path, like this:
 
 @example
-   @code{gri*directory-tree}/VERSION/bin/gri
-   @code{gri*directory-tree}/VERSION/lib/gri.cmd
+gri*directory-tree/VERSION/bin/gri
+gri*directory-tree/VERSION/lib/gri.cmd
 @end example
 
 (e.g. @file{/opt/gri/2.040/bin/gri} and
@@ -15084,12 +15074,8 @@ must use the gri version number as a directory name under the
 or without the @emph{lib} and @emph{bin} subdirectories if the executable is
 found in the PATH named like @file{gri-VERSION} (This is the way Debian
 packages are set up):
-
-@example
-   @code{gri*directory-tree}/VERSION/gri.cmd
-   and the @file{gri-VERSION} executable in the PATH
-@end example
-
+the file @file{gri*directory-tree/VERSION/gri.cmd}
+and the @file{gri-VERSION} executable in the PATH
 (e.g. @file{/usr/share/gri/2.1.17/gri.cmd} and
 @file{/usr/bin/gri-2.1.17} with @code{gri*directory-tree} set to
 @code{"/usr/share/gri"})
@@ -15098,42 +15084,44 @@ packages are set up):
 of them:
 
 @example
-  (setq gri*directory-tree '("/opt/gri/" "/usr/share/gri/"))
+(setq gri*directory-tree '("/opt/gri/" "/usr/share/gri/"))
 @end example
 
 @strong{Examples:}
 
 @enumerate
 @item
- If you use a RedHat Powertool package (or Gri's own packaged RPM)
+ If you use a RedHat package
  installed like:
 
- @example
-  /usr/bin/gri
-  /usr/share/gri/gri.cmd
- @end example
+@example
+/usr/bin/gri
+/usr/share/gri/gri.cmd
+@end example
 
- then you'd also use:
+@noindent
+then you'd also use:
 
- @example
-  (setq gri*directory-tree "/usr/share/gri/")
- @end example
+@example
+(setq gri*directory-tree "/usr/share/gri/")
+@end example
 
  but gri-mode would know of only one installed version of gri.
 
 @item
  If you use a Debian GNU/Linux installation like:
 
- @example
-  /usr/bin/gri -> /usr/bin/gri-2.1.17
-  /usr/share/gri/2.1.17/gri.cmd
- @end example
+@example
+/usr/bin/gri -> /usr/bin/gri-2.1.17
+/usr/share/gri/2.1.17/gri.cmd
+@end example
 
- then you'd use:
+@noindent
+then you'd use:
 
- @example
-  (setq gri*directory-tree "/usr/share/gri/")
- @end example
+@example
+(setq gri*directory-tree "/usr/share/gri/")
+@end example
 
  Note that all gri binaries must exist in the path with version number
  suffixes (e.g. @file{gri-2.1.17}) since there is no
@@ -15145,18 +15133,18 @@ of them:
  If you had multiple versions of Gri installed like so (this reflects
  the installation paths used in older gri releases): 
 
- @example
-  /opt/gri/2.040/bin/gri
-  /opt/gri/2.040/lib/gri.cmd
-  /opt/gri/2.041/bin/gri
-  /opt/gri/2.041/lib/gri.cmd
- @end example
+@example
+/opt/gri/2.040/bin/gri
+/opt/gri/2.040/lib/gri.cmd
+/opt/gri/2.041/bin/gri
+/opt/gri/2.041/lib/gri.cmd
+@end example
 
 then you'd use:
 
- @example
-  (setq gri*directory-tree "/opt/gri/")
- @end example
+@example
+(setq gri*directory-tree "/opt/gri/")
+@end example
 
 @end enumerate
 
@@ -15173,7 +15161,7 @@ gri-mode whenever a new emacs session is starting by adding the
 following line to your @file{~/.emacs} file:
 
 @example
- (require 'gri-mode)
+(require 'gri-mode)
 @end example
 
 This is a good method when you only start emacs once a week and
@@ -15185,8 +15173,8 @@ instead of the @code{require} statement above, add the following lines
 to your @file{~/.emacs} file:
 
 @example
- (autoload 'gri-mode "gri-mode" "Enter Gri-mode." t)
- (setq auto-mode-alist (cons '("\\.gri$" . gri-mode) auto-mode-alist))
+(autoload 'gri-mode "gri-mode" "Enter Gri-mode." t)
+(setq auto-mode-alist (cons '("\\.gri$" . gri-mode) auto-mode-alist))
 @end example
 
 The first line tells Emacs that it will find out what it needs to know
@@ -15220,8 +15208,8 @@ may optionally customize gri-mode by:
  variables.)
 @end enumerate
 
-@c HTML <!-- newfile Emacs3.html "Gri: Major Emacs Mode Commands" "Major Emacs Mode Commands" -->
-@node   Major Gri-mode commands, Command completion, Step 4, Emacs Mode
+@c HTML <!-- newfile MajorGriModeCommands.html "Gri Mode: Major Commands" "Gri Mode: Major Commands" -->
+@node   Major Gri-mode commands, Gri command names, Step 4, Emacs Mode
 @comment  node-name,  next,  previous,  up
 @section Major Gri-mode commands.
 @cindex gri-mode, major commands
@@ -15231,7 +15219,6 @@ they can increase your productivity.
 
 
 @menu
-* Command completion::   To type them in faster, with proper syntax.
 * Gri command names::    How gri-mode names all gri commands.
 * Possible completions:: A list of all valid commands matching so far.
 * Editing the syntax::   What to do after gri-complete.
@@ -15240,48 +15227,21 @@ they can increase your productivity.
 * Info interface::       Getting help about the current command.
 @end menu
 
-@node   Command completion, Gri command names, Major Gri-mode commands, Major Gri-mode commands
+@c HTML <!-- newfile GriModeCommandNames.html "Gri Mode: command names" "Gri Mode: command names" -->
+@node   Gri command names, Possible completions, Major Gri-mode commands, Major Gri-mode commands
 @comment  node-name,  next,  previous,  up
-@subsection Command completion while editing in gri-mode
-@cindex gri-mode, command completion
-
-The command @code{gri-complete} is bound to @key{M-tab}. It completes a
-gri command as much as possible, then indents it.
-
-It works one word at a time, for example typing-in "dr"
-and then pressing @key{M-tab}:
-
-@example
-  dr@key{M-tab}
-@end example
-expands the "dr" to "draw".
-
-It also works with many words at a time, e.g. 
-
-@example
-  dr x a@key{M-tab}
-@end example
-
-@noindent
-expands it to:
-
-@example
-  draw x axis [at bottom|top|@{.y. [cm]@} [lower|upper]]
-@end example
-
-@node   Gri command names, Possible completions, Command completion, Major Gri-mode commands
-@comment  node-name,  next,  previous,  up
-@subsection Gri command names; How gri-mode names them.
+@subsection Gri command names: how gri-mode names them
 @cindex gri-mode, gri command names
 @cindex gri-mode, how it names gri commands
 
-To go further, one needs to understand how gri-mode decides to name gri
-commands.  A name is determined by removing bracketed options from the
-syntax line of a given command.  This is different from what the gri
-parser does.  In this way, the gri command
+A major feature of Gri mode is the completion of partially typed
+commands.  Before you can understand that, you must understand how
+gri-mode decides to name gri commands.  A name is determined by removing
+bracketed options from the syntax line of a given command.  This is
+different from what the gri parser does.  In this way, the gri command
 
 @example
-  draw label "\string" [centered|rightjustified] at .x. .y. [cm] [rotated .deg.]
+draw label "\string" [centered|rightjustified] at .x. .y. [cm] [rotated .deg.]
 @end example
 
 @noindent
@@ -15290,6 +15250,7 @@ stays in the name because it is not optional.  So when you see
 @code{draw label at} in gri-mode's menus or prompts, you are more likely
 to associate the name with what the command actually does.
 
+@c HTML <!-- newfile GriModeCompletions.html "Gri Mode: command completion" "Gri Mode: command completion" -->
 @node   Possible completions, Editing the syntax, Gri command names, Major Gri-mode commands
 @comment  node-name,  next,  previous,  up
 @subsection Possible completions of gri command names
@@ -15308,21 +15269,21 @@ If a completion is ambiguous, but could be exact, invoke
 gri-complete a second time to complete it. e.g.
 
 @example
-  sh@key{M-tab}
+sh@key{M-tab}
 @end example
 
 @noindent
 expands to
 
 @example
-  show
+show
 @end example
 
 @noindent
 and informs you that 12 possible completions exists; then
 
 @example
-  show@key{M-tab}
+show@key{M-tab}
 @end example
 
 @noindent
@@ -15331,7 +15292,7 @@ will display these completions in the completions buffer; then typing
 possibility:
 
 @example
-  show .value.|@{rpn ...@}|"\text" [.value.|@{rpn ...@}|text [...]]
+show .value.|@{rpn ...@}|"\text" [.value.|@{rpn ...@}|text [...]]
 @end example
 
 Completions are shown immediately (without invoking gri-complete again)
@@ -15343,6 +15304,7 @@ The @file{*completions*} window is deleted after a command is fully
 completed.  @code{gri-complete} uses its own @file{*completions*}
 buffer, which is not displayed in the buffer-list to avoid clutter.
 
+@c HTML <!-- newfile GriModeEditing.html "Gri Mode: editing completed syntax" "Gri Mode: editing completed syntax" -->
 @node   Editing the syntax, User commands, Possible completions, Major Gri-mode commands
 @comment  node-name,  next,  previous,  up
 @subsection Editing the syntax output by gri-complete
@@ -15369,16 +15331,16 @@ This is the gri way of describing many commands at once.  The above
 syntax description is a shortcut formulation for all of:
 
 @example
-  draw x axis
-  draw x axis at bottom
-  draw x axis at bottom top
-  draw x axis at bottom bottom
-  draw x axis at top
-  draw x axis at top top
-  draw x axis at top bottom
-  draw x axis at .y. cm
-  draw x axis at .y. cm lower
-  draw x axis at .y. cm upper
+draw x axis
+draw x axis at bottom
+draw x axis at bottom top
+draw x axis at bottom bottom
+draw x axis at top
+draw x axis at top top
+draw x axis at top bottom
+draw x axis at .y. cm
+draw x axis at .y. cm lower
+draw x axis at .y. cm upper
 @end example
 
 The @code{gri-option-select} (@kbd{C-C C-o}) command provides easy
@@ -15387,7 +15349,7 @@ governed by the cursor position.  For example, to get the command
 narrowed down to
 
 @example
-  draw x axis at bottom [lower|upper]
+draw x axis at bottom [lower|upper]
 @end example
 
 @noindent
@@ -15395,7 +15357,7 @@ place the cursor somewhere in the word `bottom' and invoke
 @code{gri-option-select}.  To complete the narrowing process, selecting
 
 @example
-  draw x axis at bottom lower
+draw x axis at bottom lower
 @end example
 
 @noindent
@@ -15403,7 +15365,7 @@ move the cursor to some place in the word `lower' and invoke
 @code{gri-option-select again}.  On the other hand, to get
 
 @example
-  draw x axis at bottom
+draw x axis at bottom
 @end example
 
 @noindent
@@ -15414,6 +15376,8 @@ and invoke @code{gri-kill-option} (@kbd{C-C C-k}) instead.
 how to do it.  If you make a mistake, note that the normal Emacs undo
 works.
 
+
+@c HTML <!-- newfile GriModeUserCommands.html "Gri Mode: user commands" "Gri Mode: user commands" -->
 @node   User commands, Gri code fragments, Editing the syntax, Major Gri-mode commands
 @comment  node-name,  next,  previous,  up
 @subsection User commands with gri-mode
@@ -15425,6 +15389,7 @@ Note that user commands are added from the current buffer whenever
 `gri-mode' is invoked.  They may override previous user commands, but
 not gri system commands.
 
+@c HTML <!-- newfile GriModeCodeFragments.html "Gri Mode: code fragments" "Gri Mode: code fragments" -->
 @node   Gri code fragments, Info interface, User commands, Major Gri-mode commands
 @comment  node-name,  next,  previous,  up
 @subsection Inserting gri code fragments using short-cuts with gri-mode
@@ -15450,6 +15415,7 @@ a question mark at the beginning of a line in a gri buffer and press
 choices.  The gri commands used to replace them are found in the
 @file{*gri-syntax*} buffer.
 
+@c HTML <!-- newfile GriModeUserInterface.html "Gri Mode: user interface" "Gri Mode: user interface" -->
 @node   Info interface, Dealing with many Gri versions, Gri code fragments, Major Gri-mode commands
 @comment  node-name,  next,  previous,  up
 @subsection Info interface to get help on the command currently edited.
@@ -15547,8 +15513,7 @@ comment at the bottom of the file such that Emacs remembers it across
 editing sessions.
 
 @c HTML <!-- newfile History.html "Gri: History Gri" "History of Gri Versions" -->
-
-@node   History, Distribution versions, Filename arguments when running gri, Top
+@node   History, Version 2.6, Filename arguments when running gri, Top
 @comment  node-name,  next,  previous,  up
 @chapter History of Gri Versions
 
@@ -15587,22 +15552,16 @@ like so in the file @file{~/.emacs}
 The next sections outline the changes made in Gri.
 
 @menu
-* Distribution versions::          The stable, distribution stream
-* Plans::                          Plans, and the development version
-@end menu
-
-@node   Distribution versions, Version 2.6, History, History
-@comment  node-name,  next,  previous,  up
-@section Distribution versions
-@menu
 * Version 2.6::
 * Version 2.4::
 * Version 2.2::
+* Plans::                          Plans, and the development version
 @end menu
 
-@node   Version 2.6, Version 2.4, Distribution versions, Distribution versions
+@c HTML <!-- newfile Version_2_6.html "Gri: Version 2.6" "Gri: Version 2.6" -->
+@node   Version 2.6, Version 2.4, History, History
 @comment  node-name,  next,  previous,  up
-@subsection Version 2.6
+@section Version 2.6
 @table @emph
 @item 2.6.0 [2001-month-day] (Not released yet.)
 
@@ -15690,26 +15649,20 @@ Fix bug in interpolating synonyms in the test-expression of @code{while} loops.
 @sp 1
 Put source on the
 Source Forge open-source development website, at
-@c HTML <a href="gri.sourceforge.net">
-@file{http://gri.sourceforge.net}.
-@c HTML </a>
+@url{http://gri.sourceforge.net}.
 Gri users can benefit from this site in may ways.  First, it is a great
 way to keep track of new versions.  With a mouse-click you can cause
 SourceForge to email you whenever a new version of Gri is released.
 Second, SourceForge has
-@c HTML <a href="http://sourceforge.net/forum/?group_id=5511">
 newsgroups
-@c HTML </a>
-and 
-@c HTML <a href="http://sourceforge.net/mail/?group_id=5511">
-email lists
-@c HTML </a>
+(@url{http://sourceforge.net/forum/?group_id=5511})
+and email lists
+(@url{http://sourceforge.net/mail/?group_id=5511})
 devoted to Gri.  These are archived, so that you can stop monitoring
 them for a while and then go back and see what you've missed.  Third,
 Source Forge has a powerful
-@c HTML <a href="http://sourceforge.net/bugs/?group_id=5511">
 bug-tracking facility.
-@c HTML </a>
+(@url{http://sourceforge.net/bugs/?group_id=5511})
 With this you may check for existing bugs reported by users, submit new
 bug reports, and also track the process of bug removal (e.g. optionally
 receiving emails when the bug is removed).
@@ -15772,9 +15725,10 @@ Add several new features to @code{gri-mode.el}:
 @end table
 
 
-@node   Version 2.4, Version 2.2, Version 2.6, Distribution versions
+@c HTML <!-- newfile Version_2_4.html "Gri: Version 2.4" "Gri: Version 2.4" -->
+@node   Version 2.4, Version 2.2, Version 2.6, History
 @comment  node-name,  next,  previous,  up
-@subsection Version 2.4
+@section Version 2.4
 @table @emph
 @item 2.4.4 [2000-May-07]
 Change so that only a warning is printed if mathematical operations are
@@ -15802,9 +15756,10 @@ input separators.
 @end table
 
 
-@node   Version 2.2, Plans, Version 2.4, Distribution versions
+@c HTML <!-- newfile Version_2_2.html "Gri: Version 2.2" "Gri: Version 2.2" -->
+@node   Version 2.2, Plans, Version 2.4, History
 @comment  node-name,  next,  previous,  up
-@subsection Version 2.2
+@section Version 2.2
 @table @emph
 @item 2.2.6 [1999 Nov 25]
 Make web-based manual easier to read by putting a light-grey background
@@ -15842,6 +15797,8 @@ there were errors on the commandline.
 @item 2.2.0 [1999 Mar 25]
 First debian release.  Versions exist for intel, alpha, 68K and powerpc.
 @end table
+
+@c HTML <!-- newfile Plans.html "Gri: plans for future versions" "Gri: plans for future versions" -->
 
 @node   Plans, Installation, Version 2.2, History
 @comment  node-name,  next,  previous,  up
@@ -15904,7 +15861,7 @@ and "unstable" releases instead of "compatible" and "incompatible" changes.
 
 
 
-@c HTML <!-- newfile Access.html "Gri: installing Gri" "Installing Gri" -->
+@c HTML <!-- newfile Installation.html "Gri: installing Gri" "Installing Gri" -->
 
 @node   Installation, Unix-install, Plans, Top
 @comment  node-name,  next,  previous,  up
@@ -16251,9 +16208,7 @@ To compile and install Gri under MSDOS, do this:
 @item
 To begin, install @code{DJGPP V2}, if it is not on your system already.
 It can be found at
-@c HTML <A HREF="http://www.delorie.com/djgpp">
-http://www.delorie.com/djgpp.
-@c HTML </A>
+@url{http://www.delorie.com/djgpp}
 @item
 Uncompress and extract from gri source package (@ref{Uncompiled Unix}).
 @item
@@ -16298,10 +16253,8 @@ after the @code{-D_GRI_=1} token.
 @end enumerate
 
 
-To view the output, use a PostScript viewer such as 
-@c HTML <A HREF="http://www.cs.wisc.edu/~ghost/index.html">
-GSview.
-@c HTML </A>
+To view the output, use a PostScript viewer such as GSview.
+(@url{http://www.cs.wisc.edu/~ghost/index.html}).
 
 
 
@@ -16457,19 +16410,14 @@ uniform in all labels.  Workaround: Set the format yourself (example:
 @section Reporting Bugs
 
 Please report any bugs you find in Gri.  Bug reports help make Gri more
-reliable and useful for all users.
-
-
-Here is how to report bugs:
+reliable and useful for all users.  The procedure for reporting bugs,
+described below, is quite standard.
 
 @enumerate
 
 @item
 Go to the bug-tracking part of the Source Forge Gri development site, at
-
-@c HTML <a href="http://sourceforge.net/bugs/?group_id=5511">
-@code{http://sourceforge.net/bugs/?group_id=5511}
-@c HTML </a>
+@url{http://sourceforge.net/bugs/?group_id=5511}
 to see whether your bug has already been reported.  You may find that it
 has been reported and fixed already in a new version, in which case you
 should archive your existing Gri version and upgrade.  If the bug has
@@ -16483,23 +16431,9 @@ It is crucial that you report the version of Gri that you are using.
 You may discover this by running Gri as @code{gri -version}.
 
 @item
-When reporting bugs, it often helps a lot to include some sample code
-that demonstrates the bug.  If the code is long, or if datafile are
-required, please send a separate email to the author at
-@c HTML <A HREF="mailto:Dan.Kelley@Dal.CA"> 
-@value{AUTHOR-EMAIL}
-@c HTML </A>
-in which you provide a command file demonstrating the bug, together with
-any data files that are required.  Please reduce these files down to the
-bare minimum.  (Example: if the name of the x axis is not relevant to
-your bug, remove any @code{set x name} commands.)  This lets the author
-fix the bug more quickly.  Bugs are found by inserting "print"
-statements in the Gri source-code and re-running Gri.  If this produces
-a hundred pages of output, as your script runs through long datafiles
-before producing an error, then the author will have to look through
-hundreds of pages before finding what may be wrong.  You can see how
-this is a waste of time, since you probably already know what conditions
-cause the error.
+When reporting bugs, please do all you can to reduce your application
+and your data to the smallest and simplest state.  As you can expect,
+this makes the debugging procedure much simpler.
 
 @item
 @cindex bug, resulting in bus error

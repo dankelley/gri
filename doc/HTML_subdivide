@@ -63,7 +63,7 @@ while(<>) {
         }
 	$_ = <>;
     }
-    if (/^<[aA] [nN][aA][mM][eE]\s*=\s*"([^"]*)/){ 
+    if (/^<a name\s*=\s*"([^"]*)/i){ 
 	$key = $1;
 	$key =~ s/ //g;
         $ref{$key} = "$file#$key";
@@ -109,7 +109,7 @@ for ($i = 1; $i < $num_files; $i++) {
         if (/\s*href\s*=\s*"#([^"]*)/i) {
             $key = $1;		# suck out key
 	    $key =~ s/ //g;	# despace key
-	    s,"#[^"]*,"$ref{$key},;	# replace key with what is keyed to
+	    s,href\s*=\s*"#[^"]*,href="$ref{$key},;	# replace key with what is keyed to
             s,="#,=",;
         } elsif (/<a\s*name\s*=\s*"([^"]*)/i) {
             # <a name="foo bar">
@@ -124,7 +124,6 @@ for ($i = 1; $i < $num_files; $i++) {
        # Do not print those 'Navigation' things
        if (!/^<b>Navigation<\/b>:/ 
 	   && !/<a href=".*">next<\/a>,/
-	   && !/<a href=".*">previous<\/a>,/
 	   && !/<a href=".*">previous<\/a>,/
 	   && !/<a href=".*">parent<\/a>/) {
 	   print PASS2 if (!/href=""/);

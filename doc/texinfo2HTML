@@ -420,6 +420,7 @@ sub sub_emphasis {
     s,\@strong{([^}]*)},<b>$1</b>,g;
     s,\@footnote{([^}]*)}, [$1],g;
     s,\@b{([^}]*)},<b>$1</b>,g;
+
     s,\@code{([^}]*)},`<font color="$ex_color"><code>$1</code></font>',g;
     s,\@\@,\@,g;
     s,\@samp{([^}]*)},`<font color="$ex_color"><samp>$1</samp></font>',g;
