@@ -1,4 +1,4 @@
-.TH GRI_MERGE "1" "June 2000" "gri_merge "
+.TH GRI_MERGE "1" "2003" "gri_merge "
 .SH NAME
 gri_merge \- merge multiple Gri output files into a single PostScript file.
 .SH "USAGE (style 1):"
@@ -7,7 +7,7 @@ gri_merge [OPTIONS] CxR a.ps b.ps ... > merged_file.ps
 .PP
 Merges the files onto one page, in 'C' columns and 'R' rows.  The CxR files
 are given in the order of words on a page.  The page is presumed to be
-8.5x11 in size, as are all the input files, and the input files are sized
+8.5x11in in size, as are all the input files, and the input files are sized
 to fit, and kept in natural scale.
 .SH "USAGE (style 2):"
 .IP
