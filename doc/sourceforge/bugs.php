@@ -11,12 +11,7 @@ set_up_rhs();
 <p>
 The details of
 <?php print "<A HREF=\"$sf_url/tracker/?atid=105511&amp;group_id=$gri_group_id&amp;atid=105511\">";?>
-known bugs</A> may be browsed online.  Bugs that apply have been fixed
-in the CVS version, but not in the most recent release, are denoted
-<b>pending</b>.  Bugs that have not yet been fixed are denoted
-<b>open</b>.  Bugs that existed before the present release are denoted
-<b>closed</b>.
-
+known bugs</A> may be browsed online.
 </p>
 
 <h1>Report a bug</h1>
