@@ -16474,6 +16474,11 @@ Fix SourceForge bug
 @uref{http://sourceforge.net/tracker/index.php?func=detail&aid=1084123&group_id=5511&atid=105511,#1084123}
 @dots{} does not compile in fink
 
+@item
+Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=676767&group_id=5511&atid=105511,#676767}
+@dots{} on fink systems, @code{help} does not work
+
 @end itemize
 
 
