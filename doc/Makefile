@@ -138,21 +138,13 @@ info-install-solaris:
 info-clean:
 	rm -f gri.info* info
 
-refcard:
-	make refcard1
-	make refcard2
-refcard1:
+refcard.ps:	refcard.tex
 	tex refcard.tex
-	dvips -o refcard.ps -t landscape refcard.dvi
-	chmod a+r refcard.*
+	dvips -o refcard.ps -t landscape -t letter refcard.dvi
 
-refcard2:
-	echo "***"
-	echo "*** First, do cmdrefcard.pl and manually put output in cmdrefcard.tex"
-	echo "***"
+cmdrefcard.ps:
 	tex cmdrefcard.tex
-	dvips -o cmdrefcard.ps -t landscape cmdrefcard.dvi
-	chmod a+r cmdrefcard.*
+	dvips -o cmdrefcard.ps -t landscape -t letter cmdrefcard.dvi
 
 clean:	info-clean html-clean card-clean
 	$(RM)				\
@@ -213,14 +205,7 @@ gri.pdf: gri.texi
 	texindex gri.vr
 	pdftex gri.texi
 
-# Debian stuff follows
-refcard.ps:	refcard.tex
-	tex refcard.tex
-	dvips -o refcard.ps -t landscape -t letter refcard.dvi
-
-cmdrefcard.ps:
-	tex cmdrefcard.tex
-	dvips -o cmdrefcard.ps -t landscape -t letter cmdrefcard.dvi
+### Debian stuff follows
 
 # make debian   (does not install; only makes the files)
 debian: refcard.ps cmdrefcard.ps info
