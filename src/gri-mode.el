@@ -405,6 +405,7 @@
 ;;  gri-validate-cmd-file: new function, see if gri-cmd-file as set ik okay.
 ;;  gri-what-version: REMOVED function.  Not very useful anyway.
 ;; V2.64 02Apr2003 - Remove old hilit19 code.  Obsolete.
+;; V2.65 09Jun2003 - Added Help menu entry to gri History.
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -3723,7 +3724,8 @@ Any output (errors?) is put in the buffer `gri-WWW-manual'."
                 ("variables" "(gri)About Variables")
                 ("rpn" "(gri)rpn Mathematics")
                 ("columns" "(gri)Manipulation of Columns etc")
-                ("conceptIndex" "(gri)Concept Index"))))      
+                ("conceptIndex" "(gri)Concept Index")
+                ("history" "(gri)History"))))
   (while topics
     (let* ((topic (car topics))
 	   value menu name)
@@ -3761,6 +3763,7 @@ Any output (errors?) is put in the buffer `gri-WWW-manual'."
       ["Local Synonyms"                     gri-info-localSynonyms t]
       ["If Statements"                      gri-info-if t]
       ["While Statements"                   gri-info-while t]
+      ["History"                            gri-info-history t]
       )
      ["Gri Manual on WWW"                   gri-WWW-manual t]
      ["Display syntax for current command"  gri-display-syntax t]
