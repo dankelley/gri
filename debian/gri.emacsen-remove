@@ -20,6 +20,7 @@ if [ ${flavour} != emacs ]
 then
     echo remove/${package}: Purging byte-compiled files for flavour ${flavour}
     rm -f ${destination}/gri-mode.elc
+    rm -f ${destination}/gri-mode.CompilationLog.gz
 else
     echo remove/${package}: Ignoring emacsen flavour ${flavour}
 fi
