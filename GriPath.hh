@@ -14,9 +14,9 @@ public:
 	void push_back(double xx, double yy, char aa); // Append at end
 	unsigned size();		// Return length of path
 	void trim();		// remove extraneous moveto commands
-	void stroke(units u, double width = -1); // Stroke the path
-	void stroke_or_fill(char s_or_f, units u, double width = -1); // Stroke or fill
-	void fill(units u);		// Fill path in
+	void stroke(units u, double width = -1, bool closepath = false); // Stroke the path
+	void stroke_or_fill(char s_or_f, units u, double width = -1, bool closepath = false); // Stroke or fill
+	void fill(units u, bool closepath = false);		// Fill path in
 	void print();		// Mostly for debugging
 	void translate(double dx, double dy); // Only makes sense if units_cm
 	void scale(double enlargement); // Only makes sense if units_cm

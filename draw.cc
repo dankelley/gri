@@ -2530,6 +2530,8 @@ draw_x_box_plotCmd()
 	ymax_cm = y_cm - size_cm / 2.0;
 	static GriPath p(7);
 	p.clear();
+#if 0
+	// Clockwise from upper-left
 	p.push_back(q1_cm, ymax_cm, 'm');
 	p.push_back(q3_cm, ymax_cm, 'l');
 	p.push_back(q3_cm, ymin_cm, 'l');
@@ -2539,6 +2541,19 @@ draw_x_box_plotCmd()
 	p.push_back(q2_cm, ymin_cm, 'l');
 	set_line_width_symbol();
 	p.stroke(units_cm);
+#else
+	// Clockwise from upper-left
+	set_line_width_curve();
+	p.push_back(q1_cm, ymax_cm, 'm');
+	p.push_back(q3_cm, ymax_cm, 'l');
+	p.push_back(q3_cm, ymin_cm, 'l');
+	p.push_back(q1_cm, ymin_cm, 'l');
+	p.stroke(units_cm, -1.0, true);
+	p.clear();
+	p.push_back(q2_cm, ymax_cm, 'm');
+	p.push_back(q2_cm, ymin_cm, 'l');
+	p.stroke(units_cm);
+#endif
 	// draw whiskers
 	upper_adjacent_value = q3 - 1;	// will be max between q3 and upper 
 	lower_adjacent_value = q1 + 1;	// will be min between q3 and upper 
@@ -2664,7 +2679,9 @@ draw_y_box_plotCmd()
 	xmin_cm = x_cm + size_cm / 2.0;
 	xmax_cm = x_cm - size_cm / 2.0;
 	static GriPath p(7);
+#if 0
 	p.clear();
+	set_line_width_curve();
 	p.push_back(xmin_cm, q1_cm, 'm');
 	p.push_back(xmax_cm, q1_cm, 'l');
 	p.push_back(xmax_cm, q3_cm, 'l');
@@ -2672,8 +2689,20 @@ draw_y_box_plotCmd()
 	p.push_back(xmin_cm, q1_cm, 'l');
 	p.push_back(xmin_cm, q2_cm, 'm');
 	p.push_back(xmax_cm, q2_cm, 'l');
-	set_line_width_symbol();
 	p.stroke(units_cm);
+#else
+	p.clear();
+	set_line_width_curve();
+	p.push_back(xmin_cm, q1_cm, 'm');
+	p.push_back(xmax_cm, q1_cm, 'l');
+	p.push_back(xmax_cm, q3_cm, 'l');
+	p.push_back(xmin_cm, q3_cm, 'l');
+	p.stroke(units_cm, -1.0, true);
+	p.clear();
+	p.push_back(xmin_cm, q2_cm, 'm');
+	p.push_back(xmax_cm, q2_cm, 'l');
+	p.stroke(units_cm);
+#endif
 	// Draw whiskers.
 	upper_adjacent_value = q3 - 1; // will be max between q3 and upper 
 	lower_adjacent_value = q1 + 1; // will be min between q3 and upper 

@@ -102,34 +102,35 @@ static void
 ps_begin_path(double width)
 {
 	set_ps_color('p');
-	if (width != -1)
+	if (width != -1) {
 		fprintf(_grPS, "1.0 i %d J %d j %.3f w 10.0 M [",
 			_griState.line_cap(),
 			_griState.line_join(),
 			width);
-	else
+	} else {
 		fprintf(_grPS, "1.0 i %d J %d j %.3f w 10.0 M [",
 			_griState.line_cap(),
 			_griState.line_join(),
 			_griState.linewidth_line());
+	}
 	for (unsigned int i = 0; i < _dash.size(); i++)
 		fprintf(_grPS, "%.3f ", _dash[i] * PT_PER_CM);
 	fprintf(_grPS, "] %d d\n", int(_dash.size()));
 }
 
-void GriPath::stroke(units the_units, double width)
+void GriPath::stroke(units the_units, double width, bool closepath)
 {
-	stroke_or_fill('s', the_units, width);
+	stroke_or_fill('s', the_units, width, closepath);
 	bounding_box_update(bounding_box(the_units));
 }
 
-void GriPath::fill(units the_units)
+void GriPath::fill(units the_units, bool closepath)
 {
-	stroke_or_fill('f', the_units);
+	stroke_or_fill('f', the_units, -1.0, closepath);
 	bounding_box_update(bounding_box(the_units));
 }
 
-void GriPath::stroke_or_fill(char s_or_f, units the_units, double width)
+void GriPath::stroke_or_fill(char s_or_f, units the_units, double width, bool closepath)
 {
 	if (depth < 1)
 		return;
@@ -231,10 +232,13 @@ void GriPath::stroke_or_fill(char s_or_f, units the_units, double width)
 					break;
 				}
 			}
+
 			if (s_or_f == 'f') {
 				fprintf(_grPS, "h\n");
 				fprintf(_grPS, "F\n");
 			} else {
+				if (closepath)
+					fprintf(_grPS, "h\n");
 				fprintf(_grPS, "S\n");
 			}
 			fprintf(_grPS, "%% END GriPath stroke/fill\n");
