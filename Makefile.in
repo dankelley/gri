@@ -217,6 +217,8 @@ source:
 #	Copy documentation
 	install -d $(SOURCE_NAME)/doc
 	install -m 755 doc/archive-to-html.pl   $(SOURCE_NAME)/doc
+	install -m 755 doc/texim2texi           $(SOURCE_NAME)/doc
+	install -m 755 doc/texinfo2HTML         $(SOURCE_NAME)/doc
 	install -m 644 doc/cmdrefcard.tex       $(SOURCE_NAME)/doc
 	install -m 644 doc/refcard.tex          $(SOURCE_NAME)/doc
 	install -m 644 doc/Makefile             $(SOURCE_NAME)/doc
@@ -249,9 +251,9 @@ source:
 	(cd doc/screenshots/; \
 	    install -m 644 Makefile *.png ../../$(SOURCE_NAME)/doc/screenshots)
 	install -d $(SOURCE_NAME)/doc/tst_suite
-	install -m 644 doc/tst_suite/Makefile        $(SOURCE_NAME)/doc/Makefile
-	install -m 644 doc/tst_suite/tst_IO_1.dat    $(SOURCE_NAME)/doc/Makefile
-	install -m 644 doc/tst_suite/tst_IO_2.dat    $(SOURCE_NAME)/doc/Makefile
+	install -m 644 doc/tst_suite/Makefile        $(SOURCE_NAME)/doc/tst_suite
+	install -m 644 doc/tst_suite/tst_IO_1.dat    $(SOURCE_NAME)/doc/tst_suite
+	install -m 644 doc/tst_suite/tst_IO_2.dat    $(SOURCE_NAME)/doc/tst_suite
 	install -m 644 doc/tst_suite/tst_control.gri $(SOURCE_NAME)/doc/tst_suite
 	install -m 644 doc/tst_suite/tst_rpn.gri     $(SOURCE_NAME)/doc/tst_suite
 	install -m 644 doc/tst_suite/tst_var_syn.gri $(SOURCE_NAME)/doc/tst_suite
