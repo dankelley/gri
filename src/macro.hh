@@ -87,14 +87,25 @@
 }
 #endif
 
-// Optional printing
-#if 0
-#else
-#define gri_debug_printf(debug_level,format, ...) {\
+
+// Optional printing.  BUG: only works for GCC
+#if defined(__GNUC__)
+#if __GNUC__ >= 3
+#define gri_debug_printf(debug_level, format, ...) {\
     if (_debugFlag>=(debug_level)) {\
 	printf("DEBUG [%s:%d] ",__FILE__,__LINE__);\
 	printf((format),## __VA_ARGS__);\
     }\
 }
+#else
+// Older Gcc versions had a different syntax
+#define gri_debug_printf(debug_level, format, args...) {\
+    if (_debugFlag>=(debug_level)) {\
+        printf("DEBUG [%s:%d] ",__FILE__,__LINE__);\
+        printf((format),## args);\
+    }\
+}
 #endif
+#endif
+
 #endif

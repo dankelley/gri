@@ -131,38 +131,27 @@ gr_drawimage(unsigned char *im,
 	double xl_c = xl, xr_c = xr, yb_c = yb, yt_c = yt;
 	int ilow = 0, ihigh = imax, jlow = 0, jhigh = jmax;
 	if (_clipping_postscript && _clipping_is_postscript_rect) {
-#if 0
-		gri_debug_printf(0, "image xrange (%f %f) pt\n",xl,xr);
-		gri_debug_printf(0, "image yrange (%f %f) pt\n",yb,yt);
-		gri_debug_printf(0, "clip xrange (%f %f) pt\n",_clip_ps_xleft,_clip_ps_xright);
-		gri_debug_printf(0, "clip yrange (%f %f) pt\n",_clip_ps_ybottom,_clip_ps_ytop);
-#else
-		printf( "image xrange (%f %f) pt\n",xl,xr);
-		printf( "image yrange (%f %f) pt\n",yb,yt);
-		printf( "clip xrange (%f %f) pt\n",_clip_ps_xleft,_clip_ps_xright);
-		printf( "clip yrange (%f %f) pt\n",_clip_ps_ybottom,_clip_ps_ytop);
+#ifdef __GNUC__
+		gri_debug_printf(1,"image xrange (%f %f) pt\n",xl,xr);
+		gri_debug_printf(1,"image yrange (%f %f) pt\n",yb,yt);
+		gri_debug_printf(1,"clip xrange (%f %f) pt\n",_clip_ps_xleft,_clip_ps_xright);
+		gri_debug_printf(1,"clip yrange (%f %f) pt\n",_clip_ps_ybottom,_clip_ps_ytop);
 #endif
 		ilow =  int(floor(0.5 + (_clip_ps_xleft   - xl)*imax/((xr-xl))));
 		ihigh = int(floor(0.5 + (_clip_ps_xright  - xl)*imax/((xr-xl))));
 		jlow =  int(floor(0.5 + (_clip_ps_ybottom - yb)*jmax/((yt-yb))));
 		jhigh = int(floor(0.5 + (_clip_ps_ytop    - yb)*jmax/((yt-yb))));
-#if 0
-		gri_debug_printf(0, "switching i to run from %d to %d instead of 0 to %d\n",ilow,ihigh,imax);
-		gri_debug_printf(0, "switching j to run from %d to %d instead of 0 to %d\n",jlow,jhigh,jmax);
-#else
-		printf("switching i to run from %d to %d instead of 0 to %d\n",ilow,ihigh,imax);
-		printf("switching j to run from %d to %d instead of 0 to %d\n",jlow,jhigh,jmax);
+#ifdef __GNUC__
+		gri_debug_printf(1,"switching i to run from %d to %d instead of 0 to %d\n",ilow,ihigh,imax);
+		gri_debug_printf(1,"switching j to run from %d to %d instead of 0 to %d\n",jlow,jhigh,jmax);
 #endif
 		if (ilow > 0)     xl_c = xl + ilow * (xr - xl) / imax;
 		if (ihigh < imax) xr_c = xl + ihigh * (xr - xl) / imax;
 		if (jlow > 0)     yb_c = yb + jlow * (yt - yb) / jmax;
 		if (jhigh < jmax) yt_c = yb + jhigh * (yt - yb) / jmax;
-#if 0
-		printf("clipped image xrange (%f %f) pt\n",xl_c,xr_c);
-		printf("clipped image yrange (%f %f) pt\n",yb_c,yt_c);
-#else
-		gri_debug_printf(0, "clipped image xrange (%f %f) pt\n",xl_c,xr_c);
-		gri_debug_printf(0, "clipped image yrange (%f %f) pt\n",yb_c,yt_c);
+#ifdef __GNUC__
+		gri_debug_printf(1,"clipped image xrange (%f %f) pt\n",xl_c,xr_c);
+		gri_debug_printf(1,"clipped image yrange (%f %f) pt\n",yb_c,yt_c);
 #endif
 	}
 	rectangle box(xl_c/PT_PER_CM, yb_c/PT_PER_CM, xr_c/PT_PER_CM, yt_c/PT_PER_CM); // CHECK: is it only updating if it's within clip region?

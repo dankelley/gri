@@ -184,6 +184,7 @@ start_up(int argc, char **argv)
 	PUT_VAR("..use_default_for_query..", 0.0);
 	PUT_VAR("..words_in_dataline..", 0.0); // just in case tested
 	PUT_VAR("..batch..", 0.0);
+	_debugFlag = 0;
 	PUT_VAR("..debug..", 0.0);
 	PUT_VAR("..eof..", 0.0);
 	PUT_VAR("..landscape..", 0.0);
@@ -612,6 +613,7 @@ create_builtin_variables()
 	PUT_VAR("..num_col_data_missing..", 0);
 	PUT_VAR("..arrowsize..", ARROWSIZE_DEFAULT);
 	PUT_VAR("..batch..", 0.0);
+	_debugFlag = 0;
 	PUT_VAR("..debug..", 0.0);
 	PUT_VAR("..fontsize..", FONTSIZE_PT_DEFAULT);
 	PUT_VAR("..graylevel..", 0.0);
@@ -896,6 +898,7 @@ interpret_optional_arguments(int argc, char *argv[])
 					PUT_VAR("..batch..", 1.0);
 				} else if (!strcmp(argv[i], "-d") || !strcmp(argv[i], "-debug")) {
 					PUT_VAR("..debug..", 1);
+					_debugFlag = 1;
 				} else if (!strcmp(argv[i], "-warn_offpage")){
 					_warn_offpage = true;
 				} else if (!strcmp(argv[i], "-nowarn_offpage")){
