@@ -39,8 +39,8 @@ bool            read_grid_dataCmd(void);
 bool            read_image_pgmCmd(void);
 bool            read_image_mask_rasterfileCmd(void);
 bool            read_image_rasterfileCmd(void);
-static bool     read_pgm_image(FILE * fp, IMAGE * im);
-static bool     read_raster_image(FILE * fp, IMAGE * im);
+static bool     read_pgm_image(FILE * fp, IMAGE *im, IMAGE *imMask);
+static bool     read_raster_image(FILE * fp, IMAGE *im);
 bool            read_imageCmd(void);
 bool            read_image_colorscaleCmd(void);
 bool            read_image_grayscaleCmd(void);
@@ -1604,7 +1604,8 @@ read_image_pgmCmd()
 #endif
 	switch (_nword) {
 	case 3:
-		if (!read_pgm_image(_dataFILE.back().get_fp(), &_image)) {
+		if (!read_pgm_image(_dataFILE.back().get_fp(), &_image, &_imageMask)) {
+			blank_image();
 			blank_imageMask();
 			return false;
 		} else {
@@ -1621,7 +1622,8 @@ read_image_pgmCmd()
 			demonstrate_command_usage();
 			return false;
 		}
-		if (!read_pgm_image(_dataFILE.back().get_fp(), &_image)) {
+		if (!read_pgm_image(_dataFILE.back().get_fp(), &_image, &_imageMask)) {
+			blank_image();
 			blank_imageMask();
 			return false;
 		} else {
@@ -1734,7 +1736,7 @@ enum FILE_TYPE {
 
 // WARNING: this code is pretty tangled ... if bugs crop up, it would make sense to clean it.
 static bool
-read_pgm_image(FILE * fp, IMAGE * im)
+read_pgm_image(FILE * fp, IMAGE *im, IMAGE *imMask)
 {
 #ifdef DEBUG_READ
 	printf("in read_pgm_image\n");
@@ -1820,14 +1822,28 @@ This is not a PGM file, since the first 2 characters\n\
 	im->ras_length = width * height;
 	im->ras_type = RT_STANDARD;
 	im->ras_maptype = RMT_NONE;
-	if (imageMask_exists())
-		delete [] _imageMask.image;
 	im->ras_maplength = 0;
 	if (im->ras_width < 1 || im->ras_height < 1) {
 		err("Cannot read image with negative or zero width or height");
 		return false;
 	}
+	if (im->storage_exists) {
+		printf("%s:%d freeing image storage at %x\n",__FILE__,__LINE__,(int)im->image);
+		free(im->image);
+		imMask->storage_exists = false;
+	}
+	if (imMask->storage_exists) {
+		printf("%s:%d freeing imageMask storage at %x\n",__FILE__,__LINE__,(int)imMask->image);
+		free(imMask->image);
+		imMask->storage_exists = false;
+	}
+	imMask->ras_width = imMask->ras_height = 0;
+
 	GET_STORAGE(im->image, unsigned char, (im->ras_width * im->ras_height));
+	im->storage_exists = true;
+
+	printf("%s:%d got new image storage at %x size %d by %d\n",__FILE__,__LINE__,(int)(im->image), im->ras_width, im->ras_height);
+
 #if 1 // fixing SF bug 664388 
 	if (_dataFILE.back().get_type() == DataFile::from_cmdfile) {
 		err("Cannot 'read image' from a commandfile; use a data file instead");
@@ -2151,14 +2167,14 @@ read_imageCmd()
 		ny = (unsigned int)nrow;
 	}
 	// Check for agreement with existing mask grid.
-	if (imageMask_exists()
+	if (_imageMask.storage_exists
 	    && (_imageMask.ras_width != nx || _imageMask.ras_height != ny)) {
 		sprintf(_errorMsg, "%dx%d grid contradicts existing %dx%d mask grid\n",
 			nx, ny, _imageMask.ras_width, _imageMask.ras_height);
 		err(_errorMsg);
 		return false;
 	}
-	if (image_exists()
+	if (_image.storage_exists
 	    && (_image.ras_width != nx || _image.ras_height != ny)) {
 		sprintf(_errorMsg, "%dx%d grid contradicts existing %dx%d grid\n",
 			nx, ny, _imageMask.ras_width, _imageMask.ras_height);
@@ -2412,14 +2428,14 @@ read_image_maskCmd()
 		ny = (unsigned int)nrow;
 	}
 	// Check for agreement with existing grid.
-	if (imageMask_exists()
+	if (_imageMask.storage_exists
 	    && (_imageMask.ras_width != nx || _imageMask.ras_height != ny)) {
 		sprintf(_errorMsg, "%dx%d grid contradicts existing %dx%d mask grid\n",
 			nx, ny, _imageMask.ras_width, _imageMask.ras_height);
 		err(_errorMsg);
 		return false;
 	}
-	if (image_exists()
+	if (_image.storage_exists
 	    && (_image.ras_width != nx || _image.ras_height != ny)) {
 		sprintf(_errorMsg, "%dx%d grid contradicts existing %dx%d grid\n",
 			nx, ny, _imageMask.ras_width, _imageMask.ras_height);

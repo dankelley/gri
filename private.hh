@@ -37,6 +37,7 @@ typedef struct {
 	unsigned int    ras_maplength; // length (bytes) of following map
 	unsigned char  *map;	   // map
 	unsigned char  *image;	   // image
+	bool            storage_exists;	// always toggle when allocating/deleting/checking memory
 }               IMAGE;
 
 // From Sun's /usr/include/rasterfile.h
@@ -142,10 +143,10 @@ bool            handle_if_block(void);
 void            highpass_image(void);
 void            histogram_stats(const double *x, unsigned int nx, double *q1, double *q2, double *q3);
 bool            ignoreCmd(void);
-bool            image_exists(void);
+//bool            image_exists(void);
 bool            image_mapping_exists(void);
 bool            image_range_exists(void);
-bool            imageMask_exists(void);
+//bool            imageMask_exists(void);
 bool            image_scales_defined(void);
 double          image_to_value(int c);
 int             index_of_variable(const char *name, int mark = -1);

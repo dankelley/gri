@@ -312,7 +312,7 @@ image_math()
 		}
 		if (!getdnum(_word[2], &number))
 			return false;
-		if (!image_exists()) {
+		if (!_image.storage_exists) {
 			err("First `read image' or `convert grid to image'");
 			return false;
 		}

@@ -1308,6 +1308,7 @@ convert_grid_to_columnsCmd(void)
 bool
 convert_grid_to_imageCmd()
 {
+	//printf("%s:%d ENTER convert_grid_to_imageCmd()\n", __FILE__,__LINE__);
 	int             i, ii, j, jj, val;
 	int             width, height;
 	int             clipped = 0, masked = 0;
@@ -1375,6 +1376,9 @@ convert_grid_to_imageCmd()
 	}
 	if (width < 2) { err("Can't have grid < 2 wide"); return false; }
 	if (height < 2) { err("Can't have grid < 2 tall"); return false; }
+
+	//printf("%s:%d convert_grid_to_imageCmd() ABOUT TO GET STORAGE FOR %d by %d \n", __FILE__,__LINE__,width,height);
+
 	if (!allocate_image_storage(width, height)) {
 		err("Can't allocate storage for image");
 		return false;
@@ -1450,7 +1454,7 @@ convert_image_to_gridCmd()
 {
 	bool            bad = false;
 	// See that an image exists
-	if (!image_exists()) {
+	if (!_image.storage_exists) {
 		err("First `read image' or `convert grid to image'");
 		bad = true;
 	}

@@ -1,4 +1,4 @@
-//#define DEBUG_STORAGE		// Debug
+#define DEBUG_STORAGE 1		// Debug
 
 #include        <stdio.h>
 #include	"gr.hh"
@@ -18,7 +18,6 @@ create_arrays()
 	GET_STORAGE(_errorMsg, char, LineLength);
 	GET_STORAGE(_cmdLine, char, LineLength);
 	GET_STORAGE(_cmdLineCOPY, char, LineLength);
-	GET_STORAGE(_imageTransform, unsigned char, 3 * 256);
 	GET_STORAGE(_imageHist, double, 256);
 	return true;
 }
@@ -26,10 +25,11 @@ create_arrays()
 bool
 allocate_image_storage(int nx, int ny)
 {
+#ifdef DEBUG_STORAGE
+	printf("%s:%d ENTERING allocate_image_storage(%d, %d)\n",__FILE__,__LINE__,nx,ny);
+#endif
 	if (nx < 0 || ny < 0)
 		return false;
-	if (image_exists())
-		delete [] _image.image;
 	_image.ras_magic = RAS_MAGIC;
 	_image.ras_width = nx;
 	_image.ras_height = ny;
@@ -38,20 +38,30 @@ allocate_image_storage(int nx, int ny)
 	_image.ras_type = RT_STANDARD;
 	_image.ras_maptype = RMT_NONE;
 	_image.ras_maplength = 0;
-	_image.image = new unsigned char[_image.ras_length];
+	if (_image.storage_exists) {
+#ifdef DEBUG_STORAGE
+		printf("%s:%d allocate_image_storage() freeing up storage at %X\n",__FILE__,__LINE__,(int)(_image.image));
+#endif
+		free(_image.image);
+	}
+	GET_STORAGE(_image.image, unsigned char, _image.ras_length);
 	if (!_image.image) OUT_OF_MEMORY;
+	_image.storage_exists = true;
 	_imageHist_exists = false;
-	//printf("%s:%d got storage for image %d wide and %d tall\n",__FILE__,__LINE__,_image.ras_width,_image.ras_height);
+#ifdef DEBUG_STORAGE
+	printf("%s:%d allocate_image_storage() got storage for image %d wide and %d tall with storage at %X\n",__FILE__,__LINE__,_image.ras_width,_image.ras_height,(int)(_image.image));
+#endif
 	return true;
 }
 
 bool
 allocate_imageMask_storage(int nx, int ny)
 {
+#ifdef DEBUG_STORAGE
+	printf("%s:%d ENTERING allocate_imageMask_storage(%d, %d)\n",__FILE__,__LINE__,nx,ny);
+#endif
 	if (nx < 0 || ny < 0)
 		return false;
-	if (imageMask_exists())
-		delete [] _imageMask.image;
 	_imageMask.ras_magic = RAS_MAGIC;
 	_imageMask.ras_width = nx;
 	_imageMask.ras_height = ny;
@@ -60,11 +70,21 @@ allocate_imageMask_storage(int nx, int ny)
 	_imageMask.ras_type = RT_STANDARD;
 	_imageMask.ras_maptype = RMT_NONE;
 	_imageMask.ras_maplength = 0;
-	_imageMask.image = new unsigned char[_imageMask.ras_length];
+	if (_imageMask.storage_exists) {
+#ifdef DEBUG_STORAGE
+		printf("%s:%d allocate_imageMask_storage() freeing up storage at %X\n",__FILE__,__LINE__,(int)(_imageMask.image));
+#endif
+		free(_imageMask.image);
+	}
+	GET_STORAGE(_imageMask.image, unsigned char, _imageMask.ras_length);
 	if (!_imageMask.image) OUT_OF_MEMORY;
+	_imageMask.storage_exists = true;
 	for (unsigned int i = 0; i < _imageMask.ras_length; i++)
 		*(_imageMask.image + i) = 0;
 	_imageHist_exists = false;
+#ifdef DEBUG_STORAGE
+	printf("%s:%d allocate_imageMask_storage() got storage for imageMask %d wide and %d tall with storage at %X\n",__FILE__,__LINE__,_imageMask.ras_width,_imageMask.ras_height,(int)(_imageMask.image));
+#endif
 	return true;
 }
 
@@ -88,7 +108,7 @@ allocate_xmatrix_storage(int cols)
 {
 	if (_xgrid_exists == true) {
 #if defined(DEBUG_STORAGE)
-		printf("allocate_xmatrix_storage(%d) deleting at %x\n", cols,_xmatrix);
+		printf("allocate_xmatrix_storage(%d) deleting at %x\n", cols, (unsigned int)_xmatrix);
 #endif
 		delete [] _xmatrix;
 	}
@@ -96,7 +116,7 @@ allocate_xmatrix_storage(int cols)
 	_xmatrix = new double [_num_xmatrix_data];
 	if (!_xmatrix) OUT_OF_MEMORY;
 #if defined(DEBUG_STORAGE)
-	printf("allocate_xmatrix_storage(%d) allocating at %x\n", cols,_xmatrix);
+	printf("allocate_xmatrix_storage(%d) allocating at %x\n", cols, (unsigned int)_xmatrix);
 #endif
 	_xgrid_exists = true;
 	return true;
@@ -107,7 +127,7 @@ allocate_ymatrix_storage(int rows)
 {
 	if (_ygrid_exists == true) {
 #if defined(DEBUG_STORAGE)
-		printf("allocate_ymatrix_storage(%d) deleting at %x\n", rows,_ymatrix);
+		printf("allocate_ymatrix_storage(%d) deleting at %x\n", rows, (unsigned int)_ymatrix);
 #endif
 		delete [] _ymatrix;
 	}
@@ -115,7 +135,7 @@ allocate_ymatrix_storage(int rows)
 	_ymatrix = new double [_num_ymatrix_data];
 	if (!_ymatrix) OUT_OF_MEMORY;
 #if defined(DEBUG_STORAGE)
-	printf("allocate_ymatrix_storage(%d) allocating at %x\n", rows,_ymatrix);
+	printf("allocate_ymatrix_storage(%d) allocating at %x\n", rows, (unsigned int)_ymatrix);
 #endif
 	_ygrid_exists = true;
 	return true;

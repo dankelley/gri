@@ -707,7 +707,7 @@ show_imageCmd()
 		NUMBER_WORDS_ERROR;
 		return false;
 	}
-	if (!image_exists()) {
+	if (!_image.storage_exists) {
 		ShowStr("No image exists yet\n");
 		return false;
 	}

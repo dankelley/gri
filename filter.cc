@@ -211,7 +211,7 @@ filter_image(int horl)
 	unsigned char  *imPtr;
 	register int    i, j;
 	int             nx, ny, nx1, ny1, newval, change;
-	Require(image_exists(), err("no image exists"));
+	Require(_image.storage_exists, err("no image exists"));
 	nx = _image.ras_width;
 	nx1 = nx - 1;
 	ny = _image.ras_height;

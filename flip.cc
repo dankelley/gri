@@ -101,7 +101,7 @@ flip_imageCmd()
 		err("Can only flip with respect to `x' or `y'");
 		return false;
 	}
-	if (!image_exists()) {
+	if (!_image.storage_exists) {
 		err("No image exists yet\n");
 		return false;
 	}

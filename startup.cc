@@ -78,6 +78,8 @@ bool            _contour_label_rotated = false;   // <-> draw.c set.c
 bool            _contour_label_whiteunder = true; // <-> draw.c set.c
 bool            _store_cmds_in_ps = true;	  // <-> read.c
 
+bool            initialize_image(); 
+bool            initialize_imageMask(); 
 int             create_arrays(void);
 static void     create_builtin_variables(void);
 static void     create_builtin_synonyms(void);
@@ -165,6 +167,8 @@ start_up(int argc, char **argv)
 		+ minor_minor_version / 10000.0;
 	_arrow_type = 0;		// default
 	// Get storage space for arrays, variables, synonyms, etc
+	initialize_image();
+	initialize_imageMask();
 	create_arrays();
 	create_builtin_variables();
 	create_builtin_synonyms();
@@ -495,8 +499,6 @@ set_defaults()
 	PUT_VAR("..graylevel..", 0.0);
 	_ignore_eof = false;
 	_ignore_error = false;
-	blank_image();
-	blank_imageMask();
 	_dash.erase(_dash.begin(), _dash.end()); // go to solid
 	PUT_VAR("..linewidth..", LINEWIDTH_DEFAULT);
 	PUT_VAR("..linewidthaxis..", LINEWIDTHAXIS_DEFAULT);

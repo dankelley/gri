@@ -1719,7 +1719,7 @@ draw_image_histogramCmd()
 		create_y_scale();
 #endif
 	}
-	if (!image_exists()) {
+	if (!_image.storage_exists) {
 		err("First `read image' or `convert grid to image'");
 		return false;
 	}
@@ -2014,7 +2014,7 @@ draw_imageCmd()
 		create_y_scale();
 #endif
 	}
-	if (!image_exists()) {
+	if (!_image.storage_exists) {
 		demonstrate_command_usage();
 		err("First `read image' or `convert grid to image'");
 		return false;
@@ -2027,7 +2027,7 @@ draw_imageCmd()
 	set_environment();
 	gr_usertocm(_image_llx, _image_lly, &llx_cm, &lly_cm);
 	gr_usertocm(_image_urx, _image_ury, &urx_cm, &ury_cm);
-	if (imageMask_exists()) {
+	if (_imageMask.storage_exists) {
 		extern double   _image_missing_color_red; // in set.c
 		extern double   _image_missing_color_green; // in set.c
 		extern double   _image_missing_color_blue; // in set.c
@@ -2035,6 +2035,7 @@ draw_imageCmd()
 		mask_r = _image_missing_color_red;
 		mask_g = _image_missing_color_green;
 		mask_b = _image_missing_color_blue;
+		printf("%s:%d image mask at %x\n",__FILE__,__LINE__,(unsigned int)( _imageMask.image));
 		gr_drawimage(_image.image, _imageTransform, _image_color_model,
 			     _imageMask.image, mask_r, mask_g, mask_b,
 			     _image.ras_width, _image.ras_height,

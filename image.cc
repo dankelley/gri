@@ -1,3 +1,4 @@
+#define DEBUG_IMAGE 1		// for debugging
 #include	<stdio.h>
 #include	<string.h>
 #include	"extern.hh"
@@ -64,8 +65,12 @@ image_scales_defined()
 bool
 blank_image()
 {
-	register int    i;
-	unsigned char   val;
+	if (_image.storage_exists) {
+		if (_image.image != NULL)
+			free(_image.image);
+		_image.image = NULL;
+		_image.storage_exists = false;
+	}
 	_image.ras_width = _image.ras_height = _image.ras_length = 0;
 	_image_llx = _image_lly = 0.0;
 	_image_urx = _image_ury = 0.0;
@@ -78,17 +83,45 @@ blank_image()
 	 * Make transform into an even ramp, for each or R, G, B.  Note that val
 	 * will wrap around at 255.
 	 */
+	unsigned int i;
+	unsigned char val;
 	for (val = 0, i = 0; i < 768; i++, val++)
 		_imageTransform[i] = val;
 	_imageTransform_exists = true;
+#ifdef DEBUG_IMAGE
+	printf("%s:%d blanked image with storage at %X\n",__FILE__,__LINE__,(int)(_image.image));
+#endif
 	return true;
 }
 
 bool
 blank_imageMask()
 {
+	if (_imageMask.storage_exists) {
+		free(_imageMask.image);
+		_imageMask.image = NULL;
+		_imageMask.storage_exists = false;
+	}
 	_imageMask.ras_width = _imageMask.ras_height = _imageMask.ras_length = 0;
+#ifdef DEBUG_IMAGE
+	printf("%s:%d blanked imageMask with storage at %X\n",__FILE__,__LINE__,(int)(_imageMask.image));
+#endif
 	return true;
+}
+bool
+initialize_image()
+{
+	_image.image = NULL;
+	_image.storage_exists = false;
+	GET_STORAGE(_imageTransform, unsigned char, 3 * 256);
+	return blank_image();
+}
+bool
+initialize_imageMask()
+{
+	_imageMask.image = NULL;
+	_imageMask.storage_exists = false;
+	return blank_imageMask();
 }
 
 // Tell if the image range exists (created by `set image range').
@@ -98,17 +131,18 @@ image_range_exists()
 	return ((_image0 != 0.0 || _image255 != 0.0) ? true : false);
 }
 
-bool
-image_exists()
-{
-	return ((_image.ras_length > 0) ? true : false);
-}
-
-bool
-imageMask_exists()
-{
-	return ((_imageMask.ras_length > 0) ? true : false);
-}
+#if 0
+//bool
+//image_exists()
+//{
+//	return ((_image.ras_length > 0) ? true : false);
+//}
+//bool
+//imageMask_exists()
+//{
+//	return ((_imageMask.ras_length > 0) ? true : false);
+//}
+#endif
 
 /*
  * Calculate histogram of image, normalized to sum to 1 over all image
@@ -124,7 +158,7 @@ calculate_image_histogram()
 {
 	long            good = 0, mhis[NUM];
 	int             i;
-	if (!image_exists()) {
+	if (!_image.storage_exists) {
 		err("no image exists");
 		return false;
 	}
@@ -132,7 +166,7 @@ calculate_image_histogram()
 		return true;
 	for (i = 0; i < NUM; i++)
 		mhis[i] = 0;
-	if (imageMask_exists()) {
+	if (_imageMask.storage_exists) {
 		long            max = _image.ras_width * _image.ras_height;
 		unsigned char  *im = _image.image;
 		unsigned char  *imMask = _imageMask.image;

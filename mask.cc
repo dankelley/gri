@@ -9,7 +9,7 @@ bool            maskCmd(void);
 bool
 maskCmd()
 {
-	if (!image_exists()) {
+	if (!_image.storage_exists) {
 		demonstrate_command_usage();
 		err("First `read image' or `convert grid to image'");
 		return false;

@@ -274,7 +274,7 @@ write_imageCmd(const char *filename, int image_type)
 	int             ii;
 	register int    i, j;
 	FILE           *fp;
-	if (!image_exists()) {
+	if (!_image.storage_exists) {
 		err("No image exists yet\n");
 		return false;
 	}
@@ -339,7 +339,7 @@ write_image_maskCmd(const char *filename, int image_type)
 	int             ii;
 	register int    i, j;
 	FILE           *fp;
-	if (!imageMask_exists()) {
+	if (!_imageMask.storage_exists) {
 		err("No image mask exists yet\n");
 		return false;
 	}
