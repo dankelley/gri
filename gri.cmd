@@ -3928,6 +3928,11 @@ y = .intercept. + .slope. * x
     extern "C" bool set_z_missingCmd(void);
 }
 
+`set "..."'
+{
+    extern "C" bool setCmd(void);
+}
+
 `show all'
 Show lots of information about plot.
 {

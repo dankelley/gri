@@ -34,4 +34,22 @@ assert {rpn "\[2]h" "buddy" ==}		" failed test 13"
 assert {rpn "\[0]h" "Hi" ==}		" failed test 14"
 assert {rpn "\[1]h" "means" ==}		" failed test 15"
 assert {rpn "\[2]h" "\"hello\"" ==}	" failed test 16"
+
+# Setting by quoted name
+set ".var." to 10
+assert {rpn .var. 10 ==}		" failed test 17"
+set "\\syn" to "hi"
+assert {rpn "\syn" "hi" ==}		" failed test 18"
+
+# Setting by quoted name, in a new command
+`hi pi "\\Greeting" ".Pi."'
+{
+    set "\.word2." to "hi"
+    set "\.word3." to 3.14
+}
+hi pi "\\g" ".p."
+assert {rpn "\g" "hi" ==}		" failed test 19"
+assert {rpn .p.  3.14 ==}		" failed test 20"
+
+
 show " passed"

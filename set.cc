@@ -3381,3 +3381,54 @@ This computer can't `\\synonym = system ...' since no popen() subroutine.");
 	}
 	return true;
 }
+
+// `set "\\syn" to "STRING"'
+// `set ".var." to  NUMBER'
+bool
+setCmd()
+{
+	if (_nword != 4) {
+		NUMBER_WORDS_ERROR;
+		return false;
+	}
+	if (strNE(_word[2], "to")) {
+		demonstrate_command_usage();
+		err("Third word must be `to', not `\\", _word[2], "' as given.", "\\");
+		return false;
+	}
+	string name(_word[1]);
+	clean_blanks_quotes(name);
+	//printf("<%s>  ... <%s>>\n", _word[1], name.c_str());
+	if (is_var(name.c_str())) {
+		double value;
+		if (!getdnum(_word[3], &value)) {
+			demonstrate_command_usage();
+			err("Cannot interpret `\\", _word[3], "' as a numerical value.", "\\");
+			return false;
+		}
+		PUT_VAR(name.c_str(), value);
+	} else if (is_syn(name.c_str())) {
+		if (name[1] != '\\') {
+			demonstrate_command_usage();
+			err("The synonym-name must be prefixed by double backslash, not single backslash");
+			return false;
+		}
+		name.STRINGERASE(0, 1);
+		string value(_word[3]);
+		if (value.size() < 2
+		    || (value[0] != '"' || value[-1 + value.size()] != '"')) {
+			demonstrate_command_usage();
+			err("Need a double-quoted string to set the synonym to");
+			return false;
+		}
+		value.STRINGERASE(0, 1);
+		value.STRINGERASE(-1 + value.size(), 1);		
+		put_syn(name.c_str(), value.c_str(), true);
+		//printf("Assigned '%s' to synonym named '%s'\n", value.c_str(), name.c_str());
+	} else {
+		demonstrate_command_usage();
+		err("Second word must be a variable name or a double-backslashed synonym name, in double quotes, not `\\", name.c_str(), "' as given.", "\\");
+		return false;
+	}
+	return true;
+}
