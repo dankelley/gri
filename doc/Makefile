@@ -195,6 +195,7 @@ debian-info: gri.texi
 # make debian-html prefix=../debian/gri-html-doc/usr/doc
 debian-html:
 	rm -fR $(prefix)/gri-html-doc/examples
+	rm -fR $(prefix)/gri-html-doc/html/examples
 	make html-install HTML_DIR=$(prefix)/gri-html-doc/html
 	(cd $(prefix)/gri-html-doc/html; mv examples ../)
 	(cd $(prefix)/gri-html-doc/html; ln -sf ../examples)
