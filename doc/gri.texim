@@ -14883,6 +14883,9 @@ if you need something else that I've not listed.
 
 @enumerate
 
+@item Add @code{newfile "ps_filename"} command,
+permitting one Gri script to produce several PostScript files.
+
 @item Switch to @code{popt} library for the processing of command-line 
 options.
 
