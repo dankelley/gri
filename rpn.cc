@@ -46,6 +46,7 @@ rpnfunctionCmd()
 bool
 substitute_rpn_expressions(const char *s, char *sout)
 {
+	if (((unsigned) superuser()) & FLAG_RPN) printf("DEBUG %s:%d  substitute_rpn_expressions(%s,...)\n", __FILE__,__LINE__,s);
 	// To speed action, maintain a buffer in which 's' will be copied,
 	// prior to chopping into words.  BUG: this buffer is only cleaned
 	// up at exit() time, since I never free() it.

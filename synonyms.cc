@@ -572,7 +572,7 @@ Cannot get word %d of synonym `%s'; using last word ([%d]) instead",
 		} else {
 			// leave unknown synonym in place.
 			if (!found) {
-				printf("\n'%s' WAS NOT FOUND\n", s+i);
+				//printf("\n'%s' WAS NOT FOUND\n", s+i);
 				sout += '\\'; // don't forget that!
 				while (!end_of_synonym(s[++i], inmath, need_brace))
 					sout += s[i];
