@@ -1,5 +1,5 @@
 Source: gri
-Section: math
+Section: science
 Priority: optional
 Maintainer: Peter S Galbraith <psg@debian.org>
 Build-Depends: debhelper, netcdfg-dev, tetex-bin, texinfo
