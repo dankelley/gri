@@ -273,8 +273,9 @@ no_gri_cmd(const char *msg_postscript)
 	msg.append("        located, or ...\n");
 	msg.append("    (3) ... recompile Gri so it will know where to look by default (see\n");
 	msg.append("        the INSTALL file in the source directory for instructions).\n");
+	msg.apend("Call was: no_gri_cmd(");
 	msg.append(msg_postscript);
-	msg.append("\n");
+	msg.append(");\n");
 	char wd[1024], *ptr = wd;
 	ptr = getcwd(ptr,1023);
 	msg.append("WD='");	msg.append(ptr);msg.append("'\n");
@@ -301,7 +302,7 @@ create_commands(const char *filename, bool user_gave_directory)
 #endif
 #endif
 	fullfilename += filename;
-#if 1 //def OS_IS_OSX // MAC OSX
+#ifdef OS_IS_OSX // MAC OSX
 	fullfilename = "/Applications/Gri/gri.cmd";
 #endif
 //	printf("DEBUG: looking for gri.cmd as <%s>\n",fullfilename.c_str());
