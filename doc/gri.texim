@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.187 2002/05/17 17:53:01 dankelley Exp $
+@c $Id: gri.texim,v 1.188 2002/05/18 13:15:01 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -18037,18 +18037,20 @@ could take the value 6 if the hue was exactly equal to 1, and that was
 erroneous.
 
 In reading the code, you may notice that it is formatted in a uniform
-way.  I use the Emacs indentation feature, with 
+way: the Kernighan and Ritchie scheme (from their classic C textbook),
+with 8-character indents.  I get this by putting the following lines
+in the @file{~/.emacs} file, which is used to customize the Emacs editor:
 
 @example
-(c-set-style "K&R")
-(setq c-basic-offset 8)
+(defun my-c-mode-common-hook ()
+  (c-set-style "K&R")
+  (setq c-basic-offset 8)
+  )
+(add-hook 'c-mode-common-hook 'my-c-mode-common-hook)
 @end example
 
-If you submit patches, please bear this in mind.  I'm reluctant to just
-blindly apply patches, and my procedure is to examine them by eye before
-trying to do the patch.  Therefore, if you re-indent the source-code,
-please do it as I have indicated above, so that the patch-file length
-will be as small as it can be.
+If you submit patches, please use the same format as I've done, so
+that I can more easily see the changes you've made.
 
 
 @c HTML <!-- newfile TestSuite.html "Gri: Test Suite" "Test Suite" -->
