@@ -1230,7 +1230,7 @@ do_operation(operator_name oper)
 		double          width, ascent, descent;	// in cm 
 		NEED_ON_STACK(1);
 		if (TYPE(1) != STRING) {
-			err("RPN string operator needs a string to be top item on stack.");
+			err("RPN string operator `width' needs a string to be top item on stack.");
 			RpnError = ILLEGAL_TYPE;
 			return false;
 		} else {
@@ -1252,7 +1252,7 @@ do_operation(operator_name oper)
 		double          width, ascent, descent;	// in cm 
 		NEED_ON_STACK(1);
 		if (TYPE(1) != STRING) {
-			err("RPN string operator needs a string to be top item on stack.");
+			err("RPN string operator `ascent' needs a string to be top item on stack.");
 			RpnError = ILLEGAL_TYPE;
 			return false;
 		} else {
@@ -1274,7 +1274,7 @@ do_operation(operator_name oper)
 		double          width, ascent, descent;	// in cm 
 		NEED_ON_STACK(1);
 		if (TYPE(1) != STRING) {
-			err("RPN string operator needs a string to be top item on stack.");
+			err("RPN string operator `descent' needs a string to be top item on stack.");
 			RpnError = ILLEGAL_TYPE;
 			return false;
 		} else {
