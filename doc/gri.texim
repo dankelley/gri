@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.247 2003/04/12 18:21:23 dankelley Exp $
+@c $Id: gri.texim,v 1.248 2003/04/12 19:37:02 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -1135,11 +1135,29 @@ even text.
 
 @noindent @b{The} @code{set color \name} @b{command}
 
-Set the pen color to the indicated name.  By default, only a handful of
-colors are known.  You @strong{MUST} give color names as written here,
-obeying the capitilization shown.  The color mixes are identical to
-those used in X11.  The following lists some of the colors Gri knows by
-default.
+Set the pen color to the indicated name.  There are two types of
+names: hexadecimal-triplet names and English names.  
+
+Hexadecimal-triplet names are of a form often used in web-pages.  They
+consist of exactly 6 characters, which are divided by Gri into three
+sets of two characters, specifying the red component, the green
+component, and the blue component of the color, respectively.  These
+components are in hexadecimal notation, i.e. ranging from 00 to FF,
+indicating values from 0 to 255.  For example,
+@example
+set color ACD4EF
+@end example
+@noindent
+sets a pastel blue color, almost the color of a robin's egg.
+
+The English colors are written simply in the form
+@example
+set color blue
+@end example
+@noindent
+where the color is from the following list.  (Gri requires that you
+use the exact form shown, including the capitilization.)  The color
+mixes are identical to those used in X11.
 
 @cindex builtin colors, list of 
 @cindex colors, list of
@@ -1164,7 +1182,8 @@ NAME               RED    GREEN  BLUE
 @end example
 
 @noindent
-To get more colors than this, use the @code{read colornames} command.
+To get more colors than those provided in the above list, use the
+@code{read colornames} command.
 
 You should do a test case for your printer to see which colors you find
 most to your liking.  You'll want to pick colors that look different
@@ -16350,7 +16369,16 @@ only in the fixing of bugs.
 @comment ADD-NEW-BUG-FIXES-HERE
 
 @subsubsection Version 2.12.5 [2003 ??? ??]
-@strong{(This is the CVS version.)}
+@strong{New Features}
+@itemize @bullet
+@item Add hexadecimal colornames (@ref{Pen Color}).
+@end itemize
+
+@strong{Bug Fixes}
+@itemize
+@item
+@end itemize
+
 
 @subsubsection Version 2.12.4 [2003 Apr 06]
 @strong{Bug Fixes}

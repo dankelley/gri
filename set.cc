@@ -482,8 +482,18 @@ set_colorCmd()
 		cname.assign(_word[2]);
 		un_double_quote(cname);
 		if (!look_up_color(cname.c_str(), &red, &green, &blue)) {
-			err("`set color' given unknown colorname `\\", cname.c_str(), "'.  Use command `show colornames' to see available colors.", "\\");
+			unsigned int rhex, ghex, bhex;
+			if (cname.size() == 6
+			    && 1 == sscanf(cname.substr(0,2).c_str(), "%x", &rhex)
+			    && 1 == sscanf(cname.substr(2,2).c_str(), "%x", &ghex)
+			    && 1 == sscanf(cname.substr(4,2).c_str(), "%x", &bhex)) {
+				red = rhex / 255.0;
+				green = ghex / 255.0;
+				blue = bhex / 255.0;
+			} else {
+				err("`set color' given unknown colorname `\\", cname.c_str(), "'.  Use command `show colornames' to see available colors.", "\\");
 			return false;
+			}
 		}
 		PUT_VAR("..red..", red);
 		PUT_VAR("..green..", green);
