@@ -252,7 +252,7 @@ no_gri_cmd()
 	msg.append("            gri -directory /usr/share/gri/lib\n");
 	msg.append("        where you may change the directory name to whatever directory\n");
 	msg.append("        contains the correct `gri.cmd' file, or ...\n");
-	msg.append("    (2) ... set an environment variable named GRI_LIBRARY_DIRECTORY\n");
+	msg.append("    (2) ... set an environment variable named GRI_DIRECTORY_LIBRARY\n");
 	msg.append("        to the name of a directory in which the `gri.cmd' file is\n");
 	msg.append("        located, or ...\n");
 	msg.append("    (3) ... recompile Gri so it will know where to look by default (see\n");
@@ -285,10 +285,10 @@ create_commands(const char *filename, bool user_gave_directory)
 		if (user_gave_directory)
 			no_gri_cmd(); // exits
 		char *gri_directory_library = egetenv("GRI_DIRECTORY_LIBRARY");
-		string envvar_location(gri_directory_library);
-		envvar_location.append("/gri.cmd");
 		if (*gri_directory_library == '\0')
 			no_gri_cmd(); // exits
+		string envvar_location(gri_directory_library);
+		envvar_location.append("/gri.cmd");
 		//printf("TRY <%s>\n",envvar_location.c_str());
 		if (!push_cmd_file(envvar_location.c_str(), false, false, "r"))
 			no_gri_cmd(); // exits
