@@ -134,6 +134,8 @@ void            gri_exit(int code);
 bool            gri_version_exceeds(unsigned int n1, unsigned int n2, unsigned int n3);
 bool            grid_interp(double xx, double yy, double *value);
 bool            grid_exists(void);
+bool            group_end();
+bool            group_start(const char *id ="");
 bool            gr_missing(double x);
 bool            handle_if_block(void);
 void            highpass_image(void);

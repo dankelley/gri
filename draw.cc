@@ -1092,6 +1092,7 @@ draw_axes(int type, double loc, gr_axis_properties side, bool allow_offset)
 		axes_offset = _axes_offset;
 	else
 		axes_offset = 0.0;
+	group_start("axis_frame");
 	gr_setxtransform(_xtype);
 	gr_setytransform(_ytype);
 	gr_setxlabel(_colX.getName());
@@ -1238,6 +1239,7 @@ draw_axes(int type, double loc, gr_axis_properties side, bool allow_offset)
 		break;
         default:
 		err("unknown axis type");
+		group_end();
 		return false;
 	}
 	gr_setfontsize_pt(oldFontsize_pt);
@@ -1245,6 +1247,7 @@ draw_axes(int type, double loc, gr_axis_properties side, bool allow_offset)
 	draw_axes_if_needed();
 	for (i = 0; i < old_dash.size(); i++)
 		_dash.push_back(old_dash[i]);
+	group_end();
 	return true;
 }
 
