@@ -729,7 +729,11 @@ perform_block(const char *block, const char *source_file, int source_line)
 		if (word_is(0, "read") && !skipping_through_if()) {
 			extern unsigned int offset_for_read;
 			offset_for_read = offset;
+		} else if (*_word[0] == '\\' && word_is(1, "=") && word_is(2, "system") && !skipping_through_if()) {
+			extern unsigned int offset_for_read;
+			offset_for_read = offset;
 		}
+
 		if (word_is(0, "while") && !skipping_through_if()) {
 			// Capture the loop (look for matching 'end while')
 			string          test;
@@ -806,11 +810,15 @@ perform_block(const char *block, const char *source_file, int source_line)
 				static string cmd; // might save time in loops
 				cmd.assign(s);
 				while(get_line_in_block(block, &offset)) {
-					cmd.append("\n");
-					cmd.append(_cmdLine);
-					if (len && !strncmp(_cmdLine + skip_space(_cmdLine), read_until.c_str(), len)) {
+					//printf("<%s> <%s> <%s>\n",_cmdLine, _cmdLine+skip_space(_cmdLine),read_until.c_str());
+					if (!strncmp(_cmdLine + skip_space(_cmdLine), read_until.c_str(), read_until.size())) {
+						cmd.append("\n");
+						cmd.append(_cmdLine + skip_space(_cmdLine));
+						//printf("PUT IN <%s>\nFULL IS:\n<%s>",_cmdLine + skip_space(_cmdLine),cmd.c_str());
 						break;
 					}
+					cmd.append("\n");
+					cmd.append(_cmdLine);
 				}
 				if (!skipping_through_if()) {
 					string cmd_new;

@@ -3359,7 +3359,6 @@ This computer can't `\\synonym = system ...' since no popen() subroutine.");
 		bool            using_read_until = false;
 		while (--i) {
 			if (!strncmp((s + i), "<<", 2)) {
-				printf("- looking for <<\n");
 				bool            quoted_end_string = false;
 				int             spaces = 0;
 				while (isspace(*(s + i + 2 + spaces))) {
@@ -3377,14 +3376,14 @@ This computer can't `\\synonym = system ...' since no popen() subroutine.");
 					cut_at = read_until.find("\"");
 				else
 					cut_at = read_until.find(" ");
-				printf("READING UNTIL '%s' ... i.e.\n", read_until.c_str());
+				//printf("READING UNTIL '%s' ... i.e.\n", read_until.c_str());
 				if (cut_at != STRING_NPOS)
 					read_until.STRINGERASE(cut_at, read_until.size() - cut_at);
 				if (read_until.size() < 1) {
 					err("`system ... <<STOP_STRING' found no STOP_STRING");
 					return false;
 				}
-				printf("reading until '%s'\n",read_until.c_str());
+				//printf("reading until '%s'\n",read_until.c_str());
 				break;
 			}
 		}
@@ -3392,29 +3391,56 @@ This computer can't `\\synonym = system ...' since no popen() subroutine.");
 		cmd.assign(s);
 		if (using_read_until) {
 			// It is of the <<WORD form
+#if 1
 			cmd.append("\n");
-			printf("%s:%d ABOUT TO GOBBLE\n",__FILE__,__LINE__);
-			while (get_command_line()) {
-				printf("%s:%d cmd line is [%s]\n",__FILE__,__LINE__,_cmdLine);
-				// Trim filename/fileline indicator
-				unsigned int l = strlen(_cmdLine);
-				for (unsigned int ii = 0; ii < l; ii++) {
-					if (_cmdLine[ii] == PASTE_CHAR) {
-						_cmdLine[ii] = '\0';
+			extern vector<BlockSource> bsStack;
+			if (bsStack.size() == 0) {
+				if (((unsigned) superuser()) & FLAG_SYS)printf("DEBUG %s:%d GOBBLE from a file\n",__FILE__,__LINE__);
+				while (get_command_line()) {
+					if (((unsigned) superuser()) & FLAG_SYS)printf("DEBUG %s:%d cmd line is [%s]\n",__FILE__,__LINE__,_cmdLine);
+				        // Trim filename/fileline indicator
+					unsigned int l = strlen(_cmdLine);
+					for (unsigned int ii = 0; ii < l; ii++) {
+						if (_cmdLine[ii] == PASTE_CHAR) {
+							_cmdLine[ii] = '\0';
+							break;
+						}
+					}
+					if (!strncmp(_cmdLine + skip_space(_cmdLine), read_until.c_str(), read_until.size())) {
+						cmd.append(_cmdLine + skip_space(_cmdLine));
+						cmd.append("\n");
 						break;
 					}
+					cmd.append(_cmdLine);
+					cmd.append("\n");
 				}
-				cmd.append(_cmdLine);
-				cmd.append("\n");
-				if (!strncmp(_cmdLine, read_until.c_str(), read_until.size())) {
-					break;
+				string cmd_sub;
+				substitute_synonyms_cmdline(cmd.c_str(), cmd_sub, false);
+				cmd = cmd_sub;
+			} else {
+				extern unsigned int chars_read;
+				extern unsigned int offset_for_read;
+				extern bool get_line_in_block(const char *block, unsigned int *offset);
+				unsigned int offset = offset_for_read + chars_read;
+				if (((unsigned) superuser()) & FLAG_SYS)printf("DEBUG %s:%d GOBBLE from block source\n",__FILE__,__LINE__);
+				while (get_line_in_block(bsStack.back().get_start(), &offset)) {
+					if (((unsigned) superuser()) & FLAG_SYS)printf("DEBUG %s:%d cmd line is [%s]\n",__FILE__,__LINE__,_cmdLine);
+					bsStack.back().move_offset(strlen(_cmdLine) + 1);
+					chars_read += strlen(_cmdLine) + 1;
+					if (!strncmp(_cmdLine + skip_space(_cmdLine), read_until.c_str(), read_until.size())) {
+						cmd.append(_cmdLine + skip_space(_cmdLine));
+						cmd.append("\n");
+						break;
+					}
+					cmd.append(_cmdLine);
+					cmd.append("\n");
 				}
+				string cmd_sub;
+				substitute_synonyms_cmdline(cmd.c_str(), cmd_sub, false);
+				cmd = cmd_sub;
 			}
-			string cmd_sub;
-			printf("THE cmd <%s>\n",cmd.c_str());
-			substitute_synonyms_cmdline(cmd.c_str(), cmd_sub, false);
-			cmd = cmd_sub;
-
+			if (((unsigned) superuser()) & FLAG_SYS)printf("DEBUG %s:%d COMMAND START...\n%s\nDEBUG %s:%d ... COMMAND END\n",__FILE__,__LINE__,cmd.c_str(),__FILE__,__LINE__);
+#endif
 		} else {
 			// No, it is not of the <<WORD form
 			string::size_type loc = 0;

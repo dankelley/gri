@@ -573,11 +573,13 @@ systemCmd()
 					break;
 				}
 			}
-			cmd.append(_cmdLine);
-			cmd.append("\n");
-			if (!strncmp(_cmdLine, read_until.c_str(), read_until.size())) {
+			if (!strncmp(_cmdLine + skip_space(_cmdLine), read_until.c_str(), read_until.size())) {
+				cmd.append(_cmdLine + skip_space(_cmdLine));
+				cmd.append("\n");
 				break;
 			}
+			cmd.append(_cmdLine);
+			cmd.append("\n");
 		}
 		static string cmd_sub;
 		substitute_synonyms_cmdline(cmd.c_str(), cmd_sub, false);
