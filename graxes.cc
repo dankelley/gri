@@ -208,19 +208,29 @@ gr_drawxaxis(double y, double xl, double xinc, double xr, gr_axis_properties sid
 						// over-ride any existing format
 						int             hour, min, sec;
 						if (gr_multiple(next, 1.0, 1.0e-6)) {
-							hour = (int)floor(1.0e-4 + next);
-							sprintf(_grTempString, "%d$\\circ$%c", hour, _xtype_map);
+							hour = (int)floor(1.0e-4 + fabs(next));
+							if (next >= 0.0) 
+								sprintf(_grTempString,"%d$\\circ$%c",hour,_xtype_map);
+							else
+								sprintf(_grTempString,"-%d$\\circ$%c",hour,_xtype_map);
 						} else if (gr_multiple(next, 1.0 / 60.0, 1.0e-7)) {
-							hour = (int)floor(1.0e-4 + next);
-							min = (int)floor(1e-5 + 60.0 * (next - hour));
-							sprintf(_grTempString, "%d$\\circ$%d'%c", hour, min, _xtype_map);
+							hour = (int)floor(1.0e-4 + fabs(next));
+							min = (int)floor(1e-5 + 60.0 * (fabs(next) - hour));
+							if (next >= 0.0)
+								sprintf(_grTempString,"%d$\\circ$%d'%c",hour,min,_xtype_map);
+							else 
+								sprintf(_grTempString,"-%d$\\circ$%d'%c",hour,min,_xtype_map);
 						} else if (gr_multiple(next, 1.0 / 3600.0, 1.0e-8)) {
-							hour = (int)floor(1.0e-4 + next);
-							min = (int)floor(1e-5 + 60.0 * (next - hour));
-							sec = (int)floor(1e-5 + 3600.0 * (next - hour - min / 60.0));
-							sprintf(_grTempString, "%d$\\circ$%d'%d\"%c", hour, min, sec, _xtype_map);
-						} else
-							sprintf(_grTempString, "%f$\\circ$%c", next, _xtype_map);
+							hour = (int)floor(1.0e-4 + fabs(next));
+							min = (int)floor(1e-5 + 60.0 * (fabs(next) - hour));
+							sec = (int)floor(1e-5 + 3600.0 * (fabs(next) - hour - min / 60.0));
+							if (next >= 0.0)
+								sprintf(_grTempString, "%d$\\circ$%d'%d\"%c",hour,min,sec,_xtype_map);
+							else 
+								sprintf(_grTempString, "-%d$\\circ$%d'%d\"%c",hour,min,sec,_xtype_map);
+						} else {
+							sprintf(_grTempString,"%f$\\circ$%c",next,_xtype_map);
+						}
 					} else if (strlen(_grNumFormat_x)) {
 						sprintf(_grTempString, _grNumFormat_x, next);
 						if (get_flag("emulate_gre")) {
@@ -439,19 +449,28 @@ gr_drawyaxis(double x, double yb, double yinc, double yt, gr_axis_properties sid
 						// over-ride any existing format
 						int             hour, min, sec;
 						if (gr_multiple(next, 1.0, 1.0e-6)) {
-							hour = (int)floor(1.0e-4 + next);
-							sprintf(_grTempString, "%d$\\circ$%c", hour, _ytype_map);
+							hour = (int)floor(1.0e-4 + fabs(next));
+							if (next >= 0.0)
+								sprintf(_grTempString,"%d$\\circ$%c",hour,_ytype_map);
+							else
+								sprintf(_grTempString,"-%d$\\circ$%c",hour,_ytype_map);
 						} else if (gr_multiple(next, 1.0 / 60.0, 1.0e-7)) {
-							hour = (int)floor(1.0e-4 + next);
-							min = (int)floor(1e-5 + 60.0 * (next - hour));
-							sprintf(_grTempString, "%d$\\circ$%d'%c", hour, min, _ytype_map);
+							hour = (int)floor(1.0e-4 + fabs(next));
+							min = (int)floor(1e-5 + 60.0 * (fabs(next) - hour));
+							if (next >= 0.0) 
+								sprintf(_grTempString,"%d$\\circ$%d'%c",hour,min,_ytype_map);
+							else 
+								sprintf(_grTempString,"-%d$\\circ$%d'%c",hour,min,_ytype_map);
 						} else if (gr_multiple(next, 1.0 / 3600.0, 1.0e-8)) {
-							hour = (int)floor(1.0e-4 + next);
-							min = (int)floor(1e-5 + 60.0 * (next - hour));
-							sec = (int)floor(1e-5 + 3600.0 * (next - hour - min / 60.0));
-							sprintf(_grTempString, "%d$\\circ$%d'%d\"%c", hour, min, sec, _ytype_map);
+							hour = (int)floor(1.0e-4 + fabs(next));
+							min = (int)floor(1e-5 + 60.0 * (fabs(next) - hour));
+							sec = (int)floor(1e-5 + 3600.0 * (fabs(next) - hour - min / 60.0));
+							if (next >= 0.0)
+								sprintf(_grTempString, "%d$\\circ$%d'%d\"%c",hour,min,sec,_ytype_map);
+							else 
+								sprintf(_grTempString, "-%d$\\circ$%d'%d\"%c",hour,min,sec,_ytype_map);
 						} else {
-							sprintf(_grTempString, "%f$\\circ$%c", next, _ytype_map);
+							sprintf(_grTempString,"%f$\\circ$%c",next,_ytype_map);
 						}
 					} else if (strlen(_grNumFormat_y)) {
 						if (get_flag("emulate_gre")) {
