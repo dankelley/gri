@@ -148,8 +148,8 @@ as simple as the following.
 </font>
 </pre>
 
-To see the recent changes in version 2.6.x, go <A class="menus"
-HREF="http://gri.sourceforge.net/gridoc/html/Version_2_6.html#Version2.6">here</a>.<br>
+To see the recent changes, go <A class="menus"
+HREF="http://gri.sourceforge.net/gridoc/html/Version_2_8.html#Version2.8">here</a>.<br>
 
 <p>
 <!-- See Ullman (2001) p33 for hints on how this PHP done -->
@@ -214,7 +214,7 @@ Search gri manual for (may be a regular expression):<p>
 	} else {
 	    echo floor($seconds), " seconds ago";
         }
-	?>
+	?>; version 2.8.0 due 2001-jul-30
         </font>
       </td>
     </tr>
