@@ -7,13 +7,19 @@ Source-MD5: 8a9adc96e702cc33f182a5343030b6e0
 DocFiles: README /sw/share/gri/doc/html/*html
 Description: Scientific graphics language
 DescDetail: <<
-Gri is a language for scientific graphics programming. The word "language" is important: Gri is command-driven, not point/click.
+Gri is a language for scientific graphics programming. The word "language" is 
+important: Gri is command-driven, not point/click.
 
-Some users consider Gri similar to LaTeX, since both provide extensive power as a reward for tolerating a learning curve.
+Some users consider Gri similar to LaTeX, since both provide extensive power 
+as a reward for tolerating a learning curve.
 
-Gri can make x-y graphs, contour graphs, and image graphs, in PostScript and (someday) SVG formats. Control is provided over all aspects of drawing, e.g. line widths, colors, and fonts. A TeX-like syntax provides common mathematical symbols.
+Gri can make x-y graphs, contour graphs, and image graphs, in PostScript 
+and (someday) SVG formats. Control is provided over all aspects of drawing,
+e.g. line widths, colors, and fonts. A TeX-like syntax provides common
+mathematical symbols.
 
-Folks who write thousand-line Gri scripts usually start with something as simple as the following, which produces an auto-scaled graph.
+Folks who write thousand-line Gri scripts usually start with something 
+as simple as the following, which produces an auto-scaled graph.
 
    open file.dat
    read columns x y
