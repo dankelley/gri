@@ -64,8 +64,8 @@ html-install:
 	$(INSTALL_DATA) $(srcdir)/resources/*.gif     $(HTML_DIR)/resources
 	${INSTALL} -d                                 $(HTML_DIR)/tst_suite
 	$(INSTALL_DATA) $(srcdir)/tst_suite/*html     $(HTML_DIR)/tst_suite
-	$(INSTALL_DATA) $(srcdir)examples/*.html      $(HTML_DIR)/
-	$(INSTALL_DATA) $(srcdir)examples/*.png       $(HTML_DIR)/
+	$(INSTALL_DATA) $(srcdir)/examples/*.html     $(HTML_DIR)/
+	$(INSTALL_DATA) $(srcdir)/examples/*.png      $(HTML_DIR)/
 	${INSTALL} -d                                 $(HTML_DIR)/screenshots
 	$(INSTALL_DATA) $(srcdir)/screenshots/*.png   $(HTML_DIR)/screenshots
 	$(INSTALL_DATA) *.html                        $(HTML_DIR)
