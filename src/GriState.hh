@@ -17,8 +17,10 @@ public:
 	GriState();
 	GriState(const GriState& n);
 	~GriState();
-	void set_color_line(const GriColor& c);
-	void set_color_text(const GriColor& c);
+	void set_color_line(const GriColor& c)  {colorLine = c;}
+	void set_color_text(const GriColor& c)  {colorText = c;}
+	void set_transparency_line(double tr)   {colorLine.setT(tr);}
+	void set_transparency_text(double tr)   {colorText.setT(tr);}
 	void set_separate_text_color(bool f)	{is_separate_text_color = f;    }
 	void set_fontsize(double fs)		{the_font.size_pt     = fs;	}
 	void set_font(gr_font f)		{the_font             = f;	}

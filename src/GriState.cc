@@ -32,6 +32,7 @@ GriState::GriState(const GriState& n)
 		colorLine.setHSV((n.color_line()).getH(),
 				 (n.color_line()).getS(),
 				 (n.color_line()).getV());
+	colorLine.setT(n.color_line().getT());
 	if (n.color_text().get_type() == GriColor::rgb)
 		colorText.setRGB((n.color_text()).getR(),
 				 (n.color_text()).getG(),
@@ -40,6 +41,7 @@ GriState::GriState(const GriState& n)
 		colorText.setHSV((n.color_text()).getH(),
 				 (n.color_text()).getS(),
 				 (n.color_text()).getV());
+	colorText.setT(n.color_text().getT());
 	the_font.id          = (n.font()).id;
 	the_font.size_pt     = (n.font()).size_pt;
 	the_line_cap         = n.line_cap();
@@ -57,22 +59,26 @@ GriState::GriState(const GriState& n)
 }
 GriState& GriState::operator=(const GriState& n)
 {
-	if (n.color_line().get_type() == GriColor::rgb)
+	if (n.color_line().get_type() == GriColor::rgb) {
 		colorLine.setRGB((n.color_line()).getR(),
 				 (n.color_line()).getG(),
 				 (n.color_line()).getB());
-	else 
+	} else {
 		colorLine.setHSV((n.color_line()).getH(),
 				 (n.color_line()).getS(),
 				 (n.color_line()).getV());
-	if (n.color_text().get_type() == GriColor::rgb)
+	}
+	colorLine.setT(n.color_line().getT());
+	if (n.color_text().get_type() == GriColor::rgb) {
 		colorText.setRGB((n.color_text()).getR(),
 				 (n.color_text()).getG(),
 				 (n.color_text()).getB());
-	else
+	} else {
 		colorText.setHSV((n.color_text()).getH(),
 				 (n.color_text()).getS(),
 				 (n.color_text()).getV());
+	}
+	colorText.setT(n.color_text().getT());
 	the_font.id          = (n.font()).id;
 	the_font.size_pt     = (n.font()).size_pt;
 	the_line_cap         = n.line_cap();
@@ -96,12 +102,12 @@ GriState::~GriState()
 	colorLine.~GriColor();
 }
 
-void GriState::set_color_line(const GriColor& c)
-{
-	colorLine = c;
-}
-
-void GriState::set_color_text(const GriColor& c)
-{
-	colorText = c;
-}
+//void GriState::set_color_line(const GriColor& c)
+//{
+//	colorLine = c;
+//}
+//
+//void GriState::set_color_text(const GriColor& c)
+//{
+//	colorText = c;
+//}

@@ -2532,6 +2532,25 @@ set_ticsCmd()
 }
 
 bool
+set_transparencyCmd()
+{
+	if (_nword != 3) {
+		err("`set transpancy' to what value?");
+		return false;
+	}
+	double transparency;
+	Require(getdnum(_word[2], &transparency), READ_WORD_ERROR(".transparency."));
+	if (transparency < 0.0)
+		transparency = 0.0;
+	if (transparency > 1.0)
+		transparency = 1.0;		
+	PUT_VAR("..transparency..", transparency);
+	_griState.set_transparency_line(transparency);
+	_griState.set_transparency_text(transparency);
+	return true;
+}
+
+bool
 set_u_scaleCmd()
 {
 	double          xsize;

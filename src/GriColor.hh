@@ -9,7 +9,7 @@ class GriColor
 {
 public:
 	enum type {rgb, hsv};
-	GriColor() { t = rgb; a = b = c = 0.0;};
+	GriColor() { t = rgb; transparency = a = b = c = 0.0;};
 	GriColor(const GriColor& c);
 	~GriColor() {};
 	GriColor& operator=(const GriColor& c);
@@ -17,8 +17,11 @@ public:
 	void setRGB(double R, double G, double B);
 	bool isRGB() const {return t == rgb;}
 	void set_type(type tt) {t = tt;}
+	void set_transparency(double tr) {transparency = tr;}
 	type get_type() const {return t;}
 	void getRGB(double *R, double *G, double *B) const;
+	double getT() const {return transparency;}
+	void setT(double tr) { transparency = tr;}
 	double getR() const {return a;}
 	double getG() const {return b;}
 	double getB() const {return c;}
@@ -27,9 +30,10 @@ public:
 	double getV() const {return c;}
 protected:
 	type t;
-	double a;			// red, or hue
-	double b;			// green, or saturation
-	double c;			// blue, or brightness
+	double transparency;	// transparency
+	double a;		// red, or hue
+	double b;		// green, or saturation
+	double c;		// blue, or brightness
 };
 class GriNamedColor : public GriColor
 {
