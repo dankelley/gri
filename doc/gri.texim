@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.101 2001/07/03 19:35:23 dankelley Exp $
+@c $Id: gri.texim,v 1.102 2001/07/03 20:15:59 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -15620,6 +15620,42 @@ and adjust the "status" menu to read "closed".
 @node   Version 2.6, Version 2.4, Stable Stream, Stable Stream
 @comment  node-name,  next,  previous,  up
 @subsection Version 2.6
+
+@subsection Version 2.6.4 [2001 Jul 9]
+@itemize @bullet
+@item
+Fix SourceForge bug 
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=435603&group_id=5511&atid=105511">
+#435603
+@c HTML </a>
+(@code{set dash} produced broken PostScript)
+@item
+Fix SourceForge bug 
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=435688&group_id=5511&atid=105511">
+#435688
+@c HTML </a>
+(remnants of @code{polar} column type, no longer supported, remained in documentation)
+@end itemize
+
+@subsection Version 2.6.3 [2001 Jun 22]
+@itemize @bullet
+@item
+Fix SourceForge bug 
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=433250&group_id=5511&atid=105511">
+#433250
+@c HTML </a>
+(@code{draw symbol} ignored dashing state sometimes)
+@item
+Fix SourceForge bug 
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=432549&group_id=5511&atid=105511">
+#432549
+@c HTML </a>
+(contours sometimes unlabelled)
+@item
+Tweak internal coding for compilation on AIX compilers.
+@end itemize
+
+
 
 @subsubsection Version 2.6.2 [2001 May 19]
 @itemize @bullet
