@@ -34,7 +34,7 @@ the_resources:
 test:
 	cat test.texi | texinfo2HTML > test.html
 
-html:
+html: gri.texi
 	cat gri.texi     		>  TMP
 	perl make_html_index		>> TMP
 	cat TMP | perl texinfo2HTML	>  $(HTML_LONG_NAME)
@@ -46,6 +46,7 @@ html:
 	rm -f *.pass2
 	if test ! -f index.html ; then ln -s gri1.html index.html ; fi
 	perl archive-to-html.pl > Newsgroup.html
+	touch html
 
 html-install:
 	# GRI_DIR = /opt/gri
@@ -67,32 +68,27 @@ html-install:
 
 html-clean:
 	-cp FAQ.html save
-	-rm -f [A-Z]*.html gri1.html index.html
+	-rm -f [A-Z]*.html gri1.html index.html html
 	-mv save FAQ.html
 
 #
 #
-info: gri.texi
-	rm -f a
-	sed -e "s/setfilename gri.info/setfilename gri/" < gri.texi > a
-	makeinfo a
-	\rm -f a
+
+info:	gri.texi
+	makeinfo gri.texi
+	touch info
+
+gri.info: gri.texi
+	makeinfo gri.texi
 
 info-install:
-	gzip gri gri-*[0-9]
-	cp ./gri.gz ./gri-*[0-9].gz $(INFO_DIR)
+	gzip --best *.info
+	cp *info.gz $(INFO_DIR)
 	chmod a+r   $(INFO_DIR)/gri*
 	make info-clean
 
 info-clean:
-	rm -f ./gri
-	rm -f ./gri-1 ./gri-2 ./gri-3 ./gri-4 ./gri-5 ./gri-6 
-	rm -f ./gri-7 ./gri-8 ./gri-9 ./gri-10 ./gri-11
-	rm -f ./gri-13
-	rm -f ./gri.gz
-	rm -f ./gri-1.gz ./gri-2.gz ./gri-3.gz ./gri-4.gz ./gri-5.gz ./gri-6.gz
-	rm -f ./gri-7.gz ./gri-8.gz ./gri-9.gz ./gri-10.gz ./gri-11.gz
-	rm -f  ./gri-12.gz ./gri-13.gz
+	rm -f gri.info* info debian-info
 
 #
 # FIXME: These refcards are missing!
@@ -115,25 +111,12 @@ refcard2:
 	ghostview -land cmdrefcard.ps
 #
 #
-postscript:
-	cd examples ; make eps
-	tex gri.texi
-	texindex gri.cp
-	texindex gri.fn
-	texindex gri.ky
-	texindex gri.pg
-	texindex gri.tp
-	texindex gri.vr
-	tex gri.texi
-	dvips -o gri.ps gri.dvi
-	cd examples ; make clean
-
 pdf: gri.ps
 	ps2pdf gri.ps
 
 #
 #
-clean:	info-clean html-clean
+clean:	info-clean html-clean debian-clean
 	$(RM)				\
 		gri.pdf gri.dvi gri.ps	\
 		gri gri.1 gri-[0-9]*	\
@@ -159,13 +142,12 @@ linux_redhat:
 	make html
 
 linux_redhat_clean:
-	rm -f gri    gri-*[1-9]
-	rm -f gri.gz gri-*[1-9].gz
+	rm -f gri.info*
 	cp FAQ.html save
 	rm -f *.html gri.dvi gri.ps index.html
 	mv save FAQ.html
 
-gri.ps: gri.texi gri.dvi
+gri.ps: gri.texi
 ###LATER#### example Makefile is missing, and probably requires Gri installed.
 ###LATER#### Should include .ps files instead of making them
 ###LATER#### example13 also needs GRI_EOS_DIR 
@@ -180,9 +162,6 @@ gri.ps: gri.texi gri.dvi
 	texindex gri.vr
 	tex gri.texi
 	dvips -o gri.ps gri.dvi
-
-gri.gz: gri.texi
-	make info
 
 gri1.html: gri.texi
 	make html
@@ -203,21 +182,25 @@ cmdrefcard.ps:
 	dvips -o cmdrefcard.ps -t landscape cmdrefcard.dvi
 	chmod a+r cmdrefcard.*
 
-gri-1: gri.texi
-	make info
-
-debian:
-	make refcard.ps
+# make debian PREFIX=../debian/tmp/usr/doc INFO_DIR=../debian/tmp/usr/info
+debian: refcard.ps cmdrefcard.ps debian-info
 	install -d $(PREFIX)/gri
-	install -m 644 refcard.ps $(PREFIX)/gri
-	make cmdrefcard.ps
-	install -m 644 cmdrefcard.ps $(PREFIX)/gri
-	make gri-1
+	install -m 644 refcard.ps cmdrefcard.ps $(PREFIX)/gri
 	install -d $(INFO_DIR)
-	install -m644 ./gri ./gri-[0-9] ./gri-1[0-9] $(INFO_DIR)
+	install -m 644 gri.info* $(INFO_DIR)
 
-debian-html:
-	make gri1.html
+# make debian-info  (does not install; only makes the files)
+debian-info: gri.texi
+	rm -f a
+	sed -e "s/@dircategory Scientific Applications/@dircategory Math/;\
+                s/\* GRI: (gri).  Scientific graphics language./* Gri: (gri).              Extensible plotting program designed for scientists/;" \
+	< gri.texi > a
+	makeinfo a
+	rm -f a
+	touch debian-info
+
+# make debian-html PREFIX=../debian/gri-html-doc/usr/doc
+debian-html: gri1.html
 	install -d $(PREFIX)/gri-html-doc/html
 	install -m 644 *.html $(PREFIX)/gri-html-doc/html
 	rm -f $(PREFIX)/gri-html-doc/html/index.html
@@ -231,8 +214,10 @@ debian-html:
 	chmod +x $(PREFIX)/gri-html-doc/examples/FEM.pl
 	(cd $(PREFIX)/gri-html-doc/html; ln -sf ../examples)
 
-debian-ps:
-	cd examples ; make eps
-	make gri.ps
+# make debian-ps PREFIX=../debian/gri-ps-doc/usr/doc
+debian-ps: gri.ps
 	install -d $(PREFIX)/gri-ps-doc
 	install -m 644 gri.ps $(PREFIX)/gri-ps-doc
+
+debian-clean:
+	-rm debian-info

@@ -111,6 +111,16 @@ while(<>) {
     # Pass contents of ifinfo blocks
     next if /\@ifinfo/;
     next if /\@end ifinfo/;
+    # Ignore contents of @dircategory and @direntry block
+    next if /\@dircategory/;
+    if (/^\@direntry/o) {
+	while(<>) {
+	    if (/^\@end direntry/o) {
+		$_ = "";
+		last;
+	    }
+	}
+    }
     # Ignore contents of tex and iftex blocks
     if (/^\@tex/o) {
 	while(<>) {

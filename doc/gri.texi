@@ -50,7 +50,7 @@
 @message{}
 @end iftex
 @comment %**start of header
-@setfilename gri
+@setfilename gri.info
 @settitle Gri
 @set GRI-VERSION 2.5.1
 @set AUTHOR-EMAIL Dan.Kelley@@Dal.CA
@@ -88,12 +88,10 @@ Copyright @copyright{} 1991-2000 Dan Kelley
 @sp 2
 @end titlepage
 
-@c @dircategory Scientific Applications
-@c @direntry
-@c * GRI: (gri).  Graphics programming language.
-@c @end direntry
-
-
+@dircategory Scientific Applications
+@direntry
+* GRI: (gri).  Scientific graphics language.
+@end direntry
 
 @node   Top, Introduction, (dir), (dir)
 @comment node-name, next, previous, up
