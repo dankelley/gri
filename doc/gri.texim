@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.175 2002/05/07 13:04:28 dankelley Exp $
+@c $Id: gri.texim,v 1.176 2002/05/07 17:59:21 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -6993,32 +6993,6 @@ named @file{foo.dat} by 22.
 
 
 @item
-@cindex files, opening remote WWW files
-@cindex WWW data files, opening
-@cindex world-wide web data files, opening
-@cindex URL, how to read from
-@cindex reading data from a URL
-@cindex @code{lynx}, using with @code{open}
-@strong{Web-based files} may be opened by various OS tools, e.g. with @code{lynx}:
-
-@example
-\url = "http://gri.sourceforge.net/gridoc/html/examples/example1.dat"
-open "lynx -dump \url |"
-read columns x y
-draw curve
-@end example
-
-@cindex @code{wget}, using with @code{open}
-or with @code{wget}:
-
-@example
-\url = "http://gri.sourceforge.net/gridoc/html/examples/example1.dat"
-open "wget --quiet -O - \url |"
-read columns x y
-draw curve
-@end example
-
-@item
 @strong{Time-based and geographical data} are sometimes encountered.  For
 an example, suppose that longitude/latitude (i.e. x/y) data are stored
 in Hour.minutesecond format, e.g. 12.2133 means hour 12, minute 21,
@@ -7087,14 +7061,30 @@ datasets spanning several days.
 @cindex URL, how to open
 
 Gri can open a URL, @emph{if} you have the @code{wget} program on your
-machine.  The URL must be enclosed in quotes, in order to prevent the
-comment-processer from gobbling the material to the right of the
-@code{//}.  For example,
+machine.  (@code{wget} is available from the GNU website
+@url{http://www.gnu.org/software/wget/}.)
+
+The URL must be enclosed in quotes (since otherwise, 
+Gri will interpret the @code{//} sequence as indicating an old way
+of denoting comments).  For example,
 @example
 open "http://gri.sourceforge.net/gridoc/examples/example1.dat"
 read columns x y
 show columns
 @end example
+
+If you don't have @code{wget} installed on your machine, the above won't
+work, but you can always use another fetching program, with a system
+call, as in the following:
+@example
+\url = "http://gri.sourceforge.net/gridoc/html/examples/example1.dat"
+open "lynx -dump \url |"
+read columns x y
+draw curve
+@end example
+
+
+
 
 @c HTML <!-- newfile PostScript.html "Gri: `postscript' command" "Gri Commands" -->
 
