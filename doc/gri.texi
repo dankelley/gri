@@ -1,6 +1,6 @@
 \input texinfo 
 
-@c $Id: gri.texi,v 1.149 2003/09/03 12:56:28 dankelley Exp $
+@c $Id: gri.texi,v 1.150 2003/09/03 20:19:54 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16424,9 +16424,19 @@ only in the fixing of bugs.
 
 @comment ADD-NEW-BUG-FIXES-HERE
 
-@subsubsection Version 2.12.7
+@subsubsection Version 2.12.7 [2003 Sep 4]
 
-@strong{Not released yet; still in CVS development.}
+@strong{Bug Fixes}
+@itemize @bullet
+
+@item
+Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=??????&group_id=5511&atid=105511,#??????}
+@dots{} did not build on some Debian platforms because it was based 
+on an old version of @code{automake}.
+
+@end itemize
+
 
 @subsubsection Version 2.12.6 [2003 Sep 1: Labour Day]
 
