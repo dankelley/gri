@@ -1,7 +1,7 @@
 \input texinfo 
 
 
-@c $Id: gri.texi,v 1.136 2003/06/14 13:12:22 dankelley Exp $
+@c $Id: gri.texi,v 1.137 2003/06/15 12:34:11 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -18678,6 +18678,9 @@ Dave Brickman,
 Clyde Clements,
 @cindex Clyde Clements (contributer)
 @cindex contributer, Clyde Clements
+Andrew Collier,
+@cindex Andrew Collier (contributer)
+@cindex contributer, Andrew Collier
 Pierre Flament,
 @cindex Pierre Flament (contributer)
 @cindex contributer, Pierre Flament
@@ -18696,6 +18699,9 @@ Kawamura Masao,
 Steve Matheson,
 @cindex Steve Matheson (contributer)
 @cindex contributer, Steve Matheson
+Brian May,
+@cindex Brian May, contributer
+@cindex contributer, Brian May
 Ed Nather,
 @cindex Ed Nather (contributer)
 @cindex contributer, Ed Nather
@@ -18705,9 +18711,9 @@ Carl Osterwisch,
 Richard Andrew Miles Outerbridge,
 @cindex Richard Andrew Miles Outerbridge (contributer)
 @cindex contributer, Richard Andrew Miles Outerbridge
-Brian May,
-@cindex Brian May, contributer
-@cindex contributer, Brian May
+Tim Powers,
+@cindex Tim Powers (contributer)
+@cindex contributer, Tim Powers
 Jinyu Sheng,
 @cindex Jinyu Sheng (contributer)
 @cindex contributer, Jinyu Sheng
@@ -18720,6 +18726,9 @@ Keith Thompson,
 David Trueman,
 @cindex David Trueman (contributer)
 @cindex contributer, David Trueman
+Jeff Whitaker,
+@cindex Jeff Whitaker (contributer)
+@cindex contributer, Jeff Whitaker
 and George White.
 @cindex George White (contributer)
 @cindex contributer, George White
