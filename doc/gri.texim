@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.113 2001/07/18 18:12:14 psg Exp $
+@c $Id: gri.texim,v 1.114 2001/07/18 23:42:34 psg Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -15010,7 +15010,7 @@ C-v}, the user is ready to print the file using a pull-down menu.
 @c HTML <A HREF="ScreenShot2.html">
 @c HTML <IMG ALT="Displaying Help about current command." 
 @c HTML SRC="./screenshots/gri-screenshot-2-tiny.png" ALIGN=left></A>
-@c HTML gri-mode display help about the current command.
+@c HTML gri-mode displays help about the current command.
 @c HTML <br clear=left>
 @c HTML <p>
 @c HTML <A HREF="ScreenShot3.html">
@@ -15050,7 +15050,9 @@ buffers} in Emacs.
 Here, the user has selected the command @code{set font to} and,
 forgetting what valid font name could be used, then invoked @kbd{C-c
 C-h} to get help about that command. The user found the needed
-information and finished typing in `Helvetica'.
+information and finished typing in `Courier'.
+Meanwhile, an idle timer displays the default setting for this command in
+the minibuffer after a few seconds of inactivity.
 
 @c HTML <IMG SRC="./screenshots/gri-screenshot-2.png"></A>
 
@@ -15060,7 +15062,10 @@ information and finished typing in `Helvetica'.
 @subsection Screenshot 3
 
 Here we see the user cascading through the Gri commands pull-down menu
-until @code{draw axes} is reached.
+until @code{draw axes} is reached.  This menu can be used to display Info
+(or help) about a given command, or to insert the selection.  The default
+is Info.  This menu is a good way to browse for a command when you don't
+exactly remember its name.
 
 @c HTML <IMG SRC="./screenshots/gri-screenshot-3.png"></A>
 
@@ -15069,9 +15074,10 @@ until @code{draw axes} is reached.
 @comment  node-name,  next,  previous,  up
 @subsection Screenshot 4
 
-With the output previewed in a @code{gv} window after
-pressing @kbd{C-c C-v}, the user is ready to print the
-file using a pull-down menu.
+With the output previewed in a @code{gv} window after pressing @kbd{C-c
+C-v} (or pressing the @code{gv} icon in the toolbar, or selecting it from
+the @code{Perform} puul-down menu), the user is ready to print the file,
+here using the @code{Perform} pull-down menu.
 
 @c HTML <IMG SRC="./screenshots/gri-screenshot-4.png"></A>
 @end ifhtml
