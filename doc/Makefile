@@ -81,15 +81,18 @@ html-install:	html
 	(cd $(HTML_DIR); ln -sf ../examples)
 
 html-install-solaris:	html
-	install -d $(EXAMPLE_DIR_SOLARIS)
-	install -d $(HTML_DIR_SOLARIS)/resources
-	install -d $(HTML_DIR_SOLARIS)/screenshots
-	install -m 644 resources/*.gif     $(HTML_DIR_SOLARIS)/resources
-	install -m 644 examples/*.jpg      $(HTML_DIR_SOLARIS)/
-	install -m 644 examples/{model*,*.dat,*.gri,*.ps} $(EXAMPLE_DIR_SOLARIS)
-	install -m 755 examples/FEM.pl     $(EXAMPLE_DIR_SOLARIS)
-	install -m 644 screenshots/*.jpg   $(HTML_DIR_SOLARIS)/screenshots
-	install -m 644 *.html              $(HTML_DIR_SOLARIS)
+	$(INSTALL) -d $(EXAMPLE_DIR_SOLARIS)
+	$(INSTALL) -d $(HTML_DIR_SOLARIS)/resources
+	$(INSTALL) -d $(HTML_DIR_SOLARIS)/screenshots
+	$(INSTALL) -m 644 resources/*.gif     $(HTML_DIR_SOLARIS)/resources
+	$(INSTALL) -m 644 examples/*.jpg      $(HTML_DIR_SOLARIS)/
+	$(INSTALL) -m 644 examples/model*     $(EXAMPLE_DIR_SOLARIS)
+	$(INSTALL) -m 644 examples/*.dat      $(EXAMPLE_DIR_SOLARIS)
+	$(INSTALL) -m 644 examples/*.gri      $(EXAMPLE_DIR_SOLARIS)
+	$(INSTALL) -m 644 examples/*.ps       $(EXAMPLE_DIR_SOLARIS)
+	$(INSTALL) -m 755 examples/FEM.pl     $(EXAMPLE_DIR_SOLARIS)
+	$(INSTALL) -m 644 screenshots/*.jpg   $(HTML_DIR_SOLARIS)/screenshots
+	$(INSTALL) -m 644 *.html              $(HTML_DIR_SOLARIS)
 	(cd $(HTML_DIR_SOLARIS); ln -sf ../examples)
 
 card-clean:
@@ -118,8 +121,8 @@ info-install:
 	(cd $(INFO_DIR) ; gzip -f --best gri.info gri.info-[0-9] gri.info-[0-9][0-9])
 
 info-install-solaris:
-	install -d $(INFO_DIR_SOLARIS)
-	install -m 644 gri.info* $(INFO_DIR_SOLARIS)
+	$(INSTALL) -d $(INFO_DIR_SOLARIS)
+	$(INSTALL) -m 644 gri.info* $(INFO_DIR_SOLARIS)
 
 info-clean:
 	rm -f gri.info* info debian-info
