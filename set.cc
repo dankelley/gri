@@ -2070,12 +2070,14 @@ width_rapidograph(char *s, double *w)
 		{"6",   3.969},
 		{"7",   5.669}
 	};
+	string ss(s);
+	un_double_quote(ss);
 	for (int i = 0; i < NUM_RAPIDOGRAPH; i++)
-		if (!strcmp(s, r_table[i].name)) {
+		if (!strcmp(ss.c_str(), r_table[i].name)) {
 			*w = r_table[i].width;
 			return true;
 		}
-	err("Unknown rapidograph pen size requested.\n       Permitted sizes: 6x0, 4x0, 3x0, 00, 0, 1, 2, 2.5, 3, 3.5, 4, 6, 7");
+	err("Unknown rapidograph pen size `\\", s, "' requested.\n       Permitted sizes: 6x0, 4x0, 3x0, 00, 0, 1, 2, 2.5, 3, 3.5, 4, 6, 7", "\\");
 	return false;
 }
 
