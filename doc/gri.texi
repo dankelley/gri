@@ -63,12 +63,12 @@
 @title Gri
 
 @comment Logo/begin
-@image{./resources/logo}
+@image{./examples/logo}
 @comment OLD @tex
 @comment OLD {
 @comment OLD \midinsert
 @comment OLD \vskip 4cm
-@comment OLD \special{psfile="./resources/logo.ps" 
+@comment OLD \special{psfile="./examples/logo.ps" 
 @comment OLD hoffset=-72
 @comment OLD voffset=-172
 @comment OLD }
@@ -124,8 +124,8 @@ The Gri web homepage is at
 @c HTML <area alt="Introduction" shape="rect" coords="581,2,599,24" href="Introduction.html">
 @c HTML </map>
 @c HTML
-@c HTML <A HREF="./resources/logo.html">
-@c HTML <IMG align=left ALT="Gri Logo" SRC="./resources/logo.gif"></A>
+@c HTML <A HREF="logo.html">
+@c HTML <IMG align=left ALT="Gri Logo" SRC="logo.jpg"></A>
 @c HTML Gri is an extensible
 @c HTML plotting language for producing scientific graphs, such as
 @c HTML <A HREF="#X-yPlots">x-y plots</A>, 
