@@ -2370,14 +2370,21 @@ set_page_sizeCmd()
 bool
 set_pageCmd()
 {
+	extern rectangle _page_size;
 	Require(_nword > 2, err("`set page' requires parameter(s)"));
 	double          mag, xcm, ycm;
 	if (!strcmp(_word[2], "portrait")) {
 		gr_setup_ps_portrait();
 	} else if (!strcmp(_word[2], "landscape")) {
 		if (!already_landscape) {
-			fprintf(gr_currentPSFILEpointer(), "8.5 72 mul 0 translate 90 rotate %% Landscape\n");
+		    if (_page_size.get_urx() == 0.0) {
+			err("Must set page size before setting landscape");
+		    } else {
+			fprintf(gr_currentPSFILEpointer(),
+				"%.2f 72 mul 0 translate 90 rotate %% Landscape\n",
+				_page_size.get_urx() / CM_PER_IN);
 			check_psfile();
+		    }
 		}
 		already_landscape = true;
 		PUT_VAR("..landscape..", 1.0);
