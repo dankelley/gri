@@ -14886,13 +14886,9 @@ First debian release.  Versions exist for intel, alpha, 68K and powerpc.
 @c    interpret comments in the X11 color-name file as though
 @c    they were actual colors.
 @c
-@c 2) Fix bug in y-axis where it disobeyed the 'set y format'
-@c    if the number was very near zero.  (This was to get 
-@c    past some rounding problems ... may have to revisit this.)
+@c 2) Improve writing in the @code{read image} section of this manual.
 @c
-@c 3) Improve writing in the @code{read image} section of this manual.
-@c
-@c 4) Fix bugs in the HTML version of the manual, as reported
+@c 3) Fix bugs in the HTML version of the manual, as reported
 @c    by the 'tidy' checking programme.
 
 @cindex plans for future versions
@@ -14912,6 +14908,9 @@ if you need something else that I've not listed.
 @cindex big-endian vs little-endian data, plans
 
 @enumerate
+
+@item Switch to @code{popt} library for the processing of command-line 
+options.
 
 @item Add support for both little-endian and big-endian data.
 
