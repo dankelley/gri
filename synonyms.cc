@@ -475,9 +475,14 @@ substitute_synonyms_cmdline(const char *s, string& sout, bool allow_math)
 		get_syn(tmp.c_str(), unaliased);
 		//printf("unaliased <%s>\n", unaliased.c_str());
 		if (unaliased[0] == '\\') {
-			//printf("SYN.\n");
-			sout.append(unaliased.c_str());
+			// Not sure on the below.  Cropped up 2001-feb-15.
+			if (unaliased[1] == '\\') {
+				sout.append(1 + unaliased.c_str());
+			} else {
+				sout.append(unaliased.c_str());
+			}
 			sout.append(" "); 
+			//printf("SYN.  <%s>\n", sout.c_str());
 			offset = 1 + strlen(_Words2[0]);
 		} else if (unaliased[0] == '.') {
 			//printf("VAR.\n");
