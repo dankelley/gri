@@ -231,7 +231,7 @@ source:
 	install -m 644 doc/make_html_commandindex $(SOURCE_NAME)/doc
 	install -m 644 doc/make_html_builtinindex $(SOURCE_NAME)/doc
 	install -d $(SOURCE_NAME)/doc/resources
-	install -m 644 doc/resources/*.gri doc/resources/*.eps doc/resources/*.gif \
+	install -m 644 doc/resources/*.gri doc/resources/*.gif \
 		$(SOURCE_NAME)/doc/resources
 	install -d $(SOURCE_NAME)/doc/examples
 	install -m 644 doc/examples/*.gri          $(SOURCE_NAME)/doc/examples
