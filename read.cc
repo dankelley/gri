@@ -1814,6 +1814,8 @@ This is not a PGM file, since the first 2 characters\n\
 	im->ras_length = width * height;
 	im->ras_type = RT_STANDARD;
 	im->ras_maptype = RMT_NONE;
+	if (imageMask_exists())
+		delete [] _imageMask.image;
 	im->ras_maplength = 0;
 	if (im->ras_width < 1 || im->ras_height < 1) {
 		err("Cannot read image with negative or zero width or height");
