@@ -82,7 +82,7 @@ while(<>) {
 	}
         $titleList{$file} = $title;
         print OUT "</table>
-<img src=\"./resources/bottom_banner.gif\" usemap=\"#navigate_bottom\" border=\"0\">
+<img src=\"./resources/bottom_banner.gif\" alt=\"navigation map\" usemap=\"#navigate_bottom\" border=\"0\">
 ";
 	close OUT;
 	open (OUT, ">$file") || die "Cannot open $file";
@@ -146,14 +146,14 @@ for ($i = 1; $i < $num_files; $i++) {
 	    }
 	    #print STDERR "[$file]\n";
 	    print PASS3 "
-<img src=\"./resources/top_banner.gif\" usemap=\"#navigate_top\" border=\"0\">
+<img src=\"./resources/top_banner.gif\" alt=\"navigation map\" usemap=\"#navigate_top\" border=\"0\">
 <table summary=\"top banner\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
 <tr>
 <td width=\"150\" valign=\"top\">
 <font size=-1>
 <br>
 Chapters:
-</br>
+<br>
 &nbsp;&nbsp;<a href=\"Introduction.html\">1: Introduction</a><br>
 &nbsp;&nbsp;<a href=\"SimpleExample.html\">2: Simple example</a><br>
 &nbsp;&nbsp;<a href=\"InvokingGri.html\">3: Invocation</a><br>
@@ -173,7 +173,7 @@ Chapters:
 &nbsp;&nbsp;<a href=\"Acknowledgments.html\">17: Acknowledgments</a><br>
 &nbsp;&nbsp;<a href=\"License.html\">18: License</a><br>
 <br>
-Indices:</br>
+Indices:<br>
 &nbsp;&nbsp;<a href=\"ConceptIndex.html\"><i>Concepts</i></a><br>
 &nbsp;&nbsp;<a href=\"CommandIndex.html\"><i>Commands</i></a><br>
 &nbsp;&nbsp;<a href=\"BuiltinIndex.html\"><i>Variables</i></a><br>
