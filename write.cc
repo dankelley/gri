@@ -221,9 +221,8 @@ write_gridCmd(const char *filename)
 bool
 write_columnsCmd(const char *filename)
 {
-	int             i, num = 0;
-	FILE           *fp;
-	num = (_colX.size() > _colR.size()) 
+
+	int num = (_colX.size() > _colR.size()) 
 		? _colX.size() : _colR.size();
 	if (num < 1) {
 		err("Can't `write columns \\file' since no columns exist yet\n");
@@ -231,6 +230,7 @@ write_columnsCmd(const char *filename)
 	}
 	string fname(filename);
 	un_double_quote(fname);
+	FILE *fp;
 	if (!strcmp(fname.c_str(), "stdout"))
 		fp = stdout;
 	else if (!strcmp(fname.c_str(), "stderr"))
@@ -257,7 +257,7 @@ write_columnsCmd(const char *filename)
 	if (_colTHETA.size() > 0)
 		fprintf(fp, "%15s\t", "theta");
 	fprintf(fp, "\n");
-	for (i = 0; i < num; i++) {
+	for (int i = 0; i < num; i++) {
 		fprintf(fp, "%15g\t%15g\t", _colX[i], _colY[i]);
 		if (_colU.size() > 0)
 			fprintf(fp, "%15g\t", _colU[i]);
