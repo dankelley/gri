@@ -3142,14 +3142,14 @@ The solitary operators are illustrated below, in alphabetical order.
 
 @table @code
 @item @{rpn argc@}
-Yields number of (optional) extra command-line arguments given by the
-user when Gri was invoked.  Thus, invoking Gri as
+Yields number of command-line arguments given by the user when Gri was
+invoked.  Thus, invoking Gri as
 @example
     gri myfile.gri file1.dat file2.dat
 @end example
-yields 2, for arguments @code{file1.dat} and @code{file2.dat}.  These
-arguments are accessible through the @code{argv} unary operator
-(@ref{Unary Operators}).
+yields 3, for arguments @file{myfile.gri}, @code{file1.dat},
+and @code{file2.dat}.  These arguments are accessible through
+the @code{argv} unary operator (@ref{Unary Operators}).
 
 @item @{rpn e@}
 @cindex e, base of natural logarithms, in RPN expressions
