@@ -43,10 +43,11 @@ a linegraph connecting data points in the file called `file.dat'.
 make libdir=/usr/share/gri gri
 strip gri
 
-(cd doc ; make linux_redhat)
-
 # remove docinst if it is there from a previous build
 rm -rf docinst
+(cd doc ; make linux_redhat)
+(cd doc ; make html-install HTML_DIR=docinst/html)
+(cd docinst/html; ln -sf index.html gri1.html)
 
 cp -rdp doc TMP && mkdir -p docinst && mv -f TMP docinst/html
 
