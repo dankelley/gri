@@ -118,7 +118,7 @@ skip_backwardCmd(int n)
 	rewind(_dataFILE.back().get_fp());
 	_dataFILE.back().set_line(0);
 	clearerr(_dataFILE.back().get_fp());
-	if (n > present_line) {
+	if (n > int(present_line)) {
 		warning("Too few lines to skip that far; instead, rewinding the file.");
 		return true;
 	}
