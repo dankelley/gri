@@ -46,7 +46,7 @@ create_x_scale()
 				// log data not OK
 				int             nsegs_est;
 				double          xsize;
-				warning("Have non-positive data -- switching to linear axis");
+				warning("Have non-positive data -- switching to linear x axis");
 				if (!get_var("..xsize..", &xsize))
 					xsize = 10.0;	/* guess */
 				nsegs_est = 1 + (int) (xsize / 2.0);
@@ -111,7 +111,7 @@ create_y_scale()
 				// log data not OK
 				int             nsegs_est;
 				double          ysize;
-				warning("Have non-positive data -- switching to linear axis");
+				warning("Have non-positive data -- switching to linear y axis");
 				if (!get_var("..ysize..", &ysize))
 					ysize = 10.0;	// guess
 				nsegs_est = 1 + (int) (ysize / 2.0);

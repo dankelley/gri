@@ -439,39 +439,41 @@ double& GriDvector::operator[](unsigned int offset)
 }
 double GriDvector::min()
 {
-	int first = 1;
-	double the_min = 0.0;	// prevent compiler warning
-	for (unsigned int i = 0; i < the_depth; i++)
-		if (!gr_missing(contents[i])) {
-			if (first)
-				the_min = contents[i];
-			else
-				if (contents[i] < the_min)
-					the_min = contents[i];
-			first = 0;
+	bool first = true;
+	double the_min = gr_currentmissingvalue();
+	for (unsigned int i = 0; i < the_depth; i++) {
+		double tmp = contents[i];
+		if (!gr_missing(tmp)) {
+			if (first) {
+				the_min = tmp;
+			} else {
+				if (tmp < the_min) {
+					the_min = tmp;
+				}
+			}
+			first = false;
 		}
-	if (!first)
-		return the_min;
-	else
-		return gr_currentmissingvalue();
+	}
+	return the_min;
 }
 double GriDvector::max()
 {
-	int first = 1;
-	double the_max = 0.0;	// prevent compiler warning
-	for (unsigned int i = 0; i < the_depth; i++)
-		if (!gr_missing(contents[i])) {
-			if (first)
-				the_max = contents[i];
-			else
-				if (contents[i] > the_max)
-					the_max = contents[i];
-			first = 0;
+	bool first = true;
+	double the_max = gr_currentmissingvalue();
+	for (unsigned int i = 0; i < the_depth; i++) {
+		double tmp = contents[i];
+		if (!gr_missing(tmp)) { 
+			if (first) {
+				the_max = tmp;
+			} else {
+				if (tmp > the_max) {
+					the_max = tmp;
+				}
+			}
+			first = false;
 		}
-	if (!first)
-		return the_max;
-	else
-		return gr_currentmissingvalue();
+	}
+	return the_max;
 }
 double GriDvector::median()
 {

@@ -2108,8 +2108,8 @@ draw_labelCmd()
 		return false;
 	}
 	user_units = !word_is(_nword - 1, "cm") && !word_is(_nword - 1, "pt");
-	set_environment();
 	if (user_units) {
+		set_environment();
 		if (!scales_defined()) {
 #if 0				// Fix SF bug #129856 (I hope!)
 			no_scales_error();
@@ -2462,7 +2462,7 @@ draw_titleCmd()
 		if (!unquoted.empty()) {
 			double xmargin = XMARGIN_DEFAULT;
 			double xsize   = XSIZE_DEFAULT;
-			set_environment();
+			//set_environment();
 			if (!get_var("..xmargin..", &xmargin))
 				warning("Sorry, don't know value of ..xmargin.. so using XMARGIN_DEFAULT");
 			if (!get_var("..xsize..", &xsize))
