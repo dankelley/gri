@@ -535,6 +535,7 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 		// Substitute known synonym, then skip over the space the synonym
 		// name occupied.
 		if (get_syn(sname.c_str(), svalue)) {
+			if (((unsigned) superuser()) & FLAG_SYN) printf("Syn value is <%s>\n", svalue);
 			if (report_num_words) {
 				char *w[MAX_nword];
 				int nw;
@@ -581,6 +582,7 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 				i--; // otherwise we'll miss the next character
 			}
 		}
+		dots_in_name = 0; // reset
 	}
 	// Paste on final blank [can't remember why, but what the heck].
 	sout.append(" ");
