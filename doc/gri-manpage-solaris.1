@@ -1,0 +1,118 @@
+.TH GRI 1
+.SH NAME 
+gri \- scientific graphics language
+.SH SYNOPSIS
+.B gri
+[
+.B OPTIONS
+]
+.I CommandFile
+[
+.I PostScriptFile
+]
+
+.SH DESCRIPTION
+
+Gri is a programming language for scientific graphics.  It can make
+x-y graphs, contour-graphs, and image graphs.  In addition, Gri has a
+full suite of low-level graphical elements and sufficient programming
+capabilities (loops, subroutines, etc) to permit complex
+customization.
+
+Gri is not a point-click application.  In some ways it is analogous to
+TeX.  Extensive power rewards tolerance of a modest learning curve.
+
+.C For more information, please consult online 
+.C .I info
+.C and
+.C .I html
+.C manuals.
+
+.C The 
+.C .I info
+.C manual is normally accessed by typing
+.C 
+.C .B	info gri
+
+An online
+.I html
+manual is normally located at
+.B /opt/gri/doc/gri/html/index.html
+but it may be installed in a different place on this machine.
+
+.C The 
+.C .I html
+.C FAQ is located at
+.C .B /usr/doc/gri-N.N.N/html/FAQ.html
+
+.C There is also a 
+.C .I reference card
+.C in TeX and postscript formats.  See
+.C .B /usr/doc/gri/refcard.*
+.C
+.C The 
+.C .I examples
+.C in
+.C .B /usr/doc/gri/examples/
+.C are shown in the manual, and are included as a quick start primer.
+
+.C .SH GRI_MERGE AND GRI_UNPAGE COMMANDS
+.C
+.C Two Perl scripts are provided with Gri to manipulate the PostScript
+.C output.  
+.C 
+.C .I gri_merge
+.C is used to merge multiple Gri output files into a single PostScript file.
+.C Type
+.C .B gri_merge -h
+.C for usage information.
+.C 
+.C .I gri_unpage
+.C is used is split a multi-page Gri output file (in which the
+.C .B new page
+.C command was used) into separate PostScript files, one for each page.  Type
+.C .B gri_unpage -h
+
+.C .SH EMACS SUPPORT
+.C 
+.C An 
+.C .I emacs
+.C mode is provided with Gri.  
+.C .C Consult the primer
+.C .C 
+.C .C .B /opt/gri/doc/gri/doc/README.gri-mode
+.C 
+.C The mode may be installed automatically in Debian by the elisp file: 
+.C 
+.C .B /etc/emacs/site-start.d/50gri.el
+.C 
+.C The emacs mode itself is
+.C .I gri-mode.el
+.C and is installed on Debian as 
+.C .B /usr/share/emacs/site-lisp/gri-mode.el
+.C 
+.C Byte-compiled versions of this file are produced for every flavour of Emacs
+.C that is installed, and are located in places like
+.C .B /usr/share/emacs/20.2/site-lisp/gri-mode.elc
+
+
+.C .SH INSTALLING MULTIPLE VERSIONS 
+.C 
+.C Since the way Gri works sometimes changes with new versions, you may want
+.C to keep old versions installed if an important script depends on it.  The
+.C Debian packaging of Gri allows this.  Installing the next gri package
+.C (named like gri_2.1.22-1_i386.deb) will replace your current version, but
+.C Debian i386 (and perhaps alpha) packages will be made for older versions
+.C which can be installed alongside the main gri package.  Look for a package
+.C named like so:
+.C 
+.C .B gri-2.1.21_2.1.21-1_i386.deb
+.C 
+.C at the ftp site:
+.C 
+.C .B ftp://ftp.phys.ocean.dal.ca/users/rhogee/gri/
+
+.SH AUTHOR
+Gri (c) 2001 Dan Kelley <Dan.Kelley@Dal.CA>, released as GPL open-source software.
+
+This manual page is patterned on the Debian manual page by Peter S Galbraith <psg@debian.org>
