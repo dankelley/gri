@@ -14810,31 +14810,24 @@ filling in this form:
         # Tag 1 
 @end example
 @item
-Assemble the @file{README} file, the commandfile, the debugger output or
-the PostScript file, and any necessary data files into one package, and
-mail it to me, using e.g. the unix command (here written on several
-lines to display in web-browswers)
-
+Send the author 
+@c HTML <A HREF="mailto:Dan.Kelley@Dal.CA"> 
+@value{AUTHOR-EMAIL}
+@c HTML </A>
+an email containing the @file{README} file, the commandfile, the
+debugger output or the PostScript file, and any necessary data files
+into one package.  Usually the easiest way to prepare a tarfile with
+these things, and send as one attachment, e.g. in unix one might do
 @example
-tar -cvhf - ...
- | compress -c
- | uuencode gribug
- | mail @value{AUTHOR-EMAIL}
+tar -cvhf - bug.tar README bug.gri bug.dat
 @end example
 @noindent
-where ... stands for the list of the files to be enclosed.
+and then email the @file{bug.tar} file.  If the file is big, you'll
+probably want to compress it first.
 @end enumerate
 
-Note: I will extract your bug report using the following unix commands,
-which you should also use if I send something back to you:
-@example
-uudecode extracted_stuff
-# assume makes file called 'gribug'
-gunzip -c gribug | tar xvf -
-@end example
-
-
-
+Of course, I can't guarantee that I'll fix the bug for you.  However,
+I'm usually happy to try to fix bugs, so that they won't bite me later!
 
 
 @comment
