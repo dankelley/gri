@@ -1,8 +1,9 @@
 gri (2.9.0-0) unstable; urgency=low
 
   * CVS version.
+  * Added build dependency on libpopt-dev (gri now uses it).
 
- -- Peter S Galbraith <psg@debian.org>  Fri, 27 Jul 2001 16:25:39 -0400
+ -- Peter S Galbraith <psg@debian.org>  Tue, 21 Aug 2001 15:53:05 -0400
 
 gri (2.8.0-1) unstable; urgency=low
 
