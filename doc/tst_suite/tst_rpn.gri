@@ -37,7 +37,7 @@ assert {rpn "\w2" "sentence" ==}	" failed test 14"
 
 # Q: will the below work on all OS?????
 # NB. better to switch with something more universal
-\six = system "date | wc | gawk '{print $2}'"
+\six = system "date | wc | awk '{print $2}'"
 assert {rpn \six 6 ==}			" failed test 15"
 
 # Sine, etc.
