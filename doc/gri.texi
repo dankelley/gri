@@ -14530,14 +14530,21 @@ are available from the official distributions and also at
 @file{ftp://ftp.phys.ocean.dal.ca/users/kelley/gri}
 @c HTML </A>
 
-The RedHat version supports intel platforms only, while the Debian
-version supports intel, alpha, 68K and powerpc.  Installation follows
-the normal method for these distributions ... if you have the
-distribution, you surely know what to do.  If you don't, you may want to
-switch when you see that you can install Gri by clicking an icon in a
-window, or by typing, e.g. in RedHat linux:
+Redhat-linux installation may be done with any of several GUI-based
+tools, or with the following system command:
 @example
 rpm -i gri-@value{GRI-VERSION}
+@end example
+
+Debian-linux installation may be done with any of several GUI-based
+tools, or with the following system command:
+@example
+dkpg -i gri_@value{GRI-VERSION}-1_i386.deb
+@end example
+or via a properly configured @code{apt} interface that will fetch the
+latest version from the net:
+@example
+apt-get install gri
 @end example
 
 
