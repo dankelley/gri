@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.86 2001/05/15 14:56:58 dankelley Exp $
+@c $Id: gri.texim,v 1.87 2001/05/15 14:59:15 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -12306,7 +12306,9 @@ or even other legal @code{rpnfunction} constructs.  For details,
 @cindex substrings, getting with RPN operator @code{substr}
 @cindex @code{substr} RPN operator
 Extract 4 characters from the indicated string, starting at character
-number 0 (i.e. the start of the string).
+number 0 (i.e. the start of the string).  In other words, replace the
+three items on the top of the stack with the single item
+@code{\"hello\"}.
 @end table
 
 
