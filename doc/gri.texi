@@ -1,7 +1,6 @@
-@c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.250 2003/05/03 14:07:02 dankelley Exp $
+@c $Id: gri.texi,v 1.125 2003/05/03 21:58:03 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -14006,8 +14005,9 @@ on the @code{e}.  And then, Gri will recognize this accented @code{é},
 and it will draw the accent on the axis label.
 
 Perhaps the future default way of accomplishing this task is to use MULE
-support directly.  First, customize MULE using @code{M-x customize-group RET
-mule} setting the @code{current language environment} (e.g. latin-1) and
+support directly.  First, customize MULE using 
+@code{M-x customize-group RET mule} setting the
+@code{current language environment} (e.g. latin-1) and
 the @code{default input method} (e.g. latin-1-prefix).  Then, invoking
 @code{M-x toggle-input-method} (e.g. @key{C-\}) toggles into a mode similar
 to the @code{iso-accents-mode} minor-mode described above.
@@ -18438,10 +18438,50 @@ test files.  Thus the @strong{code itself} demonstrates the features,
 instead of comments in the code.  This is advantageous since comments
 tend to be incorrect!
 
-@c TESTFILE tst_IO
-@c TESTFILE tst_control
-@c TESTFILE tst_rpn
-@c TESTFILE tst_var_syn
+
+
+@c HTML <a href="tst_suite/tst_IO.html">Test file `<tt>tst_IO.gri</tt>'.</a><p>
+@iftex
+@sp 1
+@noindent Test file @file{tst_IO.gri}:
+
+@cartouche
+@include tst_suite/tst_IO.texi
+@end cartouche
+@end iftex
+
+
+@c HTML <a href="tst_suite/tst_control.html">Test file `<tt>tst_control.gri</tt>'.</a><p>
+@iftex
+@sp 1
+@noindent Test file @file{tst_control.gri}:
+
+@cartouche
+@include tst_suite/tst_control.texi
+@end cartouche
+@end iftex
+
+
+@c HTML <a href="tst_suite/tst_rpn.html">Test file `<tt>tst_rpn.gri</tt>'.</a><p>
+@iftex
+@sp 1
+@noindent Test file @file{tst_rpn.gri}:
+
+@cartouche
+@include tst_suite/tst_rpn.texi
+@end cartouche
+@end iftex
+
+
+@c HTML <a href="tst_suite/tst_var_syn.html">Test file `<tt>tst_var_syn.gri</tt>'.</a><p>
+@iftex
+@sp 1
+@noindent Test file @file{tst_var_syn.gri}:
+
+@cartouche
+@include tst_suite/tst_var_syn.texi
+@end cartouche
+@end iftex
 
 
 @c HTML <!-- newfile GriInThePress.html "Gri: in the Press" "Gri: in the Press" -->

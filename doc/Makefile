@@ -114,9 +114,6 @@ html-clean:
 	mv HIDE_FILE/FAQ.html .
 	rm -rf HIDE_FILE
 
-gri.texi: gri.texim
-	perl texim2texi <gri.texim >gri.texi
-
 info:	gri.texi
 	makeinfo gri.texi
 	touch info

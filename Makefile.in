@@ -255,7 +255,7 @@ source-copy:
 	install -m 644 doc/gri-manpage*.1       $(SOURCE_NAME)/doc
 	install -m 644 doc/gri_merge.1          $(SOURCE_NAME)/doc
 	install -m 644 doc/gri_unpage.1         $(SOURCE_NAME)/doc
-	install -m 644 doc/gri.texim            $(SOURCE_NAME)/doc
+	install -m 644 doc/gri.texi             $(SOURCE_NAME)/doc
 	install -m 755 doc/gri2texi             $(SOURCE_NAME)/doc
 	install -m 755 doc/texinfo2HTML         $(SOURCE_NAME)/doc
 	install -m 755 doc/gri2html             $(SOURCE_NAME)/doc
@@ -320,7 +320,7 @@ test:
 	@cd doc/tst_suite ; ../../gri -directory ../.. -c 0 tst_IO.gri
 	@cat version.cc    | perl -ane 'if(/_number/)             {$$v=$$F[3]; $$v=~s/[^"]*"//; $$v=~s/".*//; die "ERROR: version number in version.cc is $$v, which disagrees with the version in the Makefile, $(VERSION).  You MUST fix this.\n" if ("$$v" ne "$(VERSION)"); print "Version number in version.cc       ... is OK\n";}'
 	@cat gri.cmd       | perl -ane 'if(/\(version ([^)]*)\)/) {$$v=$$1; die "ERROR: Version in gri.cmd is $$v, which disagrees with the version in the Makefile, $(VERSION).  You MUST fix this.\n" if ("$$v" ne "$(VERSION)"); print "Version number in gri.cmd          ... is OK\n";}'
-	@cat doc/gri.texim | perl -ane 'if(/GRI-VERSION (.*)/)    {$$v=$$1; die "ERROR: Version in doc/gri.texim is $$v, which disagrees with the version in the Makefile, $(VERSION).  You MUST fix this.\n" if ("$$v" ne "$(VERSION)"); print "Version number in doc/gri.texim    ... is OK\n";}'
+	@cat doc/gri.texi  | perl -ane 'if(/GRI-VERSION (.*)/)    {$$v=$$1; die "ERROR: Version in doc/gri.texi is $$v, which disagrees with the version in the Makefile, $(VERSION).  You MUST fix this.\n" if ("$$v" ne "$(VERSION)"); print "Version number in doc/gri.texi    ... is OK\n";}'
 	@cat gri.spec      | perl -ane 'if(/griversion (.*)/)     {$$v=$$1; if ("$$v" ne "$(VERSION)") {warn "ERROR: Version in gri.spec is $$v, which disagrees with the version in the Makefile, $(VERSION).  You SHOULD fix this.\n"} else { print "Version number in gri.spec         ... is OK\n";}}'
 	@cat debian/changelog | perl -ne 'if (($$. == 1)&&(/\(([^-]+)-/)) {if ("$$1" ne "$(VERSION)") {print "**WARNING: Version in debian/changelog is $$1,\n** which disagrees with the version in the Makefile, $(VERSION).\n** You should fix this for official releases.\n"} else { print "Version number in debian/changelog ... is OK\n";}}'
 	@echo ""
