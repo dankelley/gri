@@ -73,11 +73,11 @@
 
 @subtitle A Program to Make Science Graphs
 @subtitle Version @value{GRI-VERSION}
-@subtitle 2004
+@subtitle 2005
 @author Dan E. Kelley (@value{AUTHOR-EMAIL})
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 1991-2004 Dan Kelley
+Copyright @copyright{} 1991-2005 Dan Kelley
 @sp 2
 @end titlepage
 
@@ -92,7 +92,7 @@ Copyright @copyright{} 1991-2004 Dan Kelley
 @c HTML <!--
 This manual describes Gri version
 @value{VERSION} @c , updated @value{UPDATED},
-(c) 1991-2004, 
+(c) 1991-2005, 
 Dan Kelley at email address 
 @c HTML <A HREF="mailto:Dan.Kelley@Dal.CA"> 
 @value{AUTHOR-EMAIL}
@@ -125,7 +125,7 @@ considerable power, at the price of a moderate learning curve.
 @c HTML <A HREF="Images.html">image plots</A>.
 @c HTML <p>
 @c HTML This document describes Gri @value{VERSION},
-@c HTML <br>(c) 1991-2004 <A HREF="http://www.phys.ocean.dal.ca/~kelley"> Dan Kelley.</A>
+@c HTML <br>(c) 1991-2005 <A HREF="http://www.phys.ocean.dal.ca/~kelley"> Dan Kelley.</A>
 @comment HTML Gri is distributed
 @comment HTML with a <A HREF="License.html">license</A> that permits 
 @comment HTML sharing in an OpenSource way.
@@ -276,7 +276,7 @@ be augmented easily (@ref{Adding New Commands}), and these
 augmentations can be stored in a startup file (@ref{Resource File}),
 creating personalized versions of Gri.
 
-@cindex cookbook FTP site
+
 @cindex FTP site, cookbook
 @strong{Manuals:} Gri has an online texinfo manual, a PostScript manual, a
 WWW manual, a
@@ -298,7 +298,7 @@ just typing @code{gri} at the unix prompt), you'll see something like
 
 @example
  gri - scientific graphic program (version @value{VERSION})
- GPL Copyright 2004 by Dan E. Kelley.
+ GPL Copyright 2005 by Dan E. Kelley.
 
  Type `help' for an overview of Gri commands, or see the
  full manual at
@@ -6878,7 +6878,7 @@ convention was employed.  For this reason, a version of Gri compiled on
 a so-called "big-endian" computer will misinterpret multi-byte values
 that were created on a so-called "little-endian" computer.  Many folks
 in the scientific community have converted to using the NetCDF format
-(@ref{NetCDF Files}) for precisely this reason, since this format is
+(see next section) for precisely this reason, since this format is
 independent of the endian character of the computer.
 
 Presuming an appropriate endian character, however, reading is
@@ -6921,7 +6921,7 @@ The NetCDF format provides the best of both worlds.  It is binary, so
 that data are relatively compact, and may be read very quickly.
 (Reading ascii data is time-consuming in C++, the language in which Gri
 is written.)  But it does not suffer the endian problem problem of
-normal binary files (@ref{Binary Files}), since information about the
+normal binary files (see previous section), since information about the
 endian character is stored in the file itself, and Gri uses this
 information to decode the data without difficulty, regardless of the
 endian characteristics of the computer on which Gri is running and of
@@ -12191,7 +12191,8 @@ dollar-signs), Gri stores the definitions of many Greek letters and
 mathematical symbols as math-mode synonyms (@ref{Mathematical Text}).
 
 Global synonyms are shared among commands.  To see the built-in global
-synonyms (@ref{Index of Builtins}) use @code{show synonyms}, which
+synonyms (@ref{Index of Builtins})
+use @code{show synonyms}, which
 produces output that looks something like the following.
 
 @example
