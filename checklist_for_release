@@ -34,12 +34,13 @@ CHECKLIST.
   6- DEK builds an official redhat package based on the official
      tarball.  If any problems, back to step 2.
 
-  7- PSG builds an official redhat package based on the official
+  7+ PSG builds an official Debian package based on the official
      tarball.  If any problems, back to step 2.
 
   8- DEK uploads the official redhat package to SF.
 
-  9- PSG uploads the official debian package to SF.
+  9+ PSG uploads unofficial Debian package to SF, and official Debian
+     packages (built for `unstable`) to Debian.
 
   10- DEK edits the SF webpage to indicate that a new version has
       been released.
