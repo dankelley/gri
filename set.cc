@@ -3236,6 +3236,10 @@ assign_synonym()
 	printf("\n");
 #endif
 	Require (_nword > 2, err("Can't understand command."));
+	if (!strncmp(_word[0], "\\@", 2)) {
+		err("The purported alias `\\", _word[0], "' doesn't name any known variable or synonym.", "\\");
+		return false;
+	}
 #if 1
 	// Check for e.g 
 	// \syn = &.a_var.
