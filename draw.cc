@@ -877,29 +877,7 @@ draw_arcCmd(void)
 		demonstrate_command_usage();
 		return false; 
 	}
-			    
-	extern FILE *_grPS;
-	set_environment();
-	set_line_width_curve();
-
-	if (filled) { 
-		fprintf(_grPS, "%.1f %.1f m  %.1f %.1f %.1f %.1f %.1f arc fill\n",
-			xc * PT_PER_CM + r * PT_PER_CM, yc * PT_PER_CM,
-			xc * PT_PER_CM, yc * PT_PER_CM,
-			r * PT_PER_CM,
-			angle1, angle2);
-	} else {
-		fprintf(_grPS, "%.1f %.1f m  %.1f %.1f %.1f %.1f %.1f arc stroke\n",
-			xc * PT_PER_CM + r * PT_PER_CM, yc * PT_PER_CM,
-			xc * PT_PER_CM, yc * PT_PER_CM,
-			r * PT_PER_CM,
-			angle1, angle2);
-	}
-
-	double lw = _griState.linewidth_line() / 2.0 / PT_PER_CM;
-	rectangle bbox(xc - r - lw, yc - r - lw,
-		       xc + r + lw, yc + r + lw);
-	bounding_box_update(bbox);
+	gr_draw_arc_cm(filled, xc, yc, r, angle1, angle2);
 	_drawingstarted = true;
 	return true;
 }

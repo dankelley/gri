@@ -206,6 +206,7 @@ double          gr_currentsymbolsize_pt(void);
 #define gr_currentsymbolsize_cm() (gr_currentsymbolsize_pt() / PT_PER_CM)
 double          gr_currentticsize_cm(void);
 void            gr_drawimage(unsigned char *im, unsigned char *imTransform, gr_color_model color_model, unsigned char *mask, double mask_r, double maskg, double mask_b, int imax, int jmax, double llx_cm, double lly_cm, double urx_cm, double ury_cm, bool insert_placer);
+void            gr_draw_arc_cm(bool filled, double xc, double yc, double r, double angle1, double angle2);
 void            gr_drawarrow_cm(double x, double y, double xend, double yend, double halfwidth);
 void            gr_drawarrow2_cm(double x, double y, double xend, double yend, double halfwidth);
 void            gr_drawarrow3_cm(double x, double y, double xend, double yend, double halfwidth);

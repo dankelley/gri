@@ -516,6 +516,33 @@ gr_currentticsize_cm()
 	return _grTicSize_cm;
 }
 
+void
+gr_draw_arc_cm(bool filled, double xc, double yc, double r, double angle1, double angle2)
+{
+	extern FILE *_grPS;
+	set_environment();
+	set_line_width_curve();
+
+	if (filled) { 
+		fprintf(_grPS, "%.1f %.1f m  %.1f %.1f %.1f %.1f %.1f arc fill\n",
+			xc * PT_PER_CM + r * PT_PER_CM, yc * PT_PER_CM,
+			xc * PT_PER_CM, yc * PT_PER_CM,
+			r * PT_PER_CM,
+			angle1, angle2);
+	} else {
+		fprintf(_grPS, "%.1f %.1f m  %.1f %.1f %.1f %.1f %.1f arc stroke\n",
+			xc * PT_PER_CM + r * PT_PER_CM, yc * PT_PER_CM,
+			xc * PT_PER_CM, yc * PT_PER_CM,
+			r * PT_PER_CM,
+			angle1, angle2);
+	}
+
+	double lw = _griState.linewidth_line() / 2.0 / PT_PER_CM;
+	rectangle bbox(xc - r - lw, yc - r - lw,
+		       xc + r + lw, yc + r + lw);
+	bounding_box_update(bbox);
+}
+
 // gr_drawarrow_cm -- Draw a stroke-line arrow
 // If halfwidth>0, width of arrow head is 2*halfwidth.
 // If halfwidth<0, width of arrow head is 2*halfwidth*length_of_arrow.
