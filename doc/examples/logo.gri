@@ -1,47 +1,33 @@
-# Draw a Gri logo.  NOTE: Only 4 lines of this file
-# are not comments.  So this script is simpler than
-# it looks at first glance!
+set x size 5
+set y size 5
+set x axis 0 1 0.25
+set y axis 0 20 10
+set font size 0
+\background_color = "hsb 0.60 0.24 1"
+\line_color =       "red"
+\word_color =       "black"
 
-# Next two lines define the coordinate, in centimeters
-# on the page, of the bottom-left corner of the logo.
-.x. = 2
-.y. = 2
+read columns x y
+0.0  12.5
+0.25 19  
+0.5  12  
+0.75 15  
+1    13  
 
-# Next line defines the height of the logo,
-# in centimeters.
-.h. = 3
+set color \background_color
+set line width axis rapidograph 6
+draw curve filled to ..ybottom.. y
+set color black
+draw axes
 
-# Draw the logo.  The "4" indicates the style of logo.
-# Other choices are 0, 1, 2 and 3 ... try them for fun!
+set color \line_color
+set line width rapidograph 7
+draw curve
+set symbol size 0.4
+draw symbol bullet
 
-# The words "red" and "blue" are the colors of the
-# logo and its shadow.
-draw gri logo .x. .y. .h. 4 red blue
-
-# For help on this command, type
-#     info gri commands draw 'draw gri logo'
-# at the unix prompt, to go directly to the
-# relevant portion of the manual, or just type
-#     info gri
-# and look around.  In particular, typing
-#     i
-# once you're in the gri documentation will
-# give you an index; type
-#     logo
-# then and you'll go to the right spot.  You may
-# prefer, instead of using "info", to browse the
-# online HTML documents.  Most people do!  Indeed
-# you're probably reading this in a browser that
-# is pointed to the documents, so I'll say no more. 
-
-# NOTE: you might also like to investigate the
-# Gri command
-#     read colornames from RGB "/usr/lib/X11/rgb.txt"
-# since that will give you access to about 800 colors,
-# in case you find the present colors garish.  Again,
-# the easy way to find out about that command is
-# to look up
-#     colornames
-# in the indexx.
-
+set color \word_color
+set font size 80
+set font to TimesRoman
+draw label "Gri" at 0.1 2
 
