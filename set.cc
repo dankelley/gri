@@ -3287,9 +3287,9 @@ This computer can't `\\synonym = system ...' since no popen() subroutine.");
 				// trim junk from end of the 'read until' string
 				string::size_type cut_at;
 				if (quoted_end_string)
-					cut_at = read_until.find_first_of("\"");
+					cut_at = read_until.find("\"");
 				else
-					cut_at = read_until.find_first_of(" ");
+					cut_at = read_until.find(" ");
 				//printf("READING UNTIL '%s' ... i.e.\n", read_until.c_str());
 				if (cut_at != STRING_NPOS)
 					read_until.STRINGERASE(cut_at, read_until.size() - cut_at);
@@ -3324,16 +3324,14 @@ This computer can't `\\synonym = system ...' since no popen() subroutine.");
 			substitute_synonyms_cmdline(cmd.c_str(), cmd_sub, false);
 			cmd = cmd_sub;
 		} else {
-#if 0 // 2.6.0 -- the find_first_of doesn't do what I want + not sure I want it!
 			// No, it is not of the <<WORD form
-			string::size_type loc;
-			while (STRING_NPOS != (loc = cmd.find_first_of("\\n"))) {
-				cmd.STRINGERASE(loc, 3);
-				cmd.insert(loc, "\n");
+			string::size_type loc = 0;
+			//printf("assigning synonym BEFORE [%s]\n",cmd.c_str());
+			while (STRING_NPOS != (loc = cmd.find("\\\\", loc))) {
+				cmd.STRINGERASE(loc, 2);
+				cmd.insert(loc, "\\");
 			}
-#else
-			;
-#endif
+			//printf("AFTER [%s]\n",cmd.c_str());
 		}
 		if (((unsigned) superuser()) & FLAG_SYS) {
 			ShowStr("\n`\\synonym = system' sending the following command to the operating system:\n");

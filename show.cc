@@ -53,7 +53,6 @@ show_expression_or_stringCmd()
 			break;
 		}
 		if (*_word[i] == '"') {
-			//printf("\t\t it's a blooddy string, moron i=%d   <%s>\n",i,_word[i]);
 			// Copy to 's' the unquoted string.
 			int len = strlen(_word[i]);
 			if (len > 2) {

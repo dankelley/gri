@@ -713,6 +713,7 @@ Cannot get word %d of synonym `%s'; using last word ([%d]) instead",
 	return true;
 }
 #else
+
 // Walk through string, substituting synonyms if not in math mode.
 // RETURN 0 if empty line, 1 otherwise.
 bool
@@ -771,7 +772,7 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 		bool            report_a_word = false;
 		int             word_to_report = -1;
 		bool            need_brace = (s[i + 1] == '{');
-		//printf("DEBUG1: i %d  (%s)\n",i,s+i);
+		//printf("DEBUG.  At start of synonym i %d  (%s)\n",i,s+i);
 #if 0
 		if (need_brace)
 			i++;		// skip the brace itself
@@ -786,7 +787,6 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 			}
 #if 0			// 2.5.5. not sure if I want to do this but keep in case
 			// Check for e.g. \.argv[0]. (starting in version 2.5.5).
-			// BUG: only permits integer \.argv[]. indices
 			printf("dotty: '%s'\n",s+i);
 			if (dots_in_name == 1) {
 				printf("one dot in name '%s'.  checking '%s'\n",s+i,s+i+1);
@@ -924,9 +924,10 @@ Cannot get word %d of synonym `%s'; using last word ([%d]) instead",
 		} else {
 				// Leave unknown synonym in place.
 			if (!found) {
+				sout += '\\'; // don't forget that!
 				while (!end_of_synonym(s[++i], inmath, need_brace))
 					sout += s[i];
-				i--;		// otherwise miss next char
+				i--; // otherwise we'll miss the next character
 			}
 		}
 	}
@@ -934,6 +935,7 @@ Cannot get word %d of synonym `%s'; using last word ([%d]) instead",
 	sout.append(" ");
 	delete [] sname;
 	delete [] svalue;
+	//printf("Finally [%s]\n",sout.c_str());
 	return true;
 }
 #endif

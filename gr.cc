@@ -223,14 +223,25 @@ gr_textput(const char *s)
 {
 	const char *c = s;
 	while (*c) {
-		if (*c == '\\' && *(c + 1) == 'n')
-			putchar('\n'), c++;
-		else if (*c == '\\' && *(c + 1) == '\\')
-			putchar('\\'), c++;
-		else if (*c == '\\' && *(c + 1) == 't')
-			putchar('\t'), c++;
-		else
+		if (*c == '\\') {
+			if (!*c++)
+				return;
+			if (*c == '\\') {
+				if (!*c++)
+					return;
+				if (*c == 'n')
+					putchar('\n');
+				else if (*c == 't')
+					putchar('\t');
+				else 
+					putchar(*c);
+			} else {
+				putchar('\\');
+				putchar(*c);
+			}
+		} else {
 			putchar(*c);
+		}
 		c++;
 	}
 }

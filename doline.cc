@@ -560,16 +560,14 @@ systemCmd()
 		substitute_synonyms_cmdline(cmd.c_str(), cmd_sub, false);
 		cmd = cmd_sub;
 	} else {
-#if 0 // 2.6.0 -- the find_first_of doesn't do what I want + not sure I want it!
 		// No, it is not of the <<WORD form
-		string::size_type loc;
-		while (STRING_NPOS != (loc = cmd.find_first_of("\\n"))) {
-			cmd.erase(loc, 3);
-			cmd.insert(loc, "\n");
+		string::size_type loc = 0;
+		//printf("system command BEFORE [%s]\n",cmd.c_str());
+		while (STRING_NPOS != (loc = cmd.find("\\\\", loc))) {
+			cmd.erase(loc, 2);
+			cmd.insert(loc, "\\");
 		}
-#else
-		;
-#endif
+		//printf("AFTER [%s]\n",cmd.c_str());
 	}
 	if (((unsigned) superuser()) & FLAG_SYS) {
 		ShowStr("\n`system' sending the following command to the operating system:\n");
