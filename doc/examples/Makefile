@@ -29,7 +29,7 @@ example9-tiny.jpg : example9.ps
 	convert -geometry 90x999 -rotate 90 example9.ps example9-tiny.jpg
 
 example10color.eps : example10color.ps
-	convert example10color.ps example10color.eps
+	-convert example10color.ps example10color.eps
 
 all:
 	make eps
