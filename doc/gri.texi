@@ -14494,6 +14494,7 @@ and "unstable" releases instead of "compatible" and "incompatible" changes.
 * Msdos-install::               
 * OS2-install::
 * Mac-install::               
+* Beos-install::               
 @end menu
 
 @c HTML <!-- newfile Unix-install.html "Gri: installing Gri" "Installing Gri" -->
@@ -14848,9 +14849,9 @@ account for whether the netCDF library is installed, etc.
 
 @c HTML <!-- newfile mac-install.html "Gri: installing Gri" "Installing Gri" -->
 
-@node   Mac-install, Bugs, OS2-install, Installation
+@node   Mac-install, Beos-install, OS2-install, Installation
 @comment  node-name,  next,  previous,  up
-@subsection Compilation under Macintosh Unix
+@section Compilation under Macintosh Unix
 @cindex compilation under Macintosh Unix
 @cindex macintosh unix compilation
 
@@ -14859,10 +14860,21 @@ Provided that the associated @code{gcc} compiler is sufficiently
 up-to-date, Gri can be compiled following the normal unix instructions.
 
 
+@c HTML <!-- newfile Beos-install.html "Gri: bugs" "Gri Bugs" -->
+
+@node   Beos-install, Bugs, Mac-install, Installation
+@comment  node-name,  next,  previous,  up
+@section Compilation under BeOS
+@cindex compilation under BeOS
+@cindex BeOS unix compilation
+
+The BeOS system compiles Gri cleanly without modification; just follow
+the instructions for unix.
+
 
 @c HTML <!-- newfile Bugs.html "Gri: bugs" "Gri Bugs" -->
 
-@node   Bugs, Known Bugs, Mac-install, Top
+@node   Bugs, Known Bugs, Beos-install, Top
 @comment  node-name,  next,  previous,  up
 @chapter Bugs
 @menu
