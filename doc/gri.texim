@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.117 2001/07/21 17:56:20 dankelley Exp $
+@c $Id: gri.texim,v 1.118 2001/07/24 12:37:11 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -53,8 +53,8 @@
 @comment %**start of header
 @setfilename gri.info
 @settitle Gri
-@set GRI-VERSION 2.7.0
-@set GRI-PREVIOUS-VERSION 2.6.2
+@set GRI-VERSION 2.8.0
+@set GRI-PREVIOUS-VERSION 2.6.4
 @set AUTHOR-EMAIL Dan.Kelley@@Dal.CA
 @c %**end of header
 @iftex
@@ -7214,7 +7214,7 @@ For more information on netCDF format, see
 Read @code{x} in column 5, @code{y} in column 2, and @code{z} in column
 3.  The @code{z} column is used for contouring.
 @item @code{read columns x y u v}
-@cindex directin field, how to read
+@cindex direction field, how to read
 @cindex vector field, how to read
 @cindex arrows, how to read direction field
 Read @code{x} and @code{y} in first two columns, and the ``arrow'' data
@@ -15073,7 +15073,7 @@ exactly remember its name.
 
 With the output previewed in a @code{gv} window after pressing @kbd{C-c
 C-v} (or pressing the @code{gv} icon in the toolbar, or selecting it from
-the @code{Perform} puul-down menu), the user is ready to print the file,
+the @code{Perform} pull-down menu), the user is ready to print the file,
 here using the @code{Perform} pull-down menu.
 
 @c HTML <IMG SRC="./screenshots/gri-screenshot-4.png"></A>
@@ -15685,7 +15685,7 @@ may change after you update it) and deletes the
 
 @item
 @code{gri-set-local-version}: 
-Tells gri-mode to use a given version of gri this @strong{this} gri file
+Tells gri-mode to use a given version of gri @strong{this} gri file
 (the one currently being edited when you invoke the command).  Tab
 completion is again available to list all available versions.  Your
 selection overrides the default version selected by
@@ -15765,18 +15765,84 @@ and adjust the "status" menu to read "closed".
 
 
 @c HTML <!-- newfile StableStream.html "Gri: Stable Stream" "Gri: History" -->
-@node   Stable Stream, Version 2.6, History, History
+@node   Stable Stream, Version 2.8, History, History
 @comment  node-name,  next,  previous,  up
 @section Stable Stream
 
+In any given stable stream, only the version with a @code{0} as the
+last number in the triplet has new features; the later versions only
+correct flaws.  For example, version @code{2.6.0} offers new features
+compared to any of the @code{2.4.x} versions, but @code{2.6.1} differs
+only in the fixing of bugs.
+
 @menu
+* Version 2.8::
 * Version 2.6::
 * Version 2.4::
 * Version 2.2::
 @end menu
 
+@c HTML <!-- newfile Version_2_8.html "Gri: Version 2.8" "Gri: Version 2.8" -->
+@node   Version 2.8, Version 2.6, Stable Stream, Stable Stream
+@comment  node-name,  next,  previous,  up
+@subsection Version 2.8
+
+@subsection Version 2.8.0 [2001 Jul 30]
+
+@b{New command syntax}
+@itemize @bullet
+@item
+Add @code{unlink} command as a unix-familiar way to delete files
+(@ref{Unlink}).
+@item
+Add @code{set page size} command to clip to a given page size
+(@ref{Set Page}).
+@item
+Add @code{substr} RPN operator to permit extraction of sub-strings
+(@ref{Tertiary Operators}).
+@item
+Add @code{default} possibility for the @code{set x name} and the
+@code{set y name} commands.
+@item
+@cindex underscore, in numbers
+@cindex numbers, using underscore to separate thousand parts
+@cindex thousand parts, indicating in numbers using underscore
+Add Perl-like ability to put underscores in numerical constants, to
+guide your eye.  These underscores are ignored by Gri, so that for
+example @code{.v. = 1_000} and @code{.v. = 1000} are equivalent as far
+as Gri is concerned.
+@end itemize
+
+@b{Emacs mode} (@ref{Emacs Mode})
+@itemize @bullet
+@item
+Give @key{M-Tab} the
+ability to complete builtin variables and synonyms as well as
+commands
+@item
+Add ``idle-timer help'' to display defaults for builtin
+variables under the cursor.
+@item
+Add fontification of builtin variables @emph{only}
+if they are spelled correctly.
+@end itemize
+
+
+@b{Developer changes}
+@itemize @bullet
+@item
+Add @code{make source-arch-indep} target in sources.  This will build a
+source tar file in which all the architecture-independent material
+(documentation in HTML, postscript and Info formats) is pre-made.  This
+makes it easier to install gri on a host that doesn't have TeX and
+ImageMagick installed.
+@item
+Complete the port to IBM's compiler for their AIX operating system.
+@end itemize
+
+
 @c HTML <!-- newfile Version_2_6.html "Gri: Version 2.6" "Gri: Version 2.6" -->
-@node   Version 2.6, Version 2.4, Stable Stream, Stable Stream
+@node   Version 2.6, Version 2.4, Version 2.8, Stable Stream
 @comment  node-name,  next,  previous,  up
 @subsection Version 2.6
 
@@ -16199,42 +16265,13 @@ First debian release.  Versions exist for intel, alpha, 68K and powerpc.
 @comment  node-name,  next,  previous,  up
 @subsection Development Version
 
-@emph{Anything} listed below may be changed without notice.  Some of
-these features will appear in a future stable release, others won't.
-Use at your own risk!
-
-The following list applies to the version on CVS, but is subject to
-change:
-
+The list below shows changes that have been made in the development
+version of Gri, i.e. the version on CVS at @url{http://gri.sourceforge.net}.
+Some or all of these features may enter the next stable stream of Gri,
+but it is important to note that @emph{anything} that's listed here
+may be changed without notice!
 @itemize @bullet
-@item
-Port to IBM's compiler for their AIX operating system.
-@item
-Enhancements to @code{gri-mode}: meta-tab completion of builtin variables
-and synonyms, idle timer help displays defaults for builtin variables under
-the cursor, fontification of builtin variables only occurs for known
-variables, etc.
-@item
-Add @code{unlink} command (@ref{Unlink}).
-@item
-Add @code{make source-arch-indep} target in sources.  This will build a
-source tar file in which all the architecture independent building
-(documentation in HTML, postscript and Info formats) is pre-made.  This
-makes it easier to install gri on a host that doesn't have TeX and
-ImageMagick installed.
-@item
-Add @code{default} possibility for the @code{set x name} and the
-@code{set y name} commands.
-@item
-Add Perl-like ability to put underscores in numerical constants, to
-guide your eye and mode code easier to read.  These underscores are
-ignored, so that for example @code{.v. = 1_000} and @code{.v. = 1000}
-are completely equivalent.  (Warnings may result if the underscores
-are not in reasonable places for delineating parts in a thousand.)
-@item
-Add @code{set page size} command (@ref{Set Page}).
-@item
-Add @code{substr} RPN operator (@ref{Tertiary Operators}).
+@item TBA
 @end itemize
 
 
@@ -16257,13 +16294,11 @@ Add @code{substr} RPN operator (@ref{Tertiary Operators}).
 @cindex command-line interface
 @cindex image formats, other than 8-bit
 
-Some @strong{plans} for future versions are given below.  The list below
-is in no particular order.  Please contact me at
-@c HTML <A HREF="mailto:Dan.Kelley@Dal.CA"> 
-@value{AUTHOR-EMAIL}
-@c HTML </A>
-if you particularly need one of these things, or
-if you need something else that I've not listed.
+Some plans for future versions are given below.  A more extensive
+list, together with target timescales and notes on the progress
+towards completion, is available in the to-do list at the development
+site (@url{http://gri.sourceforge.net}), which is also the place to go
+if you have suggestions for other changes to Gri.
 
 @cindex endian file compatibility, plans
 @cindex little-endian vs big-endian data, plans
@@ -16272,6 +16307,10 @@ if you need something else that I've not listed.
 @b{High priority}
 
 @enumerate
+
+@item Change @code{set axes style} from number-based selection to
+word-based selection, and print a deprecation warning if the
+number-based syntax is used.
 
 @item Make @code{open} handle URL addresses.
 
@@ -16311,7 +16350,7 @@ data (@ref{Convert Columns To Grid}).
 
 @item Add graphical output to the screen as commands are executed.  
 
-@item Add support for both little-endian and big-endian data.
+@item Add support for both little-endian and big-endian binary data.
 
 @end enumerate
 
@@ -17280,42 +17319,64 @@ tend to be incorrect!
 @cindex user input to Gri
 @cindex acknowledgments
 Developing Gri was made easier by suggestions and bug reports from many
-users, among whom are: Ivo Alxneit,
+users, among whom are: 
+Ivo Alxneit,
+@cindex contributer, Ivo Alxneit
 @cindex Ivo Alxneit (contributer)
 Karin Bryan,
 @cindex Karin Bryan (contributer)
+@cindex contributer, Karin Bryan
 Sara Bennett,
 @cindex Sara Bennett (contributer)
+@cindex contributer, Sara Bennett
 Luke Blaikie,
 @cindex Luke Blaikie (contributer)
+@cindex contributer, Luke Blaikie
 Dave Brickman,
 @cindex Dave Brickman (contributer)
+@cindex contributer, Dave Brickman
+Clyde Clements,
+@cindex Clyde Clements (contributer)
+@cindex contributer, Clyde Clements
 Pierre Flament,
 @cindex Pierre Flament (contributer)
+@cindex contributer, Pierre Flament
 Peter Galbraith,
 @cindex Peter Galbraith (contributer)
+@cindex contributer, Peter Galbraith
 Dave Hebert,
 @cindex Dave Hebert (contributer)
+@cindex contributer, Dave Hebert
 Steve Matheson,
 @cindex Steve Matheson (contributer)
+@cindex contributer, Steve Matheson
 Ed Nather,
 @cindex Ed Nather (contributer)
+@cindex contributer, Ed Nather
 Carl Osterwisch,
 @cindex Carl Osterwisch (contributer)
+@cindex contributer, Carl Osterwisch
 Richard Andrew Miles Outerbridge,
 @cindex Richard Andrew Miles Outerbridge (contributer)
+@cindex contributer, Richard Andrew Miles Outerbridge
 Brian May,
 @cindex Brian May (contributer)
+@cindex contributer, Brian May
 Jinyu Sheng,
 @cindex Jinyu Sheng (contributer)
+@cindex contributer, Jinyu Sheng
 Toru Suzuki,
 @cindex Toru Suzuki (contributer)
+@cindex contributer, Toru Suzuki
 Keith Thompson,
 @cindex Keith Thompson (contributer)
+@cindex contributer, Keith Thompson
 David Trueman,
 @cindex David Trueman (contributer)
+@cindex contributer, David Trueman
 and George White.
 @cindex George White (contributer)
+@cindex contributer, George White
 
 Some of these folks also suggested detailed improvements to the C++ code
 of Gri, not an easy task given the complexity and length of the code.

@@ -1,5 +1,5 @@
 Summary: A language for scientific illustration
-%define griversion 2.7.0
+%define griversion 2.8.0
 Name: gri
 Version: %{griversion}
 Release: 1
@@ -96,6 +96,9 @@ then
 fi
 
 %changelog
+* Tue Jul 24 2001 Dan Kelley <dan.kelley@dal.ca>
+- Bump up version number to 2.8.0
+
 * Thu Apr 19 2001 Dan Kelley <dan.kelley@dal.ca>
 - Rename this file as gri.spec, without the version number embedded 
   in the filename.  Upgrade to version number 2.6.1.  Change url to
