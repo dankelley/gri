@@ -12453,7 +12453,9 @@ Show value of indicated variable.
 Show result of computing indicated expression.
 @item @code{show "some text"}
 Print the indicated string.  Certain control codes are allowed:
-@code{\n} means newline; @code{\t} means tab.
+@code{\\n} means newline; @code{\\t} means tab.  (The double-slash notation
+is required so that Gri doesn't interpret these backslashes as designating
+the starts of synonyms.)
 @item @code{show "time=" .time. "; depth=" .depth.}
 Print strings and values as indicated.  If the last item is ellipses
 (three dots with no spaces between them), then no newline is printed;
