@@ -1,9 +1,8 @@
       <!-- -*- html -*- -->
 
-<!-- colors
-dark	#3f6393
-medium	#96b7cc add3ea
-light   #d3edff add3ea
+<!-- colors (copied from SF colors):
+  dark, under headings headings:	#737b9c
+  light, table background		#EEEEF8
 -->
 
 <html>
@@ -15,50 +14,51 @@ light   #d3edff add3ea
     <LINK rel="stylesheet" href="./gri.css" type="text/css">
   </head>
   
-  <body  topmargin="0" bottommargin="0" leftmargin="0" rightmargin="0" marginheight="0" marginwidth="0">
-    <TABLE width="100%" border=0 cellspacing=0 cellpadding=0 bgcolor="#3f6393">
+  <body bgcolor=#FFFFFF topmargin="0" bottommargin="0" leftmargin="0" rightmargin="0" marginheight="0" marginwidth="0">
+    <TABLE width="100%" border=0 cellspacing=0 cellpadding=0 bgcolor="#737b9c">
       <TR>
         <td align="left" width="50%">
-	  <SPAN class=maintitlebar>
-	  <A class="maintitlebar" href="./">&nbsp;&nbsp;<B>Home</B></A> |
-	  <A class="maintitlebar" href="http://sourceforge.net/project/?group_id=5511"><B>Development Site</B></A>
-	  </SPAN>
+	  <SPAN class=maintitlebar><A class="maintitlebar" href="./"><B>Home</B></A>|<A class="maintitlebar"
+href="./news.php?news=1"><B>News</B></A></span>
 	</td>
-	<td align="right" width="50%"><SPAN class=maintitlebar><IMG src="./images/blank.gif" height="1" width="145" border=0 alt="blank.gif"></span></td>
+	<td align="right" width="50%"><SPAN class=maintitlebar><IMG src="./images/blank.gif" height="1" width="145" border=0 alt=""></span></td>
       </TR>
     </TABLE>
 
-    <table bgcolor="#ddddd" width="100%" border=0 cellspacing=0 cellpadding=0>
-        <TR bgcolor="#add3ea">
+    <table bgcolor="#EEEEF8" width="100%" border=0 cellspacing=0 cellpadding=0>
+        <TR bgcolor="#EEEEF8">
 	<td align="center">
-	  <font size="+4">GRI: a Language for Scientific Illustration</font>
+	  <font size="+4">Gri: a Language for Scientific Illustration</font>
 	</td>
       </tr>
     </table>
     
-    <table width="100%" cellspacing=0 cellpadding=2 border=0>
+    <table width="100%" cellspacing=0 cellpadding="2" border=0>
       <tr>
-	<td valign="top" width="165" bgcolor="#add3ea">  <!-- light color -->
+	<td valign="top" width="165" bgcolor="#EEEEF8">  <!-- light color -->
 
 	  <!-- Menus -->
-	  <table width="100%" cellspacing=0 border=0 cellpadding=2 bgcolor="#add3ea">
+	  <table width="100%" cellspacing=0 border=0 cellpadding=2 bgcolor="#EEEEF8">
 	    <tr>
-	      <TD align="center" bgcolor="#3f6393">
-		<IMG src="./images/blank.gif" height="1" width="1" border=0 alt="blank.gif"><BR>
-		<span class="titlebar">Documentation</span>
+	      <TD align="center" bgcolor="#737b9c">
+		<IMG src="./images/blank.gif" height="1" width="1" border=0 alt=""><BR>
+		<span class="titlebar">
+<font color="#ffffff">Documentation</font></span>
 	      </td> 
 	    </tr>
 	    <tr>
 	      <td align="right" class="menus">
-		<A class="menus" HREF="http://www.phys.ocean.dal.ca/~kelley/gri">Complete Manual</A><br>
-		<A class="menus" HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri/cookbook/index.html">Cookbook of Examples</A><br>
-                <A  class="menus" HREF="http://www2.linuxjournal.com/lj-issues/issue75/3743.html">Linux Journal Article on Gri</A><br>
+		<A class="menus" HREF="./gridoc/html/index.html">Manual (HTML)</A><br>
+		<A class="menus" HREF="http://www.phys.ocean.dal.ca/~kelley/gri">Manual (PDF)?</A><br>
+		<A class="menus" HREF="./gridoc/html/FAQ.html">FAQ</A><br>
+		<A class="menus" HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri/cookbook/index.html">Cookbook of Examples?</A><br>
+                <A  class="menus" HREF="http://www2.linuxjournal.com/lj-issues/issue75/3743.html">Article in Linux Journal</A><br>
 	      </td>
 	    </tr>
 	    <tr>
-	      <TD align="center" bgcolor="#3f6393">
-		<IMG src="./images/blank.gif" height="1" width="1" border=0 alt="blank.gif"><BR>
-		<span class="maintitlebar">Developer's Corner</span>
+	      <TD align="center" bgcolor="#737b9c">
+		<IMG src="./images/blank.gif" height="1" width="1" border=0 alt=""><BR>
+		<span class="maintitlebar"><font color="#fffff">Developer's Corner</font></span>
 	      </td> </tr>
 	    <tr><td class="menus" align="right">
                 <A  class="menus" HREF="http://www.sourceforge.net/project/?group_id=5511">Gri at SourceForge</A><br>
@@ -66,9 +66,9 @@ light   #d3edff add3ea
 		<A  class="menus" HREF="http://www.sourceforge.net/patch/?group_id=5511">Patch manager</A><br>
 	      </td></tr>
 	    <tr>
-	      <TD align="center" bgcolor="#3f6393">
-		<IMG src="./images/blank.gif" height="1" width="1" border=0 alt="blank.gif"><BR>
-		<span class="maintitlebar">Download (Development)</span>
+	      <TD align="center" bgcolor="#737b9c">
+		<IMG src="./images/blank.gif" height="1" width="1" border=0 alt=""><BR>
+		<span class="maintitlebar"><font color="#fffff">Download (Development)</font></span>
 	      </td> </tr>
 	    <tr><td class="menus" align="right">
 		<A  class="menus" HREF="http://download.sourceforge.net/gri/gri-2.5.5.tgz">gri-2.5.5.tgz</A><br>
@@ -76,13 +76,14 @@ light   #d3edff add3ea
 	      </td></tr>
 	    
 	    <tr>
-	      <TD align="center" bgcolor="#3f6393">
-	        <IMG src="./images/blank.gif" height="1" width="1" border=0 alt="blank.gif"><BR>
-		<span class="maintitlebar">Download (Stable)</span>
+	      <TD align="center" bgcolor="#737b9c">
+	        <IMG src="./images/blank.gif" height="1" width="1" border=0 alt=""><BR>
+		<span class="maintitlebar"><font color="#ffffff">Download (Stable)</font></span>
 		</td> </tr>
 		<tr><td class="menus" align="right">
 		<A  class="menus" HREF="http://download.sourceforge.net/gri/gri-2.4.4.tgz">gri-2.4.4.tgz</A><br>
 		<A  class="menus" HREF="http://download.sourceforge.net/gri/gri-2.4.4-1.i386.rpm">gri-2.4.4-1.i386.rpm</A><br>
+		<A  class="menus" HREF="http://download.sourceforge.net/gri/gri-2.6.0.i386.deb">??gri-2.6.0.i386.deb??</A><br>
 		</td></tr>
 	  </table>
 	</TD>
@@ -97,13 +98,13 @@ extensive power as a reward for tolerating a learning curve.
 
 <p>
 Gri can make 
-<a href="http://www.phys.ocean.dal.ca/~kelley/gri/X-Y.html">
+<a href="./gridoc/html/X-Y.html">
 x-y
 </a> graphs,
-<a href="http://www.phys.ocean.dal.ca/~kelley/gri/Contour.html">
+<a href="./gridoc/html/Contour.html">
 contour
 </a> graphs, and 
-<a href="http://www.phys.ocean.dal.ca/~kelley/gri/Image.html">
+<a href="./gridoc/html/Image.html">
 image
 </a>
 graphs.  In
@@ -128,10 +129,10 @@ industry-standard PostScript as output.
 For an overview of Gri, see the <A
 HREF="http://www2.linuxjournal.com/lj-issues/issue75/3743.html">Linux
 Journal Article</A> on Gri.  The Gri <a
-HREF="http://www.phys.ocean.dal.ca/~kelley/gri/cookbook">cookbook</a>
+HREF="http://www.phys.ocean.dal.ca/~kelley/gri/cookbook">cookbook?</a>
 will show you the sorts of graphs folks have made with Gri.  For the
 complete story, see the <A
-HREF="http://www.phys.ocean.dal.ca/~kelley/gri"> manual</a>.  Gri is
+HREF="./gridoc/html/index.html"> manual</a>.  Gri is
 available for <a
 href="http://sourceforge.net/project/filelist.php?group_id=5511">download</a>
 as source-code, as a pre-packaged RPM, and as a pre-packaged deb.
@@ -152,11 +153,11 @@ as source-code, as a pre-packaged RPM, and as a pre-packaged deb.
 </td>
 
 <!-- right menus -->
-<TD WIDTH="155" VALIGN="top" ALIGN="right" bgcolor="#add3ea">
+<TD WIDTH="155" VALIGN="top" ALIGN="right" bgcolor="#EEEEF8">
   
   <!-- News -->
   <table width="100%" border="0" cellspacing="0" cellpadding="0">
-    <tr  bgcolor="#3f6393"> 
+    <tr  bgcolor="#737b9c"> 
       <td align="center"> 
 	<span class="maintitlebar">News</span>
       </td>
@@ -175,7 +176,7 @@ as source-code, as a pre-packaged RPM, and as a pre-packaged deb.
   <!-- Contacts -->
 
   <table width="100%" border="0" cellspacing="0" cellpadding="0">
-    <tr bgcolor="#3f6393"> 
+    <tr bgcolor="#737b9c"> 
       <td align="center"> 
 	    <span class="maintitlebar">Contacts</span>
       </td>
@@ -192,7 +193,7 @@ as source-code, as a pre-packaged RPM, and as a pre-packaged deb.
   <!-- Hosted by -->
 
   <table width="100%" border="0" cellspacing="0" cellpadding="0">
-    <tr bgcolor="#3f6393"> 
+    <tr bgcolor="#737b9c"> 
       <td align="center"> 
 	    <span class="maintitlebar">Hosted by</span>
       </td>
@@ -209,11 +210,11 @@ as source-code, as a pre-packaged RPM, and as a pre-packaged deb.
     </td>
   </tr>
       </table>
-    <TABLE width="100%" border=0 cellspacing=0 cellpadding=0 bgcolor="3f6393">
+    <TABLE width="100%" border=0 cellspacing=0 cellpadding=0 bgcolor="737b9c">
       <TR>
 	<td  align="center"><SPAN class=bottombar>Comments to <A class=bottombar
 	      href="mailto:dankelley@sourcefforge.net">webmaster</A></span></td>
-	<td align="right" width="200"><SPAN class=bottombar><IMG src="blank.gif" height="1" width="145" border=0 alt="blank.gif"></span></td>
+	<td align="right" width="200"><SPAN class=bottombar><IMG src="blank.gif" height="1" width="145" border=0 alt=""></span></td>
       </TR>
     </TABLE>
   </BODY>
