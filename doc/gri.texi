@@ -191,7 +191,7 @@ The Gri web homepage is at
 * Handling Data::               Dealing with oddly-configured data
 * Commands::                    COMPLETE list of Gri commands
 * Extras::                      Extra programs provided with Gri
-* Emacs Editing Mode::          Editing Gri code inside Emacs
+* Emacs Mode::                  Editing Gri code inside Emacs
 * Evolution::                   How Gri has changed over time
 * Accessing::                   How to access/install Gri
 * Bugs::                        List of bugs, and how to report more
@@ -13325,7 +13325,7 @@ and presently does only text and polyline items.  I welcome additions to
 
 
 @c HTML <!-- newfile ImageExt.html "Gri: Image Extractor" "Gri Extras" -->
-@node   Extractor Of Images, Emacs Editing Mode, Fig To Gri Translator, Extras
+@node   Extractor Of Images, Emacs Mode, Fig To Gri Translator, Extras
 @comment  node-name,  next,  previous,  up
 @section Image extractor
 @cindex images, extracting from PostScript
@@ -13358,7 +13358,7 @@ GS> quit
 
 @c HTML <!-- newfile Emacs.html "Gri: Emacs editing mode" "Emacs editing mode" -->
 
-@node   Emacs Editing Mode, Gri-mode screenshots, Extractor Of Images, Top
+@node   Emacs Mode, Gri-mode screenshots, Extractor Of Images, Top
 @comment  node-name,  next,  previous,  up
 @chapter Editing Gri Files in GNU Emacs
 
@@ -13429,7 +13429,7 @@ of all commands and key definitions.
 * Dealing with many Gri versions::        gri-mode handles it.
 @end menu
 
-@node   Gri-mode screenshots, Installing gri-mode.el, Emacs Editing Mode, Emacs Editing Mode
+@node   Gri-mode screenshots, Installing gri-mode.el, Emacs Mode, Emacs Mode
 @comment  node-name,  next,  previous,  up
 @section Gri-mode screenshots, what it looks like.
 @cindex gri-mode, screenshots
@@ -13550,7 +13550,7 @@ file using a pull-down menu.
 @end ifhtml
 
 @c HTML <!-- newfile Emacs2.html "Gri: Installing Emacs Mode" "Installing Emacs Mode" -->
-@node   Installing gri-mode.el, Step 1, Gri-mode screenshots, Emacs Editing Mode
+@node   Installing gri-mode.el, Step 1, Gri-mode screenshots, Emacs Mode
 @comment  node-name,  next,  previous,  up
 @section Installing gri-mode.el, the nuts and bolts.
 @cindex gri-mode, installing
@@ -13564,7 +13564,7 @@ ftp://ftp.phys.ocean.dal.ca/users/kelley/gri
 The following installation steps appear a @emph{bit} complicated.
 That's only because gri has changed how it gets installed a few times,
 and gri-mode.el works with all of these various methods.  If you use gri
-from a Linux package (Debian or Red Hat) or compiled yourself using the
+from a Linux package (Debian or Red Hat) or if you compiled yourself using the
 default configuration, you won't need to do much.
 
 To install @file{gri-mode.el}, follow these 4 steps.  If gri-mode is
@@ -13688,18 +13688,17 @@ of them:
 
 @enumerate
 @item
- If you had multiple versions of Gri installed like so: 
-@example
-  /opt/gri/2.040/bin/gri
-  /opt/gri/2.040/lib/gri.cmd
-  /opt/gri/2.041/bin/gri
-  /opt/gri/2.041/lib/gri.cmd
-@end example
-
-then you'd use:
-@example
-  (setq gri*directory-tree "/opt/gri/")
-@end example
+ If you use a RedHat Powertool package (or Gri's own packaged RPM)
+ installed like:
+ @example
+  /usr/bin/gri
+  /usr/share/gri/gri.cmd
+ @end example
+ then you'd also use:
+ @example
+  (setq gri*directory-tree "/usr/share/gri/")
+ @end example
+ but gri-mode would know of only one installed version of gri.
 
 @item
  If you use a Debian GNU/Linux installation like:
@@ -13711,22 +13710,25 @@ then you'd use:
  @example
   (setq gri*directory-tree "/usr/share/gri/")
  @end example
- Note that since there is no @file{/usr/share/gri/2.1.17/bin/} directory (a
- similar structure to @file{opt/gri} above), all gri binaries with version
- number suffixes must exist in the path (e.g. @file{gri-2.1.17})
+ Note that all gri binaries must exist in the path with version number
+ suffixes (e.g. @file{gri-2.1.17}) since there is no
+ @file{/usr/share/gri/2.1.17/bin/} directory (using a similar structure
+ to @file{opt/gri} below) where gri-mode can find the ninary
+ corresponding to a given version number.
 
 @item
- If you use a RedHat Powertool package (or Gri's owm packaged RPM)
- installed like:
+ If you had multiple versions of Gri installed like so: 
  @example
-  /usr/bin/gri
-  /usr/share/gri/gri.cmd
+  /opt/gri/2.040/bin/gri
+  /opt/gri/2.040/lib/gri.cmd
+  /opt/gri/2.041/bin/gri
+  /opt/gri/2.041/lib/gri.cmd
  @end example
- then you'd also use:
+
+then you'd use:
  @example
-  (setq gri*directory-tree "/usr/share/gri/")
+  (setq gri*directory-tree "/opt/gri/")
  @end example
- but gri-mode would know of only one installed version of gri.
 @end enumerate
 
 @node   Step 3, Step 4, Step 2, Installing gri-mode.el
@@ -13748,10 +13750,10 @@ following line to your @file{~/.emacs} file:
 This is a good method when you only start emacs once a week and
 use it for every file you edit (as you should).  
 
-If you startup a fresh emacs every time you edit (bad scientist!)  then
-you probably only want to load gri-mode into emacs when you need it.  In
-that case, instead of the @code{require} statement above, add the following
-lines to your @file{~/.emacs} file:
+If you startup a fresh emacs every time you edit then you probably only
+want to load gri-mode into emacs when you need it.  In that case,
+instead of the @code{require} statement above, add the following lines
+to your @file{~/.emacs} file:
 
 @example
  (autoload 'gri-mode "gri-mode" "Enter Gri-mode." t)
@@ -13790,7 +13792,7 @@ may optionally customize gri-mode by:
 @end enumerate
 
 @c HTML <!-- newfile Emacs3.html "Gri: Major Emacs Mode Commands" "Major Emacs Mode Commands" -->
-@node   Major Gri-mode commands, Command completion, Step 4, Emacs Editing Mode
+@node   Major Gri-mode commands, Command completion, Step 4, Emacs Mode
 @comment  node-name,  next,  previous,  up
 @section Major Gri-mode commands.
 @cindex gri-mode, major commands
@@ -14014,7 +14016,7 @@ list Info about.  There's also a menu-bar pull-down menu which lists all
 gri commands, and you can get to Info from that too.
 
 @c HTML <!-- newfile Emacs4.html "Gri: Dealing with many Gri versions" "Emacs Mode: Dealing with many Gri versions" -->
-@node   Dealing with many Gri versions, Evolution, Info interface, Emacs Editing Mode
+@node   Dealing with many Gri versions, Evolution, Info interface, Emacs Mode
 @comment  node-name,  next,  previous,  up
 @section Dealing with many Gri versions, gri-mode handles it.
 @cindex gri-mode, handling multiple Gri versions
@@ -14342,7 +14344,7 @@ Note: The library file @file{/opt/gri/lib/gri.cmd} is not actually used
 by Gri.  It uses @emph{numbered} files like
 @file{/opt/gri/@value{GRI-VERSION}/lib/gri.cmd}.  The unnumbered library
 files are provided for use by the Emacs gri-mode, when it tries to
-``complete'' partially typed commands @xref{Emacs Editing Mode}.
+``complete'' partially typed commands @xref{Emacs Mode}.
 
 
 
