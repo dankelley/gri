@@ -1,10 +1,10 @@
 Summary: a language for scientific illustration
 Name: gri
-Version: 2.5.3
+Version: 2.5.4
 Release: 1
 Copyright: distributable
 Group: Applications/Engineering
-Source: ftp://ftp.phys.ocean.dal.ca/users/kelley/gri/gri-2.5.3.tgz
+Source: ftp://ftp.phys.ocean.dal.ca/users/kelley/gri/gri-2.5.4.tgz
 URL: http://www.phys.ocean.dal.ca/~kelley/gri/index.html
 Packager: Dan E. Kelley <Dan.Kelley@Dal.CA>
 Icon: grilogo.gif
@@ -93,6 +93,10 @@ then
 fi
 
 %changelog
+* Thu Jun 1 2000  Dan Kelley <dan.kelley@dal.ca>
+- Triv changes here; code changes are to read compressed files, and
+  manual improvements.
+
 * Fri May 12 2000 Dan Kelley <dan.kelley@dal.ca>
 - Compress info files for linux-redhat.
 
