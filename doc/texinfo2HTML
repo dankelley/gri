@@ -59,6 +59,7 @@ print "<!-- $date -->\n";
 while(<>) {
     $line++ if $debug;
     print STDERR "$0 at line: $line\n" if ($debug && ($line == 2000 * int($line / 2000)));
+    next if /\@cindex/;
     # Prevent unclosed braces
     if (!$in_example) {
 	while (/{[^}]*$/o) {
@@ -253,17 +254,31 @@ while(<>) {
 	}
 	print "</UL>\n";
     }
-    if (/\@table/o) {
+    if (/\@table\s*(.*)/o) {
+	print STDERR "table item is $1\n";
+	$is_code = 0;
+	$is_code = 1 if ($1 eq "\@code");
 	print "<dl>\n";
 	while(<>) {
 	    next if /\@sp/;
+	    next if /\@cindex/;
 	    &process_examples();
 	    if (/^\s*\@end\s*table/o) {
 		$_ = "";
 		last;
 	    }
 	    if (/\s*\@item\s*(.*)/o) {
-		print "<dt> $1\n<dd>";
+		print STDERR "\nBEFORE ($is_code) '$1'\n";
+                $the_item = $1;
+		$the_item =~ s:\@{:{:g;
+		$the_item =~ s:\@}:}:g;
+		if ($is_code) {
+		    print "<dt> <tt>$the_item</tt>\n<dd>";
+		    print STDERR "<dt> <tt>$the_item</tt>\n<dd>";
+		} else {
+		    print "<dt> $the_item\n<dd>";
+		    print STDERR "<dt> $the_item\n<dd>";
+		}
 	    } else {
 		if (/^$/o) {
 		    print "<p>";

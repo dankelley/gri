@@ -52,7 +52,7 @@
 @comment %**start of header
 @setfilename gri.info
 @settitle Gri
-@set GRI-VERSION 2.5.4
+@set GRI-VERSION 2.5.5
 @set AUTHOR-EMAIL Dan.Kelley@@Dal.CA
 @c %**end of header
 @iftex
@@ -617,7 +617,6 @@ help on commands.  For example, a user might type the following to learn
 about drawing labels (the boldface string @b{gri:} is a prompt typed by
 gri):
 @example
-gri
 gri - scientific graphic program (version @value{GRI-VERSION})
  GPL Copyright 2000 by Dan E. Kelley.
 
@@ -648,7 +647,7 @@ are explained below.
 @item
 To make Gri plot things:
 @example
-gri [OPTIONS] [CmdFiles [PSFile] [Answers]]
+gri [OPTIONS] [CmdFiles [PSFile] [: optional_arguments]]
 @end example
 @cindex @code{[]} syntax for optional words in commands
 @cindex optional words in commands, @code{[]} syntax
@@ -672,20 +671,28 @@ or more of the following (explained below):
 [-s[uperuser][N]]
 @end example
 @noindent
-and the optional @code{Answers} is a mechanism to provide
-answers to any @code{query} commands that Gri is
-instructed to do @xref{Query}.  @code{Answeres} must consist of 2 or more
-words, separated by whitespace.  The first word must be the single
-character @code{:}.  The following words are supplied individually as
-answers to @code{query} commands, one word per @code{query} command.
-To get whitespace within one of these words, use quotes around
-it.  Extra words, beyond the requirements of @code{query} commands,
-are ignored.  If there are too few words, then @code{query} reverts
-to it's normal behaviour of requesting this input from the user
-at the keyboard.
-@cindex query, input from commandline 
-@cindex command-line input to query
-@cindex user interaction, redirecting input to query command
+@cindex @code{:} on commandline
+@cindex commandline flag @code{:}
+@cindex arguments on commandline, accessing
+@cindex commandline arguments, accessing
+@cindex @code{argv}, RPN operator to access commandline arguments
+@cindex @code{argc}, RPN operator to access commandline arguments
+
+Here, the optional @code{optional_arguments} are a mechanism to
+customize the action of the given Gri script from the commandline.
+Whatever (optionally) follows a @code{:} in the commandline (which must
+itself follow the commandfile name) is stored in a buffer.  If there are
+any @code{query} commands in the commandfile, Gri looks first in this
+buffer for answers.  A single token is given to the @code{query}
+command, not the entire list.  Tokens are separated by whitespace, so if
+you need whitespace in your token, enclose it in double-quote or
+single-quote marks.  (This is the usual unix method.)  Successive
+@code{query} commands are given the tokens, one by one.  In addition,
+the tokens are available with the RPN operators @code{argc} (a solitary
+operator which yields the number of tokens @ref{Solitary Operators}) and
+@code{argv} (a unary operator which yields a numbered token from the
+list @ref{Unary Operators}).
+
 @item
 To make Gri extract the commands that created a PostScript file:
 @cindex recovering commands from a PostScript file
@@ -2145,7 +2152,7 @@ notation (@code{rpn}), which is used in some calculators.  Most users
 can learn rpn in a few minutes, so don't worry if you don't know RPN
 yet.
 
-@emph{syntax} rpn expressions can be used anywhere Gri expects a number.
+@emph{Syntax}: rpn expressions can be used anywhere Gri expects a number.
 RPN expressions start with a opening curly brace (@code{@{}) which is
 immediately followed by the word @code{rpn}.  rpn expressions end with a
 closing curly brace (@code{@}}).  Instead of @code{set x size 10} you
@@ -2164,10 +2171,9 @@ RPN operations can be divided roughly into the following groups.
 @menu
 * Stack Operators::             Operate on the rpn stack
 * Rpn Function::                Define a new rpn operator
-* rpn Constants::               Pi, e, etc
-* Existence of Item::           Does a file/variable/synonym exist?
 * Binary Operators::            Act on top two items on stack
 * Unary Operators::             Act on top item on stack
+* Solitary Operators::          Act alone, inserting something on stack
 * Manipulation of Columns etc:: Act on data columns
 * rpn Examples::                A few examples
 @end menu
@@ -2188,18 +2194,32 @@ RPN operations can be divided roughly into the following groups.
 @cindex @code{pstack} rpn stack operator
 @cindex rpn stack operator @code{pstack}
 
-Stack operators manipulate or display the stack.  @code{pop} removes the
-top item from the stack, @code{dup} duplicates the top item on the
-stack, @code{exch} reorders the top two items on the stack,
+Stack operators manipulate or display the stack.  
+
+@code{pop} removes the top item from the stack @xref{Unary Operators}.
+
+@code{dup} duplicates the top item on the stack @xref{Unary Operators}.
+
+@code{exch} reorders the top two items on the stack @xref{Binary Operators}.
+
 @code{pstack} prints the items on the stack (without changing the
-stack), @code{roll_right} rolls the items to the right and
-@code{roll_left} rolls the items to the left, e.g.
+stack).
+
+@code{roll_right} rolls the items to the right.
+
+@code{roll_left} rolls the items to the left.
+
+For example, the following shows how you might use @code{exch} or
+@code{roll_right} to change the sense of a subtraction.
 @example
-# following yields [4 1 2 3] on the stack
-@{rpn 1 2 3 4 roll_right pstack@}
+show @{rpn 1 2            -@} " ... yields -1"
+show @{rpn 1 2 exch       -@} " ... yields  1"
+show @{rpn 1 2 roll_right -@} " ... yields  1"
 @end example
 
-@node   Rpn Function, rpn Constants, Stack Operators, rpn Mathematics
+
+
+@node   Rpn Function, Binary Operators, Stack Operators, rpn Mathematics
 @comment  node-name,  next,  previous,  up
 @subsection Rpn function Operators
 @code{rpnfunction} operators are user-defined operators.  The parser
@@ -2210,57 +2230,7 @@ or even other legal @code{rpnfunction} constructs.  For details,
 @xref{Rpnfunction}.
 
 
-@node   rpn Constants, Existence of Item, Rpn Function, rpn Mathematics
-@comment  node-name,  next,  previous,  up
-@subsection rpn constants
-
-@cindex @file{gri.cmd} file, rpnfunctions within
-@cindex constants known to @code{rpn}
-Gri knows the values @code{pi} = 3.141@dots{},
-@code{e} = 2.718@dots{}.  These are defined near the end of the startup
-file @file{gri.cmd} as @code{rpnfunction} commands @xref{Rpnfunction}.
-To add more builtin constants, follow the same @code{rpnfunction}
-procedure.
-
-
-@node   Existence of Item, Binary Operators, rpn Constants, rpn Mathematics
-@comment  node-name,  next,  previous,  up
-@subsection Testing for Existence of Files, Variables, and Synonym
-@cindex existence of a variable, testing
-@cindex existence of a synonym, testing
-@cindex testing for existence of a variable
-@cindex testing for existence of a synonym
-@cindex variables, checking for existence of
-@cindex synonyms, checking for existence of
-@cindex @code{defined} rpn operator 
-The @code{defined} operator checks whether synonyms
-or variables are defined, e.g.
-@example
-.var_exists. = @{rpn ".var." defined@}
-.syn_exists. = @{rpn "\\syn" defined@}
-@end example
-@noindent Note the double-backslash used in the synonym case, which is
-required to prevent Gri from substituting the synonym value into the string.
-
-@cindex operating system, checking file status
-@cindex files, testing for existence of
-@cindex existence of a data file, testing for
-@cindex testing for existence of a data file
-To test for the existence of files, use the operating system, e.g.,
-testing for existence of unix file called @file{A}:
-@example
-.file_exists. = @{rpn \
-    "test -r A && echo 1 || echo 0" system
-    "1" ==@}
-@end example
-Another way to do this is
-@example
-\file_exists = "\$(test -r A && echo 1 || echo 0)"
-@end example
-
-
-
-@node   Binary Operators, Unary Operators, Existence of Item, rpn Mathematics
+@node   Binary Operators, Unary Operators, Rpn Function, rpn Mathematics
 @comment  node-name,  next,  previous,  up
 @subsection Binary Operators
 
@@ -2277,130 +2247,123 @@ Another way to do this is
 @cindex user units, converting to page units
 @cindex larger of two numbers, rpn operator @code{sup} 
 @cindex smaller of two numbers, rpn operator @code{inf}
-@cindex rpn operator @code{sup} 
-@cindex rpn operator @code{inf}
-@cindex @code{sup} rpn operator
-@cindex @code{inf} rpn operator
+@cindex rpn operator @code{sup}, finds larger of pair
+@cindex rpn operator @code{inf}, finds smaller of pair
+@cindex @code{sup} rpn operator, finds larger of pair
+@cindex @code{inf} rpn operator, finds smaller of pair
 
-Binary operators act on the top two items on the stack.  With most
-binary operators, the result is to replace these two items with a single
-new item.  For example, @code{@{rpn 1 2 /@}} yields 0.5.
+Binary operators act on the @emph{top two} items on the stack.  Most
+binary operators replace two items on the stack with one item, e.g.
+@code{@{rpn 1 2 /@}} yields 0.5.  However, a few binary operators
+replace one pair of items with a new pair of items, e.g. the
+@code{xyusertocm} operator replaces an (x,y) pair in user coordinates
+with an (xcm,ycm) pair in coordinates of centimeters on the page.
 
-@cindex @code{xyusertocm} rpn operator
-@cindex @code{xycmtouser} rpn operator
-Some binary operators replace the top two items with two new items.
-Examples are the pairwise conversion operators @code{xyusertocm} and
-@code{xycmtouser}.
+The binary operators are illustrated below, in rough alphabetical order.
 
-List of binary operators:
+@table @code
+@item @{rpn 3 2 +@}
 @cindex @code{+} rpn operator
 @cindex rpn operator @code{+}
-@code{+},
+Add 2 to 3.
+@item @{rpn 3 2 -@}
 @cindex @code{-} rpn operator
 @cindex rpn operator @code{-}
-@code{-},
+Subtract 2 from 3.
+@item @{rpn 3 2 *@}
 @cindex @code{*} rpn operator
 @cindex rpn operator @code{*}
-@code{*},
+Multiply 3 by 2.
+@item @{rpn 3 2 /@}
 @cindex @code{/} rpn operator
 @cindex rpn operator @code{/}
-@code{/},
+Divide 3 by 2.
+@item @{rpn 3 2 <@}
 @cindex @code{<} rpn operator
 @cindex rpn operator @code{<}
-@code{<} (e.g., @code{1 2 <} yields 0 since 2 is not less than 1),
+Test whether 2 is less than 3, yielding 1.
+
+@item @{rpn 3 2 <=@}
 @cindex @code{<=} rpn operator
 @cindex rpn operator @code{<=}
-@code{<=},
+Test whether 2 is less than or equal to 3.
+
+@item @{rpn 3 2 >@}
 @cindex @code{>} rpn operator
 @cindex rpn operator @code{>}
-@code{>}, (e.g., @code{0 10 >} yields 1 since 10 is greater than 0),
+Test whether 2 is greater than 3, yielding 0.
+
+@item @{rpn 3 2 >=@}
 @cindex @code{>=} rpn operator
 @cindex rpn operator @code{>=}
-@code{>=},
+Test whether 2 is greater than or equal to 3, yielding 0.
+
+@item @{rpn 3 2 ==@}
 @cindex @code{==} rpn operator
 @cindex rpn operator @code{==}
-@code{==},
-@cindex @code{&} rpn operator
-@cindex rpn operator @code{&}
-@code{&},
-@cindex @code{|} rpn operator
-@cindex rpn operator @code{|}
-@code{|},
-@cindex @code{power} rpn operator
-@cindex rpn operator @code{power}
-@code{power} (e.g., @code{2 3 power} yields 8),
-@cindex @code{exch} rpn operator
-@cindex rpn operator @code{exch}
-@code{exch} (exchange two items on top of stack),
-@cindex @code{strcat} rpn operator
-@cindex rpn operator @code{strcat}
-@code{strcat} (add top string to end of string before it, then delete top string),
+Test whether 2 and 3 are equal, yielding 0.  (Do not confuse this with
+the asignment operator @code{=}, described next.)
+
+@item @{rpn 10 ".ten." =@}
 @cindex @code{=} rpn operator
 @cindex rpn operator @code{=}
-@code{=} (assign string value to synonym or numerical value to variable; see example below),
-@cindex @code{sup} rpn operator
-@cindex rpn operator @code{sup}
-@code{sup} picks the larger of two values on stack,
+Assign the value @code{10} to the variable named @code{.ten.}.  (Do not
+confuse this with the @code{==} equality operator described above.)
+
+@item @{rpn "hello" "\\greeting" =@} 
+Assign the value @code{"hello"} to the synonym @code{\greeting}.
+
+@item @{rpn 0 1 &@}
+@cindex @code{&} rpn operator
+@cindex rpn operator @code{&}
+Test whether 0 and 1 are both true, yielding 0.
+
+@item @{rpn 0 1 |@}
+@cindex @code{|} rpn operator
+@cindex rpn operator @code{|}
+Test whether either 0 or 1 is true, yielding 1.
+@item @{rpn 2 3 exch@}
+
+@cindex @code{exch} rpn operator
+@cindex rpn operator @code{exch}
+Exchange 2 and 3 on the stack, yielding @code{3 2} on the stack.  (See
+also @code{pop} and @code{dup}.)
+
+@item @{rpn 2 3 inf@}
 @cindex @code{inf} rpn operator
 @cindex rpn operator @code{inf}
-@code{inf} picks the smaller of two values on the stack,
+Pick the smaller of two values, yielding 3.  (Opposite to @code{sup}.)
+
+@item @{rpn 2 3 power@}
+@cindex @code{power} rpn operator
+@cindex rpn operator @code{power}
+Take 2 to the 3rd power, yielding 8.
+
+@item @{rpn 2 3 remainder@}
 @cindex @code{remainder} rpn operator
 @cindex rpn operator @code{remainder}
-@code{remainder} yields the remainder from division of two values on the
-stack, using the C-language subroutine @code{fmod}, which is similar to
-@code{mod} in fortran.  See the manuals on these functions, and the
-examples below, for details on sign of the result compared to the two
-input numbers.
+Calculate remainder after dividing 2 by 3, yielding 2.  The return value
+for @code{@{rpn A B remainder@}} is @code{B - n * A}, where @code{n} is
+the quotient of @code{A/B}, rounded towards zero to an integer.  In this
+case, @code{2/3} rounds to an @code{n} value of zero, yielding 2 as a
+result.
 
-Notes:
-@itemize @bullet
-@item
-@cindex string comparison
-@cindex comparing strings
-@cindex rpn, string manipulation
-@cindex string manipulation in RPN
-String comparison operators are done with the operators @code{==}
-and @code{!=}, as in the example below (@pxref{About Synonyms}).
-@example
-if @{rpn "\item" "S" ==@}
-    show "The item is 'S'"
-end if
-@end example
-@item
-@cindex synonyms, assigning inside rpn statements
-@cindex variables, assigning inside rpn statements
-@cindex rpn statements, assigning to synonyms and variables within
-Assignment to variables and synonyms:
-@example
-# Variable assignment.  Note that the '=' operator
-# removes the last two items from the stack, so
-# this whole line translates to a blank line,
-# which gri then ignores.
-@{rpn 2 pi * ".two_pi." =@}
+@item @{rpn "file" ".dat" strcat@}
+@cindex @code{strcat} rpn operator
+@cindex rpn operator @code{strcat}
+Concatenate the two strings, yielding the string @code{"file.dat"}.
 
-# String assignment; note double quote needed,
-# so Gri won't try to substitute for an
-# existing synonym.
-@{rpn "Hi there" "\\politeness" =@}
-@end example
-@end itemize
+@item @{rpn 2 3 sup@}
+@cindex @code{sup} rpn operator
+@cindex rpn operator @code{sup}
+Pick the larger of two values, yielding 3.  (Opposite to @code{inf}.)
+
+@end table
 
 
-@node   Unary Operators, Manipulation of Columns etc, Binary Operators, rpn Mathematics
+@node   Unary Operators, Solitary Operators, Binary Operators, rpn Mathematics
 @comment  node-name,  next,  previous,  up
 @subsection Unary Operators
-
-@cindex random numbers, generating in RPN expressions
-First, an operation that does not require even a single item on the
-stack: random number generation.  Random numbers are given by
-@code{rand}.
-
-
-@cindex mathematical operations
-Unary operators replace the last item on the stack with another item.
-For example, the @code{sin} operator takes the sine of the number on the
-top of the stack; e.g., @code{@{rpn 45 sin@}} yields sin of 45 degrees.
-
 @cindex rpn, system calls
 @cindex rpn, conversion of string to number
 @cindex system calls in rpn expressions
@@ -2409,126 +2372,294 @@ top of the stack; e.g., @code{@{rpn 45 sin@}} yields sin of 45 degrees.
 @cindex checking for missing value in rpn expressions
 @cindex missing value, checking for in rpn  expressions
 
-List of unary operators:
+Unary operators replace the last item on the stack with another item.
+For example, the @code{sin} operator takes the sine of the number on the
+top of the stack; e.g., @code{@{rpn 45 sin@}} yields sin of 45 degrees.
 
-@cindex @code{ismissing} rpn operator
-@cindex rpn operator @code{ismissing}
-@code{ismissing} (=1 if value is current missing value, 0 otherwise),
-@cindex @code{abs} rpn operator
-@cindex rpn operator @code{abs}
-@code{abs},
-@cindex @code{atof} rpn operator
-@cindex rpn operator @code{atof}
-@code{atof} (converts string to number),
+The unary operators are illustrated below, in rough alphabetical order.
+
+@table @code
+@item @{rpn 0 !@}
 @cindex @code{!} rpn operator
 @cindex rpn operator @code{!}
-@code{!},
-@cindex @code{acosh} rpn operator
-@cindex rpn operator @code{acosh}
-@code{acosh},
-@cindex @code{asinh} rpn operator
-@cindex rpn operator @code{asinh}
-@code{asinh},
-@cindex @code{atanh} rpn operator
-@cindex rpn operator @code{atanh}
-@code{atanh},
+@cindex logical negation, @code{!} rpn operator
+@cindex negation, @code{!} rpn operator
+Replace 0 (false) with its logical negation 1 (true).
+
+@item @{rpn -3 abs@}
+@cindex @code{abs} rpn operator
+@cindex rpn operator @code{abs}
+Calculate absolute value of @code{-3}.
+
+@item @{rpn 0.5 acos@}
 @cindex @code{acos} rpn operator
 @cindex rpn operator @code{acos}
-@code{acos},
+Calculate inverse cosine of 0.5, yielding 60 (degrees).
+
+@item @{rpn 2 acosh@}
+@cindex @code{acosh} rpn operator
+@cindex rpn operator @code{acosh}
+Calculate inverse hyperbolic cosine of 2, yielding 1.317.  (Note:
+argument must equal or exceed 1, or an error results.)
+
+@item @{rpn 0.5 asin@}
 @cindex @code{asin} rpn operator
 @cindex rpn operator @code{asin}
-@code{asin},
+Calculate inverse sine of 0.5, yielding 30 (degrees).
+
+@item @{rpn 1 atan@}
 @cindex @code{atan} rpn operator
 @cindex rpn operator @code{atan}
-@code{atan},
-@cindex @code{sin} rpn operator
-@cindex rpn operator @code{sin}
-@code{sin},
-@cindex @code{cos} rpn operator
-@cindex rpn operator @code{cos}
-@code{cos},
-@cindex @code{tan} rpn operator
-@cindex rpn operator @code{tan}
-@code{tan},
-@cindex @code{cosh} rpn operator
-@cindex rpn operator @code{cosh}
-@code{cosh},
-@cindex @code{sinh} rpn operator
-@cindex rpn operator @code{sinh}
-@code{sinh},
-@cindex @code{tanh} rpn operator
-@cindex rpn operator @code{tanh}
-@code{tanh},
-@cindex @code{sqrt} rpn operator
-@cindex rpn operator @code{sqrt}
-@code{sqrt},
-@cindex @code{system} rpn operator
-@cindex rpn operator @code{system}
-@code{system} (replaces string with output when that string is fed to the operating system),
-@cindex @code{log} rpn operator
-@cindex rpn operator @code{log}
-@code{log},
-@cindex @code{ln} rpn operator
-@cindex rpn operator @code{ln}
-@code{ln},
-@cindex @code{exp} rpn operator
-@cindex rpn operator @code{exp}
-@code{exp},
-@cindex @code{exp10} rpn operator
-@cindex rpn operator @code{exp10}
-@code{exp10},
-@cindex @code{ceil} rpn operator
-@cindex rpn operator @code{ceil}
-@code{ceil},
-@cindex @code{floor} rpn operator
-@cindex rpn operator @code{floor}
-@code{floor},
-@cindex @code{cmtopt} rpn operator
-@cindex rpn operator @code{cmtopt}
-@code{cmtopt},
-@cindex @code{pttocm} rpn operator
-@cindex rpn operator @code{pttocm}
-@code{pttocm},
-@cindex @code{xusertocm} rpn operator
-@cindex rpn operator @code{xusertocm}
-@code{xusertocm},
-@cindex @code{yusertocm} rpn operator
-@cindex rpn operator @code{yusertocm}
-@code{yusertocm},
-@cindex @code{xcmtouser} rpn operator
-@cindex rpn operator @code{xcmtouser}
-@code{xcmtouser},
-@cindex @code{ycmtouser} rpn operator
-@cindex rpn operator @code{ycmtouser}
-@code{ycmtouser},
-@cindex @code{width} rpn operator
-@cindex rpn operator @code{width}
-@code{width} (e.g., @code{"hi" width} yields the width of this string in cm),
+Calculate inverse tangent of 1, yielding 45 (degrees).
+
+@item @{rpn 0.5 atanh@}
+@cindex @code{atan} rpn operator
+@cindex rpn operator @code{atan}
+Calculate inverse hyperbolic tangent of 0.5, yielding 0.549306
+(radians).
+
+@item @{rpn 0 argv@}
+@cindex @code{argv} rpn operator, access commandline arguments
+@cindex arguments on command line, accessing with @code{argv} rpn operator
+@cindex commandline arguments, accessing with @code{argv} rpn operator
+Returns the first optional argument following a @code{:} on the command
+line that invoked Gri (@code{Options On Command Line}).  (Counting
+starts at 0; the second option is accessed by @code{rpn 1 argv}.)  A
+string consisting of a single blank character results if one tries to
+access beyond the list of arguments that were actually supplied.
+
+@item @{rpn "hi" ascent@}
 @cindex @code{ascent} rpn operator
 @cindex rpn operator @code{ascent}
-@code{ascent} (e.g., @code{"hi" ascent} yields the ascent above the baseline in cm),
+Determine ascent of this string (in cm), in the present font and
+fontsize.  (See also @code{descent} and @code{width}.)
+
+@item @{rpn "3.1" atof@}
+@cindex @code{atof} rpn operator
+@cindex rpn operator @code{atof}
+Calculate numerical value contained in indicated string.
+
+@item @{rpn 1.5 ceil@}
+@cindex @code{ceil} rpn operator
+@cindex rpn operator @code{ceil}
+Calculate the next higher integer, yielding 2.  (Opposite of @code{floor}.)
+
+@item @{rpn 45 cos@}
+@cindex @code{cos} rpn operator
+@cindex rpn operator @code{cos}
+Calculate cosine of 45 degrees, yielding 0.707.
+
+@item @{rpn 1 cosh@}
+@cindex @code{cosh} rpn operator
+@cindex rpn operator @code{cosh}
+Calculate hyperbolic cosine of 1 (radian), yielding 1.543.
+
+@item @{rpn 1 cmtopt@}
+@cindex @code{cmtopt} rpn operator
+@cindex rpn operator @code{cmtopt}
+Convert from 1 centimeter to so-called ``point'' units, yielding 28.45.
+(Opposite of @code{pttocm}.)
+
+@item @{rpn "\\syn" defined@}
+@cindex testing for existence of a synonym
+@cindex synonyms, checking for existence of
+@cindex existence of a synonym, testing
+Test whether the named synonym is defined at the moment, returning 1 if
+so and 0 if not.  (Note the double-backslash in the synonym name, which
+is required.)
+
+@item @{rpn ".var." defined@}
+@cindex existence of a variable, testing
+@cindex testing for existence of a variable
+@cindex variables, checking for existence of
+Test whether the named variable is defined at the moment, returning 1 if
+so and 0 if not.
+
+
+@item @{rpn "hi" descent@}
+@cindex @code{descent} rpn operator
+@cindex rpn operator @code{descent}
+Calculate the descent (below the baseline in cm) for the given string,
+in the present font and fontsize.  (See also @code{ascent} and
+@code{width}.)
+
+@item @{rpn "/home/me/data/timeseries" directory_exists@}
 @cindex @code{directory_exists} rpn operator
 @cindex file permissions, testing with @code{file_exists} and @code{directory_exists}
 @cindex rpn operator @code{directory_exists}
-@code{directory_exists} (e.g., @code{"/usr/bin" directory_exists} is 1
-if the directory exists and is readable and executable.  ('Executable'
-in unix parlance means that a user could @code{cd} into the directory.)
-@cindex @code{file_exists} rpn operator
-@cindex rpn operator @code{file_exists}
-@code{file_exists} (e.g., @code{"~/.grirc" file_exists} is 1 if the file
-exists and is readable.
-@cindex @code{descent} rpn operator
-@cindex rpn operator @code{descent}
-@code{descent} (e.g.,m @code{"hi" descent} yields the descent below the baseline in cm),
-@cindex @code{pop} rpn operator
-@cindex rpn operator @code{pop}
-@code{pop} (removes top item from stack),
+Determine whether indicate directory exists, yielding @code{1} if it does
+and @code{0} otherwise.  (See also @code{file_exists}.)
+
+@item @{rpn 2 dup@}
 @cindex @code{dup} rpn operator
 @cindex rpn operator @code{dup}
-@code{dup} (duplicates top item on stack).
+Duplicates top item on stack, yielding @code{2 2} on the stack.
+(See also @code{exch} and @code{pop}.)
+
+@item @{rpn 1 exp@}
+@cindex @code{exp} rpn operator
+@cindex rpn operator @code{exp}
+Calculate @code{e} raised to the indicated power, yielding 2.71828.
+
+@item @{rpn 2 exp10@}
+@cindex @code{exp10} rpn operator
+@cindex rpn operator @code{exp10}
+Calculate @code{10} raised to the indicated power, yielding 100.
+
+@item @{rpn "foo.dat" file_exists@}
+@cindex @code{file_exists} rpn operator
+@cindex rpn operator @code{file_exists}
+Determine whether the indicate file exists, yielding @code{1} if it does
+and @code{0} otherwise.  (See also @code{directory_exists}.)
+
+@item @{rpn 1.5 floor@}
+@cindex @code{floor} rpn operator
+@cindex rpn operator @code{floor}
+Calculate nearest smaller integer, yielding 1.  (Opposite of
+@code{ceil}.)
+
+@item @{rpn 3 ismissing@}
+@cindex @code{ismissing} rpn operator
+@cindex rpn operator @code{ismissing}
+Yields 1 if the indicated value is a ``missing value'' or 0 otherwise. 
+
+@item @{rpn 100 log@}
+@cindex @code{log} rpn operator
+@cindex rpn operator @code{log}
+Calculate base-10 logarithm of 100, yielding 2.
+
+@item @{rpn 10 ln@}
+@cindex @code{ln} rpn operator
+@cindex rpn operator @code{ln}
+Calculate natural logarithm of 10, yielding 2.30259.
+
+@item @{rpn 28.45 pttocm@}
+@cindex @code{pttocm} rpn operator
+@cindex rpn operator @code{pttocm}
+Calculate number of centimeters in 28.45 printers points, yielding 1.
+(Opposite of @code{cmtopt}.)
+
+@item @{rpn 1 2 pop@}
+@cindex @code{pop} rpn operator
+@cindex rpn operator @code{pop}
+Remove the top item from the stack, yielding @code{1} on the stack.
+Generates an error if the stack is empty.  (See also @code{exch} and
+@code{dup}.)
+
+@item @{rpn 4 sqrt@}
+@cindex @code{sqrt} rpn operator
+@cindex rpn operator @code{sqrt}
+Calculate square root of number, yielding 2.  (Negative arguments yield
+errors.)
+
+@item @{rpn 45 sin@}
+@cindex @code{sin} rpn operator
+@cindex rpn operator @code{sin}
+Calculate sine of 45 (degrees), yielding 0.707107.
+
+@item @{rpn 2 sinh@}
+@cindex @code{sinh} rpn operator
+@cindex rpn operator @code{sinh}
+Calculate hyperbolic sine of 2, yielding 3.62686.
+
+@item @{rpn "date" system@}
+@cindex @code{system} rpn operator
+@cindex rpn operator @code{system}
+Call the indicated system function and insert its ouput on the stack,
+yielding the date as a character string.
+
+@item @{rpn 45 tan@}
+@cindex @code{tan} rpn operator
+@cindex rpn operator @code{tan}
+Calculate tangent of 45 (degrees), yielding 1.
+
+@item @{rpn tanh@}
+@cindex @code{tanh} rpn operator
+@cindex rpn operator @code{tanh}
+Calculate hyperbolic tangent of 2, yielding 0.964028.
+
+@item @{rpn "hi" width@}
+@cindex @code{width} rpn operator
+@cindex rpn operator @code{width}
+Determine width of this string (in cm), in the present font and fontsize.
+(See also @code{ascent} and @code{descent}.)
+
+@item @{rpn 1 xusertocm@}
+@cindex @code{xusertocm} rpn operator
+@cindex rpn operator @code{xusertocm}
+Calculate x coordinate, in centimeters measured from left-hand side of
+page, corresponding to a user-value of x=1.  (Opposite of
+@code{xcmtouser}.)
+
+@item @{rpn 1 xcmtouser@}
+@cindex @code{xcmtouser} rpn operator
+@cindex rpn operator @code{xcmtouser}
+Calculate x value, in user units, for a point that is 1 centimeter from
+the left-hand edge of the paper.  (Opposite of @code{xusertocm}.)
+
+@item @{rpn 1 yusertocm@}
+@cindex @code{yusertocm} rpn operator
+@cindex rpn operator @code{yusertocm}
+Calculate y coordinate, in centimeters measured from bottom side of
+page, corresponding to a user-value of x=1.  (Opposite of
+@code{ycmtouser}.)
+
+@item @{rpn 1 ycmtouser@}
+@cindex @code{ycmtouser} rpn operator
+@cindex rpn operator @code{ycmtouser}
+Calculate y value, in user units, for a point that is 1 centimeter from
+the bottom edge of the paper.  (Opposite of @code{yusertocm}.)
+
+@end table
 
 
-@node   Manipulation of Columns etc, rpn Examples, Unary Operators, rpn Mathematics
+
+
+
+
+
+@node   Solitary Operators, Manipulation of Columns etc, Unary Operators, rpn Mathematics
+@comment  node-name,  next,  previous,  up
+
+@subsection Solitary Operators
+
+Solitary operators do not act on items on the stack; rather, they
+generate items themselves and insert them on the stack.
+
+The solitary operators are illustrated below, in alphabetical order.
+
+@table @code
+@item @{rpn argc@}
+Yields number of (optional) extra command-line arguments given by the
+user when Gri was invoked.  These are arguments which follow the
+@code{:} on the commandline.  Thus, invoking Gri as
+@example
+    gri myfile.gri : file1.dat file2.dat
+@end example
+yields 2, for arguments @code{file1.dat} and @code{file2.dat}.  These
+arguments are accessible through the @code{argv} unary operator
+@xref{Unary Operators}.
+
+@item @{rpn e@}
+@cindex e, base of natural logarithms, in RPN expressions
+Yields the base of natural logarithms, i.e. @code{2.718}...
+
+@item @{rpn pi@}
+@cindex pi, in RPN expressions
+Yields Pi, i.e. @code{3.141}...
+
+@item @{rpn rand@}
+@cindex RPN operator @code{rand}
+@cindex @code{rand} RPN operator
+@cindex random numbers, generating in RPN expressions
+Generate a random number in the range 0 to 1, using the C subroutine
+@code{drand48()} if it is available, otherwise the less well-distributed
+@code{rand()} subroutine.
+@end table
+
+
+
+@node   Manipulation of Columns etc, rpn Examples, Solitary Operators, rpn Mathematics
 @comment  node-name,  next,  previous,  up
 
 @subsection Manipulation of Columns etc
@@ -14080,11 +14211,15 @@ First debian release.  Versions exist for intel, alpha, 68K and powerpc.
 @c
 @c 4) Fix bugs in the HTML version of the manual, as reported
 @c    by the 'tidy' checking programme.
-@c *  add to gri.sourceforge.net
 
 
 
 @table @emph
+@item 2.5.5 [2000-Jun-11]
+Add RPN operators @code{argc} (@ref{Unary Operators}) and
+@code{argv} (see @ref{Binary Operators}) for accessing the command-line
+arguments.  Also, improve discussion of RPN operators in manual.
+
 @item 2.5.4 [2000-Jun-01]
 Fix up some errors in manual (non-visible images in html form).
 
