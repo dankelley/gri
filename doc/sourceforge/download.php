@@ -5,8 +5,8 @@ set_up_lhs();
 ?>
 <b>Redhat Linux</b>
 <br>
-- <A HREF="<?php print "$ftp_site/gri-$gri_stable_version-1.src.rpm";			?>">binary		</a><br>
-- <A HREF="<?php print "$ftp_site/gri-$gri_stable_version-1.i386.rpm";			?>">source		</a><br>
+- <A HREF="<?php print "$ftp_site/gri-$gri_stable_version-1.i386.rpm";			?>">binary		</a><br>
+- <A HREF="<?php print "$ftp_site/gri-$gri_stable_version-1.src.rpm";			?>">source		</a><br>
 <br>
 <b>Debian/GNU Linux</b><br>
 - <A HREF="<?php print "$ftp_site/gri_2.8.6-0potato1_i386.deb";				?>">potato [old]	</a><br>
