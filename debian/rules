@@ -8,8 +8,8 @@
 export DH_COMPAT=3
 
 version=$(shell expr `pwd` : '.*-\([0-9.]*\)')
-#version=2.8.0
-somefutureversion=2.10.0
+#version=2.10.0
+somefutureversion=2.12.0
 
 CXXFLAGS = -O2 -Wall
 ifneq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
