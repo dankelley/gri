@@ -1,15 +1,15 @@
-// Example 4 -- TS diagram (Colour)
-//
-// Contributed 17 Feb 1994 by Dan Kelley <Dan.Kelley@Dal.Ca>.
+# Examplex 4 -- TS diagram (Colour)
+#
+# Contributed 17 Feb 1994 by Dan Kelley <Dan.Kelley@Dal.Ca>.
 
 
-//
-// On a light brown background, draw blue [T(t),S(t)] evolution
-// diagrams for various years, with data from Labrador Sea, and
-// a predicted slope in red.  Isopycnals are drawn in black. 
-// (This is a color overhead for seminar, hence the fontsize etc)
+#
+# On a light brown background, draw blue [T(t),S(t)] evolution
+# diagrams for various years, with data from Labrador Sea, and
+# a predicted slope in red.  Isopycnals are drawn in black. 
+# (This is a color overhead for seminar, hence the fontsize etc)
 
-// Define colors to use
+# Define colors to use
 \TS_trace = "blue"
 \isopycnals = "black"
 \background = "rgb 1.0000 0.9059 0.7294"
@@ -19,13 +19,13 @@
 `Set Up'
 {
     \data = "./bravo1.25db"
-    .dSdT. = -0.011             // Slope for reference line
-    .start. = 8                 // Start month (wrt Jan=0; need negative)
-    .stop. = 12                 // Stop  month
-    .delta_t. = 1               // Interpolation time interval (days)
-    \filter = "2_0.02"          // Butterworth filter file
-    .first. = 1964              // First year to plot
-    .last. = 1967               // Last year to plot
+    .dSdT. = -0.011             # Slope for reference line
+    .start. = 8                 # Start month (wrt Jan=0; need negative)
+    .stop. = 12                 # Stop  month
+    .delta_t. = 1               # Interpolation time interval (days)
+    \filter = "2_0.02"          # Butterworth filter file
+    .first. = 1964              # First year to plot
+    .last. = 1967               # Last year to plot
     set missing value -9
     set x margin 3
     set y margin 6
@@ -42,7 +42,7 @@
         ..xright.. ..ytop..     \
         ..xleft.. ..ytop..
     set color \axes
-    set font size 16            // For overhead projection
+    set font size 16            # For overhead projection
     draw axes
     system rm -f tmp*[0-9]
 }
@@ -56,10 +56,10 @@
     draw isopycnal 27.00 unlabelled
     draw isopycnal 27.25 unlabelled
     draw isopycnal 27.50 unlabelled
-    // Label manually, for nicer effect (laborious)
+    # Label manually, for nicer effect (laborious)
     set font size 14
     draw label "1027.00" at 34.731690 8.522833 rotated 16
-    //draw label "1027.25" at 34.731690 6.808333 rotated 17
+    #draw label "1027.25" at 34.731690 6.808333 rotated 17
     draw label "1027.50" at 34.731690 4.797500 rotated 19
     set clip off
 }
@@ -77,13 +77,13 @@
 }
 
 `Interpolate to standard times .days. \outfile_raw \outfile_smoothed'
-/*
-.days.   = sampling interval
-*/
+#
+#.days.   = sampling interval
+#
 {
-    // Trim out the (alternate) header lines, bin in time intervals
-    // (0.0208333year = 1wk; 0.0416667yr=2week), then put 
-    // into file 
+    # Trim out the (alternate) header lines, bin in time intervals
+    # (0.0208333year = 1wk; 0.0416667yr=2week), then put 
+    # into file 
     new \time2 .days.
     .days. = \.word4.
     show "Interpolating `\data' to " .days. " days"
@@ -121,7 +121,7 @@
 
 `Draw year labels'
 {
-    // Draw labels for curves manually, to avoid overwriting
+    # Draw labels for curves manually, to avoid overwriting
     set color \TS_trace
     set font size 14
     draw label whiteunder "1964" at 34.643232 \
@@ -135,7 +135,7 @@
         8.865722
 }
 
-// Main program
+# Main program
 
 set line width axis rapidograph 00
 Set Up
@@ -143,7 +143,7 @@ Set Up
 Draw guiding line
 Interpolate to standard times .delta_t. tmp1.\.pid. tmp2.\.pid.
 
-// Plot timeseries
+# Plot timeseries
 set color \TS_trace
 set line width rapidograph 2
 .year. = .first.
@@ -161,7 +161,7 @@ end while
 set color \TS_trace
 Draw year labels
 
-// Draw label indicating months
+# Draw label indicating months
 set line width rapidograph 00
 \label = "Aug-Dec"
 set color \TS_trace
@@ -170,7 +170,7 @@ draw label boxed "\label" at                                            \
     {rpn ..ytop.. yusertocm "M" ascent 2.5 * +}                         \
     cm
 
-.offset. = 3                    // distance of labels above plot
+.offset. = 3                    # distance of labels above plot
 set color \axes
 draw label "$OWS Bravo$,  Labrador Sea"                 \
     centered at                                         \

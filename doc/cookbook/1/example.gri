@@ -1,11 +1,11 @@
-// Example 1 -- Linegraph with dots (Black/White)
-//
-// Contributed 13 Feb 1994 by Dan Kelley <Dan.Kelley@Dal.Ca>.
+# Example 1 -- Linegraph with dots (Black/White)
+#
+# Contributed 13 Feb 1994 by Dan Kelley <Dan.Kelley@Dal.Ca>.
 
-open example.dat                // Open the data file
-read columns x y                // Read (x,y)
-draw curve                      // Draw data curve
-set symbol size 0.2             // 0.2 is radius in cm
+open example.dat                # Open the data file
+read columns x y                # Read (x,y)
+draw curve                      # Draw data curve
+set symbol size 0.2             # 0.2 is radius in cm
 draw symbol bullet
-draw title "Example 1"          // A title for plot
-quit                            // End the plot
+draw title "Example 1"          # A title for plot
+quit                            # End the plot

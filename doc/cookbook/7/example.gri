@@ -1,6 +1,6 @@
-// Example 7 -- Colour imageplot with superimposed drawings
-//
-// Contributed 9 Sep 1994 by Jinyu Sheng <sheng@Phys.Ocean.Dal.Ca>.
+# Example 7 -- Colour imageplot with superimposed drawings
+#
+# Contributed 9 Sep 1994 by Jinyu Sheng <sheng@Phys.Ocean.Dal.Ca>.
 
 .cols. = 111
 .rows. = 53

@@ -1,6 +1,6 @@
-// Example 8 -- Demonstrate various image palettes (Color)
-//
-// Contributed 10 Aug 1994 by Dan Kelley <Dan.Kelley@Dal.Ca>.
+# Example 8 -- Demonstrate various image palettes (Color)
+#
+# Contributed 10 Aug 1994 by Dan Kelley <Dan.Kelley@Dal.Ca>.
 
 `Panel \label'
 {
@@ -24,15 +24,15 @@
         {rpn ..ymargin.. ..ysize.. 2 / + "M" ascent 2 / -} cm
     .y. += {rpn ..ysize.. .space. +}
 }
-.w. = 5                         // image width
-.h. = 2.5                       // image height
-.pw. = 5                        // palette width
-.ph. = 1                        // palette height
-.space. = 0.5                   // space between things
+.w. = 5                         # image width
+.h. = 2.5                       # image height
+.pw. = 5                        # palette width
+.ph. = 1                        # palette height
+.space. = 0.5                   # space between things
 set x margin 1
 set x size .w.
 set y size .h.
-// Planar data
+# Planar data
 set x grid 0 1 /5
 set y grid 0 1 /6
 read grid data 6 5
@@ -48,17 +48,17 @@ read grid data 6 5
 set image range .min. .max.
 convert grid to image
 
-.y. = 1                         // start at bottom
-// Each panel is adjusted to lie above last
+.y. = 1                         # start at bottom
+# Each panel is adjusted to lie above last
 
-//
-// (1) HSB schemes (like mixing light sources)
+#
+# (1) HSB schemes (like mixing light sources)
 
-// Ugly and useless
+# Ugly and useless
 set image colorscale hsb 0.0   1.0 1.0 .min. hsb 1.    1.0 1.0 .max.
 Panel "1. Full spectrum (HSB blending)"
 
-// Nicer, but a lot of green
+# Nicer, but a lot of green
 set image colorscale hsb 0.0   1.0 1.0 .min. hsb 0.666 1.0 1.0 .max.
 Panel "2a. Spectrum from red to blue (HSB blending)"
 
@@ -76,7 +76,7 @@ Panel "2d. As 2a but with blue being dirty"
 set image colorscale hsb 0.666 0.0 1.0 .min. hsb 0.666 1.0 1.0 .max.
 Panel "3. White-blue (HSB blending)"
 
-// (2) RGB schemes (like mixing paints)
+# (2) RGB schemes (like mixing paints)
 .y. += .space.
 
 set image colorscale rgb 1.0 0.0 0.0 .min. rgb 0.0 0.0 1.0 .max.

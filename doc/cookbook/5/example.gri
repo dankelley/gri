@@ -2,12 +2,12 @@ set font size 48
 draw label "SORRY, 5 IS BROKEN" at 10 10 cm
 quit
 
-// Example 5 -- Salinity Time-depth Image Diagram (Colour)
-//
-// ftp://ftp.phys.ocean.dal.ca/users/kelley/gri/cookbook/5/example.gri
-//
-// Contributed 13 Feb 1994 by Dan Kelley <Dan.Kelley@Dal.Ca>.
-//
+# Example 5 -- Salinity Time-depth Image Diagram (Colour)
+#
+# ftp:#ftp.phys.ocean.dal.ca/users/kelley/gri/cookbook/5/example.gri
+#
+# Contributed 13 Feb 1994 by Dan Kelley <Dan.Kelley@Dal.Ca>.
+#
 
 query \smooth_grid "Smooth grid?" ("yes" "no")
 
@@ -59,7 +59,7 @@ open "\dir/\file"
 
 read grid data bycolumns
 
-// Possibly smooth the grid data
+# Possibly smooth the grid data
 if {rpn "\smooth_grid" "yes" ==}
     smooth grid data along x
     smooth grid data along x

@@ -1,15 +1,15 @@
-// Example 6 -- World Map (Black/White)
-//
-// Contributed 30 August 1994 by Dan Kelley <Dan.Kelley@Dal.Ca>.
+# Example 6 -- World Map (Black/White)
+#
+# Contributed 30 August 1994 by Dan Kelley <Dan.Kelley@Dal.Ca>.
 
-.xleft.  = 0                    // may also put -180
-.xright. = 360                  // may also put  180
+.xleft.  = 0                    # may also put -180
+.xright. = 360                  # may also put  180
 
 set x name ""
 set y name ""
 set x axis .xleft. .xright. 45 5
 set y axis  -90  90 45 5
-.m. = 2				// margin
+.m. = 2				# margin
 set x format %g$\circ$
 set y format %g$\circ$
 set x margin .m.

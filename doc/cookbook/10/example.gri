@@ -1,6 +1,6 @@
-// Example 10 -- colorscale for GEBCO altimetry charts
-//
-// Contributed 31 July 1996 by Dan Kelley <Dan.Kelley@Dal.CA>
+# Example 10 -- colorscale for GEBCO altimetry charts
+#
+# Contributed 31 July 1996 by Dan Kelley <Dan.Kelley@Dal.CA>
 
 `Set image colorscale gebco'
 Set up colors for gebco charts of ocean/land altimetry.
