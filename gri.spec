@@ -1,5 +1,5 @@
 Summary: A language for scientific illustration
-%define griversion 2.12.6
+%define griversion 2.12.7
 Name: gri
 Version: %{griversion}
 Release: 1
@@ -96,6 +96,8 @@ then
 fi
 
 %changelog
+* Wed Sep 3 2003 <Dan.Kelley@Dal.Ca>
+- switch to automake-1.7 from automake-1.6
 * Mon Sep 1 2003 <Dan.Kelley@Dal.Ca>
 - RELEASE as version 2.12.6
 * Sat Aug 30 2003 <Dan.Kelley@Dal.Ca>
