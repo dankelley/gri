@@ -43,15 +43,12 @@ common mathematical symbols.
 <h1>Starting to use Gri</h1>
 
 <p>Folks who write thousand-line Gri scripts usually start with something
-as simple as the following, which produces an auto-scaled graph.
-<pre>
+as simple as the following, which produces an auto-scaled graph.<br>
 <font color="#82140F">
-   open file.dat
-   read columns x y
+   open file.dat<br>
+   read columns x y<br>
    draw curve
 </font>
-
-</pre>
 
 
 <?php footer(); ?>

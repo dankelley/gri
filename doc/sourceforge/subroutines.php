@@ -45,19 +45,20 @@ function age() {
 function set_up_lhs() {
 	print "<tr>\n";
 	global $width_lhs;
-	print "<td valign=\"center\"; width=\"$width_lhs\"; align=\"top\"; bgcolor=\"#FFFFFF\">\n";
+	print "<td valign=\"middle\" width=\"$width_lhs\" align=\"left\" bgcolor=\"#FFFFFF\">\n";
 }
 function set_up_rhs() {
 	print "</td>\n";
 	global $width_divider;
-	print "<td width=\"$width_divider\" valign=\"top\" color=\"#FFd000\" bgcolor=\"#FFD000\" fgcolor=\"#FFD000\"></td>\n";
+	print "<td width=\"$width_divider\" valign=\"top\" bgcolor=\"#FFD000\" ></td>\n";
 	print "<td valign=\"top\" bgcolor=\"#FFFFFF\">\n";
 }
 
 function set_up_navigation_tabs($title,$png_name) {
-	print "<!doctype HTML public \"-//W3C//DTD HTML 4.0//EN\">\n";
+	print "<!doctype HTML public \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
 	print "<html lang=\"en\">\n";
 	print "<head>\n";
+	print "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=US-ASCII\">\n";
 	print "<title> $title</title>\n";
 	print "<meta name=\"Author\" content=\"Dan Kelley, Dan.Kelley@Dal.Ca\">\n";
 	print "<meta name=\"keywords\" content=\"Gri, graphics, Scientific Computing\">\n";
@@ -79,21 +80,21 @@ function set_up_navigation_tabs($title,$png_name) {
 	print "-->\n";
 	print "</style>\n";
         print "</head>\n";
-	print "<body bgcolor=\"#ffffff\" link=\"0000ee\" vlink=\"#0000ee\">\n";
+	print "<body bgcolor=\"#FFFFFF\" link=\"0000ee\" vlink=\"#0000ee\">\n";
 	print "<!-- navigation is output from tabs.gri -->\n";
 	print "<map name=\"navigate_tabs\">\n";
-	print "  <area shape=\"rect\" coords=\"  0 ,   0 ,  46 ,  21\" href=\"main.php\">\n";
-	print "  <area shape=\"rect\" coords=\" 50 ,   0 , 102 ,  21\" href=\"news.php\">\n";
-	print "  <area shape=\"rect\" coords=\"105 ,   0 , 153 ,  21\" href=\"docs.php\">\n";
-	print "  <area shape=\"rect\" coords=\"157 ,   0 , 240 ,  21\" href=\"download.php\">\n";
-	print "  <area shape=\"rect\" coords=\"244 ,   0 , 292 ,  21\" href=\"bugs.php\">\n";
-	print "  <area shape=\"rect\" coords=\"296 ,   0 , 362 ,  21\" href=\"contact.php\">\n";
-	print "  <area shape=\"rect\" coords=\"366 ,   0 , 459 ,  21\" href=\"developers.php\">\n";
+	print "  <area shape=\"rect\" coords=\"  0 ,   0 ,  46 ,  21\" href=\"main.php\" alt=\"main\">\n";
+	print "  <area shape=\"rect\" coords=\" 50 ,   0 , 102 ,  21\" href=\"news.php\" alt=\"news\">\n";
+	print "  <area shape=\"rect\" coords=\"105 ,   0 , 153 ,  21\" href=\"docs.php\" alt=\"docs\">\n";
+	print "  <area shape=\"rect\" coords=\"157 ,   0 , 240 ,  21\" href=\"download.php\" alt=\"download\">\n";
+	print "  <area shape=\"rect\" coords=\"244 ,   0 , 292 ,  21\" href=\"bugs.php\" alt=\"bugs\">\n";
+	print "  <area shape=\"rect\" coords=\"296 ,   0 , 362 ,  21\" href=\"contact.php\" alt=\"contact\">\n";
+	print "  <area shape=\"rect\" coords=\"366 ,   0 , 459 ,  21\" href=\"developers.php\" alt=\"developers\">\n";
 	print "</map>\n";
 	print "<table border=0>\n";
-	print "<tr align=\"left\" width=\"100%\"\">\n";
+	print "<tr align=\"left\">\n";
 	print "<td colspan=3>\n";
-	print "<img border=0 src=\"$png_name\" align=left usemap=#navigate_tabs>\n";
+	print "<img border=0 src=\"$png_name\" align=left usemap=\"#navigate_tabs\" alt=\"map\">\n";
 	print "</td>\n";
 	print "</tr>\n";
 }
@@ -103,15 +104,14 @@ function footer()
 	print "</td>\n";
 	print "</tr>\n";
 	print "</table>\n";
-        print "<hr color=\"#FFD000\">\n";
+        print "<hr>\n";
         print "<table>\n";
 	print "<tr>\n";
 	global $width_lhs, $width_divider;
-	print "<td valign=\"center\"; width=\"$width_lhs\">\n";
-	print "<A href=\"http://sourceforge.net/\"> <IMG src=\"http://sourceforge.net/sflogo.php?group_id=5511&type=1\" width=\"88\" height=\"31\" border=\"0\" alt=\"SourceForge Logo\"></A>\n";
+	print "<td valign=\"middle\" width=\"$width_lhs\">\n";
+	print "<A href=\"http://sourceforge.net/\"> <IMG src=\"http://sourceforge.net/sflogo.php?group_id=5511&amp;type=1\" width=\"88\" height=\"31\" border=\"0\" alt=\"SourceForge Logo\"></A>\n";
 	print "</td>\n";
 	#print "<td width=\"$width_divider\" valign=\"top\" color=\"#FFd000\" bgcolor=\"#FFD000\" fgcolor=\"#FFD000\"></td>\n";
-	print "<td></td>\n";
 	print "<td valign=\"top\" bgcolor=\"#FFFFFF\">\n";
 	print "<center>\n";
 	print "<small>\n";
@@ -126,6 +126,7 @@ function footer()
 	print "</center>\n";
 	print "</td>\n";
 	print "</tr>\n";
+	print "</table>\n";
 	print "</body>\n";
 	print "</html>\n";
 }
