@@ -340,6 +340,23 @@ perform_command_line(FILE *fp, bool is_which)
 
 	// Process line if not skipping
 	if (!skipping_through_if()) {
+		// First, handle de-referenced synonyms as lvalues (to left
+		// an assignment operator)
+		if (*_word[0] == '\\' && *(1 + _word[0]) == '@') {
+			//printf("DEREF %s:%d\n",__FILE__,__LINE__);
+			//printf("1. <%s>\n",2+_word[0]);
+			string deref("\\");
+			deref.append(2 + _word[0]);
+			//printf("2. <%s>\n", deref.c_str());
+			char buf[100];
+			get_syn(deref.c_str(), buf);
+			_word[0] = buf;
+			//printf("3. <%s>  ... now firstword [%s]\n", buf,_word[0]);
+			if (*(_word[0]) == '\\')
+				_word[0]++; // skip the double-backslash if it's a syn
+			//printf("4. finally, <%s>\n",_word[0]);
+		}
+
 		// Handle `\name = "value"' command
 		if (*_word[0] == '\\') {
 			if (_nword >= 3 && !strcmp(_word[1], "=")) {
@@ -347,17 +364,6 @@ perform_command_line(FILE *fp, bool is_which)
 				return true;
 			}
 		}
-#if 1				// TRIAL CODE [2000-oct-14]
-		// Process e.g.
-		//     @\\j = "hello"
-		if (*_word[0] == '@' && *(_word[0]+1) == '\\') {
-			if (_nword >= 3 && !strcmp(_word[1], "=")) {
-				assign_synonym();
-				return true;
-			}
-		}
-#endif
-
 		// Handle math command, e.g.
 		//     .var. = 1
 		//     x += 1
@@ -372,11 +378,7 @@ perform_command_line(FILE *fp, bool is_which)
 		    || word_is(0, "v")
 		    || word_is(0, "image")
 		    || word_is(0, "grid")
-		    || is_var(_word[0])
-#if 1				// TRIAL CODE [2000-oct-14]
-		    || (*_word[0] == '@' && is_var(1 + _word[0]))
-#endif
-			    ) {
+		    || is_var(_word[0])) {
 			if (_nword == 3) {
 				if(word_is(1, "=") 
 				   || word_is(1, "-=")
@@ -427,7 +429,7 @@ perform_command_line(FILE *fp, bool is_which)
 			} else if (word_is(0, "continue")) {
 				err("Cannot have `continue' outside loops");
 				return false;
-			} else if(string_is_blank(_word[0])) {
+			} else if (string_is_blank(_word[0])) {
 				return true;
 			} else {
 				err("Unknown command encountered.");

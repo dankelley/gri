@@ -3226,17 +3226,6 @@ assign_synonym()
 {
 	//printf("%s:%d in assign_synonym\n", __FILE__,__LINE__);
 	Require (_nword > 2, err("Can't understand command."));
-#if 1				// TRIAL CODE [2000-oct-14]
-	// Ampersand protection -- process e.g. 
-	//    @\\j = "hello"
-	// by trimming the '@\', leaving e.g.
-	//    \j = "hello"
-	// which may then be processed in the normal way.
-	if (*(_word[0]) == '@') {
-		_word[0]++;
-		_word[0]++;
-	}
-#endif
 	// Following check should never be needed, but keep for possible future
 	// changes.
 	Require(is_syn(_word[0]), err("`\\", _word[0], "' must begin with `\\'", "\\"));

@@ -430,11 +430,46 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 		// If not start of synonym, just paste character onto end of string
 		// and continue. (This also applies to apparent synonyms, if they are
 		// during math mode.)
-		if (s[i] != '\\'|| inmath) {
+		if (s[i] != '\\' || inmath) {
 			sout += s[i];
 			continue;
 		}
-
+		// Catch de-referenced synonyms
+		if (s[i + 1] == '@') {
+			i += 2;	// skip the '\\' and the '@'
+			//printf("DEREF start with <%s>\n", s);
+			string tmp("\\");
+			while (i < slen && !end_of_synonym(s[i], false /*inmath*/, false/*need_brace*/)) {
+				tmp += s[i++];
+			}
+			//printf("DEREF tmp [%s]\n", tmp.c_str());
+			char deref_name[100];
+			get_syn(tmp.c_str(), deref_name);
+			//printf("this syn value is [%s]\n", deref_name);
+			char deref_value[100]; // BUG: size won't be sufficient
+			if (deref_name[0] == '\\') {
+				if (get_syn(deref_name + 1, deref_value)) {
+					sout.append(deref_value);
+					//printf("looked up '%s' (after skipping) to get '%s'\n",deref_name,deref_value);
+				} else {
+					err("Cannot de-reference \\`", deref_name, "'.", "\\");
+					return false;
+				}
+			} else {
+				double value = 0.0;
+				if (get_var(deref_name, &value)) {
+					//printf("OK %d   isvar=%d\n",ok,is_var(deref_name));
+					//printf("looked up '%s' to get %f NUM\n",deref_name,value);
+					sprintf(deref_value, "%f", value);
+					sout.append(deref_value);
+				} else {
+					err("Cannot de-reference \\`", deref_name, "'.", "\\");
+					return false;
+				}
+			}
+			i--;	// BUG: not sure on this!
+			continue;
+		}
 		// Now know that s[i] is backslash, and not inmath.
 		// Pass a few escape strings through directly. 
 		if (s[i + 1] == '$'
@@ -611,7 +646,6 @@ end_of_synonym(char c, bool inmath, bool need_brace)
 	case '\'':
 	case ':':
 	case ';':
-	case '@':
 	case '#':
 	case '(':
 	case ')':
@@ -621,6 +655,7 @@ end_of_synonym(char c, bool inmath, bool need_brace)
 	case '}':
 	case '/':
 	case '*':
+	case '@':
 	case '-':
 	case '+':
 	case '<':
