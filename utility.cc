@@ -1770,12 +1770,17 @@ call_the_OS(const char* cmd, const char* calling_filename, int calling_line)
 void
 clean_blanks_quotes(string& c)
 {
+	// Trim any blanks at the start and end ...
 	while (isspace(c[0]))
-		c.STRINGERASE(0,1);
-	if (c[0] == '"')
 		c.STRINGERASE(0,1);
 	while (isspace(c[-1 + c.size()]))
 		c.STRINGERASE(-1 + c.size(), 1);
-	if (c[-1 + c.size()] == '"')
-		c.STRINGERASE(-1 + c.size(), 1);
+
+	// ... and, if the first nonblank symbol is a quote,
+	// then remove both it and a matching trailing quote.
+	if (c[0] == '"') {
+		c.STRINGERASE(0,1);
+		if (c[-1 + c.size()] == '"')
+			c.STRINGERASE(-1 + c.size(), 1);
+	}
 }
