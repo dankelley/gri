@@ -1,5 +1,4 @@
 #!/usr/local/bin/perl
-# $Id: make_html_index,v 1.1 2000/05/11 15:07:23 dankelley Exp $
 # Create HTML index from index of pre-installed info page
 system("makeinfo TMP");
 system("info -d . -f gri --output ./tmp.1 'Concept Index'");
