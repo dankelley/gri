@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.105 2001/07/10 15:14:07 psg Exp $
+@c $Id: gri.texim,v 1.106 2001/07/12 13:02:18 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -3826,6 +3826,7 @@ manual says @code{gray}, and @code{colour} for @code{color}.)
 * State::                       Save or restore the graphics state
 * Superuser::                   Enable some programmers debugging commands
 * System::                      Performing system commands within gri
+* Unlink::                      Delete file
 * While::                       Loop over some code while a condition is true
 * Write::                       Write data to a file
 @end menu
@@ -3843,7 +3844,7 @@ manual says @code{gray}, and @code{colour} for @code{color}.)
 @findex assert
 
 @example
-`assert .condition. ["msg"]
+`assert .condition. ["message"]
 @end example
 
 @noindent
@@ -3853,21 +3854,23 @@ nothing.  If the condition is false, the program will terminate with an
 error condition (in unix, it will terminate with a non-zero exit code).
 
 Before termination, a message will be printed, the form of which depends
-on the optional @code{"msg"} string.
+on the optional @code{"message"} string.
 
-If no @code{"msg"} string is given, the the printed message will
+If no @code{"message"} string is given, the the printed message will
 indicate the name of the command-file and the line at which the assert
 command was encountered.
 
-If a @code{"msg"} string is given, and if it ends in a newline
+If a @code{"message"} string is given, and if it ends in a newline
 (@code{"\\n"}), then this string is printed.
 
-If a @code{"msg"} string is given, and if it does not end in
+If a @code{"message"} string is given, and if it does not end in
 @code{"\\n"}, then the string is printed along with an indication of the
 location in the command-file.
 
 (Perl users will recognize this as being patterned on the @code{"die"}
 command.)
+
+
 
 @c HTML <!-- newfile Cd.html "Gri: `cd' command" "Gri Commands" -->
 
@@ -10467,7 +10470,7 @@ specifying 15 yields flags 1, 2, 4 and 8.
 
 @c HTML <!-- newfile System.html "Gri: `system' command" "Gri Commands" -->
 
-@node   System, While, Superuser, List Of Gri Commands
+@node   System, Unlink, Superuser, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
 @subsection @code{system}
 @cindex gawk, sample of use
@@ -10645,9 +10648,47 @@ Sets @code{\.return_value} to system status
 @end itemize
 
 
+
+@c HTML <!-- newfile Unlink.html "Gri: `unlink' command" "Gri Commands" -->
+
+@node   Unlink, While, System, List Of Gri Commands
+@comment  node-name,  next,  previous,  up
+@subsection @code{unlink}
+@cindex removing files with unlink
+@cindex unlink, to remove files
+@findex unlink
+@cindex @code{unlink} command
+
+@example
+`unlink \filename'
+@end example
+@noindent 
+Delete a filename and possibly the file to which it refers.  On
+non-unix machines, this simply means to delete the file.  On unix
+machines, the action is more subtle.  The unix OS permits several
+processes to use a given file at once.  Therefore, @code{unlink}
+doesn't immediately remove the file, but instead waits until other
+processes are done with it.  Most users will never realize the
+difference, however, and it is safe to think of @code{unlink} as
+simply removing the file.  To learn more, type @code{man unlink} in a
+unix shell.
+
+A common use of @code{unlink} is to remove files that were created
+with the @code{tmpname} facility (@ref{Using OS Inside Gri}), e.g.
+@example
+\tmp = tmpname
+# do some system commands to put data into this file
+open \tmp
+read columns x y
+draw curve
+unlink \tmp
+@end example
+
+
+
 @c HTML <!-- newfile While.html "Gri: `while' command" "Gri Commands" -->
 
-@node   While, Write, System, List Of Gri Commands
+@node   While, Write, Unlink, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
 @subsection @code{while}
 @cindex loops
@@ -10856,6 +10897,7 @@ is a series of 256 lines, each containing a number in the range 0 to 1.
 The file is suitable for reading with the @code{read image grayscale}
 command.
 @end itemize
+
 
 
 @c HTML <!-- newfile Programming.html "Gri: programming" "Programming Gri" -->
@@ -14355,26 +14397,24 @@ close
 draw curve
 @end example
 
-@item
-Sometimes you need just a single output item from the operating system.
-In this case, you can store the results from the operating system in a
-synonym by using the @code{\synonym = system ...} assignment command.
-@item
-@cindex temporary file allocation
-@cindex file, temporary
-@cindex filename, temporary
-@cindex @code{tmpname} subroutine
-A related command is @code{\synonym = tmpname}, which stores in the
-synonym the name of a temporary file created by the system.  The file is
-created with the @code{tmpname} system call, so it is guaranteed not to
-clash with any existing files.  Typically, the filename is something
-like @file{/usr/tmp/griAAAa1233}.  A useful bit of code i
-
+@item Sometimes you need just a single output item from the operating
+system.  In this case, you can store the results from the operating
+system in a synonym by using the @code{\synonym = system ...}
+assignment command.  @item @cindex temporary file allocation @cindex
+file, temporary @cindex filename, temporary @cindex @code{tmpname}
+subroutine A related command is @code{\synonym = tmpname}, which
+stores in the synonym the name of a temporary file created by the
+system.  The file is created with the @code{tmpname} system call, so
+it is guaranteed not to clash with any existing files.  Typically, the
+filename is something like @file{/usr/tmp/griAAAa1233}.  In many cases
+you'll want to remove the file within Gri, once you're done, and that
+can be done with @code{unlink} (@ref{Unlink}) or with a @code{system
+rm -f} command.  A useful bit of code is as follows
 @example
 \file = tmpname
 system ... SOME_SYSTEM_COMMANDS ... > \file
 ... use this new file for something ...
-system rm -f \file
+unlink \file
 @end example
 
 @end itemize
@@ -16064,6 +16104,8 @@ The following list applies to the version on CVS, but is subject to
 change:
 
 @itemize @bullet
+@item
+Add @code{unlink} command (@ref{Unlink}).
 @item
 Add @code{default} possibility for the @code{set x name} and the
 @code{set y name} commands.

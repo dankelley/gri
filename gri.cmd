@@ -6,7 +6,28 @@
 
 
 `assert .condition. ["message"]'
-If the condition (which may be an RPN expression) is true, do nothing.  If it is false,
+The condition may be a variable, a synonym, or an RPN expression.  If
+this condition is true (i.e. evaluates to a non-zero number), do
+nothing.  If the condition is false, the program will terminate with
+an error condition (in unix, it will terminate with a non-zero exit
+code).
+
+Before termination, a message will be printed, the form of which
+depends on the optional `"msg"' string.
+
+If no `"msg"' string is given, the the printed message will
+indicate the name of the command-file and the line at which the assert
+command was encountered.
+
+If a `"msg"' string is given, and if it ends in a newline
+(`"\\n"'), then this string is printed.
+
+If a `"msg"' string is given, and if it does not end in `"\\n"',
+then the string is printed along with an indication of the location in
+the command-file.
+
+(Perl users will recognize this as being patterned on the `"die"'
+command.)
 {
     extern "C" bool assertCmd(void);
 }
@@ -4581,6 +4602,28 @@ Alternate spelling of grayscale
      format.
 {
     extern "C" bool writeCmd(void);
+}
+
+`unlink \filename'
+Delete a filename and possibly the file to which it refers.  On
+non-unix machines, this simply means to delete the file.  On unix
+machines, the action is more subtle.  The unix OS permits several
+processes to use a given file at once.  Therefore, `unlink' doesn't
+immediately remove the file, but instead waits until other processes
+are done with it.  Most users will never realize the difference,
+however, and it is safe to think of `unlink' as simply removing the
+file.  To learn more, type `man unlink' in a unix shell.
+
+   A common use of `unlink' is to remove files that were created with
+the `tmpname' facility, e.g.
+     \tmp = tmpname
+     # do some system commands to put data into this file
+     open \tmp
+     read columns x y
+     draw curve
+     unlink \tmp
+{
+    extern "C" bool unlinkCmd(void);
 }
 
 `?draw axes exploded'

@@ -172,6 +172,7 @@ bool	assertCmd(void),
 	stateCmd(void),
 	systemCmd(void),
 	superuserCmd(void),
+        unlinkCmd(void),
 	whileCmd(void),
 	writeCmd(void);
 
@@ -352,6 +353,7 @@ C_FCN           c_fcn[] = {
 	{stateCmd,			"stateCmd",					 8},
 	{systemCmd,			"systemCmd",					 9},
 	{superuserCmd,			"superuserCmd",					12},
+        {unlinkCmd,                     "unlinkCmd",                                     9},
 	{whileCmd,			"whileCmd",					 8},
 	{writeCmd,			"writeCmd",					 8},
 	{0,				"", 0}
