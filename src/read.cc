@@ -1228,8 +1228,10 @@ read_grid_binary(bool bycolumns, char bintype)
 				return false;
 			}
 			_f_xy(col, row) = value;
+#if 0				// BUG: what was I doing w/ this _f_xy printing?
 			if (value < 0.0)
 				printf("_f_xy(col=%d, row=%d)=%f\n",col,row,value);
+#endif
 			_legit_xy(col, row) = gr_missing(value) ? false : true;
 		}
 		if (_chatty > 1) printf("Read row %d of grid data\n", row);
