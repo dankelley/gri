@@ -15220,9 +15220,11 @@ produced odd results in a previous version of Gri; the color patches
 should have been of nearly the same color, but the first one was red, as
 expected, and the second was magenta.
 
-Here is how I found the bug.  (Note: for display purposes, I've broken
-some of the lines in the files into two lines here.)
-
+The list below shows how I found Peter's bug.  Experienced C or C++
+programmers will find all of this very familiar, and will really only
+need to read item 6 of the list below, since that's the only action that
+is really specific to Gri.  (Note: for display purposes, I've broken
+some of the lines in the files into two lines in this list.)
 
 @enumerate
 
