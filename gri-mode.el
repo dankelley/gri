@@ -1,14 +1,14 @@
-;;; gri-mode.el - major mode for Gri files
+;; gri-mode.el - major mode for Gri files
 
 ;; Copyright (C) 1994-2000 Peter S. Galbraith
  
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.20 (14 May 2000)
+;; Version:   2.24 (18 May 2000)
 ;; Keywords:  gri, emacs, XEmacs, plotting graphics package.
 
-;; RCS $Id: gri-mode.el,v 1.2 2000/05/15 13:53:05 psg Exp $
+;; RCS $Id: gri-mode.el,v 1.3 2000/05/18 17:42:29 psg Exp $
 ;; Note: RCS version number does not correspond to release number.
 
 ;;; This file is not part of GNU Emacs.
@@ -319,6 +319,17 @@
 ;; - Fix gri-build-command-alist broken since whitespace removed in gri-syntax
 ;; V2.20 14May00 RCS 1.44 
 ;; - gri-help accepts argument (in prep for command list menu)
+;; V2.21 16May00 RCS 1.45
+;; - buggy gri-match-list-to-string caused wrong completions string
+;; V2.22 17May00 RCS 1.46
+;; - Added the Gri command list menubar.
+;; - gri-apropos alias and bug fix for new syntax file format.
+;; V2.23 18May00 RCS 1.47
+;; - eval Gri command list menubar only when gri-cmd-file is set correctly
+;; - Gri info file can have .info extension now.
+;; V2.23 18May00 RCS 1.48
+;; - tweaks for XEmacs (easymenu entries need `t' at end; 
+;;   call add-submenu in gri-mode)
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -724,6 +735,10 @@ Sets variables gri-bin-file and gri-cmd-file."
     (if verbose
         (message "Using gri version %s for this file." gri-local-version)))
    ((file-readable-p "~/.gri-using-version")
+    ;;;FIXME - This is severally broken if the version listed in
+    ;;;        ~/.gri-using-version no longer exists.  I have to add a
+    ;;;        check for that, and delete the file and start over if this
+    ;;;        is the case.
     (let ((the-buffer (create-file-buffer "~/.gri-using-version"))
           (version))
       (save-excursion
@@ -1486,11 +1501,11 @@ The gri command may span many line, e.g.
               (skip-chars-forward " \t"))))
       expansion-regex)))
 
-(defun gri-info ()
+(defun gri-info (&optional command)
   "Runs info about a prompted gri system command."
-  (interactive)
+  (interactive "P")
   (require 'info)
-  (let ((the-command (gri-prompt-for-command nil)))
+  (let ((the-command (or command (gri-prompt-for-command nil))))
     (if (string-equal "" the-command)
         (message "No command to look-up.")
       (gri-info-function the-command))))
@@ -1643,10 +1658,7 @@ Gri Code Fragments
    type in a question mark at the beginning of a line in a gri buffer
    and press M-Tab twice to gri-complete it and display possible choices.
    The gri commands used to replace them is found in the *gri-syntax* 
-   buffer.
--
-Bugs:
-   Completions relies on entire line, not just up to the editing point."
+   buffer."
 ;;Sets gri-last-complete-point   to point after completion (if matches > 1)
 ;;Sets gri-last-complete-command to current line (if matches > 1)
   (interactive)
@@ -1694,6 +1706,7 @@ Sets gri-last-complete-status to 1 if show completions next time
                  expansion-list))
           (forward-line 1)
           (setq match-count (1+ match-count)))))
+    (setq the-list expansion-list)
     (cond
      ((= match-count 0)
       (if exact-flag
@@ -1736,7 +1749,7 @@ Sets gri-last-complete-status to 1 if show completions next time
                (get-buffer-window (get-buffer " *Completions*")))) 
       (delete-region (progn (end-of-line) (point)) 
                      (progn (beginning-of-line) (point)))
-      (insert (gri-common-in-list expansion-list t)) 
+      (insert (gri-common-in-list expansion-list nil)) 
       (gri-indent-line)
       (message "%d possible completions" match-count) 
       (with-output-to-temp-buffer " *Completions*"
@@ -1744,7 +1757,7 @@ Sets gri-last-complete-status to 1 if show completions next time
       (setq gri-last-complete-status 2)) ;Next time, try unique match
      ((< match-count 4)                 ; 3 or fewer matches show in minibuffer
       (delete-region (point) (progn (beginning-of-line) (point)))
-      (insert (gri-common-in-list expansion-list t)) 
+      (insert (gri-common-in-list expansion-list nil)) 
       (gri-indent-line)
       (message "(%d) %s" match-count 
                (gri-match-list-to-string expansion-list))
@@ -1752,7 +1765,7 @@ Sets gri-last-complete-status to 1 if show completions next time
      (t                                 ;complete as much as possible
       (delete-region (progn (end-of-line) (point)) 
                      (progn (beginning-of-line) (point)))
-      (insert (gri-common-in-list expansion-list t)) 
+      (insert (gri-common-in-list expansion-list nil)) 
       (gri-indent-line)
       (message "%d possible completions" match-count) 
       (setq gri-last-complete-status 1))) ;show completions next time
@@ -1809,16 +1822,12 @@ Sets gri-last-complete-status to 1 if show completions next time
 
 (defun gri-match-list-to-string (list)
   "returns STRING with all gri commands in list (just the name part)"
-  (let ((work-list list) (the-command nil) (the-string nil))
+  (let ((work-list (nreverse list)) (the-command) (the-string))
     (while work-list
       (setq the-command (car work-list))
-      (if the-command    ;; the-command is nil last time around
-          (progn
-            (setq the-command 
-                  (substring the-command 0 (string-match " " the-command)))
-            (setq the-string (concat the-command " " the-string))))
-      (setq work-list (cdr work-list)))
-    the-string))
+      (setq work-list (cdr work-list))
+      (setq the-string (concat the-command "   " the-string)))
+    (substring the-string 0 -3)))
 
 (defun gri-debug-insert (string)
   "Insert a string in a debug buffer."
@@ -2269,7 +2278,10 @@ In emacs 18, path is Info-directory and cannot be compressed."
             (if (or (file-readable-p (concat (car work-list) "gri"))
                     (file-readable-p (concat (car work-list) "gri.Z"))
                     (file-readable-p (concat (car work-list) "gri.z"))
-                    (file-readable-p (concat (car work-list) "gri.gz")))
+                    (file-readable-p (concat (car work-list) "gri.gz"))
+                    (file-readable-p (concat (car work-list) "gri.info"))
+                    (file-readable-p (concat (car work-list) "gri.info.Z"))
+                    (file-readable-p (concat (car work-list) "gri.info.gz")))
 		(progn
                   (setq info-directory (car work-list))
                   (setq notfound nil))
@@ -2277,7 +2289,10 @@ In emacs 18, path is Info-directory and cannot be compressed."
 	      (if (or (file-readable-p (concat (car work-list) "/gri"))
 		      (file-readable-p (concat (car work-list) "/gri.Z"))
 		      (file-readable-p (concat (car work-list) "/gri.z"))
-		      (file-readable-p (concat (car work-list) "/gri.gz")))
+		      (file-readable-p (concat (car work-list) "/gri.gz"))
+                      (file-readable-p (concat (car work-list) "/gri.info"))
+                      (file-readable-p (concat (car work-list) "/gri.info.Z"))
+                      (file-readable-p (concat (car work-list) "/gri.info.gz")))
 		  (progn
 		    (setq info-directory (concat (car work-list) "/"))
 		    (setq notfound nil))
@@ -2306,18 +2321,20 @@ which matches any character."
           (princ "\n\n")
           (beginning-of-line)
           (princ (gri-format-display-command 
-                  (buffer-substring (progn (search-forward " ") (point))
+                  (buffer-substring (progn (search-forward ";") (point))
                                     (progn (end-of-line) (point)))))
           (forward-line 1)
           (while (re-search-forward keyword nil t)
             (beginning-of-line)
             (princ "\n")
             (princ (gri-format-display-command
-                    (buffer-substring (progn (search-forward " ") (point))
+                    (buffer-substring (progn (search-forward ";") (point))
                                       (progn (end-of-line) (point)))))
             (forward-line 1))
           (print-help-return-message))
       (message "Nothing suitable"))))
+
+(defalias 'gri-apropos 'gri-help-apropos)
 
 (defun gri-show-function (&optional show-all)
   "Uncover function on current line, hidden by gri-hide commands.
@@ -3451,7 +3468,7 @@ Any output (errors?) is put in the buffer `gri-WWW-manual'."
      ["Gri Manual on WWW"                   gri-WWW-manual t]
      ["Display syntax for current command"  gri-display-syntax t]
      ["List gri commands containing string" gri-help-apropos t]
-     ["Customize Gri" (list 'lambda () (interactive)(customize-group "gri"))]
+     ["Customize Gri" (list 'lambda () (interactive)(customize-group "gri")) t]
      ))
   (easy-menu-define
    gri-mode-menu3 gri-mode-map "Menu keymap for gri-mode."
@@ -3727,6 +3744,200 @@ Any output (errors?) is put in the buffer `gri-WWW-manual'."
   (define-key gri-mode-map [menu-bar Syntax gri-complete]
     '(" Complete gri command " . gri-complete))))
 
+;;;----------------------------------------------------------------
+;;; Automatic generation of a menubar menu listing all Gri commands.
+;;;  (gri-easy-menu-build) to regenerate it.
+
+(defun gri-menubar-cmds-action (command)
+  (interactive)
+  (cond
+   ((equal gri-menubar-cmds-action 'Info)
+    (gri-info command))
+   ((equal gri-menubar-cmds-action 'Help)
+    (gri-help command))
+   ((equal gri-menubar-cmds-action 'Insert)
+    (let ((string))
+      (save-excursion
+        (cond
+         ;;; This is in here for possible future use, but I'm not
+         ;;; adding code fragments to the command list for now.
+         ((string-equal "?" (substring command 0 1))
+          (gri-lookat-syntax-file 0)
+          (re-search-forward (concat "^" command ";") nil t)
+          (forward-line 1)
+          (setq string 
+                (buffer-substring (point)
+                                  (progn (re-search-forward "^[^ \t]" nil t)
+                                         (backward-char 1)(point)))))
+         (t
+          (gri-lookat-syntax-file 1)
+          (re-search-forward (concat "^" command ";") nil t)
+          (setq string (buffer-substring (point)
+                                         (progn (end-of-line)(point)))))))
+      (insert string)))))
+
+(defcustom gri-menubar-cmds-action 'Info
+  "Default action to do on listed Gri command in Cmds menu-bar menu.
+This can be set to one of Info, Help or Insert."
+    :group 'gri
+    :type '(restricted-sexp :match-alternatives ('Info 'Help 'Insert)))
+
+(defun gri-menubar-cmds-build ()
+  "Creates a buffer from ~/.gri-syntax to evaluate and define a menu map"
+  (save-excursion
+    (gri-lookat-syntax-file 2)
+    ;; Get list of known commands
+    (let ((syntax-entries (buffer-substring (point)(point-max)))
+          (gri-tmp-buffer (get-buffer-create "*gri-tmp-buffer*")))
+      (set-buffer gri-tmp-buffer)
+      (insert syntax-entries)
+      (delete-backward-char 1)
+      (goto-char (point-min))
+      ;; Strip out syntax defs
+      (while (search-forward ";" nil t)
+        (forward-char -1)
+        (delete-region (point) (progn (end-of-line)(point))))
+      ;;Transform every command into a line like:
+      ;; ["cd" (list (gri-menubar-cmds-action "cd")) t]
+      (goto-char (point-min))(insert "\n")(goto-char (point-min))
+      (while (= 0 (forward-line 1))
+        (let ((command (buffer-substring (point)(progn (end-of-line)(point)))))
+          (beginning-of-line)
+          (insert "[\"")
+          (end-of-line)
+          (insert "\" (list (gri-menubar-cmds-action \"" command "\")) t]")))
+      ;; insert proper bracing to block out submenus
+      (gri-easy-menu-keyword-split)
+      ;; Split the generated easymenu entries dedending on frame height
+      (gri-easy-menu-size-split)
+      ;; insert easy-menu-define preamble
+      (goto-char (point-min))
+      (insert "(easy-menu-define
+ gri-commands-menu gri-mode-map \"Commands for Gri.\"
+   '(\"Cmds\"
+      [\"Display Info\" 
+       (list (setq gri-menubar-cmds-action 'Info))
+       :style radio :selected (equal gri-menubar-cmds-action 'Info)]
+      [\"Display Help\" 
+       (list (setq gri-menubar-cmds-action 'Help))
+       :style radio :selected (equal gri-menubar-cmds-action 'Help)]
+      [\"Insert commands\" 
+       (list (setq gri-menubar-cmds-action 'Insert))
+       :style radio :selected (equal gri-menubar-cmds-action 'Insert)]
+      \"-\"")
+      ;; insert closing braces
+      (goto-char (point-max))
+      (insert "))")
+      (eval-buffer nil nil)
+      (kill-buffer gri-tmp-buffer))))
+
+;;; Functions to split the easymenu into smaller segments.
+;;; As it turns out, this was _more_ work than the rest combined!
+
+(defvar gri-cmds-submenu-keywords
+  '("convert" "create" "draw" "draw curve" "draw image" "draw label"
+    "draw line" "draw symbol" "filter" "new" "read" "read image" "resize" 
+    "set" "set contour" "set font" "set image" "set line" "set x" 
+    "set y" "show" "write")
+  "List of Gri command keywords used to fraction menu into submenus")
+
+(defun gri-easy-menu-keyword-split ()
+  "Insert proper bracing to block out submenus using gri-cmds-submenu-keywords"
+  (let ((case-fold-search)
+        (entry-list gri-cmds-submenu-keywords)
+        (entry))
+    (while entry-list
+      (goto-char (point-min))
+      (setq entry (car entry-list))
+      (search-forward (concat "[\"" entry) nil t)
+      (beginning-of-line)
+      (insert "(\"" entry "\"\n")
+      (goto-char (point-max))
+      (search-backward (concat "[\"" entry) nil t)
+      (end-of-line)
+      (insert "\n)")
+      (setq entry-list (cdr entry-list)))))
+
+(defun gri-easy-menu-size-split ()
+  "Split the generated easymenu entries dedending on frame height"
+  (goto-char (point-min))
+  (re-search-forward "^\\[" nil t)
+  (beginning-of-line)
+  (let* ((menu-count (gri-easy-menu-count-entries))
+         (frame-lines (cond ((< 60 (frame-height)) ;Big frames
+                             (- (frame-height) 17))
+                            ((< 40 (frame-height)) ;Med frames
+                             (- (frame-height) 10))
+                            (t
+                             (- (frame-height) 6)))) ;Smaller frames
+         (split-number)
+         (split-count))
+    (if (>= frame-lines menu-count)
+        nil                    ; No split at all
+      ;; Figure out in many pieces we want the menu to be
+      (setq split-number (/ menu-count frame-lines))
+      (if (not (= 0 (% menu-count frame-lines)))
+          (setq split-number (1+ split-number)))
+      ;; Figure out many entries in each
+      (setq split-count (/ menu-count split-number))
+      (if (not (= 0 (% menu-count split-number)))
+          (setq split-count (1+ split-count)))
+;;    (message "Menu lines: %d   Frame lines: %d   Split: %d   Each: %d" 
+;;             menu-count frame-lines split-number split-count)
+      ;; Do the actual splitting
+      (goto-char (point-min))
+      (re-search-forward "^\\[" nil t)
+      (beginning-of-line)
+      (while (gri-easy-menu-split-here split-count)))))
+
+(defun gri-easy-menu-split-here (size)
+  "Do an actual split at this point in the menu"
+  (let ((title (format "\"%s - %s ...\""
+                       (gri-easy-menu-commandname-at 0)
+                       (gri-easy-menu-commandname-at size)))
+        (status))
+    (beginning-of-line)
+    (insert "(" title "\n")
+    (setq status (gri-forward-sexp size))
+    (insert ")")
+    (if (not status)
+        nil
+      (forward-line 1)
+      t)))
+                     
+(defun gri-easy-menu-commandname-at (count)
+  "Return name of Gri command COUNT-1 lines down"
+  (save-excursion
+    (beginning-of-line)
+    (if (not (= 0 count))
+        (progn
+          (gri-forward-sexp count)
+          (forward-sexp -1)))
+    (forward-char 2)
+    (buffer-substring 
+     (point) 
+     (progn (search-forward "\"" nil t)(forward-char -1)(point)))))
+
+(defun gri-easy-menu-count-entries ()
+  "Return the number of easymenu sexps from point to end of buffer."
+  (let ((count 1))
+    (while (gri-forward-sexp 1)
+      (setq count (1+ count)))
+    count))
+
+(defun gri-forward-sexp (count)
+  "Advance by ARG sexp, and returns nil if error occurs or at EOF, t otherwise.
+By error, I mean un improperly balanced sexp."
+  (when (condition-case nil
+                (goto-char (or (scan-sexps (point) count) (point-max)))
+              (error))
+    (if (= (point)(point-max))
+        nil
+      t)))
+
+;;; End of easymenu commands generation.
+;;;-------------------------------------
+
 ;;(defvar gri::toolbar-run-icon
 ;;  (if (featurep 'toolbar)
 ;;      (toolbar-make-button-list "/home/rhogee/gri.xpm" "Run Gri")))
@@ -3788,7 +3999,7 @@ static char *magick[] = {
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.16 (c) 16 Apr 2000 --  Peter Galbraith <GalbraithP@dfo-mpo.gc.ca>
+V2.24 (c) 18 May 2000 --  Peter Galbraith <GalbraithP@dfo-mpo.gc.ca>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
@@ -3996,6 +4207,8 @@ PLANNED ADDITIONS:
        gri-mode-menu1
        (fboundp 'add-submenu)     ;Insurance for emacs
        (set-buffer-menubar (copy-sequence current-menubar))
+       (if (boundp 'gri-commands-menu)
+	   (add-submenu nil gri-commands-menu))
        (add-submenu nil gri-mode-menu1)
        (add-submenu nil gri-mode-menu2)
        (add-submenu nil gri-mode-menu3)
@@ -4009,6 +4222,10 @@ PLANNED ADDITIONS:
   ;; Figure Out what version of gri to use, where to call it
   (hack-local-variables)
   (gri-initialize-version t)
+  (if (and (not (boundp 'gri-commands-menu)) 
+      ;; Maybe I should redo it all the time in case frame size was changed?
+           (not (equal gri-cmd-file "")))
+      (gri-menubar-cmds-build))
   (run-hooks 'gri-mode-hook))
 
 (defun gri-determine-local-version ()
