@@ -202,7 +202,7 @@ gri.ps: gri.texi
 	texindex gri.tp
 	texindex gri.vr
 	tex gri.texi
-	dvips -o gri.ps gri.dvi
+	dvips -o gri.ps -t letter gri.dvi
 
 gri.pdf: gri.texi
 	cd examples    ; make pdf
@@ -217,27 +217,25 @@ gri.pdf: gri.texi
 	texindex gri.vr
 	pdftex gri.texi
 
-
-
 # Debian stuff follows
 refcard.ps:	refcard.tex
 	tex refcard.tex
-	dvips -o refcard.ps -t landscape refcard.dvi
-	chmod a+r refcard.ps
+	dvips -o refcard.ps -t landscape -t letter refcard.dvi
 
 cmdrefcard.ps:
 	tex cmdrefcard.tex
-	dvips -o cmdrefcard.ps -t landscape cmdrefcard.dvi
-	chmod a+r cmdrefcard.ps
+	dvips -o cmdrefcard.ps -t landscape -t letter cmdrefcard.dvi
 
 # make debian   (does not install; only makes the files)
 debian: refcard.ps cmdrefcard.ps info
 
 # make debian-html DOC_DIR=../debian/gri-html-doc/usr/share/doc/gri
+# builds and installs under $(DOC_DIR)
 debian-html:
 	make html-install
 
 # make debian-ps DOC_DIR=../debian/gri-ps-doc/usr/share/doc/gri
+# builds and installs under $(DOC_DIR)
 debian-ps: gri.ps
 	$(INSTALL) -d $(DOC_DIR)
 	$(INSTALL) -m 644 gri.ps $(DOC_DIR)
