@@ -242,7 +242,7 @@ massage_command_line(char *cmd)
 	    && !re_compare(_cmdLine, "\\s*ls\\s*.*")
 	    && !re_compare(_cmdLine, "\\s*insert\\s*.*")
 	    && !re_compare(_cmdLine, "\\s*close\\s*.*")
-				// removed 2.5.5 && !re_compare(_cmdLine, "\\s*open\\s*.*")
+	    && !re_compare(_cmdLine, "\\s*open\\s*.*") // removed 2.5.5; re-inserted 2.6.0
 	    && !re_compare(_cmdLine, "\\s*postscript\\s*.*") ) {
 		expand_blanks(cmd);
 	}

@@ -643,7 +643,7 @@ substitute_synonyms_cmdline(const char *s, string& sout, bool allow_math)
 bool
 substitute_synonyms(const char *s, string& sout, bool allow_math)
 {
-	//if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d substitute_synonyms('%s',...)\n",__FILE__,__LINE__,s);
+	if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d substitute_synonyms('%s',...)\n",__FILE__,__LINE__,s);
 	bool            inmath = false; // are we within a math string?
 	int             slen = strlen(s);
 	string sname;
@@ -844,7 +844,7 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 	}
 	// Paste on final blank [can't remember why, but what the heck].
 	sout.append(" ");
-	//if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d finally [%s]\n",__FILE__,__LINE__,sout.c_str());
+	if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d finally [%s]\n",__FILE__,__LINE__,sout.c_str());
 	return true;
 }
 
