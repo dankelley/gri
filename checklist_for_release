@@ -31,20 +31,22 @@ CHECKLIST.
   5+ DEK creates an official tarball and uploads it to the SourceForge
      website (SF henceforth).
 
-  6- DEK builds an official redhat package based on the official
+  6+ DEK builds an official redhat package based on the official
      tarball.  If any problems, back to step 2.
 
   7+ PSG builds an official Debian package based on the official
      tarball.  If any problems, back to step 2.
 
-  8- DEK uploads the official redhat package to SF.
+  8+ DEK uploads the official redhat package to SF.
 
   9+ PSG uploads unofficial Debian package to SF, and official Debian
      packages (built for `unstable`) to Debian.
 
-  10- DEK edits the SF webpage to indicate that a new version has
+  10+ DEK edits the SF webpage to indicate that a new version has
       been released.
 
-  11- DEK updates the HTML docs on SF.
+  11+ DEK updates the HTML docs on SF.
 
-  12- DEK updates the PDF docs on SF
+  12+ DEK updates the PDF docs on SF.
+
+  13- DEK builds a solaris version and installs it on SF.
