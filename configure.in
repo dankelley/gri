@@ -48,7 +48,6 @@ s.remove(0,1);
 dnl
 CHECK_OLD_STRING
 
-
 define(GCC_TWEAK1,
 AC_MSG_CHECKING(for gcc compiler)
 [AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([$0], [AC_HEADER_EGREP])AC_BEFORE([$0], [AC_TEST_CPP])AC_EGREP_CPP(yes,
@@ -66,6 +65,25 @@ AC_MSG_RESULT($GCC)
 ])dnl
 dnl
 GCC_TWEAK1
+
+define(GCC_TWEAK2,
+AC_MSG_CHECKING(for C++ compiler with new headers as of August 2002)
+[AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([$0], [AC_HEADER_EGREP])AC_BEFORE([$0], [AC_TEST_CPP])AC_EGREP_CPP(yes,
+[#if defined(__GNUC__)
+#if __GNUC__ >= 3
+  yes
+#endif
+#endif
+], Cplusplusnew=yes, Cplusplusnew=no)
+if test $Cplusplusnew = yes; then
+  EXTRA_CFLAGS="$EXTRA_CFLAGS -DCPLUSPLUSNEW"
+  AC_SUBST(EXTRA_CFLAGS)
+fi
+AC_MSG_RESULT($Cplusplusnew)
+])dnl
+dnl
+GCC_TWEAK2
+
 
 dnl Note: prior to 2.9.x, we used to have
 dnl   EXTRA_CFLAGS="$EXTRA_CFLAGS -Wall -fno-implicit-templates"

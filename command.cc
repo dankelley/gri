@@ -6,7 +6,11 @@
 #if defined(HAVE_LSTAT)
 #include	<sys/stat.h>
 #endif
+#if defined(CPLUSPLUSNEW)
+#include        <sstream>
+#else
 #include        <strstream>
+#endif
 #include	"gr.hh"
 #include	"extern.hh"
 #include        "private.hh"
