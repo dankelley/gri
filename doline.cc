@@ -204,7 +204,9 @@ massage_command_line(char *cmd)
 	// For system commands, just substitute synonyms.
 	if (is_system_command(cmd)) {
 		strcpy(cmd, _cmdLineCOPY);
-		substitute_synonyms_cmdline(cmd, _cmdLineCOPY, false);
+		string cmd_sub;
+		substitute_synonyms_cmdline(cmd, cmd_sub, false);
+		strcpy(_cmdLineCOPY, cmd_sub.c_str());
 		strcpy(cmd, _cmdLineCOPY);
 		// Chop into words.  Note: chop_into_words() destroys it's string, so
 		// use a copy.
@@ -224,8 +226,9 @@ massage_command_line(char *cmd)
 #endif
 
 		strcpy(_cmdLineCOPY, "");	// ensure null-terminated
-
-		substitute_synonyms_cmdline(cmd + skip_space(cmd), _cmdLineCOPY, false);
+		string cmd_sub;
+		substitute_synonyms_cmdline(cmd + skip_space(cmd), cmd_sub, false);
+		strcpy(_cmdLineCOPY, cmd_sub.c_str());
 		remove_trailing_blanks(_cmdLineCOPY);
 		strcpy(cmd, _cmdLineCOPY);
 		// Chop into words.  Note: chop_into_words() destroys it's string, so
@@ -274,8 +277,9 @@ massage_command_line(char *cmd)
 	// Don't substitute synonyms for these commands: `new \syn ...' `delete
 	// \syn ...'
 	if (re_compare(_cmdLine, "\\s*open\\s*.*")) {
-		substitute_synonyms_cmdline(cmd, _cmdLineCOPY, false);
-		strcpy(cmd, _cmdLineCOPY);
+		string cmd_sub;
+		substitute_synonyms_cmdline(cmd, cmd_sub, false);
+		strcpy(cmd, cmd_sub.c_str());
 	} else {
 		if (!re_compare(_cmdLine, "\\s*new\\s*.*")
 		    && !re_compare(_cmdLine, "\\s*delete\\s*.*")
@@ -286,8 +290,9 @@ massage_command_line(char *cmd)
 #endif
 		    && !re_compare(_cmdLine, "\\s*get\\s+env\\s*.*")
 			) {
-			substitute_synonyms_cmdline(cmd, _cmdLineCOPY, true);
-			strcpy(cmd, _cmdLineCOPY);
+			string cmd_sub;
+			substitute_synonyms_cmdline(cmd, cmd_sub, true);
+			strcpy(cmd, cmd_sub.c_str());
 			remove_trailing_blanks(cmd);
 		}
 	}
@@ -482,9 +487,8 @@ is_system_command(const char *s)
 bool
 systemCmd()
 {
-	int             status = 0;
 	char           *s = _cmdLine;
-	int             i, icmd, len;
+	int             i;
 	if (skipping_through_if())
 		return true;
 	// Much of following code duplicated in assign_synonym(), so if any
@@ -533,10 +537,10 @@ systemCmd()
 			break;
 		}
 	}
-	GriString             cmd(s);
+	string cmd(s);
 	if (using_read_until) {
 		// It is of the <<WORD form
-		cmd.catSTR("\n");
+		cmd = "\n";
 		while (get_command_line()) {
 			// Trim filename/fileline indicator
 			unsigned int l = strlen(_cmdLine);
@@ -546,34 +550,31 @@ systemCmd()
 					break;
 				}
 			}
-			cmd.catSTR(_cmdLine);
-			cmd.catSTR("\n");
+			cmd = _cmdLine;
+			cmd.append("\n");
 			if (!strncmp(_cmdLine, read_until.getValue(), read_until.size())) {
 				break;
 			}
 		}
-		substitute_synonyms_cmdline(cmd.getValue(), _cmdLine, false);
-		cmd.fromSTR(_cmdLine);
+		string cmd_sub;
+		substitute_synonyms_cmdline(cmd.c_str(), cmd_sub, false);
+		cmd = cmd_sub;
 	} else {
+		printf("DEBUG (system): before processing newlines, have '%s'\n", cmd.c_str());
 		// No, it is not of the <<WORD form
-		len = cmd.size();
-		char *ptr = cmd.getValue();
-		for (icmd = 0, i = 0; i <= len; icmd++, i++) {
-			if (i > 2
-			    && s[i] == 'n'
-			    && s[i - 1] == '\\'
-			    && s[i - 2] == '\\') {
-				icmd--;		// overwrite so \\n becomes \n
-			}
-			*(ptr + icmd) = *(s + i);
+		string::size_type loc;
+		while (STRING_NPOS != (loc = cmd.find_first_of("\\\\n"))) {
+			cmd.erase(loc, 3);
+			cmd.insert(loc, "\n");
 		}
+		printf("DEBUG (system): afterwards, have '%s'\n", cmd.c_str());
 	}
 	if (((unsigned) superuser()) & FLAG_SYS) {
 		ShowStr("\n`system' sending the following command to the operating system:\n");
-		ShowStr(cmd.getValue());
+		ShowStr(cmd.c_str());
 		ShowStr("\n");
 	}
-	status = system(cmd.getValue());
+	int status = system(cmd.c_str());
 	PUT_VAR("..exit_status..", (double) status);
 	sprintf(_grTempString, "%d status\n", status);
 	RETURN_VALUE(_grTempString);

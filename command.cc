@@ -768,8 +768,9 @@ perform_block(const char *block, const char *source_file, int source_line)
 					}
 				}
 				if (!skipping_through_if()) {
-					substitute_synonyms_cmdline(cmd, _cmdLine, false);
-					strcpy(cmd, _cmdLine);
+					string cmd_new;
+					substitute_synonyms_cmdline(cmd, cmd_new, false);
+					strcpy(cmd, cmd_new.c_str());
 					if (_griState.superuser() & FLAG_SYS) {
 						ShowStr("\n`system' sending the following command to the operating system:\n");
 						ShowStr(cmd);

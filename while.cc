@@ -19,6 +19,7 @@ whileCmd(void)
 		err("`while .test.|{rpn ...}' missing the test part");
 		return false;
 	}
+	//printf("=============== in while cmd.  '%s'       test '%s'\n",_cmdLine,test.c_str());
 	test_is_true(test.c_str()); // to catch syntax errors on this line
 	// Store lines until end while into the buffer
 	string buffer;
@@ -63,10 +64,12 @@ const int NOTIFY = 1000;
 bool
 perform_while_block(const char *buffer, const char *test, int lines)
 {
+	//printf("^^^^^^^^^^^^ perform_while_block(...,%s,...)\n",test);
 	string          filename;
 	int             fileline;
 	int             passes = 0;
 	while (test_is_true(test)) {
+		//printf(">>> STILL IN LOOP test '%s'\n",test);
 		// Check to see if test is now false
 		if (block_level() > 0) {
 			filename.assign(block_source_file());
@@ -109,7 +112,15 @@ test_is_true(const char *s)
 {
 	char            res[100];
 	double          value;
+#if 1
+	string ss;
+	bool substitute_synonyms_new(const char *s, string& sout, bool allow_math);
+	substitute_synonyms(s, ss, true);
+	substitute_rpn_expressions(ss.c_str(), res);
+	//printf(" + '%s'        ->     '%s'\n", s,ss.c_str());
+#else
 	substitute_rpn_expressions(s, res);
+#endif
 	if (is_var(res)) {
 		getdnum(res, &value);
 	} else {
