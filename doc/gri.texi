@@ -14492,6 +14492,9 @@ Most users get Gri from the anonymous ftp site
 @comment  node-name,  next,  previous,  up
 @subsection Unix Installation
 @cindex directory structure of Gri installation
+
+@emph{NOTE: THE DIRECTORY STRUCTURE INDICATED HERE IS WRONG.  A FUTURE VERSION OF THE MANUAL WILL FIX THIS.  IN THE MEANTIME, TYPE 'make -n install' TO SEE WHERE GRI WILL GO, AND EDIT THE MAKEFILE IF YOU DISLIKE THIS.  SORRY -- DAN.}
+
 The directory structure for Gri is as follows, where in this example the
 most up-to-date version is @value{GRI-VERSION}, and @code{OLD} is meant
 to represent an older numbered version.
