@@ -19,7 +19,35 @@ new_pageCmd()
 	reset_top_of_plot();
 	return true;
 }
+// new postscript file "name"
+bool
+new_postscript_fileCmd()
+{
+	if (_nword < 4) {
+		err("`new postscript file' needs a filename.");
+		demonstrate_command_usage();
+		return false;
+	} else if (_nword > 4) {
+		err("`new postscript file' takes just 1 argument, a filename");
+		demonstrate_command_usage();
+		return false;
+	}
+	printf("DEBUG.  Should now start a new ps file named '%s'\n",_word[3]);
+	gr_end("!");
+	gr_setup_ps_filename(_word[3]);
+#if 0
+	// BUG: don't know argc/argv from here!
+	insert_creator_name_in_PS(argc, argv, psname);
+#endif
+	gr_begin(2);
+	// Trick it into resetting to present font 
+	gr_fontID present_font = gr_currentfont();
+	gr_setfont(gr_font_Courier);
+	gr_setfont(present_font);
+	return true;
+}
 
+// new [.var.|\syn [.var.|\syn [...]]
 bool
 newCmd()
 {

@@ -2033,9 +2033,18 @@ that imagevalue (in range 0 to 255 inclusive for 8-bit images).
 
 `new page'
 Finish the present page, and start a new page.  All settings (of
-linewidth, axes, landscape/portrait, etc) are retained on the new page. 
+linewidth, axes, landscape/portrait, etc.) and data are retained
+on the new page. 
 {
     extern "C" bool new_pageCmd(void);
+}
+
+`new postscript file \name'
+Finish the present Postscript file, and start a new page with
+the given name.  All settings (of linewidth, axes, landscape/portrait,
+etc.) and data are retained on the new file.
+{
+    extern "C" bool new_postscript_fileCmd(void);
 }
 
 `new .variable_name.|\synonym_name [.variable_name.|\synonym_name [...]]'

@@ -233,9 +233,9 @@ delete_ps_file()
 	return delete_file(ps_filename_used);
 }
 
-// gr_begin() -- prepare for plotting
-// `specifications' is a code used to specify various options. you 
-// form specifications as a sum of codes defined in gr.hh.
+// gr_begin() -- prepare for plotting.
+// specifications==1 normal case
+// specifications==2 restarting, so don't default stuff
 void
 gr_begin(int specifications)
 {
@@ -243,9 +243,11 @@ gr_begin(int specifications)
 	_grNeedBegin = false;
 	_grSpecifications = specifications;
 	// open gri.ps file, avoiding overwriting existing ones
-	if (user_gave_ps_filename)
+	printf("DEBUG 1\n");
+	if (user_gave_ps_filename) {
+		printf("DEBUG 2. '%s'\n",ps_filename);
 		strcpy(ps_filename_used, ps_filename);
-	else {
+	} else {
 #if defined(VMS)
 		// On vax, just use version numbers
 		sprintf(ps_filename_used, "%s", ps_filename);
@@ -295,7 +297,8 @@ Cannot open output PostScript file named\n\t`%s'\nin this directory.  Do you hav
 	_grWritePS = true;
 	// define postscript abbreviations
 	insert_ps_header(_grPS);
-	set_page_characteristics();
+	if (specifications == 1)
+		set_page_characteristics();
 }
 
 static void set_page_characteristics()
@@ -1279,6 +1282,7 @@ gr_setup_creatorname(const char *s)
 void
 gr_setup_ps_filename(const char *new_name)
 {
+	printf("%s:%d %d\n",__FILE__,__LINE__,_grNeedBegin);
 	if (_grNeedBegin) {
 		user_gave_ps_filename = true;
 		if (strlen(new_name) > 0)

@@ -6944,7 +6944,8 @@ Here is a list of all comands:
 * Ls::                          List files in current directory
 * Mask::                        Mask the image
 * New::                         Get space for new variable or synonym
-* Newpage::                     Go to a new page
+* Newpage::                     Start a new page
+* New Postscript File::         Start a new PostScript file
 * Open::                        Open a data file
 * Postscript::                  Insert a line into the PostScript file
 * Pwd::                         Print working directory
@@ -9674,7 +9675,7 @@ draw label "This is 10 font" at 10 8 cm
 
 @c HTML <!-- newfile Newpage.html "Gri: `newpage' command" "Gri Commands" -->
 
-@node   Newpage, Open, New, Commands
+@node   Newpage, New Postscript File, New, Commands
 @comment  node-name,  next,  previous,  up
 @section The @code{new page} Command
 @cindex page breaks
@@ -9690,9 +9691,24 @@ Among these settings is the flag that tells gri whether you need axes
 plotted along with your data.
 
 
+@node   New Postscript File, Open, Newpage, Commands
+@comment  node-name,  next,  previous,  up
+@section The @code{new postscript file} Command
+@findex new postscript file
+@cindex @code{new postscript file} command
+@example
+`new postscript file "name"'
+@end example
+@noindent
+Finish the present Postscript file, and start a new page with the given
+name.  All settings (of linewidth, axes, landscape/portrait, etc.) and
+data are retained on the new file.
+
+
+
 @c HTML <!-- newfile Open.html "Gri: `open' command" "Gri Commands" -->
 
-@node   Open, Opening Simple Files, Newpage, Commands
+@node   Open, Opening Simple Files, New Postscript File, Commands
 @comment  node-name,  next,  previous,  up
 @section The @code{open} Command
 @findex open
@@ -14647,7 +14663,10 @@ The next sections outline the changes made in Gri.
 @comment  node-name,  next,  previous,  up
 @subsection Version 2.6
 @table @emph
-@item 2.6.0 [2000-Dec-??] (Not released yet.)
+@item 2.6.0 [2001-Jan-??] (Not released yet.)
+@sp 1
+Add @code{new postscript file} (@ref{New Postscript File}) command.
+
 @sp 1
 Switch email list from @code{majordomo} to GNU @code{mailman}.
 
@@ -14882,9 +14901,6 @@ if you need something else that I've not listed.
 @cindex big-endian vs little-endian data, plans
 
 @enumerate
-
-@item Add @code{newfile "ps_filename"} command,
-permitting one Gri script to produce several PostScript files.
 
 @item Switch to @code{popt} library for the processing of command-line 
 options.
