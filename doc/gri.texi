@@ -4163,7 +4163,8 @@ are provided with Gri.
 
 Invoking a library file is done at the system prompt, while invoking Gri
 itself.  For example, suppose that a library file called @file{10pt}
-were present on the system,  which consisted of the single line
+were present on the system (the directory in which this file might sit
+will be discussed momentarily), which consisted of the single line
 @example
 set font size 10
 @end example
@@ -4213,6 +4214,11 @@ export GRIINPUTS=".:$HOME/lib/gri:/usr/share/gri"
 @end example
 @noindent
 in your @file{~/.environment} file (in the bourne shell).
+
+@emph{Note} that library files are a new feature in Gri, and no library
+files are shipped with Gri.  Indeed, library files are probably the kind
+of thing that users should prepare and share, as opposed to the Gri
+developer, since they are a personalization feature, after all.
 
 
 @c HTML <!-- newfile ResourceFile.html "Gri: The Gri resource file" "General Issues" -->
