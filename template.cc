@@ -3,8 +3,8 @@
 // BUG: in how they handle templates.  :=(
 
 #define _PUT_STATIC_DATA_MEMBERS_HERE
+#include <string>
 #include <stdio.h>
-
 #include <algorithm>		// part of STL
 #include <vector>		// part of STL
 #include "gr.hh"

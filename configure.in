@@ -240,6 +240,9 @@ AC_CACHE_VAL(gri_cv_have_posix_times, [
 #include <sys/times.h>
 ], [
 struct tms buffer; 
+#ifdef sun
+broken
+#endif
 clock_t t = times(&buffer);
 ], gri_cv_have_posix_times=yes, gri_cv_have_posix_times=no)])
     AC_MSG_RESULT($gri_cv_have_posix_times)
