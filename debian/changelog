@@ -1,3 +1,12 @@
+gri (2.12.7-1) unstable; urgency=low
+
+  * New upstream release
+    Bug Fixes:
+    - Fix Debian bug #208589 (did not build on some Debian platforms
+      because it was based on an old version of `automake' (Closes: #208589).
+
+ -- Peter S Galbraith <psg@debian.org>  Wed,  3 Sep 2003 20:12:25 -0400
+
 gri (2.12.6-1) unstable; urgency=low
 
   * New upstream version
