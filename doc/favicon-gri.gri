@@ -1,0 +1,31 @@
+set x size 5
+set y size 5
+set x axis 0 1 0.25
+set y axis 0 20 10
+set font size 0
+\background_color = "hsb 0.60 0.24 1"
+\line_color =       "red"
+\word_color =       "black"
+
+read columns x y
+0.0  12.5
+0.25 19  
+0.5  12  
+0.75 15  
+1    13  
+
+draw axes none
+set color \background_color
+set line width axis rapidograph 6
+draw curve filled to ..ybottom.. y
+set color black
+#draw axes frame
+
+set color \line_color
+set line width 10
+draw curve
+
+set color \word_color
+set font size 100
+set font to Helvetica
+draw label "Gri" at 0.05 1.3

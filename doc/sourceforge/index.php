@@ -14,6 +14,8 @@ scp index.php psg@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
     <meta name="Copyright" content="2002 Dan Kelley, Dalhousie University, Halifax, Nova Scotia, Canada">
     <meta name="Author" content="Dan Kelley, Dan.Kelley@Dal.Ca">
     <meta name="keywords" content="Gri, graphics, Scientific Computing">
+    <link rel="Shortcut Icon" href="./favicon-gri.ico">
+
     <!--    <LINK rel="stylesheet" href="./gri.css" type="text/css"> -->
 
     <style type="text/css">
