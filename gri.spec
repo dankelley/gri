@@ -96,6 +96,8 @@ then
 fi
 
 %changelog
+* Tue Apr 6  2004 <Dan.Kelley@Dal.Ca>
+- fix SF bug 930259 ('draw arc' had an extra line [thanks for fix by Wolfgang Voegeli])
 * Fri Apr 2  2004 <Dan.Kelley@Dal.Ca>
 - fix SF bug 928277 ('draw polygon' should take 'cm' and 'pt' units)
 * Mon Mar 29 2004 <Dan.Kelley@Dal.Ca>

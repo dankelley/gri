@@ -16441,6 +16441,11 @@ Fix SourceForge bug
 
 @item
 Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=930259&group_id=5511&atid=105511,#930259}
+@dots{} fix @code{draw arc}'s drawing of an extra line (thanks for the fix, Wolfgang Voegeli)
+
+@item
+Fix SourceForge bug
 @uref{http://sourceforge.net/tracker/index.php?func=detail&aid=923719&group_id=5511&atid=105511,#923719}
 @dots{} @code{draw curve overlying} ignored the effect of @code{set dash}
 
@@ -18835,6 +18840,9 @@ Keith Thompson,
 David Trueman,
 @cindex David Trueman (contributer)
 @cindex contributer, David Trueman
+Wolfgang Voegeli,
+@cindex contributer and bug-fixer, Wolfgang Voegeli
+@cindex Wolfgang Voegeli (contributer and bug fixer)
 Jeff Whitaker,
 @cindex Jeff Whitaker (contributer)
 @cindex contributer, Jeff Whitaker

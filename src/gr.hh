@@ -61,6 +61,8 @@ enum output_file_type {
 	svg = 1,
 	gif = 2
 };
+// Geometrical things.
+#define PI_VALUE 3.14159265358979323846
 // Postscript things.
 #define GR_POINTS_IN_PS_PATH 1499 // really 1500, but be safe
 #define PT_PER_IN 72.27		// points per inch
