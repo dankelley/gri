@@ -275,6 +275,7 @@ void            gr_settranslate(double xcm, double ycm);
 void            gr_setup_creatorname(const char *s);
 void            gr_setup_ps_filename(const char *new_name);
 void            gr_setup_ps_landscape(void);
+void            gr_setup_ps_portrait(void);
 void            gr_setup_ps_scale(double xfactor, double yfactor);
 void            gr_setxaxisstyle(int xstyle);
 void            gr_setxlabel(const char *xlab);

@@ -2338,10 +2338,10 @@ set_page_sizeCmd()
 bool
 set_pageCmd()
 {
-	double          mag, xcm, ycm;
 	Require(_nword > 2, err("`set page' requires parameter(s)"));
+	double          mag, xcm, ycm;
 	if (!strcmp(_word[2], "portrait")) {
-		;			// EMPTY
+		gr_setup_ps_portrait();
 	} else if (!strcmp(_word[2], "landscape")) {
 		if (!already_landscape) {
 			fprintf(gr_currentPSFILEpointer(), "8.5 72 mul 0 translate 90 rotate %% Landscape\n");

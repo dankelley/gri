@@ -125,6 +125,7 @@ int             _grAxisStyle_x = 0;	/* always 0 */
 int             _grAxisStyle_y = 0;	/* 0 = falsermal, 1 = label horizontal */
 bool            _grDrawingDash = false;	/* =1 if drawing dash part of a line */
 bool            _grPS_Landscape = false;	/* flag for landscape */
+//bool            _grPS_Landscape = true;	/* flag for landscape */
 int             _grSpecifications = 1;	/* specifications in gr_begin */
 int             _grNumSubDiv_x;	/* # x-subdivision per labelled tic */
 int             _grNumSubDiv_y;	/* # x-subdivision per labelled tic */
@@ -372,6 +373,7 @@ insert_ps_header(FILE * fp)
 	fprintf(fp, "%%%%TemplateBox: %d %d %d %d\n",
 		0, 0, (int) (8.5 * 72.0), (int) (11.0 * 72.0));
 	fprintf(fp, "%%%%DocumentFonts: (atend)\n");
+	fprintf(fp, "%%%%Orientation: (atend)\n");
 	fprintf(fp, "%%%%Endcomments\n");
 	int i = 0;
 	while (PS_dict[i])
@@ -416,8 +418,11 @@ static void
 handle_landscape_scale(FILE * fp)
 {
 	/* put landscape and scale commands in ps output file */
-	if (_grPS_Landscape)
+	if (_grPS_Landscape) {
 		fprintf(fp, "%g 0 translate 90 rotate %% Landscape\n", 8.5 * 72.0);
+	} else {
+		;
+	}
 	fprintf(fp, "%g %g scale\n", _grPSScale_x, _grPSScale_y);
 }
 
@@ -872,6 +877,7 @@ gr_end(const char *filename)
 		}
 		fprintf(_grPS, "%%%%DocumentFonts: Courier Helvetica Palatino-Roman Palatino-Italic Symbol Times-Roman\n");
 		fprintf(_grPS, "%%%%Pages: %d\n", which_page);
+		fprintf(_grPS, "%%%%Orientation: %s\n",_grPS_Landscape?"Landscape":"Portrait");
 		_grPathExists = false;
 		user_gave_ps_filename = false;
 		// See if filename was specified
@@ -1384,6 +1390,15 @@ gr_setup_ps_landscape()
 	_grPageWidth_cm = _grPageHeight_cm;
 	_grPageHeight_cm = t0;
 }
+void
+gr_setup_ps_portrait()
+{
+	//double           t0 = _grPageWidth_cm;
+	_grPS_Landscape = false;
+	//_grPageWidth_cm = _grPageHeight_cm;
+	//_grPageHeight_cm = t0;
+}
+
 
 /*
  * gr_setup_ps_scale() -- set enlargement factors for x and y on ps printer
