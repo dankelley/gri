@@ -1,4 +1,4 @@
-#GRI = ../../gri -directory ../.. -y
+GRITEST = ../../gri -directory ../.. -y
 GRI = gri -y
 eps:
 	cp FEM.ps FEM.eps
@@ -19,7 +19,7 @@ eps:
 	cp example12.ps example12.eps
 	cp example13.ps example13.eps
 
-author-make:
+ps:
 	$(GRI) FEM.gri
 	$(GRI) example1.gri
 	$(GRI) example2.gri
@@ -37,6 +37,24 @@ author-make:
 	$(GRI) example11.gri
 	$(GRI) example12.gri
 	$(GRI) example13.gri
+testps:
+	$(GRITEST) FEM.gri
+	$(GRITEST) example1.gri
+	$(GRITEST) example2.gri
+	$(GRITEST) example3.gri
+	$(GRITEST) example4.gri
+	$(GRITEST) example5.gri
+	$(GRITEST) example6.gri
+	$(GRITEST) example6color.gri
+	$(GRITEST) example6histogram.gri
+	$(GRITEST) example7.gri
+	$(GRITEST) example8.gri
+	$(GRITEST) example9.gri
+	$(GRITEST) example10.gri
+	$(GRITEST) example10color.gri
+	$(GRITEST) example11.gri
+	$(GRITEST) example12.gri
+	$(GRITEST) example13.gri
 
 clean:
 	rm -rf *.eps *~
