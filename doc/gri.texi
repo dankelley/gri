@@ -4157,60 +4157,62 @@ esac
 @node   Library Files, Resource File, Using Gri Inside OS, General Issues
 @comment  node-name,  next,  previous,  up
 @section Library Files
-The directory @file{/usr/local/lib/gri} contains small Gri programs to
-be run together with your own gri programs, providing a library of Gri
-code.  Gaining or preventing access to this library directory, and to
-other directories of your own making, is done with the @code{GRIINPUTS}
-unix environment variable; @xref{Options On Command Line}.
+Gri has a facility for using "library files" in addition to your command
+files.  This a somewhat new facility, and at the moment no library files
+are provided with Gri.
 
-The following examples show how one might use these library files to
-modify the plots normally produced by a user-created commandfile.  In
-the first examples, @file{myfile.gri} is a user-created commandfile, to
-be modified by the extra library commandfile.  @emph{Convention} Since
-Gri doesn't require the specification of the @code{.gri} suffix in
-commandfile names, it is mnemonic to list user-created commandfiles with
-the suffix, and library files without.  You should follow this
-convention.
-
-@emph{Note:} These library files are a new feature of Gri, and there is
-a good chance that library files on your system might change.
-Therefore, if there is a file that you use a lot, you should put it in
-your @file{~/lib/gri} directory, and modify your @code{GRIINPUTS}
-unix environment variable to contain this directory, by putting this line 
+Invoking a library file is done at the system prompt, while invoking Gri
+itself.  For example, suppose that a library file called @file{10pt}
+were present on the system,  which consisted of the single line
 @example
-export GRIINPUTS=".:$HOME/lib/gri:/usr/local/lib/gri"
-@end example
-@noindent
-in your @file{~/.environment} file.  (This instruction is for Bash-shell
-users; others ask system manager how to get this environment variable
-defined in this way.)
-
-
-@itemize @bullet
-@item @code{gri 10pt,myfile.gri}
-Run Gri on @file{myfile.gri}, but make the fontsize 10 point before
-executing first line of @file{myfile.gri}.  Provided that
-@file{myfile.gri} does not change the fontsize, this means the text will
-be 10 point.  Note that the library file,
-@file{/usr/local/lib/gri/10pt}, consists of these lines:
-@example
-# @@(#) 10pt.gri 1.2 (c) 93/05/05 Dan E. Kelley
 set font size 10
 @end example
-@item @code{gri 14pt,myfile.gri}
-As above, but make font larger (good for overhead transparencies, for
-example).
-@item @code{gri palatino,14pt,myfile.gri}
-Use Palatino, 14 point, as the default font.
-@item @code{gri TS}
-No local commandfile is used; instead, the library file
-@file{/usr/local/lib/gri/TS.gri} is used to make a temperature-salinity
-file is used.
-@item @code{gri ticsin,TS}
-As above, but draw the tics inward from axes, instead of outward as the
-normal style dictates.
-@end itemize
+and that Gri were invoked as
+@example
+gri 10pt,myfile.gri
+@end example
+instead of
+@example
+gri myfile.gri
+@end example
 
+Then, before Gri executed any commands in @file{myfile.gri}, it would
+would first execute @file{10pt}, setting the font size to 10 points.  Of
+course, this will have no practical effect if @file{myfile.gri} sets the
+font size before drawing text.  The idea is that you would @emph{not}
+set font sizes in @file{myfile.gri}, but use defaults instead.  
+
+@emph{Note} that it is conventional not to give library files a
+@file{.gri} suffix.  Then again, your own command files don't need these
+suffices either, so you could write
+@example
+gri 10pt,myfile
+@end example
+instead of the above.
+
+So, for example, you might like to set up a library file called
+@file{seminar}, which sets a big font size, thick line widths, large
+symbols, etc.  Another file, @file{publication}, say might set these
+things in an appropriate way for journals.  And so one figure could be
+formatted for a seminar presentation with
+@example
+gri seminar,myfile.gri
+@end example
+and for publication with
+@example
+gri publication,myfile.gri
+@end example
+
+Gri normally looks in the directory @file{/usr/share/gri} for library
+files, but you can control where it looks by setting the
+@code{GRIINPUTS} unix environment variable; for more on this
+@xref{Options On Command Line}.  But, here's an example to save you
+following the cross-reference: just put the line
+@example
+export GRIINPUTS=".:$HOME/lib/gri:/usr/share/gri"
+@end example
+@noindent
+in your @file{~/.environment} file (in the bourne shell).
 
 
 @c HTML <!-- newfile ResourceFile.html "Gri: The Gri resource file" "General Issues" -->
@@ -9539,7 +9541,7 @@ beginning with slash or period), then that particular file will be used.
 For filenames beginning with a letter or number, though, Gri will search
 for the file in the list of directories stored in your @code{GRIINPUTS}
 unix environment variable, or in the list (@file{.},
-@file{/usr/local/lib/gri}) if that environment variable is not set.
+@file{/usr/share/gri}) if that environment variable is not set.
 
 
 
