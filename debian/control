@@ -35,6 +35,7 @@ Description: a language for scientific illustration.
    http://gri.sourceforge.net/
 
 Package: gri-html-doc
+Section: doc
 Architecture: all
 Depends: ${shlibs:Depends}
 Suggests: doc-base
@@ -51,6 +52,7 @@ Description: HTML manual for gri, a language for scientific graphics.
    http://gri.sourceforge.net/gridoc/html/
 
 Package: gri-ps-doc
+Section: doc
 Architecture: all
 Depends: ${shlibs:Depends}
 Description: PostScript manual for gri, a language for scientific graphics.
