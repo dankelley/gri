@@ -96,6 +96,8 @@ then
 fi
 
 %changelog
+* Sun Dec 19 2004 <Dan.Kelley@Dal.Ca>
+- Fix SourceForge bug 1085788 ('image *=' gave incorrect results)
 * Mon Dec 13 2004 <Dan.Kelley@Dal.Ca>
 - Fix SourceForge bug 1084123 (Fink packaging put info files in wrong place)
 * Mon Aug 30 2004 <Dan.Kelley@Dal.Ca>
