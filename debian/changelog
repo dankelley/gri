@@ -1,6 +1,8 @@
 gri (2.6.0-1) unstable; urgency=low
 
   * New upstream version.
+    - Add `sleep' command.
+    - Add a method to access individual words within synonyms.
     - Add `set colorname' command. 
     - Add `source' command. 
     - Add RPN operators `wordc' and `wordv' for accessing the words in
@@ -21,7 +23,7 @@ gri (2.6.0-1) unstable; urgency=low
   * Info files have .info suffix now.
   * gri-html-doc suggest doc-base (otherwise it's not registered).
   
- -- Peter S Galbraith <psg@debian.org>  Wed, 24 May 2000 15:23:37 -0400
+ -- Peter S Galbraith <psg@debian.org>  Thu, 24 Aug 2000 12:32:22 -0400
 
 gri (2.4.2-1) frozen unstable; urgency=low
 
