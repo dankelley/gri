@@ -57,6 +57,8 @@
                 <A class="menus" HREF="./gri.pdf">PDF manual</A><br>
                 <A class="menus" HREF="./gridoc/html/FAQ.html">FAQ</A><br>
                 <A class="menus" HREF="./gri-cookbook/index.html">Cookbook of Examples</A><br>
+                <A class="menus" HREF="./refcard.ps">Reference card</A><br>
+                <A class="menus" HREF="./cmdrefcard.ps">Command reference card</A><br>
                 <A  class="menus" HREF="http://www2.linuxjournal.com/lj-issues/issue75/3743.html">Article in Linux Journal</A><br>
               </td>
             </tr>

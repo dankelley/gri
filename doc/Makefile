@@ -223,10 +223,12 @@ gri.pdf: gri.texi
 refcard.ps:	refcard.tex
 	tex refcard.tex
 	dvips -o refcard.ps -t landscape refcard.dvi
+	chmod a+r refcard.ps
 
 cmdrefcard.ps:
 	tex cmdrefcard.tex
 	dvips -o cmdrefcard.ps -t landscape cmdrefcard.dvi
+	chmod a+r cmdrefcard.ps
 
 # make debian   (does not install; only makes the files)
 debian: refcard.ps cmdrefcard.ps debian-info
