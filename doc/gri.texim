@@ -1,5 +1,5 @@
 @c -*-mode: texinfo; -*-
-@c $Id: gri.texim,v 1.60 2001/03/18 16:00:26 dankelley Exp $
+@c $Id: gri.texim,v 1.61 2001/03/18 19:02:39 dankelley Exp $
 \input texinfo @c -*-texinfo-*-
 @c
 @comment *** Start of HTML stuff ***
@@ -6441,7 +6441,7 @@ present (or cannot be read by this user).
 However, if the file name starts with a normal letter, Gri will try
 harder to locate the file.  If it is not in the local directory, and if
 a @code{set path to "PATH" for commands} has been done, then Gri will
-search the colon-separated directories for the file (@ref{Set Path}).
+search the colon-separated directories for the file (@ref{Set Path To}).
 
 If you don't want path-searching done, use the @code{source} command
 instead (@ref{Source}).
@@ -7987,7 +7987,7 @@ Set various flags and parameters which Gri will use in later commands.
 * Set Page::                    Set page style to portrait or landscape
 * Set Panel::                   Establish geometry for a panel of multipanel plot
 * Set Panels::                  Prepare for multipanel plot
-* Set Path::                    Set search-path for data or command files
+* Set Path To::                 Set search-path for data or command files
 * Set Postscript Filename::     Set name of PostScript file
 * Set Symbol Size::             Set size of symbols
 * Set Tic Size::                Set size of tics on axes
@@ -9278,7 +9278,7 @@ bottom row has @code{.row.} = 1, and the leftmost column has
 layout using @code{Panels .row. .col. .dx_cm. .dy_cm.}.
 
 
-@node   Set Panels, Set Path, Set Panel, Set
+@node   Set Panels, Set Path To, Set Panel, Set
 @comment  node-name,  next,  previous,  up
 @subsubsection @code{set panels}
 @findex set panels
@@ -9337,7 +9337,7 @@ draw axes
 @strong{See also} @code{set panel .row. .col.}
 
 
-@node   Set Path, Set Postscript Filename, Set Panels, Set
+@node   Set Path To, Set Postscript Filename, Set Panels, Set
 @comment  node-name,  next,  previous,  up
 @subsubsection @code{set path}
 @findex set path
@@ -9373,7 +9373,7 @@ paths is set to @file{"."}, the current directory, and this value is
 reset if the @code{default} keyword is provided to this command.
 
 
-@node   Set Postscript Filename, Set Symbol Size, Set Path, Set
+@node   Set Postscript Filename, Set Symbol Size, Set Path To, Set
 @comment  node-name,  next,  previous,  up
 @subsubsection @code{set postscript filename}
 @findex set postscript filename
@@ -10277,7 +10277,7 @@ Perform the commands in the indicated file.
 
 If the file cannot be found, an error results.  Contrast this with the
 @code{insert} command (@ref{Insert}), which has the ability to search
-for the file through a user-specified path (@ref{Set Path}).
+for the file through a user-specified path (@ref{Set Path To}).
 
 
 @c HTML <!-- newfile Sprintf.html "Gri: `sprintf' command" "Gri Commands" -->
@@ -15540,12 +15540,12 @@ like so in the file @file{~/.emacs}
 @item 2.6.0 [2001-month-day] (Not released yet.)
 
 @sp 1
-Add @code{set path} command (@ref{Set Path}).
+Add @code{set path} command (@ref{Set Path To}).
 
 @sp 1
 Remove functioning of @code{GRIINPUTS} environment variable, since this
 is more cleanly handled with the newly added @code{set path to} command
-(@ref{Set Path}).
+(@ref{Set Path To}).
 
 @sp 1
 Remove @code{\.awk.} synonym, which was deemed to be unhelpful.  Users
