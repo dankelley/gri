@@ -8,7 +8,7 @@ Group: Applications/Engineering
 Source: http://ftp1.sourceforge.net/gri/gri-%{griversion}.tgz
 URL: http://gri.sourceforge.net
 Packager: Dan E. Kelley <Dan.Kelley@Dal.CA>
-Icon: grilogo.gif
+#Icon: grilogo.gif
 BuildRoot: /var/tmp/%{name}-root
 
 %description
@@ -96,8 +96,9 @@ then
 fi
 
 %changelog
-* Sat Nov 23 2002  Dan Kelley <Dan.Kelley@Dal.Ca>
+* Thu Dec 5 2002  Dan Kelley <Dan.Kelley@Dal.Ca>
 - Version 2.12.2
+- fix SourceForge bug 649136 (examples 8 and 9 out-dated)
 - fix SourceForge bug 641406 (RPN too aggressive on missing values)
 * Wed Sep 25 2002  Dan Kelley <Dan.Kelley@Dal.Ca>
 - Version 2.12.1
