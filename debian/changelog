@@ -9,8 +9,12 @@ gri (2.9.0-0) unstable; urgency=low
     substitute /debian/tmp by /debian/gri/
   * debian/gri.emacsen-install: Edit $(flags) such that XEmacs
     byte-compilation doesn't load Debian startup files under /etc/emacs.
+  * debian/gri-html-doc.preinst: delete /usr/share/doc/gri-html-doc/html/.dhelp
+    and move potato version of /etc/emacs startup file to .dpkg-old
+  * debian/control: Depends on emacsen-common because of gri-mode install.
+  * debian/gri-html-doc.emacsen-startup: /usr/doc -> /usr/share/doc
 
- -- Peter S Galbraith <psg@debian.org>  Thu, 31 Jan 2002 10:14:29 -0500
+ -- Peter S Galbraith <psg@debian.org>  Mon,  4 Feb 2002 14:07:39 -0500
 
 gri (2.8.5-2) unstable; urgency=medium
 
