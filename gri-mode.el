@@ -5,7 +5,7 @@
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.38 (20 Feb 2001)
+;; Version:   2.39 (20 Feb 2001)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -357,6 +357,7 @@
 ;; V2.36 07Feb01 RCS 1.61 - add ~.grirc to auto-mode-alist
 ;; V2.37 15Feb01 RCS 1.62 - modify syntax table for strings with embedded "
 ;; V2.38 20Feb01 RCS 1.63 - add display of defaults after completion (>= 2.6.0)
+;; V2.39 20Feb01 RCS 1.64 - add imenu support.
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -416,6 +417,12 @@ Valid entries are:
 Like this like so:
  (setq gri*run-settings '(\"-publication\" \"-trace\"))")
 ;; FIXME: add -superuser with a value above somehow.
+
+  (defvar gri*use-imenu (not (string-match "XEmacs\\|Lucid" emacs-version))
+    "*Use imenu package for gri-mode?
+If you do not wish this behaviour, reset it in your .emacs file like so:
+
+  (setq gri*use-imenu nil)")
 
   (defvar gri*view-after-run t
     "*When set to true, gri-run will call gri-view after successful completion.
@@ -547,6 +554,14 @@ This list makes the startup values used in the menubar pull-down menu."
                 (const "-no_bounding_box")
                 (const "-publication")
                 (const "-trace")))
+
+  (defcustom gri*use-imenu (not (string-match "XEmacs\\|Lucid" emacs-version))
+    "*Use imenu package for gri-mode?
+If you do not wish this behaviour, reset it in your .emacs file like so:
+
+  (setq gri*use-imenu nil)"
+    :group 'gri
+    :type 'boolean)
 
   (defcustom gri*view-after-run t
     "When true, the graph will be displayed after compilation.
@@ -1238,32 +1253,33 @@ ARG2 is gri-syntax buffer."
                   (set-buffer cmd-buffer)))
             ;; An ordinary gri command
             ;; Extract default value if any...
-            (save-excursion
-              (let ((help-limit (progn (beginning-of-line)(point))))
-                (forward-line -1)
-                (while (and (looking-at "^#\\*")
-                            (= 0 (forward-line -1))))
-                (forward-line 1)
-                (when (re-search-forward "@default +\\([^@\n]+\\)" 
-                                         help-limit t)
-                  (setq the-default (match-string 1))
-                  (beginning-of-line)
-                  (if (re-search-forward "@unit +\\([a-zA-Z0-9.]+\\)"
-                                         (save-excursion (end-of-line)(point))
-                                         t)
-                      (setq the-default
-                            (concat the-default
-                                    (buffer-substring-no-properties
-                                     (match-beginning 1)
-                                     (match-end 1)))))
-                  (if (re-search-forward "@variable +\\([a-zA-Z0-9_.]+\\)"
-                                         (save-excursion (end-of-line)(point))
-                                         t)
-                      (setq the-default
-                            (concat the-default " in variable "
-                                    (buffer-substring-no-properties
-                                     (match-beginning 1)
-                                     (match-end 1))))))))
+            (if system-flag
+                (save-excursion
+                  (let ((help-limit (progn (beginning-of-line)(point))))
+                    (forward-line -1)
+                    (while (and (looking-at "^#\\*")
+                                (= 0 (forward-line -1))))
+                    (forward-line 1)
+                    (when (re-search-forward "@default +\\([^@\n]+\\)" 
+                                             help-limit t)
+                      (setq the-default (match-string 1))
+                      (beginning-of-line)
+                      (if (re-search-forward "@unit +\\([a-zA-Z0-9.]+\\)"
+                                             (save-excursion (end-of-line)(point))
+                                             t)
+                          (setq the-default
+                                (concat the-default
+                                        (buffer-substring-no-properties
+                                         (match-beginning 1)
+                                         (match-end 1)))))
+                      (if (re-search-forward "@variable +\\([a-zA-Z0-9_.]+\\)"
+                                             (save-excursion (end-of-line)(point))
+                                             t)
+                          (setq the-default
+                                (concat the-default " in variable "
+                                        (buffer-substring-no-properties
+                                         (match-beginning 1)
+                                         (match-end 1)))))))))
             (set-buffer syn-buffer)
             (goto-char (point-max))
             (insert the-command)
@@ -3728,7 +3744,7 @@ Any output (errors?) is put in the buffer `gri-WWW-manual'."
      ))
   (easy-menu-define
    gri-mode-menu3 gri-mode-map "Menu keymap for gri-mode."
-   '("Hide/Show"
+   '("Hide"
      ["Hide this gri function"        gri-hide-function t]
      ["Hide all gri functions"        gri-hide-all t]
      ["Show this gri function"        gri-show-function t]
@@ -4240,6 +4256,100 @@ By error, I mean un improperly balanced sexp."
 ;;; End of easymenu commands generation.
 ;;;-------------------------------------
 
+;;;-------------
+;;; imenu stuff
+
+;; (Comments from gre-mode)
+;; Instead of setting the variable imenu-create-index-function to
+;; imenu--create-gri-index, I could set the following REGEXP variable:
+;; 
+;;  (setq imenu-generic-expression
+;;        '((nil "^cmd \\([^(]+\\)" 1)
+;;          ("Variables" "^\\($[a-zA-Z_]+\\) [+-/*]?=" 1)))
+;; 
+;; and make a simple `imenu-prev-index-position-function' to move backwards
+;; to these regexps.  (See gri-imenu-prev-index-position-function below).
+
+;;FIXME:  XEmacs consideration here!
+(if gri*use-imenu
+    (require 'imenu))
+(if (and (= emacs-major-version 20)
+         (<= emacs-minor-version 2))
+    (defun imenu-add-to-menubar (name)
+      "Adds an `imenu' entry to the menu bar for the current buffer.
+NAME is a string used to name the menu bar item.
+See the command `imenu' for more information."
+      (interactive "sImenu menu item name: ")
+      (if (or (and (equal imenu-create-index-function 
+                          'imenu-default-create-index-function)
+                   imenu-generic-expression)
+              (fboundp imenu-create-index-function))
+          (let ((newmap (make-sparse-keymap))
+                (menu-bar (lookup-key (current-local-map) [menu-bar])))
+            (define-key newmap [menu-bar]
+              (append (make-sparse-keymap) menu-bar))
+            (define-key newmap [menu-bar index]
+              (cons name (nconc (make-sparse-keymap "Imenu")
+                                (make-sparse-keymap))))
+            (use-local-map (append newmap (current-local-map)))
+            (add-hook 'menu-bar-update-hook 'imenu-update-menubar))
+        (error "The mode `%s' does not support Imenu" mode-name))))
+
+(defun gri-imenu-prev-index-position-function ()
+  (re-search-backward 
+   "\\(^`\\(.*\\)'$\\)\\|\\(^[ \t]*\\(\\\\[a-zA-Z0-9_]+\\)\\|\\(\\.\\.?[a-zA-Z0-9_]\\.\\.?\\) *=\\)"
+   nil t))
+
+(defvar gri-imenu-counter nil "gri-mode internal variable for imenu support")
+
+(defun imenu--create-gri-index ()
+    (save-match-data
+      (save-excursion
+        (let ((index-alist '())
+              (index-var-alist '())
+              (index-syn-alist '())
+              prev-pos)
+          (setq gri-imenu-counter -99) ;IDs menu entries starting at -100
+          (goto-char (point-max))
+          (imenu-progress-message prev-pos 0 t)
+          (while (gri-imenu-prev-index-position-function)
+            (imenu-progress-message prev-pos nil t)
+            (let ((marker (make-marker)))
+              (set-marker marker (point))
+              (cond
+               ((match-beginning 2)     ;function
+                (push (cons (match-string 2) marker) index-alist))
+               ((match-beginning 4)     ;synonym
+                (push (cons (match-string 4) marker) index-syn-alist))
+               (t                       ;variable
+                (push (cons (match-string 5) marker) index-var-alist)))))
+          (imenu-progress-message prev-pos 100 t)
+          (cond
+           ((and index-var-alist
+                 (elt index-var-alist 5))
+            (push (cons "Variables"
+           ;;Or this:   (sort index-var-alist 'gri-imenu-label-cmp))
+                        index-var-alist) 
+                  index-alist))
+           (index-var-alist
+            (push index-var-alist index-alist)))
+          (cond
+           ((and index-syn-alist
+                 (elt index-syn-alist 5))
+            (push (cons "Synonyms"
+                        index-syn-alist) 
+                  index-alist))
+           (index-syn-alist
+            (push index-syn-alist index-alist)))
+          index-alist))))
+
+(defun gri-imenu-label-cmp (el1 el2)
+  "Predicate to compare labels in lists."
+  (string< (car el1) (car el2)))
+
+;;; end of imenu stuff
+;;;-------------
+
 ;;(defvar gri::toolbar-run-icon
 ;;  (if (featurep 'toolbar)
 ;;      (toolbar-make-button-list "/home/rhogee/gri.xpm" "Run Gri")))
@@ -4301,7 +4411,7 @@ static char *magick[] = {
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.38 (c) 18 Feb 2001 --  Peter Galbraith <psg@debian.org>
+V2.39 (c) 18 Feb 2001 --  Peter Galbraith <psg@debian.org>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
@@ -4364,6 +4474,7 @@ VARIABLES:
   gri*view-landscape-arg            String for landscape argument in gri-view. 
   gri*lpr-command                   Command used to print PostScript files.
   gri*lpr-switches                  print command switches to use
+  gri*use-imenu                     Use imenu package?
   gri*WWW-program                   String for local WWW browser program.
   gri*WWW-page                      Page to use by browser
   fill-column                       Column used in auto-fill (default=70).
@@ -4458,6 +4569,20 @@ PLANNED ADDITIONS:
   (setq auto-fill-hook 
         '(lambda () 
            (insert "\\\n"))) 
+
+  (cond
+   (gri*use-imenu
+    (require 'imenu)
+    (setq imenu-create-index-function 'imenu--create-gri-index)
+ ;;;Instead of setting `imenu-create-index-function', I could set (for gre):
+ ;; (setq imenu-prev-index-position-function 
+ ;;       'gri-imenu-prev-index-position-function)
+ ;; (setq imenu-generic-expression
+ ;;       '((nil "^cmd \\([^(]+\\)" 1)
+ ;;        ("Variables" "^\\($[a-zA-Z_]+\\) [+-/*]?=" 1)))
+    (if (or window-system
+            (fboundp 'tmm-menubar))
+        (imenu-add-to-menubar "Imenu"))))
 
   (gri-font-lock-setup)
 
