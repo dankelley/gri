@@ -223,12 +223,11 @@ as simple as the following.
         <A class="menus" HREF="http://www.sourceforge.net/project/?group_id=5511">SourceForge Gri page</A><br>
         <A class="menus" HREF="http://www.sourceforge.net/cvs/?group_id=5511">Get CVS source</a><br>
         <A class="menus" HREF="http://cvs.sourceforge.net/cgi-bin/cvsweb.cgi/gri/?cvsroot=gri">View CVS history</a><br>
+	<a class="menus" href="http://sourceforge.net/project/showfiles.php?group_id=5511">File Download Area</a><br>
         <A class="menus" HREF="http://www.sourceforge.net/patch/?group_id=5511">Patch manager</A><br>
         <A class="menus" HREF="http://sourceforge.net/pm/task.php?group_project_id=8706&group_id=5511&func=browse">To-do list</A><br>
       </TD>
     </TR>
-
-
   </table>
 
 
