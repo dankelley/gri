@@ -64,8 +64,12 @@ show_expression_or_stringCmd()
 				delete [] s;
 			}
 		} else if (getdnum(_word[i], &value)) {
-			sprintf(_grTempString, "%g", value);
-			ShowStr(_grTempString);
+			if (gr_missing(value)) {
+				ShowStr("missing_value_code");
+			} else {
+				sprintf(_grTempString, "%g", value);
+				ShowStr(_grTempString);
+			}
 		} else {
 			err("`show' doesn't understand item `\\", _word[i], "'", "\\");
 			return false;

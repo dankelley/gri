@@ -294,8 +294,8 @@ rpn(int nw, char **w, char ** result)
 			RpnItem item;
 			switch (type) {
 			case VARIABLE_WITH_MISSING_VALUE:
-				err("rpn trying to use variable '\\", W[i], "' but its value equals the current \"missing value\"", "\\");
-				item.set("", gr_currentmissingvalue(), type, false);
+				if (_debugFlag & 0x01) printf("rpn trying to use variable '%s' but its value equals the current \"missing value\"", W[i]);
+				item.set("", gr_currentmissingvalue(), NUMBER, false);
 				rS.push_back(item);
 				break;
 			case NUMBER:
@@ -351,8 +351,12 @@ rpn(int nw, char **w, char ** result)
 		return NO_ERROR;
 	}
 	// Otherwise, save final result into the string 
+	//printf("missing code %d\n",rS[0].getValid());
 	switch (TYPE(1)) {
 	case NUMBER:
+		if (_debugFlag & 0x01 && !rS[0].getValid()) {
+			warning("Rpn result is 'missing' since it contained a variable equal to 'missing' value");
+		}
 		*result = new char[50];
 		sprintf(*result, "%.20g", VALUE(1));
 		rS.pop_back();
@@ -1718,8 +1722,11 @@ do_operation(operator_name oper)
 		return true;
 	} 
 	if (oper == ISMISSING) {
+		//printf("\noperator ISMISSING.\n");
+		//printf("value on stack: %f\n",VALUE(1));
 		NEED_IS_TYPE(1, NUMBER);
 		SET(1, "", gr_missing(VALUE(1)) == true ? 1.0 : 0.0, NUMBER, true);
+		//printf("ste value to %f\n",VALUE(1));
 		return true;
 	}
 	if (oper == INTERPOLATE) {

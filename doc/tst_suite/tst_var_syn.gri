@@ -357,5 +357,11 @@ assert {rpn \@aptr 1 ==}                        " failed test 20.7"
 .aa. = {rpn .a. 1 +}
 assert {rpn .aa. 2 ==}                          " failed test 20.8"
 
+# Missing values
+set missing value 0
+.x. = 0
+assert {rpn .x. ismissing}                      " failed test 21.1"
+assert {rpn .x. 1 + ismissing}                  " failed test 21.2"
+set missing value 1e33
 
 show " passed"
