@@ -199,68 +199,56 @@ distclean:
 
 # Source distribution
         SOURCE_NAME = gri-$(VERSION)
-            SRC_DIR = .
-            DOC_DIR = ./doc
            DEST_DIR = /home/kelley
 source:
 	# Clean directory, if existent.
 	-rm -rf $(SOURCE_NAME)
-	mkdir $(SOURCE_NAME)
+	install -d $(SOURCE_NAME)
 	#
 	# Copy source
-	-cp $(SRC_DIR)/ChangeLog \
-	    $(SRC_DIR)/*.cc $(SRC_DIR)/*.hh \
-	    $(SRC_DIR)/gri.cmd $(SRC_DIR)/logo.dat $(SRC_DIR)/license.txt \
-	    $(SRC_DIR)/Makefile.in $(SRC_DIR)/Makefile.dj2\
-	    $(SRC_DIR)/configure $(SRC_DIR)/configure.in \
-	    $(SRC_DIR)/install-sh \
-	    $(SRC_DIR)/copyright.txt $(SRC_DIR)/AUTHOR $(SRC_DIR)/README* \
-	    $(SRC_DIR)/gri-mode.el\
-	    $(SRC_DIR)/gri_merge\
-	    $(SRC_DIR)/gri_unpage\
-	    $(SRC_DIR)/startup.msg $(SRC_DIR)/startup.debian $(SRC_DIR)/startup.redhat \
-	    $(SRC_DIR)/gri-*.spec\
-	    $(SRC_DIR)/grilogo.gif\
-	$(SOURCE_NAME)
-	-chmod a+r $(SOURCE_NAME)/gri.cmd $(SOURCE_NAME)/logo.dat $(SOURCE_NAME)/license.txt
+	install -m 644 ChangeLog *.cc *.hh gri.cmd logo.dat license.txt \
+	    Makefile.in Makefile.dj2 configure configure.in install-sh \
+	    copyright.txt AUTHOR README* gri-mode.el gri_merge gri_unpage \
+	    startup.msg startup.debian startup.redhat gri-*.spec grilogo.gif \
+	        $(SOURCE_NAME)
+	install -m 755 configure install-sh $(SOURCE_NAME)
 	# 
 	# Copy documentation
-	mkdir $(SOURCE_NAME)/doc
-	-cp $(DOC_DIR)/gri.archive          $(SOURCE_NAME)/doc
-	-cp $(DOC_DIR)/archive-to-html.pl   $(SOURCE_NAME)/doc
-	-cp $(DOC_DIR)/cmdrefcard.tex       $(SOURCE_NAME)/doc
-	-cp $(DOC_DIR)/refcard.tex          $(SOURCE_NAME)/doc
-	-cp $(DOC_DIR)/Makefile             $(SOURCE_NAME)/doc
-	-cp $(DOC_DIR)/FAQ.html             $(SOURCE_NAME)/doc
-	-cp $(DOC_DIR)/gri-manpage.1        $(SOURCE_NAME)/doc
-	-cp $(DOC_DIR)/gri-manpage-debian.1 $(SOURCE_NAME)/doc
-	-cp $(DOC_DIR)/gri-manpage-redhat.1 $(SOURCE_NAME)/doc
-	-cp $(DOC_DIR)/gri.texi             $(SOURCE_NAME)/doc
-	-cp $(DOC_DIR)/texinfo2HTML         $(SOURCE_NAME)/doc
-	-cp $(DOC_DIR)/HTML_subdivide       $(SOURCE_NAME)/doc
-	-cp $(DOC_DIR)/make_html_index      $(SOURCE_NAME)/doc
-	mkdir $(SOURCE_NAME)/doc/resources
-	chmod a+x $(SOURCE_NAME)/doc/resources
-	-cp $(DOC_DIR)/resources/*.gri $(DOC_DIR)/resources/*.eps $(DOC_DIR)/resources/*.gif $(SOURCE_NAME)/doc/resources
-	chmod a+r $(SOURCE_NAME)/doc/resources/*
-	mkdir $(SOURCE_NAME)/doc/examples
-	chmod a+x $(SOURCE_NAME)/doc/examples
-	-cp $(DOC_DIR)/examples/*.gif          $(SOURCE_NAME)/doc/examples
-	-cp $(DOC_DIR)/examples/*.gri          $(SOURCE_NAME)/doc/examples
-	-cp $(DOC_DIR)/examples/*.txt          $(SOURCE_NAME)/doc/examples
-	-cp $(DOC_DIR)/examples/*.dat          $(SOURCE_NAME)/doc/examples
-	-cp $(DOC_DIR)/examples/*.ps           $(SOURCE_NAME)/doc/examples
-	-cp $(DOC_DIR)/examples/FEM.pl         $(SOURCE_NAME)/doc/examples
-	-cp $(DOC_DIR)/examples/model.elements $(SOURCE_NAME)/doc/examples
-	-cp $(DOC_DIR)/examples/model.nodes    $(SOURCE_NAME)/doc/examples
-	-cp $(DOC_DIR)/examples/Makefile       $(SOURCE_NAME)/doc/examples
-	chmod a+r $(SOURCE_NAME)/doc/examples/*
-	chmod a+r $(SOURCE_NAME)/*
+	install -d $(SOURCE_NAME)/doc
+	install -m 644 doc/gri.archive          $(SOURCE_NAME)/doc
+	install -m 644 doc/archive-to-html.pl   $(SOURCE_NAME)/doc
+	install -m 644 doc/cmdrefcard.tex       $(SOURCE_NAME)/doc
+	install -m 644 doc/refcard.tex          $(SOURCE_NAME)/doc
+	install -m 644 doc/Makefile             $(SOURCE_NAME)/doc
+	install -m 644 doc/FAQ.html             $(SOURCE_NAME)/doc
+	install -m 644 doc/gri-manpage.1        $(SOURCE_NAME)/doc
+	install -m 644 doc/gri-manpage-debian.1 $(SOURCE_NAME)/doc
+	install -m 644 doc/gri-manpage-redhat.1 $(SOURCE_NAME)/doc
+	install -m 644 doc/gri.texi             $(SOURCE_NAME)/doc
+	install -m 644 doc/texinfo2HTML         $(SOURCE_NAME)/doc
+	install -m 644 doc/gri2html             $(SOURCE_NAME)/doc
+	install -m 644 doc/HTML_subdivide       $(SOURCE_NAME)/doc
+	install -m 644 doc/make_html_index      $(SOURCE_NAME)/doc
+	install -d $(SOURCE_NAME)/doc/resources
+	install -m 644 doc/resources/*.gri doc/resources/*.eps \
+		doc/resources/*.gif $(SOURCE_NAME)/doc/resources
+	install -d $(SOURCE_NAME)/doc/examples
+	install -m 644 doc/examples/*.gri          $(SOURCE_NAME)/doc/examples
+	install -m 644 doc/examples/*.txt          $(SOURCE_NAME)/doc/examples
+	install -m 644 doc/examples/*.dat          $(SOURCE_NAME)/doc/examples
+	install -m 644 doc/examples/*.ps           $(SOURCE_NAME)/doc/examples
+	install -m 644 doc/examples/FEM.pl         $(SOURCE_NAME)/doc/examples
+	install -m 644 doc/examples/model.elements $(SOURCE_NAME)/doc/examples
+	install -m 644 doc/examples/model.nodes    $(SOURCE_NAME)/doc/examples
+	install -m 644 doc/examples/Makefile       $(SOURCE_NAME)/doc/examples
+	install -d $(SOURCE_NAME)/doc/screenshots
+	install -m 644 doc/screenshots/{Makefile,*.png} \
+		$(SOURCE_NAME)/doc/screenshots
+	#
 	# Tar package, compress it, install it.
 	tar -c -f $(SOURCE_NAME).tar $(SOURCE_NAME)
 	rm -rf $(SOURCE_NAME)
-	# GZIP method:
-	gzip --best $(SOURCE_NAME).tar
+	gzip -f --best $(SOURCE_NAME).tar
 	mv $(SOURCE_NAME).tar.gz $(DEST_DIR)/$(SOURCE_NAME).tgz
 	chmod a+r $(DEST_DIR)/$(SOURCE_NAME).tgz
 
