@@ -5,7 +5,7 @@
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.37 (15 Feb 2001)
+;; Version:   2.38 (20 Feb 2001)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -356,6 +356,7 @@
 ;;                          for Emacs-21 now out in beta.
 ;; V2.36 07Feb01 RCS 1.61 - add ~.grirc to auto-mode-alist
 ;; V2.37 15Feb01 RCS 1.62 - modify syntax table for strings with embedded "
+;; V2.38 20Feb01 RCS 1.63 - add display of defaults after completion (>= 2.6.0)
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -1203,11 +1204,11 @@ ARG2 is gri-syntax buffer."
       (set-buffer syn-buffer) (setq buffer-read-only nil) 
       (set-buffer cmd-buffer)
       (goto-char (point-min))
+      (makunbound 'gri-user-command-alist) ;force later update of commands
       (while (re-search-forward "^`\\(.*\\)'$" nil t)
-        (makunbound 'gri-user-command-alist) ;force later update of commands
         (let ((the-command (buffer-substring (match-beginning 1)
                                              (match-end 1)))
-              (the-name))
+              (the-name)(the-default))
           (if (string-equal "?" (substring the-command 0 1))
               ;; A fragment of gri code to extract
               (progn
@@ -1236,6 +1237,33 @@ ARG2 is gri-syntax buffer."
                   (goto-char (point-max))
                   (set-buffer cmd-buffer)))
             ;; An ordinary gri command
+            ;; Extract default value if any...
+            (save-excursion
+              (let ((help-limit (progn (beginning-of-line)(point))))
+                (forward-line -1)
+                (while (and (looking-at "^#\\*")
+                            (= 0 (forward-line -1))))
+                (forward-line 1)
+                (when (re-search-forward "@default +\\([^@\n]+\\)" 
+                                         help-limit t)
+                  (setq the-default (match-string 1))
+                  (beginning-of-line)
+                  (if (re-search-forward "@unit +\\([a-zA-Z0-9.]+\\)"
+                                         (save-excursion (end-of-line)(point))
+                                         t)
+                      (setq the-default
+                            (concat the-default
+                                    (buffer-substring-no-properties
+                                     (match-beginning 1)
+                                     (match-end 1)))))
+                  (if (re-search-forward "@variable +\\([a-zA-Z0-9_.]+\\)"
+                                         (save-excursion (end-of-line)(point))
+                                         t)
+                      (setq the-default
+                            (concat the-default " in variable "
+                                    (buffer-substring-no-properties
+                                     (match-beginning 1)
+                                     (match-end 1))))))))
             (set-buffer syn-buffer)
             (goto-char (point-max))
             (insert the-command)
@@ -1243,7 +1271,9 @@ ARG2 is gri-syntax buffer."
             (setq the-name (buffer-substring (progn (beginning-of-line)(point))
                                              (progn (end-of-line)(point))))
             (if system-flag
-                (insert ";" the-command "\n") ;;Don't check if defined twice
+                (progn                  ; Don't check if defined twice
+                  (if the-default (insert "(default is " the-default ")"))
+                  (insert ";" the-command "\n"))
               ;; User command--check if command already exists
               (delete-region (progn (beginning-of-line)(point))
                              (progn (end-of-line)(point)))
@@ -1383,7 +1413,8 @@ Used for gri-display-syntax."
       ;; check in syntax if a command name
       (gri-lookat-syntax-file 0)
       (let ((the-start (point)))
-        (while (and (not(re-search-forward (concat "^" the-command ";") nil t))
+        (while (and (not (re-search-forward
+                          (concat "^" the-command "\\(;\\|(\\)") nil t))
                     (progn (setq the-command 
                                  (gri-shorten-guess-command the-command " "))
                            the-command)))
@@ -1391,6 +1422,13 @@ Used for gri-display-syntax."
             (error "Sorry, cannot find such a gri command")
           (if (string-equal "?" (substring the-command 0 1))
               (beginning-of-line)) ;; We'll return the whole line for fragments
+          
+          ;; Skip over default description
+          (forward-char -1)
+          (if (looking-at "(")
+              (re-search-forward ");" nil t)
+            (forward-char 1))
+
           (buffer-substring (point) 
                             (progn (end-of-line)(point))))))))
 
@@ -1455,7 +1493,7 @@ It should only be called when the alists are not bound (not existant)."
                 (nconc gri-sys-command-alist 
                        (list (cons ;;;(psg-replace-within-string 
                                     (buffer-substring-no-properties 
-                                     (point)(progn (search-forward ";")
+                                     (point)(progn (re-search-forward ";\\|(")
                                                    (backward-char 1)(point)))
                                    ;;; "_" " ")
                                    nil))))
@@ -1494,10 +1532,19 @@ BUGS:  Can't find help on hidden user commands."
         (message "No command to look-up.")
       (save-excursion                     ;lookup syntax in syntax file
         (gri-lookat-syntax-file 1)
-        (if (re-search-forward (concat "^" the-command ";") nil t)
-            (gri-help-function (buffer-substring (point) 
-                                                 (progn (end-of-line)(point))))
-          (message "Sorry, can't seem to find help for %s" the-command))))))
+        (if (not (re-search-forward 
+                  (concat "^" the-command "\\(;\\|(\\)") 
+                  nil t))
+            (message "Sorry, can't seem to find help for %s" the-command)
+          ;; Skip over default description            
+          (forward-char -1)
+          (if (looking-at "(")
+              (re-search-forward ");" nil t)
+            (forward-char 1))
+          
+          (gri-help-function (buffer-substring 
+                              (point) 
+                              (progn (end-of-line)(point)))))))))
 
 (defun gri-help-this-command ()
   "Displays help (in *help* buffer) about gri command on point.
@@ -1868,7 +1915,7 @@ Sets gri-last-complete-status to 1 if show completions next time
                               to 2 if expand complete match next time
                                (used by gri-complete only, not here)
                               to 0 in other cases."
-  (let ((unique) (match-count 0) (expansion-list))
+  (let ((the-default) (unique) (match-count 0) (expansion-list))
     (save-excursion
       (gri-lookat-syntax-file 0)
       (let ((case-fold-search))
@@ -1876,7 +1923,7 @@ Sets gri-last-complete-status to 1 if show completions next time
           (setq expansion-list 
                 (cons 
                  (buffer-substring (progn (beginning-of-line) (point)) 
-                                   (progn (search-forward ";") 
+                                   (progn (re-search-forward ";\\|(") 
                                           (forward-char -1)(point)))
                  expansion-list))
           (forward-line 1)
@@ -1901,7 +1948,20 @@ Sets gri-last-complete-status to 1 if show completions next time
                                         (re-search-forward "^[^ \t]" nil t)
                                         (backward-char 1)(point)))))
           (gri-lookat-syntax-file 1)
-          (re-search-forward (concat "^" (car expansion-list) ";") nil t)
+          (re-search-forward (concat "^" (car expansion-list) "\\(;\\|(\\)") nil t)
+          ;; Skip over default description, displaying it:
+          (forward-char -1)
+          (if (not (looking-at "("))
+              (forward-char 1)
+            (forward-char 1)
+            (message "%s"
+                     (buffer-substring-no-properties
+                      (point)
+                      (progn (re-search-forward ");" nil t)
+                             (forward-char -2)
+                             (point))))
+            (forward-char 2))
+
           (setq unique (buffer-substring (point)
                                          (progn (end-of-line)(point))))))
       (delete-region (progn (end-of-line) (point)) 
@@ -2495,7 +2555,13 @@ which matches any character."
           (princ "\n\n")
           (beginning-of-line)
           (princ (gri-format-display-command 
-                  (buffer-substring (progn (search-forward ";") (point))
+                  (buffer-substring (progn (re-search-forward "\\(;\\|(\\)")
+                                           ;; Skip over default description
+                                           (forward-char -1)
+                                           (if (looking-at "(")
+                                               (re-search-forward ");" nil t)
+                                             (forward-char 1))
+                                           (point))
                                     (progn (end-of-line) (point)))))
           (forward-line 1)
           (while (re-search-forward keyword nil t)
@@ -3998,7 +4064,7 @@ Any output (errors?) is put in the buffer `gri-WWW-manual'."
          ;;; adding code fragments to the command list for now.
          ((string-equal "?" (substring command 0 1))
           (gri-lookat-syntax-file 0)
-          (re-search-forward (concat "^" command ";") nil t)
+          (re-search-forward (concat "^" command "\\(;\\|(\\)") nil t)
           (forward-line 1)
           (setq string 
                 (buffer-substring (point)
@@ -4006,7 +4072,14 @@ Any output (errors?) is put in the buffer `gri-WWW-manual'."
                                          (backward-char 1)(point)))))
          (t
           (gri-lookat-syntax-file 1)
-          (re-search-forward (concat "^" command ";") nil t)
+          (re-search-forward (concat "^" command "\\(;\\|(\\)") nil t)
+
+          ;; Skip over default description
+          (forward-char -1)
+          (if (looking-at "(")
+              (re-search-forward ");" nil t)
+            (forward-char 1))
+
           (setq string (buffer-substring (point)
                                          (progn (end-of-line)(point)))))))
       (insert string)))))
@@ -4023,7 +4096,7 @@ Any output (errors?) is put in the buffer `gri-WWW-manual'."
       (delete-backward-char 1)
       (goto-char (point-min))
       ;; Strip out syntax defs
-      (while (search-forward ";" nil t)
+      (while (re-search-forward "\\(;\\|(\\)" nil t)
         (forward-char -1)
         (delete-region (point) (progn (end-of-line)(point))))
       ;;Transform every command into a line like:
@@ -4228,7 +4301,7 @@ static char *magick[] = {
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.37 (c) 15 Feb 2001 --  Peter Galbraith <psg@debian.org>
+V2.38 (c) 18 Feb 2001 --  Peter Galbraith <psg@debian.org>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
