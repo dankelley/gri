@@ -12,13 +12,13 @@ static bool     test_is_true(const string& t);
 bool
 whileCmd(void)
 {
-	int             loop_level = 1;
-	int             lines = 0;
 	std::string test(6 + strstr(_cmdLine, "while"));
 	if (re_compare(test.c_str(), " *")) {
 		err("`while .test.|{rpn ...}' missing the test part");
 		return false;
 	}
+	int loop_level = 1;
+	int lines = 0;
 	//printf("=============== in while cmd.  '%s'       test '%s'\n",_cmdLine,test.c_str());
 	test_is_true(test); // to catch syntax errors on this line
 	// Store lines until end while into the buffer

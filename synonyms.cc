@@ -898,6 +898,7 @@ find_synonym_name(const std::string &s, std::string& name, bool inmath)
 		if (c == ')')  break;
 		if (c == '{')  break;
 		if (c == '}')  break;
+		if (c == ']')  break; // CAUTION: might break "\[3]syn"
 		if (c == '/')  break;
 		if (c == '*')  break;
 		if (c == '-')  break;
