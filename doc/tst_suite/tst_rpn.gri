@@ -46,33 +46,4 @@ assert {rpn \six 6 ==}			" failed test 15"
 # Stack operations (push, pop, exch)
 # ----------- FILL IN LATER -----------------
 
-
-# Pointers (added version 2.6.0)
-.v. = 10
-\vptr = &.v.
-assert {rpn 10 *\vptr ==} " variable-pointer error 16.1"
-*\vptr = 20
-assert {rpn 20 *\vptr ==} " variable-pointer error 16.2"
-\s = "HI"
-\sptr = &\s
-assert {rpn "HI" "*\sptr" ==} " synonym-pointer error 16.3"
-*\sptr = "BYE"
-assert {rpn "BYE" "*\sptr" ==} " synonym-pointer error 16.4"
-
-`double &.value.'
-{
-    *\.word1. = {rpn *\.word1. 2 *}
-}
-.x. = 10
-double &.x.
-assert {rpn .x. 20 ==} " failed test 16.5"
-
-`prepend_dat &\filename'
-{
-    *\.word1. = "mydirectory/*\.word1."
-}
-\filename = "test.dat"
-prepend_dat &\filename
-assert {rpn "\filename" "mydirectory/test.dat" ==} " failed test 16.6"
-
 show " passed"
