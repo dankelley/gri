@@ -1041,7 +1041,7 @@ read_grid_yCmd()
 		_num_ymatrix_data = (int)length;
 		// Reverse order of vector, because Gri normally reads
 		// from top down
-		reverse(_ymatrix, _ymatrix + _num_ymatrix_data);
+		std::reverse(_ymatrix, _ymatrix + _num_ymatrix_data);
 		_ygrid_exists = true;
 #else
 		demonstrate_command_usage();
