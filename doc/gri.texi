@@ -809,7 +809,7 @@ Specifies the directory where Gri looks for the startup file
 report an error and die if it cannot find this file.)  If this switch is
 not provided -- and it is normally not -- then Gri looks for
 @code{gri.cmd} in a standard system directory (normally
-@file{/usr/share/gri/lib}) which was specified during the compilation of the
+@file{/usr/share/gri}) which was specified during the compilation of the
 Gri program itself.
 @item  @code{-directory_default} 
 @cindex @code{-directory_default} command-line option
@@ -13235,10 +13235,10 @@ If you use a gri directory tree (as is the standard since Gri version
 your gri files reside in directories like named
 @file{/usr/bin/gri}
 and 
-@file{/usr/share/gri/lib/gri.cmd},
+@file{/usr/share/gri/gri.cmd},
 then you'd use:
 @example
-(setq gri*directory-tree "/usr/share/gri/lib/")
+(setq gri*directory-tree "/usr/share/gri")
 @end example
 @end itemize
 
@@ -13248,7 +13248,7 @@ or some other file named in your Emacs ``load-path''), and then put
 lines like the following in your @file{~/.emacs} file:
 @example
 (setq gri*WWW-page "file:/usr/doc/gri-2.5.1/html/index.html")
-(setq gri*directory-tree "/usr/share/gri/lib/")
+(setq gri*directory-tree "/usr/share/gri")
 (autoload 'gri-mode "gri-mode" "Enter Gri-mode." t)
 (setq auto-mode-alist 
    (cons '("\\.gri$" . gri-mode) auto-mode-alist))
@@ -13400,7 +13400,7 @@ wish to keep old versions of Gri online.
 
 Archiving the source is a simple matter of copying files.  You need to
 copy the executable (normally called @file{/usr/bin/gri}) and the
-startup file (normally called @file{/usr/share/gri-2.5.1/lib/gri.cmd})
+startup file (normally called @file{/usr/share/gri/gri.cmd})
 to some location.  Let's say, for convenience, that this location is the
 directory @file{/usr/OLD_GRI_VERSIONS/2.5.1}.  Then, just create a
 shellscript named @code{/usr/bin/gri-2.5.1} that reads
