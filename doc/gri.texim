@@ -1197,6 +1197,13 @@ gri -creator PostScriptFile
 
 @noindent @emph{See also} @code{-no_cmd_in_ps}.
 
+The @code{-creator} flag makes gri examine the indicate PostScript file,
+and produce a facsimile of the command file (or interactively-typed
+commands) that created this PostScript file.  This is possible because
+Gri stores the commands in the PostScript file as specially-marked
+comments that can be retrieved and decoded later.
+
+
 @section Fixing a broken PostScript file
 To make Gri repair a PostScript file created by a Gri job that failed
 midway through:
