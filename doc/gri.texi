@@ -2618,7 +2618,7 @@ Test whether either 0 or 1 is true, yielding 1.
 Exchange 2 and 3 on the stack, yielding @code{3 2} on the stack.  (See
 also @code{pop} and @code{dup}.)
 
-@item @{rpn x 0 @@ @}
+@item @{rpn x 0 @@@}
 Yields the value of the first number in the x column.  A similar form
 also works for @code{y}, etc.  (@ref{Manipulation of Columns etc}).
 

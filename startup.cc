@@ -100,7 +100,7 @@ last_name(char *s)
 bool
 start_up(int argc, char **argv)
 {
-#if 1
+#if 0
 	{
 		printf("ARGS:\n");
 		for (int i = 0; i < argc; i++) printf("\t'%s'\n", argv[i]);
