@@ -16480,6 +16480,11 @@ Fix SourceForge bug
 @uref{http://sourceforge.net/tracker/index.php?func=detail&aid=867515&group_id=5511&atid=105511,#867515}
 @dots{} problem with junk appearing in images.
 
+@item
+Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=875881&group_id=5511&atid=105511,#875881}
+@dots{} problem compiling with gcc 2.95.3 compiler.
+
 @end itemize
 
 
