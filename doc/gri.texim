@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.106 2001/07/12 13:02:18 dankelley Exp $
+@c $Id: gri.texim,v 1.107 2001/07/12 14:54:40 psg Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16106,6 +16106,12 @@ change:
 @itemize @bullet
 @item
 Add @code{unlink} command (@ref{Unlink}).
+@item
+Add @code{make source-arch-indep} target in sources.  This will build a
+source tar file in which all the architecture independent building
+(documentation in HTML, postscript and Info formats) is pre-made.  This
+makes it easier to install gri on a host that doesn't have TeX and
+ImageMagick installed.
 @item
 Add @code{default} possibility for the @code{set x name} and the
 @code{set y name} commands.
