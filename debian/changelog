@@ -1,9 +1,16 @@
-gri (2.12.4-2) UNRELEASED; urgency=low
+gri (2.12.4-3) UNRELEASED; urgency=low
 
   * gri-html-doc.emacsen-startup, gri-el.emacsen-startup: Make sure
     packages are installed before doing elisp setup.
 
  -- Peter S Galbraith <psg@debian.org>  Thu, 15 May 2003 11:37:22 -0400
+
+gri (2.12.4-2) unstable; urgency=low
+
+  * Really work around compilation bug on m68k architecture by compiling
+    rpncalc without optimization on m68k(closes: #183912)
+
+ -- Peter S Galbraith <psg@debian.org>  Fri, 11 Apr 2003 20:55:14 -0400
 
 gri (2.12.4-1) unstable; urgency=low
 

@@ -19,6 +19,8 @@ ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
 STRIPIT=1
 endif
 
+ARCH := $(shell dpkg --print-architecture | perl -pe chop)
+
 build: build-arch build-indep
 
 # Build architecture-dependent files here (no need to be root).
@@ -27,6 +29,9 @@ build-arch: debian/copyright gri
 
 gri:    Makefile
 	dh_testdir
+ifeq ($(ARCH),m68k)
+	make CXXFLAGS="-O0 -Wall" rpncalc.o
+endif
 	$(MAKE) CXXFLAGS=${CXXFLAGS} libdir=/usr/share/gri/$(version)
 
 clean:
