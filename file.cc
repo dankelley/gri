@@ -261,4 +261,6 @@ close_data_files()
 			pop_data_file(i);
 		}
 	}
+	if (!_drawingstarted)
+		delete_ps_file();
 }
