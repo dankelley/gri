@@ -18,7 +18,12 @@ ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
 STRIPIT=1
 endif
 
-build: gri
+build: build-arch build-indep
+
+# Build architecture-dependent files here (no need to be root).
+build-arch: gri
+	(cd doc; make debian)
+
 gri:    Makefile
 	dh_testdir
 	$(MAKE) CXXFLAGS=${CXXFLAGS} libdir=/usr/share/gri/$(version)
@@ -52,13 +57,18 @@ Makefile:
 #	CC=gcc-3.0 CXX=g++-3.0 ./configure --prefix=/usr
 	./configure --prefix=/usr
 
-# Build architecture-independent files here.
-binary-indep: debian/copyright Makefile
+# Build architecture-independent files here (no need to be root).
+build-indep: debian/copyright Makefile
+	(cd doc; make gri.ps)
+	(cd doc; make html)
+
+# Install (as root) architecture-independent files here.
+binary-indep: build-arch
+	dh_testdir -i
+	dh_testroot -i
 	(cd doc; make debian-ps DOC_DIR=../debian/gri-ps-doc/usr/share/doc/gri)
 	(cd doc; make debian-html DOC_DIR=../debian/gri-html-doc/usr/share/doc/gri)
 	rm -f debian/*debhelper
-	dh_testdir -i
-	dh_testroot -i
 	dh_installdocs -i -A README debian/README.Debian
 	dh_installexamples -i
 #	dh_installmenu -i
@@ -73,13 +83,12 @@ binary-indep: debian/copyright Makefile
 	dh_md5sums -i
 	dh_builddeb -i
 
-# Build architecture-dependent files here.
+# Install (as root) architecture-dependent files here.
 binary-arch: debian/copyright build install
-	(cd doc; make debian)
-	(cd debian/tmp/usr/share/gri/$(version) ; ln -fs ../../common-licenses/GPL license.txt)
-	rm -f debian/*debhelper
 	dh_testdir -a
 	dh_testroot -a
+	(cd debian/tmp/usr/share/gri/$(version) ; ln -fs ../../common-licenses/GPL license.txt)
+	rm -f debian/*debhelper
 	dh_installdocs -a README doc/refcard.ps doc/cmdrefcard.ps
 	dh_installexamples -a
 #	dh_installmenu -a
@@ -103,7 +112,7 @@ binary-arch: debian/copyright build install
 # non-Debian Gri packages that contain a specific version of Gri for use
 # alongside other (newer) versions of Gri.  
 # See files 00Porters.readme and README.Debian.unofficial
-binary-arch-unofficial:    debian/copyright build
+binary-arch-unofficial:    debian/copyright build-arch
 	rm -f debian/*debhelper
 	rm -rf debian/tmp debian/gri-$(version)static
 	-cp debian/control debian/control.real 
