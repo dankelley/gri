@@ -1,3 +1,9 @@
+2001-12-13  Dan Kelley  <kelley@localhost.localdomain>
+
+	* rpncalc.cc: insert a missing 'return' statement, to fix
+	gri.sf.net bug number 492472 (i.e. that the "inf" RPN operator was
+	broken).
+
 2001-10-18  Dan E. Kelley  <Dan.Kelley@Dal.Ca>
 
 	* startup.cc (interpret_optional_arguments): examine the

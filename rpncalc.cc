@@ -1123,6 +1123,7 @@ do_operation(operator_name oper)
 			: (VALUE(1) < VALUE(2) ? VALUE(1) : VALUE(2));
 		SET(2, "", res, NUMBER);
 		rS.pop_back();
+	        return true;
 	}
 	if (oper == ASSIGN) {
 		NEED_ON_STACK(2);

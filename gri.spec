@@ -96,6 +96,10 @@ then
 fi
 
 %changelog
+* Thu Dec 13 2001 Dan Kelley <Dan.Kelley@Dal.Ca>
+- Release as gri-2.8.5 on SourceForge.Net site.  
+- Fix SourceForge bug #492472 ('inf' rpn operator caused segfault)
+
 * Thu Oct 4 2001 Dan Kelley <Dan.Kelley@Dal.Ca>
 - Release as gri-2.8.4 on SourceForge.Net site.  
 - Fix SourceForge bug #467973 (`gri -version' gave wrong version

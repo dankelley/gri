@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.136 2001/10/14 17:32:07 dankelley Exp $
+@c $Id: gri.texim,v 1.137 2001/12/13 15:04:19 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -54,7 +54,7 @@
 @setfilename gri.info
 @settitle Gri
 @set GRI-VERSION 2.9.0
-@set GRI-PREVIOUS-VERSION 2.8.4
+@set GRI-PREVIOUS-VERSION 2.8.5
 @set AUTHOR-EMAIL Dan.Kelley@@Dal.CA
 @c %**end of header
 @iftex
