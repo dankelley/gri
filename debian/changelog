@@ -1,3 +1,9 @@
+gri (2.6.2-0) unstable; urgency=low
+
+  * CVS version.
+
+ -- Peter S Galbraith <psg@debian.org>  Fri, 11 May 2001 16:26:03 -0400
+
 gri (2.6.1-1) unstable; urgency=low
 
   * New upstream version (bug fixes only).
