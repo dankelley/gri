@@ -11,7 +11,7 @@ print OUT "<body bgcolor=\"#FFFFFF\">\n";
 print OUT "<pre>\n";
 
 while(<IN>) {
-    s,<,&lt;,;
+    s,<,&lt;,g;
     s,>,&gt;,g;
     s,//(.*),<i>//$1</i>,;
        
