@@ -295,7 +295,7 @@ image_math()
 {
 	unsigned int n;
 	unsigned char  *Ptr;
-	double          number, number_scaled;
+	double          number, number_scaled=0.0;
 	switch (_nword) {
 	case 3:
 		// `image OPERATOR OPERAND'

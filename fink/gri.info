@@ -4,7 +4,7 @@ Revision: 1
 Depends:
 Source: mirror:sourceforge:%n/%n-%v.tgz
 #Source: http://ftp1.sourceforge.net/gri/gri-%v.tgz
-Source-MD5: c60c8020c9d7251c33b2171fa5b4e53d
+Source-MD5: 3619819c6768600902a293a4b41ca03c
 DocFiles: README doc/*html
 InfoDocs: gri.info gri.info-1 gri.info-2 gri.info-3
 Description: Scientific graphics language

@@ -136,8 +136,9 @@ gr_drawimage(unsigned char *im,
 		jlow =  int(floor(0.5 + (_clip_ps_ybottom - yb)*jmax/((yt-yb))));
 		jhigh = int(floor(0.5 + (_clip_ps_ytop    - yb)*jmax/((yt-yb))));
 
-		/*DEK*/printf("DEBUG: initially ilow,ihigh= %d %d      jlow,jhigh=%d %d\n",ilow,ihigh,jlow,jhigh);
-
+#if 0
+		printf("DEBUG: initially ilow,ihigh= %d %d      jlow,jhigh=%d %d\n",ilow,ihigh,jlow,jhigh);
+#endif
 		ilow = LARGER_ONE(ilow, 0);
 		ihigh = SMALLER_ONE(ihigh, imax);
 		jlow = LARGER_ONE(jlow, 0);
