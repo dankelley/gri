@@ -237,7 +237,7 @@ as simple as the following.
         <A class="menus" HREF="http://www.sourceforge.net/patch/?group_id=5511">Submitting patches</A><br>
         <A class="menus" HREF="http://sourceforge.net/pm/task.php?group_project_id=8706&group_id=5511&func=browse">To-do list</A><br>
         <A class="menus" HREF="http://gri.sourceforge.net/gridoc/html/Version_2_6.html#Version2.6">Version 2.6.1 preview</A><br>
-        <A class="menus" HREF="./checklist_for_release">Package/release checklist</A><br>
+        <A class="menus" HREF="./checklist_for_release">Packaging checklist</A><br>
       </TD>
     </TR>
   </table>
