@@ -306,6 +306,9 @@ README-ftp:
 	lynx -dump README-ftp.html > README-ftp
 	chmod a+r README-ftp
 
+check:
+	perl ./check.pl
+
 test:
 	@./gri -directory . -c 0 doc/tst_suite/tst_var_syn.gri 
 	@./gri -directory . -c 0 doc/tst_suite/tst_control.gri
