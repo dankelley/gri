@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.109 2001/07/16 15:00:31 psg Exp $
+@c $Id: gri.texim,v 1.110 2001/07/16 17:00:10 psg Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16200,6 +16200,9 @@ The following list applies to the version on CVS, but is subject to
 change:
 
 @itemize @bullet
+@item
+Enhancements to @code{gri-mode}: meta-tab completion of builtin variables
+and synonyms, etc.
 @item
 Add @code{unlink} command (@ref{Unlink}).
 @item
