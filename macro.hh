@@ -10,12 +10,6 @@
 
 #define GRI_ABS(x) ((x) < 0.0 ? (-(x)) : (x))
 
-#define show_words() {                                          \
-    for (int i = 0; i < _nword; i++)                            \
-        printf("word[%d]=`%s'  ", i, _word[i]);                 \
-    printf("\n");                                               \
-}
-
 // If 'condition' is false, perform action (typically warning).
 #define SUGGEST(condition, action_if_not) {			\
     if (!(condition)) {						\

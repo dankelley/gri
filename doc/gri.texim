@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.134 2001/10/02 13:46:10 dankelley Exp $
+@c $Id: gri.texim,v 1.135 2001/10/13 14:55:11 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -54,7 +54,7 @@
 @setfilename gri.info
 @settitle Gri
 @set GRI-VERSION 2.9.0
-@set GRI-PREVIOUS-VERSION 2.8.2
+@set GRI-PREVIOUS-VERSION 2.8.4
 @set AUTHOR-EMAIL Dan.Kelley@@Dal.CA
 @c %**end of header
 @iftex
@@ -934,8 +934,11 @@ draw label "\label" at          \
 @vindex @code{..ysize..}, y-axis length
 @vindex @code{..xleft..}, x value at left of plot
 @vindex @code{..xright..}, x value at right of plot
+@vindex @code{..xinc..}, x increment on axes
 @vindex @code{..ybottom..}, y value at bottom of plot
 @vindex @code{..ytop..}, y value at top of plot
+@vindex @code{..yinc..}, y increment on axes
+
 Gri normally assumes that you are plotting scientific graphs, and
 therefore whenever it sees a command like @code{draw curve} or
 @code{draw symbol}, it draws an appropriate axis first.  You can turn
@@ -954,27 +957,19 @@ command, Gri will realize you've already specified axes, and just draw
 them on the left and bottom sides of the box, without completing the
 axis frame.
 
-For your general use, Gri stores the minimum and maximum x and y values
-of the @strong{axes} in the variables @code{..xleft..}, @code{..xright..},
-@code{..ybottom..}, and @code{..ytop..}; for the minimum and maximum
-values of the @strong{data}, use the built-in rpnfunctions @code{min},
-@code{max}, and @code{mean} (@ref{Rpnfunction}).  It stores the last
-(x,y) pair on a curve (whether data or axis) as
-(@code{..xlast..},@code{..ylast..}).  Also, Gri stores the axis sizes in
-@code{..xsize..} and @code{..ysize..}.  It stores the space to the left
-of the plot in @code{..xmargin..} and the space below the plot in
-@code{..ymargin..}.
+For your general use, Gri stores the minimum and maximum x and y
+values of the @strong{axes} in the variables @code{..xleft..},
+@code{..xright..}, @code{..ybottom..}, and @code{..ytop..}.  It also
+stores the increments used in labelling these axes in the
+@code{..xinc..}  and @code{..yinc..} variables.
 
-The axis scales are @strong{not} changed by mathematical operations on the
-columns, regardless of whether the scales were set manually (by a
-@code{set x|y axis} command), or by Gri (during a @code{read columns}
-command).  In the former case, this is what you probably want, but in
-the latter case it can lead to graphs with no data, because the scale
-does not apply to the transformed data.  This might be considered a bug;
-in any case, you can avoid it by transforming the built-in variables
-@code{..xleft..} and @code{..xright..} whenever you transform the x
-column, and @code{..ybottom..} and @code{..ytop..} whenever you
-transform the y column.
+To determine the minimum and maximum values of the @strong{data}, you
+should use the built-in rpnfunctions @code{min}, @code{max}, and
+@code{mean} (@ref{Rpnfunction}).  It stores the last (x,y) pair on a
+curve (whether data or axis) as (@code{..xlast..},@code{..ylast..}).
+Also, Gri stores the axis sizes in @code{..xsize..} and
+@code{..ysize..}.  It stores the space to the left of the plot in
+@code{..xmargin..} and the space below the plot in @code{..ymargin..}.
 
 
 @c HTML <!-- newfile LogAndLinearAxes.html "Gri: log and linear axes" "Getting more control" -->
@@ -11399,6 +11394,9 @@ Size of axis tics in centimetres.
 @vindex @code{..trace..}, for tracing program execution
 Equal to 1 if the @code{-trace} command-line flag was set.  Used for
 tracing program execution.
+@item @code{..xinc..}
+@vindex @code{..xinc..}, x increment on axes
+x increment on axes.
 @item @code{..xleft..}
 @vindex @code{..xleft..}, x value at left of plot
 x value at left of plot.
@@ -11417,6 +11415,9 @@ x-axis length in centimetres.
 @item @code{..ybottom..}
 @vindex @code{..ybottom..}, y value at bottom of plot
 y value at bottom of plot.
+@item @code{..yinc..}
+@vindex @code{..yinc..}, y increment on axes
+y increment on axes.
 @item @code{..ymargin..}
 @vindex @code{..ymargin..}, bottom margin
 Bottom margin in centimetres.
@@ -16276,6 +16277,8 @@ enter the next stable stream of Gri, but it is important to note that
 main exception is bug fixes, which will enter the stable stream unless
 they are found to create new bugs.
 @itemize @bullet
+@item
+Add @code{..xinc..} and @code{..yinc..} builtin variables (@ref{Axis Scaling}).
 @item
 Make the @code{-chatty} commandline option require a value (@ref{Invoking Gri}).
 @item

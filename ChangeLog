@@ -1,3 +1,13 @@
+2001-10-13  Dan E. Kelley  <Dan.Kelley@Dal.Ca>
+
+	* startup.cc (start_up): prevent segfault if no command-file name
+	is supplied
+
+	* set.cc (set_line_widthCmd): make 'set line width rapidograph'
+	(that is, with no pen-width name) give a more informative error
+
+	* utility.cc (show_words): this will help in debugging
+
 2001-10-09  Dan E. Kelley  <Dan.Kelley@Dal.Ca>
 
 	* Makefile.in (check): add 'make check', to run the 'check.pl'

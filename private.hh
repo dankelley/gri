@@ -215,6 +215,7 @@ bool            set_x_scale(void);
 bool            set_y_scale(void);
 bool            show_grid_maskCmd(void);
 bool            show_next_lineCmd(void);
+void            show_words(void);
 void            show_var_stack(void);
 void            show_syn_stack();
 int             skip_space(const char *s);

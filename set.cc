@@ -622,9 +622,10 @@ set_x_typeCmd()
 				return true;
 			}
 			if ((_xright > _xleft) && (_xleft > 0.0) && (_xright > 0.0)) {
+				_xinc = 1;
 				PUT_VAR("..xleft..", _xleft = pow(10.0, floor(0.5 + log10(_xleft))));
 				PUT_VAR("..xright..", _xright = pow(10.0, floor(0.5 + log10(_xright))));
-				_xinc = 1;
+				PUT_VAR("..xinc..", _xinc);
 				_xtype = gr_axis_LOG;
 			} else {
 				err("\
@@ -683,9 +684,10 @@ set_y_typeCmd()
 				return true;
 			}
 			if ((_ytop > _ybottom) && (_ytop > 0.0) && (_ybottom > 0.0)) {
+				_yinc = 1;
 				PUT_VAR("..ybottom..", _ybottom = pow(10.0, floor(0.5 + log10(_ybottom))));
 				PUT_VAR("..ytop..", _ytop = pow(10.0, floor(0.5 + log10(_ytop))));
-				_yinc = 1;
+				PUT_VAR("..yinc..", _yinc);
 				_ytype = gr_axis_LOG;
 			} else {
 				err("\
@@ -2137,6 +2139,7 @@ set_line_joinCmd()
 bool
 set_line_widthCmd()
 {
+	//show_words();
 	double          w;		// the width, in pt
 	unsigned int    skip = 0;
 	int             what = 0;	// -1=curve/rapido 0=curve 1=axis 2=symbol 3=all
@@ -2204,7 +2207,11 @@ set_line_widthCmd()
 			return false;
 		}
 	} else {
-		err("`set line width' cannot understand the width");
+		if (word_is(_nword - 1, "rapidograph")) {
+			err("`set line width rapidograph' needs a pen-width name");
+		} else {
+			err("`set line width' cannot understand the width");
+		}
 		return false;
 	}
 	// check that w is not crazily small ... a common blunder.  See if less
@@ -2688,18 +2695,20 @@ set_x_axisCmd()
 		_xincreasing = true;
 		if (_xscale_exists && _xleft > _xright) {
 			swap(_xleft, _xright);
+			_xinc = -fabs(_xinc);
 			PUT_VAR("..xleft..", _xleft);
 			PUT_VAR("..xright..", _xright);
-			_xinc = -fabs(_xinc);
+			PUT_VAR("..xinc..", _xinc);
 		}
 		return true;
 	} else if (_nword == 4 && !strcmp(_word[_nword - 1], "decreasing")) {
 		_xincreasing = false;
 		if (_xscale_exists && _xleft < _xright) {
 			swap(_xleft, _xright);
+			_xinc = fabs(_xinc);
 			PUT_VAR("..xleft..", _xleft);
 			PUT_VAR("..xright..", _xright);
-			_xinc = fabs(_xinc);
+			PUT_VAR("..xinc..", _xinc);
 		}
 		return true;
 	} else if (_nword == 4 && !strcmp(_word[_nword - 1], "unknown")) {
@@ -2717,12 +2726,13 @@ set_x_axisCmd()
 		}
 		_xleft = xleft;
 		_xright = xright;
-		PUT_VAR("..xleft..", _xleft);
-		PUT_VAR("..xright..", _xright);
 		if (_xtype == gr_axis_LOG)
 			_xinc = 1.0;
 		else
 			_xinc = _xright - _xleft;
+		PUT_VAR("..xleft..", _xleft);
+		PUT_VAR("..xright..", _xright);
+		PUT_VAR("..xinc..", _xinc);
 		_xsubdiv = 1;
 		_xscale_exists = true;
 		_need_x_axis = true;
@@ -2743,8 +2753,6 @@ set_x_axisCmd()
 			warning("`set x axis .left. .right. .incBig.' has .incBig. that goes outside range"));
 		_xleft = xleft;
 		_xright = xright;
-		PUT_VAR("..xleft..", _xleft);
-		PUT_VAR("..xright..", _xright);
 		if (_xtype == gr_axis_LOG) {
 			_xinc = xinc;
 			_xsubdiv = 1;
@@ -2752,6 +2760,9 @@ set_x_axisCmd()
 			_xinc = xinc;
 			_xsubdiv = 1;
 		}
+		PUT_VAR("..xleft..", _xleft);
+		PUT_VAR("..xright..", _xright);
+		PUT_VAR("..xinc..", _xinc);
 		_xscale_exists = true;
 		_need_x_axis = true;
 		_need_y_axis = true;
@@ -2773,8 +2784,6 @@ set_x_axisCmd()
 			warning("`set x axis .left. .right. .incBig. .incSml.' has .incSml. that goes outside range"));
 		_xleft = xleft;
 		_xright = xright;
-		PUT_VAR("..xleft..", _xleft);
-		PUT_VAR("..xright..", _xright);
 		if (_xtype == gr_axis_LOG) {
 			_xinc = xinc;
 			_xsubdiv = (tmp > 0) ? 1 : -1;
@@ -2782,6 +2791,9 @@ set_x_axisCmd()
 			_xinc = xinc;
 			_xsubdiv = int(floor(0.5 + fabs((double) (xinc / tmp))));
 		}
+		PUT_VAR("..xleft..", _xleft);
+		PUT_VAR("..xright..", _xright);
+		PUT_VAR("..xinc..", _xinc);
 		_xscale_exists = true;
 		_need_x_axis = true;
 		_need_y_axis = true;
@@ -3087,9 +3099,10 @@ set_y_axisCmd()
 			double          tmp = _ybottom;
 			_ybottom = _ytop;
 			_ytop = tmp;
+			_yinc = -_yinc;
 			PUT_VAR("..ybottom..", _ybottom);
 			PUT_VAR("..ytop..", _ytop);
-			_yinc = -_yinc;
+			PUT_VAR("..yinc..", _yinc);
 		}
 		return true;
 	} else if (_nword == 4 && !strcmp(_word[_nword - 1], "decreasing")) {
@@ -3098,9 +3111,10 @@ set_y_axisCmd()
 			double          tmp = _ybottom;
 			_ybottom = _ytop;
 			_ytop = tmp;
+			_yinc = -_yinc;
 			PUT_VAR("..ybottom..", _ybottom);
 			PUT_VAR("..ytop..", _ytop);
-			_yinc = -_yinc;
+			PUT_VAR("..yinc..", _yinc);
 		}
 		return true;
 	} else if (_nword == 4 && !strcmp(_word[_nword - 1], "unknown")) {
@@ -3123,12 +3137,13 @@ set_y_axisCmd()
 		}
 		_ybottom = ybottom;
 		_ytop = ytop;
-		PUT_VAR("..ybottom..", _ybottom);
-		PUT_VAR("..ytop..", _ytop);
 		if (_ytype == gr_axis_LOG)
 			_yinc = 1.0;
 		else
 			_yinc = _ytop - _ybottom;
+		PUT_VAR("..ybottom..", _ybottom);
+		PUT_VAR("..ytop..", _ytop);
+		PUT_VAR("..yinc..", _yinc);
 		_ysubdiv = 1;
 		_yscale_exists = true;
 		_need_x_axis = true;
@@ -3150,8 +3165,6 @@ set_y_axisCmd()
 			warning("`set y axis .bottom. .top. .incBig.' has .incBig. that goes outside range"));
 		_ybottom = ybottom;
 		_ytop = ytop;
-		PUT_VAR("..ybottom..", _ybottom);
-		PUT_VAR("..ytop..", _ytop);
 		if (_ytype == gr_axis_LOG) {
 			_yinc = yinc;
 			_ysubdiv = 1;
@@ -3159,6 +3172,9 @@ set_y_axisCmd()
 			_yinc = yinc;
 			_ysubdiv = 1;
 		}
+		PUT_VAR("..ybottom..", _ybottom);
+		PUT_VAR("..ytop..", _ytop);
+		PUT_VAR("..yinc..", _yinc);
 		_yscale_exists = true;
 		_need_x_axis = true;
 		_need_y_axis = true;
@@ -3181,8 +3197,6 @@ set_y_axisCmd()
 			warning("`set y axis .bottom. .top. .incBig. incSml.' has .incSml. that goes outside range"));
 		_ybottom = ybottom;
 		_ytop = ytop;
-		PUT_VAR("..ybottom..", _ybottom);
-		PUT_VAR("..ytop..", _ytop);
 		if (_ytype == gr_axis_LOG) {
 			_yinc = yinc;
 			_ysubdiv = (tmp > 0) ? 1 : -1;
@@ -3190,6 +3204,9 @@ set_y_axisCmd()
 			_yinc = yinc;
 			_ysubdiv = int(floor(0.5 + fabs((double) (yinc / tmp))));
 		}
+		PUT_VAR("..ybottom..", _ybottom);
+		PUT_VAR("..ytop..", _ytop);
+		PUT_VAR("..yinc..", _yinc);
 		_yscale_exists = true;
 		_need_x_axis = true;
 		_need_y_axis = true;

@@ -173,7 +173,7 @@ start_up(int argc, char **argv)
 	argv_leftover = interpret_optional_arguments(argc, argv);
 	unsigned int argc_leftover = 0;
 	//printf("leftover arguments:\n");
-	while (argv_leftover[argc_leftover] != NULL) {
+	while (argv_leftover && argv_leftover[argc_leftover] != NULL) {
 		//printf("\t<%s>\n", *argv_leftover);
 		argc_leftover++;
 	}

@@ -397,6 +397,21 @@ remove_esc_quotes(char *w)
 	}
 }
 
+void
+show_words()
+{
+	if (_nword > 0) {
+		printf("DEBUG: ");
+		for (unsigned int i = 0; i < _nword; i++) {
+			printf("%d\"%s\" ", i, _word[i]);
+		}
+		printf("\n");
+	} else {
+		printf("DEBUG: commandline is blank\n");
+	}
+
+}
+
 // Is the i-th word of _word[] equal to given word? (return 0 if too few
 // words)
 bool
