@@ -275,7 +275,8 @@ Search gri manual for (may be a regular expression):<p>
      <tr>
        <td align="left">
        <A class="menus" HREF="http://gri.sourceforge.net/Development_Version.html">Changes</a><br>
-       <A class="menus" HREF="http://gri.sourceforge.net/Plans.html">Plans</a>
+       <A class="menus" HREF="http://gri.sourceforge.net/Plans.html">Plans</a><br>
+       <A class="menus" HREF="http://gri.sourceforge.net/pre1">Version 2.8.8 preview #1</A><br>
        </td>
      </tr>
    </table>
@@ -340,14 +341,8 @@ Search gri manual for (may be a regular expression):<p>
 <!--	<a class="menus" href="http://sourceforge.net/project/showfiles.php?group_id=5511">File download area</a><br> -->
         <A class="menus" HREF="http://www.sourceforge.net/patch/?group_id=5511">Submit a patch</A><br>
         <A class="menus" HREF="http://sourceforge.net/pm/task.php?group_project_id=8706&group_id=5511&func=browse">View to-do list</A><br>
-<!-- <A class="menus" HREF="http://gri.sourceforge.net/gridoc/html/Version_2_6.html#Version2.6">Version 2.6.1 preview</A><br> -->
 <!-- <A class="menus" HREF="./checklist_for_release">Packaging checklist</A><br> -->
         <br>
-
-
-<!--
-	<A CLASS="menus" HREF="./gri-2.8.4-pre1.tgz">2.8.4 pre-release #1</a>
--->
 
       </TD>
     </TR>
