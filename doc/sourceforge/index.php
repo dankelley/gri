@@ -90,12 +90,12 @@ scp index.php psg@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
                 <tr>
                   <td class="menus" align="right">
 		    <b>Source [unbuilt docs]</b><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.6.tgz">gri-2.8.6.tgz</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.7.tgz">gri-2.8.7.tgz</a><br>
 		    <b>Source [built docs]</b><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.6-arch-indep.tar.gz">gri-2.8.6-arch-indep.tar.gz</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.7-arch-indep.tar.gz">gri-2.8.7-arch-indep.tar.gz</a><br>
 		    <b>RedHat Linux</b><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.6-1.src.rpm">gri-2.8.6-1.src.rpm</a><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.6-1.i386.rpm">gri-2.8.6-1.i386.rpm</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.7-1.src.rpm">gri-2.8.7-1.src.rpm</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.7-1.i386.rpm">gri-2.8.7-1.i386.rpm</a><br>
 		    <b>Debian GNU/Linux</b><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.8.6-0potato1_i386.deb">2.8.6 for Potato</a><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.8.6-1_i386.deb">2.8.6 for Woody</a><br>
@@ -223,7 +223,7 @@ Search gri manual for (may be a regular expression):<p>
     <tr> 
       <td  class="menubox">
 	Version
-	<a href="http://sourceforge.net/project/showfiles.php?group_id=5511&release_id=75100">2.8.6</a>
+	<a href="http://sourceforge.net/project/showfiles.php?group_id=5511&release_id=82835">2.8.7</a>
 	released
 	<? 
 	# REF: mktime(hour,minute,second,month,day,year)
@@ -240,7 +240,9 @@ Search gri manual for (may be a regular expression):<p>
 	# Vsn 2.8.5: 2001-dec-13 18:00 Halifax time, 14:00 SF time
 	#$diff = time() - mktime(14, 0, 0, 12, 13, 2001);
 	# Vsn 2.8.6: 2002-02-14 11:24 Halifax time, 7:24 SF time
-	$diff = time() - mktime(7, 24, 0, 2, 14, 2002);
+	#$diff = time() - mktime(7, 24, 0, 2, 14, 2002);
+	# Vsn 2.8.7: 2002-04-03 18:10 Halifax time, 14:10 SF time
+	$diff = time() - mktime(14, 10, 0, 4, 3, 2002);
 	$days = floor($diff / 24 / 60 / 60);
 	$weeks = floor($days / 7);
 	$months = floor($days / 7 / 4);
@@ -267,7 +269,7 @@ Search gri manual for (may be a regular expression):<p>
     </tr>
   </table>
 
-   <!-- Next Version -->
+   <!-- Next Version 
    <table width="100%" border="0" cellspacing="0" cellpadding="0">
      <tr  bgcolor="#737b9c"> 
        <td align="center"> 
@@ -276,11 +278,11 @@ Search gri manual for (may be a regular expression):<p>
      </tr>
      <tr>
        <td align="left">
-       Version 2.8.7 to be released in mid April; 
-       see <a href="./pre9/">pre-release #9</a>
+       Version 2.8.8 due when ~5 bugs fixed
        </td>
      </tr>
    </table>
+-->
 
    <!-- News -->
    <table width="100%" border="0" cellspacing="0" cellpadding="0">
