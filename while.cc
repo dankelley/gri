@@ -6,7 +6,7 @@
 #include	"extern.hh"
 #include	"gr.hh"
 bool            whileCmd(void);
-static bool     test_is_true(const char *s);
+static bool     test_is_true(const string& t);
 
 
 bool
@@ -20,7 +20,7 @@ whileCmd(void)
 		return false;
 	}
 	//printf("=============== in while cmd.  '%s'       test '%s'\n",_cmdLine,test.c_str());
-	test_is_true(test.c_str()); // to catch syntax errors on this line
+	test_is_true(test); // to catch syntax errors on this line
 	// Store lines until end while into the buffer
 	std::string buffer;
 	while (1) {
@@ -69,7 +69,8 @@ perform_while_block(const char *buffer, const char *test, int lines)
 	std::string     filename;
 	int             fileline;
 	int             passes = 0;
-	while (test_is_true(test)) {
+	string t(test);
+	while (test_is_true(t)) {
 		// Check to see if test is now false
 		if (block_level() > 0) {
 			filename.assign(block_source_file());
@@ -110,22 +111,29 @@ perform_while_block(const char *buffer, const char *test, int lines)
 }
 
 static bool
-test_is_true(const char *s)
+test_is_true(const string& t)
 {
-	char            res[30];
-	double          value;
-#if 1
-	std::string ss;
-	substitute_synonyms(s, ss, true);
-	substitute_rpn_expressions(ss.c_str(), res);
-	//printf(" + '%s'        ->     '%s'\n", s,ss.c_str());
-#else
-	substitute_rpn_expressions(s, res);
-#endif
+	std::string tt;
+	substitute_synonyms(t.c_str(), tt, true);
+	clean_blanks_quotes(tt);
+	// Catch "! SOMETHING" form
+	bool negate = false;
+	if (tt[0] == '!') {
+		negate = true;
+		tt.STRINGERASE(0, 1);
+		clean_blanks_quotes(tt);
+	}
+	char res[100]; // BUG: fixed size
+	substitute_rpn_expressions(tt.c_str(), res);
+	//printf(" + '%s'        ->     '%s'\n", t.c_str(),tt.c_str());
+	double value;
 	if (is_var(res)) {
 		getdnum(res, &value);
 	} else {
 		sscanf(res, "%lf", &value);
 	}
-	return ((value != 0.0) ? true : false);
+	if (negate)
+		return ((value != 0.0) ? false : true);
+	else
+		return ((value != 0.0) ? true : false);
 }

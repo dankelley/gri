@@ -2700,7 +2700,8 @@ read_lineCmd()
 			warning("`read line' hit end-of-file");
 			return false;
 		} else {
-			return true;
+			set_eof_flag_on_data_file();
+			return false;
 		}
 	} else {
 		char *s = inLine.getValue();
