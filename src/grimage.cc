@@ -245,7 +245,7 @@ gr_drawimage(unsigned char *im,
 			 */
 			if (imTransform != NULL) {
 				for (i = 0; i < 256; i++) {
-					diff = (int) fabs(imTransform[i] - mask_value);
+					diff = (int) fabs(double(imTransform[i] - mask_value));
 					if (diff < min_diff) {
 						min_diff = diff;
 						index = i;

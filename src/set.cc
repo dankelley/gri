@@ -1771,7 +1771,7 @@ set_image_grayscaleCmd()
 			for (i = 0; i < 256; i++) {
 				// The .001 below is to prevent rounding problems.
 				_imageTransform[i] = (unsigned char)
-					floor(pin0_255((int) floor(.001 + quantize(scale * (i - indexA), levels, delta_image))));
+					floor(pin0_255((int) floor(double(0.001 + quantize(scale * (i - indexA), levels, delta_image)))));
 			}
 			// BUG -- the following is a total kludge, because I could not
 			// find an adequate rounding macro
@@ -1784,7 +1784,7 @@ set_image_grayscaleCmd()
 			// Increment was not given.
 			for (i = 0; i < 256; i++) {
 				_imageTransform[i]
-					= (unsigned char) floor(pin0_255((int) floor(scale * (i - indexA))));
+					= (unsigned char) floor(double(pin0_255((int) floor(scale * (i - indexA)))));
 			}
 		}
 		_imageTransform_exists = true;

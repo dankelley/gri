@@ -490,24 +490,24 @@ if ((COL_NAME).size() <= 0 || (I) > ((COL_NAME).size() - 1)) {  \
    SET(2, "", gr_currentmissingvalue(),NUMBER,false);			\
 } else {								\
    SET(2, "", (COL_NAME)(I), NUMBER, true);				\
-}									\
+}
 
 // Area under y-x curve
- double curve_area()
-	 {
-		 double sum = 0;
-		 int i, n = _colX.size();
-		 for (i = 1; i < n; i++) {
-			 if (!gr_missingx(_colX[i])
-			     && !gr_missingx(_colX[i - 1])
-			     && !gr_missingy(_colY[i])
-			     && !gr_missingy(_colY[i - 1])) {
-				 sum += 0.5 * (_colY[i] + _colY[i - 1]) * (_colX[i] - _colX[i - 1]);
-			 }
-		 }
-		 return sum;
-	 }
- 
+double curve_area()
+{
+	double sum = 0;
+	int n = _colX.size();
+	for (int i = 1; i < n; i++) {
+		if (!gr_missingx(_colX[i])
+		    && !gr_missingx(_colX[i - 1])
+		    && !gr_missingy(_colY[i])
+		    && !gr_missingy(_colY[i - 1])) {
+			sum += 0.5 * (_colY[i] + _colY[i - 1]) * (_colX[i] - _colX[i - 1]);
+		}
+	}
+	return sum;
+}
+
 #define GET_GRID_MIN()							\
 {									\
 unsigned int i, j;							\

@@ -236,7 +236,7 @@ read_netCDF_column(unsigned int iword, GriColumn *col, int *expected_length, boo
 static int
 figure_column(const char *w, int def)
 {
-	char *ptr = strstr(w, "=");
+	const char *ptr = strstr(w, "=");
 	if (ptr == NULL)
 		return def;
 	double res;

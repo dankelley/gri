@@ -343,7 +343,7 @@ image_math()
 			double lbase = log(number);
 			for (unsigned int i = 0; i < n; i++, Ptr++)
 				if (!gr_missing(*Ptr) && *Ptr > 0)
-					*Ptr = int(log(*Ptr) / lbase);
+					*Ptr = int(log(double(*Ptr)) / lbase);
 				else
 					*Ptr = 0;	// BUG -- should be something else
 		} else {
