@@ -3,7 +3,7 @@
 # Bug: the @code{} items get lost, too bad.
 system("makeinfo TMP");
 system("info -d . -f gri --output ./tmp.1 'Concept Index'");
-system("cat tmp.1 | grep -v '^File' | grep -v '^\* Menu:\$' | gawk '/^\* .*\./'  |  sort -f >  tmp.2");
+system("cat tmp.1 | grep -v '^File' | grep -v '^\* Menu:\$' | awk '/^\* .*\./'  |  sort -f >  tmp.2");
 open(IN, "./tmp.2") || die "Cannot get index\n";
 # Following is kludge, really
 print "\@c HTML <!-- newfile ConceptIndex.html \"Gri: Concept Index\" \"Concept Index\" -->\n";
