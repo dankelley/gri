@@ -1,5 +1,5 @@
 @c -*-mode: texinfo; -*-
-@c $Id: gri.texim,v 1.63 2001/03/19 16:29:48 dankelley Exp $
+@c $Id: gri.texim,v 1.64 2001/03/20 13:54:08 dankelley Exp $
 \input texinfo @c -*-texinfo-*-
 @c
 @comment *** Start of HTML stuff ***
@@ -116,9 +116,9 @@ considerable power, at the price of a moderate learning curve.
 @c HTML <IMG align=left ALT="Gri Logo" SRC="logo.png"></A>
 @c HTML Gri is an extensible
 @c HTML plotting language for producing scientific graphs, such as
-@c HTML <A HREF="#X-yPlots">x-y plots</A>, 
-@c HTML <A HREF="#ContourPlots">contour plots</A>, and
-@c HTML <A HREF="#Images">image plots</A>.
+@c HTML <A HREF="X-Y.html">x-y plots</A>, 
+@c HTML <A HREF="ContourPlots.html">contour plots</A>, and
+@c HTML <A HREF="Images.html">image plots</A>.
 @c HTML <p>
 @c HTML This document describes Gri @value{GRI-VERSION},
 @c HTML <br>(c) 1991-2001 <A HREF="http://www.phys.ocean.dal.ca/~kelley"> Dan Kelley.</A>
@@ -129,22 +129,22 @@ considerable power, at the price of a moderate learning curve.
 @c HTML <b>New users:</b>
 @c HTML To see if Gri might be useful to you, spend a few minutes
 @c HTML reading the
-@c HTML <A HREF="#Introduction">introduction</A>, the
-@c HTML <A HREF="#SimpleExample">simple example</A> tutorial, the
+@c HTML <A HREF="Introduction.html">introduction</A>, the
+@c HTML <A HREF="SimpleExample.html">simple example</A> tutorial, the
 @c HTML <A HREF="./FAQ.html">FAQ</A> and the 
 @c HTML <A HREF="http://gri.sourceforge.net/gri-cookbook/index.html"> 
 @c HTML cookbook.</A>
 
 @c HTML It is also a good idea to check out the real-world
-@c HTML <A HREF="#Examples">examples</A>.
+@c HTML <A HREF="Examples.html">examples</A>.
 @c HTML Then you should return here to scan the table of contents.  
 @c HTML <P>
 @c HTML <b>Experienced users:</b>
 @c HTML To check the syntax of a command, consult
-@c HTML the <A HREF="#Commands"> list
+@c HTML the <A HREF="ListOfGriCommands.html"> list
 @c HTML of Gri commands</A>.  You should also
-@c HTML check the list of <A HREF="#History">new features</A>
-@c HTML occasionally.
+@c HTML check on the <A HREF="History.html">history</a> of changes
+@c HTML to Gri occasionally.
 @c HTML <p>
 @c HTML <b>Open-Source Development:</b>
 @c HTML Gri is distributed under an OpenSource licence (GPL).
@@ -1472,7 +1472,7 @@ draw curve
 
 
 
-@c HTML <!-- newfile Contour.html "Gri: contour plots" "Contour Plots" -->
+@c HTML <!-- newfile ContourPlots.html "Gri: contour plots" "Contour Plots" -->
 
 @node   Contour Plots, Pre-gridded Data, Formula Plots, Top
 @comment  node-name,  next,  previous,  up
@@ -1693,7 +1693,7 @@ The various commands for converting columns to a grid are given in
 (@ref{Convert Columns to Grid}).  Generally, the Barnes method is best.
 
 
-@c HTML <!-- newfile Image.html "Gri: image plots" "Image Plots" -->
+@c HTML <!-- newfile Images.html "Gri: image plots" "Image Plots" -->
 
 @node   Images, Reading and Creating Image Data, Ungridded Data, Top
 @comment  node-name,  next,  previous,  up
