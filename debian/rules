@@ -7,9 +7,9 @@
 #export DH_VERBOSE=1
 export DH_COMPAT=3
 
-version=$(shell expr `pwd` : '.*-\([0-9.]*\)')
-#version=2.10.0
-somefutureversion=2.12.0
+#version=$(shell expr `pwd` : '.*-\([0-9.]*\)')
+version := $(shell grep ^VERSION Makefile | cut -d" " -f3)
+somefutureversion=2.14.0
 
 CXXFLAGS = -O2 -Wall
 ifneq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
@@ -30,14 +30,14 @@ build-arch: debian/copyright gri
 gri:    Makefile
 	dh_testdir
 ifeq ($(ARCH),m68k)
-	make CXXFLAGS="-O0 -Wall" rpncalc.o
+	cd src; make CXXFLAGS="-O0 -Wall" rpncalc.o
 endif
-	$(MAKE) CXXFLAGS=${CXXFLAGS} libdir=/usr/share/gri/$(version)
+	cd src; make CXXFLAGS=${CXXFLAGS}
 
 clean:
 	dh_testdir
 	dh_testroot
-	-$(MAKE) distclean
+	-make distclean
 
 	dh_clean
 	rm -fR debian/gri-$(version)static
@@ -48,7 +48,7 @@ install: gri
 	dh_testroot
 	dh_clean -k
 	dh_installdirs
-	$(MAKE) install_linux_debian debian=`pwd`/debian/gri
+	cd src; make install_linux_debian debian=`pwd`/debian/gri
 
 debian/copyright:
 	sed -e 's/VSN/$(version)/g' \
@@ -61,7 +61,7 @@ debian/copyright:
 Makefile:
 # To test on g++-3.0 :
 #	CC=gcc-3.0 CXX=g++-3.0 ./configure --prefix=/usr
-	./configure --prefix=/usr
+	./configure --prefix=/usr --enable-linux_debian
 
 # Build architecture-independent files here (no need to be root).
 build-indep: debian/copyright Makefile
@@ -73,7 +73,7 @@ binary-indep: build-indep
 	dh_testdir -i
 	dh_testroot -i
 	install -d debian/gri-el/usr/share/emacs/site-lisp
-	install -m 644 gri-mode.el debian/gri-el/usr/share/emacs/site-lisp/
+	install -m 644 src/gri-mode.el debian/gri-el/usr/share/emacs/site-lisp/
 	(cd doc; make debian-ps DOC_DIR=../debian/gri-ps-doc/usr/share/doc/gri)
 	(cd doc; make debian-html DOC_DIR=../debian/gri-html-doc/usr/share/doc/gri)
 	rm -f debian/*debhelper
