@@ -183,7 +183,9 @@ endif
 	$(INSTALL_DATA) $(srcdir)/../doc/gri_unpage.1-skel $(MAN_DIR)/gri_unpage.1
 	mkdir -m 755 -p                                    $(INFO_DIR)
 	echo "INSTALLING INTO INFO_DIR WHICH IS [$(INFO_DIR)]"
+if !OS_IS_FINK
 	$(INSTALL_DATA)    $(srcdir)/../doc/gri.info*      $(INFO_DIR)
+endif
 if !OS_IS_LINUX_REDHAT
 #	This is handled by gri.spec [2003-may-31 Dan Kelley]
 	gzip $(MAN_DIR)/gri_merge.1
