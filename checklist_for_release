@@ -4,16 +4,16 @@ of the developers.
 A "+" beside an item means that it has been done.
 A "-" beside an item means that it has NOT been done yet.
 
-1+ DEK and PSG agree to freeze the code.
+1+ DEK and PSG agree to freeze the code and the documentation.
 
 2+ DEK does a redhat build with the version on CVS, fixing any
    problems and letting PSG know when the build is clean.
 
 3- PSG does a debian build with the version on CVS.  If there are any
-   problems, back to step 2.
+   problems, return to step 2.
 
-4- When it builds on redhat and debian, PSG or DEK marks the
-   code by e.g.
+4- When it builds on redhat and debian, DEK "tags" this particular
+   state of the code by using a cvs command such as e.g.
 	cvs tag -F "GRI_2_6_1"
    for the 2.6.1 version.
 
