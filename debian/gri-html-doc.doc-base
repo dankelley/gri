@@ -5,5 +5,5 @@ Abstract: Manual (in HTML) for Gri, a language for scientific graphics
 Section: Apps/Math
 
 Format: HTML
-Index: /usr/doc/gri-html-doc/html/index.html
-Files: /usr/doc/gri-html-doc/html/*.html
+Index: /usr/share/doc/gri/html/index.html
+Files: /usr/share/doc/gri/html/*.html

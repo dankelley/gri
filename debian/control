@@ -44,7 +44,7 @@ Description: HTML manual for gri, a language for scientific graphics.
  contour-graphs, and image graphs.
  .
  This is the Gri manual in HTML format and can be accessed directly via
-   http://localhost/doc/gri-html-doc/html/
+   http://localhost/doc/gri/html/
  or via dwww or dhelp interfaces (if you have the doc-base package
  installed). Note that the manual in info format (without graphics)
  is included in the gri package itself.  This manual is available on

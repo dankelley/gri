@@ -233,11 +233,11 @@ cmdrefcard.ps:
 # make debian   (does not install; only makes the files)
 debian: refcard.ps cmdrefcard.ps info
 
-# make debian-html DOC_DIR=../debian/gri-html-doc/usr/share/doc/gri-html-doc
+# make debian-html DOC_DIR=../debian/gri-html-doc/usr/share/doc/gri
 debian-html:
 	make html-install
 
-# make debian-ps DOC_DIR=../debian/gri-ps-doc/usr/share/doc/gri-ps-doc
+# make debian-ps DOC_DIR=../debian/gri-ps-doc/usr/share/doc/gri
 debian-ps: gri.ps
 	$(INSTALL) -d $(DOC_DIR)
 	$(INSTALL) -m 644 gri.ps $(DOC_DIR)

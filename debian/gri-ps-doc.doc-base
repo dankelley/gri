@@ -5,4 +5,4 @@ Abstract: Manual (PostScript) for Gri, a language for scientific graphics
 Section: Apps/Math
 
 Format: postscript
-Files: /usr/share/doc/gri-ps-doc/gri.ps.gz
+Files: /usr/share/doc/gri/gri.ps.gz

@@ -161,11 +161,11 @@ provides the
 .I html
 manual, which when installed is then located at
 .IP
-.B /usr/share/doc/gri-html-doc/html/index.html
+.B /usr/share/doc/gri/html/index.html
 .PP
 or, if you have a web server installed, at
 .IP
-.B http://localhost/doc/gri-html-doc/html/index.html
+.B http://localhost/doc/gri/html/index.html
 .PP
 
 The HTML manual is accessible via 
@@ -177,14 +177,14 @@ The
 .I html
 FAQ is located at
 .IP
-.B /usr/share/doc/gri-html-doc/html/FAQ.html
+.B /usr/share/doc/gri/html/FAQ.html
 .PP
 The
 .B gri-html-doc
 package also includes
 .I examples
 in
-.B /usr/share/doc/gri-html-doc/examples/
+.B /usr/share/doc/gri/examples/
 which are described in the manual, and are included as a quick start primer.
 
 The
