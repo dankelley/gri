@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.199 2002/06/05 17:33:30 dankelley Exp $
+@c $Id: gri.texim,v 1.200 2002/06/05 17:42:19 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -17030,7 +17030,7 @@ they are found to create new bugs.
 @itemize @bullet
 
 @item
-Add @code{sed} RPN operator, to work on strings @ref{sed}.
+Add @code{sed} RPN operator, to work on strings @ref{Binary Operators}.
 
 @end itemize
 
