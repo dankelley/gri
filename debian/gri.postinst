@@ -1,0 +1,35 @@
+#!/bin/bash
+
+set -e
+
+### Historic cleanup code, delete files like:
+# /usr/share/emacs/20.7/site-lisp/gri-mode.CompilationLog.gz
+# /usr/share/xemacs21/site-lisp/gri-mode.CompilationLog.gz
+
+clean_old_emacs_cruft () {
+    rm -f /usr/share/emacs/$1/site-lisp/gri-mode.CompilationLog.gz
+    rmdir --ignore-fail-on-non-empty --parents /usr/share/emacs/$1/site-lisp/
+}
+
+clean_old_xemacs_cruft () {
+    rm -f /usr/share/xemacs$1/site-lisp/gri-mode.CompilationLog.gz
+    rmdir --ignore-fail-on-non-empty --parents /usr/share/xemacs$1/site-lisp/
+}
+
+shopt -s nullglob
+
+for i in /usr/share/emacs/*/site-lisp/gri-mode.CompilationLog.gz; do
+    i=${i#/usr/share/emacs/}
+    i=${i%/site-lisp/gri-mode.CompilationLog.gz}
+    test -e /usr/bin/emacs-$i || clean_old_emacs_cruft $i
+done
+
+for i in /usr/share/xemacs*/site-lisp/gri-mode.CompilationLog.gz; do
+    i=${i#/usr/share/xemacs}
+    i=${i%/site-lisp/gri-mode.CompilationLog.gz}
+    test -e /usr/bin/xemacs$i || clean_old_xemacs_cruft $i
+done
+
+### All done
+
+#DEBHELPER#
