@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.176 2002/05/07 17:59:21 dankelley Exp $
+@c $Id: gri.texim,v 1.177 2002/05/07 18:13:34 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -55,8 +55,8 @@
 @comment %**start of header
 @setfilename gri.info
 @settitle Gri
-@set GRI-VERSION 2.9.0
-@set GRI-PREVIOUS-VERSION 2.8.8
+@set GRI-VERSION 2.10.0
+@set GRI-PREVIOUS-VERSION 2.8.7
 @set AUTHOR-EMAIL Dan.Kelley@@Dal.CA
 @c %**end of header
 @iftex
@@ -16236,7 +16236,7 @@ and adjust the "status" menu to read "closed".
 
 
 @c HTML <!-- newfile StableStream.html "Gri: Stable Stream" "Gri: History" -->
-@node   Stable Stream, Version 2.8, History, History
+@node   Stable Stream, Version 2.10, History, History
 @comment  node-name,  next,  previous,  up
 @section Stable Stream
 
@@ -16247,18 +16247,123 @@ compared to any of the @code{2.4.x} versions, but @code{2.6.1} differs
 only in the fixing of bugs.
 
 @menu
+* Version 2.10::
 * Version 2.8::
 * Version 2.6::
 * Version 2.4::
 * Version 2.2::
 @end menu
 
+@c HTML <!-- newfile Version_2_10.html "Gri: Version 2.10" "Gri: Version 2.10" -->
+@node   Version 2.10, Version 2.8, Stable Stream, Stable Stream
+@comment  node-name,  next,  previous,  up
+@subsection Version 2.10
+@cindex version 2.10
+
+@subsubsection Version 2.10.0 [2002 ??? ??]
+@strong{New Features}
+
+@itemize @bullet
+
+@item
+Add RPN binary operators @code{and}, @code{or} for logical operations
+@ref{Binary Operators}, along with negation operator @code{not}
+@ref{Unary Operators}.
+
+@item
+Add @code{draw arc} command @ref{Draw Arc}
+
+@item
+Add @code{set x axis labels} @ref{Set X Axis} and
+@code{set y axis labels} @ref{Set X Axis} commands.
+
+@item
+Permit specification of @code{pt} units for @code{draw label} @ref{Draw Box},
+@code{draw box} @ref{Draw Box},
+@code{draw symbol at} @ref{Draw Symbol At},
+and
+@code{draw line from}  @ref{Draw Line From}.
+
+@item
+Add @code{set clip to curve} command. Caution: this needs extension, and may
+have a bug if called twice in succession [but is this with an intervening
+@code{set clip off}]
+
+@item
+Add @code{group} and @code{end group} commands, in preparation for SVG
+output.  So far these commands do nothing, and are basically just a
+signal that users should not create commands with these names since Gri
+will need them soon.
+
+@item
+Add @code{..xinc..} and @code{..yinc..} builtin variables (@ref{Axis Scaling}).
+
+@item
+Make the @code{open} command accept URLs as filenames (@ref{Open}).
+
+@end itemize
+
+
+
+@strong{Removed Features}
+
+@itemize
+
+@item
+Remove @code{gri -repair old.ps new.ps} since (a) it was only half
+functional, (b) it was hard to code in the new scheme of
+argument-processing and (c) the author was not aware of anybody every
+having used it.
+
+@item
+Make the @code{-chatty} commandline option require a value (@ref{Invoking Gri}).
+
+@end itemize
+
+
+
+@strong{Bug Fixes}
+
+@itemize
+
+@item
+Fix SourceForge bug
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=552009&group_id=5511&atid=105511">
+#552009
+@c HTML </a>
+(@code{rpn} can segfault if @code{!=} operator is written as @code{=!})
+
+@item
+Fix SourceForge bug
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=546109&group_id=5511&atid=105511">
+#546109
+@c HTML </a>
+(bounding box wrong if postscript clipping used)
+@c HTML </a>
+
+@item
+Fix SourceForge bug
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=514495&group_id=5511&atid=105511">
+#514495
+@c HTML </a>
+in which @code{set clip to curve} failed to handle missing values in the curve.
+@c HTML </a>
+
+@item
+Fix SourceForge bug
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=450465&group_id=5511&atid=105511">
+#450465
+@c HTML </a>
+(@code{create columns from function} was broken).
+
+@end itemize
+
 @c HTML <!-- newfile Version_2_8.html "Gri: Version 2.8" "Gri: Version 2.8" -->
-@node   Version 2.8, Version 2.6, Stable Stream, Stable Stream
+@node   Version 2.8, Version 2.6, Version 2.10, Stable Stream
 @comment  node-name,  next,  previous,  up
 @subsection Version 2.8
 
-@subsection Version 2.8.7 [2002 Apr 03]
+@subsubsection Version 2.8.7 [2002 Apr 03]
 @itemize @bullet
 @item
 Fix SourceForge bug
@@ -16289,7 +16394,7 @@ Fix SourceForge bug
 
 
 
-@subsection Version 2.8.6 [2002 Feb 14]
+@subsubsection Version 2.8.6 [2002 Feb 14]
 @itemize @bullet
 @item
 Fix SourceForge bug
@@ -16324,7 +16429,7 @@ Fix SourceForge bug
 @end itemize
 
 
-@subsection Version 2.8.5 [2001 Dec 13]
+@subsubsection Version 2.8.5 [2001 Dec 13]
 @itemize @bullet
 @item
 Fix SourceForge bug
@@ -16350,7 +16455,7 @@ Fix SourceForge bug
 (@code{draw grid} disobeyed pencolor.)
 @end itemize
 
-@subsection Version 2.8.3 [2001 Oct 1]
+@subsubsection Version 2.8.3 [2001 Oct 1]
 @itemize @bullet
 @item
 Fix SourceForge bug
@@ -16360,7 +16465,7 @@ Fix SourceForge bug
 (endian problem in Rasterfile images + reading problem in PGM images).
 @end itemize
 
-@subsection Version 2.8.2 [2001 Sep 19]
+@subsubsection Version 2.8.2 [2001 Sep 19]
 @itemize @bullet
 @item
 Fix SourceForge bug
@@ -16377,7 +16482,7 @@ Fix SourceForge bug
 in the case in which netCDF was already installed)
 @end itemize
 
-@subsection Version 2.8.1 [2001 Sep 7]
+@subsubsection Version 2.8.1 [2001 Sep 7]
 @itemize @bullet
 @item
 Fix SourceForge bug
@@ -16846,40 +16951,7 @@ they are found to create new bugs.
 @itemize @bullet
 
 @item
-Add RPN binary operators @code{and}, @code{or} for logical operations
-@ref{Binary Operators}, along with negation operator @code{not}
-@ref{Unary Operators}.
-
-@item
-Add @code{draw arc} command @ref{Draw Arc}
-
-@item
-Add @code{set x axis labels} @ref{Set X Axis} and
-@code{set y axis labels} @ref{Set X Axis} commands.
-
-@item
-Permit specification of @code{pt} units for @code{draw label} @ref{Draw Box},
-@code{draw box} @ref{Draw Box},
-@code{draw symbol at} @ref{Draw Symbol At},
-and
-@code{draw line from}  @ref{Draw Line From}.
-
-@item
-Add @code{set clip to curve} command. Caution: this needs extension, and may
-have a bug if called twice in succession [but is this with an intervening
-@code{set clip off}]
-
-@item
-Add @code{group} and @code{end group} commands, in preparation for SVG
-output.  So far these commands do nothing, and are basically just a
-signal that users should not create commands with these names since Gri
-will need them soon.
-
-@item
-Add @code{..xinc..} and @code{..yinc..} builtin variables (@ref{Axis Scaling}).
-
-@item
-Make the @code{open} command accept URLs as filenames (@ref{Open}).
+n/a
 
 @end itemize
 
@@ -16889,57 +16961,19 @@ Make the @code{open} command accept URLs as filenames (@ref{Open}).
 @itemize
 
 @item
-Remove @code{gri -repair old.ps new.ps} since (a) it was only half
-functional, (b) it was hard to code in the new scheme of
-argument-processing and (c) the author was not aware of anybody every
-having used it.
-
-@item
-Make the @code{-chatty} commandline option require a value (@ref{Invoking Gri}).
+na/
 
 @end itemize
 
 
 @subsubsection Bug Fixes
 
-
 @itemize
 
 @item
-Fix SourceForge bug
-@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=552009&group_id=5511&atid=105511">
-#552009
-@c HTML </a>
-(@code{rpn} can segfault if @code{!=} operator is written as @code{=!})
-
-@item
-Fix SourceForge bug
-@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=546109&group_id=5511&atid=105511">
-#546109
-@c HTML </a>
-(bounding box wrong if postscript clipping used)
-@c HTML </a>
-
-@item
-Fix SourceForge bug
-@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=514495&group_id=5511&atid=105511">
-#514495
-@c HTML </a>
-in which @code{set clip to curve} failed to handle missing values in the curve.
-@c HTML </a>
-
-@item
-Fix SourceForge bug
-@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=450465&group_id=5511&atid=105511">
-#450465
-@c HTML </a>
-(@code{create columns from function} was broken).
+n/a
 
 @end itemize
-
-
-
-
 
 
 

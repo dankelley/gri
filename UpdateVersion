@@ -32,13 +32,13 @@ die "CVSROOT not pointing to cvs.gri.sourceforge.net"
 
 $CVSmsg = " is read-only.
 Are you sure the file is checked out for edit?  Do:
-# cvs edit Makefile.in gri-*.spec gri.cmd version.cc doc/gri.texi
+# cvs edit Makefile.in gri-*.spec gri.cmd version.cc doc/gri.texim
 ";
 
 die "Makefile.in $CVSmsg" if (! -w "Makefile.in");
 die "gri.cmd $CVSmsg" if (! -w "gri.cmd");
 die "version.cc $CVSmsg" if (! -w "version.cc");
-die "doc/gri.texi $CVSmsg" if (! -w "doc/gri.texi");
+die "doc/gri.texim $CVSmsg" if (! -w "doc/gri.texim");
 
 # Get current version number
 $version = `awk '(/VERSION =/) {print \$3}' Makefile.in`;
@@ -50,5 +50,5 @@ $regexp = $version;
 $regexp =~ s/\./\\./g;
 
 `perl -pi.bak -e 's/$regexp/$opt_v/g' Makefile.in gri-$version.spec gri.cmd`;
-`perl -pi.bak -e 'next if (/^\\\@item/);s/$regexp/$opt_v/g' doc/gri.texi`;
+`perl -pi.bak -e 'next if (/^\\\@item/);s/$regexp/$opt_v/g' doc/gri.texim`;
 `perl -pi.bak -e 's/_gri_number\\[\\] = "$regexp"/_gri_number[] = "$opt_v"/g' version.cc`;
