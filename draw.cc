@@ -213,7 +213,7 @@ draw_symbolCmd()
 	}
 	// Is it brightness in z?
 	bool uses_graylevel = false;
-	if (word_is(2, "graylevel")) {
+	if (word_is(2, "graylevel")) { // draw symbol graylevel z
 		if (!word_is(3, "z")) {
 			err("Word following 'graylevel' must be 'z'");
 			demonstrate_command_usage();
@@ -225,8 +225,7 @@ draw_symbolCmd()
 			return false;
 		}
 		uses_graylevel = true;
-	}
-	if (word_is(3, "graylevel")) {
+	} else if (word_is(3, "graylevel")) { // draw symbol NAME graylevel z
 		if (!word_is(4, "z")) {
 			err("Word following 'graylevel' must be 'z'");
 			demonstrate_command_usage();
@@ -238,11 +237,16 @@ draw_symbolCmd()
 			return false;
 		}
 		uses_graylevel = true;
+		if (gr_unknown_symbol == (symbolCode = determine_symbol_code(_word[2]))) {
+			demonstrate_command_usage();
+			err("Can't understand symbol \\`", _word[2], "'", "\\");
+			return false;
+		}
+		fixedSymbol = true;
 	}
 	// If it's color, extract hue/saturation/brightness
 	if (!uses_graylevel) {
-		if (word_is(2, "color") || word_is(2, "colour")
-		    || word_is(3, "color") || word_is(3, "colour")) {
+		if (word_is(2, "color") || word_is(2, "colour") || word_is(3, "color") || word_is(3, "colour")) {
 			bool            OLD = _ignore_error;
 			int             i;
 			_ignore_error = true;	// can't read "z" in "hue z" as number
