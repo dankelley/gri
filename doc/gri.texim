@@ -15490,17 +15490,17 @@ in the next section (@ref{Killing Bugs}).
 
 @c HTML <!-- newfile KillingBugs.html "Gri: bugs" "Gri Bugs" -->
 
-@node   Killing Bugs, Debugging Software You'll Need, Reporting Bugs, Bugs
+@node   Killing Bugs, Debugging Software You Will Need, Reporting Bugs, Bugs
 @comment  node-name,  next,  previous,  up
 @cindex bugs, how to kill them
 @section Killing Bugs
 @menu
-* Debugging Software You'll Need:: 
+* Debugging Software You Will Need:: 
 * Debugging at a Glance::          
 * Debugging Example::
 @end menu
 
-@node   Debugging Software You'll Need, Debugging at a Glance, Killing Bugs, Killing Bugs
+@node   Debugging Software You Will Need, Debugging at a Glance, Killing Bugs, Killing Bugs
 @comment  node-name,  next,  previous,  up
 @subsection Software that you'll need
 This section is intended to help you find and kill bugs yourself, by
@@ -15518,7 +15518,7 @@ the Emacs editor, and running @code{gdb} from within Emacs.  Otherwise,
 you'll want to glance at the documentation on @code{gdb} to see how to
 use it in standalone mode.
 
-@node   Debugging at a Glance, Debugging Example, Debugging Software You'll Need, Killing Bugs
+@node   Debugging at a Glance, Debugging Example, Debugging Software You Will Need, Killing Bugs
 @comment  node-name,  next,  previous,  up
 @cindex electric fence, for debugging
 @subsection Debugging at a glance
