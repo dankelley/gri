@@ -287,7 +287,7 @@ is_punctuation(int c)
 char*
 complete_filename(const char *filename)
 {
-	char *return_value;
+	char *return_value = "";
 #if defined(VMS) || defined(MSDOS)
 	return_value = strdup(filename);
 	return return_value;
