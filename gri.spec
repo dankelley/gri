@@ -8,7 +8,7 @@ Group: Applications/Engineering
 Source: http://ftp1.sourceforge.net/gri/gri-%{griversion}.tgz
 URL: http://gri.sourceforge.net
 Packager: Dan E. Kelley <Dan.Kelley@Dal.CA>
-#Icon: grilogo.gif
+Icon: grilogo.gif
 BuildRoot: /var/tmp/%{name}-root
 
 %description
