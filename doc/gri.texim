@@ -1,5 +1,5 @@
 @c -*-mode: texinfo; -*-
-@c $Id: gri.texim,v 1.71 2001/03/30 19:53:16 dankelley Exp $
+@c $Id: gri.texim,v 1.72 2001/04/05 13:55:41 dankelley Exp $
 \input texinfo @c -*-texinfo-*-
 @c
 @comment *** Start of HTML stuff ***
@@ -12380,6 +12380,7 @@ Exchange 2 and 3 on the stack, yielding @code{3 2} on the stack.  (See
 also @code{pop} and @code{dup}.)
 
 @item @{rpn x 0 @@@}
+@cindex @code{@@} rpn operator, for accessing columnar data
 Yields the value of the first number in the x column.  A similar form
 also works for @code{y}, etc.  (@ref{Manipulation of Columns etc}).
 
