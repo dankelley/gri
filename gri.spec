@@ -96,23 +96,25 @@ then
 fi
 
 %changelog
-* Sun Apr 06 2003 Dan Kelley <Dan.KelleyDal.Ca>
+* Tue Apr 15 18:03:06 ADT 2003 <Dan.Kelley@Dal.Ca> (fix by Peter Galbraith)
+- fix Sourceforge bug 720607 (emacs mode couldn't find html docs in redhat)
+* Sun Apr 06 2003 Dan Kelley <Dan.Kelley@Dal.Ca>
 - fix SourceForge bug 696073 (incorrect handling of \$() syntax)
-* Sat Apr 05 2003 Dan Kelley <Dan.KelleyDal.Ca>
+* Sat Apr 05 2003 Dan Kelley <Dan.Kelley@Dal.Ca>
 - fix SourceForge bug 715884 (mixup on quoted strings)
-* Sat Mar 29 2003 Dan Kelley <Dan.KelleyDal.Ca>
+* Sat Mar 29 2003 Dan Kelley <Dan.Kelley@Dal.Ca>
 - fix SourceForge bug 711354 (program name wrong in PostScript Creator: comment)
 - fix SourceForge bug 706202 (Page orientation hint missing in Postscript)
-* Thu Mar 01 2003 Dan Kelley <Dan.KelleyDal.Ca>
+* Thu Mar 01 2003 Dan Kelley <Dan.Kelley@Dal.Ca>
 - +++ VERSION 2.12.3 +++
 - fix SourceForge bug 685919 (cannot understand '.eps' file extension)
-* Fri Feb  7 2003 Dan Kelley <Dan.KelleyDal.Ca>
+* Fri Feb  7 2003 Dan Kelley <Dan.Kelley@Dal.Ca>
 - +++ VERSION 2.12.2 +++
-* Tue Jan 28 2003 Dan Kelley <Dan.KelleyDal.Ca>
+* Tue Jan 28 2003 Dan Kelley <Dan.Kelley@Dal.Ca>
 - fix SourceForge bug 675304 (segfault on 'read image pgm')
-* Sat Jan 25 2003 Dan Kelley <Dan.KelleyDal.Ca>
+* Sat Jan 25 2003 Dan Kelley <Dan.Kelley@Dal.Ca>
 - fix SourceForge bug 647234 (will not compile on Mac OS X 10.1.5)
-* Mon Jan 20 2003 Dan Kelley <Dan.KelleyDal.Ca>
+* Mon Jan 20 2003 Dan Kelley <Dan.Kelley@Dal.Ca>
 - fix SourceForge bug 671022 (error on 'flip image x|y')
 * Sat Jan 18 2003 Dan Kelley <Dan.Kelley@Dal.Ca>
 - fix SourceForge bug 669603 ('skip backward .n.' did not work)

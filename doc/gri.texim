@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.248 2003/04/12 19:37:02 dankelley Exp $
+@c $Id: gri.texim,v 1.249 2003/04/15 21:06:32 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16377,6 +16377,10 @@ only in the fixing of bugs.
 @strong{Bug Fixes}
 @itemize
 @item
+Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=720607&group_id=5511&atid=105511,#720607}
+@dots{} the emacs mode looked for html documentation files in an incorrect location on linux/redhat systems
+
 @end itemize
 
 
