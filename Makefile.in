@@ -3,7 +3,6 @@
 VERSION = 2.7.0
 srcdir = .
 DESTDIR=
-AWK = @AWK@
 INSTALL = @INSTALL@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_DATA = @INSTALL_DATA@
@@ -16,7 +15,7 @@ LIBS = @LIBS@
 # *  at the end of the LIBS line above                       *
 # ************************************************************
 
-DEFS = -DVERSION=\"$(VERSION)\" -DDEFAULT_GRI_DIR=\"$(libdir)\" -DAWK=\"gawk\" $(HAVE_LINUX) @DEFS@
+DEFS = -DVERSION=\"$(VERSION)\" -DDEFAULT_GRI_DIR=\"$(libdir)\" $(HAVE_LINUX) @DEFS@
 CFLAGS = @CFLAGS@
 CPPFLAGS = @CPPFLAGS@
 CXXFLAGS = -g @CXXFLAGS@
