@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.93 2001/05/24 15:33:22 dankelley Exp $
+@c $Id: gri.texim,v 1.94 2001/05/30 15:17:29 psg Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -14997,7 +14997,7 @@ information and finished typing in `Helvetica'.
 @subsection Screenshot 3
 
 Here we see the user cascading through the Gri commands pull-down menu
-until @code{draw axes frame} is reached.
+until @code{draw axes} is reached.
 
 @c HTML <IMG SRC="./screenshots/gri-screenshot-3.png"></A>
 
