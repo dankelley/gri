@@ -751,7 +751,8 @@ perform_block(const char *block, const char *source_file, int source_line)
 						break;
 					}
 				}
-				string cmd;
+				static string cmd; // might save time in loops
+				cmd.assign(s);
 				while(get_line_in_block(block, &offset)) {
 					cmd.append("\n");
 					cmd.append(_cmdLine);

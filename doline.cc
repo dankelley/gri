@@ -495,6 +495,7 @@ is_system_command(const char *s)
 bool
 systemCmd()
 {
+	printf("%s:%d <%s>\n",__FILE__,__LINE__,_cmdLine);
 	if (skipping_through_if())
 		return true;
 	// Much of following code duplicated in assign_synonym(), so if any
@@ -546,8 +547,8 @@ systemCmd()
 			break;
 		}
 	}
-	static string cmd;	// might save time
-	cmd.assign(s); 
+	static string cmd;	// might save time in loops
+	cmd.assign(s);
 	if (using_read_until) {
 		// It is of the <<WORD form
 		cmd.append("\n");
