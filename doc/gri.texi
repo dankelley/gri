@@ -134,7 +134,7 @@ The Gri web homepage is at
 @c HTML <A HREF="#Introduction">introduction</A>, the
 @c HTML <A HREF="#SimpleExample">simple example</A> tutorial, the
 @c HTML <A HREF="./FAQ.html">FAQ</A> and the 
-@c HTML <A HREF="http://www.phys.ocean.dal.ca/~kelley/gri/cookbook/index.html"> 
+@c HTML <A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri/cookbook/index.html"> 
 @c HTML cookbook.</A>
 
 @c HTML It is also a good idea to check out the real-world
@@ -275,7 +275,7 @@ creating personalized versions of Gri.
 @cindex FTP site, cookbook
 @emph{Manuals:} Gri has an online texinfo manual, a PostScript manual, a
 WWW manual, a
-@c HTML <A HREF="http://www.phys.ocean.dal.ca/~kelley/gri/cookbook/cookbook.html"> 
+@c HTML <A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri/cookbook/index.html"> 
 cookbook 
 @c HTML </A> 
 @cindex Gri newsgroup
@@ -5190,7 +5190,7 @@ the FTP site.
 
 Additionally, I've collected a few real life examples here.  Other
 sources are the Gri cookbook, available separately
-@c HTML <A HREF="http://www.phys.ocean.dal.ca/~kelley/gri/cookbook/cookbook.html"> 
+@c HTML <A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri/cookbook/index.html"> 
 @c HTML (click here)</A>
 
 
