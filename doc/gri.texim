@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.97 2001/06/09 17:15:47 dankelley Exp $
+@c $Id: gri.texim,v 1.98 2001/06/12 19:32:57 psg Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -276,7 +276,7 @@ creating personalized versions of Gri.
 @cindex FTP site, cookbook
 @strong{Manuals:} Gri has an online texinfo manual, a PostScript manual, a
 WWW manual, a
-@c HTML <A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri/cookbook/index.html"> 
+@c HTML <A HREF="http://gri.sourceforge.net/gri-cookbook/index.html"> 
 cookbook 
 @c HTML </A> 
 @cindex Gri newsgroup
@@ -6934,7 +6934,7 @@ named @file{foo.dat} by 22.
 @strong{Web-based files} may be opened by various OS tools, e.g. with @code{lynx}:
 
 @example
-\url = "http://www.phys.ocean.dal.ca/~kelley/gri/examples/example1.dat"
+\url = "http://gri.sourceforge.net/gridoc/html/examples/example1.dat"
 open "lynx -dump \url |"
 read columns x y
 draw curve
@@ -6944,7 +6944,7 @@ draw curve
 or with @code{wget}:
 
 @example
-\url = "http://www.phys.ocean.dal.ca/~kelley/gri/examples/example1.dat"
+\url = "http://gri.sourceforge.net/gridoc/html/examples/example1.dat"
 open "wget --quiet -O - \url |"
 read columns x y
 draw curve
@@ -14836,19 +14836,11 @@ Before emailing to the Gri newsgroup, it is a good idea to consult the
 list of answers to Frequently Asked Questions.
 
 
-There are two general classes of Gri discussion groups.  
-
 As of summer 2000, Gri traffic has been moved to the web-based
 discussion groups at the SourceForge website
 @url{http://gri.sourceforge.net}
 about which little need be said here, because the website is very
 easy to use.
-
-An older newsgroup, which will still be maintained for a while at least,
-is handled by a GNU mailman server; you may subscribe, read archived
-messages, etc, at 
-@url{http://www.Phys.Ocean.Dal.Ca/mailman/listinfo/gri}.
-
 
 @c HTML <!-- newfile Emacs.html "Gri: Emacs editing mode" "Emacs editing mode" -->
 
@@ -15066,9 +15058,9 @@ file using a pull-down menu.
 @cindex gri-mode, installing
 
 The Emacs @file{gri-mode.el} file is now bundled with gri, so odds are
-you already have it.  If not, you will find it at gri's ftp home
-@c HTML <A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri">
-ftp://ftp.phys.ocean.dal.ca/users/kelley/gri
+you already have it.  If not, you will find it at gri's web site
+@c HTML <A HREF="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/gri/gri/gri-mode.el">
+http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/gri/gri/gri-mode.el
 @c HTML </A>
 
 The following installation steps appear a @strong{bit} complicated.
@@ -16236,8 +16228,8 @@ like so in the file @file{~/.emacs}
 
 Installation is easy on RedHat and Debian flavors of linux.  Versions
 are available from the official distributions and also at
-@c HTML <A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri">
-@file{ftp://ftp.phys.ocean.dal.ca/users/kelley/gri}
+@c HTML <A HREF="http://sourceforge.net/project/showfiles.php?group_id=5511">
+@file{http://sourceforge.net/project/showfiles.php?group_id=5511}
 @c HTML </A>
 
 The RedHat version supports intel platforms only, while the Debian
