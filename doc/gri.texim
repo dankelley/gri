@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.191 2002/05/29 22:06:50 dankelley Exp $
+@c $Id: gri.texim,v 1.192 2002/05/30 14:59:15 psg Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16144,7 +16144,7 @@ Tells gri-mode to use a given version as the default for all your gri
 files.  Tab completion is available listing all available versions (if
 they are not all listed, that means that the Emacs variable
 @code{gri*directory-tree} is not correctly set  
-(@ref{Installing gri-mode.el}).  Your selection is stored in the file
+(@ref{Installing gri-mode.el})).  Your selection is stored in the file
 @file{~/.gri-using-version} and is remembered across editing
 sessions. If you select @strong{default} as your answer, gri-mode reverts
 to using the default version of gri as installed on your system (which
@@ -16290,7 +16290,7 @@ Fix SourceForge bug
 @c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=562113&group_id=5511&atid=105511">
 #562113
 @c HTML </a>
-(@code{new page} postscript error in @file{gv} viewer))
+(@code{new page} postscript error in @file{gv} viewer)
 
 @end itemize
 
