@@ -27,7 +27,7 @@ public:
 		the_type = from_cmdfile;
 		line = 1;
 		delete_when_close = false;
-		if (superuser() & FLAG_AUT1)printf(" ... %s:%d  name= '%s'\t fp= %x  this= %x\n",__FILE__,__LINE__,name.c_str(),int(fp),int(this));
+		if (superuser() & FLAG_AUT1)printf(" ... %s:%d  name= '%s'\t fp= %lx  this= %lx\n",__FILE__,__LINE__,name.c_str(),long(fp),long(this));
 	}
 	DataFile(const DataFile& d) {
 		name.assign(d.get_name());
@@ -37,7 +37,7 @@ public:
 		the_type = d.get_type();
 		line = d.get_line();
 		delete_when_close = d.get_delete_when_close();
-		if (superuser() & FLAG_AUT1)printf("    DEBUG: %s:%d DataFile(%x)    name= '%s'\t fp= %x   this= %x\n",__FILE__,__LINE__,int(&d),name.c_str(),int(fp),int(this));
+		if (superuser() & FLAG_AUT1)printf("    DEBUG: %s:%d DataFile(%lx)    name= '%s'\t fp= %lx   this= %lx\n",__FILE__,__LINE__,long(&d),name.c_str(),long(fp),long(this));
 	}
 	DataFile(FILE* a_fp, const char* a_name, int a_netCDF_id, type a_the_type, bool a_delete_when_close) {
 		fp = a_fp;
@@ -46,10 +46,10 @@ public:
 		the_type = a_the_type;
 		line = 0;
 		delete_when_close = a_delete_when_close;
-		if (superuser() & FLAG_AUT1)printf("    DEBUG: %s:%d DataFile(fp= %x, name= '%s', ...) this= %x\n",__FILE__,__LINE__,int(a_fp),a_name,int(this));
+		if (superuser() & FLAG_AUT1)printf("    DEBUG: %s:%d DataFile(fp= %lx, name= '%s', ...) this= %lx\n",__FILE__,__LINE__,long(a_fp),a_name,long(this));
 	}
 	~DataFile() {
-		if (superuser() & FLAG_AUT1)printf("    DEBUG: %s:%d DataFile::~DataFile() name= '%s'\t fp= %x   this= %x\n",__FILE__,__LINE__, name.c_str(), int(fp), int(this));
+		if (superuser() & FLAG_AUT1)printf("    DEBUG: %s:%d DataFile::~DataFile() name= '%s'\t fp= %lx   this= %lx\n",__FILE__,__LINE__, name.c_str(), long(fp), long(this));
 #if 0				// BUG 2001-feb-17 -- not sure on next 2 lines
 		name.string::~string(); // not executed
 #endif
@@ -62,7 +62,7 @@ public:
 		the_type = d.get_type();
 		line = d.get_line();
 		delete_when_close = d.get_delete_when_close();
-		if (superuser() & FLAG_AUT1)printf("    DEBUG: %s:%d DataFile::operator=   name= '%s'\t fp=  %x  this= %x\n",__FILE__,__LINE__, name.c_str(), int(fp), int(this));
+		if (superuser() & FLAG_AUT1)printf("    DEBUG: %s:%d DataFile::operator=   name= '%s'\t fp=  %lx  this= %lx\n",__FILE__,__LINE__, name.c_str(), long(fp), long(this));
 		return *this;
 	}
 	void set_line(int new_line)         {line = new_line > 1 ? new_line : 1;}
