@@ -167,7 +167,7 @@ for ($i = 1; $i < $num_files; $i++) {
 <a href=\"License.html\">19: License</a><br>
 <a href=\"DiscussionGroup.html\">20: Newsgroup</a><br>
 <br>
-<a href=\"ConceptIndex.html\">21: Concept Index</a>
+<a href=\"ConceptIndex.html\"><i>Concept Index</i></a>
 <br>
 </font>
 <td width=\"500\" valign=\"top\">
