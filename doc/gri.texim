@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.140 2002/01/02 21:41:44 dankelley Exp $
+@c $Id: gri.texim,v 1.141 2002/01/04 14:32:27 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -8215,7 +8215,7 @@ makes sense to put this command at the end of the commandfile.
 @example
 `set clip [postscript] \
   @{on [.xleft. .xright. .ybottom. .ytop.]@} \
-  @{to curve} \
+  @{to curve@} \
   | off'
 @end example
 
