@@ -2120,6 +2120,10 @@ will be @code{"Thing"}.  On the other hand, if you call it with
 @code{\.word0.} will be @code{"New"}, @code{\.word1.} will be
 @code{"Thing"} as before, and @code{\.word2.} will be @code{"22.3"}.
 
+A special syntax called "de-referencing" may be used to let a
+new-command modify the values of variables or synonyms which have been
+named in the calling line; @ref{De-referenced Synonyms}.
+
 @emph{EXAMPLE}  Here is a new command to label lines drawn by 
 @code{draw curve}: 
 @example
@@ -2221,6 +2225,10 @@ meaning of the return value varies from command to command.
 
 @emph{NOTE: THE SYNTAX OF THIS SECTION IS _NOT_ CODED YET <2000-oct-16>}
 
+If you never use new-commands, or if you never program Gri, you may
+safely skip this subsection.  Otherwise, please bear with me for a
+paragraph while I establish some notation.
+
 Many programming languages support two types of arguments to
 subroutines: "call by value" and "call by reference."  In the "by value"
 scheme, the @emph{value} of the argument is passed to the subroutine,
@@ -2277,7 +2285,15 @@ double ".x."
 @end example
 which would cause @code{.x.} to equal @code{20}.  Note that the name of
 the variable had to be enclosed in double-quotes, since otherwise Gri
-would have interpolated its value, before calling the new command.
+would have interpolated its value before calling the new command, and
+the new command would interpret @code{\.word1.} as just the number
+@code{10}, and you can't de-reference the value of a number.
+
+The point of this is that the @code{double} new-command is very general;
+it can be used to double the value of any variable.  If you're used to
+programming in other languages, you can probably see that this is a
+useful thing to be able to do sometimes (even if the present example is
+a bit over-simplified).
 
 Another example, perhaps more useful, might be to "complete" filenames, 
 by prepending a directory name:
