@@ -1963,7 +1963,6 @@ draw_labelCmd()
 	double          textangle_deg = 0.0;
 	double          tmp1, tmp2;
 	double          xcm, ycm;
-	int             QuoteEnd;
 	bool            user_units;
 	bool            left_justified = false, centered = false, right_justified = false;
 	int             coord_word = 0;
@@ -1974,11 +1973,16 @@ draw_labelCmd()
 	}
 	// Find quote string
 	string unquoted;
-	if (!(QuoteEnd = ExtractQuote(_cmdLine, unquoted))) {
-		demonstrate_command_usage();
-		err("Missing \"string\".");
+	int status = ExtractQuote(_cmdLine, unquoted);
+	if (status == 0) {
+		err("`draw label' needs a double-quoted string");
 		return false;
 	}
+	if (status < 0) {
+		err("`draw label' found start of a double-quoted string, but not a closing double-quote");
+		return false;
+	}
+	int QuoteEnd = status;
 	GriString label(unquoted.c_str());
 	chop_into_words(_cmdLine + QuoteEnd, _word, &_nword, MAX_nword);
 	// Parse for text angle, in degrees from horizontal.  If the option
@@ -2330,8 +2334,13 @@ draw_titleCmd()
 	if (_nword > 2) {
 		// find quote string 
 		string unquoted;
-		if (!ExtractQuote(_cmdLine, unquoted)) {
-			err("`draw title' needs \"string\"");
+		int status = ExtractQuote(_cmdLine, unquoted);
+		if (status == 0) {
+			err("`draw title' found no double-quoted string to use.");
+			return false;
+		}
+		if (status < 0) {
+			err("`draw title' found no starting double-quote, but no ending double-quote.");
 			return false;
 		}
 		if (!unquoted.empty()) {

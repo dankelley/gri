@@ -72,7 +72,7 @@ bool value_i_j(unsigned int ii, unsigned int jj, double xx, double yy, double *v
 bool            calculate_image_histogram(void);
 int             call_the_OS(const char* cmd, const char* calling_filename, int calling_line); 
 void            check_psfile(void);
-bool            chop_into_words(char *s, char **w, int *nw, int max);
+int             chop_into_words(char *s, char **w, int *nw, int max);
 bool            chop_into_data_words(char *s, char **w, int *nw, int max);
 void            clear_eof_flag_on_data_file(void);
 void            clean_blanks_quotes(string& c);

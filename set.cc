@@ -2910,14 +2910,17 @@ set_x_marginCmd()
 bool
 set_x_nameCmd()
 {
-	if (_nword < 4) {
-		err("Must specify a name");
+	Require(_nword > 3, err("Must specify a name"));
+	string unquoted;
+	int status = ExtractQuote(_cmdLine, unquoted);
+	if (status == 0) {
+		err("`set x name' needs a double-quoted string");
 		return false;
 	}
-	// find quote string
-	string unquoted;
-	Require(ExtractQuote(_cmdLine, unquoted),
-		err("Require \"name\" in `set x name \"name\"'"));
+	if (status < 0) {
+		err("`set x name' found starting double-quote but no ending double-quote");
+		return false;
+	}
 	_colX.setName(unquoted.c_str());
 	return true;
 }
@@ -3177,8 +3180,15 @@ set_y_nameCmd()
 {
 	Require(_nword > 3, err("Must specify a name"));
 	string unquoted;
-	Require(ExtractQuote(_cmdLine, unquoted),
-		err("Require \"name\" in `set y name \"name\"'"));
+	int status = ExtractQuote(_cmdLine, unquoted);
+	if (status == 0) {
+		err("`set y name' needs a double-quoted string");
+		return false;
+	}
+	if (status < 0) {
+		err("`set y name' found starting double-quote but no ending double-quote");
+		return false;
+	}
 	_colY.setName(unquoted.c_str());
 	return true;
 }
@@ -3236,10 +3246,21 @@ assign_synonym()
 	    && !strcmp(_word[4], "of")) {
 		int             which = atoi(_word[3]), max, i;
 		Require(which >= 0, err("Can't select word whose index is < 0"));
-		GriString word_copy(_word[_nword - 1]);
-		// Use (tmp + 1) as string to allow chopping.  Then, must also clip
-		// the trailing " from the last word.
-		chop_into_words(word_copy.getValue() + 1, _Words2, &max, MAX_nword);
+		string to_chop(_word[_nword - 1]);
+		if (to_chop[0] == '"')
+			to_chop.STRINGERASE(0, 1);
+		if (to_chop[to_chop.size() - 1] == '"') {
+			to_chop.STRINGERASE(to_chop.size() - 1, 1);
+		} else {
+			err("`\\syn = word N of \"string\" requires closing double-quote (\") sign");
+			return false;
+		}
+		char *to_chop_in_C = strdup(to_chop.c_str());
+		if (to_chop_in_C == NULL) {
+			err("Out of memory while trying to assign synonym as n-th word of string");
+			return false;
+		}
+		chop_into_words(to_chop_in_C, _Words2, &max, MAX_nword);
 		i = strlen(_Words2[max - 1]);
 		if (i > 2 && *(_Words2[max - 1] + i - 1) == '"')
 			*(_Words2[max - 1] + i - 1) = '\0';
@@ -3248,10 +3269,12 @@ assign_synonym()
 			    _word[_nword - 1],
 			    "'\ndoes not have that many words.  NOTE: the first word is counted as 0.",
 			    "\\");
+			free(to_chop_in_C);
 			return false;
 		}
 		Require(put_syn(_word[0], _Words2[which], true),
 			err("Cannot store synonym `\\", _word[0], "'", "\\"));
+		free(to_chop_in_C);
 		return true;
 	} else if (!strcmp(_word[1], "=") && !strcmp(_word[2], "tmpname")) {
 		if (!put_syn(_word[0], tmp_file_name(), true))
@@ -3395,15 +3418,16 @@ This computer can't `\\synonym = system ...' since no popen() subroutine.");
 	} else {
 		// `\synonym = "..."'
 		string unquoted;
-		if (!ExtractQuote(_cmdLine, unquoted)) {
-			err("Can't extract value for synonym '\\",
-			    _word[0],
-			    "'.  The value must be in double quotes.",
-			    "\\");
+		int status = ExtractQuote(_cmdLine, unquoted);
+		if (status == 0) {
+			err("`\\synonym = \"value\" found no double-quoted string");
 			return false;
 		}
-		//printf("after extract quote, have '%s'\n",unquoted.c_str());
-		//printf("%s:%d about to put_syn(%s,%s,1)\n",__FILE__,__LINE__,_word[0],unquoted.c_str());
+		if (status < 0) {
+			err("`\\synonym = \"value\" found starting double-quote but no ending double-quote");
+			return false;
+		}
+		//printf("%s:%d raw <%s> became <%s>\n",__FILE__,__LINE__,_cmdLine,unquoted.c_str());
 		if (!put_syn(_word[0], unquoted.c_str(), true)) OUT_OF_MEMORY;
 	}
 	return true;

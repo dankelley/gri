@@ -1,16 +1,21 @@
 #include "gr.hh"
-
+
 // DESCRIPTION:  Get words (stored in strings w[0], w[1], ...)
 // from string `s', finding at most 'max' words.  Then
 // set 'nw' to number words read.
 // 
-// NOTE: input string `s' is destroyed in the process!
+// IMPORTANT: input string `s' is destroyed in the process!
 //
-// NB: 11 Feb 95: not using 'isspace' speeds by factor of 1.9, which
+// RETURN VALUE:
+//  0 if everything is OK
+//  1 if a double-quoted item lacked a final double-quote
+//  2 if string has too many words for the w[] buffer.
+//
+// 1995-Feb-11: not using 'isspace' speeds by factor of 1.9, which
 //     yields a 9% speedup in 'read grid data' with 55,000 elements.
-//
-// 1999-12-15: permit TAB type separator
-bool
+// 1999-Dec-15: permit TAB type separator
+// 2001-Feb-02: change to return error values
+int
 chop_into_words(char *s, char **w, int *nw, int max)
 {
 	register char   c, *cp;
@@ -18,7 +23,7 @@ chop_into_words(char *s, char **w, int *nw, int max)
 	cp = s;
 	*nw = 0;
 	if (*cp == '\0')
-		return true;
+		return 0;	// ok
 	// Traverse s, getting pointers to words and terminating ends
 	while (*nw < max) {
 		// Skip space and tabs; break if done.
@@ -29,16 +34,16 @@ chop_into_words(char *s, char **w, int *nw, int max)
 		// Now point to non-blank.  Different actions depending on whether
 		// it is a double-quoted string
 		if (*cp == '"') {
-				// It's a word beginning with `"'. Set word to point to first
-				// character after the `"', and break the word at the last
-				// character before the final `"'.  Intermediate quotes may be
-				// protected with a backslash; these are left in the word as \",
-				// which must be removed later if needed.
-			register char   last = *cp;
+			char last = *cp;
 			w[*nw] = cp;
+			// Collect until matching double-quote or end-of-string
 			while (*++cp && !(*cp == '"' && last != '\\'))
 				last = *cp;
-			cp++;		// save the quote
+			if (!*cp) {
+				(*nw)++;
+				return 1;
+			}
+			cp++;
 			c = *cp;
 			*cp++ = '\0';
 			(*nw)++;		// increment number-of-words
@@ -59,7 +64,14 @@ chop_into_words(char *s, char **w, int *nw, int max)
 		if (!c)
 			break;
 	}
-	return true;
+#if 0
+	printf("chop_into_words set nw %d\n",*nw);
+	for (int ii = 0; ii < *nw; ii++)
+		printf("\tw[%d] is <%s>\n",ii,w[ii]);
+#endif
+	if (*nw == max)
+		return 2;	// too many words for buffer
+	return 0;		// ok
 }
 
 // As above, but obey the separator from 'set input data separator'

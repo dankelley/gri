@@ -242,11 +242,13 @@ massage_command_line(char *cmd)
 	remove_trailing_blanks(cmd);
 	_error_in_cmd = false;
 	if (strlen(cmd) < 1) {
+		_nword = 0;
 		return true;
 	}
 	strcpy(_cmdLineCOPY, cmd + skip_space(cmd));
 	strcpy(cmd, _cmdLineCOPY);
 	if (strlen(cmd) < 1) {
+		_nword = 0;
 		return true;
 	}
 	// Copy back into cmd.  This must be done before substituting synonyms,

@@ -995,11 +995,15 @@ warning(const char *s,...)
  * Accepts both quoted strings '... "hi" ...' and unquoted strings '... \"hi\" ...'
  * but not combinations.
  */
+// RETURN VALUE:
+//      0  if no quoted thing found
+//     -1  if missing final-quote
+//     >0  OK; value 'i' is such that s[i] is just after the final quote
 int
 ExtractQuote(const char *s, string& sout)
 {
 	//printf("DEBUG %s:%d input string is '%s'\n",__FILE__,__LINE__,s);
-	int             i = 0;
+	int i = 0;
 	bool slash_quoted = false;
 	// Skip along to first quote ...
 	while (s[i] != '"') {
@@ -1030,6 +1034,8 @@ ExtractQuote(const char *s, string& sout)
 		}
 		i++;
 	}
+	if (s[i] == '\0')
+		return -1;
 	// ... and return an index so the parser can do more
 	// work on 's' past the quote
 	//printf("DEBUG %s:%d extract quote put sout '%s' from '%s'\n", __FILE__,__LINE__,sout.c_str(),s);

@@ -470,6 +470,8 @@ extract_procedure(FILE * fp, char *line)
 		while (line[len] != '\0' ) {
 			len++;
 		}
+		if (len == 0)
+			continue;
 		if (len > 1 && *(line + len - 2) == '\\')
 			*(line + len - 2) = '\0';
 		else if (*(line + len - 1) != '\n')

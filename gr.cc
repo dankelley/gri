@@ -228,8 +228,11 @@ gr_textput(const char *s)
 bool
 delete_ps_file()
 {
-	if (_grPS != NULL)
+	//printf("%s:%d delete_ps_file.  _grPS at %x\n",__FILE__,__LINE__,int(_grPS));
+	if (_grPS != NULL) {
 		fclose(_grPS);
+		_grPS = NULL;
+	}
 	return delete_file(ps_filename_used);
 }
 
@@ -263,6 +266,7 @@ gr_begin(int specifications)
 #endif
 	}
 	_grPS = fopen(ps_filename_used, "w+");
+	//printf("%s:%d opened  _grPS at %x\n",__FILE__,__LINE__,int(_grPS));
 	// if can't open file, try again
 	if (_grPS == NULL) {
 		int             ok_after_all = false;
