@@ -18,11 +18,19 @@ if OS_IS_LINUX_DEBIAN
            HTML_DIR = $(DOC_DIR)/html
        EXAMPLES_DIR = $(DOC_DIR)/examples
 else
+if OS_IS_FINK
+            MAN_DIR = $(DESTDIR)$(prefix)/share/man/man1
+           INFO_DIR = $(DESTDIR)$(prefix)/share/info
+            DOC_DIR = $(DESTDIR)$(prefix)/share/doc/gri-${PACKAGE_VERSION}
+           HTML_DIR = $(DOC_DIR)/html
+       EXAMPLES_DIR = $(DOC_DIR)/examples
+else
             MAN_DIR = $(DESTDIR)$(prefix)/share/man/man1
            INFO_DIR = $(DESTDIR)$(prefix)/share/info
             DOC_DIR = $(DESTDIR)$(prefix)/share/gri/doc
            HTML_DIR = $(DOC_DIR)/html
        EXAMPLES_DIR = $(DOC_DIR)/examples
+endif
 endif
 endif
                  RM = rm -f
