@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.188 2002/05/18 13:15:01 dankelley Exp $
+@c $Id: gri.texim,v 1.189 2002/05/18 14:30:30 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -179,6 +179,7 @@ considerable power, at the price of a moderate learning curve.
 * Installation::                How to install Gri
 * Bugs::                        Known bugs, and how to report more
 * Test Suite::                  Series of test programs
+* Gri in the Press::            Further reading
 * Acknowledgments::             Many folks have helped me with Gri
 * License::                     Gri is open-source!
 
@@ -997,7 +998,7 @@ Axes are linear by default; to make logarithmic axes, use commands
 
 @node   Length, Range, Log And Linear, Getting More Control
 @comment  node-name,  next,  previous,  up
-@section Length
+@section Axis Length
 @cindex axes, guide to choosing length of
 @cindex length of axes, guide on choosing
 @cindex data files, protecting against movement of
@@ -1025,7 +1026,7 @@ ratio.  To do this, do @code{set x size .cm.} and then do
 
 @node   Range, Labels, Length, Getting More Control
 @comment  node-name,  next,  previous,  up
-@section Range
+@section Axis Range
 @cindex axes, range of values on
 @cindex range of axes
 To override axis ranges set by Gri, use @code{set x axis} and 
@@ -1042,7 +1043,7 @@ labelled tics at the values 0, 0.5 and 1.
 
 @node   Labels, Position, Range, Getting More Control
 @comment  node-name,  next,  previous,  up
-@section Labels
+@section Axis Name
 @cindex labels, on axes
 @cindex axes, labels for
 To set the name of the x axis, use @code{set x name "string"}, and
@@ -1077,7 +1078,7 @@ line @code{set axes style offset} in your @file{~/.grirc} startup file
 
 @node   Fonts, Pen Color, Position, Getting More Control
 @comment  node-name,  next,  previous,  up
-@section Controlling Fonts
+@section Fonts
 Fonts are selected with @code{set font to} (@ref{Set Font To}) and font
 sizes are selected with @code{set font size} (@ref{Set Font Size}).
 
@@ -1090,7 +1091,7 @@ European text, etc, is discussed (@ref{Text}).
 
 @node   Pen Color, X-y Plots, Fonts, Getting More Control
 @comment  node-name,  next,  previous,  up
-@section Controlling the graylevel of the ``pen''
+@section Colour of ink in pen
 @cindex graylevel, explanation
 @cindex lines, gray, explanation
 
@@ -15005,7 +15006,7 @@ separate pages
 
 @menu
 * Extras::                      Extra things provided with Gri
-* Overview of System Tools::    Using Gri with other tools
+* Using System Tools::          Using Gri with other tools
 * Discussion Group::            Gri email list
 @end menu
 
@@ -15068,7 +15069,7 @@ EXAMPLE (style 2):
 @end example
 
 
-@node   gri_unpage, Overview of System Tools, gri_merge, Extras
+@node   gri_unpage, Using System Tools, gri_merge, Extras
 @comment  node-name,  next,  previous,  up
 @subsection @code{gri_unpage} -- split pages into files
 @cindex gri_unpage
@@ -15087,11 +15088,11 @@ BUGS:    1. Bounding box is always 8.5x11 inches.
 @end example
 
 
-@c HTML <!-- newfile SystemTools.html "Gri: Overview of System Tools" "Gri Environment" -->
+@c HTML <!-- newfile SystemTools.html "Gri: Using System Tools With Gri" "Gri Environment" -->
 
-@node   Overview of System Tools, Why Use The Environment, gri_unpage, Environment
+@node   Using System Tools, Why Use The Environment, gri_unpage, Environment
 @comment  node-name,  next,  previous,  up
-@section Overview of System Tools
+@section Using System Tools With Gri
 
 Using system tools to manipulate your data makes sense for several
 reasons.  First, you may be familiar with those tools already.  Second,
@@ -15105,7 +15106,7 @@ learning these tools will help you in all your work.
 * Perl::                        Search and manipulate data
 @end menu
 
-@node   Why Use The Environment, Grep, Overview of System Tools, Overview of System Tools
+@node   Why Use The Environment, Grep, Using System Tools, Using System Tools
 @comment  node-name,  next,  previous,  up
 @subsection Introduction
 
@@ -15167,7 +15168,7 @@ one-line form.  But it is just a matter of style.)
 
 
 
-@node   Grep, Sed, Why Use The Environment, Overview of System Tools
+@node   Grep, Sed, Why Use The Environment, Using System Tools
 @comment  node-name,  next,  previous,  up
 @subsection Grep
 
@@ -15187,7 +15188,7 @@ open "grep -v 'HEADER' MyFile |"
 Note that Gawk and Perl do this just as easily.
 
 
-@node Sed, Awk, Grep, Overview of System Tools
+@node Sed, Awk, Grep, Using System Tools
 @comment  node-name,  next,  previous,  up
 @subsection Sed
 
@@ -15208,7 +15209,7 @@ Sed, in this case a command to switch ("s") the comma character with the
 blank character, globally ("g") across each line of the file.  See also
 the overview of Perl.
 
-@node Awk, Perl, Sed, Overview of System Tools
+@node Awk, Perl, Sed, Using System Tools
 @comment  node-name,  next,  previous,  up
 @subsection Awk
 
@@ -15272,7 +15273,7 @@ open "awk NR<=10 @{print ($1, $8)@} MyFile |"
 
 
 
-@node  Perl, Discussion Group, Awk, Overview of System Tools
+@node  Perl, Discussion Group, Awk, Using System Tools
 @comment  node-name,  next,  previous,  up
 @subsection Perl
 
@@ -17722,13 +17723,9 @@ to you as well as the others.  (Plus, reporting it this way ensures that
 you'll receive an email when the bug is fixed.)
 
 @item
-It is crucial that you report the version of Gri that you are using.
-You may discover this by running Gri as @code{gri -version}.
-
-@item
-When reporting bugs, please do all you can to reduce your application
-and your data to the smallest and simplest state.  As you can expect,
-this makes the debugging procedure much simpler.
+Debugging is made easier if the problem is reduced in scope.
+Therefore, please reduce your application and your data to the
+simplest case that produces the error.
 
 @item
 @cindex bug, resulting in bus error
@@ -17736,9 +17733,9 @@ this makes the debugging procedure much simpler.
 @cindex bus error, what to do
 @cindex segmentation fault, what to do
 @cindex debugger used with Gri
-If you have the ability to do so, please try to find the bug yourself.
-After all, Gri is open-source for a reason!  The procedure is described
-in the next section (@ref{Killing Bugs}).
+If you know how, please try to find the bug yourself.  After all, Gri
+is open-source for a reason!  The procedure is described in the next
+section (@ref{Killing Bugs}).
 
 @end enumerate
 
@@ -17759,19 +17756,20 @@ in the next section (@ref{Killing Bugs}).
 @comment  node-name,  next,  previous,  up
 @subsection Software that you'll need
 This section is intended to help you find and kill bugs yourself, by
-indicating how the author does this work.  Since Gri is open-source, all
-users are invited to try to kill bugs themselves!
+indicating how the author does this work.  Since Gri is open-source,
+all users are invited to try to kill bugs themselves!
 
-If you know nothing of C or C++, you may as well not read further.
-However, if you know C but not C++, you can probably proceed without
-difficulties.
+If you know nothing of C or C++, you may as well not read further,
+since there is little chance of your making progress.  On the other
+hand, experienced programmers won't need any of the advice I give
+below.
 
-You'll need the Gri source and a C++ compiler.  It also helps if you have
-@code{gdb}, the GNU debugger, installed; the instructions below
-assume that's the case.  Also, the instructions assume that you're using
-the Emacs editor, and running @code{gdb} from within Emacs.  Otherwise,
-you'll want to glance at the documentation on @code{gdb} to see how to
-use it in standalone mode.
+You'll need the Gri source and a C++ compiler.  It also helps if you
+have @code{gdb}, the GNU debugger, installed; the instructions below
+assume that's the case.  Also, the instructions assume that you're
+using the Emacs editor, and running @code{gdb} from within Emacs.
+Otherwise, you'll want to glance at the documentation on @code{gdb} to
+see how to use it in standalone mode.
 
 @node   Debugging at a Glance, Debugging Example, Debugging Software You Will Need, Killing Bugs
 @comment  node-name,  next,  previous,  up
@@ -18055,7 +18053,7 @@ that I can more easily see the changes you've made.
 
 @c HTML <!-- newfile TestSuite.html "Gri: Test Suite" "Test Suite" -->
 
-@node   Test Suite, Acknowledgments, Debugging Example, Top
+@node   Test Suite, Gri in the Press, Debugging Example, Top
 @comment  node-name,  next,  previous,  up
 @chapter Test Suite
 
@@ -18078,85 +18076,22 @@ tend to be incorrect!
 @c TESTFILE tst_var_syn
 
 
-@c HTML <!-- newfile Acknowledgments.html "Gri: Acknowledgments" "Acknowledgments" -->
+@c HTML <!-- newfile GriInThePress.html "Gri: in the Press" "Gri: in the Press" -->
 
-@node   Acknowledgments, License, Test Suite, Top
+@node   Gri in the Press, Acknowledgments, Test Suite, Top
 @comment  node-name,  next,  previous,  up
-@chapter Acknowledgments
-@cindex user input to Gri
-@cindex acknowledgments
-Developing Gri was made easier by suggestions and bug reports from many
-users, among whom are: 
-Ivo Alxneit,
-@cindex contributer, Ivo Alxneit
-@cindex Ivo Alxneit (contributer)
-Karin Bryan,
-@cindex Karin Bryan (contributer)
-@cindex contributer, Karin Bryan
-Sara Bennett,
-@cindex Sara Bennett (contributer)
-@cindex contributer, Sara Bennett
-Luke Blaikie,
-@cindex Luke Blaikie (contributer)
-@cindex contributer, Luke Blaikie
-Dave Brickman,
-@cindex Dave Brickman (contributer)
-@cindex contributer, Dave Brickman
-Clyde Clements,
-@cindex Clyde Clements (contributer)
-@cindex contributer, Clyde Clements
-Pierre Flament,
-@cindex Pierre Flament (contributer)
-@cindex contributer, Pierre Flament
-Peter Galbraith,
-@cindex Peter Galbraith (contributer)
-@cindex contributer, Peter Galbraith
-Dave Hebert,
-@cindex Dave Hebert (contributer)
-@cindex contributer, Dave Hebert
-Alejandro López-Valencia,
-@cindex Alejandro Lopez-Valencia (contributer)
-@cindex contributer, Alejandro Lopez-Valencia
-Steve Matheson,
-@cindex Steve Matheson (contributer)
-@cindex contributer, Steve Matheson
-Ed Nather,
-@cindex Ed Nather (contributer)
-@cindex contributer, Ed Nather
-Carl Osterwisch,
-@cindex Carl Osterwisch (contributer)
-@cindex contributer, Carl Osterwisch
-Richard Andrew Miles Outerbridge,
-@cindex Richard Andrew Miles Outerbridge (contributer)
-@cindex contributer, Richard Andrew Miles Outerbridge
-Brian May,
-@cindex Brian May, contributer
-@cindex contributer, Brian May
-Jinyu Sheng,
-@cindex Jinyu Sheng (contributer)
-@cindex contributer, Jinyu Sheng
-Toru Suzuki,
-@cindex Toru Suzuki (contributer)
-@cindex contributer, Toru Suzuki
-Keith Thompson,
-@cindex Keith Thompson (contributer)
-@cindex contributer, Keith Thompson
-David Trueman,
-@cindex David Trueman (contributer)
-@cindex contributer, David Trueman
-and George White.
-@cindex George White (contributer)
-@cindex contributer, George White
+@chapter Gri in the Press
+@cindex scientific journals with Gri graphs
 
-Some of these folks also suggested detailed improvements to the C++ code
-of Gri, not an easy task given the complexity and length of the code.
+A gentle introduction to Gri is provided in a Linux Journal article, available at
+@url{http://www2.linuxjournal.com/lj-issues/issue75/3743.html}
+on the web.
 
-I'd also like to thank folks who were kind enough to
-respond to an email query I
-made in March 2000, asking for the names of journals that have published
-Gri output.  The list, which mainly arrived on Sunday in response to an
-email I sent Saturday (don't Gri users take a break?) is below.
-
+In March 2000, I emailed some Gri users to ask for the names of
+scientific journals in which they have published Gri-produced graphs.
+The list, which mainly arrived on Sunday in response to an email I
+sent Saturday (don't Gri users take a break?) is presented below, to
+indicate the range of Gri use in the press.
 
 @b{Journals in Oceanography, Atmospheric Science, Earth Science, etc.}
 @itemize @bullet
@@ -18250,6 +18185,84 @@ Japanese with English abstract)
 
 @item @strong{Ocean Drilling Program} publications
 @end itemize
+
+
+@c HTML <!-- newfile Acknowledgments.html "Gri: Acknowledgments" "Acknowledgments" -->
+
+@node   Acknowledgments, License, Gri in the Press, Top
+@comment  node-name,  next,  previous,  up
+@chapter Acknowledgments
+@cindex user input to Gri
+@cindex acknowledgments
+Developing Gri was made easier by suggestions and bug reports from many
+users, among whom are: 
+Ivo Alxneit,
+@cindex contributer, Ivo Alxneit
+@cindex Ivo Alxneit (contributer)
+Karin Bryan,
+@cindex Karin Bryan (contributer)
+@cindex contributer, Karin Bryan
+Sara Bennett,
+@cindex Sara Bennett (contributer)
+@cindex contributer, Sara Bennett
+Luke Blaikie,
+@cindex Luke Blaikie (contributer)
+@cindex contributer, Luke Blaikie
+Dave Brickman,
+@cindex Dave Brickman (contributer)
+@cindex contributer, Dave Brickman
+Clyde Clements,
+@cindex Clyde Clements (contributer)
+@cindex contributer, Clyde Clements
+Pierre Flament,
+@cindex Pierre Flament (contributer)
+@cindex contributer, Pierre Flament
+Peter Galbraith,
+@cindex Peter Galbraith (contributer)
+@cindex contributer, Peter Galbraith
+Dave Hebert,
+@cindex Dave Hebert (contributer)
+@cindex contributer, Dave Hebert
+Alejandro López-Valencia,
+@cindex Alejandro Lopez-Valencia (contributer)
+@cindex contributer, Alejandro Lopez-Valencia
+Steve Matheson,
+@cindex Steve Matheson (contributer)
+@cindex contributer, Steve Matheson
+Ed Nather,
+@cindex Ed Nather (contributer)
+@cindex contributer, Ed Nather
+Carl Osterwisch,
+@cindex Carl Osterwisch (contributer)
+@cindex contributer, Carl Osterwisch
+Richard Andrew Miles Outerbridge,
+@cindex Richard Andrew Miles Outerbridge (contributer)
+@cindex contributer, Richard Andrew Miles Outerbridge
+Brian May,
+@cindex Brian May, contributer
+@cindex contributer, Brian May
+Jinyu Sheng,
+@cindex Jinyu Sheng (contributer)
+@cindex contributer, Jinyu Sheng
+Toru Suzuki,
+@cindex Toru Suzuki (contributer)
+@cindex contributer, Toru Suzuki
+Keith Thompson,
+@cindex Keith Thompson (contributer)
+@cindex contributer, Keith Thompson
+David Trueman,
+@cindex David Trueman (contributer)
+@cindex contributer, David Trueman
+and George White.
+@cindex George White (contributer)
+@cindex contributer, George White
+
+Some of these folks also suggested detailed improvements to the C++ code
+of Gri, not an easy task given the complexity and length of the code.
+
+All of these, and many users with whom I've interacted over the years,
+I thank warmly.
+
 
 
 
