@@ -1756,25 +1756,24 @@ int
 call_the_OS(const char* cmd, const char* calling_filename, int calling_line) 
 {
 	string c(cmd);
-	printf("DEBUG 1. <%s>\n",c.c_str());
-	while (isspace(c[0]))
-		c.STRINGERASE(0,1);
-	printf("DEBUG 2. <%s>\n",c.c_str());
-	if (c[0] == '"')
-		c.STRINGERASE(0,1);
-	printf("DEBUG 3. <%s>\n",c.c_str());
-	while (isspace(c[-1 + c.size()]))
-		c.STRINGERASE(-1 + c.size(), 1);
-	printf("DEBUG 4. <%s>\n",c.c_str());
-	if (c[-1 + c.size()] == '"')
-		c.STRINGERASE(-1 + c.size(), 1);
-	printf("DEBUG 5. <%s>\n",c.c_str());
+	clean_blanks_quotes(c);
 	c.append("\n");
-	printf("DEBUG 6. <%s>\n",c.c_str());
 	if (((unsigned) superuser()) & FLAG_SYS) {
 		printf("Sending the following command to the operating system [ref: %s:%d]:\n%s\n", 
 		       calling_filename, calling_line, c.c_str());
 	}
 	return system(c.c_str());
 }
-
+
+void
+clean_blanks_quotes(string& c)
+{
+	while (isspace(c[0]))
+		c.STRINGERASE(0,1);
+	if (c[0] == '"')
+		c.STRINGERASE(0,1);
+	while (isspace(c[-1 + c.size()]))
+		c.STRINGERASE(-1 + c.size(), 1);
+	if (c[-1 + c.size()] == '"')
+		c.STRINGERASE(-1 + c.size(), 1);
+}

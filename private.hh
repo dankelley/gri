@@ -78,6 +78,7 @@ void            check_psfile(void);
 bool            chop_into_words(char *s, char **w, int *nw, int max);
 bool            chop_into_data_words(char *s, char **w, int *nw, int max);
 void            clear_eof_flag_on_data_file(void);
+void            clean_blanks_quotes(string& c);
 void            close_data_files();
 int             cmd_being_done(void);
 bool            create_commands(const char *filename);

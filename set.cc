@@ -3333,6 +3333,8 @@ This computer can't `\\synonym = system ...' since no popen() subroutine.");
 			}
 			//printf("AFTER [%s]\n",cmd.c_str());
 		}
+		clean_blanks_quotes(cmd);
+		cmd.append("\n");
 		if (((unsigned) superuser()) & FLAG_SYS) {
 			ShowStr("\n`\\synonym = system' sending the following command to the operating system:\n");
 			ShowStr(cmd.c_str());
