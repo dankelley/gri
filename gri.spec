@@ -120,7 +120,7 @@ fi
 * Thu Feb 21 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
 - Fix Sourceforge bug #521045 (install problem, function prototype problem)
 
-* Thu Feb 7 2002  Dan Kelley <Dan.Kelley@Dal.Ca>
+* Thu Feb 07 2002  Dan Kelley <Dan.Kelley@Dal.Ca>
 - Fix Sourceforge bug #513002 (minor error in documentation of 'set clip').
 
 * Mon Jan 28 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
@@ -131,42 +131,43 @@ fi
 
 * Fri Jan 25 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
 - Fix SourceForge bug #508088 (grimode: gv should update, not be relaunched).
-
-* Fri Jan 25 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
 - Make RPM install/uninstall run silently.
 
 * Wed Jan 23 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
 - Fix SourceForge bug #506490 ('-v' commandline option gave wrong number)
 
-* Wed Jan  2 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
+* Wed Jan 02 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
 - add `set clip to curve'
 
 * Thu Dec 13 2001 Dan Kelley <Dan.Kelley@Dal.Ca>
 - Release as gri-2.8.5 on SourceForge.Net site.  
 - Fix SourceForge bug #492472 ('inf' rpn operator caused segfault)
 
-* Thu Oct 4 2001 Dan Kelley <Dan.Kelley@Dal.Ca>
+* Thu Oct 04 2001 Dan Kelley <Dan.Kelley@Dal.Ca>
 - Release as gri-2.8.4 on SourceForge.Net site.  
 - Fix SourceForge bug #467973 (`gri -version' gave wrong version
   number, breaking the Emacs Gri mode.)
 - Fix SourceForge bug #468401 (`draw grid' disobeys pencolor)
 
-* Mon Oct 1 2001 Dan Kelley <Dan.Kelley@Dal.Ca>
+* Mon Oct 01 2001 Dan Kelley <Dan.Kelley@Dal.Ca>
 - Release as gri-2.8.3 on SourceForge.Net site.
 - Fix SourceForge bug #462243 (endian problem in Rasterfile images, 
   plus a reading problem in PGM images).
 
-* Mon Sept 10 2001 Dan Kelley <Dan.Kelley@Dal.Ca>
+* Mon Sep 10 2001 Dan Kelley <Dan.Kelley@Dal.Ca>
 - Release as gri-2.8.2 on SourceForge.Net site.
 - Really Fix SourceForge bug #454557 (wouldn't compile with the
   pre-release version 3.0.1 of the GNU c++ compiler). 
   This closes SourceForge Bug #111093.
 
-* Mon Sept 6 2001 Dan Kelley <Dan.Kelley@Dal.Ca>
+* Thu Sep 06 2001 Dan Kelley <Dan.Kelley@Dal.Ca>
 - Release as gri-2.8.1 on SourceForge.Net site.
 - Fix SourceForge bug #450465 (`create columns from function' was broken).
 - Fix SourceForge bug #454557 (wouldn't compile with the pre-release 
   version 3.0.1 of the GNU c++ compiler; closes: #111093)
+
+* Tue Jul 24 2001 Dan Kelley <dan.kelley@dal.ca>
+- Bump up version number to 2.8.0
 
 * Mon Jul 23 2001 Dan Kelley <Dan.Kelley@Dal.Ca>
 - Release as gri-2.8.0 on SourceForge.Net site.
@@ -192,9 +193,6 @@ fi
   the /usr/share/doc/gri directory
 - Ensure that package compiles with Standards-Version: 3.5.5
   without changes.
-
-* Tue Jul 24 2001 Dan Kelley <dan.kelley@dal.ca>
-- Bump up version number to 2.8.0
 
 * Thu Apr 19 2001 Dan Kelley <dan.kelley@dal.ca>
 - Rename this file as gri.spec, without the version number embedded 
