@@ -16472,6 +16472,10 @@ only in the fixing of bugs.
 
 @item
 Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=1153209&group_id=5511&atid=105511,#1153209}
+@dots{} Emacs mode incompatible with new version of @code{gv} PostScript viewer
+
+Fix SourceForge bug
 @uref{http://sourceforge.net/tracker/index.php?func=detail&aid=1101172&group_id=5511&atid=105511,#1101172}
 @dots{} @code{gri -help} incorrectly stated meaning of last argument(s)
 
