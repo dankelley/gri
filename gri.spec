@@ -96,6 +96,8 @@ then
 fi
 
 %changelog
+* Sat Jan 25 2003 Dan Kelley <Dan.KelleyDal.Ca>
+- fix SourceForge bug 647234 (will not compile on Mac OS X 10.1.5)
 * Mon Jan 20 2003 Dan Kelley <Dan.KelleyDal.Ca>
 - fix SourceForge bug 671022 (error on 'flip image x|y')
 * Sat Jan 18 2003 Dan Kelley <Dan.Kelley@Dal.Ca>

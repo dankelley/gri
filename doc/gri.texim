@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.233 2003/01/20 16:11:34 dankelley Exp $
+@c $Id: gri.texim,v 1.234 2003/01/25 20:57:52 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16345,11 +16345,16 @@ only in the fixing of bugs.
 
 @comment ADD-NEW-BUG-FIXES-HERE
 
-@subsubsection Version 2.12.2 [2003 Jan 20]
+@subsubsection Version 2.12.2 [2003 Jan 25]
 @strong{Bug Fixes}
 
 @itemize
  
+@item
+Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=647234&group_id=5511&atid=105511,#647234}
+@dots{} Source file @file{draw.cc} will not compile on MAC OS X 10.1.5 at optimization level 2, so drop the level to no optimization, as a temporary measure.
+
 @item
 Fix SourceForge bug
 @uref{http://sourceforge.net/tracker/index.php?func=detail&aid=671022&group_id=5511&atid=105511,#671022}
