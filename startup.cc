@@ -223,25 +223,24 @@ start_up(int argc, char **argv)
 		string fname(argv[1 + last_optional_arg]);
 		// Ensure that it's not a 'gre' commandfile
 		string::size_type p = fname.rfind(".gre");
-		if (p == -4 + fname.size()) {
+		if (fname.size() > 3 && (p == -4 + fname.size())) {
 			fprintf(stderr, "Error: gri cannot execute gre files (i.e. files ending in .gre)\n");
 			delete_ps_file();
 			gri_exit(1);
+		}
+		// If filename shorter than 4 characters, cannot have .gri suffix,
+		// so append it.
+		if (fname.size() < 4) {
+			fname.append(".gri");
 		} else {
-			// If filename shorter than 4 characters, cannot have .gri suffix,
-			// so append it.
-			if (fname.size() < 4) {
+			string::size_type p = fname.rfind(".gri");
+			if (p != -4 + fname.size())
 				fname.append(".gri");
-			} else {
-				string::size_type p = fname.rfind(".gri");
-				if (p != -4 + fname.size())
-					fname.append(".gri");
-			}
-			if (!push_cmd_file(fname.c_str(), false, false, "r")) {
-				fprintf(stderr, "Cannot open commandfile `%s'\n", fname.c_str());
-				delete_ps_file();
-				gri_exit(1);
-			}
+		}
+		if (!push_cmd_file(fname.c_str(), false, false, "r")) {
+			fprintf(stderr, "Cannot open commandfile `%s'\n", fname.c_str());
+			delete_ps_file();
+			gri_exit(1);
 		}
 	} else {
 		delete_ps_file();
