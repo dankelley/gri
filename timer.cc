@@ -3,7 +3,9 @@
 #include <unistd.h>
 #include <limits.h>
 #include <time.h>
+#if defined(HAVE_POSIX_TIMES)
 #include <sys/times.h>
+#endif
 #include "gr.hh"
 
 

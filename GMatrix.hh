@@ -20,7 +20,6 @@ protected:
 	unsigned int rows;		// row < rows
 	unsigned int cols;		// col < cols
 	T *contents;
-	void err(const char *msg) const;
 };
 
 template<class T>
@@ -50,7 +49,7 @@ void GriMatrix<T>::set_size(unsigned int num_cols, unsigned int num_rows)
 		cols = num_cols;
 		contents = new T[rows * cols];
 		if (!contents) 
-			err("Out of memory (GriMatrix)");
+			gr_Error("Out of memory (GriMatrix)");
 		haveData = 1;
 #ifdef DEBUG_GRIMATRIX
 		printf("GriMatrix.set_size(rows=%d,cols=%d) start=%lx end=%lx\n",rows,cols,contents,contents + cols * rows - 1);
@@ -70,17 +69,17 @@ template<class T>
 T& GriMatrix<T>::operator()(unsigned int col, unsigned int row)
 {
 	if (!haveData)
-		err("Trying to get data from empty GriMatrix");
+		gr_Error("Trying to get data from empty GriMatrix");
 	char errorMsg[100];
 	if (row > rows - 1) {
 		sprintf(errorMsg, "\
 Can't use row %d of matrix; valid range: 0-%d", row, rows-1);
-		err(errorMsg);
+		gr_Error(errorMsg);
 	}
 	if (col > cols - 1) {
 		sprintf(errorMsg, "\
 Can't use col %d of matrix; valid range: 0-%d", col, cols-1);
-		err(errorMsg);
+		gr_Error(errorMsg);
 	}
 	return contents[row + col * rows];
 }
@@ -88,24 +87,18 @@ template<class T>
 T GriMatrix<T>::operator()(unsigned int col, unsigned int row) const
 {
 	if (!haveData)
-		err("Trying to get data from empty GriMatrix");
+		gr_Error("Trying to get data from empty GriMatrix");
 	char errorMsg[100];
 	if (row > rows - 1) {
 		sprintf(errorMsg, "\
 Can't use row %d of matrix; valid range: 0-%d", row, rows-1);
-		err(errorMsg);
+		gr_Error(errorMsg);
 	}
 	if (col > cols - 1) {
 		sprintf(errorMsg, "\
 Can't use col %d of matrix; valid range: 0-%d", col, cols-1);
-		err(errorMsg);
+		gr_Error(errorMsg);
 	}
 	return contents[row + col * rows];
-}
-
-template<class T>
-void GriMatrix<T>::err(const char *msg) const
-{
-	gr_Error(msg);
 }
 #endif				// _GMatrix_h_
