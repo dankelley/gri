@@ -1831,8 +1831,8 @@ by the user and @emph{Builtin synonyms} which are pre-defined by Gri.
 * About Synonyms::              What synonyms are used for, and how
 * User Synonyms::               Defining your own synonyms
 * Built-in Synonyms::           Built-in synonyms pre-defined by Gri
-* Aliasing Synonyms::           Aliasing
-* Pointing Synonyms::           Pointing
+* Aliasing Synonyms::           Aliasing (@code{\@@alias})
+* Pointing Synonyms::           Pointing (@code{&\ptr} and @code{*\ptr})
 @end menu
 
 @node   About Synonyms, Synonym Names, Synonyms, Synonyms
@@ -2145,7 +2145,7 @@ then use the RPN operator @code{wordv} instead (@ref{Unary Operators}).
 @item
 Within any new Gri command, the proper calling usage is available in
 @code{\.proper_usage.}.  This is useful in tests of syntax 
-(@ref{New Commands}).  For example:
+(@ref{Adding New Commands}).  For example:
 
 @example
 `draw depths from \file'
@@ -2353,7 +2353,7 @@ this bug are arduous, and therefore Gri is being released with this bug.
 
 In case you're now wary, please note that in many cases, you'll not want
 to use the alias syntax (@code{@@}) at all; you'll want to use the
-pointing syntax, described in the next section.
+pointing syntax, described in the next section (@ref{Pointing Synonyms}).
 
 
 
@@ -2374,7 +2374,7 @@ this work.
 
 When the @code{&} operator is placed to the left of the name of a
 variable or a synonym, it creates a "pointer" to the item.  This pointer
-may be stored in synonyms or passed to new commands @ref{New Commands}.
+may be stored in synonyms or passed to new commands @ref{Adding New Commands}.
 The pointed-to item may be retrieved by putting a @code{*} to the left
 of the synonym containing the pointer.
 
@@ -2400,8 +2400,8 @@ assert @{rpn "HI" "*\sptr" ==@} " synonym-pointer error 1"
 assert @{rpn "BYE" "*\sptr" ==@} " synonym-pointer error 2"
 @end example
 
-In most cases, however, this syntax is used with new commands, providing
-the ability to modify arguments @ref{New Commands}.
+In most cases this syntax is used with new commands, providing
+the ability to modify arguments @ref{Altering Command Arguments}.
 
 
 
@@ -3829,7 +3829,7 @@ Gri provides so-called "newcommands" as a sort of subroutine syntax on steroids.
 * Parsing::                     How Gri parses commands
 * Simple New Command::          Simple example of adding new command
 * Complicated New Command::     More complicated example
-* Altering Command Arguments::  Altering command arguments
+* Altering Command Arguments::  Altering command arguments using pointers
 @end menu
 
 @node   Purpose, Parsing, Adding New Commands, Adding New Commands
@@ -4050,16 +4050,16 @@ super/subscripts.
 
 @node   Altering Command Arguments, Hints, Complicated New Command, Adding New Commands
 @comment node-name,  next,  previous,  up
-@subsection Altering command arguments
+@subsection Altering command arguments using pointers
 @cindex command arguments, how to alter
 @cindex newcommand arguments, how to alter
 @cindex arguments to new commands, how to alter
 @cindex the @code{&.variable.} notation
 @cindex the @code{&\synonym} notation
 @cindex the @code{*\synonym} notation
-@cindex variables, references to
-@cindex synonym, references to
-@cindex references to variables and synonyms
+@cindex variables, pointers to
+@cindex synonym, pointers to
+@cindex pointers to variables and synonyms
 
 Normally, the arguments to a newcommand are parsed into either numerical
 values or strings, before execution is passed into the newcommand.  This
@@ -5457,7 +5457,6 @@ sources are the Gri cookbook, available separately
 * PDF Diagram::                 probability-density function
 * Running Means::               skyline plot of running means
 * Finite Element Model Mesh::   plotting mesh of FEM-type model
-* New Commands::                making new gri commands
 * Handling Data::               samples of handling data
 @end menu
 
@@ -5476,7 +5475,7 @@ points still within 1.5 inter-quartile ranges of q1 and q3.  Beyond the
 whiskers, all outliers are shown, in open circles up to a distance of 3
 inter-quartile ranges beyond q1 and q3, and in closed circles beyond
 that.  Below is an example that uses a "new command" to define each box
-plot (@ref{New Commands}).
+plot (@ref{Adding New Commands}).
 
 @c HTML <A HREF="example7.png">
 @c HTML <IMG ALT="Example 7" SRC="example7-tiny.png"
@@ -6693,7 +6692,7 @@ system rm -f tmp.dat            # clean up
 @c HTML <!-- newfile FEM.html "Gri: Finite Element Model mesh" "Examples" -->
 
 
-@node   Finite Element Model Mesh, New Commands, Running Means, Examples
+@node   Finite Element Model Mesh, Handling Data, Running Means, Examples
 @comment  node-name,  next,  previous,  up
 @section Finite Element Model mesh
 @cindex  Finite Element Model mesh
@@ -6807,83 +6806,9 @@ for ($i = 1; $i < $max_elem; $i++) @{
 @c HTML <!-- newfile NewCommandExample.html "Gri: adding new commands" "Examples" -->
 
 
-@node   New Commands, Handling Data, Finite Element Model Mesh, Examples
-@comment  node-name,  next,  previous,  up
-@section Using new commands to speed Gri programming
-@cindex new commands, example
-@cindex repeated commands
-New commands can speed your Gri programming.  In the following example,
-note how the syntax is checked within the new command, to ensure that
-things are correct.  Also note that the filenames contain periods and
-slashes, so they will be broken up into several words by Gri; to prevent
-this, they are enclosed in double quotes.
-
-@example
-show "Plot locations of depth measurements."
-
-`draw depths from \file'
-Draw depth data stored in indicated file.
-Note that if the filename contains periods
-or slashes, you'll have to enclose it in
-double quotes, as in the second example:
-  draw depths from file upper_cove
-  draw depths from file "../old_data/upper_cove"
-@{
-  if @{rpn \.words. 4 !=@}
-    show "FATAL ERROR in `\.proper_usage.':"
-    show "  Require 4 words, but got \.words. words."
-    quit
-  end if
-  set symbol size 0.025
-  show "Depths from file \.word3."
-  open \.word3.
-  read columns * x y
-  close
-  draw symbol plus
-@}
-
-if !..publication..
-  draw time stamp
-end if
-set page landscape
-set y margin 4
-set y axis 44.30 44.38 0.05 0.01
-set y size 10
-set x margin 4
-set x axis 64.35 64.23 -0.05 -0.01
-resize x for maps
-set x name "Longitude / $\circ$W"
-set y name "Latitude / $\circ$N"
-draw axes
-
-show "--- first map ---"
-draw depths from "../digitized/final/1"
-draw depths from "../digitized/final/2"
-draw depths from "../digitized/final/3"
-draw depths from "../digitized/final/4"
-draw depths from "../digitized/final/5"
-draw depths from "../digitized/final/6"
-draw depths from "../digitized/final/beach1"
-
-show "--- second (insert) map ---"
-draw depths from "../digitized/final/insert1"
-draw depths from "../digitized/final/insert2"
-draw depths from "../digitized/final/insert3"
-draw depths from "../digitized/final/insert4"
-draw depths from "../digitized/final/insert5"
-draw depths from "../digitized/final/insert6"
-draw depths from "../digitized/final/insert7"
-draw depths from "../digitized/final/insert_beach1"
-quit
-@end example
-
-
-
-
-
 @c HTML <!-- newfile HandlingData.html "Gri: handling data" "Examples" -->
 
-@node   Handling Data, Handling Headers, New Commands, Examples
+@node   Handling Data, Handling Headers, Finite Element Model Mesh, Examples
 @comment node-name,  next,  previous,  up
 @section Handling Data
 @cindex data, dealing with odd datasets
