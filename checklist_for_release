@@ -6,7 +6,7 @@ A "-" beside an item means that it has NOT been done yet.
 
 1+ DEK and PSG agree to freeze the code.
 
-2- DEK does a redhat build with the version on CVS, fixing any
+2+ DEK does a redhat build with the version on CVS, fixing any
    problems and letting PSG know when the build is clean.
 
 3- PSG does a debian build with the version on CVS.  If there are any
