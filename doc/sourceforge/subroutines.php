@@ -86,7 +86,7 @@ function set_up_navigation_tabs($title,$png_name) {
 	print "<body bgcolor=\"#FFFFFF\" link=\"0000ee\" vlink=\"#0000ee\">\n";
 	print "<!-- navigation is output from tabs.gri -->\n";
 	print "<map name=\"navigate_tabs\">\n";
-	print "  <area shape=\"rect\" coords=\"  0 ,   0 ,  46 ,  21\" href=\"main.php\" alt=\"main\">\n";
+	print "  <area shape=\"rect\" coords=\"  0 ,   0 ,  46 ,  21\" href=\"index.php\" alt=\"main\">\n";
 	print "  <area shape=\"rect\" coords=\" 50 ,   0 , 102 ,  21\" href=\"news.php\" alt=\"news\">\n";
 	print "  <area shape=\"rect\" coords=\"105 ,   0 , 153 ,  21\" href=\"docs.php\" alt=\"docs\">\n";
 	print "  <area shape=\"rect\" coords=\"157 ,   0 , 240 ,  21\" href=\"download.php\" alt=\"download\">\n";
@@ -123,7 +123,7 @@ function footer()
 	print "<a href=\"$sf_url/users/dankelley\">Dan Kelley</a>\n";
 	print " and ";
 	print "<a href=\"$sf_url/users/psg\">Peter Galbraith</a><br>\n";
-        print "[Temporarily, old website is <a href=\"index-old.php\">here</a><br>\n";
+        print "[Temporarily, old website is <a href=\"index-old.php\">here</a>.]<br>\n";
 	print "This material may be distributed only subject to the terms and conditions\n";
 	print "set forth in the GNU Publication License.\n";
 	print "</small><br>\n";

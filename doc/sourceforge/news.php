@@ -3,7 +3,7 @@ require("subroutines.php");
 set_up_navigation_tabs("news", "news.png");
 set_up_lhs();
 ?>
-- <A href="<?php print "$sf_url/news/?group_id=$gri_group_id";?>">news forum</a>/<br>
+- <A href="<?php print "$sf_url/news/?group_id=$gri_group_id";?>">news forum</a><br>
 <br><br>
 - <A HREF="<?php print "$development_site/gridoc/html/Version_2_12.html#Version2.12";?>">recent changes</a><br>
 <br><br>
