@@ -48,7 +48,7 @@ strip gri
 rm -rf docinst
 (cd doc ; make linux_redhat)
 (cd doc ; make card-install-redhat CARD_DIR=..)
-(cd doc ; make html-install HTML_DIR=../docinst/html)
+(cd doc ; make html-install HTML_DIR=../docinst/html EXAMPLES_DIR=../docinst/examples)
 (cd docinst/html; ln -sf index.html gri1.html)
 cp -f README-linux-redhat README || :
 make DESTDIR=$RPM_BUILD_ROOT install_linux_redhat
