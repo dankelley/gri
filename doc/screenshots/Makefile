@@ -1,6 +1,3 @@
-GRITEST = ../../gri -directory ../.. -y
-GRI = gri -y -p
-
 %.eps : %.png
 	convert  -geometry 500x999 $< $@
 
