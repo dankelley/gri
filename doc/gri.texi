@@ -1,7 +1,7 @@
 \input texinfo 
 
 
-@c $Id: gri.texi,v 1.141 2003/06/27 15:15:15 dankelley Exp $
+@c $Id: gri.texi,v 1.142 2003/06/27 23:22:52 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16425,7 +16425,8 @@ only in the fixing of bugs.
 
 @strong{New Features}
 @itemize @bullet
-@item Add @code{age} RPN function, for testing file ages.
+@item Add @code{age} RPN function, for testing file ages 
+(@ref{Unary Operators}).
 @end itemize
 
 @strong{Bug Fixes}
