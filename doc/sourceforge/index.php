@@ -99,6 +99,8 @@
             <tr>
               <td class="menus" align="right">
                 <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.0-pre6.tgz">2.6.0-pre6.tgz</a><br>
+                <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.0-1.src.rpm">2.6.0-1.src.rpm</a> PRE6<br>
+                <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.0-1.i386.rpm">2.6.0-1.i386.rpm</a> PRE6<br>
               </td>
             </tr>
           </table>
