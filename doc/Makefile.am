@@ -5,20 +5,20 @@
       info_TEXINFOS = gri.texi
     PACKAGE_VERSION = @PACKAGE_VERSION@
 if OS_IS_LINUX_REDHAT
-            MAN_DIR = $(DESTDIR)$(prefix)/share/man/man1/
+            MAN_DIR = $(DESTDIR)$(prefix)/share/man/man1
            INFO_DIR = $(DESTDIR)$(prefix)/share/info
             DOC_DIR = $(DESTDIR)$(prefix)/share/doc/gri-${PACKAGE_VERSION}
            HTML_DIR = $(DOC_DIR)/html
        EXAMPLES_DIR = $(DOC_DIR)/examples
 else
 if OS_IS_LINUX_DEBIAN
-            MAN_DIR = $(DESTDIR)$(prefix)/share/man/man1/
+            MAN_DIR = $(DESTDIR)$(prefix)/share/man/man1
            INFO_DIR = $(DESTDIR)$(prefix)/share/info
             DOC_DIR = $(DESTDIR)$(prefix)/share/doc/gri
            HTML_DIR = $(DOC_DIR)/html
        EXAMPLES_DIR = $(DOC_DIR)/examples
 else
-            MAN_DIR = $(DESTDIR)$(prefix)/share/man/man1/
+            MAN_DIR = $(DESTDIR)$(prefix)/share/man/man1
            INFO_DIR = $(DESTDIR)$(prefix)/share/info
             DOC_DIR = $(DESTDIR)$(prefix)/share/gri/doc
            HTML_DIR = $(DOC_DIR)/html
@@ -177,8 +177,8 @@ endif
 	cat $(srcdir)/../doc/$(gri_manpage_name) | sed -e s,VERSION,${PACKAGE_VERSION}, > tmp
 	$(INSTALL_DATA)    tmp                             $(MAN_DIR)/gri.1
 	$(RM) tmp
-#	Install manpages manually; man_MANS puts them in /usr/man/man1, which is
-#	not where they are supposed to go, at least on linux/redhat systems.  [2003-jun-8 Dan Kelley]
+#	Install manpages manually; man_MANS puts them in /usr/man/man1, which is not where
+#	they are supposed to go, at least on linux/redhat systems [2003-jun-8 Dan Kelley]
 	$(INSTALL_DATA) $(srcdir)/../doc/gri_merge.1-skel  $(MAN_DIR)/gri_merge.1
 	$(INSTALL_DATA) $(srcdir)/../doc/gri_unpage.1-skel $(MAN_DIR)/gri_unpage.1
 	mkdir -m 755 -p                                    $(INFO_DIR)
