@@ -2862,10 +2862,13 @@ Calculate inverse hyperbolic tangent of 0.5, yielding 0.549306
 @cindex @code{argv} rpn operator, access commandline arguments
 @cindex arguments on command line, accessing with @code{argv} rpn operator
 @cindex commandline arguments, accessing with @code{argv} rpn operator
-Returns the first optional argument on the command line that invoked Gri
-(@ref{Invoking Gri}).  (The 0 indicates the number of arguments to skip,
-so that e.g. the second option is accessed by @code{rpn 1 argv}.)  A
-string consisting of a single blank character results if one tries to
+Returns the name of the Gri command-file, which is considered as the first
+"optional" argument.  (It may seem odd that the name of the command-file
+is considered an option, but Gri does this for consistency with C and
+other languages.  It is useful.)  Other arguments provided when Gri
+was invoked are provided as @code{rpn 1 argv}, etc.
+
+A string consisting of a single blank character results if one tries to
 access beyond the list of arguments that were actually supplied.  See
 also the @code{argc} solitary operator (@ref{Solitary Operators}), which
 returns the number of optional arguments.
@@ -2885,8 +2888,9 @@ end while
 @end example
 then the output would be
 @example
-argument 0 is file1.dat
-argument 1 is file2.dat
+argument 0 is myscript.gri
+argument 1 is file1.dat
+argument 2 is file2.dat
 @end example
 
 For usage within the Emacs gri-mode, see 
@@ -14686,7 +14690,12 @@ The next sections outline the changes made in Gri.
 @comment  node-name,  next,  previous,  up
 @subsection Version 2.6
 @table @emph
-@item 2.6.0 [2000-Oct-18] (Not released yet.)
+@item 2.6.0 [2000-Nov-??] (Not released yet.)
+@sp 1
+Make the first element of the @code{argv} array be the name of 
+the command-file.  (This makes Gri consistent with languages such
+as C.)
+
 @sp 1
 Add chapter on test suite (@ref{Test Suite}).
 
