@@ -11,7 +11,7 @@ scp index.php psg@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
 <html>
   <head>
     <title>Gri</title>
-    <meta name="Copyright" content="2001 Dan Kelley, Dalhousie University, Halifax, Nova Scotia, Canada">
+    <meta name="Copyright" content="2002 Dan Kelley, Dalhousie University, Halifax, Nova Scotia, Canada">
     <meta name="Author" content="Dan Kelley, Dan.Kelley@Dal.Ca">
     <meta name="keywords" content="Gri, graphics, Scientific Computing">
     <!--    <LINK rel="stylesheet" href="./gri.css" type="text/css"> -->
@@ -197,7 +197,7 @@ Search gri manual for (may be a regular expression):<p>
         <hr noshade="noshade">
         <center>
           <small>
-            Copyright &copy; 2001 by Dan Kelley and Peter Galbraith<br>
+            Copyright &copy; 2002 by Dan Kelley and Peter Galbraith<br>
             This material may be distributed only subject to the terms and conditions 
             set forth in the GNU Publication License
           </small>

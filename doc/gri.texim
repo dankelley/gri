@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.142 2002/01/04 14:45:00 dankelley Exp $
+@c $Id: gri.texim,v 1.143 2002/01/19 18:58:39 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -70,11 +70,11 @@
 
 @subtitle A Program to Make Science Graphs
 @subtitle Version @value{GRI-VERSION}
-@subtitle 2001
+@subtitle 2002
 @author Dan E. Kelley (@value{AUTHOR-EMAIL})
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 1991-2001 Dan Kelley
+Copyright @copyright{} 1991-2002 Dan Kelley
 @sp 2
 @end titlepage
 
@@ -87,7 +87,7 @@ Copyright @copyright{} 1991-2001 Dan Kelley
 @comment node-name, next, previous, up
 @top Gri
 @c HTML <!--
-This manual describes Gri version @value{GRI-VERSION}, (c) 1991-2001, 
+This manual describes Gri version @value{GRI-VERSION}, (c) 1991-2002, 
 Dan Kelley at email address 
 @c HTML <A HREF="mailto:Dan.Kelley@Dal.CA"> 
 @value{AUTHOR-EMAIL}
@@ -120,7 +120,7 @@ considerable power, at the price of a moderate learning curve.
 @c HTML <A HREF="Images.html">image plots</A>.
 @c HTML <p>
 @c HTML This document describes Gri @value{GRI-VERSION},
-@c HTML <br>(c) 1991-2001 <A HREF="http://www.phys.ocean.dal.ca/~kelley"> Dan Kelley.</A>
+@c HTML <br>(c) 1991-2002 <A HREF="http://www.phys.ocean.dal.ca/~kelley"> Dan Kelley.</A>
 @comment HTML Gri is distributed
 @comment HTML with a <A HREF="License.html">license</A> that permits 
 @comment HTML sharing in an OpenSource way.
@@ -291,7 +291,7 @@ just typing @code{gri} at the unix prompt), you'll see something like
 
 @example
 gri - scientific graphic program (version @value{GRI-VERSION})
- GPL Copyright 2001 by Dan E. Kelley.
+ GPL Copyright 2002 by Dan E. Kelley.
 
  Type `help' to view list of commands, or
  type `show license' to view license.  
@@ -15837,6 +15837,16 @@ only in the fixing of bugs.
 @node   Version 2.8, Version 2.6, Stable Stream, Stable Stream
 @comment  node-name,  next,  previous,  up
 @subsection Version 2.8
+
+@subsection Version 2.8.5 [2001 Dec 13]
+@itemize @bullet
+@item
+Fix SourceForge bug
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=492472&group_id=5511&atid=105511">
+#492472
+@c HTML </a>
+(@code{inf} rpn operator caused segfault)
+@end itemize
 
 @subsection Version 2.8.4 [2001 Oct 4]
 @itemize @bullet
