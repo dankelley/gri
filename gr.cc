@@ -222,7 +222,7 @@ gr_buffgets(char *s, unsigned int most, FBUFFER * fbuf)
 void
 gr_textput(const char *s)
 {
-	printf(s);
+	printf("%s", s);
 }
 
 bool
