@@ -101,7 +101,7 @@ scp index.php psg@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
                     <A class="menus" HREF="http://packages.debian.org/unstable/doc/gri-html-doc.html">HTML manual</A><br>
                     <A class="menus" HREF="http://packages.debian.org/unstable/doc/gri-ps-doc.html">PS manual</A><br>
 		    <b>Other Systems</b><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.7-SunOS5.tar.gz">OLD: Solaris OS5</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.10.1-SunOS5.tar.gz">Solaris OS5</a><br>
 		    <A class="menus" HREF="http://gnuwin32.sourceforge.net/packages/gri.htm">Windows</a><br>
 		    <A class="menus" HREF="http://fink.sourceforge.net/pdb/package.php/gri">Macintosh OS-X</a><br>
                   </td>
