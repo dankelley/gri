@@ -1,6 +1,12 @@
 gri (2.6.0-1) unstable; urgency=low
 
   * New upstream version.
+    - Add `new postscript file' command. 
+    - No longer remove comments from data lines that are read.
+    - Add de-referenced synonyms (see De-referenced Synonyms). 
+    - Remove `-s' as an abbreviation for the commandline option `-superuser'. 
+    - Add commandline option `-output PS_file_name'. 
+    - Add `assert' command.
     - Add `sleep' command.
     - Add a method to access individual words within synonyms.
     - Add `set colorname' command. 
@@ -21,9 +27,12 @@ gri (2.6.0-1) unstable; urgency=low
       listing all Gri commands).
   * Use debhelper.
   * Info files have .info suffix now.
-  * gri-html-doc suggest doc-base (otherwise it's not registered).
-  
- -- Peter S Galbraith <psg@debian.org>  Thu, 24 Aug 2000 12:32:22 -0400
+  * gri-html-doc suggests doc-base (otherwise it's not registered).  
+  * gri.emacsen-remove: delete ${destination}/gri-mode.CompilationLog.gz
+  * Updated to Standards-Version 3.2.1 with DEB_BUILD_OPTIONS variable
+    (Default build no longer complies with debugging symbols, -g)
+
+ --
 
 gri (2.4.2-1) frozen unstable; urgency=low
 
