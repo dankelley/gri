@@ -1,6 +1,6 @@
 #### Start of system configuration section. ####
 
-VERSION = 2.5.4
+VERSION = 2.5.5
 srcdir = .
 DESTDIR=
 AWK = gawk

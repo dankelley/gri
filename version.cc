@@ -1,10 +1,11 @@
 // NB: number string must agree with line 1 of gri.cmd
-char _gri_number[] = "2.5.4";
-char _gri_release_time[] = "2000-Jun-01";
+char _gri_number[] = "2.5.5";
+char _gri_release_time[] = "2000-Jun-12";
 char _gri_date[] = "2000";
 
 // OLDER VERSIONS:
 //
+//  2.5.5       2000-Jun-12
 //  2.5.4       2000-Jun-01
 //  2.5.3       2000-May-22
 //  2.5.2       2000-May-20
