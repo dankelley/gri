@@ -192,7 +192,7 @@ if !OS_IS_LINUX_REDHAT
 #	This is handled by gri.spec [2003-may-31 Dan Kelley]
 	gzip $(MAN_DIR)/gri_merge.1
 	gzip $(MAN_DIR)/gri_unpage.1
-#if !OS_IS_FINK
+if !OS_IS_FINK
 	cd  $(INFO_DIR) ; gzip -f --best gri.info*
 endif
 endif
