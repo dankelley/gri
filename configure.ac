@@ -380,7 +380,7 @@ dnl     checks for operating system services
 dnl     other checks for UNIX variants
 
 dnl See if the user did   "configure --enable-OSX"
-AC_ARG_ENABLE(linux_OSX,
+AC_ARG_ENABLE(OSX,
 [  --enable-OSX    Build for OSX],
 [case "${enableval}" in
   yes) OSX=true ;;
@@ -388,6 +388,16 @@ AC_ARG_ENABLE(linux_OSX,
   *) AC_MSG_ERROR(bad value ${enableval} for --enable-OSX) ;;
 esac],[debug=false])
 AM_CONDITIONAL(OS_IS_OSX, test x$OSX = xtrue)
+
+dnl See if the user did   "configure --enable-FINK"
+AC_ARG_ENABLE(FINK,
+[  --enable-FINK    Build for FINK],
+[case "${enableval}" in
+  yes) FINK=true ;;
+  no)  FINK=false ;;
+  *) AC_MSG_ERROR(bad value ${enableval} for --enable-FINK) ;;
+esac],[debug=false])
+AM_CONDITIONAL(OS_IS_FINK, test x$FINK = xtrue)
 
 dnl See if the user did   "configure --enable-linux_redhat"
 AC_ARG_ENABLE(linux_redhat,
