@@ -164,6 +164,16 @@ start_up(int argc, char **argv)
 			delete_ps_file();
 			gri_exit(1);
 		}
+
+		// Possibly they gave a ps filename ...
+		if (argc > last_optional_arg + 2) {
+			string tmp(argv[last_optional_arg+2]);
+			string::size_type p = tmp.rfind(".ps");
+			if (p == -3 + tmp.size()) {
+				warning("taking PostScript name from commandline, for compatibility\n         with older versions, but you should be doing\n         something like `gri ... -output \\", tmp.c_str(), "...' instead!", "\\");
+				psname = tmp;
+			}
+		}
 		gr_setup_ps_filename(psname.c_str());
 	}
 
@@ -649,7 +659,6 @@ interpret_optional_arguments(int argc, char *argv[])
 						gri_exit(1);
 					}
 				} else if (!strcmp(argv[i], "-output")) {
-					printf("DEBUG yeah, output ... %s:%d\n",__FILE__,__LINE__);
 					number_optional_arg++;
 					i++;
 					if (i < argc) {
