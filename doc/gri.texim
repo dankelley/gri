@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.133 2001/09/29 18:39:29 dankelley Exp $
+@c $Id: gri.texim,v 1.134 2001/10/02 13:46:10 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -201,11 +201,8 @@ simple applications, the learning curve is less than an hour.  Many
 users regard Gri as the plotting equivalent of the La@TeX{} document
 preparation system.
 
-@strong{Computers Gri works on:} unix computers of many types, for example
-linux, sunOS/solaris, HP, IBM, DEC alpha, and Macintosh machten.  It was
-developed on a solaris platform and linux platforms, so these are best
-tested.  It also works, after a fashion, on windows-style computers.
-Running Gri is straightforward; just type its name (@ref{Invoking Gri}).
+@strong{Computers Gri works on:} unix computers of many types, for
+example linux, sunOS/solaris, HP, IBM, DEC alpha, and Macintosh.
 
 @strong{Capabilities of Gri} are those scientists commonly want, since Gri
 was written by a scientist.  It is not so useful for business people --
@@ -16861,7 +16858,8 @@ account for whether the netCDF library is installed, etc.
 
 The MachTen version of unix for Macintosh acts like a normal unix.
 Provided that the associated @code{gcc} compiler is sufficiently
-up-to-date, Gri can be compiled following the normal unix instructions.
+up-to-date, Gri can be compiled following the normal unix
+instructions.
 
 
 @c HTML <!-- newfile Beos-install.html "Gri: bugs" "Gri Bugs" -->
