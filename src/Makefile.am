@@ -35,11 +35,17 @@ EXTRA_DIST = Makefile.dj2 \
 
 PACKAGE_VERSION = @PACKAGE_VERSION@
 
+#if OS_IS_LINUX_DEBIAN
+#DEFS = -DDEFAULT_GRI_DIR=\"$(prefix)/share/gri/$(PACKAGE_VERSION)/\" @DEFS@
+#else
+#DEFS = -DDEFAULT_GRI_DIR=\"$(prefix)/share/gri/\" @DEFS@
+#endif
 if OS_IS_LINUX_DEBIAN
-DEFS = -DDEFAULT_GRI_DIR=\"$(prefix)/share/gri/$(PACKAGE_VERSION)/\" @DEFS@
+DGD = $(prefix)/share/gri/$(PACKAGE_VERSION)/
 else
-DEFS = -DDEFAULT_GRI_DIR=\"$(prefix)/share/gri/\" @DEFS@
+DGD = $(prefix)/share/gri/
 endif
+DEFS = -DDEFAULT_GRI_DIR=\"$(DGD)\" @DEFS@
 
 EXTRA_CFLAGS_TEMPLATE = @EXTRA_CFLAGS_TEMPLATE@ $(LINUX_EXTRA_CFLAGS)
 
