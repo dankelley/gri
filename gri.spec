@@ -96,6 +96,10 @@ then
 fi
 
 %changelog
+* Mon Sep 1 2003 <Dan.Kelley@Dal.Ca>
+- RELEASE as version 2.12.6
+* Sat Aug 30 2003 <Dan.Kelley@Dal.Ca>
+- add 'age' RPN function, for testing file ages
 * Sat Jul 19 2003 <Dan.Kelley@Dal.Ca>
 - fix Sourceforge bug 773850 (bbox increased by 'draw symbol' even if (rectangular) postscript clipping is on)
 * Thu Jun 27 2003 <Dan.Kelley@Dal.Ca>
