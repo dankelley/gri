@@ -5,7 +5,7 @@
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.30 (03 Aug 2000)
+;; Version:   2.31 (03 Aug 2000)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -344,6 +344,7 @@
 ;;    http://gri.sourceforge.net/gridoc/html/index.html
 ;; V2.30 03Aug00 RCS 1.55 - default web page changed to:
 ;;    "http://gri.sourceforge.net/gridoc/html/index.html" (fixes bug)
+;; V2.31 03Aug00 RCS 1.56 - `gri-help pwd' was broken (improper regexp)
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -1465,7 +1466,7 @@ BUGS:  Can't find help on hidden user commands."
                   (progn
                     (set-buffer gri-tmp-buffer)     ;; look in .grirc
                     (insert-file-contents "~/.grirc")
-                    (if (search-forward (concat "`" the-command "'") nil t)
+                    (if (re-search-forward (concat "^`" (regexp-quote the-command) "'") nil t)
                         (gri-extract-help-text the-command t)
                       (kill-buffer gri-tmp-buffer)
                       (error "Sorry, can't find user command: %s"
@@ -1475,7 +1476,7 @@ BUGS:  Can't find help on hidden user commands."
         ;; gri system command
         (set-buffer gri-tmp-buffer)
         (insert-file-contents gri-cmd-file)
-        (if (not (search-forward (concat "`" the-command "'") nil t))
+        (if (not (re-search-forward (concat "^`" (regexp-quote the-command) "'") nil t))
             (progn
               (kill-buffer gri-tmp-buffer)
               (error "Sorry, can't find help about: %s" the-command)))
@@ -4142,7 +4143,7 @@ static char *magick[] = {
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.30 (c) 03 Aug 2000 --  Peter Galbraith <GalbraithP@dfo-mpo.gc.ca>
+V2.31 (c) 03 Aug 2000 --  Peter Galbraith <GalbraithP@dfo-mpo.gc.ca>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
