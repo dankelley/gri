@@ -1,5 +1,5 @@
 #include <string>
-#include <vector.h>
+#include <vector>
 #include <algorithm>	// for reverse
 
 #include <stdio.h>

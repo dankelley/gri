@@ -1881,7 +1881,7 @@ do_operation(operator_name oper)
 
 // Used by rpn.cc also, in case of stack overflow
 bool
-print_rpn_stack(const char *msg="")
+print_rpn_stack(const char *msg)
 {
 	int             i;
 	int             stack_len = rS.size();

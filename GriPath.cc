@@ -258,6 +258,8 @@ void GriPath::stroke_or_fill(char s_or_f, units the_units, double width, bool cl
 					case svg:
 						fprintf(_grSVG, "M%.2f %.2f\n", xc[i] * PT_PER_CM, yc[i] * PT_PER_CM);
 						break;
+					case gif:
+						break;
 					}
 					break;
 				case GriPath::lineto:		// lineto (skip identical)
@@ -272,6 +274,8 @@ void GriPath::stroke_or_fill(char s_or_f, units the_units, double width, bool cl
 						break;
 					case svg:
 						fprintf(_grSVG, "L%.2f %.2f\n", xc[i] * PT_PER_CM, yc[i] * PT_PER_CM);
+						break;
+					case gif:
 						break;
 					}
 					break;
@@ -292,6 +296,8 @@ void GriPath::stroke_or_fill(char s_or_f, units the_units, double width, bool cl
 			case svg:
 				fprintf(stderr, "%s:%d:GriPath.cc is ignoring the _type_ of path (filled/stroked, etc)\n", __FILE__,__LINE__);
 				fprintf(_grSVG, "\"/>\n</g>\n");
+				break;
+			case gif:
 				break;
 			}
 		}
