@@ -143,7 +143,8 @@ for ($i = 1; $i < $num_files; $i++) {
 	    if ($this_chapter eq "") {
 		$this_chapter = "Gri";
 	    }
-            print PASS3 "
+	    print STDERR "[$file]\n";
+	    print PASS3 "
 <img src=\"./resources/top_banner.gif\" usemap=\"#navigate_top\" border=\"0\">
 <table summary=\"top banner\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
 <tr>
@@ -175,6 +176,11 @@ Indices:</br>
 &nbsp;&nbsp;<a href=\"ConceptIndex.html\"><i>Concepts</i></a><br>
 &nbsp;&nbsp;<a href=\"CommandIndex.html\"><i>Commands</i></a><br>
 &nbsp;&nbsp;<a href=\"BuiltinIndex.html\"><i>Variables</i></a><br>
+Search for:<p>
+<form action=\"search_concept.php\">
+<input type=TEXT name=search_for size=30>
+<input type=SUBMIT name=\"Submit\" value=\"Submit\"> 
+</form>
 </font>
 <td width=\"500\" valign=\"top\">
 ";

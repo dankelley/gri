@@ -54,7 +54,7 @@ html: gri.texi gri.info texinfo2HTML HTML_subdivide
 	perl HTML_subdivide  $(HTML_LONG_NAME) "The Gri graphing language"
 	rm -f $(HTML_LONG_NAME)
 	rm -f *.pass2
-#	if test ! -f index.html ; then ln -s gri1.html index.html ; fi
+	if test ! -f index.html ; then ln -s gri1.html index.html ; fi
 #	perl archive-to-html.pl > Newsgroup.html
 	touch html
 

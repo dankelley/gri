@@ -1,7 +1,7 @@
 %!PS-Adobe-2.0 EPSF-1.2
-%%Creator: Gri2.2.4 (released 1999-Oct-20).  User=kelley, commandfile=example1.gri
+%%Creator: Gri2.7.0 (released 2001-mmm-dd).  User=kelley, commandfile=example1.gri
 %%Title: example1.ps
-%%CreationDate: Thu Oct 21 11:30:26 1999
+%%CreationDate: Mon Jul 23 11:09:28 2001
 %%Pages: (atend)
 %%BoundingBox: (atend)
 %%TemplateBox: 0 0 612 792
@@ -149,16 +149,22 @@
  /xll exch def
  /imagemap exch def
  q
- % Add the mapping to the transfer function (ref: white book, p 743.
- [{255 mul cvi imagemap exch get} /exec load currenttransfer /exec load]
-   cvx settransfer
+ % Until version 2.6.0 used a 'settransfer' here, but that
+ % triggers a bug in ps2pdf
  xll yll translate
  xur xll sub yur yll sub scale
  /do cl string def
- cl rw 8 [cl 0 0 rw neg 0 rw] {currentfile do readhexstring pop}image
+ cl rw 8 [cl 0 0 rw neg 0 rw]
+ {currentfile do readhexstring pop
+  dup length 1 sub 0 1 3 -1 roll
+    { 1 index exch
+      2 copy get imagemap exch get 255 mul cvi put
+    }
+  for
+ }image
  Q
  end
-} def
+} bind def
 /frdict  5 dict def
 /fr {
  frdict begin
@@ -406,12 +412,24 @@
   currentdict
 end
 /Courier-ISOLatin1 exch definefont pop
+/Courier-Oblique findfont dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse } forall
+  /Encoding ISOLatin1Encoding def
+  currentdict
+end
+/Courier-Oblique-ISOLatin1 exch definefont pop
 /Courier-Bold findfont dup length dict begin
   {1 index /FID ne {def} {pop pop} ifelse } forall
   /Encoding ISOLatin1Encoding def
   currentdict
 end
 /Courier-Bold-ISOLatin1 exch definefont pop
+/Courier-BoldOblique findfont dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse } forall
+  /Encoding ISOLatin1Encoding def
+  currentdict
+end
+/Courier-BoldOblique-ISOLatin1 exch definefont pop
 /Helvetica findfont dup length dict begin
   {1 index /FID ne {def} {pop pop} ifelse } forall
   /Encoding ISOLatin1Encoding def
@@ -424,53 +442,86 @@ end
   currentdict
 end
 /Helvetica-Bold-ISOLatin1 exch definefont pop
+/Helvetica-Oblique findfont dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse } forall
+  /Encoding ISOLatin1Encoding def
+  currentdict
+end
+/Helvetica-Oblique-ISOLatin1 exch definefont pop
 /Palatino-Roman findfont dup length dict begin
   {1 index /FID ne {def} {pop pop} ifelse } forall
   /Encoding ISOLatin1Encoding def
   currentdict
 end
 /Palatino-Roman-ISOLatin1 exch definefont pop
-/Palatino-Bold findfont dup length dict begin
-  {1 index /FID ne {def} {pop pop} ifelse } forall
-  /Encoding ISOLatin1Encoding def
-  currentdict
-end
-/Palatino-Bold-ISOLatin1 exch definefont pop
 /Palatino-Italic findfont dup length dict begin
   {1 index /FID ne {def} {pop pop} ifelse } forall
   /Encoding ISOLatin1Encoding def
   currentdict
 end
 /Palatino-Italic-ISOLatin1 exch definefont pop
+/Palatino-Bold findfont dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse } forall
+  /Encoding ISOLatin1Encoding def
+  currentdict
+end
+/Palatino-Bold-ISOLatin1 exch definefont pop
+/Palatino-BoldItalic findfont dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse } forall
+  /Encoding ISOLatin1Encoding def
+  currentdict
+end
+/Palatino-BoldItalic-ISOLatin1 exch definefont pop
 /Symbol findfont dup length dict begin
   {1 index /FID ne {def} {pop pop} ifelse } forall
   /Encoding ISOLatin1Encoding def
   currentdict
 end
 /Symbol-ISOLatin1 exch definefont pop
-/Times findfont dup length dict begin
-  {1 index /FID ne {def} {pop pop} ifelse } forall
-  /Encoding ISOLatin1Encoding def
-  currentdict
-end
-/Times-ISOLatin1 exch definefont pop
-/Times-Bold findfont dup length dict begin
-  {1 index /FID ne {def} {pop pop} ifelse } forall
-  /Encoding ISOLatin1Encoding def
-  currentdict
-end
-/Times-Bold-ISOLatin1 exch definefont pop
 /Times-Roman findfont dup length dict begin
   {1 index /FID ne {def} {pop pop} ifelse } forall
   /Encoding ISOLatin1Encoding def
   currentdict
 end
 /Times-Roman-ISOLatin1 exch definefont pop
+/Times-Italic findfont dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse } forall
+  /Encoding ISOLatin1Encoding def
+  currentdict
+end
+/Times-Italic-ISOLatin1 exch definefont pop
+/Times-Bold findfont dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse } forall
+  /Encoding ISOLatin1Encoding def
+  currentdict
+end
+/Times-Bold-ISOLatin1 exch definefont pop
+/Times-BoldItalic findfont dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse } forall
+  /Encoding ISOLatin1Encoding def
+  currentdict
+end
+/Times-BoldItalic-ISOLatin1 exch definefont pop
 %%EndProlog
 %%Page: 1 1
 /Helvetica-ISOLatin1 findfont 12.00 sc sf
+%gri:# Gri was invoked by user named
+%gri:#     kelley
+%gri:# on host named
+%gri:#     Intrusion.phys.ocean.dal.ca
+%gri:# using the command
+%gri:#    gri example1.gri
+%gri:# at time Mon Jul 23 11:09:28 2001.
+%gri:#
+
+%gri:# The user's ~/.grirc file ...
+
+%gri:assert {rpn 1 2 >} "Must have a > here"
+%gri:# ... end of users ~/.grirc file.
+
+%gri:
+
 %gri:# Example 1 -- Linegraph using data in a separate file
-%gri:# $Id: example1.ps,v 1.1 2000/05/11 15:07:51 dankelley Exp $
 %gri:
 %gri:open example1.dat		# Open the data file
 %gri:read columns x y		# Read (x,y)
@@ -745,7 +796,6 @@ S
 0 G
 284.5 483.6 m (Example 1) sh
 % gr_show_at() END
-%gri:quit				# End the plot
 showpage
 %%Trailer
 %%BoundingBox: 129 130 463 494
