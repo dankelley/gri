@@ -25,9 +25,23 @@ extern "C" {
 #include        "GriColor.hh"
 #include        "superus.hh"
 
+// The next few lines are trying to get around an intermittent
+// problem with Solaris compilation.  I don't compile on Solaris
+// often, and every time I do, I have to either comment-out,
+// or to uncomment, the declaration below.  I guess I could put
+// in a few more lines here, checking for this or that version of
+// this or that compiler, but that would be ugly.  Maybe this
+// should go into the configure.in file, but it is difficult for
+// me to do that, without access to solaris machines that behave
+// differently from one another.  Besides, the error message on 
+// this is pretty clear, and this is a reported bug on
+// gri.sourceforge.net (number 618041), at
+// http://sourceforge.net/tracker/index.php?func=detail&aid=618041&group_id=5511&atid=105511
+// and so I'll just leave this here for now, half-broken on
+// Solaris.
 #if defined(HAVE_GETHOSTNAME)
 #if defined(IS_SUN)
-extern "C" unsigned int gethostname(char *name, int namelen);
+//extern "C" unsigned int gethostname(char *name, int namelen);
 #endif
 #endif
 
