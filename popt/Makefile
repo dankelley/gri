@@ -75,10 +75,6 @@ SUBDIRS = po
 LDFLAGS = -L$(top_builddir)
 INCLUDES = -I$(top_srcdir)
 
-noinst_PROGRAMS = test1
-test1_SOURCES = test1.c
-test1_LDADD = -lpopt
-
 include_HEADERS = popt.h
 lib_LIBRARIES = libpopt.a
 libpopt_a_SOURCES = popt.c findme.c poptparse.c poptconfig.c popthelp.c
@@ -99,9 +95,6 @@ libpopt_a_OBJECTS =  popt.o findme.o poptparse.o poptconfig.o popthelp.o
 AR = ar
 PROGRAMS =  $(noinst_PROGRAMS)
 
-test1_OBJECTS =  test1.o
-test1_DEPENDENCIES = 
-test1_LDFLAGS = 
 CFLAGS = -Wall -g -O2
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
@@ -117,9 +110,9 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 TAR = tar
 GZIP = --best
 DEP_FILES =  .deps/findme.P .deps/popt.P .deps/poptconfig.P \
-.deps/popthelp.P .deps/poptparse.P .deps/test1.P
-SOURCES = $(libpopt_a_SOURCES) $(test1_SOURCES)
-OBJECTS = $(libpopt_a_OBJECTS) $(test1_OBJECTS)
+.deps/popthelp.P .deps/poptparse.P
+SOURCES = $(libpopt_a_SOURCES)
+OBJECTS = $(libpopt_a_OBJECTS)
 
 all: all-recursive-am all-am
 
@@ -222,10 +215,6 @@ clean-noinstPROGRAMS:
 distclean-noinstPROGRAMS:
 
 maintainer-clean-noinstPROGRAMS:
-
-test1: $(test1_OBJECTS) $(test1_DEPENDENCIES)
-	@rm -f test1
-	$(LINK) $(test1_LDFLAGS) $(test1_OBJECTS) $(test1_LDADD) $(LIBS)
 
 install-includeHEADERS: $(include_HEADERS)
 	@$(NORMAL_INSTALL)
