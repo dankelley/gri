@@ -36,9 +36,10 @@ create_x_scale()
 				gr_scale125(min, max, nsegs_est, &_xleft, &_xright, &nsegs);
 			else
 				gr_scale125(min, max, nsegs_est, &_xright, &_xleft, &nsegs);
+			_xinc = (_xright - _xleft) / nsegs;
 			PUT_VAR("..xleft..", _xleft);
 			PUT_VAR("..xright..", _xright);
-			_xinc = (_xright - _xleft) / nsegs;
+			PUT_VAR("..xinc..", _xinc);
 		} else {
 			// LOG axis
 			if (min <= 0.0 || max <= 0.0) {
@@ -51,13 +52,15 @@ create_x_scale()
 				nsegs_est = 1 + (int) (xsize / 2.0);
 				_xtype = gr_axis_LINEAR;
 				gr_scale125(min, max, nsegs_est, &_xleft, &_xright, &nsegs);
+				_xinc = ((double) _xright - (double) _xleft) / nsegs;
 				PUT_VAR("..xleft..", _xleft);
 				PUT_VAR("..xright..", _xright);
-				_xinc = ((double) _xright - (double) _xleft) / nsegs;
+				PUT_VAR("..xinc..", _xinc);
 			} else {
+				_xinc = 1.0;
 				PUT_VAR("..xleft..", _xleft = pow(10.0, floor(log10((double) min))));
 				PUT_VAR("..xright..", _xright = pow(10.0, ceil(log10((double) max))));
-				_xinc = 1.0;
+				PUT_VAR("..xinc..", _xinc);
 			}
 		}
 		_xscale_exists = true;
@@ -98,9 +101,10 @@ create_y_scale()
 				gr_scale125(min, max, nsegs_est, &_ybottom, &_ytop, &nsegs);
 			else
 				gr_scale125(min, max, nsegs_est, &_ytop, &_ybottom, &nsegs);
+			_yinc = (_ytop - _ybottom) / nsegs;
 			PUT_VAR("..ybottom..", _ybottom);
 			PUT_VAR("..ytop..", _ytop);
-			_yinc = (_ytop - _ybottom) / nsegs;
+			PUT_VAR("..yinc..", _yinc);
 		} else {
 			// LOG axis
 			if (min <= 0.0 || max <= 0.0) {
@@ -113,13 +117,15 @@ create_y_scale()
 				nsegs_est = 1 + (int) (ysize / 2.0);
 				_ytype = gr_axis_LINEAR;
 				gr_scale125(min, max, nsegs_est, &_ybottom, &_ytop, &nsegs);
+				_yinc = (_ytop - _ybottom) / nsegs;
 				PUT_VAR("..ybottom..", _ybottom);
 				PUT_VAR("..ytop..", _ytop);
-				_yinc = (_ytop - _ybottom) / nsegs;
+				PUT_VAR("..yinc..", _yinc);
 			} else {
+				_yinc = 1.0;
 				PUT_VAR("..ybottom..", _ybottom = pow(10.0, floor(log10(min))));
 				PUT_VAR("..ytop..", _ytop = pow(10.0, ceil(log10(max))));
-				_yinc = 1.0;
+				PUT_VAR("..yinc..", _yinc);
 			}
 		}
 		_yscale_exists = true;

@@ -509,11 +509,13 @@ set_defaults()
 	PUT_VAR("..xsize..", XSIZE_DEFAULT);
 	PUT_VAR("..xleft..", 0.0);
 	PUT_VAR("..xright..", XSIZE_DEFAULT);
+	PUT_VAR("..xinc..", XSIZE_DEFAULT);
 	_yatleft = true;
 	PUT_VAR("..ymargin..", YMARGIN_DEFAULT);
 	PUT_VAR("..ysize..", YSIZE_DEFAULT);
 	PUT_VAR("..ybottom..", 0.0);
 	PUT_VAR("..ytop..", YSIZE_DEFAULT);
+	PUT_VAR("..yinc..", YSIZE_DEFAULT);
 	_yscale_exists = false;
 	_ysubdiv = 1;
 	_ytype = gr_axis_LINEAR;

@@ -247,10 +247,14 @@ put_var(const char *name, double value, bool replace_existing)
 		_xleft = value;
 	else if (!strcmp(name, "..xright.."))
 		_xright = value;
+	else if (!strcmp(name, "..xinc.."))
+		_xinc = value;
 	else if (!strcmp(name, "..ybottom.."))
 		_ybottom = value;
 	else if (!strcmp(name, "..ytop.."))
 		_ytop = value;
+	else if (!strcmp(name, "..yinc.."))
+		_yinc = value;
 	// Replace if on stack already.
 	if (replace_existing) {
 		if (stackLen) {

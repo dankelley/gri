@@ -1,5 +1,13 @@
 2001-10-14  Dan E. Kelley  <Dan.Kelley@Dal.Ca>
 
+	* variable.cc (put_var): update the _xinc and _yinc values, if the
+	variables named ..xinc.. or ..yinc.. get modified
+
+	* scales.cc (create_y_scale): keep ..xinc.. and ..yinc.. up to
+	date as scales are changed
+
+	* startup.cc (set_defaults): store ..xinc.. and ..yinc..
+
 	* doc/gri.texim: update the history sections to account for
 	versions 2.8.3 and 2.8.4
 
