@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.159 2002/04/03 19:08:01 dankelley Exp $
+@c $Id: gri.texim,v 1.160 2002/04/04 14:47:12 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -511,10 +511,12 @@ For usage within the Emacs gri-mode, see
 @cindex command-line options
 
 @itemize @bullet
+
 @item  @code{-batch} or @code{-b}
 @cindex batch processing
 @cindex @code{-batch} command-line option
 Stops Gri from printing out prompts and hints.
+
 @item  @code{-chatty N} or @code{-c N}
 @cindex @code{-chatty} command-line option
 Make Gri print out various informative messages.  The numerical
@@ -529,6 +531,7 @@ Information printed at various chatty levels:
 @item @strong{0}
 The bare minimum is printed.  Thus invoking Gri as @code{gri -c 0}@dots{}
 will make it as quiet as can be.
+
 @item @strong{1 or higher} (the default)
 The full filenames of the commandfiles are displayed at startup time.
 
@@ -545,6 +548,7 @@ including amount of image clipped.
 
 @code{draw symbol} reports number of data points not drawn because they
 were missing or outside clip region (if one exists).
+
 @item @strong{2 or higher}
 @code{draw contour} prints value of contour being drawn.
 
@@ -671,6 +675,7 @@ page.  This is the default.  (Contrast with @code{-no_warn_offpage}.)
 @cindex interaction with user, @code{-y} command-line option
 Bypasses all @code{query} commands, making Gri act as though the user
 typed a carriage-return (thus giving the default) for each @code{query}.
+
 @item  @code{-help} or @code{-h}
 @cindex @code{-help} command-line option
 Prints explanation of options.
@@ -712,6 +717,7 @@ itself.  However, developers and some others may wish to control where
 Gri looks for this file.  The rules below specify how Gri looks for
 @file{gri.cmd}.
 @table @emph
+
 @item Case 1
 If @code{-directory} was given on the commandline used to invoke Gri
 (e.g. @code{gri -directory /some/place mycommand_file.gri}), then
@@ -1399,6 +1405,7 @@ through green at 1/3 and blue at 2/3.
 There are two methods for formula graphs.
 
 @enumerate
+
 @item @strong{Use the system yourself.}
 Do as in this example:
 
@@ -3637,32 +3644,41 @@ draw curves time y1 y2 y3
 The Gri commands may be divided roughly into a few categories, as indicated in the following list.
 
 @itemize @bullet
+
 @item @strong{Working with files}:
 Commands are @code{open}, @code{close}, @code{skip}, @code{read}, and
 @code{rewind}.
+
 @item @strong{Controlling parameters of the drawn material}:
 Various @code{set} commands control values of parameters, like size of plot,
 linewidth, font, etc.
+
 @item @strong{Drawing things}:
 Various @code{draw} commands let you draw data, axes, etc.
+
 @item @strong{Interacting with the user}:
 The @code{query} command gets instructions from the user.  The
 @code{show} command displays messages to user.
+
 @item @strong{Controlling program flow}:
 The @code{if} statement controls optional execution of commands
 (@ref{If Statements}).  The @code{while} statement allows loops.
+
 @item @strong{Moving around in directories}:
 The @code{pwd}, @code{cd} and @code{ls} commands do the usual unix
 things.
+
 @item @strong{Using the operating system}
 The @code{system} command passes instructions to the operating system;
 the output may be saved into a synonym by using 
 @code{\syn = system ...}.  The @code{get env} command determines the value of any
 unix environment variables the system has defined.  For more discussion
 (@ref{Operating System}).
+
 @item @strong{Statistical operations}:
 Some very limited capabilities exist; for example, @code{regress} does
 linear regression.
+
 @item @strong{Mathematical operations}:
 Simple mathematical manipulation of column, grid, and image data is
 provided.  Also, wherever Gri expects a number, it will accept a
@@ -3932,14 +3948,18 @@ will create a regular 20 by 20 grid, spanning the range of x and y data,
 as a default.  This is a good starting point in many cases.
 
 @table @emph
+
 @item `neighbor' method
 Very fast but very limited.
+
 @item `boxcar' method
 Slower but a lot better.  Still, this can produce noisy contours if the
 data are not densely and uniformly ditributed through domain.
+
 @item `objective' method
 Somewhat slower than `boxcar', but produces better fields since the
 averaging function is smooth.
+
 @item `barnes' method
 Somewhat slower than `objective', but only by a constant factor (that
 is, independent of number of data).  This produces by far the best
@@ -3981,6 +4001,7 @@ times (dx,dy).
 And now, the details @dots{}
 
 @itemize @bullet
+
 @item @strong{``Neighbor'' method}
 The @code{convert columns to grid neighbor} method is useful for (x,y,z)
 data which are already gridded (i.e., for which x and y take only values
@@ -4009,6 +4030,7 @@ points, the method calculation cost is proportional to
 @code{P*[log2(X)+log2(Y)]} where @code{log2} is logarithm base 2.
 As discussed below, this is often several orders of magnitude lower than
 the other methods of gridding.
+
 @item @strong{``Objective'' method}
 In the @code{objective} method, a smoothing technique known as objective
 mapping is applied.  It is essentially a variable-size smoothing filter
@@ -4038,6 +4060,7 @@ contours.  Therefore, the computational cost scales linearly with the
 number of data points.  Compared to the ``neighborhood'' method, this is
 more costly by a factor of @code{X*Y/log_2(X)/log_2(Y)} which is
 normally in the range from 20 to 50.
+
 @item @strong{``Boxcar'' method}
 In the @code{boxcar} method, the grid points are derived from simple
 averages calculated in rectangles @code{.xr.} wide and @code{.yr.} tall,
@@ -4046,6 +4069,7 @@ have similar meanings as in the ``objective'' method.
 
 @strong{Computational cost:} Roughly same as @code{objective} method
 described above.
+
 @item @strong{``Barnes'' method}
 This is the default scheme.
 
@@ -4550,29 +4574,40 @@ All these forms of debugging are cancelled by @code{debug off}.
 Delete some item or characteristic.
 
 @itemize @bullet
+
 @item @code{delete .variable.}
 Delete definition of variable @code{.variable.}, making it undefined.
 Any number of variables or synonyms may be specified on one line.
+
 @item @code{delete \synonym}
 Delete definition of synonym @code{\synonym}, making it undefined.  Any
 number of variables or synonyms may be specified on one line.
+
 @item @code{delete \@@alias}
 Delete the item named by the alias (@ref{Alias Synonyms}).
+
 @item @code{delete} with an @code{&} item
 Delete the item in the calling program.
+
 @item @code{delete columns}
 Delete column data.
+
 @item @code{delete columns where missing}
 Completely delete all column data for which any one of x, y, etc is missing.
+
 @item @code{delete columns randomly .fraction.}
 Randomly select fraction @code{.fraction.}  of the non-missing column
 data, and designate them as being missing.
+
 @item @code{delete grid}
 Delete grid data.
+
 @item @code{delete scale}
 Delete scales for both x and y, so next @code{read columns} will set it. 
+
 @item @code{delete x scale}
 Delete scales for x, so next @code{read columns} will set it.
+
 @item @code{delete y scale}
 Delete scales for y, so next @code{read columns} will set it.
 @end itemize
@@ -4730,12 +4765,15 @@ With no style (@code{.style.}) specified, draw x-y axes frame labelled
 at left and bottom. The value of @code{.style.} determines the style of
 axes: 
 @itemize @bullet
+
 @item @code{.style. = 0}
 Draw x-y axes frame labelled at left and bottom.  Since this is the
 default, it's best to leave it out altogether to make your code easier to
 understand.
+
 @item @code{.style. = 1}
 Draw axes without tics at top and right
+
 @item @code{.style. = 2}
 Draw axes frame with no tics or labels; same as @code{draw axes frame}
 @end itemize
@@ -5772,19 +5810,23 @@ between successive points is checked, and points are skipped unless the
 x and y separations exceed the indicated distances.
 
 @itemize @bullet
+
 @item @code{draw values}
 Draw the values of @code{z(x,y)}, positioned 1/2 M-space to the right of
 @code{(x,y)} and vertically centred on @code{y}.  The values are written
 in a good general format known as @code{%lg}, in C terminology.
+
 @item @code{draw values %.2f}
 Draw values of @code{z(x,y)} positioned as described above, but using
 the indicated format string.  This format string specifies that 2
 numbers be used after the decimal place, and that floating point should
 be used.  See any C manual for format codes.
+
 @item @code{draw values .dx. .dy.}
 Print values of @code{z(x,y)} at indicated offset vector
 (@code{.dx.},@code{.dy.}), measured in centimeters, from the values of
 @code{(x,y)} at which the data are defined.
+
 @item @code{draw values .dx. .dy. %.3f}
 Print values of @code{z(x,y)} at indicated distance from @code{(x,y)},
 indicated format.
@@ -5806,18 +5848,23 @@ draw x axis [at bottom|top|@{.y. [cm]@} [lower|upper]]
 Draw an x axis, optionally at a specified location and of a specified
 style.
 @itemize @bullet
+
 @item @code{draw x axis}
 Draw a lower x axis (ie, one with the numbers below the line) at the
 bottom of the box defined by @code{set y axis}.
+
 @item @code{draw x axis at bottom}
 Draw a lower x axis (ie, one with the numbers below the line) at the
 bottom of the box defined by @code{set y axis}.
+
 @item @code{draw x axis at top}
 Draw an upper x axis (ie, one with the numbers above the line) at the
 top of the box defined by @code{set y axis} (or above any existing
 stacked x axes there)
+
 @item @code{draw x axis at .y.}
 Draw a lower x axis at indicated value of @code{.y.}.
+
 @item @code{draw x axis at .y. upper}
 Draw an upper x axis at indicated value of .y.
 @end itemize
@@ -5850,9 +5897,11 @@ q3, and in closed circles beyond that.
 
 
 @itemize @bullet
+
 @item @code{draw x box plot at .y.}
 Draw Tukey's box plot, spreading in the x direction, centered at
 y=@code{.y.} and of default width 0.5 cm.
+
 @item @code{draw x box plot at .y. size .cm.}
 Draw Tukey's box plot, spreading in the x direction, centered at
 y=@code{.y.} and of width @code{.cm.} centimetres.
@@ -5875,18 +5924,23 @@ Draw a y axis, optionally at a specified location and of a specified
 style.
 
 @itemize @bullet
+
 @item @code{draw y axis}
 Draw a left-hand-side y axis (ie, one with the numbers to the left of
 the line) at left of box defined by `set x axis'
+
 @item @code{draw y axis at left}
 Draw a left-hand-side y axis (ie, one with the numbers to the left of
 the line) at left of box defined by @code{set x axis}.
+
 @item @code{draw y axis at right}
 Draw a right-hand-side y axis (ie, one with the numbers to the right of
 the line) at right of box defined by @code{set x axis}.
+
 @item @code{draw y axis at .x.}
 Draw a left-hand-side y axis (ie, one with the numbers to the left of
 the line) at indicated value of @code{.x.}
+
 @item @code{draw y axis at .x. right}
 Draw a right-hand-side y axis (ie, one with the numbers to the right of
 the line) at indicated value of @code{.x.}
@@ -5907,9 +5961,11 @@ draw y box plot at .x. [size .cm]
 @noindent
 Draw Tukey box plots (which give summary of histogram properties).
 @itemize @bullet
+
 @item @code{draw y box plot at .x.}
 Draw Tukey's box plot, spreading in the y direction, centered at
 x=@code{.x.} and of default width 0.5 cm.
+
 @item @code{draw y box plot at .x. size .cm.}
 Draw Tukey's box plot, spreading in the y direction, centered at
 x=@code{.x.} and of width @code{.cm.} centimetres.
@@ -5930,10 +5986,13 @@ draw zero line [horizontally|vertically]
 @noindent
 Draw lines corresponding to x=0 or y=0.
 @itemize @bullet
+
 @item @code{draw zero line}
 Draw line y=0 if it is within axes.
+
 @item @code{draw zero line horizontally}
 Draw line y=0 if it is within axes.
+
 @item @code{draw zero line vertically}
 Draw line x=0 if it is within axes.
 @end itemize
@@ -6091,12 +6150,16 @@ this by Laplacian smoothing.
 Flip grid or image by relecting it about a horizontal or vertical
 centerline.
 @itemize @bullet
+
 @item @code{flip grid x}
 Flip grid so right-hand side becomes left-hand side.
+
 @item @code{flip grid y}
 Flip grid so bottom side becomes top side.
+
 @item @code{flip image x}
 Flip image so right-hand side becomes left-hand side.
+
 @item @code{flip image y}
 Flip image so bottom side becomes top side.
 @end itemize
@@ -6181,6 +6244,7 @@ data.  This is done by linear interpolation across the missing-value
 gaps.
 
 @itemize @bullet
+
 @item @code{heal columns}
 @noindent
 Fill in missing values in x, y, z, ... columns, by linear interpolation
@@ -6216,11 +6280,13 @@ replace by
 @noindent
 Notes: (1) This is done @strong{independently} for all existing columns.
 (2) Gaps at the start and end of the columns are not filled in.
+
 @item @code{heal grid along x}
 @noindent
 Scan in the x direction, filling in missing values by linear
 interpolation.  Since this uses the the x-grid, you must first have done
 @code{read grid x} or @code{set x grid}.
+
 @item @code{heal grid along y}
 @noindent
 Scan in the y direction, filling in missing values by linear
@@ -6244,14 +6310,18 @@ interpolation.  Since this uses the the y-grid, you must first have done
 @noindent
 Give help on a command or topic.
 @itemize @bullet
+
 @item @code{help}
 Print a general help message.
+
 @item @code{help *}
 Prints complete help info.
+
 @item @code{help command_name}
 Prints help on the command whose name begins with the
 string @code{command_name}.  The string may be several words long; e.g.
 @code{help set} or @code{help set x axis}.
+
 @item @code{help - topic_name}
 The minus sign tells Gri that the string to follow it is a topic, not a
 command.  Topics Gri knows about are listed by the one-word @code{help}
@@ -7210,10 +7280,12 @@ As a special case, if the @code{x} column is not indicated
 the sequence 0, 1, 2, etc.
 
 @itemize @bullet
+
 @item @code{read columns x y}
 Read @code{x} in column 1, @code{y} in column 2 until blank-line found.
 Only the first two numbers on each line will be read; any extra numbers
 (or words) on the line will be ignored.
+
 @item @code{read columns * y * * x}
 Read @code{x} in column 5, @code{y} in column 2.  The @code{*} character
 is a spacer.  It instructs Gri to skip the first, third, and fourth
@@ -7223,6 +7295,7 @@ over unwanted items in the data file.  Note that there is no need to
 supply @code{*} characters for trailing extraneous words; Gri will skip
 them anywary.  Finally, note that any order of @code{x} and @code{y}
 (and the other columns; see below) is allowed.
+
 @item @code{read columns y=2 x=5} or @code{read columns x=5 y=2}
 As above; read @code{x} in column 5 and @code{y} in column 2.  The
 column number may be specified in this manner for all the named column
@@ -7233,6 +7306,7 @@ permits using a given number to fill several variables (for example
 @code{read columns x=1 y=2 u=1 v=2}).
 
 @cindex netCDF files, reading columns
+
 @item @code{read columns x="netCDF_name" ...}
 If the file is a @code{netCDF} file, opened
 by e.g. @code{open myfile.nc netCDF}, then the @code{netCDF} variables
@@ -7252,15 +7326,18 @@ For more information on netCDF format, see
 @code{http://www.unidata.ucar.edu/packages/netcdf/index.html}
 @c HTML <a href="http://www.unidata.ucar.edu/packages/netcdf/index.html">
 @c HTML here </a>.
+
 @item @code{read columns * y z * x}
 Read @code{x} in column 5, @code{y} in column 2, and @code{z} in column
 3.  The @code{z} column is used for contouring.
+
 @item @code{read columns x y u v}
 @cindex direction field, how to read
 @cindex vector field, how to read
 @cindex arrows, how to read direction field
 Read @code{x} and @code{y} in first two columns, and the ``arrow'' data
 @code{u} and @code{v} as third and fourth columns.
+
 @item @code{read columns .rows. x y}
 Read @code{.rows.} rows of column data.
 @end itemize
@@ -7342,16 +7419,19 @@ For more information on netCDF format, see
 
 Details of the non-netCDF commands:
 @itemize @bullet
+
 @item @code{read grid x [.cols.]}
 Read the @code{x} locations of the grid points, one number per line.
 If @code{.cols.} is supplied, then that many values will be read;
 otherwise, reading will stop at end-of-file or blank-line.
+
 @item @code{read grid y [.rows.]}
 As above, but for y grid;  @code{.rows.} is the number of rows.  The
 first number to be read corresponds to the location of the @strong{top}
 edge of the grid.  Thus, if you were to view the column of numbers with
 a text editor, they would be oriented the same way as the corresponding
 elements will appear on the page.
+
 @item @code{read grid data [.rows. .cols.]}
 Read data for a grid having @code{.rows.} and @code{.cols.} columns.
 (If @code{.rows.} and @code{.cols.} are not supplied, but the grid
@@ -7538,9 +7618,11 @@ histograms, Gri ignores any pixels in the image for which the
 corresponding pixel in the mask is set to @code{1}.
 
 @itemize @bullet
+
 @item @code{read image mask rasterfile}
 The image size is specified in the rasterfile file itself, so 
 it is not specified.
+
 @item @code{read image mask .rows. .cols.}
 The file must contain @code{.rows.*.cols.} binary data.  Pixel 
 order is the same as for images.
@@ -7769,6 +7851,7 @@ Perform linear regression of @code{y} as a function of @code{x} or @code{x} as
 a function of @code{y}.
 
 @itemize @bullet
+
 @item @code{regress y vs x}
 Linear regression of y vs x.  Several quantities are reported and also
 saved into builtin variables.  The intercept is defined as
@@ -7784,10 +7867,13 @@ The squared correlation coefficient is stored in @code{..R2..}.
 attached to @code{..coeff0_sig..} and @code{..coeff1_sig..}; they used
 be defined as standard errors, without having been multiplied by the
 appropriate student-t coefficient.
+
 @item @code{regress x vs y}
 Linear regression of x vs y; for notation see above.
+
 @item @code{regress y vs x linear}
 Linear regression of y vs x; for notation see above.
+
 @item @code{regress x vs y linear}
 Linear regression of x vs y; for notation see above.
 @end itemize
@@ -7871,6 +7957,7 @@ appear in correct proportions.  This assumes that y is degrees latitude
 and x is degrees longitude.
 
 @itemize @bullet
+
 @item @code{resize x for maps}
 Resize the plot width for maps, assuming that x represents longitude and
 y represents latitude.  Before using this, you must have defined scales
@@ -7881,6 +7968,7 @@ sets the x size, thus eliminating @code{set x size.} The result is that,
 at the central latitude (y), a centimetre on the page will correspond to
 an equal distance on the earth, in both the north-south and east-west
 directions.
+
 @item @code{resize y for maps}
 Resize the plot height for maps, assuming that x represents longitude
 and y represents latitude.  Before using this, you must have defined
@@ -8071,15 +8159,19 @@ set axes style .style.     \
 Tell Gri how you want the axes to look, when they are drawn later.
 
 @itemize @bullet
+
 @item @code{set axes style 0}
 Set axes to be rectangular, with an x-y axis frame labelled at the left
 and bottom.
+
 @item @code{set axes style 1}
 Set axes to be rectangular, with an x-y frame without tics at
 the top and right.
+
 @item @code{set axes style 2}
 Set axes to be rectangular, with an x-y frame without tics or numbers on
 any side.
+
 @item @code{set axes style offset [.dist_cm.]}
 Set axes so that the actual x and y axes will be drawn with a space
 separating them from the data area.  The space, if not set by the
@@ -8088,11 +8180,14 @@ separating them from the data area.  The space, if not set by the
 @code{set axes style} command.  It applies to both the @code{draw axes}
 command and with any @code{draw x|y axis} command in which the axis
 location is not explicitly given.
+
 @item @code{set axes style rectangular}
 Set axes to be rectangular, with an x-y axes frame labelled at the left
 and bottom.
+
 @item @code{set axes style none}
 Tell gri not to bother drawing axes before drawing curves, etc.
+
 @item @code{set axes style default}
 Same as @code{set axes style 0}, and with @code{offset} turned off.
 @end itemize
@@ -8115,13 +8210,16 @@ Set the arrowsize (which is stored in the builtin variable
 @code{..arrowsize..}). 
 
 @itemize @bullet
+
 @item @code{set arrow size .size.}
 Set the arrow size (ie, half-width of the arrowhead) to @code{.size.}
 centimetres.
+
 @item @code{set arrow size as .num. percent of length}
 Set the arrow size to be the indicated percentage of arrow length, as in
 "HWP" in the singles ads.  (As a flag to this, @code{..arrowsize..} is
 set to the negative of the fractional size measured in percent.)
+
 @item @code{set arrow size default}
 Set the arrow size to the default of 0.2 cm.
 @end itemize
@@ -8225,17 +8323,22 @@ makes sense to put this command at the end of the commandfile.
 @noindent
 Control clipping of following drawing commands.
 @itemize @bullet
+
 @item @code{set clip on}
 Don't plot data outside axes.
+
 @item @code{set clip on .xleft. .xright. .ybottom. .ytop.}
 Don't plot data outside indicated box.
+
 @item @code{set clip off}
 Plot all data, whether inside the axes or not.
+
 @item @code{set clip to curve} set clip to the curve, as
 would be drawn by a @code{draw curve filled} command, i.e. to the
 polygon constructed by running along the xy points, in order, followed
 by a final segment from the last point back to the first point.  This is a 
 "postscript" clip, as explained in the next item.
+
 @item @code{set clip postscript on .xleft. .xright. .ybottom. .ytop.}
 Turn PostScript clipping on.  This will prevent @strong{any} drawing
 outside the named box.  Note that it will also prevent axis drawing, so
@@ -8463,8 +8566,10 @@ Control dash-style for following @code{draw curve} and @code{draw line}
 commands. 
 
 @itemize @bullet
+
 @item @code{set dash}
 Set to dashed line (0.4cm dashes, 0.1cm blanks).
+
 @item @code{set dash .n.}
 Set to indicated pre-defined dashed line, according to table:
 
@@ -8638,11 +8743,14 @@ what ``font encoding'' is about, ignore this command!
 Set the size of the font for drawing of text.
 
 @itemize @bullet
+
 @item @code{set font size .size.}
 Set font size to @code{.size.} points.  (A point is 1/72 of an inch,
 or 1/28 of a centimetre.)
+
 @item @code{set font size .size. cm}
 Set font size to @code{.size.} centimetres.
+
 @item @code{set font size default}
 Set font size to default = 12 pts.
 @end itemize
@@ -9041,15 +9149,19 @@ new axes.  It is legal but not necessarily smart.)
 Create a data window for following @code{read} statements.
 
 @itemize @bullet
+
 @item @code{set input data window x .min. .max.}
 For future reading commands, ignore all data with x less than
 @code{.min.} or x greater than @code{.max.} The data not in the interval
 will not be read in at all.  This will hold until 
 @code{set data window x off} is done, in which case all data will be read in.
+
 @item @code{set input data window x off}
 Return to normal conditions, in which all data are read in.
+
 @item @code{set input data window y .min. .max.}
 Analgous to command for x.
+
 @item @code{set input data window y off}
 Analagous to command for x.
 @end itemize
@@ -9260,24 +9372,34 @@ ignored.  The initial default is 1.0e22.
 @noindent
 Set the page dimension, as indicated below.
 @table @emph
+
 @item letter
 American "letter" size: 8.5 x 11 inches
+
 @item legal
 American "legal" size: 8.5 x 14 inches
+
 @item folio
 American "folio" size: 8.5 x 13 inches
+
 @item tabloid
 American "tabloid" size: 11 x 17 inches
+
 @item A5
 Metric size: 14.8 x 21.0 cm
+
 @item A4
 Metric size: 21.0 x 29.7 cm
+
 @item A3
 Metric size: 29.7 x 42.0 cm
+
 @item A2
 Metric size: 42.0 x 59.4 cm
+
 @item A1
 Metric size: 59.4 x 84.1 cm
+
 @item A0
 Metric size: 84.1 x 118.9 cm
 @end table
@@ -9311,17 +9433,21 @@ Control orientation or scaling of what is drawn on the paper.
 @cindex orientation of page, portrait
 @cindex page orientation, portrait
 @itemize @bullet
+
 @item @code{set page portrait}
 Print graph normally (default).
 
 @cindex landscape orientation of page
 @cindex orientation of page, landscape
 @cindex page orientation, landscape
+
 @item @code{set page landscape}
 Print graph sideways.
+
 @item @code{set page factor .mag.}
 Scale everything to be drawn on the paper by the indicated magnification
 factor.  This @strong{must} be called before any drawing commands.
+
 @item @code{set page translate .xcm. .ycm.}
 Translate everything to be drawn on the paper by the indicated x/y
 distances.  This @strong{must} be called before any drawing commands.
@@ -9515,8 +9641,10 @@ Set name of PostScript file, over-riding the present name.
 Control the diameter of symbols drawn by @code{draw symbol} command.
 
 @itemize @bullet
+
 @item @code{set symbol size .diameter_cm.}
 Make symbol size be @code{.diameter_cm.} centimeters in diameter.
+
 @item @code{set symbol size default}
 Set to default diameter of 0.1 cm.
 @end itemize
@@ -9537,10 +9665,13 @@ Set to default diameter of 0.1 cm.
 @noindent
 Control size of tics on axes.
 @itemize @bullet
+
 @item @code{set tic size .size.}
 Set tic size to @code{.size.} centimetres.
+
 @item @code{set tic size default}
 Set tic size to default of 0.2 cm.
+
 @item @code{set tics in|out}
 Make axis tics point inward or outward.  The default is outward.
 @end itemize
@@ -9560,10 +9691,13 @@ Make axis tics point inward or outward.  The default is outward.
 Control printing of command lines as they are processed.
 
 @itemize @bullet
+
 @item @code{set trace}
 Make Gri print command lines as they are processed.
+
 @item @code{set trace on}
 Same as @code{set trace}.
+
 @item @code{set trace off}
 Prevent printing command lines (default).
 @end itemize
@@ -9583,8 +9717,10 @@ Prevent printing command lines (default).
 Set scale for x-component of arrows.
 
 @itemize @bullet
+
 @item @code{set u scale .cm_per_unit.}
 Set scale for @code{u} component of arrows.  
+
 @item @code{set u scale as x}
 Set scale for u component of arrows to be the same as the x-scale.
 Equivalent to 
@@ -9609,8 +9745,10 @@ NOTE: this only works if the x-scale is LINEAR (see @code{set x type}).
 Set scale for y-component of arrows.
 
 @itemize @bullet
+
 @item @code{set v scale .cm_per_unit.}
 Set scale for @code{v} component of arrows.
+
 @item @code{set v scale as y}
 Set scale for v component of arrows to be the same as the y-scale.
 Equivalent to 
@@ -9627,42 +9765,51 @@ NOTE: this only works if the y-scale is LINEAR (see @code{set y type}).
 @cindex @code{set x axis} command
 
 @example
-`set x axis top | \
-    bottom      | \
-    increasing  | \
-    decreasing  | \
-    unknown     | \
-@{.left. .right. [.incBig. [.incSml.]]@}'
+`set x axis top'
+`set x axis bottom'
+`set x axis increasing'
+`set x axis decreasing'
+`set x axis unknown'
+`set x axis .left. .right. [.incBig. [.incSml.]]'
+`set x axis labels .position_1. "label_1" [.position_2. "label_2" [...]]'
 @end example
 
 @noindent
 Control various things about the x axis.
 
 @itemize @bullet
+
 @item @code{set x axis top}
 Make next x-axis to be drawn have labels above the axis.
+
 @item @code{set x axis bottom}
 Make next x-axis to be drawn have labels below the axis.
+
 @item @code{set x axis increasing}
 Make next x-axis to be drawn have numeric labels increasing to the
 right.  This applies only if autoscaling is done; otherwise, the
 supplied values (@code{.left. .right. [.incBig.  [.incSml.]]}) are used.
+
 @item @code{set x axis decreasing}
 Make next x-axis to be drawn have numeric labels decreasing to the
 right.  This applies only if autoscaling is done; otherwise, the
 supplied values (@code{.left. .right. [.incBig.  [.incSml.]]}) are used.
+
 @item @code{set x axis unknown}
 Make Gri forget any existing scale for the x axis, whether set by
 another @code{set x axis} command or automatically, during reading of
 data.  This is essentially a synonym for @code{delete x scale}.
+
 @item @code{set x axis .left. .right.}
 Make x-axis range from @code{.left.} to @code{.right.}
+
 @item @code{set x axis .left. .right. .incBig.}
 Make x-axis range from @code{.left.} to @code{.right.}, with labelled
 increments at @code{.incBig.} Note: In the case of log axes, and
 provided that @code{set x type log} has been called previously, the
 @code{.incBig.} parameter has a different meaning: it is the interval,
 in decades, between numbered labels; the default is 1.
+
 @item @code{set x axis .left .right. .incBig. .incSml.}
 Make x-axis range from @code{.left.} to @code{.right.}, with labelled
 increments at @code{.incBig.}, and small tics at @code{.incSml.}  NOTE:
@@ -9670,6 +9817,19 @@ if the axis is logarithmic, the value of @code{.incSml.} takes on a
 special meaning: if it is positive then small tics are put at values 2,
 3, 4, etc. between the decades, but if @code{.incSml.} is negative then
 no such small tics are used.
+
+@item @code{set x axis labels .position. "label" [.position. "label" [...]]}
+Override the automatic labelling at axis tics, and instead put the
+indicated labels at the indicated x values.  For example, a
+day-of-week axis can be created by the code:
+
+@example
+set x axis 0 7 1
+set x axis labels 0.5 "Mon" 1.5 "Tue" 2.5 "Wed" \
+                  3.5 "Thu" 4.5 "Fri" 5.5 "Sat" \
+                  6.5 "Sun"
+@end example
+
 @end itemize
 
 
@@ -9714,9 +9874,11 @@ will be declared; the way to interpolate from an existing grid to a new
 one is with the @code{interpolate x grid} command.
 
 @itemize @bullet
+
 @item @code{set x grid .left. .right. .inc.}
 Create x-grid ranging from the value @code{.left.} at the left to
 @code{.right.} at the right, stepping by an increment of @code{.inc.}. 
+
 @item @code{set x grid .left. .right. /.cols.}
 Create x-grid with @code{.cols.} points, ranging from the value
 @code{.left.} at the left to @code{.right.} at the right.
@@ -9740,11 +9902,14 @@ labels are drawn inside the margin; the margin extends to the axis line,
 not to the labels.)
 
 @itemize @bullet
+
 @item @code{set x margin .size.}
 Set left margin to @code{.size.} cm.  It is permissible to have negative
 margins, with the expected effect.
+
 @item @code{set x margin bigger .size.}
 Increases left margin by @code{.size.} cm.
+
 @item @code{set x margin smaller .size.}
 Decreases left margin by @code{.size.} cm.
 @item @code{set x margin default}
@@ -9786,8 +9951,10 @@ only the interior part of the plot.
 
 
 @itemize @bullet
+
 @item @code{set x size .width_cm.}
 Set width of x-axis in centimeters.
+
 @item @code{set x size default}
 Set width of x-axis to default = 10 cm.
 @end itemize
@@ -9809,13 +9976,16 @@ page.
 
 
 @itemize @bullet
+
 @item @code{set x type linear}
 Set to linear axis.
+
 @item @code{set x type log}
 Set to log axis.  To avoid clashes in the linear to log transform, this
 command should precede the creation of an axis scale, either explicitly
 through the @code{set x axis .left. .right. ...} command or implicitly
 through the @code{read columns} command.
+
 @item @code{set x type map E|W|N|S}
 @cindex maps, format of x axis
 Set to be a map.  This means that whole numbers on the axis will have a
@@ -9839,43 +10009,55 @@ BUG: this only has an effect if the axis is not already of type
 @cindex @code{set y axis} command
 
 @example
-`set y axis label horizontal|vertical'
-`set y axis left | \
-    right        | \
-    increasing   | \
-    decreasing   | \
-    @{.bottom. .top. [.incBig. [.incSml.]]@}'
+`set y axis label horizontal'
+`set y axis label vertical'
+`set y axis left'
+`set y axis right'
+`set y axis increasing'
+`set y axis decreasing'
+`set y axis .bottom. .top. [.incBig. [.incSml.]]'
+`set y axis labels .position_1. "label_1" [.position_2. "label_2" [...]]'
 @end example
 
 @noindent
 Control various things about the y axis.
 
 @itemize @bullet
+
 @item @code{set y axis label horizontal}
 Make y label be horizontal.
+
 @item @code{set y axis label vertical}
 Make y label be vertical (default).
+
 @item @code{set y axis left}
 Make next y-axis to be drawn have labels to the left of the axis.
+
 @item @code{set y axis right}
 Make next y-axis to be drawn have labels to the right of the axis.
+
 @item @code{set y axis increasing}
 Make next y-axis to be drawn have numeric labels increasing up the page.
 This applies only if autoscaling is done; otherwise, the supplied values
 (@code{.left. .right. [.incBig.  [.incSml.]]}) are used.
+
 @item @code{set y axis decreasing}
 Make next y-axis to be drawn have numeric labels decreasing up the page.
 This applies only if autoscaling is done; otherwise, the supplied values
 (@code{.left. .right. [.incBig.  [.incSml.]]}) are used.
+
 @item @code{set y axis unknown}
 Make Gri forget any existing scale for the y axis, whether set by
 another @code{set y axis} command or automatically, during reading of
 data.  This is essentially a synonym for @code{delete y scale}.
+
 @item @code{set y axis .bottom. .top.}
 Make y-axis range from @code{.bottom.} to @code{.top.}
+
 @item @code{set y axis .bottom. .top. .incBig.}
 Make y-axis range from @code{.bottom.} to @code{.top.}, with labelled
 increments at @code{.incBig.}
+
 @item @code{set y axis .bottom. .top. .incBig. .incSml.}
 Make y-axis range from @code{.bottom.} to @code{.top.}, with labelled
 increments at @code{.incBig.}, and small tics at @code{.incSml.}  NOTE:
@@ -9883,9 +10065,18 @@ if the axis is logarithmic, the value of @code{.incSml.} takes on a
 special meaning: if it is positive then small tics are put at values 2,
 3, 4, etc. between the decades, but if @code{.incSml.} is negative then
 no such small tics are used.
+
+@item @code{set y axis labels .position. "label" [.position. "label" [...]]}
+Override the automatic labelling at axis tics, and instead put the
+indicated labels at the indicated y values.  For example, a
+physical-condition axis can be created by the code:
+
+@example
+set y axis 0 1 0.5
+set y axis labels 0.25 "Weak" 0.75 "Strong"
+@end example
+
 @end itemize
-
-
 
 
 @node   Set Y Format, Set Y Grid, Set Y Axis, Set
@@ -9929,9 +10120,11 @@ will be declared; the way to interpolate from an existing grid to a new
 one is with the @code{interpolate x grid} command.
 
 @itemize @bullet
+
 @item @code{set y grid .bottom. .top. .inc.}
 Create y-grid ranging from the value @code{.bottom.} at the bottom to
 @code{.top.} at the top, stepping by an increment of @code{.inc.}.
+
 @item @code{set y grid .bottom. .top. /.rows.}
 Create y-grid with @code{.rows.} points, ranging from the value
 @code{.bottom.} at the bottom to @code{.top.} at the top.
@@ -9956,13 +10149,17 @@ inside the margin; the margin extends to the axis line, not to the
 labels.)
 
 @itemize @bullet
+
 @item @code{set y margin .size.}
 Set bottom margin to @code{.size.} centimeters.  It is permissible to
 have negative margins, with the expected effect.
+
 @item @code{set y margin bigger .size.}
 Increases bottom margin by @code{.size.} centimeters.
+
 @item @code{set y margin smaller .size.}
 Decreases bottom margin by @code{.size.} centimeters.
+
 @item @code{set y margin default}
 Set bottom margin to default = 6 cm.
 @end itemize
@@ -10001,8 +10198,10 @@ Set the width of the plotting area.  This does not include axis labels,
 only the interior part of the plot.
 
 @itemize @bullet
+
 @item @code{set y size .height_cm.}
 Set height of y-axis in centimeters.
+
 @item @code{set y size default}
 Set width of y-axis to default = 10 cm.
 @end itemize
@@ -10024,13 +10223,16 @@ Control transformation function mapping user units to centimetres on the
 page.  
 
 @itemize @bullet
+
 @item @code{set y type linear}
 Set to linear axis.
+
 @item @code{set y type log}
 Set to log axis.  To avoid clashes in the linear to log transform, this
 command should precede the creation of an axis scale, either explicitly
 through the @code{set y axis .left. .right. ...} command or implicitly
 through the @code{read columns} command.
+
 @item @code{set y type map N|S|E|W}
 @cindex maps, format of y axis
 Set to be a map.  This means that whole numbers on the axis will have a
@@ -10241,15 +10443,19 @@ show "first line\<<\>>(tabbed) second line"
 
 
 @itemize @bullet
+
 @item @code{skip}
 For ascii files, skip next line in the data file.  For binary files,
 skip forward 1 byte.
+
 @item @code{skip backward}
 For ascii files, skip backward 1 line in the data file.  For binary
 files, skip backward 1 byte.
+
 @item @code{skip .n.} or @code{forward .n.}
 For ascii files, skip forward @code{.n.} lines in the data file.  For
 binary files, skip forward @code{.n.} bytes.
+
 @item @code{skip backward .n.}
 For ascii files, skip backward @code{.n.} lines in the data file.  For
 binary files, skip backward @code{.n.} bytes.
@@ -10483,12 +10689,18 @@ by programmers altering the Gri source.
 
 These are the flags and their meanings:
 @itemize @bullet
+
 @item @strong{1} Print cmdline before/after substituting synonyms.
+
 @item @strong{2} Print cmdline before/after substituting rpn expressions.
+
 @item @strong{4} Print all new commands as they are being defined
+
 @item @strong{8} Print the system commands that are used with
 @code{open "...|"} and in other instances.
+
 @item @strong{128} Changeable; only author should use this.
+
 @item @strong{256} Changeable; only author should use this.
 @end itemize
 Note that all flags are equal to 2 raised to an integer power.  Since
@@ -10538,6 +10750,7 @@ There are two ways to use the system:
 @strong{Assign output to synonym}: The form @code{\synonym = system ...}
 does the system command and then inserts the output from that command
 into the indicated synonym.)
+
 @item @strong{Just run a command}: The command @code{system ls} will list
 the files in the current directory.
 @end itemize
@@ -10896,29 +11109,37 @@ The variants of this command write various things about the image to the
 named file, as illustrated in the following table.
 
 @itemize @bullet
+
 @item @code{write image to image.dat}
 @cindex image data, write to file
 Append image to the end of the named file.  Storage is by unsigned-char,
 and is in normal image order.  There is no header.
+
 @item @code{write image rasterfile to image.dat}
 Append image to the end of the named file, in Sun Rasterfile format.
+
 @item @code{write image pgm to mask.dat}
 Append image mask to the end of the named file, in PGM 'rawbits' format.
+
 @item @code{write image mask to mask.dat}
 @cindex image mask data, write to file
 Append image mask to the end of the named file. Storage is by
 unsigned-char, and is in normal image order.
+
 @item @code{write image mask rasterfile to mask.dat}
 Append image mask to the end of the named file, in Sun Rasterfile
 format.
+
 @item @code{write image mask pgm to mask.dat}
 Append image mask to the end of the named file, in PGM 'rawbits' format.
+
 @item @code{write image colorscale to colorscale.dat}
 @cindex image palette data, write to file
 Append image colorscale transform to the end of the named file.  Storage
 is a series of 256 lines, each containing 3 numbers (for Red, Green and
 Blue) in the range 0 to 1.  The file is suitable for reading with the
 @code{read image colorscale} command.
+
 @item @code{write image grayscale to grayscale.dat}
 Append image grayscale transform to the end of the named file.  Storage
 is a series of 256 lines, each containing a number in the range 0 to 1.
@@ -11304,16 +11525,19 @@ variables), use @code{show variables}.  Here are some useful builtin
 variables: 
 
 @itemize @bullet
+
 @item @code{..arrowsize..}
 @cindex arrows, size of heads stored in @code{..arrowsize..}
 @vindex @code{..arrowsize..}, size of arrows
 Stores either a positive number representing the halfwidth of arrowheads
 measured in centimetres, or a negative number giving the negative of the
 ratio of arrowhead halfwidth to arrow length (@ref{Set Arrow Size}).
+
 @item @code{..batch..}
 @cindex batch processing
 @vindex @code{..batch..}, flag used for batch mode
 Flag used for batch mode.
+
 @item @code{..debug..}
 @vindex @code{..debug..}, flag used for debugging
 @cindex debug command-line option
@@ -11333,10 +11557,12 @@ end if
 When you run the program with command-line @code{gri -debug file.gri}
 the code in the @code{if} block will print out the columnar data, but
 when you run it with @code{gri file.gri} these lines are not printed.
+
 @item @code{..eof..}
 @vindex @code{..eof..}, flag indicating end-of-file
 Flag indicating whether an end-of-file was encountered on the last
 @code{read columns}.
+
 @item @code{..words_in_dataline..}
 @vindex @code{..words_in_dataline..}
 @cindex reading data, checks
@@ -11359,6 +11585,7 @@ end while
 show "Got " .num. "data lines."
 @end example
 
+
 @item @code{..fontsize..}
 @cindex font, size
 @vindex @code{..fontsize..}, size of letters
@@ -11367,42 +11594,53 @@ and 28.45 points in a centimetre.  The mathematical operators
 @code{pttocm} and @code{cmtopt}, which do conversion between points and
 centimetres, are often useful in labelling data curves 
 (@ref{rpn Mathematics}).
+
 @item @code{..graylevel..}
 @cindex gray level
 @vindex @code{..graylevel..}, graylevel (0=black)
 Graylevel to use in drawing lines, text, etc.  Black ink is 0; white
 paper is 1.  @strong{See also} @code{..red..} etc.
+
 @item @code{..image_height..}
 @vindex @code{..image_height..}, height of image
 Height of image, or 0 if no image defined yet.
+
 @item @code{..image_width..}
 @vindex @code{..image_width..}, width of image
 Width of image, or 0 if no image defined yet.
+
 @item @code{..length_dash..}
 @vindex @code{..length_dash..}, length/cm of dashes
 Length in cm of dashes in dashed lines.
+
 @item @code{..length_blank..}
 @vindex @code{..length_blank..}, length/cm of blanks
 Length in cm of blanks in dashed lines.
+
 @item @code{..linewidth..}
 @vindex @code{..linewidth..}, width of lines
 Width of lines for data curves (@ref{Set Line Width}).
+
 @item @code{..linewidthaxis..}
 @vindex @code{..linewidthaxis..}, width of lines on axis
 Width of lines on axes (@ref{Set Line Width}).
+
 @item @code{..linewidthsymbol..}
 @vindex @code{..linewidthsymbol..}, width of lines in symbols
 Width of lines in symbols (@ref{Set Line Width}).
+
 @item @code{..missingvalue..}
 @vindex @code{..missingvalue..}, missing value code
 Missing value code, also stored in the synonym @code{\.missingvalue.};
 (@ref{Set Missing Value}).
+
 @item @code{..num_col_data..}
 @vindex @code{..num_col_data..}, number column data
 Number of column data that exist.  You might want to use this after
 @code{read columns} to see if a data file actually had any data in it,
 or use it in accessing individual elements of columns 
 (@ref{rpn Mathematics}).
+
 @item @code{..publication..}
 @cindex publication quality plots, built-in variable @code{..publication..}
 @vindex @code{..publication..}, flag for final copy of plot
@@ -11416,62 +11654,79 @@ if !..publication..
 end if
 @end example
 
+
 @item @code{..red..}, @code{..green..}, @code{..blue..}
 @vindex @code{..blue..}
 Description of present color.  The values are between 0 and 1, with
 (0,0,0) being black and (1,1,1) being white.  If color is gray, all
 these will be equal.  You may assign to these, but it will @strong{not}
 change the color.
+
 @item @code{..symbolsize..}
 @cindex symbol size, stored in @code{..symbolsize..}
 @vindex @code{..symbolsize..}, size of symbols
 Size of symbols in centimetres.
+
 @item @code{..superuser..}
 @vindex @code{..superuser..}, was -superuser flag set?
 Equal to 0 if the flag was not set, or equal to the flag if it was.
+
 @item @code{..tic_direction..}
 @vindex @code{..tic_direction..}, direction of axis tics
 Direction of axis tics, 1 for inside or 0 for outside.
+
 @item @code{..tic_size..}
 @vindex @code{..tic_size..}, size/cm of axis tics
 Size of axis tics in centimetres.
+
 @item @code{..trace..}
 @vindex @code{..trace..}, for tracing program execution
 Equal to 1 if the @code{-trace} command-line flag was set.  Used for
 tracing program execution.
+
 @item @code{..xinc..}
 @vindex @code{..xinc..}, x increment on axes
 x increment on axes.
+
 @item @code{..xleft..}
 @vindex @code{..xleft..}, x value at left of plot
 x value at left of plot.
+
 @item @code{..xmargin..}
 @cindex margins
 @vindex @code{..xmargin..}, left margin
 Left margin, in centimetres.
+
 @item @code{..xright..}
 @vindex @code{..xright..}, x value at right of plot
 x value at right of plot.
+
 @item @code{..xsize..}
 @cindex length of axes
 @cindex axes, length of
 @vindex @code{..xsize..}, x-axis length
 x-axis length in centimetres.
+
 @item @code{..ybottom..}
 @vindex @code{..ybottom..}, y value at bottom of plot
 y value at bottom of plot.
+
 @item @code{..yinc..}
 @vindex @code{..yinc..}, y increment on axes
 y increment on axes.
+
 @item @code{..ymargin..}
 @vindex @code{..ymargin..}, bottom margin
 Bottom margin in centimetres.
+
 @item @code{..ysize..}
 @vindex @code{..ysize..}, y-axis length
 y-axis length in centimetres.
+
 @item @code{..ytop..}
 @vindex @code{..ytop..}, y value at top of plot
 y value at top of plot
+
 @item @code{..exit_status..}
 @vindex @code{..exit_status..}, exit status from @code{system} call
 The exit status from the most recent @code{system} call (or 0 if no
@@ -11757,12 +12012,14 @@ processed).  There are two ways to do this.
 
 @table @emph
 
+
 @item The @code{word of} syntax.
 @example
 \sentence = "This sentence has five words"
 \first_word = word 0 of "\sentence"
 \last_word = word 4 of "This sentence has five words"
 @end example
+
 
 @item The @code{[]} syntax
 @cindex @code{[]} syntax for selecting words in synonyms
@@ -11884,6 +12141,7 @@ you may use @code{\@@pointer} anyplace you would normally use the item
 named.
 
 @table @emph
+
 @item Illustrations of using the value of a named item
 The following prints an approximation to Pi followed by the name of
 movie star.
@@ -11896,6 +12154,7 @@ show \@@pi_pointer  # just like 'show .pi.'
 \our_hero = "\\hero"
 show "\@@our_hero"  # just like 'show "\hero"'
 @end example
+
 
 @item Illustrations of assigning to a named item
 The following prints an approximation to 2*Pi and yet another star; the
@@ -12385,6 +12644,7 @@ or even other legal @code{rpnfunction} constructs.  For details,
 
 
 @table @code
+
 @item @{rpn 0 4 "hello" substr @}
 @cindex RPN operator @code{substr}
 @cindex substrings, getting with RPN operator @code{substr}
@@ -12429,22 +12689,27 @@ with an (xcm,ycm) pair in coordinates of centimeters on the page.
 The binary operators are illustrated below, in rough alphabetical order.
 
 @table @code
+
 @item @{rpn 3 2 +@}
 @cindex @code{+} rpn operator
 @cindex rpn operator @code{+}
 Add 2 to 3.
+
 @item @{rpn 3 2 -@}
 @cindex @code{-} rpn operator
 @cindex rpn operator @code{-}
 Subtract 2 from 3.
+
 @item @{rpn 3 2 *@}
 @cindex @code{*} rpn operator
 @cindex rpn operator @code{*}
 Multiply 3 by 2.
+
 @item @{rpn 3 2 /@}
 @cindex @code{/} rpn operator
 @cindex rpn operator @code{/}
 Divide 3 by 2.
+
 @item @{rpn 3 2 <@}
 @cindex @code{<} rpn operator
 @cindex rpn operator @code{<}
@@ -12457,24 +12722,29 @@ decades past.  Present-day calculators use this convention, but
 possibly older calculators used the reverse convention, using @code{>}
 where Gri uses @code{<}.
 
+
 @item @{rpn 3 2 <=@}
 @cindex @code{<=} rpn operator
 @cindex rpn operator @code{<=}
 Test whether 2 is less than or equal to 3.
 
+
 @item @{rpn 3 2 >@}
 @cindex rpn operator @code{>}
 Test whether 2 is greater than 3, yielding 0.
+
 
 @item @{rpn 3 2 >=@}
 @cindex @code{>=} rpn operator
 @cindex rpn operator @code{>=}
 Test whether 2 is greater than or equal to 3, yielding 0.
 
+
 @item @{rpn 3 2 ==@}
 @cindex rpn operator @code{==}
 Test whether 2 and 3 are equal, yielding 0.  (Do not confuse this with
 the asignment operator @code{=}, described next.)
+
 
 @item @{rpn 10 ".ten." =@}
 @cindex @code{=} rpn operator
@@ -12482,18 +12752,22 @@ the asignment operator @code{=}, described next.)
 Assign the value @code{10} to the variable named @code{.ten.}.  (Do not
 confuse this with the @code{==} equality operator described above.)
 
+
 @item @{rpn "hello" "\\greeting" =@} 
 Assign the value @code{"hello"} to the synonym @code{\greeting}.
+
 
 @item @{rpn 0 1 &@}
 @cindex @code{&} rpn operator
 @cindex rpn operator @code{&}
 Test whether 0 and 1 are both true, yielding 0.
 
+
 @item @{rpn 0 1 |@}
 @cindex @code{|} rpn operator
 @cindex rpn operator @code{|}
 Test whether either 0 or 1 is true, yielding 1.
+
 
 @item @{rpn 2 3 exch@}
 @cindex @code{exch} rpn operator
@@ -12501,15 +12775,18 @@ Test whether either 0 or 1 is true, yielding 1.
 Exchange 2 and 3 on the stack, yielding @code{3 2} on the stack.  (See
 also @code{pop} and @code{dup}.)
 
+
 @item @{rpn x 0 @@@}
 @cindex @code{@@} rpn operator, for accessing columnar data
 Yields the value of the first number in the x column.  A similar form
 also works for @code{y}, etc.  (@ref{Manipulation of Columns etc}).
 
+
 @item @{rpn 2 3 inf@}
 @cindex @code{inf} rpn operator
 @cindex rpn operator @code{inf}
 Pick the smaller of two values, yielding 3.  (Opposite to @code{sup}.)
+
 
 @item @{rpn 2 3 power@}
 @cindex @code{power} rpn operator
@@ -12523,6 +12800,7 @@ past.  Present-day calculators use this convention, which they write as
 the key @code{x^y}.
 
 
+
 @item @{rpn 2 3 remainder@}
 @cindex @code{remainder} rpn operator
 @cindex rpn operator @code{remainder}
@@ -12532,10 +12810,12 @@ the quotient of @code{A/B}, rounded towards zero to an integer.  In this
 case, @code{2/3} rounds to an @code{n} value of zero, yielding 2 as the
 resulting remainder.
 
+
 @item @{rpn "file" ".dat" strcat@}
 @cindex @code{strcat} rpn operator
 @cindex rpn operator @code{strcat}
 Concatenate the two strings, yielding the string @code{"file.dat"}.
+
 
 @item @{rpn 2 3 sup@}
 @cindex @code{sup} rpn operator
@@ -12565,6 +12845,7 @@ top of the stack; e.g., @code{@{rpn 45 sin@}} yields the sine of 45 degrees.
 The unary operators are illustrated below, in rough alphabetical order.
 
 @table @code
+
 @item @{rpn 0 !@}
 @cindex @code{!} rpn operator
 @cindex rpn operator @code{!}
@@ -12572,15 +12853,18 @@ The unary operators are illustrated below, in rough alphabetical order.
 @cindex negation, @code{!} rpn operator
 Replace 0 (false) with its logical negation 1 (true).
 
+
 @item @{rpn -3 abs@}
 @cindex @code{abs} rpn operator
 @cindex rpn operator @code{abs}
 Calculate the absolute value of @code{-3}.
 
+
 @item @{rpn 0.5 acos@}
 @cindex @code{acos} rpn operator
 @cindex rpn operator @code{acos}
 Calculate the inverse cosine of 0.5, yielding 60 (degrees).
+
 
 @item @{rpn 2 acosh@}
 @cindex @code{acosh} rpn operator
@@ -12588,25 +12872,30 @@ Calculate the inverse cosine of 0.5, yielding 60 (degrees).
 Calculate the inverse hyperbolic cosine of 2, yielding 1.317.  (Note:
 argument must equal or exceed 1, or an error results.)
 
+
 @item @{rpn y x area@}
 Calculate the area under the curve y=y(x).  For details
 (@ref{Manipulation of Columns etc}).
+
 
 @item @{rpn 0.5 asin@}
 @cindex @code{asin} rpn operator
 @cindex rpn operator @code{asin}
 Calculate the inverse sine of 0.5, yielding 30 (degrees).
 
+
 @item @{rpn 1 atan@}
 @cindex @code{atan} rpn operator
 @cindex rpn operator @code{atan}
 Calculate the inverse tangent of 1, yielding 45 (degrees).
+
 
 @item @{rpn 0.5 atanh@}
 @cindex @code{atan} rpn operator
 @cindex rpn operator @code{atan}
 Calculate the inverse hyperbolic tangent of 0.5, yielding 0.549306
 (radians).
+
 
 @item @{rpn 0 argv@}
 @cindex @code{argv} rpn operator, access commandline arguments
@@ -12653,37 +12942,44 @@ argument 2 is file2.dat
 For usage within the Emacs gri-mode, see 
 @ref{Filename arguments when running gri}.
 
+
 @item @{rpn "hi" ascent@}
 @cindex @code{ascent} rpn operator
 @cindex rpn operator @code{ascent}
 Determine ascent of this string (in cm), in the present font and
 fontsize.  (See also @code{descent} and @code{width}.)
 
+
 @item @{rpn "3.1" atof@}
 @cindex @code{atof} rpn operator
 @cindex rpn operator @code{atof}
 Calculate the numerical value contained in indicated string.
+
 
 @item @{rpn 1.5 ceil@}
 @cindex @code{ceil} rpn operator
 @cindex rpn operator @code{ceil}
 Calculate the next higher integer, yielding 2.  (Opposite of @code{floor}.)
 
+
 @item @{rpn 45 cos@}
 @cindex @code{cos} rpn operator
 @cindex rpn operator @code{cos}
 Calculate the cosine of 45 degrees, yielding 0.707.
+
 
 @item @{rpn 1 cosh@}
 @cindex @code{cosh} rpn operator
 @cindex rpn operator @code{cosh}
 Calculate the hyperbolic cosine of 1 (radian), yielding 1.543.
 
+
 @item @{rpn 1 cmtopt@}
 @cindex @code{cmtopt} rpn operator
 @cindex rpn operator @code{cmtopt}
 Convert from 1 centimeter to so-called ``point'' units, yielding 28.45.
 (Opposite of @code{pttocm}.)
+
 
 @item @{rpn "\\syn" defined@}
 @cindex testing for existence of a synonym
@@ -12693,12 +12989,14 @@ Test whether the synonym is defined at the moment, returning 1 if
 so and 0 if not.  (Note the double-backslash in the synonym name, which
 is required.)
 
+
 @item @{rpn ".var." defined@}
 @cindex existence of a variable, testing
 @cindex testing for existence of a variable
 @cindex variables, checking for existence of
 Test whether the variable is defined at the moment, returning 1 if
 so and 0 if not.
+
 
 @item @{rpn "\\@@alias" defined@}
 @cindex testing for existence of an aliased synonym
@@ -12710,12 +13008,14 @@ if not.
 
 
 
+
 @item @{rpn "hi" descent@}
 @cindex @code{descent} rpn operator
 @cindex rpn operator @code{descent}
 Calculate the descent (below the baseline in cm) for the given string,
 in the present font and fontsize.  (See also @code{ascent} and
 @code{width}.)
+
 
 @item @{rpn "/home/me/data/timeseries" directory_exists@}
 @cindex @code{directory_exists} rpn operator
@@ -12724,21 +13024,25 @@ in the present font and fontsize.  (See also @code{ascent} and
 Determine whether indicate directory exists, yielding @code{1} if it does
 and @code{0} otherwise.  (See also @code{file_exists}.)
 
+
 @item @{rpn 2 dup@}
 @cindex @code{dup} rpn operator
 @cindex rpn operator @code{dup}
 Duplicate the top item on stack, yielding @code{2 2} on the stack.
 (See also @code{exch} and @code{pop}.)
 
+
 @item @{rpn 1 exp@}
 @cindex @code{exp} rpn operator
 @cindex rpn operator @code{exp}
 Calculate the value of @code{e} raised to the indicated power, yielding 2.71828.
 
+
 @item @{rpn 2 exp10@}
 @cindex @code{exp10} rpn operator
 @cindex rpn operator @code{exp10}
 Calculate the value of @code{10} raised to the indicated power, yielding 100.
+
 
 @item @{rpn "foo.dat" file_exists@}
 @cindex @code{file_exists} rpn operator
@@ -12746,47 +13050,56 @@ Calculate the value of @code{10} raised to the indicated power, yielding 100.
 Determine whether the indicate file exists, yielding @code{1} if it does
 and @code{0} otherwise.  (See also @code{directory_exists}.)
 
+
 @item @{rpn 1.5 floor@}
 @cindex @code{floor} rpn operator
 @cindex rpn operator @code{floor}
 Calculate the nearest smaller integer, yielding 1.  (Opposite of
 @code{ceil}.)
 
+
 @item @{rpn 3 ismissing@}
 @cindex @code{ismissing} rpn operator
 @cindex rpn operator @code{ismissing}
 Yields 1 if the indicated value is a ``missing value'' or 0 otherwise. 
+
 
 @item @{rpn 100 log@}
 @cindex @code{log} rpn operator
 @cindex rpn operator @code{log}
 Calculate the base-10 logarithm of 100, yielding 2.
 
+
 @item @{rpn 10 ln@}
 @cindex @code{ln} rpn operator
 @cindex rpn operator @code{ln}
 Calculate the natural logarithm of 10, yielding 2.30259.
+
 
 @item @{rpn x mean@}
 Yields the mean value of the (non-missing) numbers in the x column.  A
 similar form also works for @code{y}, etc. 
 (@ref{Manipulation of Columns etc}).
 
+
 @item @{rpn x max@}
 Yields the largest value of the (non-missing) numbers in the x column.  A
 similar form also works for @code{y}, etc. 
 (@ref{Manipulation of Columns etc}).
+
 
 @item @{rpn x min@}
 Yields the smallest value of the (non-missing) numbers in the x column.  A
 similar form also works for @code{y}, etc. 
 (@ref{Manipulation of Columns etc}).
 
+
 @item @{rpn 28.45 pttocm@}
 @cindex @code{pttocm} rpn operator
 @cindex rpn operator @code{pttocm}
 Calculate the number of centimeters in 28.45 printers points, yielding 1.
 (Opposite of @code{cmtopt}.)
+
 
 @item @{rpn 1 2 pop@}
 @cindex @code{pop} rpn operator
@@ -12795,26 +13108,31 @@ Remove the top item from the stack, yielding @code{1} on the stack.
 Generates an error if the stack is empty.  (See also @code{exch} and
 @code{dup}.)
 
+
 @item @{rpn 4 sqrt@}
 @cindex @code{sqrt} rpn operator
 @cindex rpn operator @code{sqrt}
 Calculate the square root of 4, yielding 2.  (Negative arguments yield
 errors.)
 
+
 @item @{rpn 45 sin@}
 @cindex @code{sin} rpn operator
 @cindex rpn operator @code{sin}
 Calculate the sine of 45 (degrees), yielding 0.707107.
+
 
 @item @{rpn 2 sinh@}
 @cindex @code{sinh} rpn operator
 @cindex rpn operator @code{sinh}
 Calculate the hyperbolic sine of 2, yielding 3.62686.
 
+
 @item @{rpn "hello" strlen@}
 @cindex @code{strlen} rpn operator
 @cindex rpn operator @code{strlen}
 Determine the number of characters in string, e.g. 6 here.
+
 
 @item @{rpn "date" system@}
 @cindex @code{system} rpn operator
@@ -12822,21 +13140,25 @@ Determine the number of characters in string, e.g. 6 here.
 Call the indicated system function and insert its ouput on the stack,
 yielding the date as a character string.
 
+
 @item @{rpn 45 tan@}
 @cindex @code{tan} rpn operator
 @cindex rpn operator @code{tan}
 Calculate the tangent of 45 (degrees), yielding 1.
+
 
 @item @{rpn tanh@}
 @cindex @code{tanh} rpn operator
 @cindex rpn operator @code{tanh}
 Calculate the hyperbolic tangent of 2, yielding 0.964028.
 
+
 @item @{rpn "hi" width@}
 @cindex @code{width} rpn operator
 @cindex rpn operator @code{width}
 Determine width of this string (in cm), in the present font and fontsize.
 (See also @code{ascent} and @code{descent}.)
+
 
 @item @{rpn 0 wordv@}
 @cindex RPN operator @code{wordv}
@@ -12863,6 +13185,7 @@ you to skip the non-optional words in the command.  In this case, for
 example, we skipped the first three words (@code{let}, @code{us}, and
 @code{test}).
 
+
 @item @{rpn 1 xusertocm@}
 @cindex @code{xusertocm} rpn operator
 @cindex rpn operator @code{xusertocm}
@@ -12870,11 +13193,13 @@ Calculate the x coordinate, in centimeters measured from left-hand side of
 page, corresponding to a user-value of x=1.  (Opposite of
 @code{xcmtouser}.)
 
+
 @item @{rpn 1 xcmtouser@}
 @cindex @code{xcmtouser} rpn operator
 @cindex rpn operator @code{xcmtouser}
 Calculate the x value, in user units, for a point that is 1 centimeter from
 the left-hand edge of the paper.  (Opposite of @code{xusertocm}.)
+
 
 @item @{rpn 1 yusertocm@}
 @cindex @code{yusertocm} rpn operator
@@ -12882,6 +13207,7 @@ the left-hand edge of the paper.  (Opposite of @code{xusertocm}.)
 Calculate the y coordinate, in centimeters measured from bottom side of
 page, corresponding to a user-value of x=1.  (Opposite of
 @code{ycmtouser}.)
+
 
 @item @{rpn 1 ycmtouser@}
 @cindex @code{ycmtouser} rpn operator
@@ -12913,6 +13239,7 @@ generate items themselves and insert them on the stack.
 The solitary operators are illustrated below, in alphabetical order.
 
 @table @code
+
 @item @{rpn argc@}
 Yields number of command-line arguments given by the user when Gri was
 invoked.  Thus, invoking Gri as
@@ -12926,13 +13253,16 @@ yields 3, for arguments @file{myfile.gri}, @code{file1.dat},
 and @code{file2.dat}.  These arguments are accessible through
 the @code{argv} unary operator (@ref{Unary Operators}).
 
+
 @item @{rpn e@}
 @cindex e, base of natural logarithms, in RPN expressions
 Yields the base of natural logarithms, i.e. @code{2.718}...
 
+
 @item @{rpn pi@}
 @cindex pi, in RPN expressions
 Yields Pi, i.e. @code{3.141}...
+
 
 @item @{rpn rand@}
 @cindex RPN operator @code{rand}
@@ -12941,6 +13271,7 @@ Yields Pi, i.e. @code{3.141}...
 Generate a random number in the range 0 to 1, using the C subroutine
 @code{drand48()} if it is available, otherwise the less well-distributed
 @code{rand()} subroutine.
+
 
 @item @{rpn wordc@}
 @cindex RPN operator @code{wordc}
@@ -13045,28 +13376,40 @@ Here are some reverse-polish expressions and the corresponding algebraic
 interpretations:
 
 @itemize @bullet
+
 @item @code{@{rpn 1 2 + 10 / @}}
 = (1+2)/10       
+
 @item @code{@{rpn .a. .b. + .c. + .d. / @}}
 = (.a.+.b.+.c.)/.d.
+
 @item @code{@{rpn e 2 / @}}
 = e/2 (Gri knows values of ``e'' and ``pi'')
+
 @item @code{@{rpn 23 sin 100 * 12 cos + @}}
 = cos(12) + 100sin(23)
+
 @item @code{@{rpn 5 2 power @}}
 = 25
+
 @item @code{@{rpn 2 log exp @}}
 = exp(log 2)
+
 @item @code{@{rpn 2 ln exp10 @}}
 = 10^ln2
+
 @item @code{@{rpn 1.7 floor @}}
 = 1 (rounds down to nearest integer.  Note that the floor of -1.7 is -2)
+
 @item @code{@{rpn 10.1 2 remainder @}}
 = 0.1 (remainder of 10.1 after division by 2; see C function @code{remainder(x,y)})
+
 @item @code{@{rpn -10.1 2 remainder @}}
 = -0.1
+
 @item @code{@{rpn -10.1 -2 remainder @}}
 = -0.1
+
 @item @code{@{rpn .num. 10 > @}}
 = 1 if 10 exceeds .num., or 0 otherwise
 @end itemize
@@ -13655,6 +13998,7 @@ New command to show the time of day.
 @noindent
 EXPLANATION:
 @itemize @bullet
+
 @item 
 The name of the new command is enclosed in angled single-quote marks.
 The words of the new command should begin with upper-case letters to
@@ -14202,6 +14546,7 @@ if ..debug..
 end if
 @end example
 
+
 @item 
 If your @code{draw} commands don't draw anything, check to see
 whether you've fooled yourself by enforcing an improper scaling; remove
@@ -14447,6 +14792,7 @@ read columns x y
 close
 draw curve
 @end example
+
 
 @item Sometimes you need just a single output item from the operating
 system.  In this case, you can store the results from the operating
@@ -15375,9 +15721,11 @@ At this point, gri-mode should start up when you edit a gri file.  You
 may optionally customize gri-mode by:
 
 @enumerate
+
 @item 
  using the Custom interface (see the Help or Gri-Help menu or run the
  command @code{M-x gri-customize}), or
+
 @item 
  manually setting variables in your @file{~/.emacs} file.  These are
  briefly described by typing @kbd{C-h m} while in gri-mode.  Then, for
@@ -16426,6 +16774,10 @@ they are found to create new bugs.
 @itemize @bullet
 
 @item
+Add @code{set x axis labels} @ref{Set X Axis} and
+@code{set y axis labels} @ref{Set X Axis} commands.
+
+@item
 Permit specification of @code{pt} units for @code{draw label} @ref{Draw Box},
 @code{draw box} @ref{Draw Box},
 @code{draw symbol at} @ref{Draw Symbol At},
@@ -16502,18 +16854,23 @@ if you have suggestions for other changes to Gri.
 
 @enumerate
 
+
 @item Change @code{set axes style} from number-based selection to
 word-based selection, and print a deprecation warning if the
 number-based syntax is used.
 
+
 @item Make @code{open} handle URL addresses.
 
+
 @item Switch from @code{tmpname} to @code{mkstemp} subroutine, for temporary filenames.
+
 
 @item Switch to @code{popt} library for the processing of command-line 
 options.
 (Docs on this are at
 @url{http://cvs.gnome.org/lxr/source/popt}.)
+
 
 @item Add readline support, to handle history, command-line editing, etc, 
 for interactive usage
@@ -16527,8 +16884,10 @@ for interactive usage
 
 @enumerate
 
+
 @item Add optimal interpolation as another method for gridding
 data (@ref{Convert Columns To Grid}).
+
 
 @item Add ability to read PNG images (@ref{Read Image})
 (Docs on this are at @url{http://www.libpng.org/pub/png/}.)
@@ -16540,9 +16899,12 @@ data (@ref{Convert Columns To Grid}).
 
 @enumerate
 
+
 @item Add non-RPN mathematics.
 
+
 @item Add graphical output to the screen as commands are executed.  
+
 
 @item Add support for both little-endian and big-endian binary data.
 
@@ -16731,6 +17093,7 @@ procedure is quite standard.
 @cindex how to compile gri
 
 @table @emph
+
 @item Requirements
 You'll need a C++ compiler that is modern enough to handle 'templates'
 (i.e. almost any compiler from 1998 onward).  Don't worry -- if your
@@ -16745,6 +17108,7 @@ On Debian GNU/Linux systems, the required packages are listed as
 Build-Depends in the @file{control} file found in the @file{debian}
 directory, to which you must add the package @file{build-essential}.
 
+
 @item Unpack the source
 Type 
 
@@ -16758,11 +17122,13 @@ tar xvf gri-@value{GRI-VERSION}.tar
 yield a new directory named @file{gri-@value{GRI-VERSION}} which
 contains many files.
 
+
 @item Move to the Gri directory
 
 @example
 cd gri-@value{GRI-VERSION}
 @end example
+
 
 @item Configure your compiler
 Next you must "configure" the Gri source files.  During this step, a
@@ -16879,12 +17245,14 @@ in one of my startup files:
 export LD_LIBRARY_PATH=/usr/lib:/usr/local/share/netcdf/lib
 @end example
 
+
 @item Compiling Gri
 Now compile Gri by typing
 
 @example
 make
 @end example
+
 
 @item Testing Gri
 @cindex test suite
@@ -16897,6 +17265,7 @@ make test
 @noindent
 to do some tests on the version of Gri that you just compiled.  If no
 errors are reported, you may go to the next step.
+
 
 @item Installing Gri
 Assuming compilation succeeds, install @file{gri} and the ancillary file
@@ -16912,6 +17281,7 @@ typing
 @example
 make -n install
 @end example
+
 
 @item Cleaning up
 Once these things are done, you may type
@@ -17236,10 +17606,13 @@ use it in standalone mode.
 The list below is a sketch of what you might try, and in what order.
 
 @itemize @bullet
+
 @item Check the bug list to see if other users have found your bug,
 and also to see if there is a workaround.
+
 @item Try a more recent version of gri.  If it works, you might wish to 
 archive the version you have at the moment and upgrade.
+
 @item If you suspect your bug has something to do with system calls, 
 as in the @code{system} command (@ref{System}) or as in piped input
 files (@ref{Open}), you should re-run the script with 
@@ -17248,6 +17621,7 @@ Gri to print out all commands that it is handing over to the operating
 system; you may see the error that way.  (Hint: it may help to
 interactively cut/paste the commands into your OS shell to see what the 
 action of the command is.)
+
 @item If your bug results in early termination, you should run Gri
 inside a debugger (e.g. GDB, assumed henceforth).  When the program
 terminates, type @code{where} to see where termination occured.  Often
@@ -17256,6 +17630,7 @@ faults in memory allocation.  To check memory allocation, you'll need to
 recompile Gri, linking it against a debugging memory allocator.  Many
 such tools exist; see comments in the @code{Makefile} for a hint at how
 to use a popular one, called ``Electric Fence.''
+
 @item If your bug does not result in early termination, you may find 
 the best scheme is to trim your example down as much as possible, and
 then run Gri inside the GDB (or other debugger) so that you can monitor
@@ -17289,27 +17664,33 @@ some of the lines in the files into two lines in this list.)
 
 @enumerate
 
+
 @item Copy the above script (called @file{test.gri}) into the Gri source 
 directory, and the script into an Emacs buffer.  @b{Note:} all the
 following steps are done within Emacs, and the items in parentheses are
 the Emacs keys to get the indicated actions.
+
 
 @item If you're working from a pre-compiled version, you'll need to get the
 source first and do a compile yourself (@ref{Uncompiled Unix}).  Then do
 a @code{make tags} command (type this to the unix shell) to create a
 so-called "tag" table.
 
+
 @item Run Gri in this emacs buffer (@kbd{C-cC-r}) noting from the 
 postscript window that pops up that the colors are, indeed, mixed up.
+
 
 @item Load up the @code{gdb} debugger by typing @kbd{M-x gdb gri}.  This
 will open a new Emacs buffer in which you may type commands.  We'll be
 switching back and forth between this buffer and various source files.
 
+
 @item Reasoning that the error probably occurs at @code{set color} or
 @code{draw box}, try replacing the latter by a command such as
 @code{draw label "hi" at 3 3 cm"}.  The color is still wrong, indicating
 that it is the @code{set color} command that has the problem.
+
 
 @item Next, we must find where the C++ code corresponding to the
 @code{set color} command resides.  As it turns out, all @code{set}
@@ -17329,11 +17710,13 @@ command, enclosed in braces; you'll see
 @noindent
 which indicates that the subroutine name is @code{set_colorCmd()}.
 
+
 @item Next we need to edit this subroutine to see what it is doing.
 There are several ways to find it (e.g. @code{grep} through the source
 files), but the easiest is to use the "tags" feature of Emacs, by typing
 @kbd{M-. set_colorCmd}.  This will bring you to the indicated
 subroutine.
+
 
 @item Have a look through this subroutine to see what it is doing.  It
 looks very much like many other Gri subroutines.  A check is done on the
@@ -17401,6 +17784,7 @@ As it turns out, Gri outputs all colors to the PostScript file in RGB
 format, so the we may well suspect that the problem is in the
 @code{gr_hsv2rgb()} line. 
 
+
 @item We have an idea where to look now, so let's go to the line just after 
 it, in the editor, and insert a "breakpoint" there by typing
 @kbd{C-x SPC}.  Then move to the @code{gdb} buffer and re-run Gri
@@ -17441,6 +17825,7 @@ values again, as above.  If you like, play around with hue value in the
 Gri script @file{test.gri} and run gri again (type @code{r} in
 @code{gdb}).  This seems to indicate that the conversion is working
 strangely.
+
 
 @item To see how the conversion is done, clear the breakpoints by typing
 @kbd{delete} in the @code{gdb} buffer, then insert a breakpoint
@@ -17599,57 +17984,94 @@ email I sent Saturday (don't Gri users take a break?) is below.
 
 @b{Journals in Oceanography, Atmospheric Science, Earth Science, etc.}
 @itemize @bullet
+
 @item @strong{Bulletin on Coastal Oceanography} (in Japanese with English
 abstract)
+
 @item @strong{Fisheries Oceanography}
+
 @item @strong{Deep-Sea Research}
+
 @item @strong{EOS, Transactions of the American Geophysical Union}
+
 @item @strong{Estuarine, Coastal and Shelf Science}
+
 @item @strong{Geophysical Research Letters}
+
 @item @strong{Journal of Atmospheric and Oceanic Technology}
+
 @item @strong{Journal of Geophysical Research}
+
 @item @strong{Journal of Marine Research}
+
 @item @strong{Journal of Plankton Research}
+
 @item @strong{Journal of Physical Oceanography}
+
 @item @strong{Journal of the Japan Scoiety for Marine Surveys and Technology}
 (in Japanese with English abstract)
+
 @item @strong{Limnology and Oceanography}
+
 @item @strong{Marine Biology}
+
 @item @strong{Marine Ecology Progress Series}
+
 @item @strong{Oceanography}
+
 @item @strong{Paleoceanography}
+
 @item @strong{Progress in Oceanography}
+
 @item @strong{Quaternary Research}
+
 @item @strong{Scientia Marina}
+
 @item @strong{South African Journal of Marine Science}
+
 @item @strong{Umi no Kenkyu} (Japanese version for Journal of Oceanography, in
 Japanese with English abstract)
 @end itemize
 
 @b{Journals in Physics, Chemistry, etc.}
 @itemize @bullet
+
 @item @strong{Applied Physics A}
+
 @item @strong{Journal of Fluid Mechanics}
+
 @item @strong{Journal of Physical Chemistry B}
+
 @item @strong{Physica D}
+
 @item @strong{Physics of Fluids}
+
 @item @strong{Physics A}
+
 @item @strong{Physics Letters B}
+
 @item @strong{Physical Review C}
+
 @item @strong{Physical Review Letters}
+
 @item @strong{Research on Chemical Intermediates}
+
 @item @strong{Theoretical Computational Fluid Dynamics}
 @end itemize
 
 @b{Other Journals}
 @itemize @bullet
+
 @item @strong{Nature}
 @end itemize
 
 @b{Books, Monographs, etc.}
 @itemize @bullet
+
 @item @strong{The Atlas of Hawai'i} (University of Hawai'i Press)
+
 @item @strong{Differential Equations with Applications to Biology} (American Mathematical Society)
+
 @item @strong{Ocean Drilling Program} publications
 @end itemize
 
