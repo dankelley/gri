@@ -333,7 +333,8 @@ HREF="http://gri.sourceforge.net/gridoc/html/Version_2_8.html#Version2.8">Histor
     <tr>
       <td class="menus" align="left">
         <A class="menus" href="http://www.sourceforge.net/news/?group_id=5511">News forum</a></br>
-	<A class="menus" HREF="http://www.sourceforge.net/forum/forum.php?forum_id=16974">Discussion forum</A><br>
+	<A class="menus" HREF="http://www.sourceforge.net/forum/forum.php?forum_id=16974">Open forum</A><br>
+	<A class="menus" HREF="http://www.sourceforge.net/forum/forum.php?forum_id=16976">Developer forum</A><br>
 	<A class="menus" HREF="http://www.sourceforge.net/forum/forum.php?forum_id=16975">Help forum</A><br>
 	<A class="menus" HREF="http://sourceforge.net/tracker/?atid=105511&group_id=5511&func=browse">Bug reports</A><br>
 	<A class="menus" HREF="http://sourceforge.net/tracker/?atid=355511&group_id=5511&func=browse">Feature requests</A><br>
