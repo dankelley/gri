@@ -9561,7 +9561,7 @@ beginning with slash or period), then that particular file will be used.
 For filenames beginning with a letter or number, though, Gri will search
 for the file in the list of directories stored in your @code{GRIINPUTS}
 unix environment variable, or in the list (@file{.},
-@file{/usr/local/share/gri/@value{GRI-VERSION}}) if that environment 
+@file{/usr/local/lib/gri}) if that environment 
 variable is not set.
 
 
