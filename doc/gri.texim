@@ -1,5 +1,5 @@
 @c -*-mode: texinfo; -*-
-@c $Id: gri.texim,v 1.70 2001/03/30 15:26:24 dankelley Exp $
+@c $Id: gri.texim,v 1.71 2001/03/30 19:53:16 dankelley Exp $
 \input texinfo @c -*-texinfo-*-
 @c
 @comment *** Start of HTML stuff ***
@@ -15553,7 +15553,7 @@ editing sessions.
 @comment  node-name,  next,  previous,  up
 @section Version 2.6
 
-@subsection Version 2.6.0 [To be released in March/April 2001]
+@subsection Version 2.6.0 [2001 April 1]
 @itemize @bullet
 
 @item
