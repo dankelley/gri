@@ -1,3 +1,8 @@
+UPDATE THIS FILE BY ONE OF FOLLOWING:
+
+ scp checklist_for_release dankelley@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
+ scp checklist_for_release psg@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
+
 This file is the gri release checklist, used to coordinate the efforts
 of the developers.
 
