@@ -13,11 +13,11 @@ query \filename "Name image file" ("example6image.dat")
 query \maskname "Name mask  file" ("example6mask.dat")
 
 # get data
-open \filename uchar
+open \filename binary uchar
 set image range \0val \255val
 read image .rows. .cols. box 0 0 .km. .km.
 close
-open \maskname uchar
+open \maskname binary uchar
 read image mask .rows. .cols.
 close
 

@@ -28,24 +28,83 @@ deleteCmd()
 	} 
 	string w1(_word[1]); 
 	un_double_quote(w1);
-	un_double_slash(w1);
-	de_reference(w1);
+	//un_double_slash(w1);
+
+	//de_reference(w1);
+
 	if (is_var(w1) || is_syn(w1)) {
 		/* Deleting variable/synonym (s) */
 		for (unsigned int i = 1; i < _nword; i++) {
+			//printf("DEBUG %s:%d should delete <%s>\n",__FILE__,__LINE__,_word[i]);
 			w1.assign(_word[i]);
 			un_double_quote(w1);
-			un_double_slash(w1);
-			de_reference(w1);
+			//un_double_slash(w1);
+
+			//de_reference(w1);
+
 			if (is_var(w1)) {
 				if (!delete_var(w1)) {
 					warning("`delete' can't delete non-existent variable `\\", w1.c_str(), "'", "\\");
 					return false;
 				}
 			} else if (is_syn(w1)) {
-				if (!delete_syn(w1)) {
-					warning("`delete' can't delete non-existent synonym `\\", w1.c_str(), "'", "\\");
-					return false;
+				if (w1[1] == '@') {
+					string clean("\\");
+					clean.append(w1.substr(2, w1.size()));
+					string named;
+					get_syn(clean.c_str(), named, false);
+					//printf("DELETE IS AN ALIAS SYN %s:%d <%s>  [%s]\n",__FILE__,__LINE__,clean.c_str(),named.c_str());
+					if (is_var(named.c_str())){
+						if (!delete_var(named.c_str())) {
+							warning("`delete' can't delete non-existent variable `\\", w1.c_str(), "'", "\\");
+							return false;
+						}
+						return true;
+					} else if (is_syn(named.c_str())) {
+						if (!delete_syn(named.c_str())) {
+							warning("`delete' can't delete non-existent synonym `\\", named.c_str(), "'", "\\");
+							return false;
+						}
+					} else {
+						err("`delete' cannot decode `\\", w1.c_str(), "'", "\\");
+						return false;
+					}
+					return true;
+				} else {
+					// Non-aliased synonym.
+					string value;
+					if (get_syn(w1.c_str(), value, false)) {
+						string coded_name;
+						int coded_level = -1;
+						//printf("DEBUG <%s>\n", value.c_str());
+						if (is_coded_string(value.c_str(), coded_name, &coded_level)) {
+							//printf("DEBUG %s:%d is <%s> <%s> level %d\n",__FILE__,__LINE__,value.c_str(),coded_name.c_str(),coded_level);
+							if (coded_name[0] == '.') {
+								int index = index_of_variable(coded_name.c_str(), coded_level);
+								//printf("should delete var at %d\n",index);
+								if (index > -1)
+									variableStack.erase(variableStack.begin() + index);
+								continue;
+							} else if (coded_name[0] == '\\') {
+								int index = index_of_synonym(coded_name.c_str(), coded_level);
+								//printf("should delete syn at %d\n",index);
+								//show_syn_stack();
+								if (index > -1)
+									synonymStack.erase(synonymStack.begin() + index);
+								//printf("OK, is it gone?\n");
+								//show_syn_stack();
+								continue;
+							} else {
+								err("`delete' cannot decode `\\", w1.c_str(), "'", "\\");
+								return false;
+							}
+							
+						}
+					}
+					if (!delete_syn(w1)) {
+						warning("`delete' can't delete non-existent synonym `\\", w1.c_str(), "'", "\\");
+						return false;
+					}
 				}
 			} else {
 				warning("`delete' can't delete item `\\", w1.c_str(), "' since it is neither a synonym nor a variable", "\\");

@@ -148,8 +148,7 @@ gr_textsave(const char *s)
 		strcpy(stdin_buffer.buf, s);
 		first = false;
 	} else {
-		stdin_buffer.buf = (char *)realloc(stdin_buffer.buf,
-						   2 + len + stdin_buffer.buf_capacity);
+		stdin_buffer.buf = (char *)realloc(stdin_buffer.buf, 2 + len + stdin_buffer.buf_capacity);
 		strcat(stdin_buffer.buf, s);
 	}
 	strcat(stdin_buffer.buf, "\n");
@@ -201,8 +200,9 @@ gr_textget(char *s, int max)
 bool
 gr_buffgets(char *s, unsigned int most, FBUFFER * fbuf)
 {
-	printf("DEBUG %s:%d in gr_buffgets fbuf at %x\n",__FILE__,__LINE__,int(fbuf));
+	//printf("DEBUG %s:%d in gr_buffgets fbuf at %x\n",__FILE__,__LINE__,int(fbuf));
 	if (fbuf->buf_position < fbuf->buf_capacity) {
+		//printf("DEBUG getting from buf...\n"); 
 		unsigned int i;
 		for (i = 0; i < most - 1; i++) {
 			s[i] = fbuf->buf[fbuf->buf_position++];
@@ -212,6 +212,7 @@ gr_buffgets(char *s, unsigned int most, FBUFFER * fbuf)
 				break;		/* will lose some characters, but no warning */
 		}
 		s[i + 1] = '\0';
+		//printf("DEBUG buf provided <%s>\n",s); 
 	} else {
 		fgets(s, most, (FILE *) fbuf->fp);
 		if (feof(fbuf->fp))
@@ -224,7 +225,26 @@ gr_buffgets(char *s, unsigned int most, FBUFFER * fbuf)
 void
 gr_textput(const char *s)
 {
-	printf("%s", s);
+	unsigned int l = strlen(s);
+	for (unsigned int i = 0; i < l; i++) {
+		if (s[i] == '\\') {
+			if (i < l - 2) {
+				if (s[i + 1] == '>' && s[i + 2] == '>') {
+					putc('\t', stdout);
+					i++;
+					i++;
+					continue;
+				} else if (s[i + 1] == '<' && s[i + 2] == '<') {
+					putc('\n', stdout);
+					i++;
+					i++;
+					continue;
+				}
+			}
+		}
+		putc(s[i], stdout);
+	}
+
 }
 
 bool

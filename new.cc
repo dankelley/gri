@@ -58,14 +58,56 @@ newCmd()
 	}
 	for (unsigned int i = 1; i < _nword; i++) {
                 string w(_word[i]);
-		//printf("DEBUG 1 <%s>\n",w.c_str());
 		un_double_quote(w);
-		//printf("DEBUG 2 <%s>\n",w.c_str());
-		de_reference(w);
-		//printf("DEBUG 3 <%s>\n",w.c_str());
+		//printf("DEBUG %s:%d <%s>\n",__FILE__,__LINE__,w.c_str());
+		string value;
+		if (get_syn(w.c_str(), value, false)) {
+			string coded_name;
+			int coded_level = -1;
+			//printf("DEBUG <%s>\n", value.c_str());
+			if (is_coded_string(value.c_str(), coded_name, &coded_level)) {
+				//printf("DEBUG %s:%d is <%s> <%s> level %d\n",__FILE__,__LINE__,value.c_str(),coded_name.c_str(),coded_level);
+				if (coded_name[0] == '.') {
+					int index = index_of_variable(coded_name.c_str(), coded_level);
+					GriVariable newVariable(coded_name.c_str(), 0.0);
+					variableStack.insert(variableStack.begin() + index + 1, newVariable);
+					//printf("VAR index is %d\n", index);
+				} else if (coded_name[0] == '\\'){
+					int index = index_of_synonym(coded_name.c_str(), coded_level);
+					//printf("SYN index is %d, now holds <%s>\n", index, synonymStack[index].get_value());
+					GriSynonym newSynonym(coded_name.c_str(), "");
+					synonymStack.insert(synonymStack.begin() + index + 1, newSynonym);
+				} else {
+					err("new cannot decode item `\\", _word[i], "'.", "\\");
+					return false;
+				}
+				return true;
+			}
+		}
+
+		// de_reference(w);
+
 		if (is_syn(w)) {
 			//printf("DEBUG 4-a SYN <%s>\n", w.c_str());
-			create_synonym(w.c_str(), "");
+			if (w[1] == '@') {
+				string clean("\\");
+				clean.append(w.substr(2, w.size()));
+				string named;
+				get_syn(clean.c_str(), named, false);
+				//printf("NEW IS AN ALIAS SYN %s:%d <%s>  [%s]\n",__FILE__,__LINE__,clean.c_str(),named.c_str());
+				if (is_var(named.c_str())) {
+					//printf("NEW VAR [%s]\n",named.c_str());
+					create_variable(named.c_str(), 0.0);
+				} else if (is_syn(named.c_str())) {
+					//printf("NEW SYN [%s]\n",named.c_str());
+					create_synonym(named.c_str(), "");
+				} else {
+					err("`new' cannot decode `\\", w.c_str(), "'", "\\");
+					return false;
+				}
+			} else {
+				create_synonym(w.c_str(), "");
+			}
 		} else if (is_var(w)) {
 			//printf("DEBUG 4-b VAR <%s>\n", w.c_str());
 			create_variable(w.c_str(), 0.0);

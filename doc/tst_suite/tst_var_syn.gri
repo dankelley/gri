@@ -81,67 +81,45 @@ assert {rpn "\\a"    defined   }                " failed test 8.1"
 delete \a
 assert {rpn "\\a"    defined ! }                " failed test 8.2"
 \a = "HI"
-delete \\a
-assert {rpn "\\a"    defined ! }                " failed test 8.3"
-\a = "HI"
-delete "\a"
-assert {rpn "\\a"    defined ! }                " failed test 8.4"
-\a = "HI"
-delete "\\a"
-assert {rpn "\\a"    defined ! }                " failed test 8.5"
-
-# Part 2. test redirection.
-\a = "hi"
-\name = "\\a"
-assert {rpn "\\@name" defined   }               " failed test 9.1"
-delete \@name
-assert {rpn "\\a"     defined ! }               " failed test 9.2"
-
-# Part 3. test 'new' and 'delete' with re-directed ...
-new \@name
-assert {rpn "\\a"     defined   }               " failed test 10.1"
-\a = "greeting"
-assert {rpn "\\a"     defined   }               " failed test 10.2"
-delete \\@name
-assert {rpn "\\a"     defined ! }               " failed test 10.3"
-
-# Part 4. also, check new/delete the old way!
-new \a
-assert {rpn "\\a"     defined   }               " failed test 11.1"
-\a = "greeting"
-assert {rpn "\\a"     defined   }               " failed test 11.2"
 delete \a
-assert {rpn "\\a"     defined ! }               " failed test 11.3"
+assert {rpn "\\a"    defined ! }                " failed test 8.3"
 
-# Part 5. sprintf on normal and de-referenced synonyms (SF bug 117413)
+new \a
+assert {rpn "\\a"     defined   }               " failed test 9.1"
+\a = "greeting"
+assert {rpn "\\a"     defined   }               " failed test 9.2"
+delete \a
+assert {rpn "\\a"     defined ! }               " failed test 9.3"
+
+# Part 5. sprintf
 sprintf \a "%.1f" 10
-assert {rpn "\a" "10.0" == }                    " failed test 12.1"
+assert {rpn "\a" "10.0" == }                    " failed test 10.1"
 \alias_for_a = "\\a"
 sprintf \@alias_for_a "%.1f" 20
-assert {rpn "\a" "20.0" == }                    " failed test 12.2"
+assert {rpn "\a" "20.0" == }                    " failed test 10.2"
 
 # Part 6. Environment variables (SF bug 117415)
 \alias_for_a = "\\a"
 get env \@alias_for_a "SHELL"
 get env \b "SHELL"
-assert {rpn "\a" "\b" ==}                       " failed test 13.1"
+assert {rpn "\a" "\b" ==}                       " failed test 11.1"
 
 # Part 7 'read' (SF bug 117412)
 system echo "Hello" > test.dat
 open "test.dat"
 read \a
-assert {rpn "\a" "Hello" ==}                    " failed test 14.1"
+assert {rpn "\a" "Hello" ==}                    " failed test 12.1"
 \a = "JUNK"
 \alias_for_a = "\\a"
 rewind
 read \\a
-assert {rpn "\a" "Hello" ==}                    " failed test 14.2"
+assert {rpn "\a" "Hello" ==}                    " failed test 12.2"
 \a = "JUNK"
 \alias_for_a = "\\a"
 rewind
 read \@alias_for_a
 close
-assert {rpn "\a" "Hello" ==}                    " failed test 14.3"
+assert {rpn "\a" "Hello" ==}                    " failed test 12.3"
 system rm -f test.dat
 
 #
@@ -153,10 +131,10 @@ read columns x y
 \a1 \b1
 \a2 \b2
 
-assert {rpn x 0 @  1 ==}                        " failed test 15.1"
-assert {rpn x 1 @ 10 ==}                        " failed test 15.2"
-assert {rpn y 0 @  2 ==}                        " failed test 15.3"
-assert {rpn y 1 @ 20 ==}                        " failed test 15.4"
+assert {rpn x 0 @  1 ==}                        " failed test 13.1"
+assert {rpn x 1 @ 10 ==}                        " failed test 13.2"
+assert {rpn y 0 @  2 ==}                        " failed test 13.3"
+assert {rpn y 1 @ 20 ==}                        " failed test 13.4"
 
 `NC ...'
 {
@@ -165,8 +143,8 @@ assert {rpn y 1 @ 20 ==}                        " failed test 15.4"
     
 }
 NC 1 10
-assert {rpn x 0 @  1 ==}                        " failed test 16.1"
-assert {rpn y 0 @ 10 ==}                        " failed test 16.2"
+assert {rpn x 0 @  1 ==}                        " failed test 14.1"
+assert {rpn y 0 @ 10 ==}                        " failed test 14.2"
 
 \a = "1  2"
 \b = "10 20"
@@ -174,8 +152,8 @@ assert {rpn y 0 @ 10 ==}                        " failed test 16.2"
 read columns x y
 \[\index]a \[1]b
 
-assert {rpn x 0 @  1 ==}                        " failed test 17.1"
-assert {rpn y 0 @ 20 ==}                        " failed test 17.2"
+assert {rpn x 0 @  1 ==}                        " failed test 15.1"
+assert {rpn y 0 @ 20 ==}                        " failed test 15.2"
 
 
 `NC2 ...'
@@ -186,54 +164,140 @@ assert {rpn y 0 @ 20 ==}                        " failed test 17.2"
     
 }
 NC2 "1 2" "100 200"
-assert {rpn x 0 @   1 ==}                        " failed test 18.1"
-assert {rpn x 1 @   2 ==}                        " failed test 18.2"
-assert {rpn y 0 @ 100 ==}                        " failed test 18.3"
-assert {rpn y 1 @ 200 ==}                        " failed test 18.4"
+assert {rpn x 0 @   1 ==}                        " failed test 16.1"
+assert {rpn x 1 @   2 ==}                        " failed test 16.2"
+assert {rpn y 0 @ 100 ==}                        " failed test 16.3"
+assert {rpn y 1 @ 200 ==}                        " failed test 16.4"
 
 
-# Part 9. New commands with variables (fixes SF bug 131315)
-`double ...'
+# Part 9. New commands with variables
+
+# Rvalue: synonyms/variables
+`ampersand_rvalue &.v. &\s'
 {
-    \@.word1. *= 2
+    new \syn
+    \syn = "Shadow"
+    new .a.
+    .a. = 0
+    assert {rpn \.word1. 1 ==}                   " failed test 17.1"
+    assert {rpn "\.word2." "Brightness" ==}      " failed test 17.2"
+    delete \syn
+    delete .a.
+}
+.a. = 1
+\syn = "Brightness"
+ampersand_rvalue &.a. &\syn
+
+# Rvalue + Lvalue: synonym
+`append &\s'
+{
+    \.word1. = "\.word1. and bye"
+}
+\a = "hi"
+append &\a
+assert {rpn "\a" "hi and bye" ==}                "failed test 18.3"
+
+# Rvalue + Lvalue: variable in the = form of assignment
+`double &.var.'
+{
+    \.word1. = {rpn \.word1. 2 *}
 }
 .a. = 10
-double ".a."
-assert {rpn .a. 20 ==}                          " failed test 19.1"
-`halve ...'
+double &.a.
+assert {rpn .a. 20 ==}                           "failed test 18.4"
+
+`Double &.var.'
 {
-    \@.word1. = {rpn \@.word1. 2 /}
+    \.word1. *= 2
 }
-halve ".a."
-assert {rpn .a. 10 ==}                          " failed test 19.2"
+.a. = 10
+Double &.a.
+assert {rpn .a. 20 ==}                          " failed test 18.5"
 
-# Part 10. New commands with synonyms
-`NC3 \\fnl'
+`halve &.var.'
 {
-    \@.word1. = "Howdy"
+    \.word1. = {rpn \.word1. 2 /}
 }
-NC3 \\fnl
-assert {rpn "\fnl" "Howdy" ==}                  " failed test 20.1"
+halve &.a.
+assert {rpn .a. 10 ==}                          " failed test 18.6"
 
-
-# Part 11. Pointing synonyms
-`postpend_dat *\filename'
+`NC3 &\friendly'
 {
-    *\.word1. = {rpn "*\.word1." ".dat" strcat}
+    \.word1. = "Howdy"
+}
+\greeting = "Hi"
+NC3 &\greeting
+assert {rpn "\greeting" "Howdy" ==}             " failed test 18.7"
+
+`postpend_dat &\filename'
+{
+    \.word1. = {rpn "\.word1." ".dat" strcat}
 }
 \filename = "test"
 postpend_dat &\filename
-assert {rpn "\filename" "test.dat" ==}          " failed test 21.1"
+assert {rpn "\filename" "test.dat" ==}          " failed test 18.8"
 
+# new
+`test_new &\s'
+{
+    new \.word1.
+    new \a
+    \a = "This will dissapear"
+    \.word1. = "Think locally"
+    delete \a
+}
+\a = "Act globally"
+test_new &\a
+assert {rpn "\a" "Think locally" ==}             " failed test 18.9"
+delete \a
+assert {rpn "\a" "Act globally" ==}              " failed test 18.10"
 
+`test_new_delete &\s'
+{
+    new \a
+    \a = "Insurrection"
+    assert {rpn "\.word1." "Act globally" ==}    " failed test 18.11"
+    delete \.word1.
+    assert {rpn "\.word1." "Or else" ==}         " failed test 18.12"
+    delete \a
+}
+\a = "Or else"
+new \a
+\a = "Act globally"
+test_new_delete &\a
+
+# Nexting
+`nest2 &.v. &\s'
+{
+    assert {rpn "\.word1." "HI" ==}              " failed test 18.13"
+    assert {rpn \.word2. 0.5 ==}                 " failed test 18.14"
+}
+`nest1 &.v. &\s'
+{
+    nest2 &\.word2. &\.word1.	# reversed
+}
+.a. = 0.5
+\s = "HI"
+nest1 &.a. &\s
+# defined
+`check_defined &.v.'
+{
+    assert {rpn "\\.word1." defined}             " failed test 18.15"
+    delete .a.
+    assert {rpn "\\.word1." defined !}           " failed test 18.16"
+}
+.a. = 100
+check_defined &.a.
+
+# System
 \t = system \.awk. -f - <<"EOF" 
 {print "Hi"}; 
 EOF 
-assert {rpn "\t" "Hi" ==}                       " failed test 22.1"
+assert {rpn "\t" "Hi" ==}                       " failed test 19.1"
 \t = system \.awk. -f - <<"EOF" 
 {print "Hello"}; 
  EOF 
-assert {rpn "\t" "Hello" ==}                    " failed test 22.2"
+assert {rpn "\t" "Hello" ==}                    " failed test 19.2"
 `NC4'
 { 
     \t = system \.awk. -f - <<"EOF" 
@@ -241,7 +305,7 @@ assert {rpn "\t" "Hello" ==}                    " failed test 22.2"
 EOF 
 } 
 NC4
-assert {rpn "\t" "Howdie" ==}                   " failed test 22.3"
+assert {rpn "\t" "Howdie" ==}                   " failed test 19.3"
 `NC5'
 { 
     \t = system \.awk. -f - <<"EOF" 
@@ -249,7 +313,38 @@ assert {rpn "\t" "Howdie" ==}                   " failed test 22.3"
     EOF 
 } 
 NC5
-assert {rpn "\t" "G'day" ==}                    " failed test 22.4"
+assert {rpn "\t" "G'day" ==}                    " failed test 19.4"
+
+### BLOCK 20 ###
+# Alias as lvalue (e.g. \@ptr = ...)
+# (1) lvalue synonyms
+\greeting = "You say goodbye"
+\alias = "\\greeting"
+\@alias = "And I say hello"
+assert {rpn "\greeting" "And I say hello" ==}   " failed test 20.1"
+# (2) lvalue variables
+.b. = 1
+\bptr = ".b."
+\@bptr *= 2
+assert {rpn .b. 2 ==}                           " failed test 20.2"
+\@bptr = 10
+assert {rpn .b. 10 ==}                          " failed test 20.3"
+
+# Alias as rvalue (e.g. show "\@ptr")
+# (1) rvalue synonyms
+\a = "HI"
+\aptr = "\\a"
+assert {rpn "\@aptr" "HI" ==}                   " failed test 20.4"
+\@aptr = "BYE"
+assert {rpn "\@aptr" "BYE" ==}                  " failed test 20.5"
+\aa = "\@aptr"
+assert {rpn "\@aptr" "BYE" ==}                  " failed test 20.6"
+# (2) rvalue variables
+.a. = 1
+\aptr = ".a."
+assert {rpn \@aptr 1 ==}                        " failed test 20.7"
+.aa. = {rpn .a. 1 +}
+assert {rpn .aa. 2 ==}                          " failed test 20.8"
 
 
 show " passed"

@@ -27,7 +27,6 @@ bool            set_grid_missingCmd(void);
 bool            set_grid_missing_curve(bool inside);
 bool            mask_an_island(double *x, double *y, unsigned int n);
 bool            set_y_axis_labelCmd(void);
-bool            set_synonymCmd(void);
 // following shared with read.c
 double          _input_data_window_x_min = 1.0;
 double          _input_data_window_x_max = -1.0;
@@ -3224,15 +3223,17 @@ set_y_sizeCmd()
 //  Type 1. \syn = word .n. of "string"
 //  Type 2. \syn = system ...
 //  Type 3. \syn = tmpname
+#if 0
 //  Type 4. \syn = &.a_var.
 //  Type 5. \syn = &\a_syn
+#endif
 //  Type 6. \syn = "string"
 bool
 assign_synonym()
 {
 #if 0
 	printf("DEBUG %s:%d in assign_synonym.  words: ", __FILE__,__LINE__);
-	for (int iw = 0; iw < _nword; iw++) 
+	for (unsigned int iw = 0; iw < _nword; iw++) 
 		printf("<%s> ", _word[iw]);
 	printf("\n");
 #endif
@@ -3241,14 +3242,90 @@ assign_synonym()
 		err("The purported alias `\\", _word[0], "' doesn't name any known variable or synonym.", "\\");
 		return false;
 	}
-#if 1
+
+	// If assigning as e.g.
+	//     \.word1. = 10
+	//     \.word1. = "hi"
+	// then see if the calling-arg was a var/syn with an & to the left
+	if (!strncmp(_word[0], "\\.word", 6) && *(_word[0] + strlen(_word[0]) - 1) == '.') {
+		//printf("DEBUG %s:%d ASSIGNING to word[0] as '%s'\n",__FILE__,__LINE__,_word[0]);
+		string value;
+		if (!get_syn(_word[0], value, false)) {
+			err("Cannot access \\.word0. synonym");
+			return false;
+		}
+		//printf("DEBUG %s:%d value of '%s' is '%s'\n",__FILE__,__LINE__,_word[0],value.c_str());
+		string coded_name;
+		int coded_level = -1;
+		if (is_coded_string(value, coded_name, &coded_level)) {
+			//printf("DEBUG %s:%d '%s' was encoded `%s' at level %d\n",__FILE__,__LINE__, _word[0], coded_name.c_str(), coded_level);
+			if (coded_name.c_str()[0] == '.') {
+				int index = index_of_variable(coded_name.c_str(), coded_level);
+				//printf("DEBUG %s:%d A VAR ... index %d.  to assign '%s'\n",__FILE__,__LINE__,index,_word[2]);
+				if (index < 0) {
+					err("Cannot assign to non-existing variable `", coded_name.c_str(), "' as inferred from coded word `", value.c_str(), "'.", "\\");
+					return false;
+				}
+				double rhs;
+				if (!getdnum(_word[2], &rhs)) {
+					err("cannot assign `", _word[2], "' to variable `", coded_name.c_str(), "'.", "\\");
+					return false;
+				}
+				if (!strcmp(_word[1], "=")) {
+					variableStack[index].set_value(rhs);
+				} else {
+					double oldValue = variableStack[index].get_value();
+					if (strEQ(_word[1], "*="))
+						variableStack[index].set_value(oldValue * rhs);
+					else if (strEQ(_word[1], "/="))
+						variableStack[index].set_value(oldValue / rhs);
+					else if (strEQ(_word[1], "+="))
+						variableStack[index].set_value(oldValue +rhs);
+					else if (strEQ(_word[1], "-="))
+						variableStack[index].set_value(oldValue - rhs);
+					else if (strEQ(_word[1], "^="))
+						variableStack[index].set_value(pow(oldValue, rhs));
+					else if (strEQ(_word[1], "_=")) {
+						if (oldValue < 0.0)
+							variableStack[index].set_value(gr_currentmissingvalue());
+						else
+							variableStack[index].set_value(log(oldValue) / log(rhs));
+					} else {
+						err("`\\", _word[1], "' is not a known operator for variables", "'\\");
+						return false;
+					}
+				}
+			} else if (coded_name.c_str()[0] == '\\') {
+				int index = index_of_synonym(coded_name.c_str(), coded_level);
+				//printf("DEBUG %s:%d '%s' is syn index %d\n",__FILE__,__LINE__, coded_name.c_str(), index);
+				string unquoted;
+				int status = ExtractQuote(_word[2], unquoted);
+				if (status == 0) {
+					err("`\\synonym = \"value\" found no double-quoted string");
+					return false;
+				}
+				//printf("BEFORE trying to insert at position %d.\n",index);
+				//show_syn_stack();
+				synonymStack[index].set_value(unquoted.c_str());
+				//printf("AFTER.\n");
+				//show_syn_stack();
+			} else {
+				err("Internal error in decoding &\\.word?. for assignment");
+				return false;
+			}
+			return true;
+		}
+	}
+
+	
+#if 0
 	// Check for e.g 
 	// \syn = &.a_var.
 	// \syn = &\a_syn
 	if (_nword == 3 && *_word[2] == '&') {
 		const char *name = 1 + _word[2];
 		//printf("DEBUG %s:%d GOT A & and think name is <%s>\n",__FILE__,__LINE__,name);
-		char coded_pointer[20];	// BUG: should be big enough.  Jeeze!
+		char coded_pointer[200];	// BUG: should be big enough.  Jeeze!
 		if (is_var(name)) {
 			//printf("DEBUG: %s:%d & on a var named <%s>\n",__FILE__,__LINE__,name);
 			int the_index = index_of_variable(name);
@@ -3532,12 +3609,6 @@ setCmd()
 		}
 		PUT_VAR(name.c_str(), value);
 	} else if (is_syn(name.c_str())) {
-		if (name[1] != '\\') {
-			demonstrate_command_usage();
-			err("The synonym-name must be prefixed by double backslash, not single backslash");
-			return false;
-		}
-		name.STRINGERASE(0, 1);
 		string value(_word[3]);
 		if (value.size() < 2
 		    || (value[0] != '"' || value[-1 + value.size()] != '"')) {

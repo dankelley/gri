@@ -269,57 +269,43 @@ first argument looks like a PostScript filename.  Older versions\n\
 
 	_first = true;
 	_bounding_box.set(0., 0., 0., 0.);
+	//printf("At end of start_up, _cmdLine is <%s>\n",_cmdLine);
 	return true;
 }
 
 static void
 create_builtin_colors()
 {
-	GriNamedColor       color;
-
-	color.setNameRGB(		"white",		1.000,	1.000,	1.000);
+	GriNamedColor color;
+	color.setNameRGB("white",		1.000,	1.000,	1.000);
 	colorStack.push_back(color);
-
-	color.setNameRGB(		"LightGray",		0.827,	0.827,	0.827);
+	color.setNameRGB("LightGray",		0.827,	0.827,	0.827);
 	colorStack.push_back(color);
-
-	color.setNameRGB(		"darkslategray",	0.184,	0.310,	0.310);
+	color.setNameRGB("darkslategray",	0.184,	0.310,	0.310);
 	colorStack.push_back(color);
-
-	color.setNameRGB(		"black",		0.000,	0.000,	0.000);
+	color.setNameRGB("black",		0.000,	0.000,	0.000);
 	colorStack.push_back(color);
-
-	color.setNameRGB(		"red",			1.000,	0.000,	0.000);
+	color.setNameRGB("red",			1.000,	0.000,	0.000);
 	colorStack.push_back(color);
-
-	color.setNameRGB(		"brown",		0.647,	0.165,	0.165);
+	color.setNameRGB("brown",		0.647,	0.165,	0.165);
 	colorStack.push_back(color);
-
-	color.setNameRGB(		"tan",			0.824,	0.706,	0.549);
+	color.setNameRGB("tan",			0.824,	0.706,	0.549);
 	colorStack.push_back(color);
-
-	color.setNameRGB(		"orange",		1.000,	0.647,	0.000);
+	color.setNameRGB("orange",		1.000,	0.647,	0.000);
 	colorStack.push_back(color);
-
-	color.setNameRGB(		"yellow",		1.000,	1.000,	0.000);
+	color.setNameRGB("yellow",		1.000,	1.000,	0.000);
 	colorStack.push_back(color);
-
-	color.setNameRGB(		"green",		0.000,	1.000,	0.000);
+	color.setNameRGB("green",		0.000,	1.000,	0.000);
 	colorStack.push_back(color);
-
-	color.setNameRGB(		"ForestGreen",		0.133,	0.545,	0.133);
+	color.setNameRGB("ForestGreen",		0.133,	0.545,	0.133);
 	colorStack.push_back(color);
-
-	color.setNameRGB(		"cyan",			0.000,	1.000,	1.000);
+	color.setNameRGB("cyan",		0.000,	1.000,	1.000);
 	colorStack.push_back(color);
-
-	color.setNameRGB(		"blue",			0.000,	0.000,	1.000);
+	color.setNameRGB("blue",		0.000,	0.000,	1.000);
 	colorStack.push_back(color);
-
-	color.setNameRGB(		"skyblue",		0.529,	0.808,	0.922);
+	color.setNameRGB("skyblue",		0.529,	0.808,	0.922);
 	colorStack.push_back(color);
-
-	color.setNameRGB(		"magenta",		1.000,	0.000,	1.000);
+	color.setNameRGB("magenta",		1.000,	0.000,	1.000);
 	colorStack.push_back(color);
 }
 
@@ -422,7 +408,9 @@ get_input_simulation(int argc, char *argv[], int separator)
 	extern vector<char*> _argv;
 	for (int i = separator; i < argc; i++) {
 		//printf("\t push %d <%s>\n",i,argv[i]);
+#if 0				// 2001-feb-23 vsn 2.6.0 (alpha)
 		gr_textsave(argv[i]);
+#endif
 		_argv.push_back(argv[i]);
 	}
 }
@@ -796,82 +784,91 @@ interpret_optional_arguments(int argc, char *argv[])
 void
 give_help()
 {
-	gr_textput("NAME\n");
-	gr_textput("     gri - draw scientific graphs\n");
-	gr_textput("\n");
-	gr_textput("SYNOPSIS\n");
-	gr_textput("     gri [OPTIONS] [command_file [postscript_file]]\n");
-	gr_textput("\n");
-	gr_textput("DESCRIPTION\n");
-	gr_textput("     If a command file (command_file) is named, commands are read from that file;\n");
-	gr_textput("     otherwise they are read from the keyboard.  If a command_file is named, then\n");
-	gr_textput("     a file in which to store the PostScript output may also be named; otherwise\n");
-	gr_textput("     it is stored in a file named gr-00.ps (or gr-01.ps if gr-00.ps exists, etc).\n");
-	gr_textput("\n");
-	gr_textput("     There are 3 special forms that do no graphing:\n");
-	gr_textput("       `gri -creator postscript_file'\n");
-	gr_textput("         Extracts the Gri commands that created the Gri PostScript file.\n");
-	gr_textput("       `gri -help' or `gri -h'\n");
-	gr_textput("         Prints this help message.\n");
-	gr_textput("       `gri -version' or `gri -v'\n");
-	gr_textput("         Prints the version number of Gri.\n");
-	gr_textput("\n");
-	gr_textput("     In normal usage, where drawing is expected, Gri takes these options:\n");
-	gr_textput("     -batch or -b\n");
-	gr_textput("             Stops printing of prompts and hints.\n");
-	gr_textput("     -chatty[N] or -c[N]\n");
-	gr_textput("             Let gri print info messages\n");
-	gr_textput("     -debug or -d\n");
-	gr_textput("             Turns debugging on (sets variable ..debug.. to value 1).\n");
-	gr_textput("     -warn_offpage\n");
-	gr_textput("             Warn if any item is drawn far off a 8.5x11\" page.\n");
-	gr_textput("             (This is the default.)\n");
-	gr_textput("     -nowarn_offpage\n");
-	gr_textput("             Don't warn if any item is drawn far off a 8.5x11\" page\n");
+        gr_textput("NAME\n");
+        gr_textput("     gri - draw scientific graphs\n");
+        gr_textput("\n");
+        gr_textput("SYNOPSIS\n");
+        gr_textput("     gri [OPTIONS] [command_file [postscript_file]]\n");
+        gr_textput("\n");
+        gr_textput("DESCRIPTION\n");
+        gr_textput("     If a command file (command_file) is named, commands are read from that file;\n");
+        gr_textput("     otherwise they are read from the keyboard.  If a command_file is named, then\n");
+        gr_textput("     a file in which to store the PostScript output may also be named; otherwise\n");
+        gr_textput("     it is stored in a file named gr-00.ps (or gr-01.ps if gr-00.ps exists, etc).\n");
+        gr_textput("\n");
+        gr_textput("     There are 3 special forms that do no graphing:\n");
+        gr_textput("       `gri -creator postscript_file'\n");
+        gr_textput("         Extracts the Gri commands that created the Gri PostScript file.\n");
+        gr_textput("       `gri -help' or `gri -h'\n");
+        gr_textput("         Prints this help message.\n");
+        gr_textput("       `gri -version' or `gri -v'\n");
+        gr_textput("         Prints the version number of Gri.\n");
+        gr_textput("\n");
+        gr_textput("     In normal usage, where drawing is expected, Gri takes these options:\n");
+        gr_textput("     -batch or -b\n");
+        gr_textput("             Stops printing of prompts and hints.\n");
+        gr_textput("     -chatty[N] or -c[N]\n");
+        gr_textput("             Let gri print info messages\n");
+        gr_textput("     -debug or -d\n");
+        gr_textput("             Turns debugging on (sets variable ..debug.. to value 1).\n");
+        gr_textput("     -warn_offpage\n");
+        gr_textput("             Warn if any item is drawn far off a 8.5x11\" page.\n");
+        gr_textput("             (This is the default.)\n");
+        gr_textput("     -nowarn_offpage\n");
+        gr_textput("             Don't warn if any item is drawn far off a 8.5x11\" page\n");
 
-	gr_textput("     -directory pathname\n");
-	gr_textput("             Specifies the directory where Gri looks for startup files;\n");
-	gr_textput("             otherwise it looks in /opt/gri/lib or at whatever\n");
-	gr_textput("             directory is defined in configure shellscript, at compile time.\n");
-	gr_textput("     -directory_default\n");
-	gr_textput("             Reports directory where gri.cmd should be found,\n");
-	gr_textput("             if not supplied by -directory.\n");
-	gr_textput("     -no_bounding_box\n");
-	gr_textput("             Make bounding-box be full page.\n");
-	gr_textput("     -no_expecting\n");
-	gr_textput("             Prevent warning message if `expecting version .n.'\n");
-	gr_textput("             command is missing.\n");
-	gr_textput("     -no_startup_message\n");
-	gr_textput("             Stops printing of startup message.\n");
-	gr_textput("     -publication or -p\n");
-	gr_textput("             Sets the builtin variable ..publication.. to 1; normally it is 0.\n");
-	gr_textput("             One might use if statements (`if !..publication..' ...) on drafts.\n");
-	gr_textput("     -superuser\n");
-	gr_textput("	     Used only by Gri programmers (who can check the value with the\n");
-	gr_textput("	     C function `superuser()'.)  An optional value can be supplied\n");
-	gr_textput("	     without spaces (e.g. `-s2') to set the debugging level.\n");
-	gr_textput("             Flags are listed below; add flags to get several actions at once\n");
-	gr_textput("	       1: print cmdline before/after substituting synonyms\n");
-	gr_textput("	       2: print cmdline before/after substituting rpn expressions\n");
-	gr_textput("	       4: print new commands being defined\n");
-	gr_textput("	       8: print system commands and `open \"... | \"' commands before\n");
-	gr_textput("	          they are passed to the system\n");
-	gr_textput("	     128: for author's use only\n");
-	gr_textput("	     256: for author's use only\n");
-	gr_textput("	      Note that all flags are equal\n");
-	gr_textput("	      to 2 raised to an integer power.  Since the flag values are\n");
-	gr_textput("	      detected by a bitwise OR, you can combine flags by adding; thus\n");
-	gr_textput("	      specifying a flag of 5 yields flags 1 and 4 together; specifying\n");
-	gr_textput("	      15 yields flags 1, 2, 4 and 8.\n");
-	gr_textput("     -trace or -t\n");
-	gr_textput("             Makes Gri print out command lines as they are executed.\n");
-	gr_textput("     -true or -y\n");
-	gr_textput("             Makes Gri think the answer to all `query's is RETURN.\n");
+        gr_textput("     -directory pathname\n");
+        gr_textput("             Specifies the directory where Gri looks for startup files;\n");
+        gr_textput("             otherwise it looks in /opt/gri/lib or at whatever\n");
+        gr_textput("             directory is defined in configure shellscript, at compile time.\n");
+        gr_textput("     -directory_default\n");
+        gr_textput("             Reports directory where gri.cmd should be found,\n");
+        gr_textput("             if not supplied by -directory.\n");
+
+
+        gr_textput("     -no_bounding_box\n");
+        gr_textput("             Make bounding-box be full page.\n");
+        gr_textput("     -no_expecting\n");
+        gr_textput("             Prevent warning message if `expecting version .n.'\n");
+        gr_textput("             command is missing.\n");
+        gr_textput("     -no_startup_message\n");
+        gr_textput("             Stops printing of startup message.\n");
+        gr_textput("     -output PS_file_name\n");
+        gr_textput("             Specify the PostScript filename.  If this\n");
+        gr_textput("             is not specified, the PostScript filename is derived\n");
+        gr_textput("             from the name of the commandfile (e.g. `mygraph.gri'\n");
+        gr_textput("              produces `mygraph.ps'), or, for interactive use,\n");
+        gr_textput("             it will have a name like `gri-00.ps', or\n");
+        gr_textput("             `gri-01.ps' if the former file exists, etc.\n");
+        gr_textput("     -publication or -p\n");
+        gr_textput("             Sets the builtin variable ..publication.. to 1; normally it is 0.\n");
+        gr_textput("             One might use if statements (`if !..publication..' ...) on drafts.\n");
+        gr_textput("     -superuser\n");
+        gr_textput("             Used mainly by Gri programmers (who can check the value with the\n");
+        gr_textput("             C function `superuser()'.)  An optional value can be supplied\n");
+        gr_textput("             without spaces (e.g. `-s2') to set the debugging level.\n");
+        gr_textput("             The flags are as follows:\n");
+        gr_textput("                 1: print cmdline before/after substituting synonyms\n");
+        gr_textput("                 2: print cmdline before/after substituting rpn expressions\n");
+        gr_textput("                 4: print new commands being defined\n");
+        gr_textput("                 8: print system commands and `open \"... | \"'\n");
+        gr_textput("                    commands before they are passed to the system\n");
+        gr_textput("               128: for author's use only\n");
+        gr_textput("               256: for author's use only\n");
+        gr_textput("             Note that all flags are equal to 2 raised to an\n");
+        gr_textput("             integer power.  Since the flag values are detected by\n");
+        gr_textput("             a bitwise OR, you can combine flags by adding; thus\n");
+        gr_textput("             specifying a flag of 5 yields flags 1 and 4 together; specifying\n");
+        gr_textput("             15 yields flags 1, 2, 4 and 8.\n");
+        gr_textput("     -trace or -t\n");
+        gr_textput("             Makes Gri print out command lines as they are executed.\n");
+        gr_textput("     -true or -y\n");
+        gr_textput("             Makes Gri think the answer to all `query's is RETURN.\n");
 #if 0
-	gr_textput("     -e cmd\n");
-	gr_textput("             BUG: NOT IMPLEMENTED YET!\n");
-	gr_textput("             Makes Gri perform indicated command after\n");
-	gr_textput("             doing any commands in the ~/.grirc file.\n");
+        gr_textput("     -e cmd\n");
+        gr_textput("             BUG: NOT IMPLEMENTED YET!\n");
+        gr_textput("             Makes Gri perform indicated command after\n");
+        gr_textput("             doing any commands in the ~/.grirc file.\n");
 #endif
 }
 

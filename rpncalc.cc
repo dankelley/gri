@@ -1435,23 +1435,52 @@ do_operation(operator_name oper)
 		un_double_quote(n1);
 		// It's either a synonym or a variable, or not defined 
 		if (is_syn(n1)) {
-			bool exists;
-			string syn_value; // not used, actually
-			if (n1[1] == '\\') {
-				if (n1[2] == '@') {
-					string d("\\");
-					d.append(n1.substr(3, n1.size()));
-					exists = get_syn(d.c_str(), syn_value);
+			//printf("\n");
+			//printf("DEBUG %s:%d defined on <%s>\n",__FILE__,__LINE__,n1.c_str());
+			int w_index = -1;
+			if (1 == sscanf(n1.c_str(), "\\.word%d.", &w_index)) {
+				string w("");
+				if (get_cmdword(w_index, w)) {
+					// If such a \.word?. exists, look up pointed-to item
+					//printf("DEBUG %s:%d w= <%s>\n",__FILE__,__LINE__,w.c_str());
+					string coded_name;
+					int coded_level;
+					if (is_coded_string(w, coded_name, &coded_level)) {
+						//printf("DEBUG %s:%d encoded `%s' at level %d\n",__FILE__,__LINE__, coded_name.c_str(), coded_level);
+						string value;
+						if (get_coded_value(coded_name, coded_level, value)) {
+							//printf(" ** YES [%s] is defined\n", coded_name.c_str());
+							SET(1, "", 1.0, NUMBER);
+						} else {
+							//printf(" ** NO [%s] is NOT defined\n", coded_name.c_str());
+							SET(1, "", 0.0, NUMBER);
+						}							
+					} else {
+						// Nothing pointed-to, so \.word?. existence enough
+						SET(1, "", 1.0, NUMBER);
+					}
 				} else {
-					exists = get_syn((n1.substr(1, n1.size())).c_str(), syn_value);
+					// If no such \.word?., certainly nothing pointed-to.
+					SET(1, "", 0.0, NUMBER);
 				}
 			} else {
-				exists = get_syn(n1.c_str(), syn_value);
+				//printf("CASE 2.  n1 is [%s]\n",n1.c_str());
+				bool exists;
+				string syn_value; // not used, actually
+				if (n1[1] == '@') {
+					string d("\\");
+					d.append(n1.substr(2, n1.size()));
+					exists = get_syn(d.c_str(), syn_value);
+					//printf("CASE 2B    d is [%s] returning %d\n",d.c_str(),exists);
+				} else {
+					exists = get_syn(n1.c_str(), syn_value);
+					//printf("CASE 2B.  n1 is [%s] returning %d\n",n1.c_str(),exists);
+				}
+				if (exists)
+					SET(1, "", 1.0, NUMBER);
+				else
+					SET(1, "", 0.0, NUMBER);
 			}
-			if (exists)
-				SET(1, "", 1.0, NUMBER);
-			else
-				SET(1, "", 0.0, NUMBER);
 		} else if (is_var(n1)) {
 			double tmp;
 			bool exists = get_var(n1.c_str(), &tmp);
@@ -1460,7 +1489,7 @@ do_operation(operator_name oper)
 			else
 				SET(1, "", 0.0, NUMBER);
 		} else {
-			err("Can only use `defined' on a variable or synonym (e.g., `.var.' or `\\syn')");
+			err("Can only use `defined' on a variable or synonym (e.g., `.var.' or `\\syn'), not on `\\", NAME(1), "' as found", "\\");
 			RpnError = ILLEGAL_TYPE;
 			return false;
 		}

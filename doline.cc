@@ -38,6 +38,7 @@ tracing()
 bool
 do_command_line()
 {
+	//printf("at start of do_command_line() _cmdLine is <%s>\n",_cmdLine);
 	// *** Get command line, storing it in the global _cmdLine ***
 	if (!get_command_line()) {
 		_cmdFILE.pop_back();
@@ -49,6 +50,7 @@ do_command_line()
 	}
 	// Remove comments, do math expansions, substitute synonyms, etc.
 	massage_command_line(_cmdLine);
+
 	// Handle "return" as special case
 	if ((_nword > 0)
 	    && (!strcmp(_word[0], "return"))
@@ -128,11 +130,13 @@ get_command_line(void)
 	stop_replay_if_error();
 	// get a line from a file.
 	if (_cmdFILE.back().get_interactive()) {
+		//printf("DEBUG. interactive. before, had <%s>\n",_cmdLine);
 		// Cmd-file is interactive (from keyboard)
 		if (!gr_textget(_cmdLine, LineLength_1)) {
 			_done = 1;
 			return false;
 		}
+		//printf("DEBUG. interactive. after, have <%s>\n",_cmdLine);
 	} else {
 		// Cmd-file is non-interactive.
 		if (true == get_cmd(_cmdLine, LineLength_1, _cmdFILE.back().get_fp())) {
@@ -203,6 +207,7 @@ remove_source_indicator(char *cmd)
 bool
 massage_command_line(char *cmd)
 {
+	_nword = 0;
 	if (((unsigned) superuser()) & FLAG_AUT1) {
 		remove_source_indicator(cmd);
 	}
@@ -283,7 +288,7 @@ massage_command_line(char *cmd)
 			remove_trailing_blanks(cmd);
 		}
 	}
-	if (((unsigned) superuser()) & FLAG_SYN) printf("  --> [%s]\n", cmd);
+	if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d line is now '%s'\n",__FILE__,__LINE__,cmd);
 	// Substitute backtic and dollar-paren expressions
 #if USE_BACKTIC
 	sub_backtic(cmd, _cmdLineCOPY);
@@ -355,12 +360,12 @@ perform_command_line(FILE *fp, bool is_which)
 		// First, handle de-referenced synonyms as lvalues (to left
 		// an assignment operator)
 		string w0(_word[0]);
-		de_reference(w0);
+                // de_reference(w0); BUG: MAY PUT BACK LATER
 		char *cp = strdup(w0.c_str());
 		_word[0] = cp;
 		// Handle `\name = "value"' command
 		if (w0[0] == '\\') {
-			if (_nword >= 3 && !strcmp(_word[1], "=")) {
+			if (_nword > 2 && is_assignment_op(_word[1])) {
 				assign_synonym();
 				free(cp);
 				return true;
@@ -389,6 +394,7 @@ perform_command_line(FILE *fp, bool is_which)
 				   || word_is(1, "/=")
 				   || word_is(1, "^=")
 				   || word_is(1, "_=")) {
+					//printf("DOING mathCmd\n"); for (int ii=0;ii<_nword;ii++) printf("\t<%s>\n",_word[ii]);
 					mathCmd();
 					free(cp);
 					return true;

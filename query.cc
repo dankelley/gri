@@ -36,6 +36,7 @@ queryCmd()
 	if (!find_hint_and_def(hint, def)) {
 		return false;
 	}
+	def_word[0] = '\0';
 	chop_into_words(def, def_word, &def_words, NCHAR);
 	// Strip off double-quotes form list of defaults
 	for (unsigned int i = 0; i < def_words; i++) {
@@ -194,10 +195,9 @@ find_hint_and_def(char *hint, char *def)
 	// Find and extract hint, as first quoted string.
 	for (i = 0; i < len; i++) {
 		if (*(_cmdLine + i) == '\"') {
-			bool            valid = false;
-			int             ii;
+			bool valid = false;
 			i++;
-			for (ii = 0; ii < len - i; ii++) {
+			for (int ii = 0; ii < len - i; ii++) {
 				if (_cmdLine[i + ii] == '"' && lastc != '\\') {
 					hint[ii] = '\0';
 					valid = true;
@@ -213,7 +213,7 @@ find_hint_and_def(char *hint, char *def)
 		}
 	}
 	// Extract default, as last string enclosed in parentheses
-	int def_start = 0, def_end = 0;
+	int def_start = -1, def_end = -1;
 	int level = 0;
 	for (i = len - 1; i > 0; i--) {
 		if (_cmdLine[i] == ')') {
@@ -238,8 +238,10 @@ find_hint_and_def(char *hint, char *def)
 		err("No default value found inside parentheses");
 		return false;
 	}
-	for (i = def_start; i <= def_end; i++)
-		def[i - def_start] = _cmdLine[i];
-	def[1 + def_end - def_start] = '\0';
+	if (def_start > -1 && def_end > -1) {
+		for (i = def_start; i <= def_end; i++)
+			def[i - def_start] = _cmdLine[i];
+		def[1 + def_end - def_start] = '\0';
+	}
 	return true;
 }

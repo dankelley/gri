@@ -9,13 +9,12 @@
 
 
 vector<GriSynonym> synonymStack;
-vector<int> synonymPointer;	// used for e.g. \sp = &\\s
 
 static inline int end_of_synonym(char c, bool inmath, bool need_brace);
-static bool get_starred_synonym(const char* name, bool want_value/*or name*/, string& result);
+//static bool get_starred_synonym(const char* name, bool want_value/*or name*/, string& result);
 static int get_num_cmdwords();
-static bool get_cmdword(unsigned int index, string& cmdword);
 static int find_synonym_name(const string& s, string& name, bool in_math);
+bool get_cmdword(unsigned int index, string& cmdword);
 
 
 
@@ -43,8 +42,8 @@ get_num_cmdwords()
 	}
 	return 0;
 }
-
-static bool
+
+bool
 get_cmdword(unsigned int index, string& cmdword)
 {
 	extern int      _num_command_word;
@@ -58,6 +57,7 @@ get_cmdword(unsigned int index, string& cmdword)
 	// Trace back through the stack until at next level deep, then
 	// move forward to indicated word.
 	for (cmd = _num_command_word - 1; cmd > -1; cmd--) {
+		//printf("DEBUG %d  <%s>  <%s>\n",cmd,_command_word[cmd],_command_word_separator);
 		if (!strcmp(_command_word[cmd], _command_word_separator))
 			level++;
 		if (level == 1 || cmd <= 0) {
@@ -85,9 +85,11 @@ get_cmdword(unsigned int index, string& cmdword)
 			cmdword.assign(_command_word[cmd]);
 		}
 	}
+	//printf("DEBUG %s:%d level= %d  cmd= %d  res <%s>\n",__FILE__,__LINE__,level,cmd,_command_word[cmd]);
 	return true;		// .word#.
 }
 
+#if 0
 static bool
 get_starred_synonym(const char* name, bool want_value/*or name*/, string& result)
 {
@@ -122,12 +124,10 @@ get_starred_synonym(const char* name, bool want_value/*or name*/, string& result
 		int syn_index;
 		sscanf(coded_reference.c_str(), "\\#s%d#", &syn_index);
 		if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d syn_index %d\n",__FILE__,__LINE__,syn_index);
-		if (syn_index < 0 || syn_index > int(synonymPointer.size())) {
+		if (syn_index < 0) {
 			err("Internal error with synonym stack");
 			return false;
 		}
-		int which = synonymPointer[syn_index];
-		if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d syn ptr is %d\n",__FILE__,__LINE__,which);
 		if (which > -1) {
 			if (want_value) {
 				result.assign(synonymStack[which].get_value());
@@ -144,24 +144,43 @@ get_starred_synonym(const char* name, bool want_value/*or name*/, string& result
 	if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d get_starred_synonym returning <%s>\n",__FILE__,__LINE__,result.c_str());
 	return true;
 }
-
+#endif
 
 // Get index of synonym
 // RETURN non-negative integer if 'name' is an existing synonym, or -1 if not.
 int
-index_of_synonym(const char *name)
+index_of_synonym(const char *name, int mark = -1)
 {
 	if (!is_syn(name))
 		return -1;
 	unsigned int stackLen = synonymStack.size();
-	if (stackLen > 0) {
-		for (int i = stackLen - 1; i >= 0; i--) {
-			//printf("debug: check [%s] vs %d-th [%s]\n", name, i, synonymStack[i].get_name());
-			if (!strcmp(name, synonymStack[i].get_name())) {
-				//printf("DEBUG: returning index %d\n", i);
+	if (mark == -1) {
+		for (int i = stackLen - 1; i >= 0; i--)
+			if (!strcmp(name, synonymStack[i].get_name()))
+				return i;
+		return -1;
+	} else {
+		int mark_above = mark + 1;
+		unsigned int index;
+		int this_mark = 0;
+		for (index = 0; index < stackLen; index++) {
+			const char *n = synonymStack[index].get_name();
+			if (*n == '\0')
+				if (++this_mark == mark_above)
+					break;
+		}
+		if (this_mark != mark_above) {
+			printf("DEBUG %s:%d no match for <%s>\n",__FILE__,__LINE__,name);
+			return -1;
+		}
+		//printf("DEBUG %s:%d index %d\n",__FILE__,__LINE__,index);
+		for (int i = index - 1; i >= 0; i--) {
+			//printf("check <%s> to see if <%s>\n",synonymStack[i].get_name(),name);
+			if (!strcmp(synonymStack[i].get_name(), name)) {
 				return i;
 			}
 		}
+		return -1;
 	}
 	return -1;
 }
@@ -179,12 +198,17 @@ show_synonymsCmd()
 {
 	ShowStr("Synonyms...\n");
 	bool have_some = false;
-	int n = synonymStack.size();
-	for (int i = 0; i < n; i++) {
-		extern char _grTempString[];
-		sprintf(_grTempString, "    %-25s = \"%s\"\n", synonymStack[i].get_name(), synonymStack[i].get_value());
-		ShowStr(_grTempString);
-		have_some = true;
+	unsigned int stackLen = synonymStack.size();
+	for (unsigned int i = 0; i < stackLen; i++) {
+		const char *n = synonymStack[i].get_name();
+		if (*n == '\0') {
+			printf("    ------------------------------------------------\n");
+		} else {
+			extern char _grTempString[];
+			sprintf(_grTempString, "    %-25s = \"%s\"\n", n, synonymStack[i].get_value());
+			ShowStr(_grTempString);
+			have_some = true;
+		}
 	}
 	if (!have_some) {
 		ShowStr(" ... none exist\n");
@@ -242,12 +266,15 @@ is_syn(const string& name)
 void
 show_syn_stack()
 {
-	int i;
-	unsigned stackLen = synonymStack.size();
+	unsigned int stackLen = synonymStack.size();
 	if (stackLen > 0) {
 		printf("Synonym stack [\n");
-		for (i = stackLen - 1; i >= 0; i--) {
-			printf("  %s = %s\n", synonymStack[i].get_name(), synonymStack[i].get_value());
+		for (unsigned int i = 0; i < stackLen; i++) {
+			const char *n = synonymStack[i].get_name();
+			if (*n == '\0')
+				printf("    ------------------------------------------------\n");
+			else
+				printf("%3d  %s = \"%s\"\n", i, n, synonymStack[i].get_value());
 		}
 		printf("]\n");
 	}
@@ -260,21 +287,11 @@ delete_syn(const string& name)
 	unsigned stackLen = synonymStack.size();
 	for (int i = stackLen - 1; i >= 0; i--) {
 		if (name == synonymStack[i].get_name()) {
-			int Plen = synonymPointer.size();
 			if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d DELETING syn %d named <%s>\n",__FILE__,__LINE__,i,name.c_str());
-			if (((unsigned) superuser()) & FLAG_SYN) for (int ip = 0; ip < Plen; ip++) printf("DEBUG: BEFORE %d <%s>\n", synonymPointer[ip], synonymStack[synonymPointer[ip]].get_name());
 			for (unsigned j = i; j < stackLen - 1; j++)
 				synonymStack[j] = synonymStack[j + 1];
 			synonymStack.pop_back();
-			for (int ip = 0; ip < Plen; ip++) {
-				if (synonymPointer[ip] > i) {
-					synonymPointer[ip]--;
-				} else if (synonymPointer[ip] == i) {
-					synonymPointer[ip] = -1; // missing
-				}
-			}
 			if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d after handling 'delete syn', the list is...\n",__FILE__,__LINE__);
-			if (((unsigned) superuser()) & FLAG_SYN) for (int ip = 0; ip < Plen; ip++) printf("DEBUG: AFTER %d <%s>\n", synonymPointer[ip], synonymStack[synonymPointer[ip]].get_name());
 			return true;
 		}
 	}
@@ -285,9 +302,9 @@ delete_syn(const string& name)
 // have been set aside by the calling routine.
 // RETURN true if synonym is defined and has a value
 bool
-get_syn(const char *name, string& value)
+get_syn(const char *name, string& value, bool do_decoding = true)
 {
-	unsigned int name_len = strlen(name);
+        unsigned int name_len = strlen(name);
 	//printf("DEBUG %s:%d get_syn(%s,)\n",__FILE__,__LINE__,name);
 	if (!is_syn(name))
 		return false;
@@ -312,6 +329,14 @@ get_syn(const char *name, string& value)
 		if (!get_cmdword(word_index, value)) {
 			value.assign(name);
 			return false;
+		}
+		if (do_decoding) {
+			string coded_name;
+			int coded_level = -1;
+			if (is_coded_string(value, coded_name, &coded_level)) {
+				//printf("DEBUG %s:%d cmdword[%d]='%s' was encoded `%s' at level %d\n",__FILE__,__LINE__,word_index, value.c_str(), coded_name.c_str(), coded_level);
+				get_coded_value(coded_name, coded_level, value);
+			}
 		}
 		return true;		// .word#.
 	} else if (name_len > 1 && name[1] == '[') { // word within synonym (e.g. \[0]syn)
@@ -438,7 +463,7 @@ put_syn(const char *name, const char *value, bool replace_existing)
 		if (stackLen) {
 			for (int i = stackLen - 1; i >= 0; i--) {
 				if (!strcmp(name, synonymStack[i].get_name())) {
-					synonymStack[i].setValue(value);
+					synonymStack[i].set_value(value);
 					return true;
 				}
 			}
@@ -550,12 +575,12 @@ substitute_synonyms_cmdline(const char *s, string& sout, bool allow_math)
 
 	// Catch e.g. \@.word1 = ...
 	if (!strncmp(_Words2[0], "\\@", 2) && nword > 1 && is_assignment_op(_Words2[1])) {
+		if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d caught \\@ with first cmdword being [%s]\n",__FILE__,__LINE__,_Words2[0]);
 		string tmp("\\");
 		tmp.append(2 + _Words2[0]);
 		string unaliased;
-		//printf("tmp <%s>\n",tmp.c_str());
 		get_syn(tmp.c_str(), unaliased);
-		//printf("unaliased <%s>\n", unaliased.c_str());
+		if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d unaliased <%s>\n",__FILE__,__LINE__,unaliased.c_str());
 		if (unaliased[0] == '\\') {
 			// Not sure on the below.  Cropped up 2001-feb-15.
 			if (unaliased[1] == '\\') {
@@ -564,13 +589,13 @@ substitute_synonyms_cmdline(const char *s, string& sout, bool allow_math)
 				sout.append(unaliased.c_str());
 			}
 			sout.append(" "); 
-			//printf("SYN.  <%s>\n", sout.c_str());
+			if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d SYN named [%s]\n",__FILE__,__LINE__,sout.c_str());
 			offset = 1 + strlen(_Words2[0]);
 		} else if (unaliased[0] == '.') {
-			//printf("VAR.\n");
 			sout.append(unaliased.c_str());
 			sout.append(" "); 
 			offset = 1 + strlen(_Words2[0]);
+			if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d VAR name [%s]\n",__FILE__,__LINE__,unaliased.c_str());
 		} else {
 			// Leave in place to worry about later
 			sout.append(_Words2[0]);
@@ -580,13 +605,14 @@ substitute_synonyms_cmdline(const char *s, string& sout, bool allow_math)
 	} else if (*_Words2[0] == '\\') {
 		// Protect first word of `\name = "value"', but not of `\syn ...'. In
 		// other words, protect first word if matches \synonym[ ]*=.*
-		if (nword > 1 && !strcmp(_Words2[1], "=")) {
+		if (nword > 1 && is_assignment_op(_Words2[1])) {
 			sout = _Words2[0];
 			sout.append(" ");
 			offset = 1 + strlen(_Words2[0]);
 		}
 	}
 
+#if 0
 	// Catch *\name = something
 	if (*_Words2[0] == '*' || *(1 + _Words2[0]) == '\\') {
 		if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d NEED CODE HERE!\n",__FILE__,__LINE__);
@@ -607,6 +633,8 @@ substitute_synonyms_cmdline(const char *s, string& sout, bool allow_math)
 			offset = 1 + strlen(_Words2[0]);
 		}
 	}
+#endif
+
 	return substitute_synonyms(s + offset, sout, allow_math);
 }
 
@@ -615,7 +643,7 @@ substitute_synonyms_cmdline(const char *s, string& sout, bool allow_math)
 bool
 substitute_synonyms(const char *s, string& sout, bool allow_math)
 {
-	if (((unsigned) superuser()) & FLAG_SYN) printf("\n\nsubstitute_synonyms('%s',...)\n",s);
+	//if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d substitute_synonyms('%s',...)\n",__FILE__,__LINE__,s);
 	bool            inmath = false; // are we within a math string?
 	int             slen = strlen(s);
 	string sname;
@@ -650,6 +678,7 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 			continue;
 		}
 		
+#if 0
 		// See if it is the *\syn syntax, and handle if so.
 		if (s[i] == '*' && i < slen - 2 && s[i + 1] == '\\' && s[i + 2] != '\\') {
 			if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d got * i=%d <%s> <%s>\n",__FILE__,__LINE__,i,s,s+i-1);
@@ -664,6 +693,7 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 			get_starred_synonym(tmp.c_str(), true, value);
 			sout.append(value);
 		}
+#endif
 		
 		// If not start of synonym, just paste character onto end of string
 		// and continue. (This also applies to apparent synonyms, if they are
@@ -678,38 +708,84 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 		// depending on what the previous character was
 		// and what the next character is.
 
+		// Translate two backslashes into one backslash
+		if (s[i + 1] == '\\') {
+			sout += '\\';
+			i++;
+			continue;
+		}
 
+#if 1
+		// Catch \& syntax
+		if (s[i + 1] == '&') {
+			bool want_name = true; // or level, for \&&
+			int iS = i + 2;
+			if (s[i + 2] == '&') {
+				want_name = false;
+				iS++;
+			}
+			//printf("DEBUG %s:%d got & syntax on <%s>\n",__FILE__,__LINE__, s);
+			string S("\\");
+			while (iS < slen && !end_of_synonym(s[iS], false /*inmath*/, false/*need_brace*/)) {
+				S += s[iS++];
+			}
+			int word_index;
+			if (1 == sscanf(S.c_str(), "\\.word%d.", &word_index)) {
+				//printf("A WORd %d\n", word_index);
+				string value;
+				if (get_cmdword(word_index, value)) {
+					//printf("WORD IS [%s]\n", value.c_str());
+					string coded_name;
+					int coded_level;
+					if (is_coded_string(value, coded_name, &coded_level)) {
+						//printf("CODED. [%s]\n",coded_name.c_str());
+						if (want_name) {
+							//printf("SHOULD STORE [%s]\n", coded_name.c_str());
+							sout.append(coded_name.c_str());
+						} else {
+							char buf[20]; // BUG: should be big enough
+							sprintf(buf, "%d", coded_level);
+							sout.append(buf);
+						}
+					}
+				}
+			}
+			i = iS - 1;
+			continue;
+		}
+#endif
+
+#if 1
 		// Catch \@ [alias synonyms]
 		if (s[i + 1] == '@') {
 			i += 2;	// skip the '\\' and the '@'
-			//printf("ALIAS start with <%s>\n", s);
 			string tmp("\\");
 			while (i < slen && !end_of_synonym(s[i], false /*inmath*/, false/*need_brace*/)) {
 				tmp += s[i++];
 			}
-			//printf("ALIAS tmp [%s]\n", tmp.c_str());
+			if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d ALIAS tmp [%s]\n",__FILE__,__LINE__,tmp.c_str());
 			string alias_name;
 			get_syn(tmp.c_str(), alias_name);
-			//printf("this syn value is [%s]\n", alias_name);
+			if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d this syn value is [%s]\n",__FILE__,__LINE__,alias_name.c_str());
 			string alias_value;
 			if (alias_name[0] == '\\') {
-				if (get_syn(alias_name.substr(1, alias_name.size()).c_str(), alias_value)) {
+				if (get_syn(alias_name.c_str(), alias_value)) {
 					sout.append(alias_value);
-					//printf("DEBUG %s:%d looked up '%s' (after skipping) to get '%s'\n",__FILE__,__LINE__,alias_name,alias_value);
+					if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d looked up '%s' (after skipping) to get '%s'\n",__FILE__,__LINE__,alias_name.c_str(),alias_value.c_str());
 				} else {
-					err("Cannot un-alias `\\", alias_name.c_str(), "'.", "\\");
+					err("Cannot un-alias synonym in `\\", alias_name.c_str(), "'.", "\\");
 					return false;
 				}
 			} else if (alias_name[0] == '.') {
 				double value = 0.0;
 				if (get_var(alias_name.c_str(), &value)) {
-					//printf("OK %d   isvar=%d\n",ok,is_var(alias_name));
-					//printf("looked up '%s' to get %f NUM\n",alias_name,value);
+					if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d isvar=%d\n",__FILE__,__LINE__,is_var(alias_name));
+					if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d looked up '%s' to get %f NUM\n",__FILE__,__LINE__,alias_name.c_str(),value);
 					char alias_value_buffer[100];
 					sprintf(alias_value_buffer, "%f", value);
 					sout.append(alias_value_buffer);
 				} else {
-					err("Cannot un-alias `\\", alias_name.c_str(), "'.", "\\");
+					err("Cannot un-alias variable in `\\", alias_name.c_str(), "'.", "\\");
 					return false;
 				}
 			} else {
@@ -719,6 +795,8 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 			i--;	// BUG: not sure on this!
 			continue;
 		}
+#endif
+
 		// Now know that s[i] is backslash, and not inmath.
 		// Pass a few escape strings through directly. 
 		if (s[i + 1] == '$'
@@ -729,8 +807,8 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 			continue;
 		}
 
-		// Now know that it's the start of a synonym.  Isolate it, then find
-		// value.
+		// Now know that it's the start of a synonym.  Isolate it,
+		// then find value.
 		sname =  "\\";
 		sname.append(s + i + 1);
 		string the_syn_name;
@@ -766,7 +844,7 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 	}
 	// Paste on final blank [can't remember why, but what the heck].
 	sout.append(" ");
-	if (((unsigned) superuser()) & FLAG_SYN) printf("Finally [%s]\n",sout.c_str());
+	//if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d finally [%s]\n",__FILE__,__LINE__,sout.c_str());
 	return true;
 }
 
@@ -845,9 +923,7 @@ find_synonym_name(const string &s, string& name, bool inmath)
 static inline int
 end_of_synonym(char c, bool inmath, bool need_brace)
 {
-	if (((unsigned) superuser()) & FLAG_SYN) printf("\tend_of_synonym (%c,%d)\n",c, need_brace);
 	if (need_brace) {
-		//if (((unsigned) superuser()) & FLAG_SYN) printf("\t\t returning %d  (since need_brace)\n", c == '}');
 		return c == '}';
 	}
 	switch (c) {
@@ -878,12 +954,9 @@ end_of_synonym(char c, bool inmath, bool need_brace)
 	case '>':
 	case '=':
 	case '$':
-		if (((unsigned) superuser()) & FLAG_SYN) printf("\t\t returning TRUE place 2\n");
 		return true;
 	case ',':
-		if (((unsigned) superuser()) & FLAG_SYN) printf("\t\t returning %d at place 3\n", !inmath);
 		return (!inmath);
 	}
-	if (((unsigned) superuser()) & FLAG_SYN) printf("\t\t returning FALSE at place 4\n");
 	return false;
 }

@@ -32,7 +32,7 @@ public:
 	DataFile(const DataFile& d) {
 		name.assign(d.get_name());
 		fp = d.get_fp();
-		if (fp == (FILE*)NULL) {printf("ERROR.  Null fp [copy-constructor phase] %s:%d\n",__FILE__, __LINE__);}
+		//if (fp == (FILE*)NULL) {printf("ERROR.  Null fp [copy-constructor phase] %s:%d\n",__FILE__, __LINE__);}
 		netCDF_id = d.get_netCDF_id();
 		the_type = d.get_type();
 		line = d.get_line();

@@ -27,6 +27,127 @@ static void     show_pattern(char *target, int tlen, int star, int plus);
 #endif
 extern double   strtod(const char *, char **);
 
+
+bool
+get_coded_value(const string& name, int level, string& result)
+{
+	//printf("DEBUG %s:%d get_coded_value(<%s>,%d)\n",__FILE__,__LINE__,name.c_str(),level);
+	int mark_above = level + 1;
+	if (name[0] == '.') {
+		int index = index_of_variable(name.c_str(), level);
+		//printf("DEBUG %s:%d index %d\n",__FILE__,__LINE__,index);
+		if (index < 0) {
+			// No such variable known
+			return false;
+		}
+		char buf[100]; // BUG: could be too short
+		sprintf(buf, "%g", variableStack[index].get_value());
+		result.assign(buf);
+		return true;
+	} else if (name[0] == '\\'){
+		int mark = 0;
+		int index;
+		for (index = 0; index < int(synonymStack.size()); index++) {
+			const char *n = synonymStack[index].get_name();
+			if (*n == '\0')
+				if (++mark == mark_above)
+					break;
+		}
+		if (mark != mark_above) {
+			//printf("DEBUG %s:%d no match for <%s>\n",__FILE__,__LINE__,name.c_str());
+			return false;
+		}
+		//printf("DEBUG %s:%d index %d\n",__FILE__,__LINE__,index);
+		for (int i = index - 1; i >= 0; i--) {
+			if (synonymStack[i].get_name() == name) {
+				//printf("DEBUG %s:%d match at i= %d\n",__FILE__,__LINE__,i);
+				result.assign(synonymStack[i].get_value());
+				return true;
+			}
+		}
+	} else {
+		err("Internal error in synonyms.cc; cannot decode `\\", name.c_str(), "'", "\\");
+		return false;
+	}
+        return true;
+}
+
+bool 
+is_coded_string(const string&s, string& name, int* mark_level)
+{
+	//printf("DEBUG %s:%d is_coded_string <%s>\n",__FILE__,__LINE__,s.c_str());
+
+	//for (unsigned int i = 0; i < s.size(); i++) printf("\ts[%d] = '%c'\n",i,s[i]);
+
+	if (s.size() < 33) { // this long even if var and level each have only 1 character
+		return false;
+	}
+	char cname[100];	// BUG: may be too short
+	int ml = 0;
+	if (2 != sscanf(s.c_str(), AMPERSAND_CODING, cname, &ml)) {
+		//printf("DEBUG: %s:%d problem ... cname [%s]  level %d\n",cname, ml);
+		return false;
+	}
+	name.assign(cname);
+	*mark_level = ml;
+	//printf("DEBUG %s:%d decoded name <%s> level %d\n",__FILE__,__LINE__,name.c_str(),*mark_level);
+	return true;
+}
+
+
+bool
+marker_draw() // put a marker on top
+{
+	GriVariable markVar("", 0.0);
+	variableStack.push_back(markVar);
+	GriSynonym markSyn("", "");
+	synonymStack.push_back(markSyn);
+	return true;
+}
+int
+marker_count() // -1 if error
+{
+	int nv = 0;
+	int vlen = variableStack.size();
+	for (int i = vlen - 1; i >= 0; i--)
+		if (*variableStack[i].get_name() == '\0')
+			nv++;
+
+	int ns = 0;
+	int slen = synonymStack.size();
+	for (int i = slen - 1; i >= 0; i--)
+		if (*synonymStack[i].get_name() == '\0')
+			ns++;
+	if (ns == nv)
+		return ns;
+	return -1;		// error
+}
+bool
+marker_erase() // erase top marker; return false if there is none
+{
+	bool ok = false;
+	int vlen = variableStack.size();
+	for (int i = vlen - 1; i >= 0; i--) {
+		if (*variableStack[i].get_name() == '\0') {
+			variableStack.erase(variableStack.begin() + i);
+			ok = true;
+			break;
+		}
+	}
+	if (ok) {
+		ok = false;
+		int slen = synonymStack.size();
+		for (int i = slen - 1; i >= 0; i--) {
+			if (*synonymStack[i].get_name() == '\0') {
+				synonymStack.erase(synonymStack.begin() + i);
+				ok = true;
+				break;
+			}
+		}
+	}
+	return ok;
+}
+
 // Keep this in static area, so as not to waste time with
 // multiple allocation/deallocation for scratch strings
 static string tmp_string;

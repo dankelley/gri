@@ -22,6 +22,9 @@
 #define		_num_dstackMAX		  50	// length of dstack
 #define		_imageBLANK		 255	// blank images with white
 
+// Next used by command.cc and utility.cc to encode & items.
+#define AMPERSAND_CODING "#\bn\ba\bm\be\b:\b%s \b_ \bl\be\bv\be\bl\b:\b%d#\b"
+
 // Image storage.
 typedef struct {
 	int             ras_magic;	// magic number
@@ -113,14 +116,16 @@ bool            find_min_max_x(void);
 bool            find_min_max_y(void);
 bool            find_min_max_z(void);
 int             get_cmd_values(char **w, int nw, const char *key, int nobjects, double *objects);
+bool            get_cmdword(unsigned int index, string& cmdword); // index=1 gives value of \.word1.
 bool            get_c_file_name(int old, const char *prompt, const char *name);
 bool            get_command_line(void);
 bool            getdnum(const char *string, double *number);
 bool            get_flag(const char *name);
 bool            getinum(const char *string, int *number);
+bool            get_coded_value(const string& name, int level, string& result);	// cf is_coded_value()
 bool            get_nth_word(const string& s, unsigned int which, string& result);
 unsigned int    get_number_of_words(const string& s);
-bool            get_syn(const char *name, string& value);
+bool            get_syn(const char *name, string& value, bool do_encoding = true);
 bool            get_var(const char *name, double *value);
 void            give_help(void);
 void            gri_abort(void);
@@ -138,11 +143,12 @@ bool            image_range_exists(void);
 bool            imageMask_exists(void);
 bool            image_scales_defined(void);
 double          image_to_value(int c);
-int             index_of_variable(const char *name);
-int             index_of_synonym(const char *name);
+int             index_of_variable(const char *name, int mark = -1);
+int             index_of_synonym(const char *name, int mark = -1);
 void            insert_cmd_in_ps(const char *cmd, const char *note="");
 bool            inside_box(double x, double y);
 bool            is_assignment_op(const char *s);
+bool            is_coded_string(const string&s, string& name, int* mark_level);	// cvs get_coded_value()
 bool            is_even_integer(double v); 
 bool            is_odd_integer(double v); 
 bool            is_create_new_command(const char *cmdline);
@@ -155,6 +161,11 @@ bool            is_var(const string& name);
 char            last_character(const char *s);
 bool            look_up_color(const char *name, double *red, double *green, double *blue);
 void            lowpass_image(void);
+
+bool            marker_draw();
+bool            marker_erase();
+int             marker_count();
+
 bool            massage_command_line(char *cmdline);
 int             match_gri_syntax(const char *cmdline, int flag);
 bool            mathCmd(void);

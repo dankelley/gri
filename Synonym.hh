@@ -27,7 +27,7 @@ public:
 		name.assign(the_name);
 		value.assign(the_value);
 	}
-	void setValue(const char *the_value)		{value.assign(the_value); }
+	void set_value(const char *the_value)		{value.assign(the_value); }
 	const char *get_name(void) const		{return name.c_str();};
 	const char *get_value(void)			{incrementCount(); return value.c_str();};
 	const char *get_value_quietly(void) const	{return value.c_str();};
@@ -88,7 +88,7 @@ public:
 		}
 		strcpy(value, the_value);
 	}
-	void setValue(const char *the_value) {
+	void set_value(const char *the_value) {
 		if (strlen(the_value) > strlen(value)) {
 			delete [] value;
 			value = new char[1 + strlen(the_value)];

@@ -36,7 +36,7 @@ the_resources:
 test:
 	cat test.texi | texinfo2HTML > test.html
 
-html: gri.texi gri.info
+html: gri.texi gri.info texinfo2HTML HTML_subdivide
 	cd examples ; make png
 	-cp examples/*.png ./
 	cd examples ; make html

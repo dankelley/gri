@@ -3,6 +3,11 @@
 #$example_indent = "    ";
 $example_indent = "";
 
+#$ex_color = "#179C4A";		# dark green -- too light
+#$ex_color = "#14843F";		# dark green -- still too light
+#$ex_color = "#056819";		# dark green -- "
+$ex_color = "#82140F";		# dark red
+
 $usage = "
 texinfo2HTML [-h] [filename]
 
@@ -244,9 +249,9 @@ while(get_a_line()) {
     # Convert headings; put the end anchor if needed
     if (/\@chapter/o
 	|| /\@section/o
-	|| /\@subsubsubsection/o
-	|| /\@subsubsection/o
 	|| /\@subsection/o
+	|| /\@subsubsection/o
+	|| /\@subsubsubsection/o
 	|| /\@appendixsubsec/o
 	|| /\@unnumbered/o
 	|| /\@appendixsubsec/o
@@ -316,6 +321,7 @@ while(get_a_line()) {
 		$the_item =~ s:\@{:{:og;
 		$the_item =~ s:\@}:}:og;
 		$the_item =~ s:\@\@:\@:og;
+		$the_item =~ s:\@code{(.*)}:`<font color="$ex_color"><code>$1</code></font>':og;
 		print "<dt> $start_item$the_item$end_item\n<dd>";
 	    } else {
 		print "<p>" if (/^$/o);
@@ -360,10 +366,10 @@ print "</HTML>\n";
 
 sub process_examples() {
     if (/\@example/o) {
-	s,\s*\@example,<TABLE SUMMARY="Example" BORDER="0" BGCOLOR="#efefef" WIDTH="100%">\n<TR>\n<TD>\n<PRE>,;
+	s,\s*\@example,<TABLE SUMMARY="Example" BORDER="0" BGCOLOR="#efefef" WIDTH="100%">\n<TR>\n<TD>\n<PRE>\n<font color="$ex_color">,;
 	$in_example = 1;
     } elsif (/^\s*\@end example/o) {
-	s,\s*\@end example,</PRE>\n</TD>\n</TR>\n</TABLE>,;
+	s,\s*\@end example,</font></PRE>\n</TD>\n</TR>\n</TABLE>,;
 	$in_example = 0;
     } else {
         s,\@value\{([^}]*)\},$value{$1},g; # Substitute set/value pair
@@ -414,7 +420,8 @@ sub sub_emphasis {
     s,\@strong{([^}]*)},<b>$1</b>,g;
     s,\@footnote{([^}]*)}, [$1],g;
     s,\@b{([^}]*)},<b>$1</b>,g;
-    s,\@code{([^}]*)},`<code>$1</code>',g;
+    s,\@code{([^}]*)},`<font color="$ex_color"><code>$1</code></font>',g;
+    s,\@\@,\@,g;
     s,\@samp{([^}]*)},`<samp>$1</samp>',g;
     s,\@key{([^}]*)},`<kbd>$1</kbd>',g;
     s,\@kbd{([^}]*)},`<kbd>$1</kbd>',g;

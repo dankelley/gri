@@ -161,22 +161,25 @@ considerable power, at the price of a moderate learning curve.
 * Simple Example::              Introductory example
 * Invoking Gri::                Running/viewing/printing Gri
 * Getting More Control::        Controlling axes, text, color, etc.
+
 * X-y Plots::                   Drawing x-y linegraphs/scattergraphs
 * Contour Plots::               Drawing contour plots
 * Images::                      Drawing black+white or color images
+
 * Examples::                    Some real-world examples
 * Handling Data::               Dealing with oddly-configured data
 * Commands::                    List of Gri commands
 * Programming::                 How to program in the Gri language
 * Environment::                 Related tools
 * Emacs Mode::                  Editing Gri code inside Emacs
-* History::                     Changes to Gri over time
+* History::                     How Gri has changed over time
 * Installation::                How to install Gri
-* Bugs::                        List of bugs, and how to report more
+* Bugs::                        Known bugs, and how to report more
 * Test Suite::                  Series of test programs
-* Acknowledgments::             People who have helped me develop Gri
-* License::                     The Gri license
-Indices
+* Acknowledgments::             Many folks have helped me with Gri
+* License::                     Gri is open-source!
+
+Three indices
 * Concept Index::               Detailed index
 * Index of Commands::           Commands in Gri
 * Index of Builtins::           Builtin variables
@@ -4625,6 +4628,8 @@ Any number of variables or synonyms may be specified on one line.
 @item @code{delete \synonym}
 Delete definition of synonym @code{\synonym}, making it undefined.  Any
 number of variables or synonyms may be specified on one line.
+@item @code{delete \@@alias}
+Deletes the item named by the alias (@ref{Alias Synonyms}).
 @item @code{delete columns}
 Delete column data.
 @item @code{delete columns where missing}
@@ -11393,7 +11398,7 @@ value of @code{.offset.}.)
 
 @c HTML <!-- newfile Synonyms.html "Gri: synonyms" "Programming Gri" -->
 
-@node   Synonyms, About Synonyms, Built-in Variables, Programming
+@node   Synonyms, Naming Convention, Built-in Variables, Programming
 @comment  node-name,  next,  previous,  up
 @section Synonyms
 @cindex character variables (synonyms)
@@ -11405,36 +11410,20 @@ synonyms with words beginning with backslash (e.g., @code{\syn}),
 following the @TeX{} convention.  
 
 @menu
-* About Synonyms::              Extensive overview
-* User Synonyms::               Defining your own synonyms
-* Built-in Synonyms::           Built-in synonyms pre-defined by Gri
+* Naming Convention::             Their names with a backslash, e.g. @code{\syn}
+* Using Synonyms::                Some usage examples
+* Important Builtin Synonyms::    e.g. @code{\.command_file.}
+* Alias Synonyms::                e.g. @code{\@@alias}
+* Local Synonyms::                Working with the arguments of newcommands
 @end menu
 
-@node   About Synonyms, Synonym Names, Synonyms, Synonyms
-@comment  node-name,  next,  previous,  up
-@subsection About synonyms
-@cindex hint, preventing mangling of system commands and synonyms
-@cindex system commands and synonyms, preventing mangling 
-@cindex backslash
-@cindex math-mode and user synymns
-@cindex synonyms 
-@cindex @code{\, backslash (@emph{see also} Synonyms)}
-@cindex netCDF files, reading attritubtes into synonyms
-@cindex colon in synonym names
-@cindex synonym names
 
-@menu
-* Synonym Names::
-* Displaying Synonyms::
-* Accessing Individual Words Within Synonyms::
-* Testing For Existence Of Synonyms::
-* Using Synonyms In If Statements::
-@end menu
-
-@node   Synonym Names, Displaying Synonyms, About Synonyms, About Synonyms
+@node   Naming Convention, Using Synonyms, Synonyms, Synonyms
 @comment  node-name,  next,  previous,  up
-@subsubsection Synonym names
+@subsection Naming convention for synonyms
+@cindex naming convention for synonyms 
 @cindex synonyms, naming convention
+
 Synonym names begin with a backslash (e.g., @code{\filename}).  After
 the backslash, Gri expects a letter (upper or lower case) or one or more
 periods.  Following this is an arbitrary string of letters, numbers, or
@@ -11484,7 +11473,8 @@ To get a backslash in a string without Gri thinking it is part of a
 synonym, use two backslashes (e.g., 
 @code{show "The backslash character \\ is used for synonyms."}).  This
 may sometimes be required in 
-@code{system} commands (@ref{System}), to prevent Gri from converting
+@code{system}
+commands (@ref{System}), to prevent Gri from converting
 substrings like @code{\n} (which many system commands use to represent
 the newline character).  For example, the command 
 @code{system perl -e 'print "foo\nbar";'} will be mangled if Gri has
@@ -11516,20 +11506,139 @@ The @code{show} command has a special syntax for permitting newlines and
 tabs in strings (@ref{Show}).
 
 
-@node   Displaying Synonyms, Accessing Individual Words Within Synonyms, Synonym Names, About Synonyms
+@node   Using Synonyms, Generalizing Code, Naming Convention, Synonyms
 @comment  node-name,  next,  previous,  up
-@subsubsection Displaying synonyms
-@cindex displaying synonyms
-@cindex synonyms, displaying
-To display a particular synonym, do @code{show "\name"}.  To display all
-known synonyms, do @code{show synonyms}.  
+@subsection Some uses for synonyms
+@cindex character variables (synonyms)
+@cindex synonyms, extracting individual words from
+@cindex synonyms, assigning values to
+@cindex synonyms, constructing using the operating system
+@cindex user-defined synonyms
+@cindex synonyms, for storing output from system commands
+@cindex operating system commands, assigned to synonyms
+@cindex system commands, assigned to synonyms
+@cindex operating system, example of using to construct filenames
+@cindex system commands, example of using to construct filenames
+@cindex filenames, constructing using the operating system
 
-@node   Accessing Individual Words Within Synonyms, Testing For Existence Of Synonyms, Displaying Synonyms, About Synonyms
+Synonyms store strings and are useful for anything strings are useful
+for, e.g. filenames, plot labels, names of variables, etc.
+
+@menu
+* Generalizing Code::
+* Storing OS Output::
+* Storing User Responses::
+* Storing File Contents::
+* Extracting Words From Strings::
+@end menu
+
+@node   Generalizing Code, Storing OS Output, Using Synonyms, Using Synonyms
 @comment  node-name,  next,  previous,  up
-@subsubsection Accessing individual words within synonyms
-@cindex strings, accessing individual words within
-@cindex words in synonyms, accessing individually
-@cindex synonyms, accessing individual words of
+@subsubsection Using synonyms to generalize code
+
+Synonyms are often used to store filenames, since then only a single
+line of a file may need to be altered, in order to work with another
+file, e.g.
+
+@example
+\filename = "columns.dat"
+open \filename
+# a lot more code using the file name
+@end example
+
+
+@node   Storing OS Output, Storing User Responses, Generalizing Code, Using Synonyms
+@comment  node-name,  next,  previous,  up
+
+@subsubsection Using synonyms to store OS output
+Synonyms provided a convenient way to store information from the OS.
+
+@example
+# Show the date.
+\date = system date
+show "Time is \date"
+
+# Show the command file name, then use the system
+# to construct a filename with the same beginning
+# but ".dat" as the ending instead of ".gri".
+show "The commandfile name is \.command_file."
+\fn = system echo `basename \.command_file. .gri`.dat
+show "A filename constructed from this is \fn"
+@end example
+
+This example uses the Unix system commands @code{echo} and
+@code{basename} to  construct a filename ending in @file{.dat}, from the
+command file name (stored in the builtin string @code{\.command_file.}),
+assuming that the command file name ends in @file{.gri}.
+
+NOTE: As usual, if the system command contains the Gri comment
+designator (the string @code{#}), protect it with double-quotes
+(@ref{System}).
+
+
+@node   Storing User Responses, Storing File Contents, Storing OS Output, Using Synonyms
+@comment  node-name,  next,  previous,  up
+
+@subsubsection Storing user responses via @code{query}
+
+You can ask the user for the contents of strings:
+@cindex interaction with user, @code{query} command
+
+@example
+query \filename "What's the data file?" ("file.dat")
+@end example
+
+@noindent
+The prompt @code{What's the name of the data file?} is typed to the
+terminal, and whatever string the user types is inserted into the
+synonym @code{\filename}. If the user types nothing, but simply presses
+carriage return, the (optional) default string (which must be enclosed
+in parentheses as shown) is put into @code{\filename}. Note that the
+default is ignored if it is not written properly: it must be enclosed in
+double quotes enclosed in parentheses, with no intervening spaces.
+
+
+@node   Storing File Contents, Extracting Words From Strings, Storing User Responses, Using Synonyms
+@comment  node-name,  next,  previous,  up
+
+@subsubsection Storing File Contents
+You can read the contents of synonyms from a file:
+
+@example
+open \directory_file
+read \file_name
+close
+open \file_name
+read columns x y
+@end example
+
+@noindent
+The first (space-separated) word is read into the the first synonym after
+the @code{read} command, the second word into the second synonym, and so on.
+If the word you want is not near the front of the line, you can use the command 
+@code{read line} to get the whole line, then use the method described above 
+to extract the word you want.  Indexing begins with 0, remember.
+
+
+@node   Extracting Words From Strings, Important Builtin Synonyms, Storing File Contents, Using Synonyms
+@comment  node-name,  next,  previous,  up
+
+@subsubsection Working with words within strings
+
+Sometimes a synonym will contain several words that you need to work
+with indidually (e.g. it might contain a list of files that should be
+processed).  There are two ways to do this.
+
+@table @emph
+
+@item The @code{word of} syntax.
+@example
+\sentence = "This sentence has five words"
+\first_word = word 0 of "\sentence"
+\last_word = word 4 of "This sentence has five words"
+@end example
+
+@item The @code{[]} syntax
 @cindex @code{[]} syntax for selecting words in synonyms
 Individual words of synonyms may be accessed by prefixing the synonym
 name with the index number of the word (starting at 0) enclosed in
@@ -11555,156 +11664,131 @@ show \[\i]syn   ... gives 'words'"
 show "\[]syn    ... gives '6', i.e. number of words"
 @end example
 
-@node   Testing For Existence Of Synonyms, Using Synonyms In If Statements, Accessing Individual Words Within Synonyms, About Synonyms
+@end table
+
+
+
+
+@node   Important Builtin Synonyms, Alias Synonyms, Extracting Words From Strings, Synonyms
 @comment  node-name,  next,  previous,  up
-@subsubsection Testing for existence of synonyms
-To see if a given named synonym (or variable) exists, use the RPN
-operator @code{defined} (@ref{rpn Mathematics}).
+@subsection Some important builtin synonyms
+@cindex synonyms, global
+@cindex global synonyms
+@cindex built-in synonyms, global
+@cindex global built-in synonyms
+@cindex synonyms, built-in, list of
+@cindex return value, @code{\.return_value.}
+@vindex @code{\.return_value.}, Return value
+@vindex @code{\.ps_file.}, PostScript file name
+@vindex @code{\.readfrom_file.}, data file name
+@vindex @code{\.command_file.}, command-file name
+@vindex @code{\.missingvalue.}, command-file name
+@vindex @code{\.home.}, home directory
+@vindex @code{\.system.}, operating system name
+@vindex @code{\.user.}, user's login name
+@vindex @code{\.time.}, time and date
+@cindex directory, stored in synonym @code{\.wd.}
+@cindex working directory, stored in synonym @code{\.wd.}
+@cindex @code{\.wd.} synonym, storing working directory
+@vindex @code{\.wd.}, working directory
+@vindex @code{\.version.}, version of Gri
+@vindex @code{\.pid.}, process ID of job
+Within mathematics mode (portions of strings enclosed within
+dollar-signs), Gri stores the definitions of many Greek letters and
+mathematical symbols as math-mode synonyms (@ref{Mathematical Text}).
 
-@node   Using Synonyms In If Statements, User Synonyms, Testing For Existence Of Synonyms, About Synonyms
+Global synonyms are shared among commands.  To see the built-in global
+synonyms (@ref{Index of Builtins}) use @code{show synonyms}, which
+produces output that looks something like the following.
+
+@example
+gri: Synonyms...
+\.missingvalue.="10000000000000000000000.000000"
+\.return_value.=""
+\.awk.="gawk"
+\.version.="2.2.6"
+\.pid.="13644"
+\.wd.="/autofs/users/dek/kelley/src/gri/src"
+\.time.="Thu Jan 14 15:30:51 AST 1999"
+\.user.="kelley"
+\.host.="Kelley"
+\.system.="unix"
+\.home.="/users/dek/kelley"
+\.lib_dir.="/users/dek/kelley/src/gri/src"
+\.command_file.="stdin"
+\.readfrom_file.="stdin"
+\.ps_file.="gri-??.ps"
+@end example
+
+@cindex time
+@cindex date
+@cindex @code{\.return_value.}, general
+These things will be obvious to unix users; for example
+@code{\.pid.} is the process ID of the job (often used in names for
+temporary files), and @code{\.wd.} is the working directory (often used
+in @code{draw title} commands to indicate in which directory the gri job
+was run.  Some commands set @code{\.return_value.} to non-blank; the
+meaning of the return value varies from command to command.
+
+
+@node   Alias Synonyms, Local Synonyms, Important Builtin Synonyms, Synonyms
 @comment  node-name,  next,  previous,  up
-@subsubsection Using synonyms in @code{if} statements
-@cindex @code{if} statements, using synonyms in
-@cindex using synonyms in @code{if} statements
-Here are some examples of using strings in @code{if} statements.  Note
-that synonyms must be enclosed in quotes if they are to be compared with
-strings.
+@subsection Alias synonyms: the @code{\@@alias} syntax
+@cindex alias synonyms, with the @code{\@@alias} notation
+@cindex @code{\@@alias} notation
+@cindex synonyms, aliasing with the @code{\@@alias} notation
 
-@cindex interaction with user, @code{query} command
+Sometimes you need to work with a variable or a synonym whose name can
+only be determined at run-time, perhaps through interaction with the
+user, examination of a datafile, or examination of the command provided
+to the OS when invoking Gri.
 
+Gri handles this by so-called "alias" synonyms, which store the names of
+other items.
+
+The syntax is simple.  Suppose that a synonym, called @code{\pointer}
+say, contains the @emph{name of} another synonym, or a variable.  Then
+you may use @code{\@@pointer} anyplace you would normally use the item
+named.
+
+@table @emph
+@item Illustrations of using the value of a named item
+The following prints an approximation to Pi followed by the name of
+movie star.
 @example
-query \item "Item to plot?" ("S")
-if @{"\item" == "S"@}
-  show "Plotting S"
-  # ...
-else if @{"\item" == "T"@}
-  show "Plotting T"
-  # ...
-else
-  show "Don't know what to plot"
-  quit
-end if
+.pi. = 3.14
+\pi_pointer = ".pi."
+show \@@pi_pointer  # just like 'show .pi.'
+
+\hero = "Gregory Peck"
+\our_hero = "\\hero"
+show "\@@our_hero"  # just like 'show "\hero"'
 @end example
 
-Here the strings are compared with the @code{==} operator.  Inequality
-is tested with @code{!=}.  One can do string comparisons in @code{rpn}
-expressions, e.g. @code{if @{rpn "\item" "S" ==@}}
-(@ref{rpn Mathematics}).
+@item Illustrations of assigning to a named item
+The following prints an approximation to 2*Pi and yet another star; the
+point is that the alias appears to the left of an assignment operator.
+@example
+# Print approximation to 2*Pi
+.pi. = 3.14
+\pi_pointer = ".pi."
+\@@pi_pointer *= 2
+show .pi.
+
+# Stars don't shine alone
+\hero = "Gregory Peck"
+\our_hero = "\\hero"
+\@@our_hero = "Harrison Ford"
+show "\hero"
+@end example
+
+@end table
 
 
 
-@node   User Synonyms, Built-in Synonyms, Using Synonyms In If Statements, Synonyms
+@node   Local Synonyms, If Statements, Alias Synonyms, Synonyms
 @comment  node-name,  next,  previous,  up
-@subsection User synonyms
-@cindex character variables (synonyms)
-@cindex synonyms, extracting individual words from
-@cindex synonyms, assigning values to
-@cindex synonyms, constructing using the operating system
-@cindex user-defined synonyms
-@cindex synonyms, for storing output from system commands
-@cindex operating system commands, assigned to synonyms
-@cindex system commands, assigned to synonyms
-@cindex operating system, example of using to construct filenames
-@cindex system commands, example of using to construct filenames
-@cindex filenames, constructing using the operating system
-
-@subsubsection Simple Assignment
-
-@example
-\filename = "columns.dat"
-open \filename
-@end example
-
-@subsubsection System Output Stored Into Synonyms
-
-@example
-# Show the date.
-\date = system date
-show "Time is \date"
-
-# Show the command file name, then use the system
-# to construct a filename with the same beginning
-# but ".dat" as the ending instead of ".gri".
-show "The commandfile name is \.command_file."
-\fn = system echo `basename \.command_file. .gri`.dat
-show "A filename constructed from this is \fn"
-@end example
-
-This example uses the Unix system commands @code{echo} and
-@code{basename} to  construct a filename ending in @file{.dat}, from the
-command file name (stored in the builtin string @code{\.command_file.}),
-assuming that the command file name ends in @file{.gri}.
-
-NOTE: As usual, if the system command contains the Gri comment
-designator (the string @code{#}), protect it with double-quotes
-(@ref{System}).
-
-
-@subsubsection Assignment by Extraction of Words from Strings:
-This is an adjunct to the @code{[]} syntax for synonyms.
-
-@example
-\sentence = "This sentence has five words"
-\first_word = word 0 of "\sentence"
-\last_word = word 4 of "This sentence has five words"
-@end example
-
-@noindent
-Note: this is often used together with @code{read \synonym}, to allow
-the Gri program to access individual words in a data file.
-
-
-@subsubsection User-supplied Strings (Interactive)
-
-You can ask the user for the contents of strings:
-@cindex interaction with user, @code{query} command
-
-@example
-query \filename "What's the data file?" ("file.dat")
-@end example
-
-@noindent
-The prompt @code{What's the name of the data file?} is typed to the
-terminal, and whatever string the user types is inserted into the
-synonym @code{\filename}. If the user types nothing, but simply presses
-carriage return, the (optional) default string (which must be enclosed
-in parentheses as shown) is put into @code{\filename}. Note that the
-default is ignored if it is not written properly: it must be enclosed in
-double quotes enclosed in parentheses, with no intervening spaces.
-
-
-@subsubsection Reading Synonyms From a File
-You can read the contents of synonyms from a file:
-
-@example
-open \directory_file
-read \file_name
-close
-open \file_name
-read columns x y
-@end example
-
-@noindent
-The first (space-separated) word is read into the the first synonym after
-the @code{read} command, the second word into the second synonym, and so on.
-If the word you want is not near the front of the line, you can use the command 
-@code{read line} to get the whole line, then use the method described above 
-to extract the word you want.  Indexing begins with 0, remember.
-
-@node   Built-in Synonyms, Local Synonyms, User Synonyms, Synonyms
-@comment  node-name,  next,  previous,  up
-@subsection Built-in synonyms
-@cindex strings, stored in synonyms
-@cindex character strings, stored in synonyms
-There are two types of built-in synonyms: local and global.
-@menu
-* Local Synonyms::              Synonyms local to a new Gri command
-* Global Synonyms::             Synonyms shared between Gri commands
-@end menu
-
-@node   Local Synonyms, Global Synonyms, Built-in Synonyms, Built-in Synonyms
-@comment  node-name,  next,  previous,  up
-@subsubsection Local synonyms
+@subsection Local synonyms
 @cindex synonyms, local
 @cindex local synonyms
 @vindex @code{\.proper_usage.}
@@ -11803,71 +11887,10 @@ check @file{gri.cmd} to see how a full
 command does checking of the calling syntax
 (@ref{Invoking Gri}).
 
-@node   Global Synonyms, If Statements, Local Synonyms, Built-in Synonyms
-@comment  node-name,  next,  previous,  up
-@subsubsection Global synonyms
-@cindex synonyms, global
-@cindex global synonyms
-@cindex built-in synonyms, global
-@cindex global built-in synonyms
-@cindex synonyms, built-in, list of
-@cindex return value, @code{\.return_value.}
-@vindex @code{\.return_value.}, Return value
-@vindex @code{\.ps_file.}, PostScript file name
-@vindex @code{\.readfrom_file.}, data file name
-@vindex @code{\.command_file.}, command-file name
-@vindex @code{\.missingvalue.}, command-file name
-@vindex @code{\.home.}, home directory
-@vindex @code{\.system.}, operating system name
-@vindex @code{\.user.}, user's login name
-@vindex @code{\.time.}, time and date
-@cindex directory, stored in synonym @code{\.wd.}
-@cindex working directory, stored in synonym @code{\.wd.}
-@cindex @code{\.wd.} synonym, storing working directory
-@vindex @code{\.wd.}, working directory
-@vindex @code{\.version.}, version of Gri
-@vindex @code{\.pid.}, process ID of job
-Within mathematics mode (portions of strings enclosed within
-dollar-signs), Gri stores the definitions of many Greek letters and
-mathematical symbols as math-mode synonyms (@ref{Mathematical Text}).
-
-Global synonyms are shared among commands.  To see the built-in global
-synonyms (@ref{Index of Builtins}) use @code{show synonyms}, which
-produces output that looks something like the following.
-
-@example
-gri: Synonyms...
-\.missingvalue.="10000000000000000000000.000000"
-\.return_value.=""
-\.awk.="gawk"
-\.version.="2.2.6"
-\.pid.="13644"
-\.wd.="/autofs/users/dek/kelley/src/gri/src"
-\.time.="Thu Jan 14 15:30:51 AST 1999"
-\.user.="kelley"
-\.host.="Kelley"
-\.system.="unix"
-\.home.="/users/dek/kelley"
-\.lib_dir.="/users/dek/kelley/src/gri/src"
-\.command_file.="stdin"
-\.readfrom_file.="stdin"
-\.ps_file.="gri-??.ps"
-@end example
-
-@cindex time
-@cindex date
-@cindex @code{\.return_value.}, general
-These things will be obvious to unix users; for example
-@code{\.pid.} is the process ID of the job (often used in names for
-temporary files), and @code{\.wd.} is the working directory (often used
-in @code{draw title} commands to indicate in which directory the gri job
-was run.  Some commands set @code{\.return_value.} to non-blank; the
-meaning of the return value varies from command to command.
-
 
 @c HTML <!-- newfile IfStatements.html "Gri: if statements" "Programming Gri" -->
 
-@node   If Statements, Loops, Global Synonyms, Programming
+@node   If Statements, Loops, Local Synonyms, Programming
 @comment  node-name,  next,  previous,  up
 @section If Statements
 @cindex programming, if statements
@@ -12001,7 +12024,8 @@ end if
 @node   Loops, Mathematics, If Statements, Programming
 @comment  node-name,  next,  previous,  up
 @section Loops
-Gri provides only one type of loop (@ref{While}).
+Gri provides only one type of loop, the @code{while} loop, described
+elsewhere (@ref{While}).
 
 
 @c HTML <!-- newfile Mathematics.html "Gri: Mathematics" "Programming Gri" -->
@@ -12496,7 +12520,7 @@ Convert from 1 centimeter to so-called ``point'' units, yielding 28.45.
 @cindex testing for existence of a synonym
 @cindex synonyms, checking for existence of
 @cindex existence of a synonym, testing
-Test whether the named synonym is defined at the moment, returning 1 if
+Test whether the synonym is defined at the moment, returning 1 if
 so and 0 if not.  (Note the double-backslash in the synonym name, which
 is required.)
 
@@ -12504,8 +12528,17 @@ is required.)
 @cindex existence of a variable, testing
 @cindex testing for existence of a variable
 @cindex variables, checking for existence of
-Test whether the named variable is defined at the moment, returning 1 if
+Test whether the variable is defined at the moment, returning 1 if
 so and 0 if not.
+
+@item @{rpn "\\@@alias" defined@}
+@cindex testing for existence of an aliased synonym
+@cindex alias synonyms, checking for existence of
+@cindex existence of an alias synonym, testing
+Test whether the variable/synonym item that is named by the alias
+(@ref{Alias Synonyms}) is defined at the moment, returning 1 if so and 0
+if not.
+
 
 
 @item @{rpn "hi" descent@}
@@ -13515,7 +13548,7 @@ super/subscripts.
     .space. = 0.1               # Space of 1mm
     .oldgray. = ..graylevel..
     set graylevel white
-    draw box filled                            \
+    draw box filled                          \
       @{rpn .x. .space. -@}                    \
       @{rpn .y. .space. -@}                    \
       @{rpn .x. "\.word3." width + .space. +@} \
@@ -13531,15 +13564,14 @@ super/subscripts.
 
 @node   Changeable Command Arguments, The Ampersand Syntax, Complicated New Command, Adding New Commands
 @comment node-name,  next,  previous,  up
-@subsection Altering command arguments using pointers
+@subsection Altering command arguments using the @code{&} syntax
 @cindex command arguments, how to alter
 @cindex newcommand arguments, how to alter
 @cindex arguments to new commands, how to alter
 @cindex the @code{&.variable.} notation
 @cindex the @code{&\synonym} notation
-@cindex variables, pointers to
-@cindex synonym, pointers to
-@cindex pointers to variables and synonyms
+@cindex variables, and the @code{&} syntax
+@cindex synonym, and the @code{&} syntax
 
 The Gri language permits a newcommand to change variables and synonyms
 passed as arguments, using a syntax that is quite similar to that
@@ -13551,6 +13583,7 @@ employed by the C++ language.
 * Manipulating A Synonym::              Synonyms (e.g. @code{&\synonym})
 * Nesting::                             Newcommands called by newcommands
 * Using New And Delete::                Isolating local variables and synonyms
+* Determining Calling Information::     The @code{\&.word?.} and@code{\&&.word?.} syntax
 * Implementation of Ampersand Syntax::  Algorithm Gri uses
 @end menu
 
@@ -13592,12 +13625,12 @@ Consider the task of adding a fixed amount to a variable.  If the
 variable we wish to double is @code{.x.}, we might write
 
 @example
-`double x'
+`double_a_particular_variable'
 @{ 
     .x. = @{rpn .x. 2 *@}
 @}
 .x. = 10
-double x
+double_a_particular_variable
 @end example
 
 @noindent
@@ -13695,7 +13728,7 @@ A: it prints @code{apples are tasty}.
 
 
 
-@node   Using New And Delete, Implementation of Ampersand Syntax, Nesting, Changeable Command Arguments
+@node   Using New And Delete, Determining Calling Information, Nesting, Changeable Command Arguments
 @comment  node-name,  next,  previous,  up
 @subsubsection What @code{new} and @code{delete} do with changeable arguments
 
@@ -13736,7 +13769,35 @@ newcommand, in line 6.  This modification involves the use of a synonym,
 being created in line 3 and destroyed in line 6.  
 
 
-@node   Implementation of Ampersand Syntax, Hints, Using New And Delete, Changeable Command Arguments
+@node   Determining Calling Information, Implementation of Ampersand Syntax, Using New And Delete, Changeable Command Arguments
+@comment  node-name,  next,  previous,  up
+@subsubsection Determining calling information
+
+@cindex @code{\&} and @cindex @code{\&&} notation
+@cindex newcommands, determining calling argument names with @code{\&}
+@cindex newcommands, determining calling argument level with @code{\&&}
+
+Newcommands may determine the name and the nesting level of changeable
+calling arguments.  To get the name, put a single ampersand after the
+backslash of the local synonym of interest.  To get the nesting level (0
+for main program, etc.) put two ampersands after the backslash.
+@example
+`NC &.var.'
+@{
+    show "\&.word1. (expect '.a.')"
+    show "\&&.word1. (expect 0)"
+@}
+.a. = 1
+NC &.a.
+@end example
+
+@emph{Note}: neither of these items may be used an lvalue.  That is,
+they may not be used to the left of an equals sign.  But you can always
+get around that by clever use of alias synonyms (@ref{Alias Synonyms}).
+
+
+
+@node   Implementation of Ampersand Syntax, Hints, Determining Calling Information, Changeable Command Arguments
 @comment  node-name,  next,  previous,  up
 @subsubsection How Gri implements the @code{&} syntax
 
@@ -15536,6 +15597,22 @@ The next sections outline the changes made in Gri.
 @subsection Version 2.6
 @table @emph
 @item 2.6.0 [2001-month-day] (Not released yet.)
+
+@sp 1
+Change the format of images in the PostScript output file, as a
+workaround for a bug in the @code{ps2pdf} program.
+
+@sp 1
+Add @code{\&} and @cindex @code{\&&} notation to permit newcommands to
+look up the name and nesting level of changeable arguments
+(@ref{Changeable Command Arguments})
+
+@sp 1
+Add @code{@@} syntax for changeable newcommand arguments (@ref{Changeable Command Arguments})
+
+@sp 1
+Add alias synonyms (@ref{Alias Synonyms})
+
 @sp 1
 Add ability to do newlines and horizontal tabs in @code{show} 
 commands using @code{\<<} and @code{\>>} codes (@ref{Show}).
@@ -15597,7 +15674,7 @@ to use cgi-bin to provide the hints via web-server.
 
 @sp 1
 Permit indexing of synonym words with variables, in addition to
-constants (@ref{Accessing Individual Words Within Synonyms}).
+constants.
 
 @sp 1
 Fix bug in interpolating synonyms in the test-expression of @code{while} loops.
@@ -15738,7 +15815,7 @@ Clean up some problems with Debian distribution (thanks, Peter Galbraith!).
 @item 2.2.3 [1999 Jun 30]
 Fix bug in which word-of-synonym (e.g. @code{\[0]mysyn}) was not
 detected correctly (thanks to bug report from Kazuhiko Nakayama in
-Japan) (@ref{Accessing Individual Words Within Synonyms}).
+Japan)
 @item 2.2.2 [-]
 Clean a few spelling and cross-reference errors in documentation.
 @item 2.2.1 [1999 Mar 31]

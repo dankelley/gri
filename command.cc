@@ -3,6 +3,7 @@
 #include        <string.h>
 #include	<ctype.h>
 #include	<stdio.h>
+#include <strstream>
 #include	"gr.hh"
 #include	"extern.hh"
 #include        "private.hh"
@@ -10,6 +11,7 @@
 #include        "tags.hh"
 #include        "command.hh"
 #include        "superus.hh"
+
 
 vector<BlockSource> bsStack;
 
@@ -19,6 +21,8 @@ static inline int      word_length(const char *s);
 static bool            extract_help(FILE * fp, char *line);
 static bool            extract_procedure(FILE * fp, char *line);
 static bool            extract_syntax(char *line);
+static bool            perform_new_command(const char *s);
+
 
 // Store info about execution blocks.
 bool             get_line_in_block(const char *block, unsigned int *offset);
@@ -192,23 +196,48 @@ Gri cannot execute the command\n\
 		gr_Error(_grTempString);
 		return 0;		// will not be done
 	} else {
-		// It's not a C command.  It must be a gri command line, or series of
-		// lines.
+		// It's not a C command.  
+		// It must be a gri command line
+		// or a series of lines.
+#if 1
+		perform_new_command(s + start);
+#else
 		GET_STORAGE(_cmd_being_done_IP[_cmd_being_done],
 			    char, 1 + strlen(s + start));
 		strcpy(_cmd_being_done_IP[_cmd_being_done], s + start);
 		push_command_word_buffer();
-		//printf("DEBUG %s:%d about to perform block.\n",__FILE__,__LINE__);
 		perform_block(_cmd_being_done_IP[_cmd_being_done],
 			      _command[_cmd_being_done_code[_cmd_being_done - 1]].filename,
 			      _command[_cmd_being_done_code[_cmd_being_done - 1]].fileline
 			);
+
 		pop_command_word_buffer();
+#endif
 	}
 	return 1;			// BUG: no check on newcommands! 
 }				// parse_C_commandCmd() 
 #undef C_call
 #undef C_declaration
+
+bool
+perform_new_command(const char *s)
+{
+	GET_STORAGE(_cmd_being_done_IP[_cmd_being_done], char, 1 + strlen(s));
+	strcpy(_cmd_being_done_IP[_cmd_being_done], s);
+	push_command_word_buffer();
+	//printf("DEBUG %s:%d about to perform a NC <%s ...>\n",__FILE__,__LINE__,_cmdLine);
+	marker_draw();
+	perform_block(_cmd_being_done_IP[_cmd_being_done],
+		      _command[_cmd_being_done_code[_cmd_being_done - 1]].filename,
+		      _command[_cmd_being_done_code[_cmd_being_done - 1]].fileline
+		);
+	
+	marker_erase();
+	//printf("DEBUG %s:%d done performing NC\n",__FILE__,__LINE__);
+	pop_command_word_buffer();
+	free(_cmd_being_done_IP[_cmd_being_done]); // BUG: untested
+	return true;
+}
 
 bool
 create_commands(const char *filename)
@@ -604,6 +633,14 @@ perform_gri_cmd(int cmd)
 void
 push_command_word_buffer()
 {
+	// Figure out where last chunk started, so can nest & syntax,
+	int last_separator_at = -1;
+	for (int ii = _num_command_word - 1; ii >= 0; ii--) {
+		if (strEQ(_command_word[ii],_command_word_separator)) {
+			last_separator_at = ii;
+			break;
+		}
+	}
 	char *cp = NULL;		// assignment prevents warning
 	GET_STORAGE(cp, char, 1 + strlen(_command_word_separator));
 	strcpy(cp, _command_word_separator);
@@ -613,24 +650,51 @@ push_command_word_buffer()
 		gr_Error("ran out of storage (must increase MAX_cmd_word in private.hh");
 	}
 	for (unsigned int i = 0; i < _nword; i++) {
-		//printf("DEBUG %s:%d push_command_word_buffer <%s>\n",__FILE__,__LINE__,_word[i]);
+		//printf("DEBUG %s:%d push_command_word_buffer loop i= %d word[i]= <%s>\n",__FILE__,__LINE__,i,_word[i]);
 		if (*_word[i] == '&') {	// 2001-feb-10 trying new syntax
+			//printf("DEBUG %s:%d & found on word[%d] <%s>\n",__FILE__,__LINE__,i,_word[i]);
 			const char *name = 1 + _word[i];
-			char coded_pointer[20];	// BUG: should be big enough.  Jeeze!
-			if (is_var(name)) {
-				sprintf(coded_pointer, "\\#v%d#", variablePointer.size());
-				int the_index = index_of_variable(name);
-				variablePointer.push_back(the_index);
-				GET_STORAGE(cp, char, 1 + strlen(coded_pointer));
-				strcpy(cp, coded_pointer);
+			char buf[300]; // BUG: should make bigger
+			int cmd_word_index = -1;
+			if (1 == sscanf(name, "\\.word%d.", &cmd_word_index)) {
+				// Nesting
+				//printf("DEBUG %s:%d & on \\.word%d.  last_sep at %d\n",__FILE__,__LINE__,cmd_word_index,last_separator_at);
+				string the_cmd_word;
+				//for (int ii = _num_command_word - 1; ii >= 0; ii--) printf("DEBUG %s:%d stack %3d [%s]  %d\n",__FILE__,__LINE__,ii,_command_word[ii],ii-last_separator_at);
+
+				if (last_separator_at + cmd_word_index + 1 < _num_command_word) {
+					char *cw = _command_word[last_separator_at + cmd_word_index + 1];
+					//printf("DEBUG %s:%d think it's [%s]\n",__FILE__,__LINE__,cw);
+					GET_STORAGE(cp, char, strlen(cw + 1));
+					strcpy(cp, cw);
+				} else {
+					err("Internal error command.cc:672; contact author");
+				}
+			} else if (is_var(name)) {
+				// Variable
+				int index = index_of_variable(name);
+				if (index < 0) {
+					err("cannot do \\", _word[i], " since `", name, "' does not exist", "\\");
+					return;
+				}
+				sprintf(buf, AMPERSAND_CODING, 1 + _word[i], marker_count());
+				GET_STORAGE(cp, char, 1 + strlen(buf));
+				strcpy(cp, buf);
 				//printf("DEBUG %s:%d WAS VAR.  made <%s>\n",__FILE__,__LINE__,cp);
 			} else if (is_syn(name)) {
-				sprintf(coded_pointer, "\\#s%d#", synonymPointer.size());
-				int the_index = index_of_synonym(name);
-				synonymPointer.push_back(the_index);
-				GET_STORAGE(cp, char, 1 + strlen(coded_pointer));
-				strcpy(cp, coded_pointer);
+				// Synonym
+				int index = index_of_synonym(name);
+				if (index < 0) {
+					err("cannot do \\", _word[i], " since `", name, "' does not exist", "\\");
+					return;
+				}
+				sprintf(buf, AMPERSAND_CODING, 1 + _word[i], marker_count());
+				GET_STORAGE(cp, char, 1 + strlen(buf));
+				strcpy(cp, buf);
 				//printf("DEBUG %s:%d WAS SYN.  made <%s>\n",__FILE__,__LINE__,cp);
+			} else {
+				err("INTERNAL ERROR command.cc:677 -- notify author\n");
+				return;
 			}
 		} else if (is_var(_word[i])) { // 2000-dec-18 SF bug 122893
 			double v;
@@ -703,8 +767,6 @@ set_up_command_word_buffer()
 bool
 perform_block(const char *block, const char *source_file, int source_line)
 {
-	//printf("DEBUG %s:%d in perform_block()\n",__FILE__,__LINE__);
-
 	unsigned int lines = 0, offset = 0;
 	BlockSource bs(block, source_file, source_line);
 	bsStack.push_back(bs);

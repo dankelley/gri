@@ -48,7 +48,10 @@ print OUT "</head>\n";
 
 
 #$body_start = "<body bgcolor=\"#ffffff\" link=\"#993333\" vlink=\"#333399 alink=\"#cc3333\">";
-$body_start = "<body bgcolor=\"#ffffff\" link=\"#993333\" vlink=\"#333399\">";
+#$body_start = "<body bgcolor=\"#ffffff\" link=\"#993333\" vlink=\"#333399\">";
+
+# Colors below from Mozilla page as of 2001-mar-05.
+$body_start = "<body bgcolor=\"#FFFFFF\" text=\"#000000\" link=\"#0000EE\" vlink=\"#551A8B\" alink=\"FF0000\">";
 
 print OUT "$body_start\n";
 
