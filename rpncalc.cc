@@ -367,9 +367,8 @@ rpn(int nw, char **w, char ** result)
 		err("Not allowed to end up with function on stack");
 		return GENERAL_ERROR;
 	case COLUMN_NAME:
-		break;
 	case NOT_OPERAND:
-		break;
+	case VARIABLE_WITH_MISSING_VALUE:
 	case UNKNOWN:
 		break;
 	}
