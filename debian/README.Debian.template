@@ -12,13 +12,11 @@ gri for DEBIAN
           $ info gri
 
   gri-html-doc: 
-        HTML version of the manual (It's listed in dwww and dhelp if you have
-        the doc-base package installed).
+        HTML version of the manual (It's listed in dwww, dhelp and 
+        doc-central if you have the doc-base package installed).
 
         This manual is available on the web via:
           http://gri.sourceforge.net/gridoc/html/
-        or
-          http://www.phys.ocean.dal.ca/~kelley/gri/
 
         Once you have installed this package, it's available at the URL
           http://localhost/doc/gri/html/
@@ -57,10 +55,8 @@ Packages available outside of Debian for older Gri versions:
  available from:
 
   http://sourceforge.net/project/showfiles.php?group_id=5511
- or (if on-line): 
-  http://www.phys.ocean.dal.ca/~kelley/ftp/gri/linux-debian
 
- Or ask me how you can compile your own!  (Install the source package and
- read debian/00Porters.readme)
+ Or compile your own!  (Install the source package and read
+ debian/00Porters.readme)
 
 Peter S Galbraith <psg@debian.org>, Sun, 10 Jan 1999 12:45:05 -0500
