@@ -138,7 +138,7 @@ linux_redhat:
 linux_redhat_clean:
 	rm -f gri.info*
 	cp FAQ.html save
-	rm -f *.html gri.dvi gri.ps index.html
+	rm -f *.html gri.dvi gri.ps
 	mv save FAQ.html
 
 gri.ps: gri.texi
@@ -158,10 +158,6 @@ gri.ps: gri.texi
 	tex gri.texi
 	dvips -o gri.ps gri.dvi
 
-index.html: gri.texi
-	make html
-	rm -f index.html
-
 # Debian stuff follows
 # $(prefix) is either ../debian/gri-html-doc/usr/doc
 #                     ../debian/gri-ps-doc/usr/doc
@@ -177,7 +173,7 @@ cmdrefcard.ps:
 	dvips -o cmdrefcard.ps -t landscape cmdrefcard.dvi
 	chmod a+r cmdrefcard.*
 
-# make debian PREFIX=../debian/tmp/usr/doc INFO_DIR=../debian/tmp/usr/info
+# make debian prefix=../debian/tmp/usr/doc INFO_DIR=../debian/tmp/usr/info
 debian: refcard.ps cmdrefcard.ps debian-info
 	install -d $(prefix)/gri
 	install -m 644 refcard.ps cmdrefcard.ps $(prefix)/gri
@@ -194,20 +190,11 @@ debian-info: gri.texi
 	rm -f a
 	touch debian-info
 
-# make debian-html PREFIX=../debian/gri-html-doc/usr/doc
-debian-html: index.html
-	install -d $(prefix)/gri-html-doc/html
-	install -m 644 *.html $(prefix)/gri-html-doc/html
-	rm -f $(prefix)/gri-html-doc/html/index.html
-#	(cd $(prefix)/gri-html-doc/html; ln -sf gri1.html index.html)
-	install -d $(prefix)/gri-html-doc/html/resources
-	install -m 644 resources/*.gif $(prefix)/gri-html-doc/html/resources
-	install -m 644 resources/logo.gri $(prefix)/gri-html-doc/html/resources
-	install -m 644 resources/logo.eps $(prefix)/gri-html-doc/html/resources
-	install -d $(prefix)/gri-html-doc/examples
-	install -m 644 ./examples/*.jpg     $(prefix)/gri-html-doc/html
-	install -m 644 ./examples/{model*,*.dat,*.gri,*.ps} $(prefix)/gri-html-doc/examples
-	install -m 755 ./examples/FEM.pl $(prefix)/gri-html-doc/examples
+# make debian-html prefix=../debian/gri-html-doc/usr/doc
+debian-html:
+	rm -fR $(prefix)/gri-html-doc/examples
+	make html-install HTML_DIR=$(prefix)/gri-html-doc/html
+	(cd $(prefix)/gri-html-doc/html; mv examples ../)
 	(cd $(prefix)/gri-html-doc/html; ln -sf ../examples)
 
 # make debian-ps PREFIX=../debian/gri-ps-doc/usr/doc
