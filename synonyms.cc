@@ -7,6 +7,7 @@
 #include	"extern.hh"
 #include        "Synonym.hh"
 
+
 static vector<GriSynonym> synonymStack;
 
 static inline int end_of_synonym(char c, bool inmath, bool need_brace);
@@ -719,7 +720,7 @@ Cannot get word %d of synonym `%s'; using last word ([%d]) instead",
 bool
 substitute_synonyms(const char *s, string& sout, bool allow_math)
 {
-	//printf("DEBUG: substitute_synonyms('%s',...)\n",s);
+	if (((unsigned) superuser()) & FLAG_SYN) printf("\n\nsubstitute_synonyms('%s',...)\n",s);
 	bool            inmath = false; // are we within a math string?
 	int             trailing_dots_in_name = 0;
 	int             dots_in_name = 0;
@@ -753,10 +754,6 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 		// Now know that s[i] is backslash, and not inmath.
 		// Pass a few escape strings through directly. 
 		if (s[i + 1] == '$'
-#if 0				// 2.2.3
-		    || s[i + 1] == '['
-		    || s[i + 1] == ']'
-#endif
 		    || s[i + 1] == '"'
 		    || s[i + 1] == '\\') {
 			sout += s[i];
@@ -771,51 +768,15 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 		bool            report_a_word = false;
 		int             word_to_report = -1;
 		bool            need_brace = (s[i + 1] == '{');
-		//printf("DEBUG.  At start of synonym i %d  (%s)\n",i,s+i);
-#if 0
-		if (need_brace)
-			i++;		// skip the brace itself
-#endif
+		if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG.  At start of synonym i= %d  s+i= '%s'\n",i,s+i);
 		if (s[i + 1] == '.') {
-			int ii;
-			for(ii = i + 1; ii < slen; ii++) {
+			dots_in_name = 1;
+			for(int ii = i + 1; ii < slen; ii++) {
 				if (s[ii] == '.')
 					dots_in_name++;
 				else
 					break;
 			}
-#if 0			// 2.5.5. not sure if I want to do this but keep in case
-			// Check for e.g. \.argv[0]. (starting in version 2.5.5).
-			printf("dotty: '%s'\n",s+i);
-			if (dots_in_name == 1) {
-				printf("one dot in name '%s'.  checking '%s'\n",s+i,s+i+1);
-				if (!strncmp(s + i + 1, ".argv[", 6)) {
-					int ends_at = -1;
-					for (int ii = i; ii < int(strlen(s)) - 1; ii++) {
-						if (s[ii] == ']') {
-							if (s[ii + 1] == '.')
-								ends_at = ii + 1;
-							else
-								fatal_err("Cannot parse `\\", s + i, "'", "\\");
-							break;
-						}
-					}
-					printf("'%s' it ends at %d, trailer '%s'\n",s+i,ends_at,s+ends_at);
-					int the_index;
-					if (1 != sscanf(s + i + 1, ".argv[%d].", &the_index)) {
-						fatal_err("ERROR: cannot figure out argv[] index at `", s + 1 + i, "'", "\\");
-					}
-					//printf("YUP.  matches index=%d\n", the_index);
-					extern vector<char*> _argv;
-					if (the_index < _argv.size()) {
-						sout.append(_argv[the_index]);
-					}
-					//strcat(sout, "TEST_OF_ARGV");
-					//fprintf(stderr, "argc %d\n",_argv.size());
-					i = ends_at + 1;
-				}
-			}
-#endif
 		} else if (s[i + 1] == '[') {
 			// Indexing a word within synonym
 			int index_length = -1;
@@ -842,6 +803,7 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 			i += index_length + 2;
 			// Check to see if synonym-name has dots in it
 			if (s[i + 1] == '.') {
+				dots_in_name = 1;
 				for(int ii = i + 1; ii < slen; ii++) {
 					if (s[ii] == '.')
 						dots_in_name++;
@@ -860,7 +822,7 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 		sname =  "\\";	          // ... and so far we have one character in our list. 
 		sname.append(s + i + 1);
 		syn_len += dots_in_name; // perhaps some dots
-		//printf("BEFORE the while.  syn_len %d    sname.size %d\n",syn_len,sname.size());
+		if (((unsigned) superuser()) & FLAG_SYN) printf("%s:%d about to try to find syn name in '%s'   syn_len= %d  dots_in_name= %d\n", __FILE__, __LINE__, sname.c_str(), syn_len, dots_in_name);
 		while (syn_len < sname.size() && !end_of_synonym(sname[syn_len], inmath, need_brace)) {
 			// Also end synonym if its an unmatched dot
 			if (sname[syn_len] == '.') {
@@ -878,6 +840,9 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 			syn_len++;
 		}
 		sname.STRINGERASE(syn_len, sname.size() - syn_len);
+
+		if (((unsigned) superuser()) & FLAG_SYN) printf("  %s:%d the sname is '%s'\n",__FILE__, __LINE__, sname.c_str());
+
 		// Catch '\ ', which is not a synonym, and which can come in by
 		// malformed continuation lines
 		if (sname[1] == ' ') {
@@ -917,6 +882,7 @@ Cannot get word %d of synonym `%s'; using last word ([%d]) instead",
 					sout.append(w[nw - 1]);
 				}
 			} else {
+				if (((unsigned) superuser()) & FLAG_SYN) printf("    %s:%d the sname value is '%s'\n",__FILE__, __LINE__, svalue);
 				sout.append(svalue);
 			}
 			i += syn_len - 1;
@@ -925,6 +891,7 @@ Cannot get word %d of synonym `%s'; using last word ([%d]) instead",
 		} else {
 			// leave unknown synonym in place.
 			if (!found) {
+				printf("\n'%s' WAS NOT FOUND\n", s+i);
 				sout += '\\'; // don't forget that!
 				while (!end_of_synonym(s[++i], inmath, need_brace))
 					sout += s[i];
@@ -935,7 +902,7 @@ Cannot get word %d of synonym `%s'; using last word ([%d]) instead",
 	// Paste on final blank [can't remember why, but what the heck].
 	sout.append(" ");
 	free(svalue);
-	//printf("Finally [%s]\n",sout.c_str());
+	if (((unsigned) superuser()) & FLAG_SYN) printf("Finally [%s]\n",sout.c_str());
 	return true;
 }
 #endif
@@ -943,9 +910,11 @@ Cannot get word %d of synonym `%s'; using last word ([%d]) instead",
 static inline int
 end_of_synonym(char c, bool inmath, bool need_brace)
 {
-	//printf("end_of_synonym (%c,...)\n",c);
-	if (need_brace)
+	if (((unsigned) superuser()) & FLAG_SYN) printf("\tend_of_synonym (%c,%d)\n",c, need_brace);
+	if (need_brace) {
+		if (((unsigned) superuser()) & FLAG_SYN) printf("\t\t returning %d  (since need_brace)\n", c == '}');
 		return c == '}';
+	}
 	switch (c) {
 	case ' ':
 	case '\t':
@@ -973,9 +942,12 @@ end_of_synonym(char c, bool inmath, bool need_brace)
 	case '<':
 	case '>':
 	case '$':
+		if (((unsigned) superuser()) & FLAG_SYN) printf("\t\t returning TRUE place 2\n");
 		return true;
 	case ',':
+		if (((unsigned) superuser()) & FLAG_SYN) printf("\t\t returning %d at place 3\n", !inmath);
 		return (!inmath);
 	}
+	if (((unsigned) superuser()) & FLAG_SYN) printf("\t\t returning FALSE at place 4\n");
 	return false;
 }

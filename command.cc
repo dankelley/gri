@@ -606,6 +606,7 @@ push_command_word_buffer()
 		GET_STORAGE(cp, char, 1 + strlen(_word[i]));
 		strcpy(cp, _word[i]);
 		_command_word[_num_command_word] = cp;
+		//printf("DEBUG %s:%d pushed command word %d as '%s'\n", __FILE__, __LINE__, _num_command_word, _command_word[_num_command_word]);
 		_num_command_word++;
 		if (_num_command_word >= MAX_cmd_word) {
 			gr_Error("ran out of storage (must increase MAX_cmd_word in private.hh");
