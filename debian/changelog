@@ -1,3 +1,11 @@
+gri (2.12.2-1) unstable; urgency=low
+
+  * New upstream version
+    Bug Fix:
+    - Fix SourceForge bug #641406 (RPN too aggressive on missing values)
+
+ -- Peter S Galbraith <psg@debian.org>  Mon, 25 Nov 2002 09:32:59 -0500
+
 gri (2.12.1-2) unstable; urgency=low
 
   * Create new gri-el package for Emacs major-mode instead of bundling it
