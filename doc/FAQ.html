@@ -608,7 +608,7 @@ draw regression line
 while {rpn .i. ..num_col_data.. >}
     .x. = {rpn x .i. @}
     .y. = {rpn y .i. @}
-    .ypred. = {rpn x .i. @ ..coeff1.. * ..coeff0.. +}
+    .ypred. = {rpn .x. ..coeff1.. * ..coeff0.. +}
     draw line from .x. .y. to .x. .ypred.
     .i. += 1
 end while
