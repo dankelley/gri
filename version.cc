@@ -5,7 +5,7 @@ char _gri_date[] = "2003";
 
 // OLDER VERSIONS:
 //
-//  2.12.2      2003-jan-08
+//  2.12.2      2003-jan-14
 //  2.12.1      2002-sep-25
 //  2.12.0      2002-sep-15 Terry Fox Day (Canada)
 //  2.11.0      ...

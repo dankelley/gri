@@ -96,8 +96,10 @@ then
 fi
 
 %changelog
+* Tue Jan 14 2003 Dan Kelley <Dan.Kelley@Dal.Ca>
+- fix SourceForge bug 667754 ('read image pgm' segfaults on memory)
 * Wed Jan 8 2003  Dan Kelley <Dan.Kelley@Dal.Ca>
-- fix SourceForge bug 664388 ('read image P5' broken)
+- fix SourceForge bug 664388 ('read image pgm' broken)
 * Sun Dec 15 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
 - fix SourceForge bug 654129 (ignores ~/.grirc file)
 - fix SourceForge bug 654127 (configure scripts are broken)

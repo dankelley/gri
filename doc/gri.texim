@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.227 2003/01/08 14:08:19 dankelley Exp $
+@c $Id: gri.texim,v 1.228 2003/01/14 18:05:07 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16350,9 +16350,13 @@ only in the fixing of bugs.
 
 @item
 Fix SourceForge bug
-@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=664388&group_id=5511&atid=105511,#664388}
-@dots{} @code{read image P5} was broken
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=667754&group_id=5511&atid=105511,#667754}
+@dots{} @code{read image pgm} segfaults on memory if an image has already been created by @code{convert grid to image}
 
+@item
+Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=664388&group_id=5511&atid=105511,#664388}
+@dots{} @code{read image pgm} fails if an image already exists
 
 @item
 Fix SourceForge bug
