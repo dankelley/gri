@@ -4877,6 +4877,7 @@ methods and how to use them.
 
 @subsection Example
 @cindex drawing contours of ungridded data
+@cindex Barnes method for gridding data
 
 This example uses data taken from Figure 5 of S. E.  Koch and M.
 DesJardins and P. J. Kocin, 1983.  ``An interactive Barnes objective map
