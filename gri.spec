@@ -75,7 +75,7 @@ rm -rf $RPM_BUILD_ROOT
 # add a gri entry to /usr/share/info/dir
 if [ "$1" = 1 ]
 then
-	if ! grep -i gri /usr/share/info/dir
+	if ! grep -i gri /usr/share/info/dir > /dev/null
 	then
 		/sbin/install-info --dir-file="/usr/share/info/dir" /usr/share/info/gri.info.gz
 #		chmod a+r /usr/share/info/dir
@@ -86,7 +86,7 @@ fi
 # remove instances of gri in /usr/share/info/dir
 if [ "$1" = 0 ];
 then
-	if grep -i "gri" /usr/share/info/dir
+	if grep -i "gri" /usr/share/info/dir > /dev/null
 	then
 		/sbin/install-info --dir-file="/usr/share/info/dir" --remove /usr/share/info/gri.info.gz
 #		grep -vi "gri" /usr/share/info/dir > /usr/info/share/dir.tmp
