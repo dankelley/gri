@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.90 2001/05/20 16:19:20 dankelley Exp $
+@c $Id: gri.texim,v 1.91 2001/05/20 20:00:26 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -15561,32 +15561,51 @@ comment at the bottom of the file such that Emacs remembers it across
 editing sessions.
 
 @c HTML <!-- newfile History.html "Gri: History Gri" "History of Gri Versions" -->
-@node   History, Version 2.6, Filename arguments when running gri, Top
+@node   History, Stable Stream, Filename arguments when running gri, Top
 @comment  node-name,  next,  previous,  up
 @chapter History of Gri Versions
 
-For the stable streams (those with an even integer as the second
-version number, e.g. 2.6.x), the changes are all bug fixes, and many
-of these refer to bugs that were reported on the SourceForge site.  To
-learn more about the bugs, and their resolution, visit
+Gri, like many modern software projects, has two ``streams'' of
+development running side by side.  One is called ``stable,'' the other
+``unstable.''  @emph{Most users should use the stable stream}, which
+has been well tested.  (The unstable version is for users who wish to
+try out new features that are under development.)
+
+Stable versions always have an even number as the middle number in
+their version designation, e.g. @code{2.6.0}, while unstable versions
+always have an odd number there, e.g. @code{2.7.0}.  This middle
+number indicates a sort of family of related releases.  Within a
+stable stream, all versions sharing a given middle number have the
+same features; new releases are made only to fix bugs.  Thus, version
+@code{2.6.1} fixed bugs in version @code{2.6.0}.
+
+To learn more about the bugs, and their resolution, visit
 @url{http://sourceforge.net/tracker/?func=browse&group_id=5511&atid=105511}
 and adjust the "status" menu to read "closed".
+
+@menu
+* Stable Stream::
+* Unstable Stream::
+@end menu
+
+
+@c HTML <!-- newfile StableStream.html "Gri: Stable Stream" "Gri: History" -->
+@node   Stable Stream, Version 2.6, History, History
+@comment  node-name,  next,  previous,  up
+@section Stable Stream
 
 @menu
 * Version 2.6::
 * Version 2.4::
 * Version 2.2::
-* Development Version::
-* Plans::
 @end menu
 
-
 @c HTML <!-- newfile Version_2_6.html "Gri: Version 2.6" "Gri: Version 2.6" -->
-@node   Version 2.6, Version 2.4, History, History
+@node   Version 2.6, Version 2.4, Stable Stream, Stable Stream
 @comment  node-name,  next,  previous,  up
-@section Version 2.6
+@subsection Version 2.6
 
-@subsection Version 2.6.2 [2001 May 19]
+@subsubsection Version 2.6.2 [2001 May 19]
 @itemize @bullet
 @item
 Fix SourceForge bug 
@@ -15603,7 +15622,7 @@ Fix SourceForge bug
 @end itemize
 
 
-@subsection Version 2.6.1 [2001 May 10]
+@subsubsection Version 2.6.1 [2001 May 10]
 @itemize @bullet
 @item
 Fix SourceForge bug 
@@ -15674,7 +15693,7 @@ Fix SourceForge bug
 @end itemize
 
 
-@subsection Version 2.6.0 [2001 April 1]
+@subsubsection Version 2.6.0 [2001 April 1]
 @itemize @bullet
 
 @item
@@ -15865,11 +15884,11 @@ Add several new features to @code{gri-mode.el}:
 
 
 @c HTML <!-- newfile Version_2_4.html "Gri: Version 2.4" "Gri: Version 2.4" -->
-@node   Version 2.4, Version 2.2, Version 2.6, History
+@node   Version 2.4, Version 2.2, Version 2.6, Stable Stream
 @comment  node-name,  next,  previous,  up
-@section Version 2.4
+@subsection Version 2.4
 
-@subsection Version 2.4.4 [2000-May-07]
+@subsubsection Version 2.4.4 [2000-May-07]
 Change so that only a warning is printed if mathematical operations are
 requested on empty arrays (e.g. @code{y += 10}).  Previously, an error
 was reported and Gri exited with an error condition, which is bothersome
@@ -15877,21 +15896,21 @@ in scripts that rely on successful completion of the Gri job.
 
 Port to the BeOS operating system.
 
-@subsection Version 2.4.3 [2000-Apr-01]
+@subsubsection Version 2.4.3 [2000-Apr-01]
 Change location of all files, to be consistent with Redhat convention.
 Previously, things were in @code{/opt/gri}; now they are in more
 standard locations.
 
-@subsection Version 2.4.2 [2000-Mar-25]
+@subsubsection Version 2.4.2 [2000-Mar-25]
 Remove bug in which @code{convert grid to image} produced incorrect
 images, visible as a patchy appearance with coarse grids.
 
-@subsection Version 2.4.1 [2000-Jan-31]
+@subsubsection Version 2.4.1 [2000-Jan-31]
 Remove bug in which @code{convert image to grid} failed to take note of
 the gri minimum and maximum, so that contouring of the grid was not
 possible for grids created from images.
 
-@subsection Version 2.4.0 [2000-Jan-05]
+@subsubsection Version 2.4.0 [2000-Jan-05]
 Add @code{set input data separator}.  Make @code{read columns} work with
 various input separators. Make @code{read .x.}, etc, work with various
 input separators.
@@ -15899,18 +15918,18 @@ input separators.
 
 
 @c HTML <!-- newfile Version_2_2.html "Gri: Version 2.2" "Gri: Version 2.2" -->
-@node   Version 2.2, Development Version, Version 2.4, History
+@node   Version 2.2, Unstable Stream, Version 2.4, Stable Stream
 @comment  node-name,  next,  previous,  up
-@section Version 2.2
+@subsection Version 2.2
 
-@subsection Version 2.2.6 [1999 Nov 25]
+@subsubsection Version 2.2.6 [1999 Nov 25]
 Make web-based manual easier to read by putting a light-grey background
 under sample code.
 
-@subsection Version 2.2.5 [1999 Nov 10]
+@subsubsection Version 2.2.5 [1999 Nov 10]
 Fix bug in RPN calculations that prevented using a negative exponent.
 
-@subsection Version 2.2.4 [1999 Nov 7]
+@subsubsection Version 2.2.4 [1999 Nov 7]
 Add @code{set font encoding}, and also change the encoding to
 ISO-Latin-1.  (This doesn't hurt old code since Gri didn't make any
 claims to handle characters outside the normal printing-set before
@@ -15920,15 +15939,15 @@ Fix bug in which there were 4 dead links in the HTML version of manual.
 
 Clean up some problems with Debian distribution (thanks, Peter Galbraith!).
 
-@subsection Version 2.2.3 [1999 Jun 30]
+@subsubsection Version 2.2.3 [1999 Jun 30]
 Fix bug in which word-of-synonym (e.g. @code{\[0]mysyn}) was not
 detected correctly (thanks to bug report from Kazuhiko Nakayama in
 Japan)
 
-@subsection Version 2.2.2 [-]
+@subsubsection Version 2.2.2 [-]
 Clean a few spelling and cross-reference errors in documentation.
 
-@subsection Version 2.2.1 [1999 Mar 31]
+@subsubsection Version 2.2.1 [1999 Mar 31]
 For debian, properly locate the @code{netcdf} library, if it is
 installed. 
 
@@ -15942,15 +15961,26 @@ grid spacing and image spacing.
 Don't create PostScript file if the commandfile is non-existent, or if
 there were errors on the commandline.
 
-@subsection Version 2.2.0 [1999 Mar 25]
+@subsubsection Version 2.2.0 [1999 Mar 25]
 First debian release.  Versions exist for intel, alpha, 68K and powerpc.
 
 
 
-@c HTML <!-- newfile Development_Version.html "Gri: Development Version" "Gri: Developement Version" -->
-@node   Development Version, Plans, Version 2.2, History
+@c HTML <!-- newfile UnstableStream.html "Gri: Unstable Stream" "Gri: History" -->
+@node   Unstable Stream, Development Version, Version 2.2, History
 @comment  node-name,  next,  previous,  up
-@section Development Version
+@section Unstable Stream
+
+@menu
+* Development Version::
+* Plans::
+@end menu
+
+
+@c HTML <!-- newfile Development_Version.html "Gri: Development Version" "Gri: Development Version" -->
+@node   Development Version, Plans, Unstable Stream, Unstable Stream
+@comment  node-name,  next,  previous,  up
+@subsection Development Version
 
 @emph{Anything} listed below may be changed without notice.  Some of
 these features will appear in a future stable release, others won't.
@@ -15962,12 +15992,11 @@ Add @code{substr} RPN operator (@ref{Tertiary Operators}).
 @end itemize
 
 
-
 @c HTML <!-- newfile Plans.html "Gri: plans for future versions" "Gri: plans for future versions" -->
 
-@node   Plans, Installation, Development Version, History
+@node   Plans, Installation, Development Version, Unstable Stream
 @comment  node-name,  next,  previous,  up
-@section Plans
+@subsection Plans
 @c FOR NEXT RELEASE:
 @c 1) Fix bug in @code{read colorname} that caused it to try to
 @c    interpret comments in the X11 color-name file as though
