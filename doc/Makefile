@@ -33,7 +33,7 @@ the_resources:
 test:
 	cat test.texi | texinfo2HTML > test.html
 
-html: gri.texi
+html: gri.texi gri.info
 	cd examples ; make jpg
 	cp examples/*.jpg ./
 	cd examples ; make html
