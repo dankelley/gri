@@ -1,0 +1,24 @@
+#!/usr/local/bin/perl
+# Create HTML index from index of pre-installed info page.
+# Bug: the @code{} items get lost, too bad.
+open(IN, "info -f ./gri.info 'Index of Builtins' |  sort -f |") 
+    ||  die "Cannot get index\n";
+
+print "
+\@c HTML <!-- newfile BuiltinIndex.html \"Gri: Builtin Index\" \"Builtin Index\" -->
+\@c HTML <h1>Builtin index</h1>
+\@node   Index of Builtins, Concept Index, Index of Commands, Top
+\@itemize \@bullet
+";
+
+while(<IN>) {
+    next if (/\*\s*Menu:\s*$/);
+    if (/\* .*\./) {
+        s/\* //;
+        s/\.$//;
+        s/:\s*/\n \@xref{/;
+        s/$/}/;
+        print "\@item\n $_";
+    }
+}
+print "\n\@end itemize\n";
