@@ -5,7 +5,7 @@
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.49 (06 June 2001)
+;; Version:   2.50 (13 July 2001)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -374,6 +374,10 @@
 ;;   running shell--command to run gri.
 ;; V2.48 01Jun01 RCS 1.73 - Add emacs21 icons for gri-info and gri-view
 ;; V2.49 06Jun01 RCS 1.74 - "Error at FILE:LINE" now instead of "detected at"
+;; V2.50 13Jul01 RCS 1.75 - Add support for completion of builtin variables.
+;;   gri-build-expansion-regex: detects if at end of ..var[point]
+;;   gri-add-variables: new function.
+;;   gri-perform-completion: tweak fo delete only to gri-complete-begin-point
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -1234,10 +1238,44 @@ which contains all commands found in gri.cmd, including some code fragments."
                 " Based on: " (file-chase-links local-cmd-file) "\n"
                 "-\n--\n---\n"))
       (gri-add-commands-from-current-buffer t syn-buffer)
+      (gri-add-variables syn-buffer)
       (set-buffer syn-buffer)
       (write-file "~/.gri-syntax"))
     (kill-buffer syn-buffer)
     (kill-buffer cmd-buffer)))
+
+(defun gri-add-variables (syn-buffer)
+  "Add gri variables in current buffer to syntax file.
+ARG is gri-syntax buffer to add to."
+  (let ((the-list))
+    (save-excursion
+      (goto-char (point-min))
+      (while (re-search-forward 
+              "^# @variable \\(\\.\\.[^ ]*\\) +\\([^@]+\\)\\( @unit \\([^ ]+\\)\\)?\\( @default \\(.*\\)\\)?$" nil t)
+;;;# @variable ..fontsize..              size of font @unit point @default 12
+        (let ((the-variable (match-string 1))
+              (the-def 
+               (cond
+                ((match-string 3)
+                 (concat (match-string 1) " (" (match-string 2)
+                         ". Default is " (match-string 6) 
+                                     " " (match-string 4) ".)"))
+                ((match-string 5)
+                 (concat (match-string 1) " (" (match-string 2) 
+                         ". Default is " (match-string 6) ".)"))
+                (t
+                 (match-string 1) " (" (match-string 2) ".)"))))
+          (setq the-list (cons (list the-variable the-def) the-list))))
+      (set-buffer syn-buffer) 
+      (setq buffer-read-only nil)
+      (goto-char (point-min))
+      (re-search-forward "^---$" nil t)
+      (while the-list
+        (let ((variable-pair (car the-list)))
+          (insert "\n" (car (cdr variable-pair)) ";" (car variable-pair))
+          (setq the-list (cdr the-list))))
+      (set-buffer-modified-p nil)
+      (setq buffer-read-only t))))
 
 (defun gri-add-commands-from-current-buffer (system-flag syn-buffer)
   "Add gri commands in current buffer to syntax file.
@@ -1756,23 +1794,37 @@ usually command with the keyword \"default\" in their syntax."
     (let ((expansion-regex nil) 
           (word-count 0)
           (end-point (progn (end-of-line)(skip-chars-backward " \t") (point))))
-      (beginning-of-line)
-      (skip-chars-forward " \t")
-      (while (< (point) end-point)               ;; Don't go beyond end of line
-        (if (looking-at "[^ \t\n]*")             ;; If it is a word...
+      (save-excursion
+        (if (or
+             (and (re-search-backward
+                   "\\.\\." (save-excursion (beginning-of-line) (point)) t)
+                  (looking-at "\\.[^ \n]+"))
+             (and (re-search-backward
+                   "\\." (save-excursion (beginning-of-line) (point)) 1)
+                  (looking-at "\\.[^ \n]+")))
             (progn
-              (setq word-count (1+ word-count))
-              (if (= word-count 1)
-                  (setq expansion-regex
-                        (concat "^" (buffer-substring (match-beginning 0)
-                                                      (match-end 0))))
-                (setq expansion-regex 
-                      (concat expansion-regex "[^; ]* "
-                              (buffer-substring (match-beginning 0)
-                                                (match-end 0)))))
-              (forward-char (- (match-end 0) (match-beginning 0)))
-              (skip-chars-forward " \t"))))
-      expansion-regex)))
+              (setq gri-complete-begin-point (point))
+              (concat "^" (regexp-quote (match-string-no-properties 0))))
+          (beginning-of-line)
+          (skip-chars-forward " \t")
+          (setq gri-complete-begin-point (point))
+          (while (< (point) end-point) ;; Don't go beyond end of line
+            (if (looking-at "[^ \t\n]*") ;; If it is a word...
+                (progn
+                  (setq word-count (1+ word-count))
+                  (if (= word-count 1)
+                      (setq expansion-regex
+                            (concat "^" (buffer-substring-no-properties 
+                                         (match-beginning 0)
+                                         (match-end 0))))
+                    (setq expansion-regex 
+                          (concat expansion-regex "[^; ]* "
+                                  (buffer-substring-no-properties
+                                   (match-beginning 0)
+                                   (match-end 0)))))
+                  (forward-char (- (match-end 0) (match-beginning 0)))
+                  (skip-chars-forward " \t"))))
+          expansion-regex)))))
 
 (defun gri-info (&optional command)
   "Runs info about a prompted gri system command."
@@ -2049,8 +2101,7 @@ Sets gri-last-complete-status to 1 if show completions next time
 
           (setq unique (buffer-substring (point)
                                          (progn (end-of-line)(point))))))
-      (delete-region (progn (end-of-line) (point)) 
-                     (progn (beginning-of-line) (point)))
+      (delete-region gri-complete-begin-point (point))
       (let ((the-start (point))         ; indent all inserted lines
             (the-end (progn (insert unique) (gri-indent-line) 
                             (point-marker))))
@@ -2067,8 +2118,9 @@ Sets gri-last-complete-status to 1 if show completions next time
      ((or (= 1 gri-last-complete-status) ;display completions 
           (and (get-buffer " *Completions*")
                (get-buffer-window (get-buffer " *Completions*")))) 
-      (delete-region (progn (end-of-line) (point)) 
-                     (progn (beginning-of-line) (point)))
+      (delete-region gri-complete-begin-point (point))
+;;    (delete-region (progn (end-of-line) (point)) 
+;;                   (progn (beginning-of-line) (point)))
       (insert (gri-common-in-list expansion-list nil)) 
       (gri-indent-line)
       (message "%d possible completions" match-count) 
@@ -2076,15 +2128,17 @@ Sets gri-last-complete-status to 1 if show completions next time
         (display-completion-list expansion-list))
       (setq gri-last-complete-status 2)) ;Next time, try unique match
      ((< match-count 4)                 ; 3 or fewer matches show in minibuffer
-      (delete-region (point) (progn (beginning-of-line) (point)))
+      (delete-region gri-complete-begin-point (point))
+;;    (delete-region (point) (progn (beginning-of-line) (point)))
       (insert (gri-common-in-list expansion-list nil)) 
       (gri-indent-line)
       (message "(%d) %s" match-count 
                (gri-match-list-to-string expansion-list))
       (setq gri-last-complete-status 2))
      (t                                 ;complete as much as possible
-      (delete-region (progn (end-of-line) (point)) 
-                     (progn (beginning-of-line) (point)))
+      (delete-region gri-complete-begin-point (point))
+;;    (delete-region (progn (end-of-line) (point)) 
+;;                   (progn (beginning-of-line) (point)))
       (insert (gri-common-in-list expansion-list nil)) 
       (gri-indent-line)
       (message "%d possible completions" match-count) 
@@ -4688,7 +4742,7 @@ static char * gri_info24x24_xpm[] = {
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.49 (c) 06 June 2001 --  Peter Galbraith <psg@debian.org>
+V2.50 (c) 13 July 2001 --  Peter Galbraith <psg@debian.org>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
