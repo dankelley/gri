@@ -35,9 +35,9 @@ Description: a language for scientific graphics programming.
  .
  A full manual is also available in HTML (gri-html-doc package), in
  PostScript suitable for printing (gri-ps-doc package) and on-line at
-   http://www.phys.ocean.dal.ca/~kelley/gri
+   http://gri.sourceforge.net/gridoc/html/
  Real world examples can be seen in the Gri cookbook at
-   http://www.phys.ocean.dal.ca/~kelley/gri/cookbook
+   http://gri.sourceforge.net/gri-cookbook/
 
 Package: gri-html-doc
 Architecture: all
@@ -53,7 +53,7 @@ Description: HTML manual for gri, a language for scientific graphics.
  installed). Note that the manual in info format (without graphics)
  is included in the gri package itself.  This manual is available on
  the web via:
-   http://www.phys.ocean.dal.ca/~kelley/gri
+   http://gri.sourceforge.net/gridoc/html/
 
 Package: gri-ps-doc
 Architecture: all
