@@ -196,7 +196,7 @@ start_up(int argc, char **argv)
 	// Get leftover (non-optional) arguments
 	argv_leftover = interpret_optional_arguments(argc, argv);
 	unsigned int argc_leftover = 0;
-	//printf("leftover arguments:\n");
+	//printf("%s:%d argc_leftover= %d:\n",__FILE__,__LINE__,argc_leftover);
 	while (argv_leftover && argv_leftover[argc_leftover] != NULL) {
 		//printf("\t<%s>\n", *argv_leftover);
 		argc_leftover++;
@@ -1132,6 +1132,7 @@ insert_creator_name_in_PS(int argc, char *argv[], const std::string& psname)
 	gr_setup_creatorname(").  User=");
 	if (egetenv("USER"))
 		gr_setup_creatorname(egetenv("USER"));
+#if 0				// SF bug 711354
 	if (argc > 1 + last_optional_arg) {
 		// Commandfile name was supplied on cmdline.
 		Require2(put_syn("\\.command_file.",
@@ -1143,6 +1144,7 @@ insert_creator_name_in_PS(int argc, char *argv[], const std::string& psname)
 				 true),
 			 OUT_OF_MEMORY);
 		gr_setup_creatorname(", commandfile=");
+		printf("argc=%d  last_optional_arg=%d [%s] [%s]\n",argc,last_optional_arg,argv[last_optional_arg],argv[last_optional_arg+1]);
 		gr_setup_creatorname(argv[last_optional_arg + 1]);
 		Require2(put_syn("\\.ps_file.", psname.c_str(), true), OUT_OF_MEMORY);
 	} else {
@@ -1150,6 +1152,7 @@ insert_creator_name_in_PS(int argc, char *argv[], const std::string& psname)
 		Require2(put_syn("\\.command_file.", "stdin", true), OUT_OF_MEMORY);
 		Require2(put_syn("\\.readfrom_file.", "stdin", true), OUT_OF_MEMORY);
 	}
+#endif
 }
 
 static void

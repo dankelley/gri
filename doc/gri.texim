@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.241 2003/03/29 15:24:07 dankelley Exp $
+@c $Id: gri.texim,v 1.242 2003/03/29 15:57:07 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16348,6 +16348,14 @@ only in the fixing of bugs.
 @subsubsection Version 2.12.4 [2003 Mar 29]
 @strong{Bug Fixes}
 @itemize
+@item
+Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=711354&group_id=5511&atid=105511,#711354}
+@dots{} @code{Creator:} comment in PostScript file named the command-file incorrectly,
+if there were options on the gri invocation command.  Since this naming of the
+command-file was not especially useful, and since nobody has complained of this bug
+but the author, the feature has simply been deleted.  Just complain if you want it back!
+
 @item
 Fix SourceForge bug
 @uref{http://sourceforge.net/tracker/index.php?func=detail&aid=706202&group_id=5511&atid=105511,#706202}

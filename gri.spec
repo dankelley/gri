@@ -97,6 +97,7 @@ fi
 
 %changelog
 * Sat Mar 29 2003 Dan Kelley <Dan.KelleyDal.Ca>
+- fix SourceForge bug 711354 (program name wrong in PostScript Creator: comment)
 - fix SourceForge bug 706202 (Page orientation hint missing in Postscript)
 * Thu Mar 01 2003 Dan Kelley <Dan.KelleyDal.Ca>
 - +++ VERSION 2.12.3 +++
