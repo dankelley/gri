@@ -29,7 +29,7 @@ gri_SOURCES = G_string.cc GriColor.cc GriPath.cc GriState.cc assert.cc\
  tags.hh types.hh Variable.hh
 
 EXTRA_DIST = Makefile.dj2 \
- gri.cmd logo.dat\
+ gri.cmd-skel logo.dat\
  gri-mode.el gri_merge gri_unpage\
  startup.msg startup.debian startup.redhat
 
@@ -65,7 +65,7 @@ debian_lib = $(debian)/usr/share/gri/$(PACKAGE_VERSION)
 install_linux_debian: gri
 	@echo "Installing into '$(debian)' directory"
 	install -d $(debian_lib)
-	if test -f startup.debian; then sed -e s,VSN,${PACKAGE_VERSION}, startup.debian > $(debian_lib)/startup.msg; else echo "WARNING: no startup.debian file!"; fi;
+	if test -f startup.debian; then sed -e s,VERSION,${PACKAGE_VERSION}, startup.debian > $(debian_lib)/startup.msg; else echo "WARNING: no startup.debian file!"; fi;
 	install -d         $(debian)/usr/bin
 	install -m 755 gri $(debian)/usr/bin/gri-$(PACKAGE_VERSION)
 	(cd $(debian)/usr/bin; ln -fs gri-$(PACKAGE_VERSION) gri)
@@ -81,100 +81,9 @@ install_linux_debian_grionly: gri
 	install -d             $(debian_lib)
 	install -m 644 gri.cmd  $(debian_lib)/gri.cmd
 	install -m 644 logo.dat $(debian_lib)/logo.dat
-	if test -f startup.debian; then sed -e s,VSN,${PACKAGE_VERSION}, startup.debian > $(debian_lib)/startup.msg; else echo "WARNING: no startup.debian file!"; fi;
+	if test -f startup.debian; then sed -e s,VERSION,${PACKAGE_VERSION}, startup.debian > $(debian_lib)/startup.msg; else echo "WARNING: no startup.debian file!"; fi;
 	install -d         $(debian)/usr/bin
 	install -m 755 gri $(debian)/usr/bin/gri-$(PACKAGE_VERSION)
-
-# These targets commented out
-# 	Thu Jun  5 19:11:08 UTC 2003
-# by Dan Kelley.  Let's leave them commented-out for a while,
-# before they are completely removed.  That way we can realize
-# if something is missing in the new automake-controlled system.
-#2003jun5#SOURCE_NAME = gri-$(PACKAGE_VERSION)
-#2003jun5#DEST_DIR = .
-#2003jun5#source-copy:
-#2003jun5##	Clean directory, if existent.
-#2003jun5#	-rm -rf $(SOURCE_NAME)
-#2003jun5#	install -d $(SOURCE_NAME)
-#2003jun5#	install -d $(SOURCE_NAME)/popt
-#2003jun5##	Copy source
-#2003jun5#	install -m 644 ChangeLog $(gri_SOURCES) *.hh gri.cmd logo.dat license.txt \
-#2003jun5#	    Makefile.am Makefile.in Makefile.dj2\
-#2003jun5#	    configure configure.ac \
-#2003jun5#            install-sh missing depcomp texinfo.tex mkinstalldirs \
-#2003jun5#	    check.pl \
-#2003jun5#	    copyright.txt AUTHORS INSTALL NEWS COPYING README* gri-mode.el gri_merge gri_unpage \
-#2003jun5#	    startup.msg startup.debian startup.redhat gri*.spec grilogo.gif \
-#2003jun5#	    install-SunOS5 \
-#2003jun5#	        $(SOURCE_NAME)
-#2003jun5#	(cd popt ; \
-#2003jun5#	    install -m 644 popt.h findme.h poptint.h \
-#2003jun5#	                   ../$(SOURCE_NAME)/popt )
-#2003jun5#	(cd popt ; \
-#2003jun5#	    install -m 644 popt.c findme.c poptparse.c poptconfig.c popthelp.c \
-#2003jun5#	                   ../$(SOURCE_NAME)/popt )
-#2003jun5#	install -m 755 configure install-sh $(SOURCE_NAME)
-#2003jun5#	install -d $(SOURCE_NAME)/debian
-#2003jun5#	(cd debian; install -m 644 0* READ* c* gri* ../$(SOURCE_NAME)/debian)
-#2003jun5#	install -m 755 debian/rules                    $(SOURCE_NAME)/debian
-#2003jun5##	Copy documentation
-#2003jun5#	install -d $(SOURCE_NAME)/doc
-#2003jun5#	install -m 755 ../doc/install-sh           $(SOURCE_NAME)/doc
-#2003jun5#	install -m 755 ../doc/archive-to-html.pl   $(SOURCE_NAME)/doc
-#2003jun5#	install -m 644 ../doc/cmdrefcard.tex       $(SOURCE_NAME)/doc
-#2003jun5#	install -m 644 ../doc/refcard.tex          $(SOURCE_NAME)/doc
-#2003jun5#	install -m 644 ../doc/Makefile.in          $(SOURCE_NAME)/doc
-#2003jun5#	install -m 644 ../doc/FAQ.html             $(SOURCE_NAME)/doc
-#2003jun5#	install -m 644 ../doc/gri-manpage*.1       $(SOURCE_NAME)/doc
-#2003jun5#	install -m 644 ../doc/gri_merge.1          $(SOURCE_NAME)/doc
-#2003jun5#	install -m 644 ../doc/gri_unpage.1         $(SOURCE_NAME)/doc
-#2003jun5#	install -m 644 ../doc/gri.texi             $(SOURCE_NAME)/doc
-#2003jun5#	install -m 755 ../doc/gri2texi             $(SOURCE_NAME)/doc
-#2003jun5#	install -m 755 ../doc/texinfo2HTML         $(SOURCE_NAME)/doc
-#2003jun5#	install -m 755 ../doc/gri2html             $(SOURCE_NAME)/doc
-#2003jun5#	install -m 755 ../doc/HTML_subdivide       $(SOURCE_NAME)/doc
-#2003jun5#	install -m 644 ../doc/make_html_index      $(SOURCE_NAME)/doc
-#2003jun5#	install -m 644 ../doc/make_html_commandindex $(SOURCE_NAME)/doc
-#2003jun5#	install -m 644 ../doc/make_html_builtinindex $(SOURCE_NAME)/doc
-#2003jun5#	install -d $(SOURCE_NAME)/doc/resources
-#2003jun5#	install -m 644 ../doc/resources/*.gri ../doc/resources/*.gif \
-#2003jun5#		$(SOURCE_NAME)/doc/resources
-#2003jun5#	install -d $(SOURCE_NAME)/doc/examples
-#2003jun5#	install -m 644 ../doc/examples/*.gri          $(SOURCE_NAME)/doc/examples
-#2003jun5#	install -m 644 ../doc/examples/*.txt          $(SOURCE_NAME)/doc/examples
-#2003jun5#	install -m 644 ../doc/examples/*.dat          $(SOURCE_NAME)/doc/examples
-#2003jun5#	install -m 644 ../doc/examples/*.ps           $(SOURCE_NAME)/doc/examples
-#2003jun5#	install -m 755 ../doc/examples/FEM.pl         $(SOURCE_NAME)/doc/examples
-#2003jun5#	install -m 644 ../doc/examples/model.elements $(SOURCE_NAME)/doc/examples
-#2003jun5#	install -m 644 ../doc/examples/model.nodes    $(SOURCE_NAME)/doc/examples
-#2003jun5#	install -m 644 ../doc/examples/Makefile       $(SOURCE_NAME)/doc/examples
-#2003jun5#	install -d $(SOURCE_NAME)/../doc/screenshots
-#2003jun5#	(cd doc/screenshots/; \
-#2003jun5#	    install -m 644 Makefile *.png ../../$(SOURCE_NAME)/doc/screenshots)
-#2003jun5#	install -d $(SOURCE_NAME)/doc/tst_suite
-#2003jun5#	install -m 644 ../doc/tst_suite/Makefile        $(SOURCE_NAME)/doc/tst_suite
-#2003jun5#	install -m 644 ../doc/tst_suite/tst_IO.gri      $(SOURCE_NAME)/doc/tst_suite
-#2003jun5#	install -m 644 ../doc/tst_suite/tst_IO_1.dat    $(SOURCE_NAME)/doc/tst_suite
-#2003jun5#	install -m 644 ../doc/tst_suite/tst_IO_2.dat    $(SOURCE_NAME)/doc/tst_suite
-#2003jun5#	install -m 644 ../doc/tst_suite/tst_control.gri $(SOURCE_NAME)/doc/tst_suite
-#2003jun5#	install -m 644 ../doc/tst_suite/tst_rpn.gri     $(SOURCE_NAME)/doc/tst_suite
-#2003jun5#	install -m 644 ../doc/tst_suite/tst_var_syn.gri $(SOURCE_NAME)/doc/tst_suite
-#2003jun5#
-#2003jun5#
-#2003jun5#source: source-copy
-#2003jun5#	tar -c -f $(SOURCE_NAME).tar $(SOURCE_NAME)
-#2003jun5#	rm -rf $(SOURCE_NAME)
-#2003jun5#	gzip -f --best $(SOURCE_NAME).tar
-#2003jun5#	mv $(SOURCE_NAME).tar.gz $(DEST_DIR)/$(SOURCE_NAME).tgz
-#2003jun5#	chmod a+r $(DEST_DIR)/$(SOURCE_NAME).tgz
-#2003jun5#
-#2003jun5#source-arch-indep: source-copy
-#2003jun5#	cd $(SOURCE_NAME)/doc; make refcard.ps cmdrefcard.ps info html
-#2003jun5#	tar -c -f $(SOURCE_NAME)-arch-indep.tar $(SOURCE_NAME)
-#2003jun5#	rm -rf $(SOURCE_NAME)
-#2003jun5#	gzip -f --best $(SOURCE_NAME)-arch-indep.tar
-#2003jun5#	-mv $(SOURCE_NAME)-arch-indep.tar.gz $(DEST_DIR)/$(SOURCE_NAME)-arch-indep.tgz
-#2003jun5#	chmod a+r $(DEST_DIR)/$(SOURCE_NAME)-arch-indep.tgz
 
 author_check:
 	@perl $(srcdir)/check.pl
@@ -219,9 +128,9 @@ package-SunOS5:
 	-mkdir -m 755 -p $(SUNOS5_NAME)/doc/html/examples
 	-cp -p gri                                                        $(SUNOS5_NAME)/bin
 	-cp  gri.cmd logo.dat copyright.txt license.txt gri-mode.el       $(SUNOS5_NAME)/lib
-	-cat startup.msg | sed -e s,VSN,${PACKAGE_VERSION}, | sed -e "s/DATE/`date`/" > tmp
+	-cat startup.msg | sed -e s,VERSION,${PACKAGE_VERSION}, | sed -e "s/DATE/`date`/" > tmp
 	-cp tmp                                                           $(SUNOS5_NAME)/lib/startup.msg
-	-cat install-SunOS5 | sed -e s,VSN,${PACKAGE_VERSION}, > tmp
+	-cat install-SunOS5 | sed -e s,VERSION,${PACKAGE_VERSION}, > tmp
 	-cp tmp                                                           $(SUNOS5_NAME)/install
 	-chmod a+rx                                                       $(SUNOS5_NAME)/install
 	-cp README-SunOS5                                                 $(SUNOS5_NAME)/README
@@ -248,7 +157,8 @@ the_startup_file = $(srcdir)/startup.msg
 endif
 
 all-local:
-	cat $(the_startup_file) | sed -e s,VSN,${PACKAGE_VERSION}, -e s,PREFIX,$(prefix), > startup.msg-tmp
+	cat $(the_startup_file) | sed -e s,VERSION,${PACKAGE_VERSION}, -e s,PREFIX,$(prefix), > startup.msg-tmp
+	cat gri.cmd-skel        | sed -e s,VERSION,${PACKAGE_VERSION}, > gri.cmd
 install-exec-local:
 	mkdir -m 755 -p                                  $(DESTDIR)$(prefix)/bin
 	$(INSTALL_PROGRAM) $(srcdir)/gri_unpage          $(DESTDIR)$(prefix)/bin/gri_unpage

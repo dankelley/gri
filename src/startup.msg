@@ -1,4 +1,4 @@
- gri - scientific graphic program (version VSN)
+ gri - scientific graphic program (version VERSION)
  GPL Copyright 2003 by Dan E. Kelley.
 
  Type `help' to view list of commands.
