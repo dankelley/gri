@@ -195,13 +195,17 @@ draw_symbolCmd()
 	bool            hue_in_z = false, saturation_in_z = false, brightness_in_z = false;
 	double          hue = 1.0, saturation = 1.0, brightness = 1.0;
 	gr_symbol_type  symbolCode = gr_bullet_symbol; // will be changed
-#if 0
-	set_x_scale();
-	set_y_scale();
+
+	if (!scales_defined()) {
+#if 0				// Fix SF bug #129856 (I hope!)
+		no_scales_error();
+		return false;
 #else
-	create_x_scale();
-	create_y_scale();
+		create_x_scale();
+		create_y_scale();
 #endif
+	}
+
 	// Columns must exist, if not the "at" style, which is for a single point
 	if (!word_is(3, "at")) {
 		if (!_columns_exist) {

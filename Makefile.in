@@ -159,8 +159,8 @@ install_linux_redhat:
 	mkdir -m 755 -p $(DESTDIR)$(prefix)/share/gri
 	mkdir -m 755 -p $(DESTDIR)$(prefix)/share/emacs/site-lisp
 	mkdir -m 755 -p $(DESTDIR)$(prefix)/bin
-	mkdir -m 755 -p $(DESTDIR)$(prefix)/man/man1
-	mkdir -m 755 -p $(DESTDIR)$(prefix)/info
+	mkdir -m 755 -p $(DESTDIR)$(prefix)/share/man/man1
+	mkdir -m 755 -p $(DESTDIR)$(prefix)/share/info
 
 	if test -f startup.redhat; then cat startup.redhat | sed -e s,VSN,${VERSION}, > tmp; $(INSTALL_DATA) tmp $(DESTDIR)$(prefix)/share/gri/startup.msg; rm -f tmp; else echo "WARNING: no startup.redhat file!"; fi;
 
@@ -173,15 +173,15 @@ install_linux_redhat:
 #
 #	gri mode (tweaked a bit for redhat since debian goes to web to see manual)
 	sed -e "s,WWW-page \"http://gri.sourceforge.net/gridoc/html/index.html\",WWW-page \"file:$(prefix)/doc/gri-$(VERSION)/html/index.html\",;s,gri\*directory-tree \"/usr/local/share/gri\",gri*directory-tree \"/usr/share/gri\"," gri-mode.el > tmp
+#	/usr/bin/install -m 644  tmp                           $(DESTDIR)$(prefix)/share/emacs/site-lisp/gri-mode.el
 	/usr/bin/install -m 644  tmp                           $(DESTDIR)$(prefix)/share/emacs/site-lisp/gri-mode.el
 	-rm -f tmp
-#	lets install some man and info docs
-	/usr/bin/install -m 644  doc/gri-manpage-redhat.1      $(DESTDIR)$(prefix)/man/man1/gri.1
-	/usr/bin/install -m 644  doc/gri_merge.1               $(DESTDIR)$(prefix)/man/man1/gri_merge.1
-	/usr/bin/install -m 644  doc/gri_unpage.1              $(DESTDIR)$(prefix)/man/man1/gri_unpage.1
-	-rm -f $(DESTDIR)$(prefix)/info/gri.info*
-	/usr/bin/install -m 644  doc/gri.info*                 $(DESTDIR)$(prefix)/info
-	cd $(DESTDIR)$(prefix)/info ; gzip -f --best gri.info*
+	/usr/bin/install -m 644  doc/gri-manpage-redhat.1      $(DESTDIR)$(prefix)/share/man/man1/gri.1
+	/usr/bin/install -m 644  doc/gri_merge.1               $(DESTDIR)$(prefix)/share/man/man1/gri_merge.1
+	/usr/bin/install -m 644  doc/gri_unpage.1              $(DESTDIR)$(prefix)/share/man/man1/gri_unpage.1
+	-rm -f $(DESTDIR)$(prefix)/share/info/gri.info*
+	/usr/bin/install -m 644  doc/gri.info*                 $(DESTDIR)$(prefix)/share/info
+	cd $(DESTDIR)$(prefix)/share/info ; gzip -f --best gri.info*
 
 
 all: force

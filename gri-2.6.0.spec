@@ -1,4 +1,4 @@
-Summary: a language for scientific illustration
+Summary: A language for scientific illustration
 Name: gri
 Version: 2.6.0
 Release: 1
@@ -61,42 +61,53 @@ rm -rf $RPM_BUILD_ROOT
 %doc README copyright.txt refcard.ps cmdrefcard.ps
 %doc docinst/html
 /usr/bin/gri
-/usr/share/gri
-/usr/man/*/gri.*
-/usr/man/*/gri_unpage.*
-/usr/man/*/gri_merge.*
-/usr/info/gri.info*
-/usr/share/emacs/site-lisp/gri-mode.el
 /usr/bin/gri_unpage
 /usr/bin/gri_merge
+/usr/share/gri
+/usr/share/man/man1/gri.*
+/usr/share/man/man1/gri_unpage.*
+/usr/share/man/man1/gri_merge.*
+/usr/share/info/gri.info*
+/usr/share/emacs/site-lisp/gri-mode.el
 
 %post
-# add a gri entry to /usr/info/dir
+# add a gri entry to /usr/share/info/dir
 if [ "$1" = 1 ]
 then
-	if ! grep -i gri /usr/info/dir
+	if ! grep -i gri /usr/share/info/dir
 	then
-#		/sbin/install-info --dir-file="/usr/info/dir" --entry="* GRI: (gri). Scientific graphics language." --info-file=/usr/info/gri.info
-		/sbin/install-info --dir-file="/usr/info/dir" /usr/info/gri.info.gz
-		chmod a+r /usr/info/dir
+		/sbin/install-info --dir-file="/usr/share/info/dir" /usr/share/info/gri.info.gz
+#		chmod a+r /usr/share/info/dir
 	fi
 fi
 
 %postun
-# remove instances of gri in /usr/info/dir
+# remove instances of gri in /usr/share/info/dir
 if [ "$1" = 0 ];
 then
-	if grep -i "gri" /usr/info/dir
+	if grep -i "gri" /usr/share/info/dir
 	then
-		/sbin/install-info --dir-file="/usr/info/dir" --remove /usr/info/gri.info.gz
-#		grep -vi "gri" /usr/info/dir > /usr/info/dir.tmp
-#		mv /usr/info/dir.tmp /usr/info/dir
-		chmod a+r /usr/info/dir
+		/sbin/install-info --dir-file="/usr/share/info/dir" --remove /usr/share/info/gri.info.gz
+#		grep -vi "gri" /usr/share/info/dir > /usr/info/share/dir.tmp
+#		mv /usr/share/info/dir.tmp /usr/share/info/dir
+#		chmod a+r /usr/share/info/dir
 	fi
 fi
 
 %changelog
-* Thu Jun 1 2000  Dan Kelley <dan.kelley@dal.ca>
+* Tue Jan 30 2001  Dan Kelley <dan.kelley@dal.ca>
+- Changing to e.g. /usr/share/info instead of /usr/info.  Same for manpages.  I 
+  know, I should be using the fancy macros that are defined in /usr/lib/rpm, but
+  these seemed contradictory, with respect to where things are in my Redhat 7.0
+  setup ... and I had a hard time figuring out how to use these macros anyway,
+  so I just gave up and hard-wired them in, using the new directories as
+  used in Redhat 7.0, as opposed to the (different) directories in all the other
+  Redhat versions I've had.  Someday I'll switch to using macros, but
+  it means changing both this spec-file and various Makefiles, and I need to
+  be sure that changes to the Makefiles don't hurt the distributions for Debian
+  linux, for solaris, etc.
+
+* Thu Jun  1 2000  Dan Kelley <dan.kelley@dal.ca>
 - Triv changes here; code changes are to read compressed files, and
   manual improvements.
 
