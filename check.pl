@@ -101,7 +101,6 @@ while(<SPEC>) {
     $_ = <SPEC>;
     close(SPEC);
     @_ = split;
-    #print "    (The date sequence is [$_[1] $_[2] $_[3] $_[4]].)\n";
     $date_spec = &ParseDate("$_[1] $_[2] $_[3] $_[4]");
     last;
 }

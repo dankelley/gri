@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.173 2002/05/04 13:08:40 dankelley Exp $
+@c $Id: gri.texim,v 1.174 2002/05/06 22:50:50 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -12802,11 +12802,13 @@ variable name must be put in quotes, or else Gri will insert the value
 of the variable (if it exists) into the expression, instead of trying
 to assign to it.
 
-This leaves the value on the stack.  For example, the code
+After the assignment is done, the stack is cleared of both the value and
+the variable name.  For example, in the following code
 @example
-show @{rpn 3.1415 ".pi." =@}
+@{rpn 3.1415 ".pi." =@}
+show .pi.
 @end example
-prints the value of Pi.
+the first line evaluates to a blank line, and the second prints the value of Pi.
 
 NOTE: Do not confuse this with the @code{==} equality operator
 described above.
@@ -12821,10 +12823,19 @@ notes at the above item.
 @cindex rpn operator @code{&}
 Test whether 0 and 1 are both true, yielding 0.
 
+@item @{rpn 0 1 and@}
+@cindex @code{and} rpn operator
+@cindex rpn operator @code{and}
+Test whether 0 and 1 are both true, yielding 0.
 
 @item @{rpn 0 1 |@}
 @cindex @code{|} rpn operator
 @cindex rpn operator @code{|}
+Test whether either 0 or 1 is true, yielding 1.
+
+@item @{rpn 0 1 or@}
+@cindex @code{or} rpn operator
+@cindex rpn operator @code{or}
 Test whether either 0 or 1 is true, yielding 1.
 
 
@@ -12912,6 +12923,12 @@ The unary operators are illustrated below, in rough alphabetical order.
 @cindex negation, @code{!} rpn operator
 Replace 0 (false) with its logical negation 1 (true).
 
+@item @{rpn 0 not@}
+@cindex @code{not} rpn operator
+@cindex rpn operator @code{not}
+@cindex logical negation, @code{not} rpn operator
+@cindex negation, @code{not} rpn operator
+Replace 0 (false) with its logical negation 1 (true).
 
 @item @{rpn -3 abs@}
 @cindex @code{abs} rpn operator
@@ -16249,15 +16266,6 @@ only in the fixing of bugs.
 @comment  node-name,  next,  previous,  up
 @subsection Version 2.8
 
-@subsection Version 2.8.8 [2002 ??? ??]
-@item
-Fix SourceForge bug
-@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=552009&group_id=5511&atid=105511">
-#552009
-@c HTML </a>
-(@code{rpn} can segfault if @code{!=} operator is written as @code{=!})
-@end itemize
-
 @subsection Version 2.8.7 [2002 Apr 03]
 @itemize @bullet
 @item
@@ -16845,6 +16853,10 @@ they are found to create new bugs.
 @itemize @bullet
 
 @item
+Add new boolean RPN operators @code{and}, @code{or}, and @code{not}. 
+
+
+@item
 Add @code{draw arc} command @ref{Draw Arc}
 
 @item
@@ -16896,6 +16908,13 @@ Make the @code{-chatty} commandline option require a value (@ref{Invoking Gri}).
 
 
 @itemize
+
+@item
+Fix SourceForge bug
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=552009&group_id=5511&atid=105511">
+#552009
+@c HTML </a>
+(@code{rpn} can segfault if @code{!=} operator is written as @code{=!})
 
 @item
 Fix SourceForge bug
