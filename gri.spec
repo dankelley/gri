@@ -96,6 +96,10 @@ then
 fi
 
 %changelog
+* Mon Aug 30 2004 <Dan.Kelley@Dal.Ca>
+- Fix SourceForge bug 1019141 ('draw arc' ignores the present pen color)
+* Sun Jul 25 2004 <Dan.Kelley@Dal.Ca>
+- Fix SourceForge bug 997741 (PostScript-clipped images broken if y-axis decreases)
 * Thu Jun 24  2004 <Dan.Kelley@Dal.Ca>
 - fix SF bug 978822 (doc error on 'set path to')
 * Sun Jun 13  2004 <Dan.Kelley@Dal.Ca>

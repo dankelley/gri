@@ -10882,7 +10882,7 @@ no leading space allowed).  The @code{<< "WORD"} syntax is also
 supported, meaning that the operating system is being told not to mess
 with the dollar-signs -- needed in perl.
 
-@strong{Note:} Be careful using this inside a new-command.  Gri
+Be careful using this inside a new-command.  Gri
 Recognizes the end of the body of a new-command by a line with @code{@}}
 in the @strong{first column}, and no non-white characters thereafter.  
 If you system command happens to use a line with a curly brace (as in a
