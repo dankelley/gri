@@ -10,24 +10,20 @@ Package: gri
 Architecture: any
 Depends: ${shlibs:Depends}
 Suggests: gri-html-doc, gri-ps-doc
-Description: a language for scientific graphics programming.
- Gri is a command-driven application, as opposed to a click/point
- application.  It is analogous to latex, and shares the property that
- extensive power is the reward for tolerating a modest learning curve.
- Gri output is in industry-standard PostScript, suitable for incorporation
- in documents prepared by various text processors.
+Description: a language for scientific illustration.
+ Gri is an open-source language for scientific graphics programming. It is
+ command-driven, as opposed to point/click. Some users consider Gri similar
+ to LaTeX, since both provide extensive power as a reward for tolerating a
+ learning curve. The output is industry-standard PostScript as output,
+ suitable for inclusion in other documents.
  .
- Gri can make x-y graphs, contour-graphs, and image graphs.  In
- addition to high-level capabilities, it has enough low-level
- capabilities to allow users to achieve a high degree of customization.
- Precise control is extended to all aspects of drawing, including
- line-widths, colors, and fonts.  Text includes a subset of the tex
- language, so that it is easy to incorporate Greek letters and
- mathematical symbols in labels.
+ Gri can make x-y graphs, contour graphs, and image graphs. Fine control is
+ provided over all aspects of drawing, e.g. line widths, colors, fonts,
+ etc. Greek letters and mathematical symbols are available in a TeX-like
+ syntax.
  .
- The following is a terse yet working Gri program.  If it is stored in a
- file called 'example.gri', and executed with the command 'gri example', it
- will create a postscript file called 'example.ps' with the graph.
+ Folks who write 1000-line Gri scripts usually start with something as
+ simple as the following:
  .
    open file.dat        # open a file
    read columns x * y   # read the 1st column as x and the 3rd as y
