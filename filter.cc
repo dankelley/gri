@@ -61,7 +61,7 @@ filter_gridCmd()
 		b[i] = atof(_word[4 + i + nab]);
 	}
 	// Do the filtering
-	double *orig, *copy;
+	double *orig = NULL, *copy = NULL;
 	if (do_rows) {
 		GET_STORAGE(orig, double, (size_t)_num_ymatrix_data);
 		GET_STORAGE(copy, double, (size_t)_num_ymatrix_data);
@@ -83,8 +83,10 @@ filter_gridCmd()
 				_f_xy(col, row) = copy[col];
 		}
 	}
-	free(orig);
-	free(copy);
+	if (orig != NULL)
+		free(orig);
+	if (copy != NULL)
+		free(copy);
 	return true;
 }
 
