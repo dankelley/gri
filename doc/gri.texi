@@ -63,9 +63,6 @@
 @titlepage
 @title Gri
 
-@comment an error here, when I try to do
-@comment pdftex on this file.  Error is occuring
-@comment at /usr/share/texmf/pdftex/texinfo/pdftexinfo.tex:5484
 @image{./examples/logo}
 
 @subtitle A Program to Make Science Graphs
@@ -405,18 +402,9 @@ The output PostScript file is called @file{example1.ps}.
 @c HTML <P>
 @c HTML It looks something like the miniature shown above.
 
-@comment OLD @tex
-@comment OLD {
-@comment OLD \midinsert
-@comment OLD \vskip 22cm
-@comment OLD \special{psfile="./examples/example1.ps" 
-@comment OLD hoffset=-72
-@comment OLD voffset=-72
-@comment OLD }
-@comment OLD \endinsert
-@comment OLD }
-@comment OLD @end tex
-@image{./examples/example1, 300pt}
+@c BUG: pdftex ignores the size.
+@image{./examples/example1,150pt}
+
 @cindex example 01, linegraph using data in a separate file
 
 To view Gri output, use your favorite PostScript previewer.
@@ -491,17 +479,6 @@ what is being done, and consult the plot as you read the commandfile.
 @c HTML </A>
 @c HTML <A HREF="example3.html">The command-file.</A> <P>
 
-@comment OLD @tex
-@comment OLD {
-@comment OLD \midinsert
-@comment OLD \vskip 22cm
-@comment OLD \special{psfile="./examples/example3.ps" 
-@comment OLD hoffset=-72
-@comment OLD voffset=-72
-@comment OLD }
-@comment OLD \endinsert
-@comment OLD }
-@comment OLD @end tex
 @image{./examples/example3, 300pt}
 @cindex example 03, controlling scales, etc
 
@@ -2441,6 +2418,8 @@ Possible commands are:
 
 
 @c HTML <!-- newfile ReversePolishMath.html "Gri: Reverse Polish Mathematics" "Programming Gri" -->
+
+@page
 
 @node   rpn Mathematics, Stack Operators, Mathematics, Programming
 @comment  node-name,  next,  previous,  up
@@ -4626,17 +4605,6 @@ data, with full control of axes, etc, do something like this:
 @c HTML </A>
 @c HTML <A HREF="example4.html">The command-file.</A> <P>
 
-@comment OLD @tex
-@comment OLD {
-@comment OLD \midinsert
-@comment OLD \vskip 22cm
-@comment OLD \special{psfile="./examples/example4.ps" 
-@comment OLD hoffset=-72
-@comment OLD voffset=-72
-@comment OLD }
-@comment OLD \endinsert
-@comment OLD }
-@comment OLD @end tex
 @image{./examples/example4, 300pt}
 
 
@@ -4750,17 +4718,6 @@ Figures 5 and 6 of that paper to the results shown here.
 @c HTML <A HREF="example5.html">The command-file.</A> <P>
 
 
-@comment OLD @tex
-@comment OLD {
-@comment OLD \midinsert
-@comment OLD \vskip 22cm
-@comment OLD \special{psfile="./examples/example5.ps" 
-@comment OLD hoffset=-72
-@comment OLD voffset=-72
-@comment OLD }
-@comment OLD \endinsert
-@comment OLD }
-@comment OLD @end tex
 @image{./examples/example5}
 @cindex example 05 - Contouring ungridded data, from figure
 
@@ -4990,30 +4947,8 @@ Examples are shown for linear mapping and histogram mapping.
 @c HTML <A HREF="example6.html">The command-file.</A> <P>
 
 
-@comment OLD @tex
-@comment OLD {
-@comment OLD \midinsert
-@comment OLD \vskip 22cm
-@comment OLD \special{psfile="./examples/example6.ps" 
-@comment OLD hoffset=-72
-@comment OLD voffset=-144
-@comment OLD }
-@comment OLD \endinsert
-@comment OLD }
-@comment OLD @end tex
 @image{./examples/example6}
 
-@comment OLD @tex
-@comment OLD {
-@comment OLD \midinsert
-@comment OLD \vskip 22cm
-@comment OLD \special{psfile="./examples/example6histogram.ps" 
-@comment OLD hoffset=-72
-@comment OLD voffset=-144
-@comment OLD }
-@comment OLD \endinsert
-@comment OLD }
-@comment OLD @end tex
 @image{./examples/example6histogram}
 @cindex example 06, plot IR image of Gulf of Maine
 
@@ -5139,17 +5074,6 @@ plot (@ref{New Commands}).
 @c HTML <A HREF="example7.html">The command-file.</A> <P>
 
 
-@comment OLD @tex
-@comment OLD {
-@comment OLD \midinsert
-@comment OLD \vskip 22cm
-@comment OLD \special{psfile="./examples/example7.ps" 
-@comment OLD hoffset=-72
-@comment OLD voffset=-72
-@comment OLD }
-@comment OLD \endinsert
-@comment OLD }
-@comment OLD @end tex
 @image{./examples/example7}
 
 @cindex example 07, box plots of mixing efficiency vs density ratio (meddy)
@@ -5221,17 +5145,6 @@ on execution, so the time stamp was not drawn.)
 @c HTML <A HREF="example8.html">The command-file.</A> <P>
 
 
-@comment OLD @tex
-@comment OLD {
-@comment OLD \midinsert
-@comment OLD \vskip 22cm
-@comment OLD \special{psfile="./examples/example8.ps" 
-@comment OLD hoffset=-72
-@comment OLD voffset=-144
-@comment OLD }
-@comment OLD \endinsert
-@comment OLD }
-@comment OLD @end tex
 @image{./examples/example8}
 
 @cindex example 08, plot T=T(x,rho) section of eubex data
@@ -5390,17 +5303,6 @@ on execution, so the time stamp was not drawn.)
 @c HTML </A>
 @c HTML <A HREF="example9.html">The command-file.</A> <P>
 
-@comment OLD @tex
-@comment OLD {
-@comment OLD \midinsert
-@comment OLD \vskip 22cm
-@comment OLD \special{psfile="./examples/example9.ps" 
-@comment OLD hoffset=-72
-@comment OLD voffset=-144
-@comment OLD }
-@comment OLD \endinsert
-@comment OLD }
-@comment OLD @end tex
 @image{./examples/example9}
 
 @cindex example 09, plot dTdrho-rho section
@@ -5518,17 +5420,6 @@ on execution, so the time stamp was not drawn.)
 @c HTML </A>
 @c HTML <A HREF="example10.html">The command-file.</A> <P>
 
-@comment OLD @tex
-@comment OLD {
-@comment OLD \midinsert
-@comment OLD \vskip 22cm
-@comment OLD \special{psfile="./examples/example10.ps" 
-@comment OLD hoffset=-72
-@comment OLD voffset=-72
-@comment OLD }
-@comment OLD \endinsert
-@comment OLD }
-@comment OLD @end tex
 @image{./examples/example10}
 
 @cindex example 10, draw image plot of flushing of dye out of cove
@@ -5672,17 +5563,6 @@ The following code shows a fancy plot with lots of bells and whistles.
 
 
 
-@comment OLD @tex
-@comment OLD {
-@comment OLD \midinsert
-@comment OLD \vskip 22cm
-@comment OLD \special{psfile="./examples/example11.ps" 
-@comment OLD hoffset=-72
-@comment OLD voffset=-72
-@comment OLD }
-@comment OLD \endinsert
-@comment OLD }
-@comment OLD @end tex
 @image{./examples/example11}
 
 @cindex example 11, fancy plot
@@ -5889,17 +5769,6 @@ The following example shows how to handle annotated curves and legends.
 @c HTML </A>
 @c HTML <A HREF="example12.html">The command-file.</A> <P>
 
-@comment OLD @tex
-@comment OLD {
-@comment OLD \midinsert
-@comment OLD \vskip 22cm
-@comment OLD \special{psfile="./examples/example12.ps" 
-@comment OLD hoffset=-72
-@comment OLD voffset=-72
-@comment OLD }
-@comment OLD \endinsert
-@comment OLD }
-@comment OLD @end tex
 @image{./examples/example12}
 
 @cindex example 12, linegraph with key inside plot
@@ -6068,17 +5937,6 @@ diagram:
 @c HTML <A HREF="example13.html">The command-file.</A>
 
 
-@comment OLD @tex
-@comment OLD {
-@comment OLD \midinsert
-@comment OLD \vskip 22cm
-@comment OLD \special{psfile="./examples/example13.ps" 
-@comment OLD hoffset=-72
-@comment OLD voffset=-72
-@comment OLD }
-@comment OLD \endinsert
-@comment OLD }
-@comment OLD @end tex
 @image{./examples/example13}
 
 @c HTML <!--

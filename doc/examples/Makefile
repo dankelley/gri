@@ -10,6 +10,9 @@ GRI = gri -y -p
 %.jpg : %.ps
 	convert $< $@
 
+%.pdf : %.ps
+	ps2pdf $< $@
+
 %.html : %.gri
 	perl ../gri2html `basename $< .gri`
 
@@ -47,6 +50,11 @@ eps:	FEM.eps example1.eps example2.eps example3.eps example4.eps \
 	example7.eps example8.eps example9.eps example10.eps \
 	example10color.eps example11.eps example12.eps example13.eps logo.eps
 
+pdf:	FEM.pdf example1.pdf example2.pdf example3.pdf example4.pdf \
+	example5.pdf example6.pdf example6color.pdf example6histogram.pdf \
+	example7.pdf example8.pdf example9.pdf example10.pdf \
+	example10color.pdf example11.pdf example12.pdf example13.pdf logo.pdf
+
 jpg:	FEM.jpg example1.jpg example2.jpg example3.jpg example4.jpg \
 	example5.jpg example6.jpg example6color.jpg example6histogram.jpg \
 	example7.jpg example8.jpg example9.jpg example10.jpg \
@@ -83,4 +91,4 @@ testps:
 	$(GRITEST) example13.gri
 
 clean:
-	rm -rf *.eps *.jpg *.html *~ 
+	rm -rf *.eps *.jpg *.html *.pdf *~ 

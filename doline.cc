@@ -488,7 +488,6 @@ bool
 systemCmd()
 {
 	char           *s = _cmdLine;
-	int             i;
 	if (skipping_through_if())
 		return true;
 	// Much of following code duplicated in assign_synonym(), so if any
@@ -504,13 +503,14 @@ systemCmd()
 	// See if last word starts with "<<"; if so, then the stuff to be done
 	// appears on the lines following, ended by whatever word follows the
 	// "<<".
-	i = strlen(s) - 2;
-	GriString read_until;
+	int i = strlen(s) - 2;
+	string read_until;
 	bool            using_read_until = false;
 	while (--i) {
 		if (!strncmp((s + i), "<<", 2)) {
+			//printf("- looking for <<\n");
 			bool            quoted_end_string = false;
-			int             ii, spaces = 0;
+			int             spaces = 0;
 			while (isspace(*(s + i + 2 + spaces))) {
 				spaces++;
 			}
@@ -518,29 +518,29 @@ systemCmd()
 				spaces++;
 				quoted_end_string = true;
 			}
-			read_until.fromSTR(s + i + 2 + spaces);
+			read_until.assign(s + i + 2 + spaces);
 			using_read_until = true;
-			// trim any trailing whitespace from search word
-			ii = 0;
-			while (read_until[ii]) {
-				if (isspace(read_until[ii])
-				    || (quoted_end_string && '"' == read_until[ii])) {
-					read_until[ii] = '\0';
-					break;
-				}
-				ii++;
-			}
+			// trim junk from end of the 'read until' string
+			string::size_type cut_at;
+			if (quoted_end_string)
+				cut_at = read_until.find_first_of("\"");
+			else
+				cut_at = read_until.find_first_of(" ");
+			//printf("READING UNTIL '%s' ... i.e.\n", read_until.c_str());
+			if (cut_at != STRING_NPOS)
+				read_until.STRINGERASE(cut_at, read_until.size() - cut_at);
 			if (read_until.size() < 1) {
 				err("`system ... <<STOP_STRING' found no STOP_STRING");
 				return false;
 			}
+			//printf("reading until '%s'\n",read_until.c_str());
 			break;
 		}
 	}
 	string cmd(s);
 	if (using_read_until) {
 		// It is of the <<WORD form
-		cmd = "\n";
+		cmd.append("\n");
 		while (get_command_line()) {
 			// Trim filename/fileline indicator
 			unsigned int l = strlen(_cmdLine);
@@ -550,9 +550,9 @@ systemCmd()
 					break;
 				}
 			}
-			cmd = _cmdLine;
+			cmd.append(_cmdLine);
 			cmd.append("\n");
-			if (!strncmp(_cmdLine, read_until.getValue(), read_until.size())) {
+			if (!strncmp(_cmdLine, read_until.c_str(), read_until.size())) {
 				break;
 			}
 		}
@@ -560,14 +560,12 @@ systemCmd()
 		substitute_synonyms_cmdline(cmd.c_str(), cmd_sub, false);
 		cmd = cmd_sub;
 	} else {
-		printf("DEBUG (system): before processing newlines, have '%s'\n", cmd.c_str());
 		// No, it is not of the <<WORD form
 		string::size_type loc;
 		while (STRING_NPOS != (loc = cmd.find_first_of("\\\\n"))) {
 			cmd.erase(loc, 3);
 			cmd.insert(loc, "\n");
 		}
-		printf("DEBUG (system): afterwards, have '%s'\n", cmd.c_str());
 	}
 	if (((unsigned) superuser()) & FLAG_SYS) {
 		ShowStr("\n`system' sending the following command to the operating system:\n");

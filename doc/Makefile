@@ -150,9 +150,6 @@ refcard2:
 	chmod a+r cmdrefcard.*
 	ghostview -land cmdrefcard.ps
 
-pdf: gri.ps
-	ps2pdf gri.ps
-
 clean:	info-clean html-clean debian-clean card-clean
 	$(RM)				\
 		gri.pdf gri.dvi gri.ps	\
@@ -182,12 +179,8 @@ linux_redhat:
 	make cmdrefcard.ps
 
 gri.ps: gri.texi
-###LATER#### example Makefile is missing, and probably requires Gri installed.
-###LATER#### Should include .ps files instead of making them
-###LATER#### example13 also needs GRI_EOS_DIR 
-###LATER####	cd ./examples; make clean; make examples
-	cd examples ; make eps
-	cd screenshots; make eps
+	cd examples    ; make eps
+	cd screenshots ; make eps
 	tex gri.texi
 	texindex gri.cp
 	texindex gri.fn
@@ -197,6 +190,20 @@ gri.ps: gri.texi
 	texindex gri.vr
 	tex gri.texi
 	dvips -o gri.ps gri.dvi
+
+gri.pdf: gri.ps
+	cd examples    ; make pdf
+	cd screenshots ; make pdf
+	pdftex gri.texi
+	texindex gri.cp
+	texindex gri.fn
+	texindex gri.ky
+	texindex gri.pg
+	texindex gri.tp
+	texindex gri.vr
+	pdftex gri.texi
+
+
 
 # Debian stuff follows
 # $(prefix) is either ../debian/gri-html-doc/usr/share/doc

@@ -3263,24 +3263,90 @@ This computer can't `\\synonym = system ...' since no popen() subroutine.");
 			err("`\\syn = system ...' needs a system command to do.");
 			return false;
 		}
+		
+		// See if last word starts with "<<"; if so, then the stuff to be done
+		// appears on the lines following, ended by whatever word follows the
+		// "<<".
+		int i = strlen(s) - 2;
+		string read_until;
+		bool            using_read_until = false;
+		while (--i) {
+			if (!strncmp((s + i), "<<", 2)) {
+				//printf("- looking for <<\n");
+				bool            quoted_end_string = false;
+				int             spaces = 0;
+				while (isspace(*(s + i + 2 + spaces))) {
+					spaces++;
+				}
+				if (*(s + i + 2 + spaces) == '"') {
+					spaces++;
+					quoted_end_string = true;
+				}
+				read_until.assign(s + i + 2 + spaces);
+				using_read_until = true;
+				// trim junk from end of the 'read until' string
+				string::size_type cut_at;
+				if (quoted_end_string)
+					cut_at = read_until.find_first_of("\"");
+				else
+					cut_at = read_until.find_first_of(" ");
+				//printf("READING UNTIL '%s' ... i.e.\n", read_until.c_str());
+				if (cut_at != STRING_NPOS)
+					read_until.STRINGERASE(cut_at, read_until.size() - cut_at);
+				if (read_until.size() < 1) {
+					err("`system ... <<STOP_STRING' found no STOP_STRING");
+					return false;
+				}
+				//printf("reading until '%s'\n",read_until.c_str());
+				break;
+			}
+		}
+		string cmd(s);
+		if (using_read_until) {
+			// It is of the <<WORD form
+			cmd.append("\n");
+			while (get_command_line()) {
+				// Trim filename/fileline indicator
+				unsigned int l = strlen(_cmdLine);
+				for (unsigned int ii = 0; ii < l; ii++) {
+					if (_cmdLine[ii] == PASTE_CHAR) {
+						_cmdLine[ii] = '\0';
+						break;
+					}
+				}
+				cmd.append(_cmdLine);
+				cmd.append("\n");
+				if (!strncmp(_cmdLine, read_until.c_str(), read_until.size())) {
+					break;
+				}
+			}
+			string cmd_sub;
+			substitute_synonyms_cmdline(cmd.c_str(), cmd_sub, false);
+			cmd = cmd_sub;
+		} else {
+			// No, it is not of the <<WORD form
+			string::size_type loc;
+			while (STRING_NPOS != (loc = cmd.find_first_of("\\\\n"))) {
+				cmd.STRINGERASE(loc, 3);
+				cmd.insert(loc, "\n");
+			}
+		}
+
 		if (((unsigned) superuser()) & FLAG_SYS) {
 			ShowStr("\n`\\synonym = system' sending the following command to the operating system:\n");
-			ShowStr(s);
+			ShowStr(cmd.c_str());
 			ShowStr("\n");
 		}
-		pipefile = (FILE *) popen(s, "r");
+		pipefile = (FILE *) popen(cmd.c_str(), "r");
 		if (pipefile) {
-			GriString       result, this_line;
-			int             len_result;
+			string result;
+			GriString this_line;
 			while (!this_line.line_from_FILE(pipefile))
-				result.catSTR(this_line.getValue());
+				result.append(this_line.getValue());
 			pclose(pipefile);
-			// Remove last newline (or several newlines, if they exist).
-			len_result = strlen(result.getValue());
-			for (int i = len_result - 1; i > -1; i--)
-				if (result[i] == '\n')
-					result[i] = '\0';
-			if (!put_syn(_word[0], result.getValue(), true)) OUT_OF_MEMORY;
+			while (result[result.size() - 1] == '\n')
+				result.STRINGERASE(result.size() - 1, 1);
+			if (!put_syn(_word[0], result.c_str(), true)) OUT_OF_MEMORY;
 			return true;
 		} else {
 			err("`\\",
