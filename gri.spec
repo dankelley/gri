@@ -96,6 +96,8 @@ then
 fi
 
 %changelog
+* Mon Jan  3 2005 <Dan.Kelley@Dal.Ca>
+- Fix SourceForge bug 1094087 ('set path to' gave incorrect results)
 * Sun Dec 19 2004 <Dan.Kelley@Dal.Ca>
 - Fix SourceForge bug 1085788 ('image *=' gave incorrect results)
 * Mon Dec 13 2004 <Dan.Kelley@Dal.Ca>
