@@ -1,5 +1,5 @@
 @c -*-mode: texinfo; -*-
-@c $Id: gri.texim,v 1.65 2001/03/22 13:52:04 dankelley Exp $
+@c $Id: gri.texim,v 1.66 2001/03/22 17:29:51 dankelley Exp $
 \input texinfo @c -*-texinfo-*-
 @c
 @comment *** Start of HTML stuff ***
@@ -15572,7 +15572,7 @@ like so in the file @file{~/.emacs}
 @section Version 2.6
 
 @subsection Version 2.6.0 [To be released in March/April 2001]
-@itemize
+@itemize @bullet
 
 @item
 Permit @code{rewind} to take a filename.
@@ -16545,7 +16545,8 @@ use it in standalone mode.
 @cindex electric fence, for debugging
 @subsection Debugging at a glance
 The list below is a sketch of what you might try, and in what order.
-@itemize
+
+@itemize @bullet
 @item Check the bug list to see if other users have found your bug,
 and also to see if there is a workaround.
 @item Try a more recent version of gri.  If it works, you might wish to 
