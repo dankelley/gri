@@ -50,21 +50,6 @@ template.o: template.cc
 .cc.o:
 	$(CXX) -c $(CXXFLAGS) $(EXTRA_CFLAGS) $(AM_CXXFLAGS) $(DEFS) -I$(srcdir) $<
 
-# This seems not to be used anymore [Dan Kelley]
-#Sat May 31 14:05:06 UTC 2003#install-bin:
-#Sat May 31 14:05:06 UTC 2003#	cat startup.msg | sed -e s,VSN,${PACKAGE_VERSION}, -e s,PREFIX,$(prefix), > tmp
-#Sat May 31 14:05:06 UTC 2003#	$(INSTALL_PROGRAM) -d $(libdir)
-#Sat May 31 14:05:06 UTC 2003#	$(INSTALL_DATA) tmp $(libdir)/startup.msg
-#Sat May 31 14:05:06 UTC 2003#	rm -f tmp
-#Sat May 31 14:05:06 UTC 2003#	$(INSTALL_DATA)         gri.cmd         $(libdir)/gri.cmd
-#Sat May 31 14:05:06 UTC 2003#	$(INSTALL_DATA)         logo.dat        $(libdir)/logo.dat
-#Sat May 31 14:05:06 UTC 2003#	$(INSTALL_DATA)         license.txt     $(libdir)/license.txt
-#Sat May 31 14:05:06 UTC 2003#	$(INSTALL_PROGRAM) -d                   $(prefix)/bin
-#Sat May 31 14:05:06 UTC 2003#	$(INSTALL_PROGRAM)      gri             $(prefix)/bin/gri-$(PACKAGE_VERSION)
-#Sat May 31 14:05:06 UTC 2003#	(cd $(prefix)/bin/ ; rm -f gri ; ln -sf gri-$(PACKAGE_VERSION) gri)
-#Sat May 31 14:05:06 UTC 2003#	$(INSTALL_PROGRAM)      gri_merge       $(prefix)/bin/gri_merge
-#Sat May 31 14:05:06 UTC 2003#	$(INSTALL_PROGRAM)      gri_unpage      $(prefix)/bin/gri_unpage
-
 debian_lib = $(debian)/usr/share/gri/$(PACKAGE_VERSION)
 install_linux_debian: gri
 	@echo "Installing into '$(debian)' directory"
@@ -88,37 +73,6 @@ install_linux_debian_grionly: gri
 	if test -f startup.debian; then sed -e s,VSN,${PACKAGE_VERSION}, startup.debian > $(debian_lib)/startup.msg; else echo "WARNING: no startup.debian file!"; fi;
 	install -d         $(debian)/usr/bin
 	install -m 755 gri $(debian)/usr/bin/gri-$(PACKAGE_VERSION)
-
-#Sat May 31 22:16:58 UTC 2003## This target is no longer needed, but keep it as a 
-#Sat May 31 22:16:58 UTC 2003## commented-out chunk, until the whole automake
-#Sat May 31 22:16:58 UTC 2003## conversion is completed.  [Dan Kelley]
-#Sat May 31 22:16:58 UTC 2003#install_linux_redhat:
-#Sat May 31 22:16:58 UTC 2003##	Create the needed dirs in the BuildRoot (this is what $(DESTDIR) is being
-#Sat May 31 22:16:58 UTC 2003##	used for)
-#Sat May 31 22:16:58 UTC 2003#	mkdir -m 755 -p $(DESTDIR)$(prefix)/bin
-#Sat May 31 22:16:58 UTC 2003#	mkdir -m 755 -p $(DESTDIR)$(prefix)/share/gri
-#Sat May 31 22:16:58 UTC 2003#	mkdir -m 755 -p $(DESTDIR)$(prefix)/share/emacs/site-lisp
-#Sat May 31 22:16:58 UTC 2003#	mkdir -m 755 -p $(DESTDIR)$(prefix)/share/man/man1
-#Sat May 31 22:16:58 UTC 2003#	mkdir -m 755 -p $(DESTDIR)$(prefix)/share/info
-#Sat May 31 22:16:58 UTC 2003#	if test -f startup.redhat; then cat startup.redhat | sed -e s,VSN,${PACKAGE_VERSION}, > tmp; $(INSTALL_DATA) tmp $(DESTDIR)$(prefix)/share/gri/startup.msg; rm -f tmp; else echo "WARNING: no startup.redhat file!"; fi;
-#Sat May 31 22:16:58 UTC 2003#	/usr/bin/install -m 755  gri                           $(DESTDIR)$(prefix)/bin/gri
-#Sat May 31 22:16:58 UTC 2003#	/usr/bin/install -m 755  gri_merge                     $(DESTDIR)$(prefix)/bin/gri_merge
-#Sat May 31 22:16:58 UTC 2003#	/usr/bin/install -m 755  gri_unpage                    $(DESTDIR)$(prefix)/bin/gri_unpage
-#Sat May 31 22:16:58 UTC 2003#	/usr/bin/install -m 644  gri.cmd                       $(DESTDIR)$(prefix)/share/gri/gri.cmd
-#Sat May 31 22:16:58 UTC 2003#	/usr/bin/install -m 644  logo.dat                      $(DESTDIR)$(prefix)/share/gri/logo.dat
-#Sat May 31 22:16:58 UTC 2003#	/usr/bin/install -m 644  $(srcdir)/../license.txt      $(DESTDIR)$(prefix)/share/gri/license.txt
-#Sat May 31 22:16:58 UTC 2003#	sed -e "s,WWW-page \"http://gri.sourceforge.net/gridoc/html/index.html\",WWW-page \"file:$(datadir)/doc/gri-$(PACKAGE_VERSION)/html/index.html\",;s,gri\*directory-tree \"/usr/local/share/gri\",gri*directory-tree \"/usr/share/gri\"," gri-mode.el > tmp
-#Sat May 31 22:16:58 UTC 2003#	/usr/bin/install -m 644  tmp                           $(DESTDIR)$(prefix)/share/emacs/site-lisp/gri-mode.el
-#Sat May 31 22:16:58 UTC 2003#	-rm -f tmp
-#Sat May 31 22:16:58 UTC 2003#	cat ../doc/gri-manpage-redhat.1 | sed -e s,VERSION,${PACKAGE_VERSION}, > tmp
-#Sat May 31 22:16:58 UTC 2003#	/usr/bin/install -m 644  tmp                           $(DESTDIR)$(prefix)/share/man/man1/gri.1
-#Sat May 31 22:16:58 UTC 2003#	rm -f tmp
-#Sat May 31 22:16:58 UTC 2003#	/usr/bin/install -m 644  ../doc/gri_merge.1            $(DESTDIR)$(prefix)/share/man/man1/gri_merge.1
-#Sat May 31 22:16:58 UTC 2003#	/usr/bin/install -m 644  ../doc/gri_unpage.1           $(DESTDIR)$(prefix)/share/man/man1/gri_unpage.1
-#Sat May 31 22:16:58 UTC 2003#	-rm -f $(DESTDIR)$(prefix)/share/info/gri.info*
-#Sat May 31 22:16:58 UTC 2003#	/usr/bin/install -m 644  ../doc/gri.info*              $(DESTDIR)$(prefix)/share/info
-#Sat May 31 22:16:58 UTC 2003#	cd $(DESTDIR)$(prefix)/share/info ; gzip -f --best gri.info*
-
 
 # NOTE: these "source" targets may be candidates for removal, since
 # they are covered by "dist" target [Dan Kelley]

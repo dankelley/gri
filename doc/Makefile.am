@@ -30,10 +30,6 @@ EXTRA_DIST = \
  gri2texi texinfo2HTML gri2html HTML_subdivide\
  make_html_index make_html_commandindex make_html_builtinindex
 
-#dekall:
-#	make info
-#	make html
-
 html: $(srcdir)/gri.texi texinfo2HTML HTML_subdivide
 # 	Make the info page (even if rewritten later) to get indices
 	makeinfo $(srcdir)/gri.texi
@@ -66,15 +62,13 @@ html-install:
 	${INSTALL} -d                                 $(HTML_DIR)/resources
 	$(INSTALL_DATA) $(srcdir)/resources/*.gif     $(HTML_DIR)/resources
 	${INSTALL} -d                                 $(HTML_DIR)/tst_suite
-#	$(INSTALL_DATA) $(srcdir)/tst_suite/*html     $(HTML_DIR)/tst_suite
-	$(INSTALL_DATA) tst_suite/*html               $(HTML_DIR)/tst_suite
-#	$(INSTALL_DATA) $(srcdir)/examples/*.html     $(HTML_DIR)/
-	$(INSTALL_DATA) examples/*.html     $(HTML_DIR)/
-	$(INSTALL_DATA) examples/*.png      $(HTML_DIR)/
+	$(INSTALL_DATA)           tst_suite/*html     $(HTML_DIR)/tst_suite
+	$(INSTALL_DATA) $(srcdir)/examples/*.gri      $(HTML_DIR)/
+	$(INSTALL_DATA)           examples/*.html     $(HTML_DIR)/
+	$(INSTALL_DATA)           examples/*.png      $(HTML_DIR)/
 	${INSTALL} -d                                 $(HTML_DIR)/screenshots
 	$(INSTALL_DATA) $(srcdir)/screenshots/*.png   $(HTML_DIR)/screenshots
-#	$(INSTALL_DATA) screenshots/*.png   $(HTML_DIR)/screenshots
-	$(INSTALL_DATA) *.html                        $(HTML_DIR)
+	$(INSTALL_DATA)           *.html              $(HTML_DIR)
 	${INSTALL} -d                                 $(EXAMPLES_DIR)
 	$(INSTALL_DATA) $(srcdir)/examples/model*     $(EXAMPLES_DIR)
 	$(INSTALL_DATA) $(srcdir)/examples/*.dat      $(EXAMPLES_DIR)
@@ -113,12 +107,6 @@ help:
 	@echo "Options:"
 	@grep '^[^ ]*:' Makefile | sed -e "s/^/  make /" -e "s/:.*//"
 
-#Sun Jun  1 00:21:35 UTC 2003#
-#Sun Jun  1 00:21:35 UTC 2003#linux_redhat:
-#Sun Jun  1 00:21:35 UTC 2003#	make info
-#Sun Jun  1 00:21:35 UTC 2003#	make html
-#Sun Jun  1 00:21:35 UTC 2003#	make refcard.ps
-#Sun Jun  1 00:21:35 UTC 2003#	make cmdrefcard.ps
 
 gri.ps: gri.texi
 	cd examples    ; make eps
@@ -200,9 +188,5 @@ uninstall-local:
 	rm -f `ls ../*ps ../license.txt *.html gri.info* $(HTML_DIR)/examples/* $(HTML_DIR)/resources/* $(HTML_DIR)/tst_suite/* $(HTML_DIR)/screenshots/* $(HTML_DIR)/*`
 	rm -f $(DOC_DIR)/license.txt $(DOC_DIR)/refcard.ps $(DOC_DIR)/cmdrefcard.ps
 	rm -f refcard* cmdrefcard*
-#	echo "DANDAN.  I am in ..."
-#	pwd
-#	echo "DANDAN. DESTDIR/prefix IS $(DESTDIR)/$(prefix) with contents"
-#	ls $(DESTDIR)$(prefix)
 	rm -f $(DESTDIR)$(prefix)/share/man/man1/gri*
 	rm -f $(DESTDIR)$(prefix)/share/info/gri.info*
