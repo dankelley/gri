@@ -66,11 +66,24 @@ gri: $(OBJS)
 	$(CXX) -o gri $(LDFLAGS) $(OBJS) $(LIBS)
 
 # Here are a few explicit rules used by the author for debugging;
-# it is emphaticallyy *not* a complete list.  If you edit the
-# source files you must do
-#	make clean
+# it is emphaticallyy *not* a complete list.  It is only as
+# up-to-date as the last time the author was working on the
+# pertinent parts of the code.
+#
+# If you edit the ANY .cc source files,
 #	make
-# to compile using all the actual dependencies.
+# will work as you expect.  However, if you edit any .hh
+# source files, you should do
+#	make clean
+#       make
+# to ensure that everything is brought up-to-date.
+close.o: DataFile.hh
+file.o: DataFile.hh
+read.o: DataFile.hh
+rewind.o: DataFile.hh
+show.o: DataFile.hh
+skip.o: DataFile.hh
+
 GriColor.o:     GriColor.hh
 GriState.o:     GriState.hh
 gr.o:           GriState.hh
