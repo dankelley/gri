@@ -2,7 +2,7 @@
 #HOW TO INSTALL ON SOURCEFORGE:
 export CVS_RSH=ssh
 export CVSROOT=dankelley@cvs.gri.sourceforge.net:/cvsroot/gri
-export PHP="bugs.php contact.php developers.php docs.php download.php subroutines.php main.php news.php"
+export PHP="contact.php developers.php download.php subroutines.php bugs.php discussion.php docs.php main.php news.php users.php"
 export PNG="bugs.png contact.png developers.png docs.png download.png main.png news.png"
 
 scp $PHP $PNG dankelley@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
