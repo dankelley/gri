@@ -28,6 +28,7 @@ extern GriState _griState;	// <-> gri.cc
 // they are safe against breakage.
 
 extern bool      _user_gave_bounding_box;
+extern rectangle _page_box;
 extern rectangle _bounding_box_user;
 extern rectangle _bounding_box;
 extern bool     _user_set_x_axis;

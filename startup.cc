@@ -280,7 +280,9 @@ first argument looks like a PostScript filename.  Older versions\n\
 	_dataFILE.push_back(new_data_file);
 
 	_first = true;
-	_bounding_box.set(0., 0., 0., 0.);
+	_bounding_box.set(0.0, 0.0, 0.0, 0.0);
+	extern rectangle _page_size;
+	_page_size.set(0.0, 0.0, 0.0, 0.0);
 	//printf("At end of start_up, _cmdLine is <%s>\n",_cmdLine);
 	return true;
 }

@@ -47,6 +47,7 @@ public:
 		ur_x = urx;
 		ur_y = ury;
 	}
+	void scale(double f) { ll_x *= f; ll_y *= f; ur_x *= f; ur_y *= f;}
 	double llx(void) const { return ll_x; }
 	double lly(void) const { return ll_y; }
 	double urx(void) const { return ur_x; }

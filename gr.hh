@@ -59,6 +59,7 @@ extern "C" {
 #define GR_POINTS_IN_PS_PATH 1499 // really 1500, but be safe
 #define PT_PER_IN 72.27		// points per inch
 #define PT_PER_CM 28.45		// points per centimetre
+#define CM_PER_IN 2.54		// BUG: more digits?
 #define DEG_PER_RAD 57.29577951	// degrees per radian
 
 // An io buffer that resorts to file i/o only if a buffer is exhausted. Used

@@ -71,6 +71,7 @@ double          _axes_offset = 0.0;
 int             _axesStyle;
 bool            _beep = false;
 bool            _user_gave_bounding_box = false;
+rectangle       _page_size;
 rectangle       _bounding_box_user;
 rectangle       _bounding_box;	// in cm on page
 int             _braceLevel = 0;

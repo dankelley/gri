@@ -5,6 +5,9 @@
 #define strEQ(s1, s2) (!strcmp((s1), (s2)))
 #define strNE(s1, s2) ( strcmp((s1), (s2)))
 
+#define SMALLER_ONE(a, b) ((a) < (b) ? (a) : (b))
+#define LARGER_ONE(a, b) ((a) > (b) ? (a) : (b))
+
 #define GRI_ABS(x) ((x) < 0.0 ? (-(x)) : (x))
 
 #define show_words() {                                          \

@@ -768,27 +768,43 @@ gr_end(const char *filename)
 		return;
 	fprintf(_grPS, PS_showpage);
 	fprintf(_grPS, "%%%%Trailer\n");
+	extern rectangle _bounding_box;
+	extern rectangle _page_size;
 	if (_no_bounding_box) {	// use fullpage
-		fprintf(_grPS, "%%%%BoundingBox: %d %d %d %d\n",
-			0,
-			0,
-			int( 8.5 * 2.54 * PT_PER_CM),
-			int(11.0 * 2.54 * PT_PER_CM));
+		if (_page_size.llx() != _page_size.urx()) {
+			fprintf(_grPS, "%%%%BoundingBox: %d %d %d %d\n",
+				int(_page_size.llx()),
+				int(_page_size.lly()),
+				int(_page_size.urx()),
+				int(_page_size.ury()));
+		} else {
+			fprintf(_grPS, "%%%%BoundingBox: %d %d %d %d\n",
+				0,
+				0,
+				int( 8.5 * PT_PER_IN),
+				int(11.0 * PT_PER_IN));
+		}
 	} else {
-		extern bool      _user_gave_bounding_box;
+		extern bool _user_gave_bounding_box;
 		rectangle bbox;
 		if (_user_gave_bounding_box) {
 			extern rectangle _bounding_box_user;
-			bbox.set(_bounding_box_user.get_llx(),
-				 _bounding_box_user.get_lly(),
-				 _bounding_box_user.get_urx(),
-				 _bounding_box_user.get_ury());
+			bbox.set(_bounding_box_user.llx(),
+				 _bounding_box_user.lly(),
+				 _bounding_box_user.urx(),
+				 _bounding_box_user.ury());
 		} else {
-			extern rectangle _bounding_box;
-			bbox.set(_bounding_box.get_llx(),
-				 _bounding_box.get_lly(),
-				 _bounding_box.get_urx(),
-				 _bounding_box.get_ury());
+			if (_page_size.llx() == _page_size.urx()) { 
+				bbox.set(_bounding_box.llx(),
+					 _bounding_box.lly(),
+					 _bounding_box.urx(),
+					 _bounding_box.ury());
+			}  else {
+				bbox.set(LARGER_ONE(_bounding_box.llx(), _page_size.llx()),
+					 LARGER_ONE(_bounding_box.lly(), _page_size.lly()),
+					 SMALLER_ONE(_bounding_box.urx(), _page_size.urx()),
+					 SMALLER_ONE(_bounding_box.ury(), _page_size.ury()));
+			}
 		}
 		double ll_x, ll_y, ur_x, ur_y;
 		if (_grPS_Landscape) {
@@ -806,18 +822,19 @@ gr_end(const char *filename)
 			ur_y = bbox.ury();
 		}
 #define POS(x) ((x) > 0 ? int(x) : 0)
-		if (_user_gave_bounding_box)
+		if (_user_gave_bounding_box) {
 			fprintf(_grPS, "%%%%BoundingBox: %d %d %d %d\n",
 				POS(ll_x * PT_PER_CM),
 				POS(ll_y * PT_PER_CM),
 				POS(ur_x * PT_PER_CM),
 				POS(ur_y * PT_PER_CM));
-		else
+		} else {
 			fprintf(_grPS, "%%%%BoundingBox: %d %d %d %d\n",
 				POS(floor(-1.5 + ll_x * PT_PER_CM)),
 				POS(floor(-1.5 + ll_y * PT_PER_CM)),
 				POS(floor( 2.5 + ur_x * PT_PER_CM)),
 				POS(floor( 2.5 + ur_y * PT_PER_CM)));
+		}
 #undef POS
 	}
 	fprintf(_grPS, "%%%%DocumentFonts: Courier Helvetica Palatino-Roman Palatino-Italic Symbol Times-Roman\n");

@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.95 2001/06/01 15:56:14 psg Exp $
+@c $Id: gri.texim,v 1.96 2001/06/04 21:39:34 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -8037,7 +8037,8 @@ Set various flags and parameters which Gri will use in later commands.
 * Set Line Join::               Set method for intersections of line segments
 * Set Line Width::              Set width of lines
 * Set Missing Value::           Set "missing" value
-* Set Page::                    Set page style to portrait or landscape
+* Set Page Size::               Set page size
+* Set Page::                    Set page style
 * Set Panel::                   Establish geometry for a panel of multipanel plot
 * Set Panels::                  Prepare for multipanel plot
 * Set Path To::                 Set search-path for data or command files
@@ -9234,7 +9235,7 @@ This is the list of @code{rapidograph} linewidths:
 
 
 
-@node   Set Missing Value, Set Page, Set Line Width, Set
+@node   Set Missing Value, Set Page Size, Set Line Width, Set
 @comment  node-name,  next,  previous,  up
 @subsubsection @code{set missing value}
 @findex set missing value
@@ -9253,7 +9254,51 @@ ignored.  The initial default is 1.0e22.
 
 
 
-@node   Set Page, Set Panel, Set Missing Value, Set
+@node   Set Page Size, Set Page, Set Missing Value, Set
+@comment  node-name,  next,  previous,  up
+@subsubsection @code{set page size}
+@findex set page
+@cindex @code{set page size} command
+
+@example
+`set page size letter|legal|folio|tabloid|A0|A1|A2|A3|A4|A5'
+@end example
+
+@noindent
+Set the page dimension, as indicated below.
+@table @emph
+@item letter
+American "letter" size: 8.5 x 11 inches
+@item legal
+American "legal" size: 8.5 x 14 inches
+@item folio
+American "folio" size: 8.5 x 13 inches
+@item tabloid
+American "tabloid" size: 11 x 17 inches
+@item A5
+Metric size: 14.8 x 21.0 cm
+@item A4
+Metric size: 21.0 x 29.7 cm
+@item A3
+Metric size: 29.7 x 42.0 cm
+@item A2
+Metric size: 42.0 x 59.4 cm
+@item A1
+Metric size: 59.4 x 84.1 cm
+@item A0
+Metric size: 84.1 x 118.9 cm
+@end table
+
+The effect is to possibly alter the PostScript "bounding box."  If all
+the drawn material fits within the indicated page, then the bounding
+box is not altered.  (In other words, Gri will still keep the bounding
+box tight on the drawn items.)  
+
+However, if any drawn item extends beyond the indicated size, it will
+be clipped to the boundary.
+
+
+@node   Set Page, Set Panel, Set Page Size, Set
 @comment  node-name,  next,  previous,  up
 @subsubsection @code{set page}
 @findex set page
@@ -16003,6 +16048,8 @@ The following list applies to the version on CVS, but is subject to
 change:
 
 @itemize @bullet
+@item
+Add @code{set page size} command (@ref{Set Page}).
 @item
 Add @code{substr} RPN operator (@ref{Tertiary Operators}).
 @end itemize

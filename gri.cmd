@@ -3472,6 +3472,12 @@ Set name of PostScript file, over-riding the present name.
     extern "C" bool set_postscript_filenameCmd(void);
 }
 
+`set page size letter|legal|folio|tabloid|A0|A1|A2|A3|A4|A5'
+Prevent bounding box from extending outside the indicated page domain.
+{
+    extern "C" bool set_page_sizeCmd(void);
+}
+
 `set page portrait|landscape|{factor .mag.}|{translate .xcm. .ycm.}'
 Control orientation or scaling of what is drawn on the paper.
 
