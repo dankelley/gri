@@ -25,39 +25,39 @@ set_up_lhs();
 <br>
 - <A HREF="<?php print "$ftp_site/gri-$gri_stable_version.tgz";				?>">tarball		</a><br>
 - <A HREF="<?php print "$ftp_site/gri-$gri_stable_version-arch-indep.tar.gz";		?>">\" w/ docs prebuilt	</a><br>
-<br><br>
-<b>CVS</b><br>
-- <A HREF="<?php print "$sf_url/cvs/?group_id=$gri_group_id";				?>">unpackaged		</a><br>
+- <A HREF="<?php print "$sf_url/cvs/?group_id=$gri_group_id";				?>">CVS  		</a><br>
 <br>
 <?php set_up_rhs(); ?>
 
 <h1>Pre-compiled Packages</h1>
 <p>
 For <b>RedHat Linux</b>,
-both <?php print "<A HREF=\"$ftp_site/gri-$gri_stable_version-1.src.rpm\">binary</a>\n"; ?>
+both
+<A HREF="<?php print "$ftp_site/gri-$gri_stable_version-1.src.rpm";?>">
+binary
+</a>
 and
-<?php print "<A HREF=\"$ftp_site/gri-$gri_stable_version-1.i386.rpm\">source</a>\n"; ?>
+<A HREF="<?php print "$ftp_site/gri-$gri_stable_version-1.i386.rpm";?>">
+source
+</a>
 RPM packages are available.
 
 <p> For <b>GNU/Debian linux</b>, three packages are available:
-an
-<?php
-print "<A HREF=\"$ftp_site/gri_2.8.6-0potato1_i386.deb\">old package</a> for the Potato distribution, a newer package for the \n";
-print "<A HREF=\"$ftp_site/gri_$gri_stable_version-1_i386.deb\">woody</a> distribution, and\n";
-print "a <A HREF=\"$ftp_site/gri-${gri_stable_version}static_2.10.1-1_i386.deb\">static</a> package, with no documentation files.\n";
-?>
-The Potato package is the lastest gri version that compiles without
-changes in that distribution (due to uncompatible changes in debhelper
-scripts which are used to make the package).  The woody package is
-identical to the package currently in Debian's unstable distribution (sid),
-but is woody-compatible with respect to libraries.  The static package
-is a version-specific package made to live alongside other releases
-of the regular gri package, yielding backwards
-compatibility.  To
-distinguish this package from the regular `gri' package, it is named 
-<i>gri-2.10.1static</i> as opposed to <i>gri</i>.  It does not
-contain Info files or the Emacs gri-mode; install a regular version of the
-Gri package to get those.
+a somewhat <A HREF="<?php print "$ftp_site/gri_2.8.6-0potato1_i386.deb";?>">
+old package</a>
+for the Potato distribution,
+along with two up-to-date packages for Woody,
+<A HREF="<?php print "$ftp_site/gri_$gri_stable_version-1_i386.deb";?>">
+one
+</a>
+that uses runtime libaries, and
+<A HREF="<?php print "$ftp_site/gri-${gri_stable_version}static_2.10.1-1_i386.deb";?>">
+the other
+</a>
+that is statically linked.  For more on these and related packages, consult the
+<a href="http://packages.debian.org/unstable/science/gri.html">
+Gri debian site</a>.
+</p>
 
 <p>For <b>Solaris OS5</b>,
 a <?php print "<A HREF=\"$ftp_site/gri-$gri_stable_version-SunOS5.tar.gz\">pre-compiled tarball</a>\n"; ?>
@@ -72,7 +72,7 @@ and for
 <p>
 Visit the
 <?php print $development_site_name;?> site for full list of
-<a href="$sf_url/project/showfiles.php?group_id=$gri_group_id">
+<a href="<?php print "$sf_url/project/showfiles.php?group_id=$gri_group_id";?>">
 downloadable files</a>.
 
 <h1>Source Code</h1>
