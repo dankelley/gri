@@ -52,7 +52,7 @@
             <tr>
               <TD align="center" bgcolor="#737b9c">
                 <IMG src="./images/blank.gif" height="1" width="1" border=0 alt=""><BR>
-                <span class="maintitlebar"><font color="#ffffff">Download stable release</font></span>
+                <span class="maintitlebar"><font color="#ffffff">Download Stable Release</font></span>
                 </td> </tr>
                 <tr>
                   <td class="menus" align="right">
@@ -81,7 +81,7 @@
             <tr> 
               <TD align="center" bgcolor="#737b9c">
                 <IMG src="./images/blank.gif" height="1" width="1" border=0 alt=""><BR>
-                <span class="maintitlebar"><font color="#ffffff">Download unstable release</font></span>
+                <span class="maintitlebar"><font color="#ffffff">Download Unstable Release</font></span>
               </td>
             </tr>
             <td class="menus" align="right">
@@ -91,7 +91,7 @@
 		<b>General tarball</b><br>
                  <A class="menus" HREF="http://people.debian.org/~psg/gri-cvs/gri_2.7.0.orig.tar.gz">Recent CVS sources</A><br>
                 <b>Linux Pre-packaged</b><br>
-                 <A class="menus" HREF="http://people.debian.org/~psg/gri-cvs.html">CVS Debian Packages</A><br>
+                 <A class="menus" HREF="http://people.debian.org/~psg/gri-cvs.html">CVS Debian packages</A><br>
               </td>
             </tr>
 
@@ -99,14 +99,14 @@
             <tr> 
               <TD align="center" bgcolor="#737b9c">
                 <IMG src="./images/blank.gif" height="1" width="1" border=0 alt=""><BR>
-                <span class="maintitlebar"><font color="#ffffff">Download any release</font></span>
+                <span class="maintitlebar"><font color="#ffffff">Download Any Release</font></span>
               </td>
             </tr>
             <td class="menus" align="right">
             </td>
             <tr>
               <td class="menus" align="right">
-                <a class="menus" href="http://sourceforge.net/project/showfiles.php?group_id=5511">To file download area</a><br>
+                <a class="menus" href="http://sourceforge.net/project/showfiles.php?group_id=5511">General Download</a><br>
               </td>
             </tr>
           </table>
@@ -238,7 +238,7 @@ HREF="http://gri.sourceforge.net/gridoc/html/Version_2_6.html#Version2.6">here</
         <A class="menus" HREF="./gridoc/html/index.html">HTML manual</A><br>
         <A class="menus" HREF="./gri.pdf">PDF manual</A><br>
         <A class="menus" HREF="./gridoc/html/FAQ.html">FAQ</A><br>
-        <A class="menus" HREF="./gri-cookbook/index.html">Cookbook of Examples</A><br>
+        <A class="menus" HREF="./gri-cookbook/index.html">Cookbook of examples</A><br>
         <A class="menus" HREF="./refcard.ps">Reference card</A><br>
         <A class="menus" HREF="./cmdrefcard.ps">Command refcard</A><br>
         <A  class="menus" HREF="http://www2.linuxjournal.com/lj-issues/issue75/3743.html">Article in Linux Journal</A><br>
@@ -256,13 +256,13 @@ HREF="http://gri.sourceforge.net/gridoc/html/Version_2_6.html#Version2.6">here</
     </tr>
     <tr>
       <td class="menus" align="left">
-	<A class="menus" HREF="http://www.sourceforge.net/forum/forum.php?forum_id=16974">Discussion Forum</A><br>
-	<A class="menus" HREF="http://www.sourceforge.net/forum/forum.php?forum_id=16975">Help Forum</A><br>
-	<A class="menus" HREF="http://sourceforge.net/tracker/?atid=105511&group_id=5511&func=browse">Bug Reports</A><br>
-	<A class="menus" HREF="http://sourceforge.net/tracker/?atid=355511&group_id=5511&func=browse">Feature Requests</A><br>
-	<!-- <A class="menus" HREF="http://www.sourceforge.net/survey/?group_id=5511">Public Surveys</A><br> -->
-	<A class="menus" HREF="http://www.sourceforge.net/mail/?group_id=5511">Mailing Lists</A><br> 
-	<A class="menus" HREF="mailto:dankelley@users.sourceforge.net">Email Author</A><br>
+	<A class="menus" HREF="http://www.sourceforge.net/forum/forum.php?forum_id=16974">Discussion forum</A><br>
+	<A class="menus" HREF="http://www.sourceforge.net/forum/forum.php?forum_id=16975">Help forum</A><br>
+	<A class="menus" HREF="http://sourceforge.net/tracker/?atid=105511&group_id=5511&func=browse">Bug reports</A><br>
+	<A class="menus" HREF="http://sourceforge.net/tracker/?atid=355511&group_id=5511&func=browse">Feature requests</A><br>
+	<!-- <A class="menus" HREF="http://www.sourceforge.net/survey/?group_id=5511">Public surveys</A><br> -->
+	<A class="menus" HREF="http://www.sourceforge.net/mail/?group_id=5511">Mailing lists</A><br> 
+	<A class="menus" HREF="mailto:dankelley@users.sourceforge.net">Email the author</A><br>
       </td>
     </tr>
   </table>
@@ -279,8 +279,8 @@ HREF="http://gri.sourceforge.net/gridoc/html/Version_2_6.html#Version2.6">here</
         <A class="menus" HREF="http://www.sourceforge.net/cvs/?group_id=5511">Get CVS source</a><br>
         <A class="menus" HREF="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/gri">View CVS history</a><br>
 <!--	<a class="menus" href="http://sourceforge.net/project/showfiles.php?group_id=5511">File download area</a><br> -->
-        <A class="menus" HREF="http://www.sourceforge.net/patch/?group_id=5511">Submitting patches</A><br>
-        <A class="menus" HREF="http://sourceforge.net/pm/task.php?group_project_id=8706&group_id=5511&func=browse">To-do list</A><br>
+        <A class="menus" HREF="http://www.sourceforge.net/patch/?group_id=5511">Submit a patch</A><br>
+        <A class="menus" HREF="http://sourceforge.net/pm/task.php?group_project_id=8706&group_id=5511&func=browse">View to-do list</A><br>
 <!-- <A class="menus" HREF="http://gri.sourceforge.net/gridoc/html/Version_2_6.html#Version2.6">Version 2.6.1 preview</A><br> -->
 <!-- <A class="menus" HREF="./checklist_for_release">Packaging checklist</A><br> -->
       </TD>
