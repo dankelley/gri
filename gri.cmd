@@ -3078,7 +3078,7 @@ what ``font encoding'' is about, ignore this command!
     extern "C" bool set_font_encodingCmd(void);
 }
 
-#* @param .size. of font @unit point @default 12 in ..font_size..
+#* @param .size. of font @unit point @default 12 @variable ..fontsize..
 `set font size {.size. [cm]}|default'
 Set the size of the font for drawing of text.
 
@@ -3406,7 +3406,7 @@ line' and `draw polygon'.  Axes are always drawn with a line join of 0.
     extern "C" bool set_line_joinCmd(void);
 }
 
-#* @param .width_pt. @unit point @default 0.709 in ..linewidth..
+#* @param .width_pt. @unit point @default 0.709 @variable ..linewidth..
 `set line width [axis|symbol|all] .width_pt.|{rapidograph \name}|default'
 
 Set the width of lines used to draw curves (default), axes, symbols, or
@@ -3454,7 +3454,7 @@ factor of 4.
     extern "C" bool set_line_widthCmd(void);
 }
 
-#* @param .value. to be considered missing @default 1.0e22 in ..missing_value..
+#* @param .value. to be considered missing @default 1.0e22 @variable ..missingvalue..
 `set missing value .value.'
 Set missing-value code (stored in the builtin variable
 `..missingvalue..' and builtin synonym `\.missingvalue..') to
@@ -3750,7 +3750,7 @@ at the left to `.right.' at the right.
     extern "C" bool set_x_gridCmd(void);
 }
 
-#* @param .size. of x margin @unit cm @default 6
+#* @param .size. of x margin @unit cm @default 6  @variable ..xmargin..
 `set x margin {[bigger|smaller] .size.} | default'
 Control x margin, that is, the space between the left-hand side of the
 page and the left-hand side of the plotting area.  (Note that axis
@@ -3780,7 +3780,7 @@ Set name of x-axis to indicated string.  The empty string (`set x name
     extern "C" bool set_x_nameCmd(void);
 }
 
-#* @param .width_cm. of axis @unit cm @default 10
+#* @param .width_cm. of axis @unit cm @default 10  @variable ..xsize..
 `set x size .width_cm.|default'
 Set the width of the plotting area.  This does not include axis labels,
 only the interior part of the plot.
@@ -3908,7 +3908,7 @@ Create y-grid with `.rows.' points, ranging from the value
     extern "C" bool set_y_gridCmd(void);
 }
 
-#* @param .size. of y margin @unit cm @default 6
+#* @param .size. of y margin @unit cm @default 6  @variable ..ymargin..
 `set y margin {[bigger|smaller] .size.} | default'
 Control y margin, that is, the space between the bottom side of the
 page and the bottom of the plotting area.  (Note that axis labels are
@@ -3939,7 +3939,7 @@ Set name of y-axis to indicated string.  The empty string (`set y name
     extern "C" bool set_y_nameCmd(void);
 }
 
-#* @param .height_cm. of y axis @unit cm @default 10
+#* @param .height_cm. of y axis @unit cm @default 10 @variable ..ysize..
 `set y size .height_cm.|default'
 Set the width of the plotting area.  This does not include axis labels,
 only the interior part of the plot.
