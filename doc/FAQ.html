@@ -653,7 +653,7 @@ or so, but other older schemes still work.
 
 <h4>MS Word</h4>
 
-All you need to do is to convert the file to GIF (see the next
+All you need to do is to convert the file to GIF or PNG (see the next
 question), or to another file format that MS word handles.  It is a
 bad idea to use a JPEG format, since that doesn't work well on
 linegraphs.
@@ -669,7 +669,7 @@ HREF="http://www.lanl.gov/projects/ia">Information Architecture</A>.
 I have been told that GIF images suffer from both technical
 limitations (no gamma value is stored in the file) and license
 restrictions.  The PNG format was designed to overcome these
-limitations, and is expected to replace GIF before the year 2000.
+limitations, and is expected to replace GIF over time.
 
 <p> It should also be noted that there is no generally acceptable way
 to convert PostScript to gif, especially when the PostScript is vector
@@ -683,15 +683,24 @@ conversion, possibly leading to inaccurate results.  Simply stated,
 PostScript is superior to GIF and other raster-based formats.  That's
 why Gri chose PostScript for the output model.
 
-<p> There are several ways to convert Gri PostScript into GIF images.
+<p> There are several ways to convert Gri PostScript into GIF or PNG images.
 
 <ul>
 
 <LI> METHOD 1.  Use the <code>convert</code> program, which is a part
 of the <code>ImageMagick</code> set of software.  The
 <code>convert</code> software is quite powerful, being able to convert
-from almost any format into almost any other.  The
-<code>ImageMagick</code> software is free, and available on the
+from almost any format into almost any other, e.g.
+<pre>
+$ convert gri-1.ps gri-1.png
+</pre>
+If the output is to be used for the web, the above is fine.  If it's to be
+imported into a word processor such as MS-Word, then the pixel resolution
+is insufficient because the default is 72 dpi.  Try this instead:
+<pre>
+$ convert -density 300x300 gri-1.ps gri-1.png
+</pre>
+The <code>ImageMagick</code> software is free, and available on the
 world-wide-web at URL <a
 href="http://www.wizards.dupont.com/cristy/ImageMagick.html">
 <code>http://www.wizards.dupont.com/cristy/ImageMagick.html</code>
