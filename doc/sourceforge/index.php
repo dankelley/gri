@@ -86,15 +86,15 @@ scp index.php psg@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
                 <tr>
                   <td class="menus" align="right">
 		    <b>Source [buildable docs]</b><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.2.tgz">gri-2.8.2.tgz</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.3.tgz">gri-2.8.3.tgz</a><br>
 		    <b>Source [pre-built docs]</b><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.2-arch-indep.tar.gz">gri-2.8.2-arch-indep.tar.gz</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.3-arch-indep.tar.gz">gri-2.8.3-arch-indep.tar.gz</a><br>
 		    <b>RedHat Linux</b><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.2-1.src.rpm">gri-2.8.2-1.src.rpm</a><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.2-1.i386.rpm">gri-2.8.2-1.i386.rpm</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.3-1.src.rpm">gri-2.8.3-1.src.rpm</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.3-1.i386.rpm">gri-2.8.3-1.i386.rpm</a><br>
 		    <b>Debian GNU/Linux</b><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.8.2-0potato1_i386.deb">2.8.2 for Potato</a><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.8.2-1_i386.deb">2.8.2 for Woody</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.8.3-0potato1_i386.deb">2.8.3 for Potato</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.8.3-1_i386.deb">2.8.3 for Woody</a><br>
                     <A class="menus" HREF="http://packages.debian.org/unstable/science/gri.html">gri at Debian</A><br>
                     <A class="menus" HREF="http://packages.debian.org/unstable/doc/gri-html-doc.html">HTML manual at Debian</A><br>
                     <A class="menus" HREF="http://packages.debian.org/unstable/doc/gri-ps-doc.html">PS manual at Debian</A><br>
@@ -217,16 +217,18 @@ Search gri manual for (may be a regular expression):<p>
     <tr> 
       <td  class="menubox">
 	Stable version 
-	<a href="http://sourceforge.net/project/showfiles.php?group_id=5511&release_id=53269">2.8.2</a>
+	<a href="http://sourceforge.net/project/showfiles.php?group_id=5511&release_id=55284">2.8.3</a>
 	released
 	<? 
-	# mktime(hour,minute,second,month,day,year)
+	# REF: mktime(hour,minute,second,month,day,year)
         # Vsn 2.8.0: 2001-jul-27
 	# $diff = time() - mktime(12, 29, 0, 7, 27, 2001);
         # Vsn 2.8.1: 2001-sep-07
 	#$diff = time() - mktime(12, 29, 0, 9, 7, 2001);
 	# Vsn 2.8.2: 2001-sep-17
-	$diff = time() - mktime(12, 43, 0, 9, 17, 2001);
+	#$diff = time() - mktime(12, 43, 0, 9, 17, 2001);
+	# Vsn 2.8.3: 2001-oct-01
+	$diff = time() - mktime(10, 58, 0, 10, 01, 2001);
 	$days = floor($diff / 24 / 60 / 60);
 	$weeks = floor($days / 7);
 	$months = floor($days / 7 / 4);
@@ -328,7 +330,7 @@ Search gri manual for (may be a regular expression):<p>
         <br>
 
 
-	<A CLASS="menus" HREF="./gri-2.8.3-pre3.tgz">2.8.3 pre-release #3</a>
+<!--	<A CLASS="menus" HREF="./gri-2.8.3-pre3.tgz">2.8.3 pre-release #3</a> -->
 
       </TD>
     </TR>
