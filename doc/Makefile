@@ -11,7 +11,7 @@ EXAMPLE_DIR_SOLARIS = $(DOC_DIR_SOLARIS)/examples
         CMD_REFCARD = cmdrefcard
      HTML_LONG_NAME = gri-long
            INFO_DIR = $(prefix)/info
-   INFO_DIR_SOLARIS = /opt/gnu/info
+   INFO_DIR_SOLARIS = $(prefix)/info
 
 FORCE:
 
@@ -123,8 +123,8 @@ info-install:
 
 info-install-solaris:
 	$(INSTALL) -d $(INFO_DIR_SOLARIS)
-	chmod a+r gri.info*
 	cp gri.info* $(INFO_DIR_SOLARIS)
+	chmod a+r $(INFO_DIR_SOLARIS)/gri.info*
 
 info-clean:
 	rm -f gri.info* info debian-info
