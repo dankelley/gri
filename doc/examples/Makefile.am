@@ -24,7 +24,7 @@ EXTRA_DIST = \
  example12.ps example13.ps \
  logo.ps FEM.ps
 
-DISTCLEANFILES = `ls *.html *.png *.eps *.txt`
+DISTCLEANFILES = `ls *.html *.png *.eps`
 GRITEST = ../../gri -directory ../.. -y
 GRI = gri -y -p
 
@@ -34,8 +34,6 @@ GRI = gri -y -p
 %.eps : %.ps
 	cp $< $@
 
-%.txt : %.gri
-	echo "$<" | cat >$@
 %.png : %.ps
 	convert $< $@
 %-tiny.png : %.png
@@ -47,17 +45,12 @@ GRI = gri -y -p
 %.html : %.gri
 	perl $(srcdir)/../gri2html $< $@
 
-all: html png txt eps
+all: html png eps
 
 original_all:
 	make eps
 	make html
 	make png
-
-txt: example1.txt example3.txt example4.txt \
- example5.txt example6.txt example6histogram.txt \
- example7.txt example8.txt example9.txt example10.txt \
- example11.txt example12.txt example13.txt
 
 html: FEM.html example1.html example2.html example3.html example4.html \
  example5.html example6.html example6histogram.html \
