@@ -21,7 +21,7 @@ endif
 build: build-arch build-indep
 
 # Build architecture-dependent files here (no need to be root).
-build-arch: gri
+build-arch: debian/copyright gri
 	(cd doc; make debian)
 
 gri:    Makefile
@@ -84,7 +84,7 @@ binary-indep: build-arch
 	dh_builddeb -i
 
 # Install (as root) architecture-dependent files here.
-binary-arch: debian/copyright build install
+binary-arch: build install
 	dh_testdir -a
 	dh_testroot -a
 	(cd debian/tmp/usr/share/gri/$(version) ; ln -fs ../../common-licenses/GPL license.txt)
