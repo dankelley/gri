@@ -1,7 +1,7 @@
 #!/usr/local/bin/perl
 # Create HTML index from index of pre-installed info page.
 # Bug: the @code{} items get lost, too bad.
-open(IN, "info -f ./gri.info 'Concept Index' |  sort -f |") 
+open(IN, "info -f ./gri.info 'Concept Index' | ") 
     ||  die "Cannot get index\n";
 
 print "

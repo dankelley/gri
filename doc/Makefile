@@ -177,6 +177,8 @@ clean:	info-clean html-clean debian-clean card-clean
 	(cd screenshots ; make clean)
 #	(cd resources   ; make clean)
 	(cd tst_suite   ; make clean)
+	-rm -rf gridoc
+	-rm -f gridoc.tar.gz
 
 help:
 	@echo "Options:"
