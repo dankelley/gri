@@ -56,8 +56,6 @@
                 </td> </tr>
                 <tr>
                   <td class="menus" align="right">
-<!--		   <a class="menus" href="http://www.phys.ocean.dal.ca/~kelley/gri-2.6.4-PRE-5.tgz">vsn 2.6.4 pre-release #5</a></br>
--->
 		    <b>Source tar ball</b><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.4.tgz">gri-2.6.4.tgz</a><br>
 		    <b>RedHat Linux</b><br>
@@ -289,6 +287,7 @@ Search gri manual for (may be a regular expression):<p>
 <!--	<a class="menus" href="http://sourceforge.net/project/showfiles.php?group_id=5511">File download area</a><br> -->
         <A class="menus" HREF="http://www.sourceforge.net/patch/?group_id=5511">Submit a patch</A><br>
         <A class="menus" HREF="http://sourceforge.net/pm/task.php?group_project_id=8706&group_id=5511&func=browse">View to-do list</A><br>
+<br>        <a class="menus" href="./gri-2.8.0-pre1.tgz"><font color="red">2.8.0 pre-release #1</font></a><br><i> (md5sum: c044520f3adc28a9a8f908e4e9033545)</i></br></font>
 <!-- <A class="menus" HREF="http://gri.sourceforge.net/gridoc/html/Version_2_6.html#Version2.6">Version 2.6.1 preview</A><br> -->
 <!-- <A class="menus" HREF="./checklist_for_release">Packaging checklist</A><br> -->
       </TD>
