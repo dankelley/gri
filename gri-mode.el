@@ -5,7 +5,7 @@
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.43 (11 Apr 2001)
+;; Version:   2.44 (01 May 2001)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -363,6 +363,7 @@
 ;; V2.42 21Feb01 RCS 1.67 - move idle timer startup into gri-mode proper.
 ;; V2.43 11Apr01 RCS 1.68 - gri-common-in-list: fix bug introduced in
 ;;   completion of "set color" when compared to "set colorname"
+;; V2.44 01May01 RCS 1.69 - XEmacs has IMenu after all.
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -427,7 +428,7 @@ Like this like so:
  (setq gri*run-settings '(\"-publication\" \"-trace\"))")
 ;; FIXME: add -superuser with a value above somehow.
 
-  (defvar gri*use-imenu (not (string-match "XEmacs\\|Lucid" emacs-version))
+  (defvar gri*use-imenu (fboundp 'imenu-add-to-menubar)
     "*Use imenu package for gri-mode?
 If you do not wish this behaviour, reset it in your .emacs file like so:
 
@@ -570,7 +571,7 @@ This list makes the startup values used in the menubar pull-down menu."
                 (const "-publication")
                 (const "-trace")))
 
-  (defcustom gri*use-imenu (not (string-match "XEmacs\\|Lucid" emacs-version))
+  (defcustom gri*use-imenu (fboundp 'imenu-add-to-menubar)
     "*Use imenu package for gri-mode?
 If you do not wish this behaviour, reset it in your .emacs file like so:
 
@@ -4474,7 +4475,7 @@ static char *magick[] = {
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.43 (c) 11 Apr 2001 --  Peter Galbraith <psg@debian.org>
+V2.43 (c) 01 May 2001 --  Peter Galbraith <psg@debian.org>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
