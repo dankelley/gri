@@ -748,7 +748,7 @@ getdnum(const char *s, double *d)
 	if (*s == '\0')
 		return 0;
 	extern double   _grMissingValue;
-	char *            ptr = NULL;
+	char *ptr = NULL;
 	*d = strtod(s, &ptr);
 	if (*ptr == '\0') {
 		// Normal number; check for infinity/not-a-number
@@ -774,6 +774,23 @@ getdnum(const char *s, double *d)
 				return true;
 			}
 		}
+#if 1				// vsn 2.6.0 [2001-feb-18]
+	} else if (is_syn(s)) {
+		string syn_value;
+		bool exists = get_syn(s, syn_value);
+		if (exists) {
+			const char* vptr = syn_value.c_str();
+			ptr = NULL;	// reset this
+			*d = strtod(vptr, &ptr);
+			if (*ptr == '\0') {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+#endif
 	} else if (!strcmp(s, "-NaN") || !strcmp(s, "NaN") || !strcmp(s, "-Inf") || !strcmp(s, "Inf")) {
 		*d = _grMissingValue;
 		return true;

@@ -1946,18 +1946,25 @@ known synonyms, do @code{show synonyms}.
 @cindex @code{[]} syntax for selecting words in synonyms
 Individual words of synonyms may be accessed by prefixing the synonym
 name with the index number of the word (starting at 0) enclosed in
-square brackets.  This number may be a constant or a variable, but not a
-more complicated expression.  If the index value is negative or exceeds
-the number of words minus 1, then an empty string is retrieved.
-If no number appears in the brackets, the result is the number of words
-in a synonym.
+square brackets.  
+
+The number in the square brackets may be a constant, a variable, or a
+synonym, but not a more complicated expression.  If the index value is a
+floating-point number, it is first rounded to the nearest integer.  If
+the index value is negative or exceeds the number of words minus 1, then
+an empty string is retrieved.
+
+If @emph{no number} appears in the square brackets, the result is the
+number of words in a synonym.
 
 @example
 \syn = "This has 4 words in it"
 show "\[0]syn   ... gives 'This'"
 show "\[1]syn   ... gives 'has'"
-.i. = 2
-show \[.i.]syn  ... gives '4'"
+.i. = 3
+show \[.i.]syn  ... gives 'words'"
+\i = "3"
+show \[\i]syn   ... gives 'words'"
 show "\[]syn    ... gives '6', i.e. number of words"
 @end example
 

@@ -672,10 +672,10 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 		} else if (s[i + 1] == '#') {
 			printf("DEBUG %s:%d got a # 1 character into <%s>\n",__FILE__,__LINE__,s+i);
 		} else if (s[i + 1] == '[') {
+			//printf("DEBUG 1 %s:%d\n",__FILE__,__LINE__);
 			// Indexing a word within synonym
 			int index_length = -1;
-			int j;
-			for (j = i + 2; j < slen; j++) {
+			for (int j = i + 2; j < slen; j++) {
 				if (s[j] == ']') {
 					index_length = j - i - 2;
 					break;
@@ -686,11 +686,13 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 			} else {
 				report_a_word = true;
 				char *num = (char *)malloc(sizeof(char)*(index_length + 1));
+				int j;
 				for (j = 0; j < index_length; j++) 
 					num[j] = s[i + 2 + j];
 				num[j] = '\0';
 				double tmp;
 				getdnum(num, &tmp);
+				//printf("DEBUG report_a_word %s:%d  num [%s]   word_to_report=%d\n",__FILE__,__LINE__,num,word_to_report);
 				word_to_report = int(floor(0.5 + tmp));
 				free(num);
 			}

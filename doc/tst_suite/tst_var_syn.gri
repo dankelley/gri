@@ -34,6 +34,10 @@ assert {rpn "\[2]h" "buddy" ==}		" failed test 3.3"
 assert {rpn "\[0]h" "Hi" ==}		" failed test 3.4"
 assert {rpn "\[1]h" "means" ==}		" failed test 3.5"
 assert {rpn "\[2]h" "\"hello\"" ==}	" failed test 3.6"
+.i. = 1
+assert {rpn "\[.i.]h" "means" ==}	" failed test 3.7"
+\i = "1"
+assert {rpn "\[\i]h"  "means" ==}	" failed test 3.8"
 
 # Setting by quoted name
 set ".var." to 10
