@@ -3,7 +3,7 @@ Version: 2.12.8
 Revision: 1
 Depends:
 Source: http://ftp1.sourceforge.net/gri/gri-%v.tgz
-Source-MD5: e52cc1817a37fb80f667cd3e77880ec7
+Source-MD5: 2cce4fc4292cade417697add0e96030d
 DocFiles: README /sw/share/gri/doc/html/*html
 Description: Scientific graphics language
 DescDetail: <<
