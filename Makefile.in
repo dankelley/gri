@@ -282,7 +282,6 @@ what_is_new:
 		do diff --brief $$f ../$$f;\
 	done
 
-
 # Sun microsystems, sunOS 5.x
         SUNOS5_NAME = gri-$(VERSION)-SunOS5
 package-SunOS5: gri doc
@@ -296,23 +295,24 @@ package-SunOS5: gri doc
 	mkdir -m 755 -p $(SUNOS5_NAME)/doc/html/screenshots
 	mkdir -m 755 -p $(SUNOS5_NAME)/doc/html/tst_suite
 	mkdir -m 755 -p $(SUNOS5_NAME)/doc/html/examples
-	install -m 755  gri                                                          $(SUNOS5_NAME)/bin
-	install -m 644  gri.cmd logo.dat copyright.txt license.txt                   $(SUNOS5_NAME)/lib
+	-cp -p gri                                                        $(SUNOS5_NAME)/bin
+	-cp  gri.cmd logo.dat copyright.txt license.txt                   $(SUNOS5_NAME)/lib
 	-cat startup.msg | sed -e s,VSN,${VERSION}, | sed -e "s/DATE/`date`/" > tmp
-	install -m 644  tmp                                                          $(SUNOS5_NAME)/lib
+	-cp  tmp                                                          $(SUNOS5_NAME)/lib
 	-rm -f tmp
-	install -m 755 install-SunOS5                                                $(SUNOS5_NAME)/install
-	install -m 644 README-SunOS5                                                 $(SUNOS5_NAME)/README
+	-cp ./install-SunOS5                                              $(SUNOS5_NAME)/install
+	chmod a+rx                                                        $(SUNOS5_NAME)/install
+	-cp README-SunOS5                                                 $(SUNOS5_NAME)/README
 	cat doc/gri-manpage-SunOS5.1 | sed -e s,VERSION,${VERSION}, >tmp
-	install -m 644 tmp                                                           $(SUNOS5_NAME)/doc/gri.1
+	-cp tmp                                                           $(SUNOS5_NAME)/doc/gri.1
 	-rm -f tmp
 #       Next should really be done by "cd doc; make something" etc.
-	install -m 644 doc/*html                                                     $(SUNOS5_NAME)/doc/html
-	install -m 644 doc/*png                                                      $(SUNOS5_NAME)/doc/html
-	install -m 644 doc/resources/*gif                                            $(SUNOS5_NAME)/doc/html/resources
-	install -m 644 doc/screenshots/*png                                          $(SUNOS5_NAME)/doc/html/screenshots
-	install -m 644 doc/tst_suite/*dat doc/tst_suite/*gri doc/tst_suite/*html     $(SUNOS5_NAME)/doc/html/tst_suite
-	install -m 644 doc/examples/*dat doc/examples/*gri doc/examples/*html        $(SUNOS5_NAME)/doc/html/examples
+	-cp doc/*html                                                     $(SUNOS5_NAME)/doc/html
+	-cp doc/*png                                                      $(SUNOS5_NAME)/doc/html
+	-cp doc/resources/*gif                                            $(SUNOS5_NAME)/doc/html/resources
+	-cp doc/screenshots/*png                                          $(SUNOS5_NAME)/doc/html/screenshots
+	-cp doc/tst_suite/*dat doc/tst_suite/*gri doc/tst_suite/*html     $(SUNOS5_NAME)/doc/html/tst_suite
+	-cp doc/examples/*dat doc/examples/*gri doc/examples/*html        $(SUNOS5_NAME)/doc/html/examples
 	tar -c -f $(SUNOS5_NAME).tar $(SUNOS5_NAME)
 	rm -rf $(SUNOS5_NAME)
 	gzip $(SUNOS5_NAME).tar

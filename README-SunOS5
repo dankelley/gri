@@ -1,3 +1,15 @@
+Compiling and Installing Gri
+============================
+ 
+To install Gri, type
+
+    ./install
+
+and answer the questions.  Basically, you'll be telling the installer
+where to put the Gri executable, various library files, and a long
+list of documention files.
+
+
 What Gri is
 ===========
 
@@ -16,14 +28,6 @@ What Gri is
  line-widths, colors, and fonts.  Text includes a subset of the tex
  language, so that it is easy to incorporate Greek letters and
  mathematical symbols in labels.
-
-
-Compiling and Installing Gri
-============================
- 
-See full instructions at the URL:
-
-  http://gri.sourceforge.net/gridoc/html/Access.html#Installation
 
 
 Copyright restrictions
