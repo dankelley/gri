@@ -2246,39 +2246,44 @@ new .a.       # this "shadows" the previous instance
 show \@@alias # prints 200, not 100
 @end example
 
-For this reason, you should not use the aliasing syntax if you wish to
-create a newcommand that can modify its arguments.  This is because a 
-name collision could result.  Consider
+@cindex bugs, in clashing names within newcommands 
+@cindex name-clash bug, in newcommands 
+@cindex alias synonyms, name-clash bug within newcommands 
+@cindex @code{\@@} syntax, name-clash bug within newcommands 
+
+@b{An important bug}.  At the moment Gri has an important bug relating
+to aliasing of local synonyms, i.e. to syntax like @code{\@@.word1.} and
+so forth within new commands.  It results from what we might call a
+"name collision".  Consider the following code designed to double the
+value of a variable.
 
 @example
-`Newcommand \a'
+`double .a_variable.'
 @{
-    new \a            # set up a local version
-    \@@.word1. = "BYE" # try to modify argument
+    new .a.           # set up a local version
+    \@@.word1. = @{rpn \@@.word1. 2 *@} # CAUTION!
     delete \a         # clean up local version
 @}
-
-# Test 1
-\a = "HI"
-Newcommand "\\a"
-show "\a" # prints HI, not HI
-
-# Test 2
-\b = "HI"             
-Newcommand "\\b"
-show "\b" # prints BYE since no name collision
+.b. = 1
+double .b.            # doubles .b., as desired
+.a. = 10
+double .a.            # does NOT double .a.
 @end example
 
-Note that test 2 correctly prints "BYE" since there is no name collision
-between the local @code{\a} and the global @code{\b} that is passed as
-an argument.  However, test 1 incorrectly prints "HI" since there is a
-name collision, and the modification is done on the @emph{local} version
-of @code{\a}.  In other words, the result of the newcommand depends on
-the @emph{name} of the argument supplied to it!  This is a demonstration
-of why you should avoid using syntax such as @code{\@@.word1.} in your
-code, unless you really know what you're doing -- especially, unless
-there is a reason why pointing synonyms (next section) cannot do the
-task at hand.
+If @code{double} is called with any variable whose name is not
+@code{.a.}, it will double the variable as desired.  However, if it is
+called with a variable named @code{.a.}, a name clash will occur and the
+line labelled @code{CAUTION} will double the @emph{local} value, created
+in the @code{new} line immediately above.
+
+This unacceptably odd behavior is a known bug with the present version
+of Gri.  The plan is for future versions to be modified in such a way as
+to prevent this.  As it turns out, the internal coding changes to fix
+this bug are arduous, and therefore Gri is being released with this bug.
+
+In case you're now wary, please note that in many cases, you'll not want
+to use the alias syntax (@code{@@}) at all; you'll want to use the
+pointing syntax, described in the next section.
 
 
 
@@ -15455,6 +15460,9 @@ the instructions for unix.
 @cindex bugs in Gri
 List of known bugs:
 @itemize @bullet
+@item
+Newcommands can suffer the "name clash" bug (@ref{Aliasing Synonyms}).
+
 @item
 The PDF version of the manual, created by @code{make gri.pdf},
 won't work unless the following patch is applied to one of
