@@ -1795,7 +1795,8 @@ characters @code{P2} or @code{P4} at the start.)  Use the
 @code{open filename binary}. 
 @item
 Aside: Images can be converted to grids (for contouring) using
-@code{convert image to grid} (@ref{Convert}).
+@code{convert image to grid}
+(@ref{Convert}).
 @end itemize
 
 Once the image is created, its grayscale/colorscale may be manipulated
@@ -4629,7 +4630,9 @@ Any number of variables or synonyms may be specified on one line.
 Delete definition of synonym @code{\synonym}, making it undefined.  Any
 number of variables or synonyms may be specified on one line.
 @item @code{delete \@@alias}
-Deletes the item named by the alias (@ref{Alias Synonyms}).
+Delete the item named by the alias (@ref{Alias Synonyms}).
+@item @code{delete} with an @code{&} item
+Delete the item in the calling program.
 @item @code{delete columns}
 Delete column data.
 @item @code{delete columns where missing}
@@ -6588,16 +6591,16 @@ for 8-bit images).
 
 @example
 new .variable_name. | \synonym_name \
-  [.variable_name. | \synonym_name \
-    [...]]
+   [.variable_name. | \synonym_name \
+   [...]]
 @end example
 
 @noindent
-Set aside storage for new version of the named variable(s) and/or
-synonym(s).  Any number of variables and synonyms may be specified.  If
-a given variable/synonym already exists, this will create a new version
-of it, and future assignments will be stored in this new version
-@emph{without} affecting the pre-existing version.  If the
+@code{new} sets aside storage for new version of the named variable(s)
+and/or synonym(s).  Any number of variables and synonyms may be
+specified.  If a given variable/synonym already exists, this will create
+a new version of it, and future assignments will be stored in this new
+version @emph{without} affecting the pre-existing version.  If the
 variable/synonym is @code{delete}ed, the new version is deleted, making
 the old, unaltered, version accessible again.
 
@@ -6624,7 +6627,12 @@ end if
 draw label "This is 10 font" at 10 8 cm
 @end example
 
-
+@emph{Special case}: for local synonyms (e.g. @code{\.word1.}, etc.),
+the @code{new} operator checks to see whether the synonym is standing
+for an "ampersand" argument, signalling a changeable argument that is a
+variable or a synonym.  In such a case, @code{new} creates a new
+instance of the item in the calling context.  The test suite has
+examples (@ref{Test Suite}).
 
 @c HTML <!-- newfile Newpage.html "Gri: `newpage' command" "Gri Commands" -->
 

@@ -1,6 +1,6 @@
 show "doc/tst_suite/tst_rpn.gri     ..." ...
 
-rpnfunction same - abs 1e-10 >		# tests if two numbers match to 1e-10
+rpnfunction same - abs 1e-10 >		# Are numbers virtually same?
 
 # Arithmetic
 .a. = 0

@@ -1,5 +1,5 @@
 show "doc/tst_suite/tst_var_syn.gri ..." ...
-rpnfunction same - abs 1e-10 >          # tests if two numbers match to 1e-10
+rpnfunction same - abs 1e-10 >          # Are numbers virtually same?
 
 # New and delete (variables)
  .v. = 1
