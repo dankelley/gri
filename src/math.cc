@@ -295,7 +295,7 @@ image_math()
 {
 	unsigned int n;
 	unsigned char  *Ptr;
-	double          number;
+	double          number, number_scaled;
 	switch (_nword) {
 	case 3:
 		// `image OPERATOR OPERAND'
@@ -317,17 +317,17 @@ image_math()
 			return false;
 		}
 		// Convert to image units
-		number *= 255.0 / (_image255 - _image0);
+		number_scaled *= 255.0 / (_image255 - _image0);
 		Ptr = _image.image;
 		n = _image.ras_length;
 		if (word_is(1, "+=")) {
 			for (unsigned int i = 0; i < n; i++, Ptr++)
-				*Ptr = int(*Ptr + number);
+				*Ptr = int(*Ptr + number_scaled);
 		} else if (word_is(1, "-=")) {
 			for (unsigned int i = 0; i < n; i++, Ptr++)
-				*Ptr = int(*Ptr - number);
+				*Ptr = int(*Ptr - number_scaled);
 		} else if (word_is(1, "*=")) {
-			for (unsigned int i = 0; i < n; i++, Ptr++)
+		        for (unsigned int i = 0; i < n; i++, Ptr++)
 				*Ptr = int(*Ptr * number);
 		} else if (word_is(1, "/=")) {
 			for (unsigned int i = 0; i < n; i++, Ptr++)
@@ -372,8 +372,8 @@ image_math()
 				*Ptr = (int) (255.0 * (double(*Ptr) / 255.0 - number));
 			}
 		} else if (word_is(2, "*=")) {
-			for (unsigned int i = 0; i < n; i++, Ptr++) {
-				*Ptr = (int) (255.0 * (double(*Ptr) / 255.0 * number));
+		        for (unsigned int i = 0; i < n; i++, Ptr++) {
+			        *Ptr = (int) (255.0 * (double(*Ptr) / 255.0 * number));
 			}
 		} else if (word_is(2, "/=")) {
 			for (unsigned int i = 0; i < n; i++, Ptr++) {
