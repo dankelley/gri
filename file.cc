@@ -7,6 +7,7 @@
 #include "types.hh"
 #include "files.hh"
 #include "DataFile.hh"
+#include "superus.hh"
 
 
 // Push a new cmd file onto the stack.  Return NO if cannot load the file.
@@ -160,9 +161,19 @@ pop_data_file(int file)
 		}
 #if defined(VMS)
 		sprintf(sys_cmd, "DEL %s;*", _dataFILE[file].get_name());
+		if (((unsigned) superuser()) & FLAG_SYS) {
+			ShowStr("\n`system' sending the following command to the operating system:\n");
+			ShowStr(sys_cmd);
+			ShowStr("\n");
+		}
 		system(sys_cmd);
 #else
 		sprintf(sys_cmd, "rm -f %s", _dataFILE[file].get_name());
+		if (((unsigned) superuser()) & FLAG_SYS) {
+			ShowStr("\n`system' sending the following command to the operating system:\n");
+			ShowStr(sys_cmd);
+			ShowStr("\n");
+		}
 		system(sys_cmd);
 #endif
 	}
