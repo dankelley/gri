@@ -899,9 +899,9 @@ do_operation(operator_name oper)
 		static time_t present_time;
 		time(&present_time);
 		//printf("DEBUG: B. present_time %d\n", (unsigned int)(present_time));
+		string filename(NAME(1));
 #ifdef HAVE_STAT
 		struct stat buf;
-		string filename(NAME(1));
 		un_double_quote(filename);
 		//printf("BEFORE... [%s]\n",filename.c_str());
 		extern bool full_path_name(std::string& f);
