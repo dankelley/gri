@@ -47,8 +47,8 @@
 	    </tr>
 	    <tr>
 	      <td align="right" class="menus">
-		<A class="menus" HREF="./gridoc/html/index.html">Manual (HTML)</A><br>
-		<A class="menus" HREF="./gri.pdf">Manual (PDF)</A><br>
+		<A class="menus" HREF="./gridoc/html/index.html">HTML manual (vsn 2.6.0)</A><br>
+		<A class="menus" HREF="./gri.pdf">PDF manual (vsn 2.6.0)</A><br>
 		<A class="menus" HREF="./gridoc/html/FAQ.html">FAQ</A><br>
 		<A class="menus" HREF="./gri-cookbook/index.html">Cookbook of Examples</A><br>
                 <A  class="menus" HREF="http://www2.linuxjournal.com/lj-issues/issue75/3743.html">Article in Linux Journal</A><br>
@@ -82,6 +82,7 @@
 		<span class="maintitlebar"><font color="#ffffff">Download (Stable)</font></span>
 		</td> </tr>
 		<tr><td class="menus" align="right">
+		<b>2001-???-??</b><br><font color="red">gri-2.6.0 coming soon</font><br>
 		<b>2000-May-22</b><br><A  class="menus" HREF="http://download.sourceforge.net/gri/gri-2.4.4.tgz">gri-2.4.4.tgz</A><br>
 		<A  class="menus" HREF="http://download.sourceforge.net/gri/gri-2.4.4-1.i386.rpm">gri-2.4.4-1.i386.rpm</A><br>
 		<A  class="menus" HREF="http://www.debian.org/Packages/stable/math/gri.html">gri-2.4.2-1.deb</A><br>
@@ -118,7 +119,7 @@ operating system so you can use familiar tools for your work.  Gri
 produces industry-standard PostScript as output, suitable for
 inclusion in other documents.
 
-<p>As an illustration, here is how to draw a simple linegraph in Gri:
+<p>For example, you can draw a linegraph by the commands:
 <pre>
    open file.dat
    read columns x y
@@ -163,7 +164,8 @@ HREF="./gri.pdf">pdf</a> forms.
     <tr> 
       <td  class="menubox">
 	<font size="-1">
-	Debugging vsn 2.6.0
+	Debugging vsn <font color="red">2.6.0</font><br>
+        for release in March or April 2001.
 	</font>
       </td>
     </tr>
