@@ -1763,7 +1763,7 @@ gr_set_clip_ps_rect(double ll_x_pt, double ll_y_pt, double ur_x_pt, double ur_y_
 	_clip_ps_xright = LARGER_ONE(ll_x_pt, ur_x_pt);
 	_clip_ps_ytop = LARGER_ONE(ll_y_pt, ur_y_pt);
 
-/*DEK*/	printf("DEBUG: am setting clip to xl=%f  xr=%f  yb=%f  yt=%f\n", _clip_ps_xleft, _clip_ps_xright, _clip_ps_ybottom, _clip_ps_ytop);
+/*DEK*/	//printf("DEBUG: am setting clip to xl=%f  xr=%f  yb=%f  yt=%f\n", _clip_ps_xleft, _clip_ps_xright, _clip_ps_ybottom, _clip_ps_ytop);
 
 /*DEK*/
 // why do I not have "Q" to finish it off?

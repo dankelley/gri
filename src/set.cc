@@ -374,7 +374,7 @@ set_clipCmd()
 					yb = _ybottom;
 					yt = _ytop;
 					/*DEK*/
-					printf("DEBUG: will try to set clip to xl=%f  xr=%f  yb=%f  yt=%f\n",xl,xr,yb,yt);
+//					printf("DEBUG: will try to set clip to xl=%f  xr=%f  yb=%f  yt=%f\n",xl,xr,yb,yt);
 					/*DEK*/
 				} else if (_nword == 8) { // set clip postscript on .llx. ...
 					if (!getdnum(_word[4], &xl)) {
