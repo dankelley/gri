@@ -13,6 +13,7 @@
 <?php
 
 $index_name = "http://gri.sourceforge.net/gridoc/html/ConceptIndex.html";
+$rel = "gridoc/html/";
 
 # See Ullman (2001, p163) on files.  However, he seems
 # to suggest that "fopen" returns nonzero in the case
@@ -46,15 +47,15 @@ for ($i = $start + 2; $i < $n; $i++) {
     if (eregi($search_for, $items[$i]) 
 	and !eregi("href=\"", $items[$i])) {
 	if ($first) {
-	    print("<ul>\n<li>");
+	    print("<ul>\n");
 	    $first = 0;
 	}
-	print($items[$i-1]);
-	print($items[$i]);
-	# Next line kludges to get proper relative position
-	# of the referred-to file.
+	print($items[$i-1]);  # <li>
+	print($items[$i]);    # the line that was searched
+	# The next line, which contains the link, must be edited
+        # to point to the right place.
 	$the_ref = $items[$i+1];
-	$the_ref = ereg_replace("href=\"", "href=\"gridoc/html/", $the_ref);
+	$the_ref = ereg_replace("href=\"", "href=\"$rel/", $the_ref);
 	print($the_ref);
 	$i++;			# avoid searching on the href line
     }
