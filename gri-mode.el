@@ -403,7 +403,7 @@ See the gri-mode.el file itself for more information.")
 ;; They can be set using the customize interface:  M-x gri-customize
 
   (defvar gri-idle-display-defaults
-    (and (fboundp 'run-with-idle-timer) window-system)
+    (fboundp 'run-with-idle-timer)
     "*t means to display function defaults under point when Emacs is idle.")
 
   (defvar gri-menubar-cmds-action 'Info
@@ -4470,7 +4470,7 @@ static char *magick[] = {
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.40 (c) 18 Feb 2001 --  Peter Galbraith <psg@debian.org>
+V2.40 (c) 20 Feb 2001 --  Peter Galbraith <psg@debian.org>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
