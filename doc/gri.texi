@@ -112,7 +112,7 @@ The Gri web homepage is at
 @c HTML </map>
 @c HTML
 @c HTML <A HREF="logo.html">
-@c HTML <IMG align=left ALT="Gri Logo" SRC="logo.jpg"></A>
+@c HTML <IMG align=left ALT="Gri Logo" SRC="logo.png"></A>
 @c HTML Gri is an extensible
 @c HTML plotting language for producing scientific graphs, such as
 @c HTML <A HREF="#X-yPlots">x-y plots</A>, 
@@ -394,8 +394,8 @@ see @ref{Invoking Gri}.
 @section Output Graph
 The output PostScript file is called @file{example1.ps}.
 
-@c HTML <A HREF="example1.jpg">
-@c HTML <IMG ALT="Example 1" SRC="example1-tiny.jpg" ALIGN=top>
+@c HTML <A HREF="example1.png">
+@c HTML <IMG ALT="Example 1" SRC="example1-tiny.png" ALIGN=top>
 @c HTML </A>
 @c HTML Click the plot to enlarge it.)
 @c HTML <P>
@@ -472,8 +472,8 @@ what is being done, and consult the plot as you read the commandfile.
 
 
 
-@c HTML <A HREF="example3.jpg">
-@c HTML <IMG ALT="Example 3" SRC="example3-tiny.jpg"
+@c HTML <A HREF="example3.png">
+@c HTML <IMG ALT="Example 3" SRC="example3-tiny.png"
 @c HTML ALIGN=top> 
 @c HTML </A>
 @c HTML <A HREF="example3.html">The command-file.</A> <P>
@@ -4332,8 +4332,8 @@ The following Gri commands will draw a linegraph.  For the output graph
 
 This plots a simple linegraph:
 
-@c HTML <A HREF="example1.jpg">
-@c HTML <IMG ALT="Example 1" SRC="example1-tiny.jpg"
+@c HTML <A HREF="example1.png">
+@c HTML <IMG ALT="Example 1" SRC="example1-tiny.png"
 @c HTML ALIGN=top>
 @c HTML </A>
 
@@ -4648,8 +4648,8 @@ data, with full control of axes, etc, do something like this:
 @cindex drawing contours of pregridded data
 @cindex example 04 (contouring pregridded data)
 
-@c HTML <A HREF="example4.jpg">
-@c HTML <IMG ALT="Example 4" SRC="example4-tiny.jpg"
+@c HTML <A HREF="example4.png">
+@c HTML <IMG ALT="Example 4" SRC="example4-tiny.png"
 @c HTML ALIGN=top>
 @c HTML </A>
 @c HTML <A HREF="example4.html">The command-file.</A> <P>
@@ -4761,8 +4761,8 @@ anlaysis scheme for use with satellite and conventional data,'', J.
 Climate Appl.  Met., vol 22, p. 1487-1503.  Readers should compare
 Figures 5 and 6 of that paper to the results shown here.
 
-@c HTML <A HREF="example5.jpg">
-@c HTML <IMG ALT="Example 5" SRC="example5-tiny.jpg"
+@c HTML <A HREF="example5.png">
+@c HTML <IMG ALT="Example 5" SRC="example5-tiny.png"
 @c HTML ALIGN=top>
 @c HTML </A>
 @c HTML <A HREF="example5.html">The command-file.</A> <P>
@@ -4990,8 +4990,8 @@ Examples are shown for linear mapping and histogram mapping.
 @cindex drawing image plots
 @cindex drawing satellite images
 
-@c HTML <A HREF="example6.jpg">
-@c HTML <IMG ALT="Example 6" SRC="example6-tiny.jpg"
+@c HTML <A HREF="example6.png">
+@c HTML <IMG ALT="Example 6" SRC="example6-tiny.png"
 @c HTML ALIGN=top>
 @c HTML </A>
 @c HTML <A HREF="example6.html">The command-file.</A> <P>
@@ -5117,8 +5117,8 @@ inter-quartile ranges beyond q1 and q3, and in closed circles beyond
 that.  Below is an example that uses a "new command" to define each box
 plot (@ref{New Commands}).
 
-@c HTML <A HREF="example7.jpg">
-@c HTML <IMG ALT="Example 7" SRC="example7-tiny.jpg"
+@c HTML <A HREF="example7.png">
+@c HTML <IMG ALT="Example 7" SRC="example7-tiny.png"
 @c HTML ALIGN=top>
 @c HTML </A>
 @c HTML <A HREF="example7.html">The command-file.</A> <P>
@@ -5188,8 +5188,8 @@ There are some other useful tricks in this example, such as calling
 carriage return, yielding the defaults; the @code{-p} flag was specified
 on execution, so the time stamp was not drawn.)
 
-@c HTML <A HREF="example8.jpg">
-@c HTML <IMG ALT="Example 8" SRC="example8-tiny.jpg"
+@c HTML <A HREF="example8.png">
+@c HTML <IMG ALT="Example 8" SRC="example8-tiny.png"
 @c HTML ALIGN=top>
 @c HTML </A>
 @c HTML <A HREF="example8.html">The command-file.</A> <P>
@@ -5347,8 +5347,8 @@ carriage return, yielding the defaults; the @code{-p} flag was specified
 on execution, so the time stamp was not drawn.)
 @cindex axes, automatic drawing of
 
-@c HTML <A HREF="example9.jpg">
-@c HTML <IMG ALT="Example 9" SRC="example9-tiny.jpg"
+@c HTML <A HREF="example9.png">
+@c HTML <IMG ALT="Example 9" SRC="example9-tiny.png"
 @c HTML ALIGN=top>
 @c HTML </A>
 @c HTML <A HREF="example9.html">The command-file.</A> <P>
@@ -5464,8 +5464,8 @@ carriage return, yielding the defaults; the @code{-p} flag was specified
 on execution, so the time stamp was not drawn.)
 @cindex example 10 (image plot with contours)
 
-@c HTML <A HREF="example10.jpg">
-@c HTML <IMG ALT="Example 10" SRC="example10-tiny.jpg"
+@c HTML <A HREF="example10.png">
+@c HTML <IMG ALT="Example 10" SRC="example10-tiny.png"
 @c HTML ALIGN=top>
 @c HTML </A>
 @c HTML <A HREF="example10.html">The command-file.</A> <P>
@@ -5518,8 +5518,8 @@ as shown here:
 @cindex example 10color, draw color image plot
 @end ifhtml
 
-@c HTML <A HREF="example10color.jpg">
-@c HTML <IMG ALT="Example 10 in colour" SRC="example10color-tiny.jpg"
+@c HTML <A HREF="example10color.png">
+@c HTML <IMG ALT="Example 10 in colour" SRC="example10color-tiny.png"
 @c HTML ALIGN=top>
 @c HTML </A>
 @c HTML <A HREF="example10color.html">The command-file.</A> <P>
@@ -5605,8 +5605,8 @@ The following code shows a fancy plot with lots of bells and whistles.
 @cindex labels, example
 @cindex graylevel for lines, example
 
-@c HTML <A HREF="example11.jpg">
-@c HTML <IMG ALT="Example 11" SRC="example11-tiny.jpg"
+@c HTML <A HREF="example11.png">
+@c HTML <IMG ALT="Example 11" SRC="example11-tiny.png"
 @c HTML ALIGN=top>
 @c HTML </A>
 @c HTML <A HREF="example11.html">The command-file.</A> <P>
@@ -5813,8 +5813,8 @@ quit
 The following example shows how to handle annotated curves and legends. 
 
 
-@c HTML <A HREF="example12.jpg">
-@c HTML <IMG ALT="Example 12" SRC="example12-tiny.jpg"
+@c HTML <A HREF="example12.png">
+@c HTML <IMG ALT="Example 12" SRC="example12-tiny.png"
 @c HTML ALIGN=top>
 @c HTML </A>
 @c HTML <A HREF="example12.html">The command-file.</A> <P>
@@ -5980,8 +5980,8 @@ Here is how you might draw an oceanographic "TS" (temperature salinity)
 diagram: 
 @cindex example 13, TS diagram, with isopycnals
 
-@c HTML <A HREF="example13.jpg">
-@c HTML <IMG ALT="Example 13" SRC="example13-tiny.jpg"
+@c HTML <A HREF="example13.png">
+@c HTML <IMG ALT="Example 13" SRC="example13-tiny.png"
 @c HTML ALIGN=top>
 @c HTML </A>
 @c HTML <A HREF="example13.html">The command-file.</A>
@@ -6433,7 +6433,7 @@ for ($i = 1; $i < $max_elem; $i++) @{
 @end example
 
 @c HTML The resultant image is below.
-@c HTML <IMG ALT="FEM image" SRC="FEM.jpg">
+@c HTML <IMG ALT="FEM image" SRC="FEM.png">
 
 
 
@@ -13879,22 +13879,22 @@ C-v}, the user is ready to print the file using a pull-down menu.
 @c HTML <p>
 @c HTML <A HREF="ScreenShot1.html">
 @c HTML <IMG ALT="Possible completions to `set font'." 
-@c HTML SRC="./screenshots/gri-screenshot-1-tiny.jpg" ALIGN=top></A>
+@c HTML SRC="./screenshots/gri-screenshot-1-tiny.png" ALIGN=top></A>
 @c HTML gri-mode displays possible completions to entered text.
 @c HTML <p>
 @c HTML <A HREF="ScreenShot2.html">
 @c HTML <IMG ALT="Displaying Help about current command." 
-@c HTML SRC="./screenshots/gri-screenshot-2-tiny.jpg" ALIGN=top></A>
+@c HTML SRC="./screenshots/gri-screenshot-2-tiny.png" ALIGN=top></A>
 @c HTML gri-mode display help about the current command.
 @c HTML <p>
 @c HTML <A HREF="ScreenShot3.html">
 @c HTML <IMG ALT="Cascading the command pull-down menu." 
-@c HTML SRC="./screenshots/gri-screenshot-3-tiny.jpg" ALIGN=top></A>
+@c HTML SRC="./screenshots/gri-screenshot-3-tiny.png" ALIGN=top></A>
 @c HTML The pull-down menu listing all gri commands.
 @c HTML <p>
 @c HTML <A HREF="ScreenShot4.html">
 @c HTML <IMG ALT="Getting set to print the PostScript output." 
-@c HTML SRC="./screenshots/gri-screenshot-4-tiny.jpg" ALIGN=top></A>
+@c HTML SRC="./screenshots/gri-screenshot-4-tiny.png" ALIGN=top></A>
 @c HTML The `Perform' menu to run gri, preview, print...
 
 @comment Next, genarate these new HTML files (sneaky).
@@ -13911,7 +13911,7 @@ separate frame because the user is using the @file{framepop.el} add-on
 package.  A similar effect can be obtained using @code{special
 buffers} in Emacs.
 
-@c HTML <IMG SRC="./screenshots/gri-screenshot-1.jpg"></A>
+@c HTML <IMG SRC="./screenshots/gri-screenshot-1.png"></A>
 
 @c HTML <!-- newfile ScreenShot2.html "Gri: Screenshot 2" "Screenshot 2" -->
 @node   Screenshot 2, Screenshot 3, Screenshot 1, Gri-mode screenshots
@@ -13923,7 +13923,7 @@ forgetting what valid font name could be used, then invoked @kbd{C-c
 C-h} to get help about that command. The user found the needed
 information and finished typing in `Helvetica'.
 
-@c HTML <IMG SRC="./screenshots/gri-screenshot-2.jpg"></A>
+@c HTML <IMG SRC="./screenshots/gri-screenshot-2.png"></A>
 
 @c HTML <!-- newfile ScreenShot3.html "Gri: Screenshot 3" "Screenshot 3" -->
 @node   Screenshot 3, Screenshot 4, Screenshot 2, Gri-mode screenshots
@@ -13933,7 +13933,7 @@ information and finished typing in `Helvetica'.
 Here we see the user cascading through the Gri commands pull-down menu
 until @code{draw axes frame} is reached.
 
-@c HTML <IMG SRC="./screenshots/gri-screenshot-3.jpg"></A>
+@c HTML <IMG SRC="./screenshots/gri-screenshot-3.png"></A>
 
 @c HTML <!-- newfile ScreenShot4.html "Gri: Screenshot 4" "Screenshot 4" -->
 @node   Screenshot 4, Installing gri-mode.el, Screenshot 3, Gri-mode screenshots
@@ -13944,7 +13944,7 @@ With the output previewed in a @code{gv} window after
 pressing @kbd{C-c C-v}, the user is ready to print the
 file using a pull-down menu.
 
-@c HTML <IMG SRC="./screenshots/gri-screenshot-4.jpg"></A>
+@c HTML <IMG SRC="./screenshots/gri-screenshot-4.png"></A>
 @end ifhtml
 
 @c HTML <!-- newfile Emacs2.html "Gri: Installing Emacs Mode" "Installing Emacs Mode" -->

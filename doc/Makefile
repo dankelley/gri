@@ -36,11 +36,11 @@ test:
 	cat test.texi | texinfo2HTML > test.html
 
 html: gri.texi gri.info
-	cd examples ; make jpg
-	cp examples/*.jpg ./
+	cd examples ; make png
+	cp examples/*.png ./
 	cd examples ; make html
 	cp examples/*.html ./
-	cd screenshots; make jpg
+	cd screenshots; make png
 	cat gri.texi     		>  TMP
 	perl make_html_commandindex	>> TMP
 	perl make_html_builtinindex	>> TMP
@@ -72,13 +72,13 @@ html-install:	html
 	chmod a+rx             $(HTML_DIR)/resources
 	cp resources/*.gif     $(HTML_DIR)/resources
 	chmod 644              $(HTML_DIR)/resources/*.gif
-	cp examples/*.jpg      $(HTML_DIR)/
-	chmod 644              $(HTML_DIR)/*.jpg
+	cp examples/*.png      $(HTML_DIR)/
+	chmod 644              $(HTML_DIR)/*.png
 	install -d             $(HTML_DIR)/screenshots
 	chmod a+rx             $(HTML_DIR)/screenshots
-	cp screenshots/*.jpg   $(HTML_DIR)/screenshots
+	cp screenshots/*.png   $(HTML_DIR)/screenshots
 	chmod a+rx             $(HTML_DIR)/screenshots
-	chmod 644              $(HTML_DIR)/screenshots/*.jpg
+	chmod 644              $(HTML_DIR)/screenshots/*.png
 	cp *.html              $(HTML_DIR)
 	chmod 644              $(HTML_DIR)/*.html
 #       Now install the examples
@@ -105,7 +105,7 @@ html-clean:
 	rm -rf HIDE_FILE
 	mkdir HIDE_FILE
 	mv FAQ.html HIDE_FILE
-	-rm -f [A-Z]*.html *.jpg example*.html gri1.html index.html html
+	-rm -f *.html *.png html
 	mv HIDE_FILE/FAQ.html .
 	rm -rf HIDE_FILE
 
@@ -166,7 +166,7 @@ clean:	info-clean html-clean debian-clean card-clean
 		FAQ cmdrefcard.ps refcard.ps
 	(cd examples; make clean)
 	(cd screenshots; make clean)
-	(cd resources; make clean)
+#	(cd resources; make clean)
 
 help:
 	@echo "Options:"
@@ -206,9 +206,6 @@ gri.pdf: gri.ps
 
 
 # Debian stuff follows
-# $(prefix) is either ../debian/gri-html-doc/usr/share/doc
-#                     ../debian/gri-ps-doc/usr/share/doc
-#                     ../debian/tmp/usr/share/doc
 refcard.ps:	refcard.tex
 	tex refcard.tex
 	dvips -o refcard.ps -t landscape refcard.dvi
@@ -230,16 +227,14 @@ debian-info: gri.texi
 	rm -f a
 	touch debian-info
 
-# make debian-html prefix=../debian/gri-html-doc/usr/doc
+# make debian-html DOC_DIR=../debian/gri-html-doc/usr/share/doc/gri-html-doc
 debian-html:
-	rm -fR $(prefix)/gri-html-doc/examples
-	rm -fR $(prefix)/gri-html-doc/html/examples
-	make html-install HTML_DIR=$(prefix)/gri-html-doc/html
+	make html-install
 
-# make debian-ps PREFIX=../debian/gri-ps-doc/usr/doc
+# make debian-ps DOC_DIR=../debian/gri-ps-doc/usr/share/doc/gri-ps-doc
 debian-ps: gri.ps
-	install -d $(prefix)/gri-ps-doc
-	install -m 644 gri.ps $(prefix)/gri-ps-doc
+	install -d $(DOC_DIR)
+	install -m 644 gri.ps $(DOC_DIR)
 
 debian-clean:
 	-rm debian-info

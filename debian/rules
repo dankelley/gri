@@ -44,8 +44,8 @@ Makefile:
 
 # Build architecture-independent files here.
 binary-indep: debian/copyright Makefile
-	(cd doc; make debian-ps prefix=`pwd`/../debian/gri-ps-doc/usr/share/doc)
-	(cd doc; make debian-html prefix=`pwd`/../debian/gri-html-doc/usr/share/doc)
+	(cd doc; make debian-ps DOC_DIR=../debian/gri-ps-doc/usr/share/doc/gri-ps-doc)
+	(cd doc; make debian-html DOC_DIR=../debian/gri-html-doc/usr/share/doc/gri-html-doc)
 	rm -f debian/*debhelper
 	dh_testdir -i
 	dh_testroot -i
