@@ -55,16 +55,15 @@ scp index.php psg@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
 
     <TABLE width="100%" border=0 cellspacing=0 cellpadding=0 bgcolor="#737b9c">
       <TR>
-        <td align="left" width="50%">
+        <td align="left" width="100%">
           <SPAN class=maintitlebar>
 	  <A 
 	  class="maintitlebar" 
-	  href="http://sourceforge.net/"
+	  href="http://sourceforge.net/">
 	  <IMG src="http://sourceforge.net/sflogo.php?group_id=5511&type=1" width="88" height="31" border="0" alt="SourceForge Logo">
 	  </A>
 	  </span>
         </td>
-        <td align="right" width="50%"><SPAN class=maintitlebar><IMG src="./images/blank.gif" height="1" width="145" border=0 alt=""></span></td>
       </tr>
     </table>
 
@@ -86,7 +85,6 @@ scp index.php psg@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
 	    <!-- DOWNLOAD STABLE -->
             <tr>
               <TD align="center" bgcolor="#737b9c">
-                <IMG src="./images/blank.gif" height="1" width="1" border=0 alt=""><BR>
                 <span class="maintitlebar"><font color="#ffffff">Download Stable Release</font></span>
                 </td> </tr>
                 <tr>
@@ -115,7 +113,6 @@ scp index.php psg@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
 	    <!-- DOWNLOAD UNSTABLE -->
             <tr> 
               <TD align="center" bgcolor="#737b9c">
-                <IMG src="./images/blank.gif" height="1" width="1" border=0 alt=""><BR>
                 <span class="maintitlebar"><font color="#ffffff">Download Unstable Release</font></span>
               </td>
             </tr>
@@ -136,7 +133,6 @@ scp index.php psg@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
 	    <!-- GENERAL DOWNLOAD AREA -->
             <tr> 
               <TD align="center" bgcolor="#737b9c">
-                <IMG src="./images/blank.gif" height="1" width="1" border=0 alt=""><BR>
                 <span class="maintitlebar"><font color="#ffffff">Download Any Release</font></span>
               </td>
             </tr>
