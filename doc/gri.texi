@@ -16471,6 +16471,12 @@ only in the fixing of bugs.
 
 @item
 Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=1019141&group_id=5511&atid=105511,#1019141}
+@dots{} @code{draw arc} ignores the present pen color
+
+
+@item
+Fix SourceForge bug
 @uref{http://sourceforge.net/tracker/index.php?func=detail&aid=997741&group_id=5511&atid=105511,#997741}
 @dots{} PostScript broken on images with y-axis decreasing, and enclosed by PostScript clipping
 
