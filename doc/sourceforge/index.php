@@ -222,7 +222,7 @@ Search gri manual for (may be a regular expression):<p>
     </tr>
     <tr> 
       <td  class="menubox">
-	Stable version 
+	Version
 	<a href="http://sourceforge.net/project/showfiles.php?group_id=5511&release_id=75100">2.8.6</a>
 	released
 	<? 
@@ -276,7 +276,7 @@ Search gri manual for (may be a regular expression):<p>
      </tr>
      <tr>
        <td align="left">
-       Version 2.8.7 arriving in early April; pre-release #5 is
+       Version 2.8.7 to be released in mid April; a pre-release is
        <a href="./pre5/">available</a> for testing
        </td>
      </tr>
@@ -291,11 +291,11 @@ Search gri manual for (may be a regular expression):<p>
      </tr>
      <tr> 
        <td  class="menus" align="left">
-<!--	 <a class="menus" href="http://www.sourceforge.net/forum/forum.php?forum_id=134278">Announcements</a></b>-->
-	 <a class="menus" href="http://www.sourceforge.net/news/?group_id=5511">News forum</a></b>
+<!--	 <a class="menus" href="http://www.sourceforge.net/forum/forum.php?forum_id=134278">Announcements</a>-->
+	 <a class="menus" href="http://www.sourceforge.net/news/?group_id=5511">News forum</a>
          <br>
 <A class="menus"
-HREF="http://gri.sourceforge.net/gridoc/html/Version_2_8.html#Version2.8">History of version 2.8.x</a><br>
+HREF="http://gri.sourceforge.net/gridoc/html/Version_2_8.html#Version2.8">History of 2.8.x</a><br>
 
        </td>
      </tr>
