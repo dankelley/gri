@@ -96,10 +96,10 @@ scp index.php psg@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
 		    <b>Debian GNU/Linux</b><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.8.6-0potato1_i386.deb">Package for Potato</a><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.8.7-1_i386.deb">Package for Woody</a><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.7static_2.8.7-1_i386.deb">Static Deb (no docs)</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.7static_2.8.7-1_i386.deb">Static, no docs</a><br>
                     <A class="menus" HREF="http://packages.debian.org/unstable/science/gri.html">gri at Debian</A><br>
-                    <A class="menus" HREF="http://packages.debian.org/unstable/doc/gri-html-doc.html">HTML manual at Debian</A><br>
-                    <A class="menus" HREF="http://packages.debian.org/unstable/doc/gri-ps-doc.html">PS manual at Debian</A><br>
+                    <A class="menus" HREF="http://packages.debian.org/unstable/doc/gri-html-doc.html">HTML manual</A><br>
+                    <A class="menus" HREF="http://packages.debian.org/unstable/doc/gri-ps-doc.html">PS manual</A><br>
 		    <b>Other Systems</b><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.7-SunOS5.tar.gz">Solaris OS5</a><br>
 		    <A class="menus" HREF="http://gnuwin32.sourceforge.net/packages/gri.htm">Windows</a><br>
@@ -122,7 +122,7 @@ scp index.php psg@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
                 <b>None available yet</b>
  -->
 		<b>General tarball</b><br>
-                  <A class="menus" HREF="http://people.debian.org/~psg/gri-cvs/gri_2.9.0.orig.tar.gz">CVS tar 2002-01-07</A><br>
+                  <A class="menus" HREF="http://people.debian.org/~psg/gri-cvs/gri_2.9.0.orig.tar.gz">CVS tar 2002-04-08</A><br>
                 <b>Linux Pre-packaged</b><br>
                   <A class="menus" HREF="http://people.debian.org/~psg/gri-cvs.html">CVS Debian packages</A><br>
               </td>
