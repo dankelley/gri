@@ -96,6 +96,8 @@ then
 fi
 
 %changelog
+* Thu Mar 11 2004 <Dan.Kelley@Dal.Ca>
+- fix SF bug 914125 (all offpage points reported to have been drawn by 'draw curve')
 * Thu Jan 15 2004 <Dan.Kelley@Dal.Ca>
 - fix SF bug 877613 ('help' broken; cannot use temporary files)
 - fix SF bug 875881 ('draw image' broken with GCC 2.95)

@@ -16436,6 +16436,12 @@ only in the fixing of bugs.
 
 @item
 Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=914125&group_id=5511&atid=105511,#914125}
+@dots{} offpage points in axes were reported as having been drawn by @code{draw curve}.
+
+
+@item
+Fix SourceForge bug
 @uref{http://sourceforge.net/tracker/index.php?func=detail&aid=877613&group_id=5511&atid=105511,#877613}
 @dots{} @code{help} (and other commands using temporary files) does not work in OSX/Fink version.
 
