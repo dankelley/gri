@@ -369,6 +369,14 @@ dnl     checks for header files
 dnl     stdarg.h, stdlib.h
 AC_HEADER_STDC
 
+dnl	Check whether system has libpopt online.  For
+dnl	now, this check value is not used; later on 
+dnl	I should skip the compilation of my local
+dnl	popt if there is a version online.
+AC_CHECK_LIB(popt, poptReadConfigFile,
+AM_CONDITIONAL(OS_HAS_POPT, test 1=1),
+AM_CONDITIONAL(OS_HAS_POPT, test 0=1))
+
 dnl     checks for typedefs
 AC_TYPE_PID_T
 
