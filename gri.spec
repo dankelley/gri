@@ -96,6 +96,48 @@ then
 fi
 
 %changelog
+* Mon 2001-oct-1 Dan Kelley <Dan.Kelley@Dal.Ca>
+- Release as gri-2.8.3 on SourceForge.Net site.
+- Fix SourceForge bug #462243 (endian problem in Rasterfile images, 
+  plus a reading problem in PGM images).
+
+* Mon 2001-oct-10 Dan Kelley <Dan.Kelley@Dal.Ca>
+- Release as gri-2.8.2 on SourceForge.Net site.
+- Really Fix SourceForge bug #454557 (wouldn't compile with the
+  pre-release version 3.0.1 of the GNU c++ compiler). 
+  This closes SourceForge Bug #111093.
+
+* Mon 2001-sep-6 Dan Kelley <Dan.Kelley@Dal.Ca>
+- Release as gri-2.8.1 on SourceForge.Net site.
+- Fix SourceForge bug #450465 (`create columns from function' was broken).
+- Fix SourceForge bug #454557 (wouldn't compile with the pre-release 
+  version 3.0.1 of the GNU c++ compiler; closes: #111093)
+
+* Mon 2001-jul-23 Dan Kelley <Dan.Kelley@Dal.Ca>
+- Release as gri-2.8.0 on SourceForge.Net site.
+- Add `unlink' command as a unix-familiar way to delete files.
+- Add `set page size' command to clip to a given page size.
+- Add `substr' RPN operator to permit extraction of sub-strings.
+- Add `default' for the `set x name' and the `set y name' commands.
+- Add Perl-like ability to put underscores in numerical constants
+    (`.v. = 1_000' and `.v. = 1000' are completely equivalent).
+- In Emacs mode, change <M-Tab> so that it completes builtin 
+  variables and synonyms as well as commands. 
+- In Emacs mode, add "idle-timer help" to display defaults
+  for builtin variables under cursor.
+- In Emacs mode, make fontification of builtin variables apply 
+  only if spelled correctly.
+- To Makefile, add `make source-arch-indep' target in sources.  
+  This will build a source tar file in which all the 
+  architecture-independent material (documentation in HTML, 
+  postscript and Info formats) is pre-made.  This makes it 
+  easier to install gri on a host that doesn't have  TeX and
+  ImageMagick installed.
+- Move gri-html-doc and gri-ps-doc documentation files to 
+  the /usr/share/doc/gri directory
+- Ensure that package compiles with Standards-Version: 3.5.5
+  without changes.
+
 * Tue Jul 24 2001 Dan Kelley <dan.kelley@dal.ca>
 - Bump up version number to 2.8.0
 
@@ -105,16 +147,18 @@ fi
   point to sourceforge site (but leave ftp as it is, for now anyway).
 
 * Tue Jan 30 2001  Dan Kelley <dan.kelley@dal.ca>
-- Changing to e.g. /usr/share/info instead of /usr/info.  Same for manpages.  I 
-  know, I should be using the fancy macros that are defined in /usr/lib/rpm, but
-  these seemed contradictory, with respect to where things are in my Redhat 7.0
-  setup ... and I had a hard time figuring out how to use these macros anyway,
-  so I just gave up and hard-wired them in, using the new directories as
-  used in Redhat 7.0, as opposed to the (different) directories in all the other
-  Redhat versions I've had.  Someday I'll switch to using macros, but
-  it means changing both this spec-file and various Makefiles, and I need to
-  be sure that changes to the Makefiles don't hurt the distributions for Debian
-  linux, for solaris, etc.
+- Changing to e.g. /usr/share/info instead of /usr/info.  Same for 
+  manpages.  I know, I should be using the fancy macros that are 
+  defined in /usr/lib/rpm, but these seemed contradictory, with 
+  respect to where things are in my Redhat 7.0 setup ... and I
+  had a hard time figuring out how to use these macros anyway,
+  so I just gave up and hard-wired them in, using the new 
+  directories as used in Redhat 7.0, as opposed to the (different)
+  directories in all the other Redhat versions I've had.  Someday
+  I'll switch to using macros, but it means changing both this 
+  spec-file and various Makefiles, and I need to be sure that 
+  changes to the Makefiles don't hurt the distributions for 
+  Debian linux, for solaris, etc.
 
 * Thu Jun  1 2000  Dan Kelley <dan.kelley@dal.ca>
 - Triv changes here; code changes are to read compressed files, and
