@@ -1,2 +1,37 @@
 show "doc/tst_suite/tst_var_syn.gri ..." ...
+rpnfunction same - abs 1e-10 >		# tests if two numbers match to 1e-10
+
+# New and delete (variables)
+ .v. = 1
+new .v.
+.v. = 2
+assert {rpn .v. 2 same}			" failed test 1"
+assert {rpn ".v." defined}		" failed test 2"
+delete .v.
+assert {rpn .v. 1 same}			" failed test 3"
+assert {rpn ".v." defined}		" failed test 4"
+delete .v.
+assert {rpn ".v." defined !}		" failed test 5"
+
+# New and delete (synonyms)
+\v = "hi"
+new \v
+\v = "hello"
+assert {rpn "\v" "hello" ==}		" failed test 6"
+assert {rpn "\\v" defined}		" failed test 7"
+delete \v
+assert {rpn "\v" "hi" ==}		" failed test 8"
+assert {rpn "\\v" defined}		" failed test 9"
+delete \v
+assert {rpn "\\v" defined !}		" failed test 10"
+
+# Multi-word synonyms
+\h = "Hi there buddy"
+assert {rpn "\[0]h" "Hi" ==}		" failed test 11"
+assert {rpn "\[1]h" "there" ==}		" failed test 12"
+assert {rpn "\[2]h" "buddy" ==}		" failed test 13"
+\h = "Hi means \"hello\""
+assert {rpn "\[0]h" "Hi" ==}		" failed test 14"
+assert {rpn "\[1]h" "means" ==}		" failed test 15"
+assert {rpn "\[2]h" "\"hello\"" ==}	" failed test 16"
 show " passed"
