@@ -230,7 +230,7 @@ start_up(int argc, char **argv)
 			psname.append(".ps");
 		}
 		if (!push_cmd_file(fname.c_str(), false, false, "r")) {
-			fprintf(stderr, "Cannot open commandfile `%s'\n", fname.c_str());
+			fprintf(stderr, "Gri cannot open commandfile `%s'\n", fname.c_str());
 			delete_ps_file();
 			gri_exit(1);
 		}
@@ -825,7 +825,7 @@ interpret_optional_arguments(int argc, char *argv[])
 				printf("got superuser as %d\n",ival);
 			} else {
 				PUT_VAR("..superuser..", 1.0);
-				printf("CANNA READ in '%s'\n",optArg);
+				printf("Gri cannot read in '%s'\n",optArg);
 			}
 			break;
 		default:
