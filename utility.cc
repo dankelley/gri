@@ -2379,8 +2379,10 @@ is_column_name(const char* n)
 		for (int ii = int((c).size()); ii <= (i); ii++) {\
 			(c).push_back(0.0); \
                 } \
+	        PUT_VAR("..num_col_data..", double(i));\
         } \
-	(c)[index] = (v); \
+	(c)[(i)] = (v); \
+	_columns_exist = true;\
 }
 
 bool

@@ -1303,6 +1303,7 @@ draw_curveCmd()
 	set_line_width_curve();
 	GriPath  path(i_max);
 	for (int i = 0; i < i_max; i++) {
+		//printf("i %d   x %f   y %f\n", i, *xp, *yp);
 		if (!gr_missingx((double) *xp)
 		    && !gr_missingy((double) *yp)
 		    && inside_box((double) *xp, (double) *yp)) {

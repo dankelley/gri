@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.224 2002/12/07 14:21:26 dankelley Exp $
+@c $Id: gri.texim,v 1.225 2002/12/15 00:43:53 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -12503,6 +12503,9 @@ To set all the y data to 10, do @code{y = 10}.  (This will only work if
 you've already read column data.)
 @end itemize
 
+See also @ref{Tertiary Operators} for a method of assigning or altering column data
+using the RPN operator.
+
 @subsection Grid data
 @cindex grid data mathematical operations
 @cindex mathematics, on grid data
@@ -12692,9 +12695,8 @@ or even other legal @code{rpnfunction} constructs.  For details,
 @node   Tertiary Operators, Binary Operators, Rpn Functions, rpn Mathematics
 @comment  node-name,  next,  previous,  up
 @subsection Tertiary Rpn Operators
-
-
 @table @code
+
 
 @item @{rpn 0 4 "hello" substr @}
 @cindex RPN operator @code{substr}
@@ -12798,11 +12800,13 @@ the asignment operator @code{=}, described next.)
 
 
 @item @{rpn 10 ".ten." =@}
-@cindex @code{=} rpn operator
+@cindex @code{=} rpn operator assigns to variables, synonyms, and columns
 @cindex rpn operator @code{=}
-@cindex assigning to variables and synonyms within RPN expressions
+@cindex assigning to columns, variables and synonyms within RPN expressions
 @cindex variables, assigning within RPN expressions
 @cindex synonyms, assigning within RPN expressions
+@cindex columns, assigning within RPN expressions
+@cindex column dat, assigning within RPN expressions
 
 Assign the value @code{10} to the variable named @code{.ten.}.  The
 variable name must be put in quotes, or else Gri will insert the value
@@ -12824,6 +12828,20 @@ described above.
 Assign the value @code{"hello"} to the synonym @code{\greeting}.  See
 notes at the above item.
 
+@item @{rpn 3.14159 0 x =@}
+Assign the value Pi to the first element (at index @code{0}) 
+of the @code{x} column.  All columns may be assigned to in this way, e.g.
+the following is a technique for plotting a quadratic function:
+@example
+.i. = 0
+.n. = 10
+while @{rpn .i. .n. >@}
+    @{rpn .i. .n. 1 - /     .i. "x" =@}
+    @{rpn x .i. @@ 2 power  .i. "y" =@}
+    .i. += 1
+end while
+draw curve
+@end example
 
 @item @{rpn 0 1 &@}
 @cindex @code{&} rpn operator
