@@ -2,9 +2,9 @@
 require("subroutines.php");
 set_up_navigation_tabs("index", "main.png");
 set_up_lhs();
-print "<font size=\"+3\">G r i</font><br><br><br><br>\n";
-print "<font size=\"+3\">V e r s i o n</font><br><br><br><br>\n";
-print "<font size=\"+3\">$gri_stable_version</font><br><br><br>\n";
+print "<font size=\"+2\">G r i</font><br><br><br><br>\n";
+print "<font size=\"+2\">V e r s i o n</font><br><br><br><br>\n";
+print "<font size=\"+2\">$gri_stable_version</font><br><br><br>\n";
 set_up_rhs();
 ?>
 
