@@ -697,23 +697,28 @@ show_imageCmd()
 	ShowStr(_grTempString);
 	sprintf(_grTempString, "\
 Image histogram:\n\
- Image #      Physical value       Percentage  Each * represents 2%% of pixels\n\
+ Image #       Physical value      Percentage  Each * represents 2%% of pixels\n\
 --------  -----------------------  ----------  ------------------------------\n");
 	ShowStr(_grTempString);
 	calculate_image_histogram();
 	sum = 0.0;
+	unsigned int modulo = 16;
+	if (_chatty == 2)
+		modulo = 8;
+	else if (_chatty == 3)
+		modulo = 4;
 	for (unsigned int i = 0; i < 256; i++) {
 		sum += _imageHist[i];
-		if (i && (!(i % 16) || i == 255)) {
-			sprintf(_grTempString, "%3d->%3d ", i - 16, i);
+		if (i && (!(i % modulo) || i == 255)) {
+			sprintf(_grTempString, "%3d->%3d ", i - modulo, i);
 			ShowStr(_grTempString);
-			sprintf(_grTempString, "%11g->%11g  %10.3f ",
-				_image0 + (i - 16) * (_image255 - _image0) / 255.0,
+			sprintf(_grTempString, "%11g->%11g  %10.3f  ",
+				_image0 + (i - modulo) * (_image255 - _image0) / 255.0,
 				_image0 + i * (_image255 - _image0) / 255.0,
 				100.0 * sum);
 			ShowStr(_grTempString);
 			if (sum > 0.0) {
-				unsigned int num = (unsigned int) floor(50.0 * sum);
+				unsigned int num = (unsigned int) floor(50.0 * sum + 0.5);
 				for (unsigned int j = 0; j < num; j++) {
 					ShowStr("*");
 				}

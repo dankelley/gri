@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.203 2002/06/16 13:20:24 dankelley Exp $
+@c $Id: gri.texim,v 1.204 2002/07/03 18:59:05 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -555,6 +555,14 @@ were missing or outside clip region (if one exists).
 @code{open "...|"} prints the command to be passed to the operating
 system as well as the name of the temporary file being created; also
 notifies user when the temporary file is destroyed.
+
+@code{show image} reports histograms in intensity bands of 8 units, 
+instead of the default 16 units.
+
+@item @strong{3 or higher}
+@code{show image} reports histograms in intensity bands of 4 units, 
+instead of the default 16 units.
+
 @end itemize
 
 @item  @code{-debug} or @code{-d}

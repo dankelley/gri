@@ -1779,13 +1779,11 @@ This is not a PGM file, since the first 2 characters\n\
 		err("Cannot read `width' of pgm file");
 		return false;
 	}
-	printf("WIDTH= %d\n",width);
 	skip_hash_headers(fp);
 	if (1 != fscanf(fp, "%d", &height)) {
 		err("Cannot read `height' of pgm file");
 		return false;
 	}
-	printf("image is %d by %d\n", width, height);
 	skip_hash_headers(fp);
 	if (file_type == P2_type || file_type == P5_type) {
 		if (1 != fscanf(fp, "%d", &max_gray)) {
