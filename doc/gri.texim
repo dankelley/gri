@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.237 2003/02/13 14:02:37 dankelley Exp $
+@c $Id: gri.texim,v 1.238 2003/02/13 21:19:55 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -55,8 +55,8 @@
 @comment %**start of header
 @setfilename gri.info
 @settitle Gri
-@set GRI-VERSION 2.12.2
-@set GRI-PREVIOUS-VERSION 2.12.1
+@set GRI-VERSION 2.12.3
+@set GRI-PREVIOUS-VERSION 2.12.2
 @set AUTHOR-EMAIL Dan.Kelley@@Dal.CA
 @c %**end of header
 @iftex
