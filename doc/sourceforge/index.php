@@ -90,12 +90,12 @@ scp index.php psg@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
                 <tr>
                   <td class="menus" align="right">
 		    <b>Source [buildable docs]</b><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.4.tgz">gri-2.8.4.tgz</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.5.tgz">gri-2.8.5.tgz</a><br>
 		    <b>Source [pre-built docs]</b><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.4-arch-indep.tar.gz">gri-2.8.4-arch-indep.tar.gz</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.5-arch-indep.tar.gz">gri-2.8.5-arch-indep.tar.gz</a><br>
 		    <b>RedHat Linux</b><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.4-1.src.rpm">gri-2.8.4-1.src.rpm</a><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.4-1.i386.rpm">gri-2.8.4-1.i386.rpm</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.5-1.src.rpm">gri-2.8.5-1.src.rpm</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.5-1.i386.rpm">gri-2.8.5-1.i386.rpm</a><br>
 		    <b>Debian GNU/Linux</b><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.8.4-0potato1_i386.deb">2.8.4 for Potato</a><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.8.4-1_i386.deb">2.8.4 for Woody</a><br>
@@ -219,7 +219,7 @@ Search gri manual for (may be a regular expression):<p>
     <tr> 
       <td  class="menubox">
 	Stable version 
-	<a href="http://sourceforge.net/project/showfiles.php?group_id=5511&release_id=56363">2.8.4</a>
+	<a href="http://sourceforge.net/project/showfiles.php?group_id=5511&release_id=65554">2.8.5</a>
 	released
 	<? 
 	# REF: mktime(hour,minute,second,month,day,year)
@@ -232,7 +232,9 @@ Search gri manual for (may be a regular expression):<p>
 	# Vsn 2.8.3: 2001-oct-01
 	#$diff = time() - mktime(10, 58, 0, 10, 01, 2001);
 	# Vsn 2.8.4: 2001-oct-9 3:19 Halifax time
-	$diff = time() - mktime(11, 19, 0, 10, 9, 2001);
+	#$diff = time() - mktime(11, 19, 0, 10, 9, 2001);
+	# Vsn 2.8.5: 2001-dec-13 18:00 Halifax time, 14:00 SF time
+	$diff = time() - mktime(14, 0, 0, 12, 13, 2001);
 	$days = floor($diff / 24 / 60 / 60);
 	$weeks = floor($days / 7);
 	$months = floor($days / 7 / 4);
