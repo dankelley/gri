@@ -96,6 +96,9 @@ then
 fi
 
 %changelog
+* Thu Apr  4 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
+- Add 'set x axis labels' and 'set y axis labels' commands
+
 * Mon Mar 18 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
 - Permit 'draw label' coordinates in pt
 
