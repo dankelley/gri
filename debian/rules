@@ -10,10 +10,18 @@ version=$(shell expr `pwd` : '.*-\([0-9.]*\)')
 #version=2.5.5
 somefutureversion=2.8.0
 
+CXXFLAGS = -O2 -Wall
+ifneq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
+CXXFLAGS += -g
+endif
+ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
+STRIPIT=1
+endif
+
 build: gri
 gri:    Makefile
 	dh_testdir
-	$(MAKE) CXXFLAGS="-O2 -g -Wall" libdir=/usr/share/gri/$(version)
+	$(MAKE) CXXFLAGS=${CXXFLAGS} libdir=/usr/share/gri/$(version)
 
 clean:
 	dh_testdir
@@ -57,7 +65,7 @@ binary-indep: debian/copyright Makefile
 	dh_compress -i -X.jpg -Xlogo.gri
 #	find debian -name "logo.gri.gz" -exec gunzip '{}' \;
 	dh_fixperms -i
-	dh_suidregister -i
+#	dh_suidregister -i
 	dh_installdeb -i
 	dh_gencontrol -i
 	dh_md5sums -i
@@ -77,10 +85,12 @@ binary-arch: debian/copyright build install
 	dh_installinfo doc/gri.info*
 	dh_installmanpages -a doc/gri-manpage-redhat.1 doc/gri-manpage.1
 	dh_installchangelogs -a 
-	dh_strip -a
+        ifdef STRIPIT
+		dh_strip -a
+        endif
 	dh_compress -a
 	dh_fixperms -a
-	dh_suidregister -a
+#	dh_suidregister -a
 	dh_installdeb -a
 	dh_shlibdeps -a
 	dh_gencontrol -a
@@ -111,10 +121,12 @@ binary-arch-unofficial:    debian/copyright build
 	dh_installdocs -a -A README debian/README.Debian
 	dh_installmanpages -a doc/gri-manpage-redhat.1 doc/gri-manpage.1
 	dh_installchangelogs -a 
-	dh_strip -a
+        ifdef STRIPIT
+		dh_strip -a
+        endif
 	dh_compress -a
 	dh_fixperms -a
-	dh_suidregister -a
+#	dh_suidregister -a
 	dh_installdeb -a
 	dh_shlibdeps -a
 	dh_gencontrol -a
