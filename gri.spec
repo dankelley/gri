@@ -96,6 +96,9 @@ then
 fi
 
 %changelog
+* Thu Feb 7 2002  Dan Kelley <Dan.Kelley@Dal.Ca>
+- Fix Sourceforge bug #513002 (minor error in documentation of 'set clip').
+
 * Mon Jan 28 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
 - Fix Sourceforge bug #509592 (doc HTML indices misordered).
 
