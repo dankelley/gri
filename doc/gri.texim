@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.172 2002/05/04 12:29:57 dankelley Exp $
+@c $Id: gri.texim,v 1.173 2002/05/04 13:08:40 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -54,7 +54,7 @@
 @setfilename gri.info
 @settitle Gri
 @set GRI-VERSION 2.9.0
-@set GRI-PREVIOUS-VERSION 2.8.6
+@set GRI-PREVIOUS-VERSION 2.8.8
 @set AUTHOR-EMAIL Dan.Kelley@@Dal.CA
 @c %**end of header
 @iftex
@@ -16249,6 +16249,15 @@ only in the fixing of bugs.
 @comment  node-name,  next,  previous,  up
 @subsection Version 2.8
 
+@subsection Version 2.8.8 [2002 ??? ??]
+@item
+Fix SourceForge bug
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=552009&group_id=5511&atid=105511">
+#552009
+@c HTML </a>
+(@code{rpn} can segfault if @code{!=} operator is written as @code{=!})
+@end itemize
+
 @subsection Version 2.8.7 [2002 Apr 03]
 @itemize @bullet
 @item
@@ -16887,13 +16896,6 @@ Make the @code{-chatty} commandline option require a value (@ref{Invoking Gri}).
 
 
 @itemize
-
-@item
-Fix SourceForge bug
-@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=552009&group_id=5511&atid=105511">
-#552009
-@c HTML </a>
-(@code{rpn} can segfault if @code{!=} operator is written as @code{=!})
 
 @item
 Fix SourceForge bug

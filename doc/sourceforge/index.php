@@ -276,7 +276,7 @@ Search gri manual for (may be a regular expression):<p>
        <td align="left">
        <A class="menus" HREF="http://gri.sourceforge.net/Development_Version.html">Changes</a><br>
        <A class="menus" HREF="http://gri.sourceforge.net/Plans.html">Plans</a><br>
-       <A class="menus" HREF="http://gri.sourceforge.net/pre1">Version 2.8.8 preview #1</A><br>
+       <A class="menus" HREF="http://gri.sourceforge.net/pre1">Get Preview</A><br>
        </td>
      </tr>
    </table>
