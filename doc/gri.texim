@@ -15389,17 +15389,17 @@ the files of TexInfo, version 1999-03-26.17):
         \fi
       \endgroup
     \else
-!     \centerline{\pdfimage {#1.pdf}}%
+!     \centerline@{\pdfimage @{#1.pdf@}@}%
     \fi
-  }
+  @}
   
 --- 5481,5487 ----
         \fi
       \endgroup
     \else
-!     \centerline{\pdfimage #1.pdf}%
+!     \centerline@{\pdfimage #1.pdf@}%
     \fi
-  }
+  @}
 @end example
 
 @item
