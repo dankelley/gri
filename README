@@ -33,6 +33,12 @@ Compiling and Installing Gri
 
 	 make all
 
+     You'll need:
+
+       C++ compiler for compiling gri
+       netcdf libraries (if you want to be able to read netCDF files)
+       tex, texinfo, imagemagick, info, gs and its fonts to build the manual.
+
   3) Install gri and the manuals, by typing:
 
 	 make install
@@ -42,4 +48,10 @@ Copyright restrictions
 ======================
 
  The Gri programming languages, and all manuals and online help-files,
- are (c) 1991-1999 Dan E. Kelley <Dan.Kelley@Dal.CA>.
+ are (c) 1991-2000 Dan E. Kelley <Dan.Kelley@Dal.CA>.
+
+ The Gri Emacs mode (gri-mode.el) is (c) 1994-2000 Peter S. Galbraith
+ <GalbraithP@dfo-mpo.gc.ca>
+
+ Gri and gri-mode.el are distributed under the GPL, version 2.
+ See the file license.txt.
