@@ -1,3 +1,7 @@
+2002-05-16  Dan Kelley  <kelley@limit.phys.ocean.dal.ca>
+
+	* gri.cmd, doc/gri.texim, and some code:  rename variables such as .ll_x. as .xleft., thus increasing uniformity and ease of understanding
+
 2002-05-07  Dan Kelley  <kelley@Limit.Phys.Ocean.Dal.Ca>
 
 	* configure.in (PROGS): remove the check for popt, which won't be used in the 2.x series (but remains, commented-out, for the 3.x series)
