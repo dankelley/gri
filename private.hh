@@ -183,7 +183,7 @@ char           *pwd(void);
 double          quantize(double x, int levels, double dx);
 bool            quoted(const char *string);
 bool            re_compare(const char *string, const char *pattern);
-void            remove_comment(char *cmdline);
+bool            remove_comment(char *cmdline);
 void            remove_esc_quotes(char *w);
 void            remove_trailing_blanks(char *s);
 bool            resolve_filename(string& fn, bool trace_path);  

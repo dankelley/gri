@@ -658,32 +658,44 @@ write_prompt()
 // remove_comment() -- fix command line 1) check that input line read OK 2)
 // remove the '\n' from fgets 3) remove trailing comments 4) remove trailing
 // blanks or tabs
-void
+//
+// Return true if there WAS a comment and it was the FIRST non-whitespace thing.
+bool
 remove_comment(char *s)
 {
-	register char  *sPtr;
-	register int    i, len;
-	int             inquote = 0;
-
 	// Discard trailing newlines (or control-M characters, which
 	// are added to newline in PC-ish systems), by converting
 	// them to nulls
-	len = strlen(s);
+	int len = strlen(s);
 	while (len > 1 && (s[len - 1] == '\n' || s[len - 1] == '\r'))
 		s[--len] = '\0';
 
 	// Discard comment on end
 	if (len > 0) {
-		for (sPtr = s, i = 0; i < len; i++, sPtr++) {
-			if (*sPtr == '"' || *sPtr == '\'')
+		bool inquote = false;
+		for (int i = 0; i < len; i++) {
+			if (s[i] == '"' || s[i] == '\'') {
 				inquote = !inquote;
-			else if (!inquote && (!strncmp(sPtr, "//", 2) || *sPtr == '#')) {
-				*sPtr = '\0';
+			} else if (!inquote 
+				   && ((s[i] == '/' && s[i+1] == '/')
+				   || s[i] == '#')) {
+				s[i] = '\0';
 				len = i;
 				break;
 			}
 		}
+		// Set a flag if there is now nothing but whitespace.
+		for (int i = 0; i < len; i++) {
+			//printf("\tEXAMINE [%c]\n", s[i]);
+			if (!isspace(s[i])) {
+				//printf("\t\tRETURNING false\n");
+				return false;
+			}
+		}
+		//printf("\t\tRETURNING true\n");
+		return true;
 	}
+	return false;
 }
 
 static void

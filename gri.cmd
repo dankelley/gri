@@ -2542,10 +2542,25 @@ file is not open, an error message will result.  Use `read from
     extern "C" bool read_from_filenameCmd(void);
 }
 
-`read line \synonym'
-Store the next line of datafile into the named synonym.
+`read line [raw] \synonym'
+Read the next line of the datafile (or commandfile) and then store the
+next line of datafile into the named synonym.  Normally, comments are
+removed from the line first, but if the keyword "raw" is present, then
+comments are retained.
 {
     extern "C" bool read_lineCmd(void);
+}
+
+`read [raw] [* [*...]] \synonym|{.variable. [.variable. ...]}'
+As the same command without the "raw" keyword, except that
+in this instance comments are not removed from the line before
+reading.
+
+If the optional `raw' keyword is not present, comments are first
+trimmed from the data line.  If `raw' is present, however, any
+comments are retained on the line.
+{
+    extern "C" bool read_synonym_or_variableCmd(void);
 }
 
 `read [* [*...]] \synonym|{.variable. [.variable. ...]}'

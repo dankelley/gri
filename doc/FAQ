@@ -1,75 +1,72 @@
 
                                  Introduction
                                        
-   This is the FAQ ("frequently asked questions") document
-   (http://www.phys.ocean.dal.ca/~kelley/gri/FAQ.html on the world wide
-   web) for the Gri scientific graphing language, (c) 1991-1997 Dan
-   Kelley [1](Dan.Kelley@Dal.Ca), to whom you are asked to [2]email
-   reports of Gri errors, or suggestions for Gri improvements or new
-   features.
+   This is the FAQ ("frequently asked questions") document for the Gri
+   scientific graphing language, (c) 1991-2000 Dan Kelley
+   (Dan.Kelley@Dal.Ca), to whom you are asked to email reports of
+   Gri errors, or suggestions for Gri improvements or new features.
    
                                  The Questions
                                        
 Q1 Features
 
-     * Q1.1 [3]What is Gri?
-     * Q1.2 [4]What does `Gri' stand for? How is it pronounced?
-     * Q1.3 [5]What does Gri cost?
-     * Q1.4 [6]How long will it take to learn Gri?
+     * Q1.1 What is Gri?
+     * Q1.2 What does `Gri' stand for? How is it pronounced?
+     * Q1.3 What does Gri cost?
+     * Q1.4 How long will it take to learn Gri?
        
 Q2 Documentation
 
-     * Q2.1 [7]Is there a quick-reference card for Gri?
-     * Q2.2 [8]Where can I get documentation for Gri?
-     * Q2.3 [9]Is there a cookbook of Gri program to use for guidance?
-     * Q2.4 [10]Is there a newsgroup for Gri?
-     * Q2.5 [11]Where can I get some sample Gri input files?
+     * Q2.1 Is there a quick-reference card for Gri?
+     * Q2.2 Where can I get documentation for Gri?
+     * Q2.3 Is there a cookbook of Gri program to use for guidance?
+     * Q2.4 Is there a newsgroup for Gri?
+     * Q2.5 Where can I get some sample Gri input files?
        
 Q3 Can Gri do ... ?
 
-     * Q3.1 [12]Can Gri do barcharts?
-     * Q3.2 [13]Can Gri do histograms?
-     * Q3.3 [14]Can Gri do error bars?
-     * Q3.4 [15]Can Gri draw labels for Tukey box plots?
-     * Q3.5 [16]Can Gri read compressed data files?
-     * Q3.6 [17]Can Gri use scientific notation on axes?
-     * Q3.7 [18]Can Gri label x-axis with day of week?
-     * Q3.8 [19]Can Gri draw maps?
+     * Q3.1 Can Gri do barcharts?
+     * Q3.2 Can Gri do histograms?
+     * Q3.3 Can Gri do error bars?
+     * Q3.4 Can Gri draw labels for Tukey box plots?
+     * Q3.5 Can Gri read compressed data files?
+     * Q3.6 Can Gri use scientific notation on axes?
+     * Q3.7 Can Gri label x-axis with day of week?
+     * Q3.8 Can Gri draw maps?
        
 Q4 Gri and other programs
 
-     * Q4.1 [20]Is Gri better than Fortran/C/... plotting subroutines?
-     * Q4.2 [21]How can I include Gri plots in LaTeX files?
-     * Q4.3 [22]How may I convert Gri output to GIF format?
-     * Q4.4 [23]Is there an Emacs mode for Gri?
+     * Q4.1 Is Gri better than Fortran/C/... plotting subroutines?
+     * Q4.2 How can I include Gri plots in LaTeX files?
+     * Q4.3 How may I convert Gri output to GIF format?
+     * Q4.4 Is there an Emacs mode for Gri?
        
 Q5 Evolution of Gri
 
-     * Q5.1 [24]Where can I get the latest version of Gri?
-     * Q5.2 [25]How can I find out the most recent features of Gri?
-     * Q5.3 [26]Should I keep my copy of Gri up-to-date?
-     * Q5.4 [27]How can I protect myself against changes to Gri?
+     * Q5.1 Where can I get the latest version of Gri?
+     * Q5.2 How can I find out the most recent features of Gri?
+     * Q5.3 Should I keep my copy of Gri up-to-date?
+     * Q5.4 How can I protect myself against changes to Gri?
        
 Q6 Gri on various computers
 
-     * Q6.1 [28]What computers does Gri work on?
-     * Q6.2 [29]What kind of compiler is required to compile gri?
-     * Q6.3 [30]Why can't I link my compiled gri? (on HP computer)
-     * Q6.4 [31]Is there a Macintosh version of Gri?
-     * Q6.5 [32]Is there a DOS/Windows version of Gri?
-     * Q6.6 [33]Is there a linux version of Gri?
+     * Q6.1 What computers does Gri work on?
+     * Q6.2 What kind of compiler is required to compile gri?
+     * Q6.3 Why can't I link my compiled gri? (on HP computer)
+     * Q6.4 Is there a Macintosh version of Gri?
+     * Q6.5 Is there a DOS/Windows version of Gri?
+     * Q6.6 Is there a linux version of Gri?
        
 Q7 Gri bugs
 
-     * Q7.1 [34]What are known bugs in Gri?
-     * Q7.2 [35]How can I report Gri bugs?
+     * Q7.1 What are known bugs in Gri?
+     * Q7.2 How can I report Gri bugs?
        
                                   The Answers
      _________________________________________________________________
    
 A1 Features
 
-   [36]
    
   A1.1 What is Gri?
   
@@ -81,7 +78,6 @@ A1 Features
    frills; e.g., it does not do 3D mesh plots, because the author
    dislikes them. Gri is command-driven, not mouse driven.
    
-   [37]
    
   A1.2 What does `Gri' stand for? How is it pronounced?
   
@@ -90,26 +86,23 @@ A1 Features
    Gri can be used interactively -- that is, Gri is an interpreted
    language whereas Gr is a compiled language. `Gri' rhymes with `try'.
    
-   [38]
    
   A1.3 What does Gri cost?
   
-   Gri is free. A commercial version, called [39]Gre (rhymes with `tree')
-   will be made available in late 1997 or early 1998. It contains most of
-   Gri as a subset, but also contains quite a lot of the Perl language as
-   well, so that it is a fully functional (and efficient) interpreted
-   programming language.
+   Gri is free. A commercial version, called Gre (rhymes with `tree')
+   will be made available soon. It contains most of Gri as a subset, but
+   also contains quite a lot of the Perl language as well, making it a
+   fully functional and efficient programming language.
    
-   [40]
    
   A1.4 How long will it take to learn Gri?
   
    Most users can get Gri working after spending half an hour with manual
-   (see [41]Q2.1). Familiarity with your operating system (for example
+   (see Q2.1). Familiarity with your operating system (for example
    for viewing PostScript files) will speed this somewhat. After that,
    it's best to learn new features only as you come to need them. To
    begin with, you should skim the manual and the cookbook (see
-   [42]Q2.3), looking just at the illustrations. This will take no more
+   Q2.3), looking just at the illustrations. This will take no more
    than an hour.
    
    The Gri manual is like most computer manuals: it would be a waste of
@@ -134,71 +127,57 @@ A1 Features
    
 A2 Documentation
 
-   [43]
    
   A2.1 Is there a quick-reference card for Gri?
   
-   Yes, two quick-reference cards are stored on the [44]FTP site
-   ftp://ftp.phys.ocean.dal.ca/users/kelley/gri (the base address is
-   129.173.3.50). The PostScript file refcard.ps is an overview of Gri
-   syntax and usage, while cmdrefcard.ps is a full list of Gri commands.
-   Each of these files is also available in TeX format.
+   Yes, two quick-reference cards are stored on the FTP site
+   ftp://ftp.phys.ocean.dal.ca/users/kelley/gri. The PostScript file
+   refcard.ps is an overview of Gri syntax and usage, while cmdrefcard.ps
+   is a full list of Gri commands. Each of these files is also available
+   in TeX format.
    
-   [45]
    
   A2.2 Where can I get documentation for Gri?
   
    Full documentation is available in several forms on the FTP site
-   [46]FTP site ftp://ftp.phys.ocean.dal.ca/users/kelley/gri (the base
-   address is 129.173.3.50). Check out the FAQ file (which you are
-   reading now), cmdrefcard.ps (a PostScript reference card listing all
-   Gri commands), refcard.ps (a PostScript reference card overviewing
-   Gri), and a file called something like gri_manual_2.051.tar.gz (which
-   is a complete PostScript manual including figures). To save time and
-   paper, you should look at the FAQ and the two reference cards first.
+   ftp://ftp.phys.ocean.dal.ca/users/kelley/gri. Check out the FAQ
+   file (which you are reading now), cmdrefcard.ps (a PostScript
+   reference card listing all Gri commands), refcard.ps (a PostScript
+   reference card overviewing Gri), and a file called something like
+   gri_manual_2.051.tar.gz (which is a complete PostScript manual
+   including figures). To save time and paper, you should look at the FAQ
+   and the two reference cards first.
    
    The Gri manual is available on the WWW (world wide web) at the URL
-   [47]http://www.phys.ocean.dal.ca/~kelley/gri/gri1.html . A searchable
-   index is available there, which is very useful. [48]
+   http://gri.sourceforge.net/gridoc/html/index.html .
    
   A2.3 Is there a cookbook of Gri programs to use for guidance?
   
    Yes, at the website
-   [49]http://www.phys.ocean.dal.ca/~kelley/gri/cookbook/cookbook.html 
+   http://gri.sourceforge.net/gri-cookbook/index.html 
    
-   [50]
    
   A2.4 Is there a newsgroup for Gri?
   
-   No, but there is a mail-list type newsgroup. The group is maintained
-   automatically by a program called majordomo. Operations like getting
-   on or off the list are done by mailing to
-   [51]majordomo@phys.ocean.dal.ca; to subscribe, send a message
-   containing just the two words subscribe gri, and to unsubscribe send
-   the words unsubscribe gri. You can also send the message help to find
-   out other usefull majordomo commands.
+   Gri has several email-type and web-type forums for discussions.
    
-   To see what messages have been posted to the group, send a message to
-   [52]majordomo@phys.ocean.dal.ca containing the line send gri
-   gri.archive.
+   Until recently, the only such forum was a majordomo-based email list,
+   to which one subscribed by sending to majordomo@phys.ocean.dal.ca
+   a message containing just the two words subscribe gri, and to which
+   one contributed by mailing to gri@phys.ocean.dal.ca.
    
-   Mailing to the list -- that is, to other Gri users -- is different.
-   Then you mail to [53]gri@phys.ocean.dal.ca. There is not very much
-   traffic on the list, but please use it responsibly because everything
-   you send will be mailed to dozens of other folks who are just as busy
-   as you are. In particular please do not mail any requests intended for
-   majordomo to the Gri list.
+   However, in summer 2000 Gri got a much better suite of newsgroups, on
+   the SourceForge Gri site . Since these newsgroups are archived and
+   threaded, they are a better resource than the majordomo group
+   mentioned in the last paragraph.
    
-   [54]
    
   A2.5 Where can I get some sample Gri input files?
   
-   You can get them from the anonymous [55]FTP site
-   ftp://ftp.phys.ocean.dal.ca/users/kelley/gri (the base address is
-   129.173.3.50). It is in the compressed tarfile with the word 'example'
-   contained in it. The file is compressed with the program "gzip," so
-   you'll type
-
+   You can get them from the anonymous FTP at
+   ftp://ftp.phys.ocean.dal.ca/users/kelley/gri. It is in the
+   compressed tarfile with the word 'example' contained in it. The file
+   is compressed with the program "gzip," so you'll type
         gunzip gri-examples-2.1.10.tar.gz
         tar xvf  gri-examples-2.1.10.tar
 
@@ -208,7 +187,6 @@ A2 Documentation
    contains subdirectories with names that reflect computer names (e.g.,
    SGI, SUN4). To get run gri on all the examples, go into the
    appropriate subdirectory and type 'make examples'. For example:
-
         cd examples/SUN4
         make examples
 
@@ -218,7 +196,6 @@ A2 Documentation
    
 A3 Can Gri do ... ?
 
-   [56]
    
   A3.1 Can Gri do barcharts?
   
@@ -228,7 +205,6 @@ A3 Can Gri do ... ?
    desired width of the bars and \missing is set to an arbitrary missing
    value. The rest of the code will make sense to any Perl programmer. If
    you don't know Perl, you should learn it.
-
 \width = "1"                    // width of bars, in x units
 \missing = "-99"                // missing value
 set missing value \missing
@@ -271,7 +247,7 @@ draw curve
 draw axes
 draw title "Demonstrate Gri barchart"
 
-   [57]
+
    
   A3.2 Can Gri do histograms?
   
@@ -285,7 +261,6 @@ draw curve filled to 0 y
 
    where histogram is a perlscript which creates a histogram file named
    inputfile. An example of histogram is:
-
 #!/opt/bin/perl
 # Calculate histogram of 1-column data
 $usage ="\
@@ -333,7 +308,7 @@ for ($i = 0; $i <= $n; $i++) {
     print "$x $bin[$i]\n";
 }
 
-   [58]
+
    
   A3.3 Can Gri do error bars?
   
@@ -343,7 +318,6 @@ for ($i = 0; $i <= $n; $i++) {
    simply by reading the data line by line, plotting each one as
    individually. Here's an example of error bars in y, where the third
    column stores the error:
-
 open a.dat
 while 1
     read .x. .y. .ey.
@@ -354,13 +328,12 @@ while 1
     draw line from .x. {rpn .y. .ey. -} to .x. {rpn .y. .ey. +}
 end while
 
-   [59]
+
    
   A3.4 Can Gri draw labels for Tukey box plots?
   
    Yes. Here is sample code, in which a label "My Label" is drawn to the
    right of the median of a Tukey plot extending in the y direction:
-
 read columns x y
 1 11
 2 22
@@ -374,22 +347,21 @@ draw label "My Label" at {rpn 2 xusertocm 0.4 +} \
     {rpn y median yusertocm "M" ascent 2 / -} \
     cm
 
-   [60]
+
    
   A3.5 Can Gri read compressed data files?
   
-   Gri has no specific way to read compressed data files, but it is
-   trivial to trick it to do so, by using the unix-style piped open
-   command, as in this example:
+   Yes, as of version 2.6 Gri can read compressed files, e.g.
+    open myfile.gz
+    read columns x y
 
-open "zcat compressed_file.Z |"
-// do any normal 'read' commands
+   will work. You may also, of course, do
+    open "zcat myfile.gz |"
+    read columns x y
 
-   Naturally, this works for files that have been compressed with the GNU
-   compressor also, so long as you have the uncompressing software
-   installed on your system.
+   if you like.
    
-   [61]
+
    
   A3.6 Can Gri use scientific notation on axes?
   
@@ -407,14 +379,13 @@ set y axis 1 5 1
 set y format "%g$\times10^3$"
 draw curve
 
-   [62]
+
    
   A3.7 Can Gri label x-axis with day of week?
   
    A future version of Gri will have much more powerful and general ways
    of handling axes labelling. In the meantime, you have to trick Gri to
    get such special effects. Here's an example:
-
 set x axis 1 8 1
 set y axis 0 1 .1
 set font size 0
@@ -435,24 +406,26 @@ draw label "Sun" centered at 7.5 {rpn ..ymargin.. 0.7 - ycmtouser}
    point font, but you may wish to experiment if you don't like the
    placement.
    
-   [63]
+
    
   A3.8 Can Gri draw maps?
   
-   Gri can draw maps, but it only has a couple of projections: the
-   cartesian "projection" (it is not really a projection), the
-   stereopolar projection, and the Peters projection (see the command set
-   map projection). It does not have builtin coastline files, though.
-   Many good coastline files are on the web; see, for example, Rich
-   Signell's site [64]http://crusty.er.usgs.gov/coast/getcoast.html or
-   the USGS mapping site [65]http://www.usgs.gov or the Global
-   Self-consistent Hierarchical High-resolution Shoreline site
-   [66]http://www.ngdc.noaa.gov/mgg/shorelines/gshhs.html 
+   Gri can draw maps, but it lacks builtin support for map projections.
+   (A previous version had projections, but they were not working
+   correctly and were removed.) Gri does not have builtin coastline
+   files, either. Many good coastline files are on the web; see, for
+   example, Rich Signell's site
+       http://crusty.er.usgs.gov/coast/getcoast.html
+   or the USGS mapping
+   site 
+       http://www.usgs.gov
+   or the Global Self-consistent Hierarchical High-resolution
+   Shoreline site
+       http://www.ngdc.noaa.gov/mgg/shorelines/gshhs.html 
      _________________________________________________________________
    
 A4 Gri and other programs
 
-   [67]
    
   A4.1 Is Gri better than Fortran/C/... plotting subroutines?
   
@@ -472,7 +445,7 @@ A4 Gri and other programs
    In highly interactive applications, such as many uses of matlab and
    statistical programs such as S and S-plus, it may make sense to use
    the builtin graphics routines because they are so tightly bound to the
-   processing. [68]
+   processing.
    
   A4.2 How can I include Gri plots in LaTeX files?
   
@@ -485,7 +458,6 @@ A4 Gri and other programs
    versions of Gri do not insert the correct plot dimensions in the
    PostScript file. Here's an example, for a 15cm tall figure, of how to
    insert a Gri PostScript file into a figure:
-
 \documentstyle{article}
 \begin{document}
 
@@ -504,13 +476,13 @@ A4 Gri and other programs
    format), you'll do things differently; the above will give you enough
    of a guide.
    
-   [69]
+
    
   A4.3 How may I convert Gri output to GIF format?
   
    Conversion of the Gri PostScript output to GIF is normally done for
    inclusion in web-pages. For a discussion of the merits of various
-   image formats, see [70]Information Architecture. I have been told that
+   image formats, see Information Architecture. I have been told that
    GIF images suffer from both technical limitations (no gamma value is
    stored in the file) and license restrictions. The PNG format was
    designed to overcome these limitations, and is expected to replace GIF
@@ -534,10 +506,9 @@ A4 Gri and other programs
        powerful, being able to convert from almost any format into almost
        any other. The ImageMagick software is free, and available on the
        world-wide-web at URL
-       [71]http://www.wizards.dupont.com/cristy/ImageMagick.html 
+           http://www.wizards.dupont.com/cristy/ImageMagick.html 
      * METHOD 2: The GNU program gs can also do this conversion. In newer
        versions, this conversion to GIF is builtin. Here is a shellscript
-
 #!/usr/bin/sh
 gri -y -p -b $1.gri
 gs -q -dNOPAUSE -sDEVICE=ppm -sOutputFile=$1.ppm $1.ps -c quit
@@ -545,25 +516,21 @@ ppmtogif -interlace -transparent rgb:ff/ff/ff $1.ppm > $1.gif
 rm -f $1.ppm
      * METHOD 3: In older versions of gs, you must run a little program
        in the gs interpreter, by typing
-
     $ gs foo.ps
     GS> (pstoppm.ps)run
     GS> (foo) ppm1run
     GS> quit
        This creates a file called foo.ppm, in the so-called PPM format.
-       To convert this to GIF format, you may use the xv image viewer
-       program (which is licensed shareware, not freeware), or use the
-       ppmtogif program in the pbmplus package, available on the web at
-       [72]ftp://ftp.x.org/congrib/utilities/netpbm-1mar1994.p1.tar.gz .
+       Various programs exist for converting image types, e.g. convert.
        
    Availability of software: ImageMagick uses Aladdin Ghostscript,
    another free program, to rasterize the PostScript file created by gri.
    Ghostscript is available from
-   [73]http://www.cs.wisc.edu/~ghost/index.html and many other sites
+       http://www.cs.wisc.edu/~ghost/index.html and many other sites
    (including any CTAN archive). Older version of ghostscript are
    available under the GNU GPL. Speaking of GNU, gs and other GNU
    software are freely available at many locations on the web, e.g.
-   [74]ftp://prep.ai.mit.edu/pub/gnu .
+       ftp://prep.ai.mit.edu/pub/gnu
    
    Author's note: this answer was compiled with advice from Peter
    Galbraith, Toru Suzuki, and George White, to each of whom I am very
@@ -571,16 +538,15 @@ rm -f $1.ppm
    their suggestions, and all the helpful pointers to information on the
    web are theirs, not mine.
    
-   [75]
+
    
   A4.4 Is there an Emacs mode for Gri?
   
    Yes. Peter Galbraith has written a very powerful mode for Gri
-   commandfiles. Available on anonymous FTP at the site
-   [76]ftp.phys.ocean.dal.ca in users/rhogee . See the files gri-mode.el
-   and gri-mode.readme. The capabilities include:
-     * Indents the loops, if statements, newcommands, etc.
-     * Uses builtin knowledge of Gri commands to 'complete' your
+   commandfiles which is supplied with Gri and which is fully documented
+   in the manual. The capabilities of the mode include the following.
+     * Indents loops, if statements, newcommands, etc.
+     * Uses built-in knowledge of Gri commands to 'complete' your
        commands. For example, typing 'drM-TAB' (where M-TAB is the
        completion keystroke) causes the mode to write 'draw' in place of
        the 'dr'. Pressing M-TAB again gives a list of all Gri commands
@@ -597,44 +563,21 @@ rm -f $1.ppm
    
 A5 Evolution of Gri
 
-   [77]
+
    
   A5.1 Where can I get the latest version of Gri?
   
-   To get Gri, you use anonymous FTP to the site [78]site
-   ftp.phys.ocean.dal.ca or 129.173.3.50. (Use 'anonymous' as the
-   username and your normal username as the password.) Next, go to the
-   Gri directory:
-
-        cd users/kelley/gri
-
-   and get the instruction files:
-        mget README.*
-
-   These files tell you what to do next. If you are not familiar with
-   such things, you might want to exit from FTP and read the README
-   files. Otherwise, just do a directory listing and pick up the item you
-   want. For example, to get the Sun binary version, get the file with
-   the word ``Sun'' in it:
-
-        binary
-        get gri-binary-SunOS5-2.1.10.tar.gz
-
-   and then type
-        quit
-
-   to get out of FTP, and
-        zcat gri-binary-SunOS5-2.1.10.tar.gz | gar xvf -
-
-   to decode the contents.
+   Gri is available at the anonymous FTP site
+       ftp://ftp.phys.ocean.dal.ca/users/kelley/gri
+   Instructions there will tell you what to do, but it should 
+   be obvious if you've used FTP before.
    
-   [79]
    
   A5.2 How can I find out the most recent features of Gri?
   
-   Do anonymous ftp to phys.ocean.dal.ca (129.173.3.50) and cd to the
-   directory /users/kelley/gri. Pick up the file ChangeLog. For more
-   details, see the chapter called "History" in the [80]manual. [81]
+   Do anonymous ftp to phys.ocean.dal.ca and cd to the directory
+   /users/kelley/gri. Pick up the file ChangeLog. For more details, see
+   the history chapter in the manual
    
   A5.3 Should I keep my copy of Gri up-to-date?
   
@@ -653,75 +596,111 @@ A5 Evolution of Gri
        and the version that is presently installed.
        
    Most people should not be more than 5-10 versions out of date. To keep
-   in touch, subscribe to the gri maillist (...see [82]Q2.3). Also, keep
+   in touch, subscribe to the gri maillist (...see Q2.3). Also, keep
    track of the file ChangeLog in the FTP location. As with most
    software, the supplier may be more enthusiastic about new versions
    than the users are. Other Gri users may therefore provide the best
    advice on whether it is worth upgrading.
    
-   Every time you get a new copy of Gri, you should get a new online
-   manual, and you should get/print the command reference card from the
-   [83]FTP site ftp://ftp.phys.ocean.dal.ca/users/kelley/gri (the base
-   address is 129.173.3.50).
-   
-   [84]
+
    
   A5.4 How can I protect myself against changes to Gri?
   
-   Do three things:
-     * Use the expecting version .n. command, where you replace .n. by
-       the version number you are familiar with. Then if the Gri you are
-       using is more recent, it will tell you of any changes in syntax
-       since the version you've named.
-     * When you download a new version of Gri, look at the file called
-       'changelog' in the [85]FTP site
-       ftp://ftp.phys.ocean.dal.ca/users/kelley/gri (the base address is
-       129.173.3.50). It tells you what changes have taken place.
-     * Archive old versions. Each version takes about a Megabyte, which
-       costs less than a cup of coffee. Since the author does not archive
-       old versions, you would be a little crazy not to do it yourself,
-       if you use Gri much at all.
-       Archiving the source is just a matter of copying the files you've
-       downloaded to a location of your choosing.
-       Archiving the binary is easy, since the process of installing a
-       new version automatically archives the old version. On my machine,
-       and on other machines in the default configuration, the Gri files
-       are contained in a directory named /opt/gri. Within the /opt/gri
-       directory are directories named bin, which stores (a link to) the
-       executable gri file, and lib, which stores (links to) the library
-       file gri.cmd and the startup message file startup.msg. These links
-       point to files within other directories within /opt/gri,
-       directories whose names are Gri version numbers. For example, if a
-       system contained version 2.051 as the main Gri and 2.044 as an
-       archived version, /opt/gri would contain directories named bin,
-       lib, 2.051, and 2.044.
-       Each time a new version of Gri is installed, the remaining version
-       is left on disk, with the links in /opt/gri/bin and /opt/gri/lib
-       being severed and then reconnected to the newer versions. Thus, on
-       my system I can run version 2.051 just by typing
+   The most important thing is to save old versions of Gri. At hard-disk
+   street prices of about a cent per megabyte, an archive will cost under
+   a nickle.
+   
+   Archiving the source is just a matter of copying the files you've
+   downloaded to a location of your choosing. Since the directory name is
+   of the form gri-VERSION, keeping track of old sources is trivial.
+   
+   If you're using a prepackaged version of Gri (e.g. in RedHat or in
+   Debian linux), then you'll probably know how to update Gri already. At
+   any rate, you can skip some of the steps below, since rpm -ql gri will
+   list all the relevant files, saving you the part of the steps below
+   that involves locating files.
+   
+   Archiving the Gri binary and library file is quite easy, but archiving
+   the documentation is complicated since there are a lot of
+   documentation files, and they are scattered across your filesystem.
+   For example, 'info' files go in the /usr/info directory, while
+   'manpage' files go in the /usr/man/man* directory, and the 'html'
+   files go someplace else). This isn't specific to Gri; the filesystem
+   is just defined that way, for historical reasons. Your first step is
+   to determine whether you wish to archive the documentation. In most
+   case you won't want to. The point is just that you have an old set of
+   scripts that you need to work; you won't be writing new scripts, and
+   if you wrote these ones, then you understand Gri well enough anyway.
+   Besides, Gri doesn't change that much from version to version, and the
+   changes mostly involve additions.
+   
+   If you do wish to archive the documentation and emacs files, locate
+   the files and copy them. (If you do not, skip the remainder of this
+   paragraph.) In Redhat linux, do rpm -ql gri to locate the files. In
+   debian linux, do something similar. If 'locate' is working on your
+   computer, do locate gri and examine the list that you get. If none of
+   the above is true, look in the second-last paragraph above for
+   directories where Gri documentation files are often found, and move
+   them to wherever seems appropriate. You'll probably have to alter
+   other things as well, to tell the info and man programs where to find
+   the documentation. If you use the Emacs editing mode, move that
+   appropriately and edit whatever dot-files and system configuration
+   files that Emacs uses to locate mode files. (Note that all emacs modes
+   understand about using different versions; see the C-c C-r or by
+   calling the command M-x gri-version. If, as is likely, you're only
+   archiving Gri for old scripts that you don't need to edit, you may not
+   need to worry about changes to gri-mode and you may as well go ahead
+   and install the new gri-mode and forget about the old one.)
+   
+   If you only wish to archive Gri itself, things are much easier! You
+   need to copy only two files, the executable (often /usr/bin/gri) and a
+   library file (often /usr/share/gri/gri.cmd) to a directory of your
+   choosing, and then create a shell alias (or a shellscript), which uses
+   these two files you've copied. Let me take it step by step.
+   
+   First, type
+    gri -version
 
-    gri
-       or I can run version 2.044 by explicitly naming it's source and
-       the directory for the library files, e.g. by typing.
+   and make note of the present version number. For concreteness, let's
+   say it is version 2.6.0.
+   
+   Next, decide where you wish to keep this gri version. For
+   concreteness, let's say that you'd like to keep it in a directory
+   named /usr/local/gri/2.6.0. Create that directory if it doesn't exist
+   already:
+    mkdir -p /usr/local/gri/2.6.0
 
-    /opt/gri/2.044/bin/gri -directory /opt/gri/2.044/lib
-       On my system links are also created to put Gri in the system path,
-       e.g.
+   Next, type
+    gri -directory_default
 
-    /opt/bin/bin/gri -> /opt/bin/bin/gri-2.048*
-       and some users find it convenient to save typing with the old Gri
-       versions, by making additional links such as
+   to find out where the gri.cmd file is located. Let's say it's in the
+   common location usr/share/gri, for concreteness; then you need to move
+   this to your chosen directory:
+    mv /usr/share/gri/gri.cmd /usr/local/gri/2.6.0
 
-    /opt/bin/bin/gri-2.042 -> /opt/gri/2.042/bin/gri*
-    /opt/bin/bin/gri-2.043 -> /opt/gri/2.043/bin/gri*
-    /opt/bin/bin/gri-2.048 -> /opt/gri/2.048/bin/gri*
-       Also, the emacs mode understands about using different versions;
-       see the C-c C-r or by calling the command M-x gri-version
+   Now, we need to copy the executable. If you don't know where it is,
+   type
+    which gri
+
+   to find out. Then move it also, e.g. if Gri is located in the /usr/bin
+   directory, you'd type
+    mv /usr/bin/gri /usr/local/gri/2.6.0
+
+   Now we just have to make an alias to run this particular copy of Gri,
+   with this particular library file. In the Bash shell, just put the
+   following line in your ~/.aliases file:
+    alias gri2.6.0='/usr/local/gri/2.6.0/gri -directory /usr/local/gri/2.6.0'
+
+   and then you have a new command, gri2.6.0 that runs this particular
+   copy of Gri. Alternatively, you could create a shellscript to run this
+   Gri, e.g. a script named gri2.6.0 that contains the lines:
+    #!/usr/bin/sh
+    # Run numbered version of gri
+    /usr/local/gri/2.6.0/gri -directory /usr/local/gri/2.6.0 "$@"
      _________________________________________________________________
    
 A6 Gri on various computers
 
-   [86]
    
   A6.1 What computers does Gri work on?
   
@@ -729,7 +708,6 @@ A6 Gri on various computers
    sunOS; IBM RISC; HP RISC; SGI; DEC alpha; and x86 linux) and to x86
    MS-DOS. An old version is available for DEC vax VMS.
    
-   [87]
    
   A6.2 What kind of compiler is required to compile gri?
   
@@ -744,7 +722,6 @@ A6 Gri on various computers
    Foundation, is known to compile Gri on at least a half-dozen problems.
    The compiler version must be 2.7.2 or higher for success.
    
-   [88]
    
   A6.3 Why can't I link my compiled gri? (on HP computer)
   
@@ -775,7 +752,6 @@ A6 Gri on various computers
    Gri on the problematic platforms, and who is willing to share their
    results.
    
-   [89]
    
   A6.4 Is there a Macintosh version of Gri?
   
@@ -784,63 +760,61 @@ A6 Gri on various computers
    stopped maintaining the code. After several years of living (happily)
    without the Macintosh, I flushed the Mac code down the drain.
    
-   However a version for Macintosh unix is [90]available.
+   However a version for Macintosh unix is available .
    
-   [91]
    
   A6.5 Is there a DOS/Windows version of Gri?
   
    There is a version available for DOS, available at the normal Gri FTP
-   site, [92]ftp://ftp.phys.ocean.dal.ca/users/kelley/gri, and copy
-   another at the anonymous FTP site
-   [93]ftp://shiho.tokyo-u-fish.ac.jp/pub/msdos/gri with filename of the
-   form gri2025b.zip where 2025 refers to the version name. This binary
-   version was prepared and very kindly shared by Toru Suzuki
-   [94]toru@shiho.tokyo-u-fish.ac.jp. Together with the distribution
-   comes a file called README, which tells how to install and use Gri in
-   an msdos context.
+   site, 
+       ftp://ftp.phys.ocean.dal.ca/users/kelley/gri
+   and copy another at the anonymous FTP site
+       ftp://shiho.tokyo-u-fish.ac.jp/pub/msdos/gri
+   with filename of the form gri2025b.zip where 2025 refers
+   to the version name. This binary version was prepared and
+   very kindly shared by Toru Suzuki 
+       toru@shiho.tokyo-u-fish.ac.jp
+   Together with the distribution comes a file called README, 
+   which tells how to install and use Gri in an msdos context.
    
-   Also, see the Gri manual under the heading [95]"Compilation on
-   PC-style Computers" 
+   Also, see the Gri manual under the heading Compilation on x86
+   (PC-style) Computers
    
    As for viewing the output, I recommend obtaining a copy of the
    Ghostview program (which is a general PostScript display program), in
-   the version called [96]GSview.
+   the version called GSview.
    
-   [97]
+
    
   A6.6 Is there a linux version of Gri?
   
    For non-RedHat versions of linux, one compiles and installs Gri in the
-   usual way; see [98]the manual for more details.
+   usual way; see the manual for more details.
    
    Users of RedHat linux have it much easier though! A RPM (RedHat
    Program Manager) version of Gri exists, so that installing it takes
    just one line of typing, or one mouse-click in the RPM GUI-based
-   installer called `glint'. requires just one line of typing (or
+   installer called `glint'. requires just one line of typing.
    
    The RPM (RedHat Package Manager) version exists at FTP site
-   [99]ftp://ftp.phys.ocean.dal.ca/users/kelley/gri in a file with a name
-   such as `gri-2.1.17-1.i386.rpm' (RedHat readers will know immediately
-   what all the numbers and dots stand for!) Once you've downloaded this,
-   install Gri by typing
-
-    rpm -i gri-2.1.17-1.i386.rpm
+       ftp://ftp.phys.ocean.dal.ca/users/kelley/gri 
+   in a file with a name such as `gri-2.1.17-1.i386.rpm' 
+   (RedHat readers will know immediately what all the numbers and dots
+   stand for!) Once you've downloaded this, install Gri by typing
+       rpm -i gri-2.1.17-1.i386.rpm
 
    Later on, Gri may be uninstalled ('extracted') by typing
-    rpm -e gri
+       rpm -e gri
 
    Knowledgeable RedHat users will know that RPM can also give
    information about Gri; for non-experts, here are a few examples:
-
-    rpm -qa       --  list all installed packages
-    rpm -qi gri   --  summarize gri capabilities (if it's installed)
-    rpm -ql gri   --  list all files related to gri
+       rpm -qa       --  list all installed packages
+       rpm -qi gri   --  summarize gri capabilities (if it's installed)
+       rpm -ql gri   --  list all files related to gri
      _________________________________________________________________
    
 A7 Gri bugs
 
-   [100]
    
   A7.1 What are known bugs in Gri?
   
@@ -848,20 +822,20 @@ A7 Gri bugs
    suffers few serious bugs. Generally, more recent versions of Gri
    suffer fewer bugs than earlier versions. This improvement owes much to
    the trial of daily usage by folks with differing working styles; and
-   all users can thank those who send in bug reports (see [101]Q7.2).
+   all users can thank those who send in bug reports (see Q7.2).
    
    One of the main problems with recent versions of Gri is that line
    numbers of syntax errors are reported inaccurately, if the error
    occured inside a new-command.
    
-   A list of Gri bugs is maintained in the [102]full manual.
+   A list of Gri bugs is maintained in the manual.
    
-   [103]
+
    
   A7.2 How can I report Gri bugs?
   
    The first step is to make sure it is actually a bug. You might try,
-   for example, posting a question to the Gri newsgroup (see [104]Q2.3),
+   for example, posting a question to the Gri newsgroup (see Q2.3),
    and getting advice from other users. Please be clear, so you don't
    waste others users' time. If you think you've found a bug, let the
    author know. Here's the advice from the manual (see especially item 4,
@@ -871,138 +845,113 @@ A7 Gri bugs
    often results in quick changes to gri which will solve your problem.
    This is especially true if your version is reasonably up-to-date, for
    then you can simply get the corrected version and replace the version
-   you were using. Here is how to report bugs:
-     * 1. Determine the version number of your copy of Gri by running Gri
-       as
-
-  gri -v
-
-and noting the number that is printed out.
-
-   2. Prepare a command-file that illustrates your bug. Please pare
-down the command-file to the *smallest* bit that causes the bug to
-surface.
-
-   3. It may be helpful to enclose the PostScript output file also,
-if you need to tell me about aspects of the plot.  (This is because
-the version of Gri I'm using might not give the badness on the page,
-so I'd have no way to know what you were talking about!.)
-
-   4. Email me
-([105]Dan.Kelley@Dal.Ca) a description
-of the bug, along with the enclosed command file and any necessary
-data files.  Minimally, then, I'll need a README file that describes
-the problem, and a gri commandfile that exercises the bug.  On a unix
-machine, here is how you can the whole package to me:
-
-  tar -cvhf - ... | compress -c | uuencode a.gz | mail Dan.Kelley@Dal.Ca
-
-where you replace ... by a list of the files you want to send.
+   you were using. Here is how to report bugs.
+   
+   The details of how to report bugs is in the online documents ,
+   but the quick answer is to go to the Sourceforge Gri/bug site and
+   use the slick GUI interface there.
 
 References
 
    1. http://www.phys.ocean.dal.ca/~kelley
    2. mailto:Dan.Kelley@Dal.Ca
-   3. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#A1.1
-   4. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#A1.2
-   5. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#A1.3
-   6. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#A1.4
-   7. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#A2.1
-   8. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#A2.2
-   9. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#A2.3
-  10. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#A2.4
-  11. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#A2.5
-  12. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#A3.1
-  13. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#A3.2
-  14. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#A3.3
-  15. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#A3.4
-  16. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#A3.5
-  17. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#A3.6
-  18. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#A3.7
-  19. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#A3.8
-  20. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#A4.1
-  21. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#A4.2
-  22. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#A4.3
-  23. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#A4.4
-  24. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#A5.1
-  25. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#A5.2
-  26. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#A5.3
-  27. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#A5.4
-  28. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q6.1
-  29. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q6.2
-  30. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q6.3
-  31. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q6.4
-  32. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q6.5
-  33. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q6.6
-  34. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#A7.1
-  35. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#A7.2
-  36. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q1.1
-  37. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q1.2
-  38. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q1.3
+   3. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#A1.1
+   4. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#A1.2
+   5. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#A1.3
+   6. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#A1.4
+   7. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#A2.1
+   8. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#A2.2
+   9. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#A2.3
+  10. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#A2.4
+  11. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#A2.5
+  12. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#A3.1
+  13. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#A3.2
+  14. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#A3.3
+  15. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#A3.4
+  16. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#A3.5
+  17. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#A3.6
+  18. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#A3.7
+  19. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#A3.8
+  20. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#A4.1
+  21. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#A4.2
+  22. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#A4.3
+  23. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#A4.4
+  24. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#A5.1
+  25. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#A5.2
+  26. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#A5.3
+  27. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#A5.4
+  28. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q6.1
+  29. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q6.2
+  30. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q6.3
+  31. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q6.4
+  32. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q6.5
+  33. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q6.6
+  34. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#A7.1
+  35. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#A7.2
+  36. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q1.1
+  37. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q1.2
+  38. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q1.3
   39. http://www.phys.ocean.dal.ca/~kelley/gre
-  40. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q1.4
-  41. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q2.1
-  42. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q2.3
-  43. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q2.1
+  40. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q1.4
+  41. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q2.1
+  42. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q2.3
+  43. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q2.1
   44. ftp://ftp.phys.ocean.dal.ca/users/kelley/gri
-  45. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q2.2
+  45. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q2.2
   46. ftp://ftp.phys.ocean.dal.ca/users/kelley/gri
-  47. http://www.phys.ocean.dal.ca/~kelley/gri/gri1.html
-  48. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q2.3
-  49. http://www.phys.ocean.dal.ca/~kelley/gri/cookbook/cookbook.html
-  50. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q2.4
+  47. http://gri.sourceforge.net/gridoc/html/index.html
+  48. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q2.3
+  49. http://gri.sourceforge.net/gri-cookbook/index.html
+  50. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q2.4
   51. mailto:majordomo@phys.ocean.dal.ca
-  52. mailto:majordomo@phys.ocean.dal.ca
-  53. mailto:gri@phys.ocean.dal.ca
-  54. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q2.5
+  52. mailto:gri@phys.ocean.dal.ca
+  53. http://sourceforge.net/forum/?group_id=5511
+  54. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q2.5
   55. ftp://ftp.phys.ocean.dal.ca/users/kelley/gri
-  56. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q3.1
-  57. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q3.2
-  58. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q3.3
-  59. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q3.4
-  60. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q3.5
-  61. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q3.6
-  62. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q3.7
-  63. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q3.8
+  56. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q3.1
+  57. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q3.2
+  58. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q3.3
+  59. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q3.4
+  60. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q3.5
+  61. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q3.6
+  62. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q3.7
+  63. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q3.8
   64. http://crusty.er.usgs.gov/coast/getcoast.html
   65. http://www.usgs.gov/
   66. http://www.ngdc.noaa.gov/mgg/shorelines/gshhs.html
-  67. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q4.1
-  68. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q4.2
-  69. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q4.3
+  67. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q4.1
+  68. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q4.2
+  69. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q4.3
   70. http://www.lanl.gov/projects/ia
   71. http://www.wizards.dupont.com/cristy/ImageMagick.html
-  72. ftp://ftp.x.org/congrib/utilities/netpbm-1mar1994.p1.tar.gz
-  73. http://www.cs.wisc.edu/~ghost/index.html
-  74. ftp://prep.ai.mit.edu/pub/gnu
-  75. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q4.4
-  76. ftp://ftp.phys.ocean.dal.ca/users/rhogee
-  77. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q5.1
-  78. ftp://ftp.phys.ocean.dal.ca/users/kelley/gri
-  79. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q5.2
-  80. http://www.phys.ocean.dal.ca/~kelley/gri/gri1.html
-  81. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q5.3
-  82. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q2.3
-  83. ftp://ftp.phys.ocean.dal.ca/users/kelley/gri
-  84. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q5.4
-  85. ftp://ftp.phys.ocean.dal.ca/users/kelley/gri
-  86. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q6.1
-  87. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q6.2
-  88. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q6.3
-  89. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q6.4
-  90. http://www.phys.ocean.dal.ca/~kelley/gri/Access.html#Mac-install
-  91. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q6.5
-  92. ftp://ftp.phys.ocean.dal.ca/users/kelley/gri
-  93. ftp://shiho.tokyo-u-fish.ac.jp/pub/msdos/gri
-  94. mailto:toru@shiho.tokyo-u-fish.ac.jp
-  95. http://www.phys.ocean.dal.ca/~kelley/gri/Access.html#Msdos-install
-  96. http://www.cs.wisc.edu/~ghost/index.html
-  97. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q6.6
-  98. http://www.phys.ocean.dal.ca/~kelley/gri
-  99. ftp://ftp.phys.ocean.dal.ca/users/kelley/gri
- 100. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q7.1
- 101. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q7.2
- 102. http://www.phys.ocean.dal.ca/~kelley/gri/Bugs.html#Bugs
- 103. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q7.2
- 104. file://localhost/users/dek/kelley/src/gri/doc/FAQ.html#Q2.3
- 105. mailto:Dan.Kelley@Dal.CA
+  72. http://www.cs.wisc.edu/~ghost/index.html
+  73. ftp://prep.ai.mit.edu/pub/gnu
+  74. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q4.4
+  75. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q5.1
+  76. ftp://ftp.phys.ocean.dal.ca/users/kelley/gri
+  77. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q5.2
+  78. http://gri.sourceforge.net/gridoc/html/History.html
+  79. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q5.3
+  80. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q2.3
+  81. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q5.4
+  82. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q6.1
+  83. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q6.2
+  84. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q6.3
+  85. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q6.4
+  86. http://gri.sourceforge.net/gridoc/html/mac-install.html#Mac-install
+  87. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q6.5
+  88. ftp://ftp.phys.ocean.dal.ca/users/kelley/gri
+  89. ftp://shiho.tokyo-u-fish.ac.jp/pub/msdos/gri
+  90. mailto:toru@shiho.tokyo-u-fish.ac.jp
+  91. http://gri.sourceforge.net/gridoc/html/msdos-install.html#Msdos-install
+  92. http://www.cs.wisc.edu/~ghost/index.html
+  93. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q6.6
+  94. http://gri.sourceforge.net/gridoc/html/index.html
+  95. ftp://ftp.phys.ocean.dal.ca/users/kelley/gri
+  96. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q7.1
+  97. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q7.2
+  98. http://gri.sourceforge.net/gridoc/html/KnownBugs.html#KnownBugs
+  99. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q7.2
+ 100. file://localhost/home/kelley/GRI-work/gri/doc/FAQ.html#Q2.3
+ 101. http://gri.sourceforge.net/gridoc/html/ReportingBugs.html#ReportingBugs
+ 102. http://sourceforge.net/bugs/?group_id=5511

@@ -10123,8 +10123,8 @@ There are several varieties of @code{read} command.
 * Read Image Mask::             Read mask for image
 * Read Image::                  Read image
 * Read From::                   Change which open file looked at
-* Read Synonym or Variable::    Read a synonym or variable
-* Read Line::                   Read a synonym as whole line
+* Read Synonym or Variable::    Read individual synonym or variable
+* Read Line::                   Read whole line
 @end menu
 
 
@@ -10596,7 +10596,7 @@ that file is not open, an error message will result.  Use
 @cindex reading synonyms
 
 @example
-`read [* [*...]] \synonym|.variable. [\synonym|.variable. [...]]@}'
+`read [raw] [* [*...]] \synonym|.variable. [\synonym|.variable. [...]]@}'
 @end example
 @noindent
 Read one or more items from the next line of the input file.  These
@@ -10604,10 +10604,13 @@ items may be synonyms or variables.  The token @code{*} indicates
 that the word in the datafile should be skipped.  As usual, the datafile
 may be embedded in the commandfile, providing the last data line is blank.
 
-Normally one would use synonyms for
-words, and variables for numbers.  The items are separated by one or
-more "whitespace" characters (e.g. space or TAB).  Thus, if a file
-contained the line
+If the optional @code{raw} keyword is not present, comments are first
+trimmed from the data line.  If @code{raw} is present, however, any
+comments are retained on the line.
+
+Normally one would use synonyms for words, and variables for numbers.
+The items are separated by one or more "whitespace" characters
+(e.g. space or TAB).  Thus, if a file contained the line
 @example
 Temperature 10.3
 @end example
@@ -10666,6 +10669,7 @@ For more information on netCDF format, see
 @comment  node-name,  next,  previous,  up
 @subsection The @code{read line} Command
 @findex read line
+@cindex @code{read line raw} command
 @cindex @code{read line} command
 @cindex lines in data files, parsing
 @cindex parsing headers in data files
@@ -10674,10 +10678,16 @@ For more information on netCDF format, see
 @cindex reading variables
 @cindex reading synonyms
 @example
-`read line \synonym'
+`read line [raw] \synonym'
 @end example
 @noindent
-Store the next line of datafile into the named synonym.
+Read the next line of the datafile (or commandfile), trim off a trailing
+comment if there is one, and then store the next line of datafile into
+the named synonym.
+
+If the optional @code{raw} keyword is not present, comments are first
+trimmed from the data line.  If @code{raw} is present, however, any
+comments are retained on the line.
 
 
 @c HTML <!-- newfile Regress.html "Gri: `regress' command" "Gri Commands" -->
@@ -14691,6 +14701,11 @@ The next sections outline the changes made in Gri.
 @subsection Version 2.6
 @table @emph
 @item 2.6.0 [2000-Nov-??] (Not released yet.)
+@sp 1
+Permit keyword @code{raw} in reading synonyms and variables, e.g.
+@code{read raw \syn} (@ref{Read Synonym or Variable})
+and @code{read raw line \syn} (@ref{Read Line}.
+
 @sp 1
 Make the first element of the @code{argv} array be the name of 
 the command-file.  (This makes Gri consistent with languages such

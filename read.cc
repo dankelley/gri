@@ -2406,15 +2406,21 @@ read_synonym_or_variableCmd()
 		err("`read' what? (Need more words on command line.)");
 		return false;
 	}
+	bool read_raw_flag = false;
+	int start = 0;
+	if (strEQ(_word[1], "raw")) {
+		read_raw_flag = true;
+		start = 1;
+	}
 	if (_dataFILE.back().get_type() == DataFile::bin_netcdf) {
 #if defined(HAVE_LIBNETCDF)
 		// For netCDF files, only allow `read \name' (with one synonym)
-		int len = strlen(_word[1]) - 1;// NB: skipping first char
+		int len = strlen(_word[1 + start]) - 1;// NB: skipping first char
 		char *varname = new char [1 + len];
 		if (!varname) OUT_OF_MEMORY;
 		char *varname_base;
 		varname_base = varname;	// for later deletion
-		strcpy(varname, _word[1] + 1);
+		strcpy(varname, _word[1 + start] + 1);
 #if 1 // 2.060
 		//
 		// Remove '{' and '}' if present
@@ -2514,7 +2520,7 @@ read_synonym_or_variableCmd()
 			warning("Unknown attribute type for `\\", varname, "'", "\\");
 			strcpy(_grTempString, "");
 		}
-		if (!put_syn(_word[1], _grTempString, true)) {
+		if (!put_syn(_word[1 + start], _grTempString, true)) {
 			err("Synonym stack exhausted");
 			delete [] varname_base;
 			return false;
@@ -2532,7 +2538,7 @@ read_synonym_or_variableCmd()
 	} else if (_dataFILE.back().get_type() == DataFile::bin_int) {
 		gr_Error("Cannot read int grid data yet");
 	} else if (_dataFILE.back().get_type() == DataFile::bin_float) {
-		for (int w = 1; w < _nword; w++) {
+		for (int w = 1 + start; w < _nword; w++) {
 			string the_word(_word[w]);
 			un_double_quote(the_word);
 			un_double_slash(the_word);
@@ -2562,17 +2568,20 @@ read_synonym_or_variableCmd()
 		gr_Error("Cannot read double grid data yet");
 	} else { 
 		// Ascii file [in read_synonym_or_variableCmd()]
-		for (int w = 1; w < _nword; w++) {
+		for (int w = 1 + start; w < _nword; w++) {
 			if (true == get_next_data_word()) {
 				PUT_VAR("..words_in_dataline..", 0.0);
 				if (_ignore_eof) {
 					warning("`read synonym|variable' hit end-of-file");
 					return false;
 				} else {
+					printf("DEBUG 1\n");
 					return true;
 				}
 			}
-			remove_comment(inLine.getValue());
+			if (!read_raw_flag)
+				if (remove_comment(inLine.getValue()))
+					return true;
 			string the_word(_word[w]);
 			un_double_quote(the_word);
 			un_double_slash(the_word);
@@ -2619,14 +2628,19 @@ read_synonym_or_variableCmd()
 	return true;
 }
 
-// `read line \syn'
+// `read line [raw] \syn'
 bool
 read_lineCmd()
 {
-	Require (_nword == 3,
-		 err("`read line' what?"));
-	Require(is_syn(_word[2]),
-		err("`read line' what?"));
+	Require (_nword > 2, err("`read line' what?"));
+	bool read_raw_flag = false;
+	int start = 0;
+	if (strEQ(_word[2], "raw")) {
+		read_raw_flag = true;
+		start = 1;
+	}
+	Require(is_syn(_word[2 + start]), err("`read line' what?"));
+	
 	eof_status        end_of_data = no_eof;	// flag for end of data
 	end_of_data = get_next_data_line("", 1);
 	//printf("\n  %s:%d (read_lineCmd) <%s>  end_of_data= %d\n",__FILE__,__LINE__,inLine.getValue(),end_of_data);
@@ -2638,8 +2652,16 @@ read_lineCmd()
 			return true;
 		}
 	} else {
-		remove_comment(inLine.getValue());
-		if (!put_syn(_word[2], inLine.getValue(), true)) {
+		char *s = inLine.getValue();
+		if (!read_raw_flag) {
+			remove_comment(s);
+		} else {
+			// remove trailing newlines
+			int len = strlen(s);
+			while (len > 1 && (s[len - 1] == '\n' || s[len - 1] == '\r'))
+				s[--len] = '\0';
+		}
+		if (!put_syn(_word[2 + start], s, true)) {
 			err("Synonym stack exhausted");
 			return false;
 		}
