@@ -705,7 +705,7 @@ perform_block(const char *block, const char *source_file, int source_line)
 				buffer.append("\n");
 			}
 			if (loop_level != 0) {
-				err("Missing `end while'");
+				err("Missing `end while'.");
 				bsStack.pop_back();
 				return false;
 			}

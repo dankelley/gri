@@ -45,7 +45,7 @@ whileCmd(void)
 					break;
 				}
 			}
-			if (re_compare(copy, "\\s*end\\s+while\\s*")) {
+			if (re_compare(copy, "\\s*end\\s+while.*")) {
 				loop_level--;
 				if (loop_level < 1) {
 					break;
