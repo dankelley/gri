@@ -43,7 +43,11 @@ PACKAGE_VERSION = @PACKAGE_VERSION@
 if OS_IS_LINUX_DEBIAN
 DGD = $(prefix)/share/gri/$(PACKAGE_VERSION)/
 else
-DGD = $(prefix)/share/gri/
+if OS_IS_FINK
+DGD = /sw/share/gri/
+else
+DGD = ${prefix}/share/gri/
+endif
 endif
 DEFS = -DDEFAULT_GRI_DIR=\"$(DGD)\" @DEFS@
 
