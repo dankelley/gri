@@ -24,7 +24,7 @@ EXTRA_CFLAGS = @EXTRA_CFLAGS@ $(LINUX_EXTRA_CFLAGS)
 EXTRA_CFLAGS_TEMPLATE = @EXTRA_CFLAGS_TEMPLATE@ $(LINUX_EXTRA_CFLAGS)
 prefix = @prefix@
 bindir = $(prefix)/bin
-libdir = $(prefix)/share/gri
+libdir = $(prefix)/share/gri/$(VERSION)
 #### End of system configuration section. ####
 
 OBJS = G_string.o GriColor.o GriPath.o GriState.o chopword.o close.o \
@@ -96,6 +96,30 @@ template.o: template.cc
 startup.o: version.cc startup.cc Makefile.in
 	$(CXX) -c $(CXXFLAGS) $(EXTRA_CFLAGS) $(CPPFLAGS) $(DEFS) -I$(srcdir) startup.cc
 
+# Install all relevant files, creating directories, destroying old
+# links and creating new links as necessary.
+install: all install-bin
+	echo "Installing into '$(prefix)' directory"
+	cd doc; prefix=$(prefix) make install
+
+install-bin:
+	cat startup.msg | sed -e s,VSN,${VERSION}, > tmp
+	$(INSTALL_PROGRAM) -d $(libdir)
+	$(INSTALL_DATA) tmp $(libdir)/startup.msg
+	rm -f tmp
+	$(INSTALL_DATA)         gri.cmd         $(libdir)/gri.cmd
+	$(INSTALL_DATA)         logo.dat        $(libdir)/logo.dat
+	$(INSTALL_DATA)         license.txt     $(libdir)/license.txt
+	$(INSTALL_PROGRAM) -d                   $(prefix)/bin
+	$(INSTALL_PROGRAM)      gri             $(prefix)/bin/gri-$(VERSION)
+	(cd $(prefix)/bin/ ; ln -sf gri-$(VERSION) gri)
+	$(INSTALL_PROGRAM)      gri_merge       $(prefix)/bin/gri_merge
+	$(INSTALL_PROGRAM)      gri_unpage      $(prefix)/bin/gri_unpage
+
+install-solaris: all install-bin
+	echo "Installing into '$(prefix)' directory"
+	cd doc; prefix=$(prefix) make install-solaris
+
 debian-lib = $(debian)/usr/share/gri/$(VERSION)
 install_linux_debian: gri
 	echo "Installing into '$(debian)' directory"
@@ -119,8 +143,6 @@ install_linux_debian_grionly: gri
 	if test -f startup.debian; then sed -e s,VSN,${VERSION}, startup.debian > $(debian-lib)/startup.msg; else echo "WARNING: no startup.debian file!"; fi;
 	install -d         $(debian)/usr/bin
 	install -m 755 gri $(debian)/usr/bin/gri-$(VERSION)
-
-
 
 install_linux_redhat:
 #	Create the needed dirs in the BuildRoot (this is what $(DESTDIR) is being
@@ -151,39 +173,6 @@ install_linux_redhat:
 	-rm -f $(DESTDIR)$(prefix)/info/gri.info*
 	/usr/bin/install -m 644  doc/gri.info*                 $(DESTDIR)$(prefix)/info
 	cd $(DESTDIR)$(prefix)/info ; gzip -f --best gri.info*
-
-
-# Install all relevant files, creating directories, destroying old
-# links and creating new links as necessary.
-install: all
-	echo "Installing into '$(prefix)' directory"
-	cat startup.msg | sed -e s,VSN,${VERSION}, > tmp
-	$(INSTALL_PROGRAM) -d $(prefix)/share/gri
-	$(INSTALL_DATA) tmp $(prefix)/share/gri/startup.msg
-	rm -f tmp
-	$(INSTALL_DATA)         gri.cmd         $(prefix)/share/gri/gri.cmd
-	$(INSTALL_DATA)         logo.dat        $(prefix)/share/gri/logo.dat
-	$(INSTALL_DATA)         license.txt     $(prefix)/share/gri/license.txt
-	$(INSTALL_PROGRAM) -d                   $(prefix)/bin
-	$(INSTALL_PROGRAM)      gri             $(prefix)/bin/gri
-	$(INSTALL_PROGRAM)      gri_merge       $(prefix)/bin/gri_merge
-	$(INSTALL_PROGRAM)      gri_unpage      $(prefix)/bin/gri_unpage
-	cd doc; prefix=$(prefix) make html-install
-
-install-solaris: all
-	echo "Installing into '$(prefix)' directory"
-	cat startup.msg | sed -e s,VSN,${VERSION}, > tmp
-	$(INSTALL_PROGRAM) -d $(prefix)/share/gri
-	$(INSTALL_DATA) tmp $(prefix)/share/gri/startup.msg
-	rm -f tmp
-	$(INSTALL_DATA)         gri.cmd         $(prefix)/share/gri/gri.cmd
-	$(INSTALL_DATA)         logo.dat        $(prefix)/share/gri/logo.dat
-	$(INSTALL_DATA)         license.txt     $(prefix)/share/gri/license.txt
-	$(INSTALL_PROGRAM) -d                   $(prefix)/bin
-	$(INSTALL_PROGRAM)      gri             $(prefix)/bin/gri
-	$(INSTALL_PROGRAM)      gri_merge       $(prefix)/bin/gri_merge
-	$(INSTALL_PROGRAM)      gri_unpage      $(prefix)/bin/gri_unpage
-	cd doc; prefix=$(prefix) make html-install-solaris
 
 
 all: force

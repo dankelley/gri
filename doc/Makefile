@@ -1,7 +1,8 @@
 # Makefile for Gri documentation files.
 
-           HTML_DIR = $(prefix)/doc/gri/html
-   HTML_DIR_SOLARIS = $(prefix)/share/gri/doc/html
+            DOC_DIR = $(prefix)/share/doc/gri
+           HTML_DIR = $(DOC_DIR)/html
+        EXAMPLE_DIR = $(DOC_DIR)/examples
                  RM = rm -f
             REFCARD = refcard
         CMD_REFCARD = cmdrefcard
@@ -20,7 +21,7 @@ install:
 
 install-solaris:
 	make info-install-solaris
-	make html-install-solaris
+	make html-install DOC_DIR=$(prefix)/share/gri/doc
 
 read:
 	chmod a+r Makefile
@@ -64,26 +65,16 @@ card-install-redhat: FORCE
 	install -m 644 cmdrefcard.ps $(CARD_DIR)
 
 html-install:	html
-	install -d $(HTML_DIR)/examples
+	install -d $(EXAMPLE_DIR)
 	install -d $(HTML_DIR)/resources
 	install -d $(HTML_DIR)/screenshots
 	install -m 644 resources/*.gif     $(HTML_DIR)/resources
 	install -m 644 examples/*.jpg      $(HTML_DIR)/
-	install -m 644 examples/{model*,*.dat,*.gri,*.ps} $(HTML_DIR)/examples
-	install -m 755 examples/FEM.pl     $(HTML_DIR)/examples
+	install -m 644 examples/{model*,*.dat,*.gri,*.ps} $(EXAMPLE_DIR)
+	install -m 755 examples/FEM.pl     $(EXAMPLE_DIR)
 	install -m 644 screenshots/*.jpg   $(HTML_DIR)/screenshots
 	install -m 644 *.html              $(HTML_DIR)
-
-html-install-solaris:	html
-	install -d $(HTML_DIR_SOLARIS)/examples
-	install -d $(HTML_DIR_SOLARIS)/resources
-	install -d $(HTML_DIR_SOLARIS)/screenshots
-	install -m 644 resources/*.gif     $(HTML_DIR_SOLARIS)/resources
-	install -m 644 examples/*.jpg      $(HTML_DIR_SOLARIS)
-	install -m 644 examples/{model*,*.dat,*.gri,*.ps} $(HTML_DIR_SOLARIS)/examples
-	install -m 755 examples/FEM.pl     $(HTML_DIR_SOLARIS)/examples
-	install -m 644 screenshots/*.jpg   $(HTML_DIR_SOLARIS)/screenshots
-	install -m 644 *.html              $(HTML_DIR_SOLARIS)
+	(cd $(HTML_DIR); ln -sf ../examples)
 
 card-clean:
 	-rm -f refcard.dvi refcard.log refcard.ps
@@ -106,15 +97,13 @@ gri.info: gri.texi
 	makeinfo gri.texi
 
 info-install:
-	gzip --best *.info
-	cp *info.gz $(INFO_DIR)
-	chmod a+r   $(INFO_DIR)/gri*
-	make info-clean
+	install -d $(INFO_DIR)
+	install -m 644 gri.info* $(INFO_DIR)
+	(cd $(INFO_DIR) ; gzip -f --best gri.info*)
 
 info-install-solaris:
-	cp gri.info* $(INFO_DIR)
-	chmod a+r   $(INFO_DIR)/gri.info*
-	make info-clean
+	install -d $(INFO_DIR)
+	install -m 644 gri.info* $(INFO_DIR)
 
 info-clean:
 	rm -f gri.info* info debian-info
@@ -188,10 +177,9 @@ gri.ps: gri.texi
 	dvips -o gri.ps gri.dvi
 
 # Debian stuff follows
-# $(prefix) is either ../debian/gri-html-doc/usr/doc
-#                     ../debian/gri-ps-doc/usr/doc
-#                     ../debian/tmp/usr/doc
-# or the same with /usr/share/doc instead.
+# $(prefix) is either ../debian/gri-html-doc/usr/share/doc
+#                     ../debian/gri-ps-doc/usr/share/doc
+#                     ../debian/tmp/usr/share/doc
 refcard.ps:	refcard.tex
 	tex refcard.tex
 	dvips -o refcard.ps -t landscape refcard.dvi
@@ -218,8 +206,6 @@ debian-html:
 	rm -fR $(prefix)/gri-html-doc/examples
 	rm -fR $(prefix)/gri-html-doc/html/examples
 	make html-install HTML_DIR=$(prefix)/gri-html-doc/html
-	(cd $(prefix)/gri-html-doc/html; mv examples ../)
-	(cd $(prefix)/gri-html-doc/html; ln -sf ../examples)
 
 # make debian-ps PREFIX=../debian/gri-ps-doc/usr/doc
 debian-ps: gri.ps
