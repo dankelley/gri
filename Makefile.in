@@ -238,9 +238,8 @@ source-copy:
 	                   ../$(SOURCE_NAME)/popt )
 	install -m 755 configure install-sh $(SOURCE_NAME)
 	install -d $(SOURCE_NAME)/debian
-	(cd debian; \
-	    install -m 644 0* READ* c* gri* watch ../$(SOURCE_NAME)/debian)
-	install -m 755 debian/rules                  $(SOURCE_NAME)/debian
+	(cd debian; install -m 644 0* READ* c* gri* ../$(SOURCE_NAME)/debian)
+	install -m 755 debian/rules                    $(SOURCE_NAME)/debian
 #	Copy documentation
 	install -d $(SOURCE_NAME)/doc
 	install -m 755 doc/archive-to-html.pl   $(SOURCE_NAME)/doc
