@@ -2,6 +2,9 @@ gri (2.12.2-1) unstable; urgency=low
 
   * New upstream version
     Bug Fixes:
+    - Fix SourceForge bug #675304 (Segmentation fault can occur on `read image
+       pgm' if an image already exists, e.g. created by `convert grid to 
+       image'.)
     - Fix SourceForge bug #647234 (Source file draw.cc will not compile on
        MAC OS X 10.1.5 at optimization level 2, so drop the level to no
        optimization, as a temporary measure.)
