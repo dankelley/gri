@@ -70,7 +70,10 @@ backwards compatibility, and therefore it lacks Info files.
 To distinguish this package from the regular gri package, it is named 
 <i>
 <?php print "gri-${gri_stable_version}static";?>
-</i> as opposed to <i>gri</i>.
+
+</i>, which contains the version number (and allows you to install such a
+package for multiple versions) as opposed to simply <i>gri</i> (which does not
+contain the version number and will be upgraded with new gri releases).
 </font><br>
 The Emacs gri-mode has recently been split off into it's own package
 called
