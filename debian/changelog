@@ -1,22 +1,22 @@
 gri (2.6.0-1) unstable; urgency=low
 
   * New upstream version.
+    - Add `set colorname' command. 
+    - Add `source' command. 
+    - Add RPN operators `wordc' and `wordv' for accessing the words in
+      the present Gri command. 
     - Add RPN operators `argc' and `argv' for accessing the command-line
       arguments. 
-    - Improve discussion of RPN operators in manual.
-    - Remove documentation on `gri_indent', not supplied with Gri for a long
-      time. 
-    - seg fault bug fix.
     - Add automatic support for compressed data files.  So far, this
-      only works with gzipped files (See docs for Open).
-    - The manual gets a new section about the Emacs gri-mode.el
-      complete with screenshots.  Additionally, HTML navigation tags are
-      bettered, the gri code examples are HTML'ed with colour fontification,
-      example images are now in Jpeg format instead of Gif.
-    - Numerous gri-mode.el enhancements (including new pull-down menu).
+      only works with gzipped files (See docs for Open command).
     - Add two new RPN operators, `file_exists' and `directory_exists'.
-    - Issue warning instead of fatal error when attempting math
-      ops on empty data columns.
+    - Bug fixes.
+    - Reorganize parts of manual (e.g. changing the section about the 
+      Emacs `gri-mode.el' into a chapter, with screenshots). 
+    - Improve the HTML form of the manual (e.g. color-code the Gri syntax
+      in examples, provide access to all the indices, use Jpeg format, etc.). 
+    - Numerous gri-mode.el enhancements (including new pull-down menu
+      listing all Gri commands).
   * Use debhelper.
   * Info files have .info suffix now.
   * gri-html-doc suggest doc-base (otherwise it's not registered).
