@@ -213,7 +213,6 @@ dnl
 CHECK_FOR_NETCDF
 
 AC_CHECK_LIB(m,sin)
-AC_CHECK_LIB(z,gzopen)
 
 
 dnl     Don't use AC_PROG_AWK, since gets 'mawk' before 'gawk'
