@@ -309,6 +309,7 @@ while(get_a_line()) {
 	    }
 	    if (/\s*\@item\s*(.*)/o) {
                 $the_item = $1;
+		$the_item =~ s:\@\@:\@:g;
 		$the_item =~ s:\@{:{:g;
 		$the_item =~ s:\@}:}:g;
 		print "<dt> $start_item$the_item$end_item\n<dd>";
