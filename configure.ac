@@ -1,5 +1,5 @@
 AC_PREREQ(2.50)
-AC_INIT(gri, 2.12.7)
+AC_INIT(gri, 2.12.8)
 AC_CONFIG_SRCDIR(src/gri.cc)
 AM_INIT_AUTOMAKE
 AC_CANONICAL_HOST
@@ -358,31 +358,6 @@ AC_CHECK_LIB(popt, poptReadConfigFile, AM_CONDITIONAL(OS_HAS_POPT, test 1=1), AM
 
 dnl     checks for typedefs
 AC_TYPE_PID_T
-
-dnl     Check for POSIX times()
-AC_DEFUN(CHECK_FOR_POSIX_TIMES,
-AC_MSG_CHECKING(for POSIX times() subroutine)
-AC_CACHE_VAL(gri_cv_have_posix_times, [
-    AC_TRY_COMPILE([
-#define _POSIX_SOURCE 1
-#include <unistd.h>
-#include <limits.h>
-#include <time.h>
-#include <sys/times.h>
-], [
-struct tms buffer; 
-#ifdef sun
-broken
-#endif
-clock_t t = times(&buffer);
-], gri_cv_have_posix_times=yes, gri_cv_have_posix_times=no)])
-    AC_MSG_RESULT($gri_cv_have_posix_times)
-    if test $gri_cv_have_posix_times = yes ; then
-        AC_DEFINE(HAVE_POSIX_TIMES)
-    fi
-    )dnl
-dnl
-CHECK_FOR_POSIX_TIMES
 
 
 dnl     checks for functions

@@ -53,8 +53,8 @@
 @comment %**start of header
 @setfilename gri.info
 @settitle Gri
-@set GRI-VERSION 2.12.7
-@set GRI-PREVIOUS-VERSION 2.12.6
+@set GRI-VERSION 2.12.8
+@set GRI-PREVIOUS-VERSION 2.12.7
 @set AUTHOR-EMAIL dankelley@@users.sourceforge.net
 @include version.texi
 @c %**end of header
@@ -16433,6 +16433,12 @@ only in the fixing of bugs.
 @subsubsection Version 2.12.8 [2004]
 @strong{Bug Fixes}
 @itemize @bullet
+
+@item
+Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=873245&group_id=5511&atid=105511,#873245}
+@dots{} the warnings on slow operations were inaccurate on OSX/FINK platforms, and possibly other 
+POSIX platforms also.
 
 @item
 Fix SourceForge bug

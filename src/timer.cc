@@ -3,9 +3,6 @@
 #include <unistd.h>
 #include <limits.h>
 #include <time.h>
-#if defined(HAVE_POSIX_TIMES)
-#include <sys/times.h>
-#endif
 #include "gr.hh"
 
 
@@ -19,31 +16,17 @@ show_stopwatchCmd(void)
 {
 	char msg[100];
 	static bool first = true;
-#if defined(HAVE_POSIX_TIMES)
-	struct tms buffer;
-	static clock_t last, now;
-#else
 	static time_t last;
-#endif
 	if (first == true) {
-#if defined(HAVE_POSIX_TIMES)
-		last = times(&buffer);
-#else
 		time(&last);
-#endif
 		first = false;
 		sprintf(msg, "Elapsed time = 0 s\n");
 	} else {
-#if defined(HAVE_POSIX_TIMES)
-		now = times(&buffer);
-		sprintf(msg, "Elapsed time = %.3f s\n", float(now - last) / sysconf(_SC_CLK_TCK));
-#else
 		double elapsed;
 		static time_t now;
 		time(&now);
 		elapsed = now - last;
 		sprintf(msg, "Elapsed time = %.0f s\n", elapsed);
-#endif
 	}
 	ShowStr(msg);
 	return true;
@@ -51,12 +34,8 @@ show_stopwatchCmd(void)
 
 GriTimer::GriTimer()
 {
-#if defined(HAVE_POSIX_TIMES)
-	struct tms buffer;
-	start = times(&buffer);
-#else
 	time(&start);
-#endif
+	//printf("TIMER:INIT: start= %ld\n",start);
 }
 char* GriTimer::now_ascii()
 {
@@ -66,15 +45,10 @@ char* GriTimer::now_ascii()
 }
 double GriTimer::elapsed_time()
 {
-#if defined(HAVE_POSIX_TIMES)
-	struct tms buffer;
-	static clock_t now = times(&buffer);
-	return double(now - start) / sysconf(_SC_CLK_TCK);
-#else
 	static time_t now;
 	time(&now);
+	//printf("TIMER:ELAPSED: now=%d  start= %d   elapsed= %d\n",now,start,now-start);
 	return double(now - start);
-#endif
 }
 
 // Main

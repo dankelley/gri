@@ -1,5 +1,5 @@
 Summary: A language for scientific illustration
-%define griversion 2.12.7
+%define griversion 2.12.8
 Name: gri
 Version: %{griversion}
 Release: 1
@@ -96,6 +96,10 @@ then
 fi
 
 %changelog
+* Thu Jan 8 2004 <Dan.Kelley@Dal.Ca>
+- fix SF bug 873245 (inaccurate warnings on slow operations)
+* Wed Jan 7 2004 <Dan.Kelley@Dal.Ca>
+- fix SF bug 871477 by making 'set missing value none' the default
 * Wed Sep 3 2003 <Dan.Kelley@Dal.Ca>
 - RELEASE as version 2.12.7
 - switch to automake-1.7 from automake-1.6
