@@ -6,9 +6,9 @@ use Date::Manip;
 
 $version_makefile = "?";
 
-print "Check 1: do the version numbers match? ...";
+print "Check 1: do the version numbers match?\n";
 sub version_mismatch() {
-    print " no!\n";
+    print "\t... No!\n";
     print "    Version is $version_makefile in the Makefile file.\n";
     print "    Version is $version_doc in the doc/gri.texim file.\n";
     print "    Version is $version_spec in the gri.spec file.\n";
@@ -57,13 +57,13 @@ s/.*version //;
 s/\)//;
 $version_cmd = $_;
 die version_mismatch() if $version_cmd ne $version_makefile;
-print "yes\n";
+print "\t... yes\n";
 
 #### #### #### #### #### #### #### #### #### 
 print "Check 2: have the various changelog files been updated recently? ... ";
-$now = &ParseDate("today at 0am");
+$now = &ParseDate("now");
 print "\n";
-print "    (The present time is $now.)\n"; 
+#print "\t ... the present time is $now\n"; 
 
 # ChangeLog
 open(CHANGELOG, "ChangeLog") or die "Can't open ChangeLog file";
@@ -71,9 +71,18 @@ $_ = <CHANGELOG>;
 close(CHANGELOG);
 @_ = split;
 $date_changelog = &ParseDate($_[0]);
-print "    (The last update in 'ChangeLog' was on $date_changelog)\n";
+#print "\t ... the last update in 'ChangeLog' was on $date_changelog\n";
 $age_changelog = &DateCalc($now, $date_changelog);
-print "  Age of ChangeLog is $age_changelog (yy:mm:wk:dd:hh:mm:ss)\n";
+($y, $mo, $w, $d, $h, $min, $s) = split(/:/, "$age_changelog");
+if ($y > 0) {
+    print "\t... the Changelog file is more than a year old.  It needs to be updated\n";
+    die;
+}
+if ($mo > 0) {
+    print "\t... the Changelog file is $mo months, $w weeks, and $d days old\n";
+} else {
+    print "\t... the Changelog file is $w weeks, $d days, and $h hours old\n";
+}
 
 # portion of gri.spec
 open(SPEC, "gri.spec") or die "Can't open gri.spec";
@@ -82,31 +91,51 @@ while(<SPEC>) {
     $_ = <SPEC>;
     close(SPEC);
     @_ = split;
-    print "    (The date sequence is [$_[1] $_[2] $_[3] $_[4]].)\n";
+    #print "    (The date sequence is [$_[1] $_[2] $_[3] $_[4]].)\n";
     $date_spec = &ParseDate("$_[1] $_[2] $_[3] $_[4]");
     $age_spec = &DateCalc($now, $date_spec);
+    ($y, $mo, $w, $d, $h, $min, $s) = split(/:/, "$age_spec");
+    if ($y > 0) {
+	print "\t... the gri.spec file is more than a year old.  It needs to be updated\n";
+	die;
+    }
+    if ($mo > 0) {
+	print "\t... the gri.spec file is $mo months, $w weeks, and $d days old\n";
+    } else {
+	print "\t... the gri.spec file is $w weeks, $d days, and $h hours old\n";
+    }
     last;
 }
-print "    (The last update in 'gri.spec' was on $date_spec)\n";
-print "  Age of gri.spec is $age_spec (yy:mm:wk:dd:hh:mm:ss)\n";
+#print "    (The last update in 'gri.spec' was on $date_spec)\n";
+#print "  Age of gri.spec is $age_spec (yy:mm:wk:dd:hh:mm:ss)\n";
 
 # debian/changelog
 # portion of gri.spec
 open(DEBIAN_CHANGELOG, "debian/changelog") 
     or die "Can't open debian/changelog";
+print "\n";
+print "DEBUG.  Now examine debian/changelog file.\n";
+print "BUG: need to examine WHOLE file and find MOST RECENT date!\n";
+print "\n";
+print "For reference, the present date is $now\n";
 while(<DEBIAN_CHANGELOG>) {
-    if (/ \-\- (.*) <(.*)> (.*)/) {
-	$date_debian_changelog = &ParseDate($3);
-	print "    (The date sequence is [$3])\n";
-	print "    (The date is $date_debian_changelog)\n";
+    if (/ \-\- (.*) <(.*)> (.*), (.*)/) {
+	$date_debian_changelog = &ParseDate($4);
+	print "the sequence '$4' parses to $date_debian_changelog\n";
 	$age_debian_changelog = &DateCalc($now, $date_debian_changelog);
-	last;
+	($y, $mo, $w, $d, $h, $min, $s) = split(/:/, "$age_debian_changelog");
+	if ($y > 0) {
+	    print "\t... the debian/changelog file is more than a year old.  It needs to be updated\n";
+	    die;
+	}
+	if ($mo > 0) {
+	    print "\t... the debian/changelog file is $mo months, $w weeks, and $d days old\n";
+	} else {
+	    print "\t... the debian/changelog file is $w weeks, $d days, and $h hours old\n";
+	}
+#	last; # do not break out of the loop, since the items may be misordered
     }
 }
-print "  Age of debian/changelog is $age_debian_changelog (yy:mm:wk:dd:hh:mm:ss)\n";
 
 # doc/gri.texim
 print "  Age of doc/gri.texim is ...NOT CODED YET...\n";
-
-print "  BUG: comparison of dates [and checking if too old] is broken\n";
-
