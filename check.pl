@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 use Date::Manip; 
 # For more on how Date::Manip works, see for example
 #    http://theoryx5.uwinnipeg.ca/CPAN/data/DateManip/Manip.html

@@ -309,7 +309,7 @@ README-ftp:
 	chmod a+r README-ftp
 
 check:
-	perl ./check.pl
+	@perl ./check.pl
 
 # Probably 'test' and 'test-installed' could be combined in some elegant fashion,
 # and that would be good since it would prevent them becoming different ... for 
