@@ -5,7 +5,7 @@
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.51 (14 July 2001)
+;; Version:   2.53 (17 July 2001)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -386,6 +386,8 @@
 ;;   gri-perform-completion: needed to regexp-quote the search string
 ;; V2.52 15Jul01 RCS 1.77
 ;;   Add set/unset-command-postarguments to Perform menubar.
+;; V2.53 17Jul01 RCS 1.78
+;;   Tweak Perform menubar order.
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -3908,11 +3910,7 @@ Any output (errors?) is put in the buffer `gri-WWW-manual'."
    '("Perform"
      ["Save, Run and View gri"        gri-run t]
      ("Run Settings"
-      ["Display graph after compilation" 
-       (setq gri*view-after-run (not gri*view-after-run))
-       :style toggle :selected gri*view-after-run]
-      "-"
-      "Run-time options"
+      "Global run-time options"
       ["-publication" (gri-run-setting-toggle "-publication")
        :style toggle :selected (member "-publication" gri*run-settings)]
       ["-trace" (gri-run-setting-toggle "-trace")
@@ -3924,7 +3922,12 @@ Any output (errors?) is put in the buffer `gri-WWW-manual'."
       ["-no_bounding_box" (gri-run-setting-toggle "-no_bounding_box")
        :style toggle :selected (member "-no_bounding_box" gri*run-settings)]
 ;; -superuser ?
-      "-"
+      ["Display graph after compilation" 
+       (setq gri*view-after-run (not gri*view-after-run))
+       :style toggle :selected gri*view-after-run]
+      ["Set gri version to use"        gri-set-version t]
+      "Local run-time options"      
+      ["Set gri version for this file" gri-set-local-version t]
       ["set filename arguments" (gri-menu-set-command-postarguments)
        :visible (not gri-command-postarguments)]
       ["clear filename arguments" (gri-unset-command-postarguments)
@@ -3969,8 +3972,6 @@ Any output (errors?) is put in the buffer `gri-WWW-manual'."
        :style radio :selected (equal gri*view-scale 5)]
       )
      ["Print existing PostScript"     gri-print t]
-     ["Set gri version to use"        gri-set-version t]
-     ["Set gri version for this file" gri-set-local-version t]
      ))
   (easy-menu-define
    gri-mode-menu1 gri-mode-map "Menu keymap for gri-mode."
@@ -4769,7 +4770,7 @@ static char * gri_info24x24_xpm[] = {
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.51 (c) 14 July 2001 --  Peter Galbraith <psg@debian.org>
+V2.53 (c) 17 July 2001 --  Peter Galbraith <psg@debian.org>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
