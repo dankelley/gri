@@ -60,7 +60,7 @@ function age() {
 # Vsn 2.12.8: 2004-10-02 12:33 Halifax time, 8:33 SF time
 #	$diff = time() - mktime(8, 33, 0, 10, 2, 2004); // !!!
 # Vsn 2.12.9: 2005-01-06 12:02 Halifax time, 8:03 SF time
-	$diff = time() - mktime(8, 03, 0, 1, 1, 2005); // !!!
+	$diff = time() - mktime(8, 03, 0, 1, 6, 2005); // !!!
 
 	$days = floor($diff / 24 / 60 / 60);
 	$weeks = floor($days / 7);
