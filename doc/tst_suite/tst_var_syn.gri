@@ -65,7 +65,7 @@ assert {rpn "\string" "Hello" ==}		" failed test 6.1"
 Newcommand "A .2" 
 
 # Test de-referenced synonyms
-# 1. check to see if can delete without either a 
+# DE-REF 1. check to see if can delete without either a 
 # single or a double backslash, and either with 
 # enclosing double-quotes, or not.
 \a = "HI"
@@ -81,35 +81,36 @@ assert {rpn "\\a"    defined ! }		" failed test 8.4"
 \a = "HI"
 delete "\\a"
 assert {rpn "\\a"    defined ! }		" failed test 8.5"
-
-# 2. test redirection.
+# DE-REF 2. test redirection.
 \a = "hi"
 \name = "\\a"
 assert {rpn "\\@name" defined   }		" failed test 8.6"
 delete \@name
 assert {rpn "\\a"     defined ! }		" failed test 8.7"
-
-# 3. test 'new' and 'delete' with re-directed ...
+# DE-REF 3. test 'new' and 'delete' with re-directed ...
 new \@name
 assert {rpn "\\a"     defined   }		" failed test 8.8"
 \a = "greeting"
 assert {rpn "\\a"     defined   }		" failed test 8.9"
 delete \\@name
 assert {rpn "\\a"     defined ! }		" failed test 8.10"
-
-# 4. also, check new/delete the old way!
+# DE-REF 4. also, check new/delete the old way!
 new \a
 assert {rpn "\\a"     defined   }		" failed test 8.11"
 \a = "greeting"
 assert {rpn "\\a"     defined   }		" failed test 8.12"
 delete \a
 assert {rpn "\\a"     defined ! }		" failed test 8.13"
-
-# 5. sprintf on normal and de-referenced synonyms
+# DE-REF 5. sprintf on normal and de-referenced synonyms (SF bug 117413)
 sprintf \a "%.1f" 10
 assert {rpn "\a" "10.0" == }			" failed test 8.14"
 \pointer_to_a = "\\a"
 sprintf \@pointer_to_a "%.1f" 20
 assert {rpn "\a" "20.0" == }			" failed test 8.15"
+# DE-REF 6. Environment variables (SF bug 117415)
+\point_to_a = "\\a"
+get env \@point_to_a "SHELL"
+get env \b "SHELL"
+assert {rpn "\a" "\b" ==}			" failed test 8.16"
 
 show " passed"

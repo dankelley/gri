@@ -216,38 +216,43 @@ skip_nonspace(const char *s)
 	return i;
 }
 
-// Store result of 'printenv _word[3]' into _word[2] (If no such environment
-// variable, store "" into _word[2].)
+// 'get env \a SHELL'
 bool
 get_envCmd()
 {
-	if (_nword == 4) {
-		char *            result;
-		if (!is_syn(_word[2])) {
-			err("No synonym name given");
-			demonstrate_command_usage();
-			return false;
-		}
-		result = egetenv((const char*)_word[3]);
-		if (result == NULL) {
-			if (!put_syn(_word[2], "", true)) {
-				gr_Error("Ran out of storage");
-				return false;
-			}
-			warning("No environment variable called `\\", _word[3], "' exits.", "\\");
-		} else {
-			if (!put_syn(_word[2], result, true)) {
-				gr_Error("Ran out of storage");
-				return false;
-			}
-		}
-	} else {
+	if (_nword != 4) {
 		NUMBER_WORDS_ERROR;
 		demonstrate_command_usage();
 		return false;
 	}
-	return true;			/* never reached */
+	string the_syn(_word[2]);
+	un_double_quote(the_syn);
+	un_double_slash(the_syn);
+	de_reference(the_syn);
+	if (!is_syn(the_syn)) {
+		err("No synonym name given");
+		demonstrate_command_usage();
+		return false;
+	}
+	string the_env_var(_word[3]);
+	un_double_quote(the_env_var);
+	de_reference(the_env_var);
+	char *result = egetenv(the_env_var.c_str());
+	if (result == NULL) {
+		if (!put_syn(the_syn.c_str(), "", true)) {
+			gr_Error("Ran out of storage");
+			return false;
+		}
+		warning("No environment variable called `\\", the_env_var.c_str(), "' exits.", "\\");
+	} else {
+		if (!put_syn(the_syn.c_str(), result, true)) {
+			gr_Error("Ran out of storage");
+			return false;
+		}
+	}
+	return true;
 }
+
 
 /* Paste a single character onto the end of a string. */
 void
