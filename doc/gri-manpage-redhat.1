@@ -3,13 +3,14 @@
 gri \- scientific graphics language
 .SH SYNOPSIS
 .B gri
-[
-.B OPTIONS
-]
-.I CommandFile
-[
-.I PostScriptFile
-]
+#         Typed commands yield PS file
+.I gri-00.ps
+.br
+.B gri foo.gri
+# Script
+.I foo.gri
+yields PS file
+.I foo.ps
 
 .SH DESCRIPTION
 
@@ -23,21 +24,18 @@ Gri is not a point-click application.  In some ways it is analogous to
 TeX; in both cases extensive power rewards tolerance of a modest
 learning curve.
 
-For more information, please consult online 
-.I info
-and
-.I html
-manuals.
+.SH FULL DOCUMENTATION
 
-The 
-.I info
-manual is normally accessed by typing
+This manpage is intended merely as a pointer to the main
+documentation, which you may find at:
 
-.B	info gri
+.SS The INFO manual
+is accessed by typing
+.B info gri
+or by accessing the 'info' node in Emacs or in other standard ways.
 
-The 
-.I html
-manual is located at
+.SS The HTML manual
+is located at
 .B /usr/doc/gri-VERSION/html/index.html
 where 
 .B VERSION
@@ -47,26 +45,12 @@ The
 FAQ is located at
 .B /usr/doc/gri-VERSION/html/FAQ.html
 
-There are also one-page reference cards available for Gri.
-
-
-.SH GRI_MERGE AND GRI_UNPAGE COMMANDS
-
-Two Perl scripts are provided with Gri to manipulate the PostScript
-output.  
-
-.I gri_merge
-is used to merge multiple Gri output files into a single PostScript file.
-Type
-.B gri_merge -h
-for usage information.
-
-.I gri_unpage
-is used is split a multi-page Gri output file (in which the
-.B new page
-command was used) into separate PostScript files, one for each page.  Type
-.B gri_unpage -h
-
+.SS PostScript reference cards
+are at
+.B /usr/doc/gri-VERSION/refcard.ps
+(overall reference and quick introduction) and 
+.B /usr/doc/gri-VERSION/cmdrefcard.ps
+(reference to commands).
 
 .SH EMACS SUPPORT
 
@@ -76,6 +60,12 @@ mode is provided with Gri.  It is at
 .B /usr/share/emacs/site-lisp/gri-mode.el
 and is fully described in a chapter in the manual.
 
+.SH SEE ALSO
+Related programs
+.B gri_unpage
+and 
+.B gri_merge
+for working with PostScript output from Gri.
 
 .SH AUTHORS
 Gri (c) 2000 Dan Kelley <Dan.Kelley@Dal.CA> and Peter S Galbraith
