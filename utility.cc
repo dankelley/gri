@@ -33,13 +33,13 @@ extern double   strtod(const char *, char **);
 bool
 get_normal_number(const char *s, double *d)
 {
-	extern double _grMissingValue;
 	char *ptr = NULL;
 	*d = strtod(s, &ptr);
 	if (*ptr == '\0') {
 		// Normal number; check for infinity/not-a-number
 #if defined(HAVE_ISNAN) && defined(HAVE_ISINF)
 #if !defined(__MACHTEN__)
+		extern double _grMissingValue;
 		if (isinf(*d) || isnan(*d))
 			*d = (double) _grMissingValue;
 #endif
