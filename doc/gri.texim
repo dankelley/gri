@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.130 2001/09/10 16:42:17 dankelley Exp $
+@c $Id: gri.texim,v 1.131 2001/09/13 20:09:59 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -15798,7 +15798,7 @@ only in the fixing of bugs.
 @comment  node-name,  next,  previous,  up
 @subsection Version 2.8
 
-@subsection Version 2.8.2 [2001 Sep 10]
+@subsection Version 2.8.2 [2001 Sep 19]
 @itemize @bullet
 @item
 Fix SourceForge bug
