@@ -283,19 +283,7 @@ cookbook
 @cindex Gri newsgroup
 @cindex newsgroup
 and several reference cards.  It also has several discussion groups
-(@ref{Discussion Group}) and a
-mail-in newsgroup, which you can join by sending an email to
-@c HTML <A HREF="mailto:majordomo@phys.ocean.dal.ca">
-@code{majordomo@@phys.ocean.dal.ca}
-@c HTML </A>
-with contents @code{subscribe gri}.  But this newsgroup is rapidly
-showing signs of age, and you should really be using the groups maintained at
-the Source Forge site 
-@c HTML <a href="http://gri.sourceforge.net">
-@code{http://gri.sourceforge.net}
-@c HTML </a>
-instead.
-
+(@ref{Discussion Group}).
 
 
 @emph{Version Numbering Scheme}
@@ -13834,48 +13822,15 @@ list of answers to Frequently Asked Questions.
 There are two general classes of Gri discussion groups.  
 
 As of summer 2000, Gri traffic has been moved to the web-based
-discussion groups at the SourceForge site, i.e.
-@c HTML <a href="http://gri.sourceforge.net">
-@code{http://gri.sourceforge.net}
-@c HTML </a>
+discussion groups at the SourceForge website
+@url{http://gri.sourceforge.net}
 about which little need be said here, because the website is very
 easy to use.
 
 An older newsgroup, which will still be maintained for a while at least,
-is handled by a so-called Majordomo server.  You may subscribe by
-emailing to
-@c HTML <a href="mailto:majordomo@phys.ocean.dal.ca">
-@code{majordomo@@phys.ocean.dal.ca}
-@c HTML </a>
-with contents consisting of the single line 
-@example
-subscribe gri
-@end example
-@noindent
-and you may submit a message by emailing to
-@c HTML <a href="mailto:gri@phys.ocean.dal.ca">
-@code{gri@@phys.ocean.dal.ca}
-@c HTML </a>
-with contents consisting of the message you'd like to send.  Please
-respect the fact that folks on this group are busy people, and won't be
-able to respond to very open-ended questions such as "How do I plot
-things with gri".  A @emph{real} advantage of the SourceForge group is,
-in fact, that old messages are archived and threaded, and trivial to
-peruse on the web.
-
-Other commands, each to be emailed to 
-@c HTML <a href="mailto:majordomo@phys.ocean.dal.ca">
-@code{majordomo@@phys.ocean.dal.ca}
-@c HTML </a>
-in the @emph{body} (not the subjectline), are:
-@example
-info gri
-@end example
-@noindent (to get info on gri)
-@example
-unsubscribe gri
-@end example
-@noindent (to unsubscribe from the gri list)
+is handled by a GNU mailman server; you may subscribe, read archived
+messages, etc, at the website
+@url{http://www.Phys.Ocean.Dal.Ca/mailman/listinfo/gri}.
 
 
 @c HTML <!-- newfile Emacs.html "Gri: Emacs editing mode" "Emacs editing mode" -->
@@ -14693,6 +14648,9 @@ The next sections outline the changes made in Gri.
 @subsection Version 2.6
 @table @emph
 @item 2.6.0 [2000-Dec-??] (Not released yet.)
+@sp 1
+Switch email list from @code{majordomo} to GNU @code{mailman}.
+
 @sp 1
 No longer remove comments from data lines that are read.  This served
 little function, interfered with recent user code, and could be
