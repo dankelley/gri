@@ -103,9 +103,10 @@ function footer()
 	print "<center>\n";
 	print "<small>\n";
 	print "Copyright &copy; 2002 by\n";
-	print "<a href=\"$sf_url/users/dankelley/\">Dan Kelley</a>\n";
+        global $sf_url;
+	print "<a href=\"$sf_url/users/dankelley\">Dan Kelley</a>\n";
 	print " and ";
-	print "<a href=\"$sf_url/users/psg/\">Peter Galbraith</a><br>\n";
+	print "<a href=\"$sf_url/users/psg\">Peter Galbraith</a><br>\n";
 	print "This material may be distributed only subject to the terms and conditions\n";
 	print "set forth in the GNU Publication License\n";
 	print "</small>\n";
