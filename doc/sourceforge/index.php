@@ -123,10 +123,10 @@ Gri can make
 <a href="./gridoc/html/X-Y.html">
 x-y
 </a> graphs,
-<a href="./gridoc/html/Contour.html">
+<a href="./gridoc/html/ContourPlots.html">
 contour
 </a> graphs, and 
-<a href="./gridoc/html/Image.html">
+<a href="./gridoc/html/Images.html">
 image
 </a>
 graphs.  Fine control is provided over all aspects of drawing,
