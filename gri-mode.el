@@ -5,7 +5,7 @@
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.27 (30 May 2000)
+;; Version:   2.28 (21 Jun 2000)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -338,6 +338,8 @@
 ;;   list of nodes.
 ;; V2.27 30May00 RCS 1.51 - default web page changed to:
 ;;    http://www.phys.ocean.dal.ca/~kelley/gri/index.html 
+;; V2.28 21Jun00 RCS 1.52 - Added gri*run-settings
+;;                        - Bettered some customize entries.
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -379,33 +381,24 @@ See the gri-mode.el file itself for more information.")
 ;;----------------------
 ;; The folowing are user-configurable variables which can be set in the 
 ;; user's .emacs file to change the behaviour of gri-mode
+;; They can be set using the customize interface:  M-x gri-customize
 
-  (defvar gri*WWW-program nil
-    "*Program name for World-Wide-Web browser, used by command gri-WWW-manual.
-If set to nil, gri-mode will use the Emacs' browse-url package to deal with
-the browser request.  If set to a string, gri-mode will start it as a
-sub-process.
+  (defvar gri-menubar-cmds-action 'Info
+    "Default action to do on listed Gri command in Cmds menu-bar menu.
+This can be set to one of 'Info, 'Help or 'Insert.")
 
-On your system, this could be `netscape'.  If so, set this variable in your
-.emacs file like so:
-
-  (setq gri*WWW-program \"netscape\")")
-
-  (defvar gri*WWW-page "http://www.phys.ocean.dal.ca/~kelley/gri/index.html"
-  "*Web page or local html index file for the gri manual.
-This is used by the gri-WWW-manual command.
-On your system, this could be reset to a local html file, e.g.
- (setq gri*WWW-page \"file:/usr/share/doc/gri-html-doc/html/index.html\")
-but it defaults to the gri web page: 
- http://www.phys.ocean.dal.ca/~kelley/gri/index.html
-
-See also:  variable gri*WWW-program.")
-
-  (defvar gri-indent-before-return nil
-    "*Set to `t' to indent current line before newline on carriage return.
-Reset this in your .emacs file like so:
-
-  (setq gri-indent-before-return t)")
+  (defvar gri*run-settings nil
+    "*List of optional parameters to pass to gri when running it.
+This is the default initial setting in the menu-bar pull-down menu.
+Valid entries are:
+ \"-debug\"
+ \"-nowarn_offpage\"
+ \"-no_bounding_box\"
+ \"-publication\"
+ \"-trace\"
+Like this like so:
+ (setq gri*run-settings '(\"-publication\" \"-trace\"))")
+;; FIXME: add -superuser with a value above somehow.
 
   (defvar gri*view-after-run t
     "*When set to true, gri-run will call gri-view after successful completion.
@@ -440,6 +433,33 @@ Reset this in your .emacs file (but not in your gri-mode-hook) like so:
 Changed via menu-bar.")
   (make-variable-buffer-local 'gri*view-scale)
 
+  (defvar gri*WWW-program nil
+    "*Program name for World-Wide-Web browser, used by command gri-WWW-manual.
+If set to nil, gri-mode will use the Emacs' browse-url package to deal with
+the browser request.  If set to a string, gri-mode will start it as a
+sub-process.
+
+On your system, this could be `netscape'.  If so, set this variable in your
+.emacs file like so:
+
+  (setq gri*WWW-program \"netscape\")")
+
+  (defvar gri*WWW-page "http://www.phys.ocean.dal.ca/~kelley/gri/index.html"
+  "*Web page or local html index file for the gri manual.
+This is used by the gri-WWW-manual command.
+On your system, this could be reset to a local html file, e.g.
+ (setq gri*WWW-page \"file:/usr/share/doc/gri-html-doc/html/index.html\")
+but it defaults to the gri web page: 
+ http://www.phys.ocean.dal.ca/~kelley/gri/index.html
+
+See also:  variable gri*WWW-program.")
+
+  (defvar gri-indent-before-return nil
+    "*Set to `t' to indent current line before newline on carriage return.
+Reset this in your .emacs file like so:
+
+  (setq gri-indent-before-return t)")
+
   (defvar gri*lpr-command (if (boundp 'lpr-command) 
                               lpr-command
                             "lpr")
@@ -457,7 +477,7 @@ but can also be entered simply as a single string:
     "Gri - Scientific graphics language" :group 'languages)
 
   (defcustom gri*directory-tree "/usr/local/share/gri"
-    "*Root of the gri directory tree.
+    "Root of the gri directory tree.
 
 Root of the gri directory tree holding versions of gri library files.
 This is either a string, or a list of strings.
@@ -490,45 +510,28 @@ See the gri-mode.el file itself for more information."
     :group 'gri
     :type '(choice (directory) (repeat directory)))
 
-;;----------------------
-;; The folowing are user-configurable variables which can be set in the 
-;; user's .emacs file to change the behaviour of gri-mode
-
-  (defcustom gri*WWW-program nil
-    "*Program name for World-Wide-Web browser, used by command gri-WWW-manual.
-If set to nil, gri-mode will use the Emacs' browse-url package to deal with
-the browser request.  If set to a string, gri-mode will start it as a
-sub-process.
-
-On your system, this could be `netscape'.  If so, set this variable in your
-.emacs file like so:
-
-  (setq gri*WWW-program \"netscape\")"
+  (defcustom gri-menubar-cmds-action 'Info
+    "Default action to do on listed Gri command in Cmds menu-bar menu.
+This can be set to one of Info, Help or Insert."
     :group 'gri
-    :type '(restricted-sexp :match-alternatives (stringp 'nil)))
+;;; :type '(restricted-sexp :match-alternatives ('Info 'Help 'Insert)
+    :type '(choice (const :tag "Info" Info)
+                   (const :tag "Help" Help)
+                   (const :tag "Insert" Insert)))
 
-  (defcustom gri*WWW-page "http://www.phys.ocean.dal.ca/~kelley/gri/index.html"
-  "*Web page or local html index file for the gri manual.
-This is used by the gri-WWW-manual command.
-On your system, this could be reset to a local html file, e.g.
- (setq gri*WWW-page \"file:/usr/share/doc/gri-html-doc/html/index.html\")
-but it (usually) defaults to the gri web page: 
- http://www.phys.ocean.dal.ca/~kelley/gri/index.html
-
-See also:  variable gri*WWW-program."
+  (defcustom gri*run-settings nil
+    "List of optional parameters to pass to gri when running it.
+This list makes the startup values used in the menubar pull-down menu."
     :group 'gri
-    :type 'string)
-
-  (defcustom gri-indent-before-return nil
-    "*Set to `t' to indent current line before newline on carriage return.
-Reset this in your .emacs file like so:
-
-  (setq gri-indent-before-return t)"
-    :group 'gri
-    :type 'boolean)
+    :type '(set (const "-debug")
+                (const "-nowarn_offpage")
+                (const "-no_bounding_box")
+                (const "-publication")
+                (const "-trace")))
 
   (defcustom gri*view-after-run t
-    "*When set to true, gri-run will call gri-view after successful completion.
+    "When true, the graph will be displayed after compilation.
+See also variable gri*view-command to set what viewer to use.
 If you do not wish this behaviour, reset it in your .emacs file like so:
 
   (setq gri*view-after-run nil)"
@@ -536,7 +539,7 @@ If you do not wish this behaviour, reset it in your .emacs file like so:
     :type 'boolean)
 
   (defcustom gri*view-command "gv"
-    "*command used by gri-view to preview postscript file.
+    "Command used by gri-view to display postscript file.
 Reset this in your .emacs file (but not in your gri-mode-hook) like so:
 
   (setq gri*view-command \"ghostview -magstep -1\") ;for small screens
@@ -549,7 +552,7 @@ the default scale; don't use the gv -scale option in this variable."
     :type 'string)
 
   (defcustom gri*view-landscape-arg "-landscape" 
-    "*argument used to obtain landscape orientation in gri-view.
+    "Argument used to obtain landscape orientation in gri-view.
 This argument is passed to the shell along with the command stored 
 in the variable gri*view-command.
 Reset this in your .emacs file (but not in your gri-mode-hook) like so:
@@ -563,21 +566,68 @@ Reset this in your .emacs file (but not in your gri-mode-hook) like so:
 
   (defcustom gri*view-scale 0
   "Default scale argument to use when using gv as gri-view command.
-Changed via menu-bar."
+You may change this via the menu-bar during an editing session."
     :group 'gri
-    :type 'integer)
+;;  :type 'integer)
+    :type '(choice (const :tag "0.1" -5)
+                   (const :tag "0.125" -4)
+                   (const :tag "0.25" -3)
+                   (const :tag "0.5" -2)
+                   (const :tag "0.707" -1)
+                   (const :tag "1" 0)
+                   (const :tag "1.414" 1)
+                   (const :tag "2" 2)
+                   (const :tag "4" 3)
+                   (const :tag "8" 4)
+                   (const :tag "10" 5)))
   (make-variable-buffer-local 'gri*view-scale)
+
+  (defcustom gri*WWW-program nil
+    "Program name for World-Wide-Web browser, used by command gri-WWW-manual.
+If set to nil, gri-mode will use the Emacs' browse-url package to deal with
+the browser request.  If set to a string, gri-mode will start it as a
+sub-process.
+
+On your system, this could be `netscape'.  If so, set this variable in your
+.emacs file like so:
+
+  (setq gri*WWW-program \"netscape\")"
+    :group 'gri
+;;; :type '(restricted-sexp :match-alternatives (stringp 'nil))
+    :type '(choice (const :tag "Use browse-url package" nil)
+                   (string :tag "Specify a program")))
+
+
+  (defcustom gri*WWW-page "http://www.phys.ocean.dal.ca/~kelley/gri/index.html"
+  "Web page or local html index file for the gri manual.
+This is used by the gri-WWW-manual command.
+On your system, this could be reset to a local html file, e.g.
+ (setq gri*WWW-page \"file:/usr/share/doc/gri-html-doc/html/index.html\")
+but it (usually) defaults to the gri web page: 
+ http://www.phys.ocean.dal.ca/~kelley/gri/index.html
+
+See also:  variable gri*WWW-program."
+    :group 'gri
+    :type 'string)
+
+  (defcustom gri-indent-before-return nil
+    "Set to true to indent current line when pressing carriage return.
+Reset this in your .emacs file like so:
+
+  (setq gri-indent-before-return t)"
+    :group 'gri
+    :type 'boolean)
 
   (defcustom gri*lpr-command (if (boundp 'lpr-command) 
                               lpr-command
                             "lpr")
-    "*Command used by gri-mode to print PostScript files produced by gri.
+    "Command used by gri-mode to print PostScript files produced by gri.
 Set only the command name here.  Options are set in gri*print-switches"
     :group 'gri
     :type 'string)
   
   (defcustom gri*lpr-switches (if (boundp 'lpr-switches) lpr-switches)
-    "*Options used to print PostScript files produced by gri.
+    "Options used to print PostScript files produced by gri.
 This is usually entered as a list of strings:
    (setq gri*lpr-switches '(\"-P las_imlsta\" \"-ps\"))
 but can also be entered simply as a single string:
@@ -2455,17 +2505,20 @@ Usually used to send debugging flags."
   "Do actual work for gri-run and gri-run-new."
   (if (buffer-modified-p)
       (save-buffer))
-  (cond 
+  (cond
    ((string-equal "" gri-command-arguments)
-    (message "%s %s (on newly saved file)" 
-             the-command (file-name-nondirectory buffer-file-name))
-    (shell-command (concat the-command buffer-file-name)))
-   (t
     (message "%s %s %s (on newly saved file)" 
-             the-command gri-command-arguments 
+             the-command (gri-run-setting-string) 
+             (file-name-nondirectory buffer-file-name))
+    (shell-command (concat the-command (gri-run-setting-string) 
+                           buffer-file-name)))
+   (t
+    (message "%s %s %s %s (on newly saved file)" 
+             the-command gri-command-arguments
+             (gri-run-setting-string) 
              (file-name-nondirectory buffer-file-name))
     (shell-command 
-     (concat the-command gri-command-arguments " " 
+     (concat the-command gri-command-arguments " " (gri-run-setting-string)
              (file-name-nondirectory buffer-file-name)))))
   (message "Running gri done.")
   (if (not (get-buffer "*Shell Command Output*"))  ;;need this for emacs-18
@@ -3525,6 +3578,23 @@ Any output (errors?) is put in the buffer `gri-WWW-manual'."
    gri-mode-menu2 gri-mode-map "Menu keymap for gri-mode."
    '("Perform"
      ["Save, Run and View gri"        gri-run t]
+     ("Run Settings"
+      ["Display graph after compilation" 
+       (setq gri*view-after-run (not gri*view-after-run))
+       :style toggle :selected gri*view-after-run]
+      "-"
+      ["-publication" (gri-run-setting-toggle "-publication")
+       :style toggle :selected (member "-publication" gri*run-settings)]
+      ["-trace" (gri-run-setting-toggle "-trace")
+       :style toggle :selected (member "-trace" gri*run-settings)]
+      ["-nowarn_offpage" (gri-run-setting-toggle "-nowarn_offpage")
+       :style toggle :selected (member "-nowarn_offpage" gri*run-settings)]
+      ["-debug" (gri-run-setting-toggle "-debug")
+       :style toggle :selected (member "-debug" gri*run-settings)]
+      ["-no_bounding_box" (gri-run-setting-toggle "-no_bounding_box")
+       :style toggle :selected (member "-no_bounding_box" gri*run-settings)]
+;; -superuser ?
+      )
      ["View existing PostScript"      gri-view  t]
      ("gv scale selection"
       ["0.1" 
@@ -3785,6 +3855,33 @@ Any output (errors?) is put in the buffer `gri-WWW-manual'."
   (define-key gri-mode-map [menu-bar Syntax gri-complete]
     '(" Complete gri command " . gri-complete))))
 
+
+(defun gri-run-setting-toggle (item)
+  "If ITEM is selected, unselect it.  Else select it."
+  (interactive "P")
+  (if (not (member item gri*run-settings))
+      (setq gri*run-settings (cons item gri*run-settings))
+    (let ((work-list gri*run-settings)
+          (new-list))
+      (while work-list
+        (let ((entry (car work-list)))
+          (if (not (equal item entry))
+              (setq new-list (cons entry new-list))))
+        (setq work-list (cdr work-list)))
+      (setq gri*run-settings new-list))))
+
+(defun gri-run-setting-string ()
+  "Return a string of gri*run-settings elements"
+  (if (not gri*run-settings)
+      ""
+    (let ((work-list gri*run-settings)
+          (new-list))
+      (while work-list
+        (let ((entry (car work-list)))
+          (setq new-list (concat entry " " new-list)))
+        (setq work-list (cdr work-list)))
+      new-list)))
+
 ;;;----------------------------------------------------------------
 ;;; Automatic generation of a menubar menu listing all Gri commands.
 ;;;  (gri-easy-menu-build) to regenerate it.
@@ -3816,12 +3913,6 @@ Any output (errors?) is put in the buffer `gri-WWW-manual'."
           (setq string (buffer-substring (point)
                                          (progn (end-of-line)(point)))))))
       (insert string)))))
-
-(defcustom gri-menubar-cmds-action 'Info
-  "Default action to do on listed Gri command in Cmds menu-bar menu.
-This can be set to one of Info, Help or Insert."
-    :group 'gri
-    :type '(restricted-sexp :match-alternatives ('Info 'Help 'Insert)))
 
 (defun gri-menubar-cmds-build ()
   "Creates a buffer from ~/.gri-syntax to evaluate and define a menu map"
@@ -4040,7 +4131,7 @@ static char *magick[] = {
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.27 (c) 30 May 2000 --  Peter Galbraith <GalbraithP@dfo-mpo.gc.ca>
+V2.28 (c) 21 Jun 2000 --  Peter Galbraith <GalbraithP@dfo-mpo.gc.ca>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
