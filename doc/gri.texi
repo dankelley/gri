@@ -13237,11 +13237,10 @@ command.
 
 @c HTML <!-- newfile Extras.html "Gri: extra programs that work with Gri" "Gri Extras" -->
 
-@node   Extras, gri_indent, Write Image, Top
+@node   Extras, gri_merge, Write Image, Top
 @comment  node-name,  next,  previous,  up
 @chapter Extra things provided with Gri
 @menu
-* gri_indent::                  Indenting Gri code
 * gri_merge::                   Merge files to one page
 * gri_unpage::                  Separate multipage doc into separate files
 * gri_curve::                   Extract data from Gri PostScript file
@@ -13250,65 +13249,7 @@ command.
 * Extractor Of Images::         Program to extract image from PostScript
 @end menu
 
-
-
-@node   gri_indent, gri_merge, Extras, Extras
-@comment  node-name,  next,  previous,  up
-@section Indentation program
-@cindex gri code, indenting
-@cindex indenting Gri code
-
-A Perl program called @code{grindent} is provided with Gri, installed in
-the same directory as Gri.  
-
-@cindex FTP site
-
-@c HTML <A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri">
-@file{ftp://ftp.phys.ocean.dal.ca/users/kelley/gri}
-@c HTML </A>
-<P>
-
-@itemize @bullet
-@item
-@code{Grindent} can work as a filter, transforming standard input into
-standard output, as in @code{cat a.gri | grindent}.  On a Sun
-openwindows system, you can therefore make the textedit tool do gri
-indentation on the contents of the window by adding the following line
-to your @file{~/.text_extras_menu} file:
-@example
-"Pretty-print Gri"	/local/bin/grindent
-@end example
-@item
-@code{Grindent} can work on a specified Gri command file inplace, as in
-@code{grindent cmd.gri}.  Before modifying the @file{cmd.gri} file, it
-first makes a copy in @file{cmd.gri.BAK}.
-@item
-@code{Grindent} indents code within @code{if} blocks, @code{while}
-blocks, and new commands.  The indentation level is 4 spaces by default.
-The @code{-i} commandline option lets you change this, e.g.,
-@code{grindent -i2 cmd.gri} specifies 2 spaces.
-@item
-@code{Grindent} tries to line up right-trailing inline comments and continuation
-backslashes, to a default column of 32.  The commandline option
-@code{-c} lets you change this column, e.g. @code{grindent -c40 cmd.gri}
-specifies the 40th column.
-@item
-@code{Grindent} makes assignment statements have precisely 1 space before and after
-the equal sign.
-@item
-@code{Grindent} transforms all TAB characters into single spaces.
-@item
-@code{Grindent} leaves the help for new commands unaltered.
-@item
-@code{Grindent} does some simple syntax checking, for things like unclosed @code{if}
-statements within @code{while} loops or within the whole program.  When
-Grindent gives a warning, you will know that either the line it quotes
-is wrong or some line above it; use the indentation to track the error
-down.
-@end itemize
-
-
-@node   gri_merge, gri_unpage, gri_indent, Extras
+@node   gri_merge, gri_unpage, Extras, Extras
 @comment  node-name,  next,  previous,  up
 @section gri_merge, combine PostScript files into one page
 @cindex gri_merge
@@ -14236,7 +14177,13 @@ First debian release.  Versions exist for intel, alpha, 68K and powerpc.
 @item 2.5.5 [2000-Jun-11]
 Add RPN operators @code{argc} (@ref{Unary Operators}) and
 @code{argv} (see @ref{Binary Operators}) for accessing the command-line
-arguments.  Also, improve discussion of RPN operators in manual.
+arguments.  
+
+Improve discussion of RPN operators in manual.
+
+Remove documentation on @code{gri_indent}, not supplied with Gri for a
+long time.
+
 
 @item 2.5.4 [2000-Jun-01]
 Fix up some errors in manual (non-visible images in html form).
