@@ -149,7 +149,7 @@ get_starred_synonym(const char* name, bool want_value/*or name*/, std::string& r
 // Get index of synonym
 // RETURN non-negative integer if 'name' is an existing synonym, or -1 if not.
 int
-index_of_synonym(const char *name, int mark = -1)
+index_of_synonym(const char *name, int mark)
 {
 	if (!is_syn(name))
 		return -1;
@@ -302,7 +302,7 @@ delete_syn(const std::string& name)
 // have been set aside by the calling routine.
 // RETURN true if synonym is defined and has a value
 bool
-get_syn(const char *name, std::string& value, bool do_decoding = true)
+get_syn(const char *name, std::string& value, bool do_decoding)
 {
         unsigned int name_len = strlen(name);
 	//printf("DEBUG %s:%d get_syn(%s,)\n",__FILE__,__LINE__,name);

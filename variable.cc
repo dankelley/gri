@@ -13,7 +13,7 @@ std::vector<GriVariable> variableStack;
 // RETURN non-negative integer if 'name' is an existing variable, or -1 if not.
 // BUG: only finds single-dotted variables (stored in the stack)
 int
-index_of_variable(const char *name, int mark = -1)
+index_of_variable(const char *name, int mark)
 {
 	if (!is_var(name))
 		return -1;
