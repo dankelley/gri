@@ -703,11 +703,11 @@ read_columnsCmd()
 		// number was specified
 		if (end_of_data) {
 			sprintf(_grTempString, "%sOnly found %d rows\n", 
-				_margin.c_str(), _colX.size());
+				_margin.c_str(), int(_colX.size()));
 			gr_textput(_grTempString);
 		} else if (trace) {
 			sprintf(_grTempString, "%sRead %d data points into columns.\n",
-				_margin.c_str(), _colX.size());
+				_margin.c_str(), int(_colX.size()));
 			gr_textput(_grTempString);
 			if (_input_data_window_x_exists || _input_data_window_y_exists) {
 				sprintf(_grTempString, "\
@@ -722,7 +722,7 @@ read_columnsCmd()
 		// number not specified
 		if (trace) {
 			sprintf(_grTempString, "%sRead %d data points into columns.\n",
-				_margin.c_str(), _colX.size());
+				_margin.c_str(), int(_colX.size()));
 			gr_textput(_grTempString);
 			if (_input_data_window_x_exists || _input_data_window_y_exists) {
 				sprintf(_grTempString, "\
@@ -760,9 +760,9 @@ read_columnsCmd()
 	if (append)
 		_nword++;
 	sprintf(_grTempString, "%d rows %d non-missing %d inside-clip-region",
-		_colX.size(), 
-		_colX.size() - number_missing_cols(),
-		_colX.size() - number_outside_window++);
+		int(_colX.size()), 
+		int(_colX.size() - number_missing_cols()),
+		int(_colX.size() - number_outside_window++));
 	RETURN_VALUE(_grTempString);
 	return true;
 }

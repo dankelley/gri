@@ -248,8 +248,8 @@ pop_data_file(int file)
 		system(sys_cmd.c_str());
 	}
 	_dataFILE.erase(_dataFILE.begin() + file);
-	if (((unsigned) superuser()) & FLAG_AUT1)printf("pop_data_file(%d) about to do _dataFILE.pop_back() size before is %d ...\n",file,_dataFILE.size());
-	if (((unsigned) superuser()) & FLAG_AUT1)printf("        ... did pop_data_file(%d) ok ... size now %d\n",file,_dataFILE.size());
+	if (((unsigned) superuser()) & FLAG_AUT1)printf("pop_data_file(%d) about to do _dataFILE.pop_back() size before is %d ...\n",file,int(_dataFILE.size()));
+	if (((unsigned) superuser()) & FLAG_AUT1)printf("        ... did pop_data_file(%d) ok ... size now %d\n",file,int(_dataFILE.size()));
 	return true;
 }
 

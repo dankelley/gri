@@ -445,7 +445,7 @@ draw_symbolCmd()
 			sprintf(_grTempString, "\
 `draw symbol' drew %d of the %d data; the remaining %d points\n\
   were either missing or out of clip region.\n",
-				num_drawn, _colX.size(), _colX.size() - num_drawn);
+				num_drawn, int(_colX.size()), int(_colX.size()) - num_drawn);
 			gr_textput(_grTempString);
 		}
 
