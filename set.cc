@@ -629,7 +629,7 @@ set_x_typeCmd()
 				_xtype = gr_axis_LOG;
 			} else {
 				err("\
-Can't convert from linear x axis, since present x axis has negative numbers.\n\
+Can't convert from linear x axis, present x axis has numbers <= 0.\n\
 First `delete x scale', then `set x type log'.");
 			}
 		} else {
@@ -690,7 +690,7 @@ set_y_typeCmd()
 				_ytype = gr_axis_LOG;
 			} else {
 				err("\
-Can't convert from linear y axis, since present y axis has negative numbers.\n\
+Can't convert from linear y axis, present x axis has numbers <= 0.\n\
 First `delete y scale', then `set y type log'.");
 			}
 		} else {
