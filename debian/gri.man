@@ -248,15 +248,11 @@ at the SourceForge download page for the gri project:
 
 .B http://sourceforge.net/project/showfiles.php?group_id=5511
 
-or possibly at:
-
-.B http://www.phys.ocean.dal.ca/~kelley/ftp/gri/linux-debian
-
 .SH "SEE ALSO"
 .B
 gri_merge(1), gri_unpage(1)
 
 .SH AUTHOR
-Gri (c) 1999 Dan Kelley <Dan.Kelley@Dal.CA>
+Gri (c) 1991-2002 Dan Kelley <Dan.Kelley@Dal.CA>
 
 This manual page by Peter S Galbraith <psg@debian.org>.
