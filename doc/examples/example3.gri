@@ -71,8 +71,7 @@ draw symbol bullet
 # Draw a title above the plot.
 set font size 20
 \label = "Example 3 -- scales, axes, etc"
-draw label "\label" at          \
-    {rpn 8.5 2.54 * "\label" width - 2 /} \
-    {rpn ..ytop.. yusertocm 2 +}\
-    cm
+draw label "\label" centered at \
+    {rpn 2 5 + .5 + } \
+    {rpn ..ytop.. yusertocm 2 +} cm
 quit
