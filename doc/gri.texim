@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.73 2001/04/19 21:43:33 dankelley Exp $
+@c $Id: gri.texim,v 1.74 2001/04/20 17:20:40 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -53,7 +53,7 @@
 @comment %**start of header
 @setfilename gri.info
 @settitle Gri
-@set GRI-VERSION 2.6.0
+@set GRI-VERSION 2.6.1
 @set GRI-PREVIOUS-VERSION 2.4.0
 @set AUTHOR-EMAIL Dan.Kelley@@Dal.CA
 @c %**end of header
@@ -11733,22 +11733,22 @@ produces output that looks something like the following.
 
 @example
 Synonyms...
-    \.missingvalue.  = "10000000000000000000000.000000"
-    \.return_value.  = ""
-    \.version.       = "2.6.0"
-    \.pid.           = "30926"
-    \.wd.            = "/home/kelley/src/gri"
-    \.time.          = "Sat Mar 17 10:21:59 2001"
-    \.user.          = "kelley"
-    \.host.          = "Intrusion.phys.ocean.dal.ca"
-    \.system.        = "unix"
-    \.home.          = "/home/kelley"
-    \.lib_dir.       = "/usr/local/share/gri/2.6.0"
-    \.command_file.  = "t1.gri"
-    \.readfrom_file. = "t1.gri"
-    \.ps_file.       = "t1.ps"
-    \.path_data.     = "."
-    \.path_commands. = "."
+    \.missingvalue.           = "10000000000000000000000.000000"
+    \.return_value.           = ""
+    \.version.                = "2.6.1"
+    \.pid.                    = "24489"
+    \.wd.                     = "/home/kelley/src/gri/doc"
+    \.time.                   = "Fri Apr 20 12:03:14 2001"
+    \.user.                   = "kelley"
+    \.host.                   = "Intrusion.phys.ocean.dal.ca"
+    \.system.                 = "unix"
+    \.home.                   = "/home/kelley"
+    \.lib_dir.                = "/usr/share/gri"
+    \.command_file.           = "stdin"
+    \.readfrom_file.          = "stdin"
+    \.ps_file.                = "gri-00.ps"
+    \.path_data.              = "."
+    \.path_commands.          = "."
 @end example
 
 @cindex time
@@ -15538,6 +15538,13 @@ editing sessions.
 @comment  node-name,  next,  previous,  up
 @chapter History of Gri Versions
 
+For the stable streams (those with an even integer as the second
+version number, e.g. 2.6.x), the changes are all bug fixes, and many
+of these refer to bugs that were reported on the SourceForge site.  To
+learn more about the bugs, and their resolution, visit
+@url{http://sourceforge.net/tracker/?func=browse&group_id=5511&atid=105511}
+and adjust the "status" menu to read "closed".
+
 @menu
 * Version 2.6::
 * Version 2.4::
@@ -15546,12 +15553,64 @@ editing sessions.
 @end menu
 
 
-
-
 @c HTML <!-- newfile Version_2_6.html "Gri: Version 2.6" "Gri: Version 2.6" -->
 @node   Version 2.6, Version 2.4, History, History
 @comment  node-name,  next,  previous,  up
 @section Version 2.6
+
+
+@subsection Version 2.6.1 [NOT RELEASED YET]
+@itemize @bullet
+@item
+Fix SourceForge bug 
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=417333&group_id=5511&atid=105511">
+#417333
+@c HTML </a>
+(vague error message @code{RPN string operator})
+@item
+Fix SourceForge bug
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=415277&group_id=5511&atid=105511">
+#415277
+@c HTML </a>
+(make fails on MSDOS)
+@item
+Fix SourceForge bug
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=415149&group_id=5511&atid=105511">
+#415149
+@c HTML </a>
+(@code{file.cc} parse error on MSDOS)
+@item
+Fix SourceForge bug
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=414520&group_id=5511&atid=105511">
+#414520
+@c HTML </a>
+(@code{draw symbol ... at} should automatically produces axes unless the location is in @code{cm} coordinates)
+@item
+Fix SourceForge bug
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=414010&group_id=5511&atid=105511">
+#414010
+@c HTML </a>
+(items in the html concept index were in an odd order)
+@item
+Fix SourceForge bug
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=413986&group_id=5511&atid=105511">
+#413986
+@c HTML </a>
+(@code{~username} was broken in @code{open})
+@item
+Fix SourceForge bug
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=411904&group_id=5511&atid=105511">
+#411904
+@c HTML </a>
+(@code{/} was ugly in math mode)
+@item
+Fix SourceForge bug
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=410603&group_id=5511&atid=105511">
+#410603
+@c HTML </a>
+(cannot compile docs in Solaris)
+@end itemize
+
 
 @subsection Version 2.6.0 [2001 April 1]
 @itemize @bullet
