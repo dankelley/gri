@@ -57,13 +57,13 @@
                 <tr>
                   <td class="menus" align="right">
 		    <b>Source tar ball</b><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.4.tgz">gri-2.6.4.tgz</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.0.tgz">gri-2.8.0.tgz</a><br>
 		    <b>RedHat Linux</b><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.4-1.src.rpm">gri-2.6.4-1.src.rpm</a><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.4-1.i386.rpm">gri-2.6.4-1.i386.rpm</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.0-1.src.rpm">gri-2.8.0-1.src.rpm</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.0-1.i386.rpm">gri-2.8.0-1.i386.rpm</a><br>
 		    <b>Debian GNU/Linux</b><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.6.4-0potato1_i386.deb">2.6.4 for Potato</a><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.6.4-1_i386.deb">2.6.4 for Woody</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.8.0-0potato1_i386.deb">2.8.0 for Potato</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.8.0-0woody1_i386.deb">2.8.0 for Woody</a><br>
                     <A class="menus" HREF="http://packages.debian.org/unstable/science/gri.html">gri at Debian</A><br>
                     <A class="menus" HREF="http://packages.debian.org/unstable/doc/gri-html-doc.html">HTML manual at Debian</A><br>
                     <A class="menus" HREF="http://packages.debian.org/unstable/doc/gri-ps-doc.html">PS manual at Debian</A><br>
@@ -186,13 +186,13 @@ Search gri manual for (may be a regular expression):<p>
     <tr> 
       <td  class="menubox">
         <font size="-1">
-        <!-- Vsn 2.6.4: 2001-jul-04</br> -->
+        <!-- Vsn 2.8.0: 2001-jul-27</br> -->
 	Stable version 
-	<a href="http://sourceforge.net/project/showfiles.php?group_id=5511&release_id=40718">2.6.4</a>
+	<a href="http://sourceforge.net/project/showfiles.php?group_id=5511&release_id=40718">2.8.0</a>
 	released
 	<? 
 	# mktime(hour,minute,second,month,day,year)
-	$diff = time() - mktime(14, 29, 0, 7, 4, 2001);
+	$diff = time() - mktime(12, 29, 0, 7, 27, 2001);
 	$days = floor($diff / 24 / 60 / 60);
 	$weeks = floor($days / 7);
 	$months = floor($days / 7 / 4);
@@ -214,7 +214,7 @@ Search gri manual for (may be a regular expression):<p>
 	} else {
 	    echo floor($seconds), " seconds ago";
         }
-	?>; version 2.8.0 due 2001-jul-30
+	?>
         </font>
       </td>
     </tr>
@@ -289,7 +289,8 @@ Search gri manual for (may be a regular expression):<p>
 <!--	<a class="menus" href="http://sourceforge.net/project/showfiles.php?group_id=5511">File download area</a><br> -->
         <A class="menus" HREF="http://www.sourceforge.net/patch/?group_id=5511">Submit a patch</A><br>
         <A class="menus" HREF="http://sourceforge.net/pm/task.php?group_project_id=8706&group_id=5511&func=browse">View to-do list</A><br>
-<br>        <a class="menus" href="./gri-2.8.0-pre2.tgz"><font color="red">2.8.0 pre-release #2</font></a>
+<!--        <a class="menus" href="./gri-2.8.0-pre1.tgz"><font color="red">2.8.0 pre-release #1</font></a>  -->
+<!-- <A class="menus" HREF="http://gri.sourceforge.net/gridoc/html/Version_2_6.html#Version2.6">Version 2.6.1 preview</A><br> -->
 <!-- <A class="menus" HREF="./checklist_for_release">Packaging checklist</A><br> -->
       </TD>
     </TR>
