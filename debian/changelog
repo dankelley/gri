@@ -1,3 +1,12 @@
+gri (2.12.3-1) unstable; urgency=low
+
+  * New upstream release
+    Bug Fixes:
+    - Fix SourceForge bug #685919 (Cannot understand .eps file extension on
+       startup.)
+
+ -- Peter S Galbraith <psg@debian.org>  Sun,  2 Mar 2003 13:56:18 -0500
+
 gri (2.12.2-1) unstable; urgency=low
 
   * New upstream version
