@@ -180,6 +180,24 @@ dnl
 DEK_IS_AIX_WITH_IBM
 
 
+dnl     See if mingw32
+AC_DEFUN(DEK_IS_MINGW32,
+AC_MSG_CHECKING(for for mingw32 system)
+AC_CACHE_VAL(gri_cv_is_mingw32, [
+AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([$0], [AC_HEADER_EGREP])AC_BEFORE([$0], [AC_TEST_CPP])AC_EGREP_CPP(yes,
+[#ifdef __MINGW32__
+  yes
+#endif
+], gri_cv_is_mingw32=yes, gri_cv_is_mingw32=no)])
+    AC_MSG_RESULT($gri_cv_is_mingw32)
+    if test $gri_cv_is_mingw32 = yes; then
+        AC_DEFINE(IS_MINGW32)
+    fi
+)dnl
+dnl
+DEK_IS_MINGW32
+
+
 AC_CHECK_HEADERS(unistd.h)
 
 

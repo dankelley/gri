@@ -6,7 +6,9 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdarg.h>
+#if !defined(IS_MINGW32)
 #include <pwd.h>
+#endif
 #include <sys/types.h>
 
 #if defined(MSDOS)		// need all these?
@@ -562,6 +564,7 @@ resolve_filename(std::string& f, bool trace_path, char c_or_d)
 			f.insert(0, egetenv("HOME"));
 			return true;
 		} else {
+#if !defined(HAVE_MINGW32)
 			size_t name_end = f.find("/");
 			if (name_end == STRING_NPOS)
 				name_end = f.size();
@@ -571,6 +574,9 @@ resolve_filename(std::string& f, bool trace_path, char c_or_d)
 			f.STRINGERASE(0, username.size() + 1);
 			f.insert(0, pw_entry->pw_dir);
 			return true;
+#else
+			return false;
+#endif
 		}
 	}
 
@@ -1114,7 +1120,7 @@ fatal_err(const char *string,...)
 	int             len;
 	char *            p;
 	va_list         ap;
-	if (!_error_in_cmd && _beep)
+	if (!_error_in_cmd && _gri_beep)
 		gr_textput("\007");
 
 	if (string != NULL) {
@@ -1216,7 +1222,7 @@ err(const char *string,...)
 	int             len;
 	char *            p;
 	va_list         ap;
-	if (!_error_in_cmd && _beep)
+	if (!_error_in_cmd && _gri_beep)
 		gr_textput("\007");
 	if (string != NULL) {
 		va_start(ap, string);
@@ -1255,7 +1261,7 @@ warning(const char *s,...)
 	int             len;
 	char           *p = NULL;
 	va_list         ap;
-	if (!_error_in_cmd && _beep)
+	if (!_error_in_cmd && _gri_beep)
 		gr_textput("\007");
 	// Check for final wrap-up command
 	if (!strcmp(s, "\\\\")) {
@@ -1385,7 +1391,7 @@ remove_trailing_blanks(char *s)
 void
 beep_terminal()
 {
-	if (_beep)
+	if (_gri_beep)
 		fprintf(stderr, "\007");
 }
 

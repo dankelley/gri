@@ -1399,9 +1399,9 @@ do_operation(operator_name oper)
 		return true;
 	}
 	if (oper == ARGC) {
-		extern std::vector<const char*>_argv;
+		extern std::vector<const char*>_gri_argv;
 		RpnItem item;
-		item.set("", double(_argv.size()), NUMBER);
+		item.set("", double(_gri_argv.size()), NUMBER);
 		rS.push_back(item);
 		return true;
 	}
@@ -1414,13 +1414,13 @@ do_operation(operator_name oper)
 			RpnError = NEED_GT_1;
 			return false;
 		}
-		extern std::vector<const char*>_argv;
-		if (index >= int(_argv.size())) {
+		extern std::vector<const char*>_gri_argv;
+		if (index >= int(_gri_argv.size())) {
 			SET(1, "\" \"", 0.0, STRING);
 			return true;
 		}
 		std::string rv("\"");
-		rv.append(_argv[index]);
+		rv.append(_gri_argv[index]);
 		rv.append("\"");
 		SET(1, rv.c_str(), 0.0, STRING);
 		return true;

@@ -1,6 +1,11 @@
 #include	"gr.hh"
 #include	"extern.hh"
 #include	"GMatrix.hh"
+
+#if defined(IS_MINGW32)
+#include        <windows.h>
+#endif
+
 
 bool
 sleepCmd()
@@ -18,6 +23,10 @@ sleepCmd()
 	if (sec_f <= 0.0)
 		return true;
 	int sec = int(floor(0.5 + sec_f));
+#if !defined(IS_MINGW32)
 	sleep(sec); 
+#else
+	Sleep(sec*1000);
+#endif
 	return true;
 }

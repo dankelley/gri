@@ -1,6 +1,12 @@
 #include <string>
 #include <string.h>
+
+#if !defined(IS_MINGW32)
 #include <strings.h>
+#else
+#define index strrch
+#endif
+
 #include <math.h>
 #include <stdlib.h>
 #include "gr.hh"

@@ -1,5 +1,11 @@
 #include        <string>
+
+#if !defined(IS_MINGW32)
 #include        <strings.h>
+#else
+#define index strrch
+#endif
+
 #include        <stdio.h>
 #include        "gr.hh"
 #include        "extern.hh"

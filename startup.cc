@@ -430,13 +430,13 @@ get_input_simulation(int argc_leftover, const char *argv_leftover[])
 {
 	if (argc_leftover < 1)
 		return;
-	extern std::vector<const char*> _argv;
+	extern std::vector<const char*> _gri_argv;
 	for (int i = 0; i < argc_leftover; i++) {
 		//printf("\t push %d <%s>\n",i,argv_leftover[i]);
 #if 0				// 2001-feb-23 vsn 2.6.0 (alpha)
 		gr_textsave(argv_leftover[i]);
 #endif
-		_argv.push_back(argv_leftover[i]);
+		_gri_argv.push_back(argv_leftover[i]);
 	}
 }
 
@@ -460,7 +460,7 @@ set_defaults()
 	PUT_VAR("..exit_status..", 0.0);
 	_axesStyle = 0;
 	_braceLevel = 0;
-	_beep = false;
+	_gri_beep = false;
 	_chatty = 1;
 	// Fonts
 	PUT_VAR("..fontsize..", FONTSIZE_PT_DEFAULT);

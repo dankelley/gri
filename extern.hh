@@ -4,6 +4,10 @@
 #include <string>
 #include <vector>		// part of STL
 
+#if defined(IS_MINGW32)
+#include <process.h>
+#endif
+
 #include "private.hh"
 #include "gr.hh"
 #include "errors.hh"
@@ -109,7 +113,7 @@ extern double   _gri_eof;
 extern double   _top_of_plot;
 extern double   _axes_offset;
 extern int      _axesStyle;
-extern bool     _beep;
+extern bool     _gri_beep;
 extern int      _braceLevel;
 extern int      _chatty;
 extern int      _clipData;

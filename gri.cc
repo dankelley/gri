@@ -36,7 +36,7 @@ bool            _warn_offpage;
 std::vector<double>       _dash;
 std::vector<DataFile>     _dataFILE;
 std::vector<CmdFile>      _cmdFILE;
-std::vector<const char*>  _argv;
+std::vector<const char*>  _gri_argv;
 
 
 char            _input_data_separator; // ' ' (general whitespace) or '\t'
@@ -69,7 +69,7 @@ double          _yinc;
 double          _zinc;
 double          _axes_offset = 0.0;
 int             _axesStyle;
-bool            _beep = false;
+bool            _gri_beep = false;
 bool            _user_gave_bounding_box = false;
 rectangle       _page_size;
 rectangle       _bounding_box_user;

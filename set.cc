@@ -231,9 +231,9 @@ bool
 set_beepCmd()
 {
 	if (_nword == 2 || !strcmp(_word[2], "on"))
-		_beep = true;
+		_gri_beep = true;
 	else if (!strcmp(_word[2], "off"))
-		_beep = false;
+		_gri_beep = false;
 	else {
 		err("`set beep' what?");
 		return false;
