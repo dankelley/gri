@@ -177,8 +177,13 @@ start_up(int argc, char **argv)
 			string tmp(argv[last_optional_arg+2]);
 			string::size_type p = tmp.rfind(".ps");
 			if (p == -3 + tmp.size()) {
-				warning("taking PostScript name from commandline, for compatibility\n         with older versions, but you should be doing\n         something like `gri ... -output \\", tmp.c_str(), "...' instead!", "\\");
-				psname = tmp;
+				warning("\
+first argument looks like a PostScript filename.  Older versions\n\
+         of Gri allowed you to specify the PostScript name that way,\n\
+         but now you must use the \"-output\" option, as for example:\n\
+             gri ... -output \\", tmp.c_str(), " ...\n\
+         As it is, Gri is using the filename `", psname.c_str(), "'.", "\\");
+				//psname = tmp;
 			}
 		}
 		gr_setup_ps_filename(psname.c_str());
