@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.190 2002/05/29 19:32:02 dankelley Exp $
+@c $Id: gri.texim,v 1.191 2002/05/29 22:06:50 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16285,9 +16285,14 @@ Fix SourceForge bug
 @c HTML </a>
 (parser fails with DOS end-of-line)
 
+@item
+Fix SourceForge bug
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=562113&group_id=5511&atid=105511">
+#562113
+@c HTML </a>
+(@code{new page} postscript error in @file{gv} viewer))
 
 @end itemize
-
 
 
 @subsubsection Version 2.10.0 [2002 May 20] 
