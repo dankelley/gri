@@ -39,7 +39,7 @@ synonyms.o template.o timer.o unlink.o utility.o variable.o version.o \
 while.o write.o
 
 gri: $(OBJS) $(EXTRA_OBJS)
-	$(CXX) -o gri $(LDFLAGS) $(OBJS) $(EXTRA_OBJS) $(LIBS) $(EXTRA_LIBS)
+	$(CXX) -o gri $(OBJS) $(EXTRA_OBJS) $(LIBS) $(EXTRA_LIBS)
 
 # Next is a kludge.  Trying to get a local popt working, 
 # e.g. for solaris.  Based on popt-1.2
