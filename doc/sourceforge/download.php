@@ -51,10 +51,10 @@ RPM packages are available.
 <p> For <b>GNU/Debian linux</b>, three packages are available:
 a somewhat <A HREF="<?php print "$ftp_site/gri_2.8.6-0potato1_i386.deb";?>">
 old package</a>
-for the Potato distribution,
+suitable for the Potato distribution,
 along with two up-to-date packages:
 <A HREF="<?php print "$ftp_site/gri_$gri_stable_version-1_i386.deb";?>">
-the standard woody Debian package
+the standard (still woody-compatible) Debian package
 </a>
 , and
 <A HREF="<?php print "$ftp_site/gri-${gri_stable_version}static_2.10.1-1_i386.deb";?>">
