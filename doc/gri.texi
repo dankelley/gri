@@ -16436,9 +16436,13 @@ only in the fixing of bugs.
 
 @item
 Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=874483&group_id=5511&atid=105511,#874483}
+@dots{} @code{state save} doesn't keep track of @code{dash} settings.
+
+@item
+Fix SourceForge bug
 @uref{http://sourceforge.net/tracker/index.php?func=detail&aid=873245&group_id=5511&atid=105511,#873245}
-@dots{} the warnings on slow operations were inaccurate on OSX/FINK platforms, and possibly other 
-POSIX platforms also.
+@dots{} inaccurate times are given in the warnings about slow operations on OSX platform (days are reported instead of seconds)
 
 @item
 Fix SourceForge bug
