@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.213 2002/09/08 13:36:11 dankelley Exp $
+@c $Id: gri.texim,v 1.214 2002/09/14 13:13:08 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16328,7 +16328,8 @@ only in the fixing of bugs.
 @subsubsection Version 2.12.0 [2002 Sep 15]
 (@uref{http://www.terryfox.org/,Terry Fox Day}, Canada.)
 
-@subsubsection New Features
+@strong{New Features}
+
 
 @itemize @bullet
 
@@ -16342,7 +16343,7 @@ columns @ref{Manipulation of Columns etc}.
 @end itemize
 
 
-@subsubsection Removed Features
+@strong{Removed Features}
 
 @itemize
 
@@ -16352,7 +16353,7 @@ n/a
 @end itemize
 
 
-@subsubsection Bug Fixes
+@strong{Bug Fixes}
 
 @itemize
 
