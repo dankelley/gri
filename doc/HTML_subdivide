@@ -145,7 +145,6 @@ for ($i = 1; $i < $num_files; $i++) {
 <tr>
 <td width=\"150\" valign=\"top\">
 <font size=-1>
-<i>$this_chapter</i>
 <br>
 <a href=\"Introduction.html\">1: Introduction</a><br>
 <a href=\"SimpleExample.html\">2: Simple example</a><br>
