@@ -11,11 +11,6 @@
 #include <math.h>
 #include <stdio.h>
 #include <stddef.h>
-
-#if defined(__GNUC__)
-#include <endian.h>
-#endif
-
 #include	"gr.hh"
 #include	"extern.hh"
 #include	"image_ex.hh"
@@ -1742,7 +1737,6 @@ read_pgm_image(FILE * fp, IMAGE * im)
 	//int             i, j;
 	int             width, height, max_gray;
 	unsigned char   tmpB;
-	bool            need_zero_padding;
 	char            type[3];
 	skip_hash_headers(fp);
 	if (1 != fscanf(fp, "%2s", type)) {
@@ -1806,7 +1800,6 @@ This is not a PGM file, since the first 2 characters\n\
 	}
 	im->ras_width = width;
 	im->ras_height = height;
-	need_zero_padding = (im->ras_width == 2 * (im->ras_width / 2)) ? false : true;
 	im->ras_depth = 8;
 	im->ras_length = width * height;
 	im->ras_type = RT_STANDARD;
@@ -1825,18 +1818,16 @@ This is not a PGM file, since the first 2 characters\n\
 			return false;
 		}
 		// Read byte by byte
+		//printf("DEBUG: %s:%d image_width=%d  image_height=%d\n",__FILE__,__LINE__,im->ras_width,im->ras_height);
 		for (int j = int(im->ras_height - 1); j > -1; j--) {
 			for (int i = 0; i < int(im->ras_width); i++) {
 				if (1 != fread((char *) & tmpB, sizeof(tmpB), 1, fp)) {
-					sprintf(_grTempString,
-						"Could not read all image data.  Got to i=%d, j=%d", i, j);
+					sprintf(_grTempString, "Could not read all PGM image data.  Ran out after reading %d bytes", (im->ras_height - 1 - j) * im->ras_width + i);
 					err(_grTempString);
 					return false;
 				}
 				*(im->image + i * im->ras_height + j) = tmpB;
-			}
-			if (need_zero_padding) {
-				fread((char *) & tmpB, sizeof(tmpB), 1, fp);
+				//printf("i=%d j=%d ... value %x_hex = %d_dec\n",i,j,tmpB,tmpB);
 			}
 		}
 	} else {
@@ -1847,8 +1838,7 @@ This is not a PGM file, since the first 2 characters\n\
 				for (int i = 0; i < int(im->ras_width); i++) {
 					// Get 1 ascii datum.
 					if (1 != fscanf(fp, "%s", nextWord)) {
-						sprintf(_grTempString,
-							"Could not read all image data.  Got to i=%d, j=%d", i, j);
+						sprintf(_grTempString, "Could not read all PGM image data.  Ran out after reading %d bytes", (im->ras_height - 1 - j) * im->ras_width + i);
 						err(_grTempString);
 						return false;
 					}
@@ -1857,9 +1847,6 @@ This is not a PGM file, since the first 2 characters\n\
 					}
 					tmpB = (int) floor((double) (0.5 + tmpf));
 					*(im->image + i * im->ras_height + j) = tmpB;
-				}
-				if (need_zero_padding) {
-					fread((char *) & tmpB, sizeof(tmpB), 1, fp);
 				}
 			}
 		} else if (file_type == P5_type) {
@@ -1937,8 +1924,7 @@ read_raster_image(FILE * fp, IMAGE * im)
 
 	bool switch_bytes = false;
 #if defined(__GNUC__) // BUG: should do this endian work a lot more cleanly
-	if ((__BYTE_ORDER == __LITTLE_ENDIAN && big_endian)
-		|| (__BYTE_ORDER == __BIG_ENDIAN && ! big_endian)) {
+	if ((!GRI_IS_BIG_ENDIAN && big_endian) || (GRI_IS_BIG_ENDIAN && ! big_endian)) {
 		switch_bytes = true;
 #if defined(DEBUG_READ)
 		printf("DEBUG: %s:%d must switch bytes\n",__FILE__,__LINE__);
@@ -2041,9 +2027,11 @@ read_raster_image(FILE * fp, IMAGE * im)
 	for (j = int(im->ras_height - 1); j > -1; j--) {
 		for (i = 0; i < int(im->ras_width); i++) {
 			if (1 != fread((char *) & tmpB, sizeof(tmpB), 1, fp)) {
-				err("Could not read all the image data");
+				sprintf(_grTempString, "Could not read all RasterFile image data.  Ran out after reading %d bytes", (im->ras_height - 1 - j) * im->ras_width + i);
+				err(_grTempString);
 				return false;
 			}
+			//printf("i=%d j=%d ... value %x_hex = %d_dec\n",i,j,tmpB,tmpB);
 			*(im->image + i * im->ras_height + j) = tmpB;
 		}
 		if (need_zero_padding) {

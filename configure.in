@@ -197,6 +197,36 @@ AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([
 dnl
 DEK_IS_MINGW32
 
+dnl Determine endian type.  NOTE: I have [[ and ]] in the test code.  I couldn't
+dnl find anything in the docs that told me to do that, but it was the only
+dnl I could find to make the code, created in "configure", to have the
+dnl required brackets.  I tried the quoting macros as described in the docs
+dnl but couldn't get it working.
+AC_DEFUN(GRI_DETERMINE_ENDIAN,
+	AC_MSG_CHECKING(to see whether this machine is big endian or little endian)
+	AC_CACHE_VAL(gri_cv_endian_type, [
+	AC_LANG_C
+	AC_TRY_RUN([
+		int main () {
+			/* Figure out endian-ness, from Harbison & Steele */
+			union {
+				long l;
+				char c[[sizeof (long)]];
+			} u;
+			u.l = 1;
+			exit(u.c[[sizeof (long) - 1]] == (char)1);
+		}], gri_cv_endian_type=little, gri_cv_endian_type=big, gri_cv_endian_type=unknown)])
+	AC_LANG_CPLUSPLUS
+	AC_MSG_RESULT($gri_cv_endian_type)
+	if test $gri_cv_endian_type = big; then
+		AC_DEFINE(GRI_IS_BIG_ENDIAN, 1)
+	else
+		AC_DEFINE(GRI_IS_BIG_ENDIAN, 0)
+	fi
+)dnl
+dnl
+GRI_DETERMINE_ENDIAN
+
 
 AC_CHECK_HEADERS(unistd.h)
 
