@@ -48,7 +48,7 @@ install: gri
 	dh_testroot
 	dh_clean -k
 	dh_installdirs
-	cd src; make install_linux_debian debian=`pwd`/debian/gri
+	cd src; make install_linux_debian debian=`pwd`/../debian/gri
 
 debian/copyright:
 	sed -e 's/VSN/$(version)/g' \
