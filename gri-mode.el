@@ -5,7 +5,7 @@
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.62 (21 Jun 2002)
+;; Version:   2.63 (31 Jul 2002)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -400,6 +400,10 @@
 ;;   (continue-process PROCESS) to change the status.  Bug in emacs20?
 ;; V2.61 09May02 RCS 1.88 - Add support for 'gv -noantialias' option.
 ;; V2.62 21Jun02 RCS 1.89 - Make gri*view-command more customizible, with menu.
+;; V2.63 31Jul02 RCS 1.90 -
+;;  gri-validate-version: new function, see if specified version is available.
+;;  gri-validate-cmd-file: new function, see if gri-cmd-file as set ik okay.
+;;  gri-what-version: REMOVED function.  Not very useful anyway.
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -414,10 +418,10 @@ Root of the gri directory tree holding versions of gri library files.
 This is either a string, or a list of strings.
 
 In the following file layout, gri*directory-tree should be set to 
-\"/usr/lib/gri\"
+\"/usr/share/gri\"
 
- /usr/bin/gri-2.1.17
- /usr/lib/gri/2.1.17/gri.cmd
+ /usr/bin/gri-2.10.1
+ /usr/share/gri/2.10.1/gri.cmd
 
 In the following file layout, gri*directory-tree should be set to \"/opt/gri\"
 
@@ -828,25 +832,33 @@ locally setting the gri-mode variable `gri-command-postarguments'."
             (delete-region (progn (end-of-line)(point))
                            (progn (forward-line -1) (point))))))))
 
-(defun gri-initialize-version (verbose)
+(defun gri-initialize-version (tryhard)
   "Decide which version of gri to use based on ~/.gri-using-version
 unless local-variable gri-local-version is set, then use that version,
 and also use the variable gri*directory-tree.
-Sets variables gri-bin-file and gri-cmd-file."
+Sets variables gri-bin-file and gri-cmd-file.
+If TRYHARD is set, then try hard if first guess is not valid."
   (cond
    (gri-local-version
     ;; make gri-bin-file and gri-cmd-file local variables (for gri-run)
-    (make-local-variable 'gri-cmd-file)
-    (make-local-variable 'gri-bin-file)
-    (setq gri-cmd-file (gri-cmd-file-for-version gri-local-version))
-    (setq gri-bin-file (gri-bin-file-for-version gri-local-version))
-    (if verbose
-        (message "Using gri version %s for this file." gri-local-version)))
+    (cond
+     ((gri-validate-version gri-local-version)
+      (make-local-variable 'gri-cmd-file)
+      (make-local-variable 'gri-bin-file)
+      (setq gri-cmd-file (gri-cmd-file-for-version gri-local-version))
+      (setq gri-bin-file (gri-bin-file-for-version gri-local-version))
+      (message "Using gri version %s for this file." gri-local-version))
+     (tryhard
+      (goto-char (point-max))
+      (or (re-search-backward "^# gri-local-version" nil t)
+          (re-search-backward "^# Local Variables:" nil t))
+      (read-string 
+       (format 
+        "Gri version %s was not on the system. Press ENTER to continue. "
+        gri-local-version))
+      (setq gri-local-version nil)
+      (gri-initialize-version t))))
    ((file-readable-p "~/.gri-using-version")
-    ;;;FIXME - This is severally broken if the version listed in
-    ;;;        ~/.gri-using-version no longer exists.  I have to add a
-    ;;;        check for that, and delete the file and start over if this
-    ;;;        is the case.
     (let ((the-buffer (create-file-buffer "~/.gri-using-version"))
           (version))
       (save-excursion
@@ -856,13 +868,29 @@ Sets variables gri-bin-file and gri-cmd-file."
         (setq version
               (buffer-substring (point) (progn (end-of-line)(point)))))
       (kill-buffer the-buffer)
-      (setq gri-cmd-file (gri-cmd-file-for-version version))
-      (setq gri-bin-file (gri-bin-file-for-version version))
-      (message "Using gri version %s." version)))
+      (cond
+       ((gri-validate-version version)
+        (setq gri-cmd-file (gri-cmd-file-for-version version))
+        (setq gri-bin-file (gri-bin-file-for-version version))
+        (message "Using gri version %s." version))
+       (tryhard
+        ;; Version from ~/.gri-using-version doesn't exist.
+        (read-string 
+         (format 
+          "Gri %s requested in ~/.gri-using-version is not on the system. Press ENTER "
+          version))
+        (if (file-exists-p "~/.gri-using-version")
+            (delete-file "~/.gri-using-version"))
+        (gri-initialize-version t)))))
    (t
     ;; Default setting, (~/.gri-using-version file not used)
     (setq gri-cmd-file (gri-cmd-file-for-version "default"))
-    (setq gri-bin-file (gri-bin-file-for-version "default")))))
+    (setq gri-bin-file (gri-bin-file-for-version "default"))
+    (if (not (and gri-cmd-file
+                  (not (string-equal "" gri-cmd-file))
+                  (file-readable-p gri-cmd-file)))
+        (setq gri-cmd-file ""
+              gri-bin-file "")))))
 
 (defun gri-inquire-default ()
   "Ask gri which -default_directory to use to find gri.cmd. Sets gri-cmd-file."
@@ -1079,6 +1107,35 @@ Sets gri-version-list variable."
             (setq the-list nil)))
       (setq the-list (cdr the-list)))
     answer))
+
+(defun gri-validate-version (version)
+  "Check that this VERSION of gri is available on the system."
+  (if (not gri-version-list)
+      (gri-expand-versions))
+  (let ((cmd-file (gri-cmd-file-for-version version))
+        (bin-file (gri-bin-file-for-version version)))
+    (and cmd-file bin-file 
+         (file-executable-p bin-file) (file-readable-p cmd-file))))
+
+(defun gri-validate-cmd-file (&optional pass)
+  "Maybe sure gri is ready to run, or report fatal error."
+  (cond
+   ((and gri-cmd-file
+         (not (string-equal "" gri-cmd-file))
+         (file-readable-p gri-cmd-file))
+    t)                                  ; All is well
+    ((not pass)
+     ;; Try to recover
+     (gri-initialize-version t)
+     (gri-validate-cmd-file 2))
+    ((equal pass 2)
+     ;; Try to recover resetting list of known versions
+     (setq gri-version-list nil)
+     (gri-initialize-version t)
+     (gri-validate-cmd-file 3))
+    ((equal pass 3)    
+     ;; Already Tried to recover
+     (error "Cannot find gri on the system."))))
 
 (defun gri-set-version ()
   "Change the version of gri used in gri-mode.
@@ -1629,8 +1686,7 @@ BUGS:  Can't find help on hidden user commands."
 
 (defun gri-help-function (the-command)
   "Actual work for gri-help and gri-help-this-command"
-  (if (not (file-readable-p gri-cmd-file))
-      (error "gri.cmd not found as %s" gri-cmd-file))
+  (gri-validate-cmd-file)
   (save-excursion
     (let ((gri-tmp-buffer (get-buffer-create "*gri-tmp-buffer*"))
           (user-flag))
@@ -2163,6 +2219,7 @@ If ARG is 0, go to `-'   to see all commands (gri-complete)
 If ARG is 1, go to `--'  to skip fragments   (gri-help-apropos) (gri-help 2)
 If ARG is 2, go to `---' to see only gri system commands   (gri-help 1)
 If ARG is 3, go to `---' and skip over variables"
+  (gri-validate-cmd-file)
   (let ((this-buffer (current-buffer))
         (local-cmd-file gri-cmd-file)
         (gri-syntax-buffer (get-buffer-create "*gri-syntax*"))
@@ -2172,46 +2229,43 @@ If ARG is 3, go to `---' and skip over variables"
     (setq buffer-read-only nil)
     (goto-char (point-min))
     ;; Load in existing ~/.gri-syntax if haven't done so yet
-    (if (and (file-readable-p gri-syntax-file)
+    (when (and (file-readable-p gri-syntax-file)
              (= (point-min) (point-max)))
-        (progn
-          (insert-file-contents gri-syntax-file)
-          (setq rebuilt t)))
-    (if (or 
-         ;; Check if existing ~/.gri-syntax is up-to-date wrt gri-cmd-file
-         (not (file-readable-p gri-syntax-file))
-         (file-newer-than-file-p local-cmd-file gri-syntax-file)
-         (file-newer-than-file-p (file-chase-links local-cmd-file)
-                                 gri-syntax-file)
-         ;; Check that correct version in use.
-         (not (re-search-forward "Based on: \\(.*\\)" nil t))
-         (not (string-equal 
-               (file-chase-links local-cmd-file)
-               (buffer-substring (match-beginning 1)(match-end 1)))))
-        (progn
-          (erase-buffer)
-          (gri-build-syntax local-cmd-file) ;build ~/.gri-syntax
-          (insert-file-contents gri-syntax-file)
-          (setq rebuilt t)))
+      (insert-file-contents gri-syntax-file)
+      (setq rebuilt t))
+    (when (or
+           ;; Check if existing ~/.gri-syntax is up-to-date wrt gri-cmd-file
+           (not (file-readable-p gri-syntax-file))
+           (file-newer-than-file-p local-cmd-file gri-syntax-file)
+           (file-newer-than-file-p (file-chase-links local-cmd-file)
+                                   gri-syntax-file)
+           ;; Check that correct version in use.
+           (not (re-search-forward "Based on: \\(.*\\)" nil t))
+           (not (string-equal (file-chase-links local-cmd-file)
+                              (buffer-substring 
+                               (match-beginning 1)(match-end 1)))))
+      (erase-buffer)
+      (gri-build-syntax local-cmd-file) ;build ~/.gri-syntax
+      (insert-file-contents gri-syntax-file)
+      (setq rebuilt t))
     (goto-char (point-min))
-    (if rebuilt
-        (progn
-          (goto-char (point-min))
-          (if (re-search-forward "gri version \\([.0-9]+\\)" nil t)
-              (message "Using syntax for gri version %s" 
-                       (buffer-substring (match-beginning 1)(match-end 1)))
-            (message "Using syntax for unknown version of gri"))
-          (if (file-readable-p "~/.grirc")
-              (let ((tmp-buffer (get-buffer-create "*gri-tmp-command*")))
-                (set-buffer tmp-buffer)
-                (insert-file-contents "~/.grirc")
-                (gri-add-commands-from-current-buffer nil gri-syntax-buffer)
-                (set-buffer gri-syntax-buffer)
-                (kill-buffer tmp-buffer)))
-          (set-buffer this-buffer)
-          (gri-add-commands-from-current-buffer nil gri-syntax-buffer)
-          (set-buffer gri-syntax-buffer)
-          (setq mode-line-buffer-identification "*gri-syntax*")))
+    (when rebuilt
+      (goto-char (point-min))
+      (if (re-search-forward "gri version \\([.0-9]+\\)" nil t)
+          (message "Using syntax for gri version %s" 
+                   (buffer-substring (match-beginning 1)(match-end 1)))
+        (message "Using syntax for unknown version of gri"))
+      (if (file-readable-p "~/.grirc")
+          (let ((tmp-buffer (get-buffer-create "*gri-tmp-command*")))
+            (set-buffer tmp-buffer)
+            (insert-file-contents "~/.grirc")
+            (gri-add-commands-from-current-buffer nil gri-syntax-buffer)
+            (set-buffer gri-syntax-buffer)
+            (kill-buffer tmp-buffer)))
+      (set-buffer this-buffer)
+      (gri-add-commands-from-current-buffer nil gri-syntax-buffer)
+      (set-buffer gri-syntax-buffer)
+      (setq mode-line-buffer-identification "*gri-syntax*"))
     (set-buffer-modified-p nil)
     (setq buffer-read-only t)
     (goto-char (point-min))
@@ -2525,67 +2579,6 @@ Return that boundary if no containing group within that boundary."
                 (delete-region (progn (end-of-line)(point)) brk-point)
               (delete-region (point) brk-point)))))))
 
-(defun gri-what-version ()
-  "Displays versions of gri, info-manual for gri and gri syntax file
-to help you keep all files up to the same version.
-
-for example:
-gri version: 1.063  gri-mode syntax version: 1.063  info version: 1.061
-
-gri version is taken from the header in gri.cmd for version 1.063 and 
-above AND MAY BE WRONG (sometimes Dan Kelley may forget to change this).  
-Try `gri -version' from a shell if you are unsure about it.  For versions
-older than 1.063, the version number is obtained from `gri -version'.
-
-gri-mode syntax is what is used for `gri-complete' command completion.
-Its version number is only available for gri version 1.063 and above.
-It corresponds to the version number of gri.cmd.
-
-info version tells which version of gri the info database will display
-information about (when you type C-c C-i). When you upgrade to newer 
-versions of gri you should also get the corresponding info manual."
-  (interactive)
-  (save-excursion
-    (let ((gri-tmp-buffer (get-buffer-create "*gri-tmp-buffer*"))
-          (gri-version "N/A") (info-version "N/A") (syntax-version "N/A"))
-      (set-buffer gri-tmp-buffer)
-      ;; gri version
-      (if (not (file-readable-p gri-cmd-file))
-          (progn
-            (kill-buffer gri-tmp-buffer)
-            (error "gri.cmd not on your system as %s" gri-cmd-file)))
-      (insert-file-contents gri-cmd-file)
-      (if (re-search-forward 
-           "scientific graphic program (version \\([.0-9]+\\)" nil t)
-          (setq gri-version (buffer-substring(match-beginning 1)(match-end 1)))
-        ;; run gri -v for old version of gri.cmd w/o version numbers
-        (shell-command-on-region (point-min) (point-max) "gri -v" t)
-        (if (re-search-backward "gri version \\([.0-9]+\\)" nil t)
-            (setq gri-version 
-                  (buffer-substring (match-beginning 1)(match-end 1)))))
-      (erase-buffer)
-      ;; gri-info version
-      (if (not (gri-info-directory))
-          (setq info-version "Not installed")
-        (if (fboundp 'info-insert-file-contents)
-            (info-insert-file-contents (concat (gri-info-directory) "gri-1"))
-          (insert-file-contents (concat (gri-info-directory) "gri-1")))
-        (goto-char (point-min))
-        (if (re-search-forward 
-             "This manual describes Gri version \\([.0-9]+\\)" nil t)
-          (setq info-version 
-                (buffer-substring (match-beginning 1)(match-end 1))))
-        (erase-buffer))
-      (kill-buffer gri-tmp-buffer)
-      ;; gri-syntax version
-      (gri-lookat-syntax-file 0)
-      (goto-char (point-min))
-      (if (re-search-forward "Syntax for gri version \\([.0-9]+\\)" nil t)
-          (setq syntax-version 
-                (buffer-substring (match-beginning 1)(match-end 1))))
-      (message "gri version: %s  gri-mode syntax version: %s  info version: %s"
-               gri-version syntax-version info-version))))
-
 (defun gri-info-directory ()
   "Returns nil or gri info file path 
 In emacs 19, path is from Info-default-directory-list and
@@ -2876,6 +2869,7 @@ during the time gri-run regenerates the menu, and continued thereafter and
 gv will redisplay the figure (instead of gri-mode starting up a new gv
 process)."
   (interactive "P")
+  (gri-validate-cmd-file)
   (if (string-equal gri-bin-file "gri") ; Use shell default version
       (gri-do-run (concat "gri -b -y ") inhibit-gri-view)
     (gri-do-run (concat gri-bin-file
@@ -4020,7 +4014,6 @@ Any output (errors?) is put in the buffer `gri-WWW-manual'."
      ["Uncomment-out region"          gri-uncomment-out-region t]
      ["Create function skeleton"      gri-function-skeleton t]
      ["Fontify buffer"                gri-fontify-buffer t]
-     ["Display version of gri/info"   gri-what-version t]
      )))
 ;;; Old code follows.
 ;;; FIXME: Delete this old code when I'm happy the above works well.
@@ -4031,7 +4024,6 @@ Any output (errors?) is put in the buffer `gri-WWW-manual'."
   (setq gri-menubar
     '("Gri" 
       ("Syntax" 
-       ["Display version of gri/info"   gri-what-version t]
        ["Fontify buffer"                gri-fontify-buffer t]
        ["Create function skeleton"      gri-function-skeleton t]
        ["Uncomment-out region"          gri-uncomment-out-region t]
@@ -4198,8 +4190,6 @@ Any output (errors?) is put in the buffer `gri-WWW-manual'."
 
   (define-key gri-mode-map [menu-bar Syntax]
     (cons "Syntax" (make-sparse-keymap "Syntax")))
-  (define-key gri-mode-map [menu-bar Syntax gri-what-version]
-    '(" Display versions of gri and info " . gri-what-version))
   (define-key gri-mode-map [menu-bar Syntax gri-fontify-buffer]
     '(" Fontify the buffer " . gri-fontify-buffer))
   (define-key gri-mode-map [menu-bar Syntax gri-function-skeleton]
@@ -4757,7 +4747,7 @@ static char * gri_info24x24_xpm[] = {
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.62 (c) 21 Jun 2002 --  Peter Galbraith <psg@debian.org>
+V2.63 (c) 31 Jul 2002 --  Peter Galbraith <psg@debian.org>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
@@ -4994,7 +4984,7 @@ PLANNED ADDITIONS:
 
   ;; Figure Out what version of gri to use, where to call it
   (hack-local-variables)
-  (gri-initialize-version t)
+  (gri-initialize-version nil)          ;Try to set gri version without errors
   (cond
    ((and gri-idle-display-defaults
          gri-cmd-file
