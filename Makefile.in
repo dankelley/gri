@@ -222,7 +222,6 @@ source:
 	install -m 644 doc/Makefile             $(SOURCE_NAME)/doc
 	install -m 644 doc/FAQ.html             $(SOURCE_NAME)/doc
 	install -m 644 doc/gri-manpage.1        $(SOURCE_NAME)/doc
-	install -m 644 doc/gri-manpage-debian.1 $(SOURCE_NAME)/doc
 	install -m 644 doc/gri-manpage-redhat.1 $(SOURCE_NAME)/doc
 	install -m 644 doc/gri.texi             $(SOURCE_NAME)/doc
 	install -m 755 doc/texinfo2HTML         $(SOURCE_NAME)/doc
