@@ -152,7 +152,26 @@ AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([
 )dnl
 dnl
 DEK_IS_SUN
-
+
+dnl     See if IBM AIX with IBM compiler.  Note
+dnl	that an IBM running GNU compiler won't
+dnl	fall into this category.
+AC_DEFUN(DEK_IS_AIX_WITH_IBM,
+AC_MSG_CHECKING(for for IBM AIX computer with IBM compiler)
+AC_CACHE_VAL(gri_cv_is_aix_with_ibm, [
+AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([$0], [AC_HEADER_EGREP])AC_BEFORE([$0], [AC_TEST_CPP])AC_EGREP_CPP(yes,
+[#ifdef __IBMCPP__
+  yes
+#endif
+], gri_cv_is_aix_with_ibm=yes, gri_cv_is_aix_with_ibm=no)])
+    AC_MSG_RESULT($gri_cv_is_aix_with_ibm)
+    if test $gri_cv_is_aix_with_ibm = yes; then
+        AC_DEFINE(IS_AIX_WITH_IBM)
+    fi
+)dnl
+dnl
+DEK_IS_AIX_WITH_IBM
+
 
 AC_CHECK_HEADERS(unistd.h)
 
