@@ -9596,6 +9596,7 @@ handled.)
 @cindex binary data
 
 @subsubsection Binary Files
+@cindex endian file compatibility, caution
 @cindex little-endian vs big-endian data, caution
 @cindex big-endian vs little-endian data, caution
 Like most computer programs, Gri has some trouble with binary files.
@@ -14646,6 +14647,7 @@ is in no particular order.  Please contact me at
 if you particularly need one of these things, or
 if you need something else that I've not listed.
 
+@cindex endian file compatibility, plans
 @cindex little-endian vs big-endian data, plans
 @cindex big-endian vs little-endian data, plans
 
