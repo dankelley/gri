@@ -1223,7 +1223,7 @@ read_grid_binary(bool bycolumns, char bintype)
 			}
 			if (items != 1) {
 				char msg[100];
-				sprintf(msg, "Can't read grid datum at col=%d, row=%d\n", col, row);
+				sprintf(msg, "Can't read grid datum at col=%d, row=%d", col, row);
 				err(msg);
 				return false;
 			}
