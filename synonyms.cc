@@ -416,7 +416,7 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 	}
 
 	for (int i = 0; i < slen; i++) {
-		//printf("DEBUG1: i %d  (%s)\n",i,s+i);
+		//printf("%s:%d  i=%d     s+i = [%s]\n",__FILE__,__LINE__,i,s+i);
 		int             found = 0;
 		// If entering or leaving math mode, just paste $ onto the end and
 		// skip to the next character.
@@ -428,6 +428,7 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 				inmath = inmath ? false : true;
 			}
 			sout.append("$");
+			printf("    DONE appending 1\n");
 			continue;
 		}
 
@@ -598,12 +599,12 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 				} else if (word_to_report < nw) {
 					sout.append(w[word_to_report]);
 				} else {
-#if 0				        // annoying since reports in 'false' parts of if.
+#if 1				        // annoying since reports in 'false' parts of if.
 					char buf[100];
-					sprintf(buf, "Cannot get word %d of synonym `%s'; using last word ([%d]) instead", word_to_report, sname.c_str(), nw - 1);
+					sprintf(buf, "Cannot get word %d of synonym `%s'", word_to_report, sname.c_str());
 					warning(buf);
 #endif
-					sout.append(w[nw - 1]);
+					; // nothing to do here
 				}
 			} else {
 				if (((unsigned) superuser()) & FLAG_SYN) printf("    %s:%d the sname value is '%s'\n",__FILE__, __LINE__, svalue);
