@@ -22,7 +22,7 @@ in the Gri manual.
 
 <p>
 Gri  development is hosted on the 
-<?php print "<a href=\"$development_site\">$development_site_name";?>
+<?php print "<a href=\"$sf_url/projects/gri/\">$development_site_name";?>
 </a> site.
 
 
