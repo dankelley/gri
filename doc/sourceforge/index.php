@@ -188,7 +188,7 @@ as simple as the following.
     <tr> 
       <td  class="menubox">
         <font size="-1">
-        Vsn 2.6.4: avail. soon</br>
+        Vsn 2.6.4: <a href="http://www.phys.ocean.dal.ca/~kelley/gri-2.6.4-PRE-1.tgz">PRERELEASE 1</a></br>
         Vsn 2.6.3: broken</br>
         Vsn 2.6.2: 2001-may-20</br>
         Vsn 2.6.1: 2001-may-11</br>
