@@ -172,10 +172,11 @@ install-exec-local:
 	$(INSTALL_PROGRAM) $(srcdir)/gri_unpage          $(DESTDIR)$(prefix)/bin/gri_unpage
 	$(INSTALL_PROGRAM) $(srcdir)/gri_unpage          $(DESTDIR)$(prefix)/bin/gri_merge
 install-data-local:
-	mkdir -m 755 -p                                  $(DESTDIR)$(prefix)/share/emacs/site-lisp
 if OS_IS_FINK
+	mkdir -m 755 -p                                  $(DESTDIR)$(prefix)/share/emacs/site-lisp/gri
 	$(INSTALL_DATA)    $(srcdir)/gri-mode.el         $(DESTDIR)$(prefix)/share/emacs/site-lisp/gri/gri-mode.el
 else
+	mkdir -m 755 -p                                  $(DESTDIR)$(prefix)/share/emacs/site-lisp
 	$(INSTALL_DATA)    $(srcdir)/gri-mode.el         $(DESTDIR)$(prefix)/share/emacs/site-lisp/gri-mode.el
 endif
 	mkdir -m 755 -p                                  $(DESTDIR)$(prefix)/share/gri
