@@ -55,12 +55,10 @@ scp index.php psg@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
 
     <TABLE width="100%" border=0 cellspacing=0 cellpadding=0 bgcolor="#737b9c">
       <TR>
-        <td align="left" width="100%">
+        <TD align="left" width="100%">
           <SPAN class=maintitlebar>
-	  <A 
-	  class="maintitlebar" 
-	  href="http://sourceforge.net/">
-	  <IMG src="http://sourceforge.net/sflogo.php?group_id=5511&type=1" width="88" height="31" border="0" alt="SourceForge Logo">
+	  <A class="maintitlebar" href="http://sourceforge.net/">
+	    <IMG src="http://sourceforge.net/sflogo.php?group_id=5511&type=1" width="88" height="31" border="0" alt="SourceForge Logo">
 	  </A>
 	  </span>
         </td>
@@ -104,7 +102,7 @@ scp index.php psg@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
                     <A class="menus" HREF="http://packages.debian.org/unstable/doc/gri-html-doc.html">HTML manual at Debian</A><br>
                     <A class="menus" HREF="http://packages.debian.org/unstable/doc/gri-ps-doc.html">PS manual at Debian</A><br>
 		    <b>Solaris Unix</b><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.6-SunOS5.tar.gz">gri-2.8.6-SunOS6.tar.gz</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.7-SunOS5.tar.gz">gri-2.8.7-SunOS5.tar.gz</a><br>
 		    <b>Windows</b><br>
 		    <A class="menus" HREF="http://gnuwin32.sourceforge.net/packages/gri.htm">Win95/98/2000/NT port</a><br>
 		    <b>Macintosh</b><br>
