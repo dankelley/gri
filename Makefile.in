@@ -229,7 +229,7 @@ source-copy:
 	    check.pl \
 	    copyright.txt AUTHOR README* gri-mode.el gri_merge gri_unpage \
 	    startup.msg startup.debian startup.redhat gri*.spec grilogo.gif \
-	    install-SunOS5 README-SunOS5 \
+	    install-SunOS5 \
 	        $(SOURCE_NAME)
 	(cd popt ; \
 	    install -m 644 popt.h findme.h poptint.h \
