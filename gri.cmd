@@ -953,6 +953,8 @@ image'.
     extern "C" bool draw_imageCmd(void);
 }
 
+#* @param .P_sigma. = reference pressure for density @default 0dbar
+#* @param .P_theta. = reference pressure for temperature @default 0dbar
 `draw isopycnal [unlabelled] .density. [.P_sigma. [.P_theta.]]'
 
    Draw isopycnal curve for a temperature-salinity diagram.  This curve
@@ -2764,6 +2766,7 @@ Same as `set axes style 0', and with `offset' turned off.
     extern "C" bool set_axes_styleCmd(void);
 }
 
+#* @param .size. arrowhead half-width @unit cm @default 0.2
 `set arrow size .size.|{as .num. percent of length}|default'
 Set the arrowsize (which is stored in the builtin variable
 `..arrowsize..').
@@ -2784,6 +2787,7 @@ Set the arrow size to the default of 0.2 cm.
     extern "C" bool set_arrow_sizeCmd(void);
 }
 
+#* @param .type. 0 for 3-strokes, 1 for outline, 2 for filled swept-back @default 0
 `set arrow type .which.'
 Set type of arrow.  `.which.'=0 yields the default arrows, drawn with
 three line strokes, `.which.'=1 yields outline arrows, and `.which.'=2
@@ -2922,7 +2926,9 @@ outside this range.  EXAMPLE (borrowing a color from /usr/lib/X11/rgb.txt):
 {
     extern "C" bool set_colornameCmd(void);
 }
+
 
+#* @param \style for contour format @default %g
 `set contour format \style|default'
 Normally, Gri draws the numeric labels of contour using a format code
 called `%g' in the "C" language.  You may specify any other "long"
@@ -2973,12 +2979,13 @@ but no whiting out is done.
     extern "C" bool set_contour_labelsCmd(void);
 }
 
-`set dash [.n.|{.dash_cm. .blank_cm. ...}|off]'
+#* @param .type. style of dash to use (range 0 to 15) @default 2
+`set dash [.type.|{.dash_cm. .blank_cm. ...}|off]'
 Control dash-style for following `draw curve' and `draw line' commands.
 
 * `set dash' Set to dashed line (0.4cm dashes, 0.1cm blanks).
 
-* `set dash .n.' Set to indicated pre-defined dashed line, according
+* `set dash .type.' Set to indicated pre-defined dashed line, according
 to table:
 .n. dash/cm blank/cm
 0        -        -   ... (Solid line)
@@ -3071,6 +3078,7 @@ what ``font encoding'' is about, ignore this command!
     extern "C" bool set_font_encodingCmd(void);
 }
 
+#* @param .size. of font @unit point @default 12 in ..font_size..
 `set font size {.size. [cm]}|default'
 Set the size of the font for drawing of text.
 
@@ -3087,6 +3095,7 @@ Set font size to default = 12 pts.
     extern "C" bool set_font_sizeCmd(void);
 }
 
+#* @param \fontname of font @default Helvetica
 `set font to \fontname'
 Set font to named style.  Note that the backslash is *not* to be
 written, but here merely means that this word has several alternatives.
@@ -3104,6 +3113,7 @@ default font is `Helvetica'.
     extern "C" bool set_font_toCmd(void);
 }
 
+#* @param .brightness. of ink with 0 for black and 1 for white @default 0=black
 `set graylevel .brightness.|white|black'
 Set graylevel for lines to indicated numerical value between 0=black and
 1=white, or to the named color.
@@ -3396,6 +3406,7 @@ line' and `draw polygon'.  Axes are always drawn with a line join of 0.
     extern "C" bool set_line_joinCmd(void);
 }
 
+#* @param .width_pt. @unit point @default 0.709 in ..linewidth..
 `set line width [axis|symbol|all] .width_pt.|{rapidograph \name}|default'
 
 Set the width of lines used to draw curves (default), axes, symbols, or
@@ -3443,6 +3454,7 @@ factor of 4.
     extern "C" bool set_line_widthCmd(void);
 }
 
+#* @param .value. to be considered missing @default 1.0e22 in ..missing_value..
 `set missing value .value.'
 Set missing-value code (stored in the builtin variable
 `..missingvalue..' and builtin synonym `\.missingvalue..') to
@@ -3581,6 +3593,7 @@ SEE ALSO `set panel .row. .col.'
     delete .rows. .cols.
 }
 
+#* @param .diameter_cm. diameter size of symbols @unit cm @default 0.1
 `set symbol size .diameter_cm.|default'
 Control the size (diameter) of symbols drawn by `draw symbol' command.
 
@@ -3593,6 +3606,7 @@ Set to default diameter of 0.1 cm.
     extern "C" bool set_symbol_sizeCmd(void);
 }
 
+#* @param $.size. of axes tics @unit cm @default 0.2
 `set tic size .size.|default'
 Control size of tics on axes.
 
@@ -3705,6 +3719,7 @@ used.
     extern "C" bool set_x_axisCmd(void);
 }
 
+#* @param \format for axis numbers in C notation @default %g
 `set x format \format|default|off'
 Set format for numbers on x axis.  The format is specified in the manner
 of the "C" programming language.  The "C" formats (i.e., `%f',
@@ -3735,6 +3750,7 @@ at the left to `.right.' at the right.
     extern "C" bool set_x_gridCmd(void);
 }
 
+#* @param .size. of x margin @unit cm @default 6
 `set x margin {[bigger|smaller] .size.} | default'
 Control x margin, that is, the space between the left-hand side of the
 page and the left-hand side of the plotting area.  (Note that axis
@@ -3764,6 +3780,7 @@ Set name of x-axis to indicated string.  The empty string (`set x name
     extern "C" bool set_x_nameCmd(void);
 }
 
+#* @param .width_cm. of axis @unit cm @default 10
 `set x size .width_cm.|default'
 Set the width of the plotting area.  This does not include axis labels,
 only the interior part of the plot.
@@ -3860,6 +3877,7 @@ small tics are used.
     extern "C" bool set_y_axisCmd(void);
 }
 
+#* @param \format for axis numbers in C notation @default %g
 `set y format \format|default|off'
 Set format for numbers on y axis.  The format is specified in the manner
 of the "C" programming language.  The "C" formats (i.e., `%f',
@@ -3890,6 +3908,7 @@ Create y-grid with `.rows.' points, ranging from the value
     extern "C" bool set_y_gridCmd(void);
 }
 
+#* @param .size. of y margin @unit cm @default 6
 `set y margin {[bigger|smaller] .size.} | default'
 Control y margin, that is, the space between the bottom side of the
 page and the bottom of the plotting area.  (Note that axis labels are
@@ -3912,13 +3931,15 @@ Set bottom margin to default = 6 cm.
     extern "C" bool set_y_marginCmd(void);
 }
 
-`set y name "\string"'
+#* @param \name of y axis @default y
+`set y name "\name"'
 Set name of y-axis to indicated string.  The empty string (`set y name
 ""') can be used to make the y axis be unlabelled.
 {
     extern "C" bool set_y_nameCmd(void);
 }
 
+#* @param .height_cm. of y axis @unit cm @default 10
 `set y size .height_cm.|default'
 Set the width of the plotting area.  This does not include axis labels,
 only the interior part of the plot.
