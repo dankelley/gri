@@ -1,0 +1,128 @@
+#!/usr/bin/make -f
+# Made with the aid of dh_make, by Craig Small
+# Sample debian/rules that uses debhelper. GNU copyright 1997 by Joey Hess.
+# Also some stuff taken from debmake scripts, by Cristopt Lameter.
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+version=$(shell expr `pwd` : '.*-\([0-9.]*\)')
+#version=2.5.5
+somefutureversion=2.8.0
+
+build: gri
+gri:
+	dh_testdir
+	./configure --prefix=/usr
+	$(MAKE) CXXFLAGS="-O2 -g -Wall" libdir=/usr/share/gri/$(version)
+
+clean:
+	dh_testdir
+	dh_testroot
+	-$(MAKE) distclean
+
+	dh_clean
+	rm -fR debian/gri-$(version)static
+	rm -f  debian/README.Debian debian/gri.1 debian/copyright
+
+install: gri
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	dh_installdirs
+	$(MAKE) install_linux_debian debian=`pwd`/debian/tmp
+
+debian/copyright:
+	sed -e 's/VSN/$(version)/g' \
+		debian/copyright.template > debian/copyright
+	sed -e 's/LATERVSN/$(somefutureversion)/g;s/VSN/$(version)/g' \
+		debian/gri.man > debian/gri.1
+	sed -e 's/LATERVSN/$(somefutureversion)/g;s/VSN/$(version)/g' \
+		debian/README.Debian.template > debian/README.Debian
+
+# Build architecture-independent files here.
+binary-indep: debian/copyright build install
+	(cd doc; make debian-ps prefix=`pwd`/../debian/gri-ps-doc/usr/share/doc)
+	(cd doc; make debian-html prefix=`pwd`/../debian/gri-html-doc/usr/share/doc)
+	rm -f debian/*debhelper
+	dh_testdir -i
+	dh_testroot -i
+	dh_installdocs -i -A README debian/README.Debian
+	dh_installexamples -i
+#	dh_installmenu -i
+	dh_installemacsen -i
+	dh_installchangelogs -i 
+	dh_compress -i -X.jpg -Xlogo.gri
+#	find debian -name "logo.gri.gz" -exec gunzip '{}' \;
+	dh_fixperms -i
+	dh_suidregister -i
+	dh_installdeb -i
+	dh_gencontrol -i
+	dh_md5sums -i
+	dh_builddeb -i
+
+# Build architecture-dependent files here.
+binary-arch: debian/copyright build install
+	(cd doc; make debian)
+	(cd debian/tmp/usr/share/gri/$(version) ; ln -fs ../../common-licenses/GPL license.txt)
+	rm -f debian/*debhelper
+	dh_testdir -a
+	dh_testroot -a
+	dh_installdocs -a README doc/refcard.ps doc/cmdrefcard.ps
+	dh_installexamples -a
+#	dh_installmenu -a
+	dh_installemacsen -a
+	dh_installinfo doc/gri.info*
+	dh_installmanpages -a doc/gri-manpage-redhat.1 doc/gri-manpage.1
+	dh_installchangelogs -a 
+	dh_strip -a
+	dh_compress -a
+	dh_fixperms -a
+	dh_suidregister -a
+	dh_installdeb -a
+	dh_shlibdeps -a
+	dh_gencontrol -a
+	dh_md5sums -a
+	dh_builddeb -a
+
+# This is a target that developers won't use.  I use it to create
+# non-Debian Gri packages that contain a specific version of Gri for use
+# alongside other (newer) versions of Gri.  
+# See files 00Porters.readme and README.Debian.unofficial
+binary-arch-unofficial:    debian/copyright build
+	rm -f debian/*debhelper
+	rm -rf debian/tmp debian/gri-$(version)static
+	-cp debian/control debian/control.real 
+	sed -e 's/VSN/$(version)/g' debian/control.unofficial > debian/control 
+	-cp debian/README.Debian debian/README.Debian.real 
+	-cp debian/README.Debian.unofficial debian/README.Debian
+	make install_linux_debian_grionly debian=debian/tmp
+	(cd debian/tmp/usr/share/gri/$(version) ; ln -s ../../common-licenses/GPL license.txt)
+	mv gri gri.real
+	-rm debian/substvars
+	make LIBS="-lm  -L/usr/lib/netcdf -lnetcdf -static"
+	make install_linux_debian_grionly debian=debian/gri-$(version)static
+	(cd debian/gri-$(version)static/usr/share/gri/$(version) ; ln -s ../../common-licenses/GPL license.txt)
+	mv gri.real gri
+	dh_testdir -a
+	dh_testroot -a
+	dh_installdocs -a -A README debian/README.Debian
+	dh_installmanpages -a doc/gri-manpage-redhat.1 doc/gri-manpage.1
+	dh_installchangelogs -a 
+	dh_strip -a
+	dh_compress -a
+	dh_fixperms -a
+	dh_suidregister -a
+	dh_installdeb -a
+	dh_shlibdeps -a
+	dh_gencontrol -a
+	dh_md5sums -a
+	dh_builddeb -a
+	-mv debian/control.real debian/control          
+	-mv debian/README.Debian.real debian/README.Debian
+
+source diff:                                                                  
+	@echo >&2 'source and diff are obsolete - use dpkg-source -b'; false
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary

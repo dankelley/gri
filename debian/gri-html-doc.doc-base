@@ -1,0 +1,9 @@
+Document: gri-html-doc
+Title: Gri Plotting Package Manual
+Author: Dan E. Kelley
+Abstract: This manual describes the Gri plotting package for scientists.
+Section: Apps/Math
+
+Format: HTML
+Index: /usr/doc/gri-html-doc/html/index.html
+Files: /usr/doc/gri-html-doc/html/*.html

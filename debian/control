@@ -1,0 +1,65 @@
+Source: gri
+Section: math
+Priority: optional
+Maintainer: Peter S Galbraith <psg@debian.org>
+Build-Depends: debhelper, netcdfg-dev, tetex-bin, texinfo
+Build-Depends-Indep: debhelper, tetex-bin, texinfo, imagemagick, info, gs, gsfonts
+Standards-Version: 3.1.1
+
+Package: gri
+Architecture: any
+Depends: ${shlibs:Depends}
+Suggests: gri-html-doc, gri-ps-doc
+Description: a language for scientific graphics programming.
+ Gri is a command-driven application, as opposed to a click/point
+ application.  It is analogous to latex, and shares the property that
+ extensive power is the reward for tolerating a modest learning curve.
+ Gri output is in industry-standard PostScript, suitable for incorporation
+ in documents prepared by various text processors.
+ .
+ Gri can make x-y graphs, contour-graphs, and image graphs.  In
+ addition to high-level capabilities, it has enough low-level
+ capabilities to allow users to achieve a high degree of customization.
+ Precise control is extended to all aspects of drawing, including
+ line-widths, colors, and fonts.  Text includes a subset of the tex
+ language, so that it is easy to incorporate Greek letters and
+ mathematical symbols in labels.
+ .
+ The following is a terse yet working Gri program.  If it is stored in a
+ file called 'example.gri', and executed with the command 'gri example', it
+ will create a postscript file called 'example.ps' with the graph.
+ .
+   open file.dat        # open a file
+   read columns x * y   # read the 1st column as x and the 3rd as y
+   draw curve           # draw the data and autoscale the axes
+ .
+ A full manual is also available in HTML (gri-html-doc package), in
+ PostScript suitable for printing (gri-ps-doc package) and on-line at
+   http://www.phys.ocean.dal.ca/~kelley/gri
+ Real world examples can be seen in the Gri cookbook at
+   http://www.phys.ocean.dal.ca/~kelley/gri/cookbook
+
+Package: gri-html-doc
+Architecture: all
+Depends: ${shlibs:Depends}
+Suggests: doc-base
+Description: HTML manual for gri, a language for scientific graphics.
+ Gri is a command-driven application for making x-y graphs, 
+ contour-graphs, and image graphs.
+ .
+ This is the Gri manual in HTML format and can be accessed directly via
+   http://localhost/doc/gri-html-doc/html/
+ or via dwww or dhelp interfaces (if you have the doc-base package
+ installed). Note that the manual in info format (without graphics)
+ is included in the gri package itself.  This manual is available on
+ the web via:
+   http://www.phys.ocean.dal.ca/~kelley/gri
+
+Package: gri-ps-doc
+Architecture: all
+Depends: ${shlibs:Depends}
+Description: PostScript manual for gri, a language for scientific graphics.
+ Gri is a command-driven application for making x-y graphs, contour-graphs,
+ and image graphs.
+ .
+ This is the Gri manual in PostScript format suitable for printing.

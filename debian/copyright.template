@@ -1,0 +1,19 @@
+This package was debianized by Peter S Galbraith <psg@debian.org> on
+Wed, 31 Aug 1998.
+
+It was downloaded from 
+ 
+  ftp://ftp.phys.ocean.dal.ca/users/kelley/gri/gri-VSN.tgz
+
+The Gri web page is: http://www.phys.ocean.dal.ca/~kelley/gri/
+
+Copyright and License:
+
+ Gri:
+  The Gri programming languages, and all manuals and online help-files,
+  are (c) 1991-2000 Dan E. Kelley <Dan.Kelley@Dal.CA>.
+  Gri is distributed under the GPL.  See /usr/share/common-licenses/GPL
+
+ Emacs gri-mode:
+  Copyright (C) 1994-2000 Peter S. Galbraith <psg@debian.org>
+  gri-mode.el is distributed under the GPL.  See /usr/share/common-licenses/GPL

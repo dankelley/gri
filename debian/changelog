@@ -1,0 +1,83 @@
+gri (2.5.5-0potato1) unstable; urgency=low
+
+  * New upstream version.
+    (2.5.4) seg fault bug fix.
+    (2.5.3) Add automatic support for compressed data files.  So far, this
+       only works with gzipped files @xref{Open}.
+       The manual gets a new section about the Emacs gri-mode.el
+       complete with screenshots.  Additionally, HTML navigation tags are
+       bettered, the gri code examples are HTML'ed with colour fontification,
+       example images are now in Jpeg format instead of Gif.
+    (2.5.2) Numerous gri-mode.el enhancements (including new pull-down menu).
+    (2.5.1) Add two new RPN operators, `file_exists' and `directory_exists'.
+    (2.4.4) Issue warning instead of fatal error when attempting math
+       ops on empty data columns.
+  * Use debhelper.
+  * Info files have .info suffix now.
+  * gri-html-doc suggest doc-base (otherwise it's not registered).
+  
+ -- Peter S Galbraith <psg@debian.org>  Wed, 24 May 2000 15:23:37 -0400
+
+gri (2.4.2-1) frozen unstable; urgency=low
+
+  * New upstream version. ** Bug Fixes Only; No new features **
+    - Remove bug in which `convert grid to image' produced incorrect
+      images, visible as a patchy appearance with coarse grids.
+    - Remove bug in which `convert image to grid' failed to take note of
+      the gri minimum and maximum, so that contouring of the grid was not
+      possible for grids created from images.
+
+ -- Peter S Galbraith <psg@debian.org>  Mon, 27 Mar 2000 10:46:36 -0500
+
+gri (2.4.0-1) unstable; urgency=low
+
+  * New upstream version.  Introduces "set input data separator" to use TABs
+    as column separators.  We can now mix numerical columns with character
+    strings in read commands.
+  * Make gri-html-doc package redefine gri*WWW-page Emacs variable.
+  * Quiet the byte-compiler in /usr/lib/emacsen-common/packages/install/gri
+  * Updated to Standards-Version 3.1.1 with Build-Depends.
+  
+ -- Peter S Galbraith <psg@debian.org>  Wed,  5 Jan 2000 15:17:53 -0500
+
+gri (2.2.4-2) unstable; urgency=low
+
+  * Upstream source tar file changed without new version number to fix
+    small buglet in HTML docs.
+  * Fixed bug in description of gri-ps-doc package
+
+ -- Peter S Galbraith <psg@debian.org>  Sat,  6 Nov 1999 21:25:57 -0500
+
+gri (2.2.4-1) unstable; urgency=low
+
+  * New upstream release.
+     Includes support for iso-latin characters
+  * Split package into gri, gri-ps-doc and gri-html-doc
+  * Update to policy 3.0.0 (FHS issue of /usr/share/doc, etc)
+
+ -- Peter S Galbraith <psg@debian.org>  Wed, 20 Oct 1999 14:39:19 -0400
+
+gri (2.2.1-2) unstable; urgency=low
+
+  * i386 package recompiled against g++ version 2.91.66-0slink2
+	
+ -- Peter S Galbraith <psg@debian.org>  Mon, 05 May 1999 12:05:00 -0500
+
+gri (2.2.1-1) unstable; urgency=low
+
+  * Edited upstream configure script to enable netCDF compilation
+  * Small upstream tweak to doc/Makefile
+  * new license: GPL!
+	
+ -- Peter S Galbraith <psg@debian.org>  Mon, 29 Jan 1999 14:23:00 -0500
+
+gri (2.2.0-1) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Peter S Galbraith <psg@debian.org>  Mon, 22 Jan 1999 18:45:05 -0500
+
+Local variables:
+mode: debian-changelog
+add-log-mailing-address: "psg@debian.org"
+End:
