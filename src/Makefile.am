@@ -186,11 +186,13 @@ endif
 	mkdir -m 755 -p                                  $(DESTDIR)$(prefix)/share/gri
 	$(INSTALL_DATA)    startup.msg-tmp               $(DESTDIR)$(prefix)/share/gri/startup.msg
 	$(INSTALL_DATA)    gri.cmd                       $(DESTDIR)$(prefix)/share/gri/gri.cmd
+	$(INSTALL_DATA)    logo.dat                      $(DESTDIR)$(prefix)/share/gri/logo.dat
 uninstall-local:
 	rm -f $(DESTDIR)$(prefix)/bin/gri_unpage
 	rm -f $(DESTDIR)$(prefix)/bin/gri_merge
 	rm -f $(DESTDIR)$(prefix)/share/emacs/site-lisp/gri-mode.el
 	rm -f $(DESTDIR)$(prefix)/share/gri/startup.msg
 	rm -f $(DESTDIR)$(prefix)/share/gri/gri.cmd
+	rm -f $(DESTDIR)$(prefix)/share/gri/logo.dat
 	rm -f startup.msg-tmp
 	rm -f gri.cmd
