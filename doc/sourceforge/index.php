@@ -313,7 +313,7 @@ Search gri manual for (may be a regular expression):<p>
 	<A class="menus" HREF="http://sourceforge.net/tracker/?atid=105511&group_id=5511&func=browse">Bug reports</A><br>
 	<A class="menus" HREF="http://sourceforge.net/tracker/?atid=355511&group_id=5511&func=browse">Feature requests</A><br>
 	<!-- <A class="menus" HREF="http://www.sourceforge.net/survey/?group_id=5511">Public surveys</A><br> -->
-	<A class="menus" HREF="http://www.sourceforge.net/mail/?group_id=5511">Mailing lists</A><br> 
+<!--	<A class="menus" HREF="http://www.sourceforge.net/mail/?group_id=5511">Mailing lists</A><br> --> 
 	<A class="menus" HREF="mailto:dankelley@users.sourceforge.net">Email the author</A><br>
       </td>
     </tr>
