@@ -3191,10 +3191,11 @@ draw_gri_logoCmd()
 	double xx, yy;
 	//
 	// Save entry values
-	double old_grMissingValue = gr_currentmissingvalue();
 	GriColor old_color = _griState.color_line();
 
-	gr_setmissingvalue(-999.0);
+	bool was_using_missing_value = gr_using_missing_value();
+	double old_grMissingValue = gr_currentmissingvalue();
+	gr_set_missing_value(-999.0);
 	bool first = true, last_OK = true;
 	while (2 == fscanf(fp, "%lf %lf", &xx, &yy)) {
 		if (!gr_missing(xx)) {
@@ -3261,6 +3262,9 @@ draw_gri_logoCmd()
 	//
 	// Reset to entry values
 	_griState.set_color_line(old_color);
-	gr_setmissingvalue(old_grMissingValue);
+	if (was_using_missing_value)
+		gr_set_missing_value(old_grMissingValue);
+	else
+		gr_set_missing_value_none();
 	return true;
 }

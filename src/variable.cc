@@ -244,7 +244,7 @@ put_var(const char *name, double value, bool replace_existing)
 	} else if (!strcmp(name, "..superuser.."))
 		_griState.set_superuser((unsigned int)(floor(0.5 + value)));
 	else if (!strcmp(name, "..missingvalue.."))
-		gr_setmissingvalue(value);
+		gr_set_missing_value(value);
 	else if (!strcmp(name, "..xleft.."))
 		_xleft = value;
 	else if (!strcmp(name, "..xright.."))

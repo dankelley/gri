@@ -509,14 +509,18 @@ set_defaults()
 	_grid_exists = false;
 	_xgrid_exists = false;
 	_ygrid_exists = false;
-	gr_setmissingvalue(MISSING_VALUE);
+	// 
+	gr_set_missing_value(MISSING_VALUE);
 	PUT_VAR("..missingvalue..", gr_currentmissingvalue());
 	{
 		char tmp[100];
 		sprintf(tmp, "%f", gr_currentmissingvalue());
 		put_syn("\\.missingvalue.", tmp, true);
 	}
-	_f_min = _f_max = gr_currentmissingvalue();	// no grid data
+	_f_min = _f_max = gr_currentmissingvalue();	// BUG: what if not using missing values?
+#if 1				// version > 2.12.7
+	gr_set_missing_value_none();
+#endif
 	_need_x_axis = true;
 	_need_y_axis = true;
 	_num_xmatrix_data = 0;

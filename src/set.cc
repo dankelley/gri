@@ -2282,11 +2282,13 @@ set_line_widthCmd()
 bool
 set_missing_valueCmd()
 {
-	// `set missing value #'
+	// `set missing value #|none'
 	double          tmp;
 	if (_nword == 4) {
-		if (getdnum(_word[3], &tmp)) {
-			gr_setmissingvalue(tmp);
+		if (!strcmp(_word[3], "none")) {
+			gr_set_missing_value_none();
+		} else if (getdnum(_word[3], &tmp)) {
+			gr_set_missing_value(tmp);
 			PUT_VAR("..missingvalue..", gr_currentmissingvalue());
 			{
 				char tmp[100];

@@ -89,16 +89,19 @@ FBUFFER         stdin_buffer =
 /* GLOBAL scratch strings */
 char            _grTempString[_grTempStringLEN];
 char            _grTempString2[_grTempStringLEN];
+
+// Missing values
+bool	_grMissingValueUsed = true;
+double	_grMissingValue = 1.0e22, _grMissingValue_tolerance = 1.0e20;
+
 double
-_grCmPerUser_y,	/* y cm-on-page / user-unit */
+	_grCmPerUser_y,	/* y cm-on-page / user-unit */
 	_grCmPerUser_x,	/* x cm-on-page / user-unit */
 	_grCurrentPoint_x,	/* current x coordinate of pen */
 	_grCurrentPoint_y,	/* current y coordinate of pen */
 	_grGrayScreenQuantum = .0625,	/* gray step on mac */
 	_grMagx = 1.0,	/* x magnification on screen */
 	_grMagy = 1.0,	/* y magnification on screen */
-	_grMissingValue = 1.0e22,	/* missing value */
-	_grMissingValue_tolerance = 1.0e20,	/* tolerance */
 	_grOriginx = 0.0,	/* x origin on screen */
 	_grOriginy = 0.0,	/* y origin on screen */
 	_grPageHeight_cm = 27.94,	/* page height in cm */
@@ -1007,15 +1010,19 @@ gr_hsv2rgb(double h, double s, double v, double *r, double *g, double *b)
 bool
 gr_missing(double x)
 {
-	if (_grMissingValue == 0.0)	// ignore tolerance if 0
-		return (x == 0.0);
-	if (x == _grMissingValue)	// speed up (?)
-		return true;
-	x = GRI_ABS(x - _grMissingValue);
-	if (x < _grMissingValue_tolerance)
-		return true;
-	else
+	if (_grMissingValueUsed) {
+		if (_grMissingValue == 0.0)	// ignore tolerance if 0
+			return (x == 0.0);
+		if (x == _grMissingValue)	// speed up (?)
+			return true;
+		x = GRI_ABS(x - _grMissingValue);
+		if (x < _grMissingValue_tolerance)
+			return true;
+		else
+			return false;
+	} else {
 		return false;
+	}
 }
 
 // Is x-value missing? (Notice the x-transform.)
@@ -1285,15 +1292,22 @@ skip_ps_header(FILE * PSfile)
 		}
 }
 
-/*
- * gr_setmissingvalue(double x) SYNOPSIS void	gr_setmissingvalue(double x)
- * DESCRIPTION:  Sets missing value.
- */
-void
-gr_setmissingvalue(double x)
+bool
+gr_using_missing_value()
 {
+	return _grMissingValueUsed;
+}
+void
+gr_set_missing_value(double x)
+{
+	_grMissingValueUsed = true;
 	_grMissingValue = x;
 	_grMissingValue_tolerance = 0.0001 * GRI_ABS(x);
+}
+void
+gr_set_missing_value_none()
+{
+	_grMissingValueUsed = false;
 }
 
 /*

@@ -265,7 +265,9 @@ void            gr_setfont(gr_fontID newID, bool force = false);
 #define gr_setfontsize_cm(f) (gr_setfontsize_pt(f * PT_PER_CM))
 void            gr_setfontsize_pt(double new_fontsize_pt);
 void            gr_set_font_encoding(gr_font_encoding encoding);
-void            gr_setmissingvalue(double missingvalue);
+bool            gr_using_missing_value();
+void            gr_set_missing_value(double missingvalue);
+void            gr_set_missing_value_none();
 void            gr_setscale(double xfactor, double yfactor);
 #define gr_setsymbolsize_cm(s) (gr_setsymbolsize_pt(s * PT_PER_CM))
 void            gr_setsymbolsize_pt(double size_pt);
