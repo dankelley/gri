@@ -2,6 +2,49 @@
 #if !defined(_grisynonym_h_)
 #define  _grisynonym_h_
 #include "GCounter.hh"
+#if 1
+class GriSynonym : public GriCounter
+{
+public:
+	GriSynonym() {
+		;
+	}
+	GriSynonym(const char *the_name, const char *the_value) {
+		name.assign(the_name);
+		value.assign(the_value);
+	}
+	GriSynonym(const GriSynonym& c) {
+		name.assign(c.get_name());
+		value.assign(c.get_value_quietly());
+	}
+	~GriSynonym() {
+#if 0				// BUG 2001-feb-17 -- not sure on next 2 lines
+		name.string::~string();	// not executed
+		value.string::~string(); // not executed
+#endif
+	}
+	void setNameValue(const char *the_name, const char *the_value) {
+		name.assign(the_name);
+		value.assign(the_value);
+	}
+	void setValue(const char *the_value)		{value.assign(the_value); }
+	const char *get_name(void) const		{return name.c_str();};
+	const char *get_value(void)			{incrementCount(); return value.c_str();};
+	const char *get_value_quietly(void) const	{return value.c_str();};
+	GriSynonym& operator=(const GriSynonym& n) {
+		name.assign(n.get_name());
+		value.assign(n.get_value_quietly());
+		return *this;
+	}
+private:
+	string name;
+	string value;
+};
+
+
+
+#else
+
 class GriSynonym : public GriCounter
 {
 public:
@@ -77,4 +120,6 @@ private:
 	char *name;
 	char *value;
 };
+#endif
+
 #endif

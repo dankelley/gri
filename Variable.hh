@@ -2,6 +2,48 @@
 #if !defined(_grivariable_h_)
 #define  _grivariable_h_
 #include "GCounter.hh"
+#if 1
+class GriVariable : public GriCounter
+{
+public:
+	GriVariable() {
+		value = 0.0;
+	}
+	GriVariable(const char *the_name, double the_value) {
+		name.assign(the_name);
+		value = the_value;
+	};
+	GriVariable(const GriVariable& c) {
+		name.assign(c.get_name());
+		value = c.get_value_quietly();
+	};
+	~GriVariable() { 
+#if 0				// BUG 2001-feb-17 -- not sure on next 2 lines
+		name.string::~string(); // not executed
+#endif
+	};
+	void set_name_value(const char *the_name, double the_value) {
+		name.assign(the_name);
+		value = the_value;
+	};
+	void   set_value(double the_value) {value = the_value;};
+	const char *get_name(void) const        {return name.c_str();};
+	double get_value(void)            {incrementCount(); return value;};
+	double get_value_quietly(void) const {return value;};
+	GriVariable& operator=(const GriVariable& n) {
+		name.assign(n.get_name());
+		value = n.get_value_quietly();
+		return *this;
+	}
+private:
+	string  name;
+	double  value;
+};
+
+
+
+#else
+
 class GriVariable : public GriCounter
 {
 public:
@@ -18,13 +60,13 @@ public:
 		value = the_value;
 	};
 	GriVariable(const GriVariable& c) {
-		name = new char [1 + strlen(c.getName())];
+		name = new char [1 + strlen(c.get_name())];
 		if (!name) OUT_OF_MEMORY;
-		strcpy(name, c.getName());
+		strcpy(name, c.get_name());
 		value = c.get_value_quietly();
 	};
 	~GriVariable() {delete [] name;};
-	void setNameValue(const char *the_name, double the_value) {
+	void set_name_value(const char *the_name, double the_value) {
 		if (strlen(the_name) > strlen(name)) {
 			delete [] name;
 			name = new char [1 + strlen(the_name)];
@@ -33,12 +75,12 @@ public:
 		strcpy(name, the_name);
 		value = the_value;
 	};
-	void   setValue(double the_value) {value = the_value;};
-	char  *getName(void) const        {return name;};
-	double getValue(void)            {incrementCount(); return value;};
+	void   set_value(double the_value) {value = the_value;};
+	char  *get_name(void) const        {return name;};
+	double get_value(void)            {incrementCount(); return value;};
 	double get_value_quietly(void) const {return value;};
 	GriVariable& operator=(const GriVariable& n) {
-		char *cp = n.getName();
+		char *cp = n.get_name();
 		if (strlen(cp) > strlen(name)) {
 			delete [] name;
 			name = new char [1 + strlen(cp)];
@@ -52,4 +94,6 @@ private:
 	char   *name;
 	double  value;
 };
+#endif
+
 #endif

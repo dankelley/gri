@@ -2873,7 +2873,7 @@ Take 2 to the 3rd power, yielding 8.
 @item @{rpn 2 3 remainder@}
 @cindex @code{remainder} rpn operator
 @cindex rpn operator @code{remainder}
-Calculate remainder after dividing 2 by 3, yielding 2.  The return value
+Calculate the remainder after dividing 2 by 3, yielding 2.  The return value
 for @code{@{rpn A B remainder@}} is @code{B - n * A}, where @code{n} is
 the quotient of @code{A/B}, rounded towards zero to an integer.  In this
 case, @code{2/3} rounds to an @code{n} value of zero, yielding 2 as the
@@ -2922,17 +2922,17 @@ Replace 0 (false) with its logical negation 1 (true).
 @item @{rpn -3 abs@}
 @cindex @code{abs} rpn operator
 @cindex rpn operator @code{abs}
-Calculate absolute value of @code{-3}.
+Calculate the absolute value of @code{-3}.
 
 @item @{rpn 0.5 acos@}
 @cindex @code{acos} rpn operator
 @cindex rpn operator @code{acos}
-Calculate inverse cosine of 0.5, yielding 60 (degrees).
+Calculate the inverse cosine of 0.5, yielding 60 (degrees).
 
 @item @{rpn 2 acosh@}
 @cindex @code{acosh} rpn operator
 @cindex rpn operator @code{acosh}
-Calculate inverse hyperbolic cosine of 2, yielding 1.317.  (Note:
+Calculate the inverse hyperbolic cosine of 2, yielding 1.317.  (Note:
 argument must equal or exceed 1, or an error results.)
 
 @item @{rpn y x area@}
@@ -2942,17 +2942,17 @@ Calculate the area under the curve y=y(x).  For details
 @item @{rpn 0.5 asin@}
 @cindex @code{asin} rpn operator
 @cindex rpn operator @code{asin}
-Calculate inverse sine of 0.5, yielding 30 (degrees).
+Calculate the inverse sine of 0.5, yielding 30 (degrees).
 
 @item @{rpn 1 atan@}
 @cindex @code{atan} rpn operator
 @cindex rpn operator @code{atan}
-Calculate inverse tangent of 1, yielding 45 (degrees).
+Calculate the inverse tangent of 1, yielding 45 (degrees).
 
 @item @{rpn 0.5 atanh@}
 @cindex @code{atan} rpn operator
 @cindex rpn operator @code{atan}
-Calculate inverse hyperbolic tangent of 0.5, yielding 0.549306
+Calculate the inverse hyperbolic tangent of 0.5, yielding 0.549306
 (radians).
 
 @item @{rpn 0 argv@}
@@ -3009,7 +3009,7 @@ fontsize.  (See also @code{descent} and @code{width}.)
 @item @{rpn "3.1" atof@}
 @cindex @code{atof} rpn operator
 @cindex rpn operator @code{atof}
-Calculate numerical value contained in indicated string.
+Calculate the numerical value contained in indicated string.
 
 @item @{rpn 1.5 ceil@}
 @cindex @code{ceil} rpn operator
@@ -3019,12 +3019,12 @@ Calculate the next higher integer, yielding 2.  (Opposite of @code{floor}.)
 @item @{rpn 45 cos@}
 @cindex @code{cos} rpn operator
 @cindex rpn operator @code{cos}
-Calculate cosine of 45 degrees, yielding 0.707.
+Calculate the cosine of 45 degrees, yielding 0.707.
 
 @item @{rpn 1 cosh@}
 @cindex @code{cosh} rpn operator
 @cindex rpn operator @code{cosh}
-Calculate hyperbolic cosine of 1 (radian), yielding 1.543.
+Calculate the hyperbolic cosine of 1 (radian), yielding 1.543.
 
 @item @{rpn 1 cmtopt@}
 @cindex @code{cmtopt} rpn operator
@@ -3065,18 +3065,18 @@ and @code{0} otherwise.  (See also @code{file_exists}.)
 @item @{rpn 2 dup@}
 @cindex @code{dup} rpn operator
 @cindex rpn operator @code{dup}
-Duplicates top item on stack, yielding @code{2 2} on the stack.
+Duplicate the top item on stack, yielding @code{2 2} on the stack.
 (See also @code{exch} and @code{pop}.)
 
 @item @{rpn 1 exp@}
 @cindex @code{exp} rpn operator
 @cindex rpn operator @code{exp}
-Calculate @code{e} raised to the indicated power, yielding 2.71828.
+Calculate the value of @code{e} raised to the indicated power, yielding 2.71828.
 
 @item @{rpn 2 exp10@}
 @cindex @code{exp10} rpn operator
 @cindex rpn operator @code{exp10}
-Calculate @code{10} raised to the indicated power, yielding 100.
+Calculate the value of @code{10} raised to the indicated power, yielding 100.
 
 @item @{rpn "foo.dat" file_exists@}
 @cindex @code{file_exists} rpn operator
@@ -3087,7 +3087,7 @@ and @code{0} otherwise.  (See also @code{directory_exists}.)
 @item @{rpn 1.5 floor@}
 @cindex @code{floor} rpn operator
 @cindex rpn operator @code{floor}
-Calculate nearest smaller integer, yielding 1.  (Opposite of
+Calculate the nearest smaller integer, yielding 1.  (Opposite of
 @code{ceil}.)
 
 @item @{rpn 3 ismissing@}
@@ -3098,12 +3098,12 @@ Yields 1 if the indicated value is a ``missing value'' or 0 otherwise.
 @item @{rpn 100 log@}
 @cindex @code{log} rpn operator
 @cindex rpn operator @code{log}
-Calculate base-10 logarithm of 100, yielding 2.
+Calculate the base-10 logarithm of 100, yielding 2.
 
 @item @{rpn 10 ln@}
 @cindex @code{ln} rpn operator
 @cindex rpn operator @code{ln}
-Calculate natural logarithm of 10, yielding 2.30259.
+Calculate the natural logarithm of 10, yielding 2.30259.
 
 @item @{rpn x mean@}
 Yields the mean value of the (non-missing) numbers in the x column.  A
@@ -3123,7 +3123,7 @@ similar form also works for @code{y}, etc.
 @item @{rpn 28.45 pttocm@}
 @cindex @code{pttocm} rpn operator
 @cindex rpn operator @code{pttocm}
-Calculate number of centimeters in 28.45 printers points, yielding 1.
+Calculate the number of centimeters in 28.45 printers points, yielding 1.
 (Opposite of @code{cmtopt}.)
 
 @item @{rpn 1 2 pop@}
@@ -3136,18 +3136,23 @@ Generates an error if the stack is empty.  (See also @code{exch} and
 @item @{rpn 4 sqrt@}
 @cindex @code{sqrt} rpn operator
 @cindex rpn operator @code{sqrt}
-Calculate square root of number, yielding 2.  (Negative arguments yield
+Calculate the square root of 4, yielding 2.  (Negative arguments yield
 errors.)
 
 @item @{rpn 45 sin@}
 @cindex @code{sin} rpn operator
 @cindex rpn operator @code{sin}
-Calculate sine of 45 (degrees), yielding 0.707107.
+Calculate the sine of 45 (degrees), yielding 0.707107.
 
 @item @{rpn 2 sinh@}
 @cindex @code{sinh} rpn operator
 @cindex rpn operator @code{sinh}
-Calculate hyperbolic sine of 2, yielding 3.62686.
+Calculate the hyperbolic sine of 2, yielding 3.62686.
+
+@item @{rpn "hello" strlen@}
+@cindex @code{strlen} rpn operator
+@cindex rpn operator @code{strlen}
+Determine the number of characters in string, e.g. 6 here.
 
 @item @{rpn "date" system@}
 @cindex @code{system} rpn operator
@@ -3158,12 +3163,12 @@ yielding the date as a character string.
 @item @{rpn 45 tan@}
 @cindex @code{tan} rpn operator
 @cindex rpn operator @code{tan}
-Calculate tangent of 45 (degrees), yielding 1.
+Calculate the tangent of 45 (degrees), yielding 1.
 
 @item @{rpn tanh@}
 @cindex @code{tanh} rpn operator
 @cindex rpn operator @code{tanh}
-Calculate hyperbolic tangent of 2, yielding 0.964028.
+Calculate the hyperbolic tangent of 2, yielding 0.964028.
 
 @item @{rpn "hi" width@}
 @cindex @code{width} rpn operator
@@ -3199,27 +3204,27 @@ example, we skipped the first three words (@code{let}, @code{us}, and
 @item @{rpn 1 xusertocm@}
 @cindex @code{xusertocm} rpn operator
 @cindex rpn operator @code{xusertocm}
-Calculate x coordinate, in centimeters measured from left-hand side of
+Calculate the x coordinate, in centimeters measured from left-hand side of
 page, corresponding to a user-value of x=1.  (Opposite of
 @code{xcmtouser}.)
 
 @item @{rpn 1 xcmtouser@}
 @cindex @code{xcmtouser} rpn operator
 @cindex rpn operator @code{xcmtouser}
-Calculate x value, in user units, for a point that is 1 centimeter from
+Calculate the x value, in user units, for a point that is 1 centimeter from
 the left-hand edge of the paper.  (Opposite of @code{xusertocm}.)
 
 @item @{rpn 1 yusertocm@}
 @cindex @code{yusertocm} rpn operator
 @cindex rpn operator @code{yusertocm}
-Calculate y coordinate, in centimeters measured from bottom side of
+Calculate the y coordinate, in centimeters measured from bottom side of
 page, corresponding to a user-value of x=1.  (Opposite of
 @code{ycmtouser}.)
 
 @item @{rpn 1 ycmtouser@}
 @cindex @code{ycmtouser} rpn operator
 @cindex rpn operator @code{ycmtouser}
-Calculate y value, in user units, for a point that is 1 centimeter from
+Calculate the y value, in user units, for a point that is 1 centimeter from
 the bottom edge of the paper.  (Opposite of @code{yusertocm}.)
 
 
@@ -15435,6 +15440,9 @@ The next sections outline the changes made in Gri.
 @subsection Version 2.6
 @table @emph
 @item 2.6.0 [2001-month-day] (Not released yet.)
+@sp 1
+Add @code{strlen} RPN operator (@ref{Unary Operators}).
+
 @sp 1
 Add pointers, as in the C language (@ref{Pointing Synonyms}).
 

@@ -22,9 +22,9 @@ index_of_variable(const char *name)
 	if (stackLen > 0) {
 		for (int i = stackLen - 1; i >= 0; i--) {
 #ifdef DEBUG_VARIABLE
-			printf("debug: check [%s] vs %d-th [%s]\n", name, i, variableStack[i].getName());
+			printf("debug: check [%s] vs %d-th [%s]\n", name, i, variableStack[i].get_name());
 #endif
-			if (!strcmp(name, variableStack[i].getName())) {
+			if (!strcmp(name, variableStack[i].get_name())) {
 #ifdef DEBUG_VARIABLE
 				printf("DEBUG: returning index %d\n", i);
 #endif
@@ -52,7 +52,7 @@ show_variablesCmd()
 	int n = variableStack.size();
 	for (int i = 0; i < n; i++) {
 		extern char     _grTempString[];
-		sprintf(_grTempString, "%3d:    %-25s = %g\n", i, variableStack[i].getName(), variableStack[i].getValue());
+		sprintf(_grTempString, "%3d:    %-25s = %g\n", i, variableStack[i].get_name(), variableStack[i].get_value());
 		ShowStr(_grTempString);
 		have_some = true;
 	}
@@ -68,10 +68,9 @@ display_unused_var()
 	unsigned int stackLen = variableStack.size();
 	extern char _grTempString[];
 	if (stackLen > 0) {
-		char *name;
 		for (int i = stackLen - 1; i >= 0; i--) {
 			if (0 == variableStack[i].getCount()) {
-				name = variableStack[i].getName();
+				const char* name = variableStack[i].get_name();
 				if (*(name + 1) != '.') { // avoid builtins
 					sprintf(_grTempString, "\
 Warning: variable `%s' defined but not used\n", name);
@@ -106,8 +105,8 @@ show_var_stack()
 		printf("Variable stack [\n");
 		for (int i = stackLen - 1; i >= 0; i--) {
 			printf("  %s = %f\n", 
-			       variableStack[i].getName(),
-			       variableStack[i].getValue());
+			       variableStack[i].get_name(),
+			       variableStack[i].get_value());
 		}
 		printf("]\n");
 	}
@@ -119,10 +118,10 @@ delete_var(const string& name)
 {
 	unsigned stackLen = variableStack.size();
 	for (int i = stackLen - 1; i >= 0; i--) {
-		if (name == variableStack[i].getName()) {
+		if (name == variableStack[i].get_name()) {
 			int Plen = variablePointer.size();
 			//printf("DEBUG %s:%d DELETING var %d named <%s>\n",__FILE__,__LINE__,i,name.c_str());
-			//for (int ip = 0; ip < Plen; ip++) printf("DEBUG: BEFORE %d <%s>\n", variablePointer[ip],variableStack[variablePointer[ip]].getName());
+			//for (int ip = 0; ip < Plen; ip++) printf("DEBUG: BEFORE %d <%s>\n", variablePointer[ip],variableStack[variablePointer[ip]].get_name());
 			for (unsigned int j = i; j < stackLen - 1; j++)
 				variableStack[j] = variableStack[j + 1];
 			variableStack.pop_back();
@@ -134,7 +133,7 @@ delete_var(const string& name)
 				}
 			}
 			//printf("DEBUG %s:%d after handling 'delete var', the list is...\n",__FILE__,__LINE__);
-			//for (int ip = 0; ip < Plen; ip++) printf("DEBUG: AFTER %d <%s>\n", variablePointer[ip],variableStack[variablePointer[ip]].getName());
+			//for (int ip = 0; ip < Plen; ip++) printf("DEBUG: AFTER %d <%s>\n", variablePointer[ip],variableStack[variablePointer[ip]].get_name());
 
 			return true;
 		}
@@ -190,10 +189,10 @@ get_var(const char *name, double *value)
 		if (stackLen > 0) {
 			for (i = stackLen - 1; i >= 0; i--) {
 #ifdef DEBUG_VARIABLE
-				printf("debug: check [%s] vs %d-th [%s]\n", name, i, variableStack[i].getName());
+				printf("debug: check [%s] vs %d-th [%s]\n", name, i, variableStack[i].get_name());
 #endif
-				if (!strcmp(name, variableStack[i].getName())) {
-					*value = variableStack[i].getValue();
+				if (!strcmp(name, variableStack[i].get_name())) {
+					*value = variableStack[i].get_value();
 					variableStack[i].incrementCount(); // record the usage
 					return true;
 				}
@@ -245,8 +244,8 @@ put_var(const char *name, double value, bool replace_existing)
 	if (replace_existing) {
 		if (stackLen) {
 			for (i = stackLen - 1; i >= 0; i--) {
-				if (!strcmp(name, variableStack[i].getName())) {
-					variableStack[i].setValue(value);
+				if (!strcmp(name, variableStack[i].get_name())) {
+					variableStack[i].set_value(value);
 					return true;
 				}
 			}

@@ -50,7 +50,9 @@ public:
 	}
 	~DataFile() {
 		if (superuser() & FLAG_AUT1)printf("    DEBUG: %s:%d DataFile::~DataFile() name= '%s'\t fp= %x   this= %x\n",__FILE__,__LINE__, name.c_str(), int(fp), int(this));
-		name.string::~string();
+#if 0				// BUG 2001-feb-17 -- not sure on next 2 lines
+		name.string::~string(); // not executed
+#endif
 	}
 	DataFile& operator=(const DataFile& d) {
 		name.assign(d.get_name());

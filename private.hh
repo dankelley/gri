@@ -14,10 +14,8 @@
 #include "GriTimer.hh"
 #include "DataFile.hh"
 
-
-
 #define         cmd_being_done_LEN       100	// cmd stack
-#define		LineLength	       32768	// max length of line
+#define		LineLength	       32768	// = 2^15 = max length of line 
 #define		LineLength_1	       32767	// -1 + max length of line
 #define		MAX_cmd_word		8192	// words/command
 #define		MAX_nword		8192	// words/line

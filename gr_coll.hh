@@ -127,7 +127,9 @@ public:
 		offset = 0;		// ???
 	}
 	~BlockSource() {
-		filename.string::~string();
+#if 0				// BUG 2001-feb-17 -- not sure on next 2 lines
+		filename.string::~string(); // not executed
+#endif
 	}
 	void increment_offset()		{offset++;}
 	unsigned int get_offset()	const	{return offset;			}

@@ -11,6 +11,6 @@ public:
 	void decrementCount()		{ if (count) count--;	}
 	unsigned getCount() const	{ return count;		}
 private:
-	unsigned count;
+	int count;
 };
 #endif

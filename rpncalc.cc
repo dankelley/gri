@@ -86,7 +86,8 @@ typedef enum {
 	AND, OR, NOT,
 	CMTOPT, PTTOCM,
 	DUP, POP, EXCH, ROLL_LEFT, ROLL_RIGHT, PSTACK, CLEAR,
-	STRCAT, ATOF,
+	STRCAT, STRLEN,
+	ATOF,
 	SYSTEM,
 	SUP,
 	INF,
@@ -180,6 +181,7 @@ RPN_DICT        rpn_dict[] =
 	{"roll_right", 10, ROLL_RIGHT},
 	{"pstack", 6, PSTACK},
 	{"strcat", 6, STRCAT},
+	{"strlen", 6, STRLEN},
 	{"atof", 4, ATOF},
 	{"system", 6, SYSTEM},
 	{"sup", 3, SUP},
@@ -1017,6 +1019,11 @@ do_operation(operator_name oper)
 	if (oper == PSTACK) {
 		return print_rpn_stack();
 	} 
+	if (oper == STRLEN) {
+		NEED_ON_STACK(1); NEED_IS_TYPE(1, STRING);
+		SET(1, "", double(strlen(NAME(1))), NUMBER);
+		return true;
+	}
 	if (oper == STRCAT) {
 		// Need to remove the last quote (") of first and first quote of second.
 		NEED_ON_STACK(2); NEED_IS_TYPE(1, STRING); NEED_IS_TYPE(2, STRING);

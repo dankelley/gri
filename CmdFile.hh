@@ -28,7 +28,9 @@ public:
 		line = c.get_line();
 	}
 	~CmdFile() {
-		name.string::~string();
+#if 0				// BUG 2001-feb-17 -- not sure on next 2 lines
+		name.string::~string();	// not executed
+#endif
 	}
 	CmdFile& operator=(const CmdFile& c) {
 		name.assign(c.get_name());

@@ -36,10 +36,10 @@ get_starred_synonym(const char* name, bool want_value/*or name*/, string& result
 		if (which > -1) {
 			if (want_value) {
 				char buffer[100];
-				sprintf(buffer, "%g", variableStack[which].getValue());
+				sprintf(buffer, "%g", variableStack[which].get_value());
 				result.assign(buffer);
 			} else {
-				result.assign(variableStack[which].getName());
+				result.assign(variableStack[which].get_name());
 			}
 		} else {
 			result.assign(coded_reference);
@@ -57,9 +57,9 @@ get_starred_synonym(const char* name, bool want_value/*or name*/, string& result
 		if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d syn ptr is %d\n",__FILE__,__LINE__,which);
 		if (which > -1) {
 			if (want_value) {
-				result.assign(synonymStack[which].getValue());
+				result.assign(synonymStack[which].get_value());
 			} else {
-				result.assign(synonymStack[which].getName());
+				result.assign(synonymStack[which].get_name());
 			}
 		} else {
 			result.assign(coded_reference);
@@ -83,8 +83,8 @@ index_of_synonym(const char *name)
 	unsigned int stackLen = synonymStack.size();
 	if (stackLen > 0) {
 		for (int i = stackLen - 1; i >= 0; i--) {
-			//printf("debug: check [%s] vs %d-th [%s]\n", name, i, synonymStack[i].getName());
-			if (!strcmp(name, synonymStack[i].getName())) {
+			//printf("debug: check [%s] vs %d-th [%s]\n", name, i, synonymStack[i].get_name());
+			if (!strcmp(name, synonymStack[i].get_name())) {
 				//printf("DEBUG: returning index %d\n", i);
 				return i;
 			}
@@ -109,7 +109,7 @@ show_synonymsCmd()
 	int n = synonymStack.size();
 	for (int i = 0; i < n; i++) {
 		extern char _grTempString[];
-		sprintf(_grTempString, "%3d:    %-25s = \"%s\"\n", i, synonymStack[i].getName(), synonymStack[i].getValue());
+		sprintf(_grTempString, "%3d:    %-25s = \"%s\"\n", i, synonymStack[i].get_name(), synonymStack[i].get_value());
 		ShowStr(_grTempString);
 		have_some = true;
 	}
@@ -130,13 +130,14 @@ display_unused_syn()
 		char *name;
 		for (i = stackLen - 1; i >= 0; i--) {
 			if (0 == synonymStack[i].getCount()) {
-				name = synonymStack[i].getName();
+				name = strdup(synonymStack[i].get_name());
 				if (strlen(name) > 0 && *(name + 1) != '.') {
 					string tmp;
 					unbackslash(name, tmp);
 					sprintf(_grTempString, "Warning: synonym `%s' defined but not used\n", tmp.c_str());
 					ShowStr(_grTempString);
 				}
+				free(name);
 			}
 		}
 	}
@@ -173,7 +174,7 @@ show_syn_stack()
 	if (stackLen > 0) {
 		printf("Synonym stack [\n");
 		for (i = stackLen - 1; i >= 0; i--) {
-			printf("  %s = %s\n", synonymStack[i].getName(), synonymStack[i].getValue());
+			printf("  %s = %s\n", synonymStack[i].get_name(), synonymStack[i].get_value());
 		}
 		printf("]\n");
 	}
@@ -185,10 +186,10 @@ delete_syn(const string& name)
 {
 	unsigned stackLen = synonymStack.size();
 	for (int i = stackLen - 1; i >= 0; i--) {
-		if (name == synonymStack[i].getName()) {
+		if (name == synonymStack[i].get_name()) {
 			int Plen = synonymPointer.size();
 			if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d DELETING syn %d named <%s>\n",__FILE__,__LINE__,i,name.c_str());
-			if (((unsigned) superuser()) & FLAG_SYN) for (int ip = 0; ip < Plen; ip++) printf("DEBUG: BEFORE %d <%s>\n", synonymPointer[ip], synonymStack[synonymPointer[ip]].getName());
+			if (((unsigned) superuser()) & FLAG_SYN) for (int ip = 0; ip < Plen; ip++) printf("DEBUG: BEFORE %d <%s>\n", synonymPointer[ip], synonymStack[synonymPointer[ip]].get_name());
 			for (unsigned j = i; j < stackLen - 1; j++)
 				synonymStack[j] = synonymStack[j + 1];
 			synonymStack.pop_back();
@@ -200,7 +201,7 @@ delete_syn(const string& name)
 				}
 			}
 			if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d after handling 'delete syn', the list is...\n",__FILE__,__LINE__);
-			if (((unsigned) superuser()) & FLAG_SYN) for (int ip = 0; ip < Plen; ip++) printf("DEBUG: AFTER %d <%s>\n", synonymPointer[ip], synonymStack[synonymPointer[ip]].getName());
+			if (((unsigned) superuser()) & FLAG_SYN) for (int ip = 0; ip < Plen; ip++) printf("DEBUG: AFTER %d <%s>\n", synonymPointer[ip], synonymStack[synonymPointer[ip]].get_name());
 			return true;
 		}
 	}
@@ -318,8 +319,8 @@ get_syn(const char *name, string& value)
 		unsigned int stackLen = synonymStack.size();
 		if (stackLen > 0) {
 			for (i = stackLen - 1; i >= 0; i--) {
-				if (!strcmp(name, synonymStack[i].getName())) {
-					value.assign(synonymStack[i].getValue());
+				if (!strcmp(name, synonymStack[i].get_name())) {
+					value.assign(synonymStack[i].get_value());
 					synonymStack[i].incrementCount();
 					return true;
 				}
@@ -355,7 +356,7 @@ put_syn(const char *name, const char *value, bool replace_existing)
 		unsigned stackLen = synonymStack.size();
 		if (stackLen) {
 			for (int i = stackLen - 1; i >= 0; i--) {
-				if (!strcmp(name, synonymStack[i].getName())) {
+				if (!strcmp(name, synonymStack[i].get_name())) {
 					synonymStack[i].setValue(value);
 					return true;
 				}
@@ -658,7 +659,7 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 		bool            report_a_word = false;
 		int             word_to_report = -1;
 		bool            need_brace = (s[i + 1] == '{');
-		if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG.  At start of synonym i= %d  s+i= '%s'\n",i,s+i);
+		if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d at start of synonym i= %d  s+i= '%s'\n",__FILE__,__LINE__,i,s+i);
 		if (s[i + 1] == '.') {
 			dots_in_name = 1;
 			for(int ii = i + 2; ii < slen; ii++) {
@@ -684,14 +685,14 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 				report_num_words = true;
 			} else {
 				report_a_word = true;
-				char *num = new char [index_length + 1];
+				char *num = (char *)malloc(sizeof(char)*(index_length + 1));
 				for (j = 0; j < index_length; j++) 
 					num[j] = s[i + 2 + j];
 				num[j] = '\0';
 				double tmp;
 				getdnum(num, &tmp);
 				word_to_report = int(floor(0.5 + tmp));
-				delete [] num;
+				free(num);
 			}
 			i += index_length + 2;
 			// Check to see if synonym-name has dots in it
@@ -707,7 +708,8 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 		}
 		trailing_dots_in_name = 0;
 		if (strlen(s + i) > _grTempStringLEN) {
-			fatal_err("Not enough space for string `\\", s + i, "'", "\\");
+			printf("DEBUG %s:%d strlen(s+i)= %d    _grTempStringLEN = %d\n",__FILE__,__LINE__,strlen(s+i),_grTempStringLEN);
+			fatal_err("in synonyms.cc: insufficient space for string `\\", s + i, "'", "\\");
 		}
 		// To find length, scan the string, checking characters against
 		// stopper characters.

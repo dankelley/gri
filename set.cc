@@ -3219,13 +3219,14 @@ set_y_sizeCmd()
 	return true;
 }
 
-// Possible calls:
-// 1. \syn = word .n. of "string"
-// 2. \syn = "string"
-// 3. \syn = system ...
-// 4. \syn = tmpname
-// 5. \syn = &.a_var.
-// 6. \syn = &\a_syn
+// Possible calls are as follows; code below may
+// be in a different order though!
+//  Type 1. \syn = word .n. of "string"
+//  Type 2. \syn = system ...
+//  Type 3. \syn = tmpname
+//  Type 4. \syn = &.a_var.
+//  Type 5. \syn = &\a_syn
+//  Type 6. \syn = "string"
 bool
 assign_synonym()
 {
@@ -3452,7 +3453,7 @@ This computer can't `\\synonym = system ...' since no popen() subroutine.");
 		}
 #endif
 	} else {
-		// `\synonym = "..."'
+                // Type 6. \syn = "string"
 		string unquoted;
 		int status = ExtractQuote(_cmdLine, unquoted);
 		if (status == 0) {

@@ -1040,14 +1040,15 @@ ExtractQuote(const char *s, string& sout)
 	while (s[i] != '\0') {
 		if (s[i] == '"') {
 			if (i > 0 && s[i - 1] == '\\') {
-				if (!slash_quoted)
+				if (!slash_quoted) {
 					sout += '"';
-				else {
+				} else {
 					sout.STRINGERASE(sout.size() - 1, 1); // trim it
+					//printf("DEBUG %s:%d RETURNING-A %d.  Extracted quote length %d as \n<%s>\n", __FILE__,__LINE__,i+1,sout.size(),sout.c_str());
 					return i + 1;
 				}
 			} else {
-				//printf("DEBUG %s:%d returning '%s' with pos %d\n",__FILE__,__LINE__,sout.c_str(), i+1);
+				//printf("DEBUG %s:%d RETURNING-B %d\n<%s>\n\n",__FILE__,__LINE__,i+1,sout.c_str());
 				return i + 1;
 			}
 		} else {
@@ -1055,11 +1056,14 @@ ExtractQuote(const char *s, string& sout)
 		}
 		i++;
 	}
-	if (s[i] == '\0')
+	if (s[i] == '\0') {
+		//printf("DEBUG %s:%d RETURNING-C -1.  Extracted quote length %d as \n<%s>\n", __FILE__,__LINE__,sout.size(),sout.c_str());
 		return -1;
+	}
+
 	// ... and return an index so the parser can do more
 	// work on 's' past the quote
-	//printf("DEBUG %s:%d extract quote put sout '%s' from '%s'\n", __FILE__,__LINE__,sout.c_str(),s);
+	//printf("DEBUG %s:%d RETURNING %d.  Extracted quote length %d as \n<%s>\n", __FILE__,__LINE__,i,sout.size(),sout.c_str());
 	return i;
 }
 

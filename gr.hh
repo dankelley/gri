@@ -52,7 +52,7 @@ extern "C" {
 #include "GMatrix.hh"
 
 // Useful things to know.
-#define	_grTempStringLEN	4096
+#define	_grTempStringLEN	32768 // = 2^15  (was 4096 until 2001-feb-17)
 #define PASTE_CHAR    char(255)
 
 // Postscript things.
