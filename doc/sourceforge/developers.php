@@ -40,6 +40,7 @@ print "<A HREF=\"$sf_url/tracker/?atid=30$gri_group_id&group_id=$gri_group_id&fu
 print "<A HREF=\"$sf_url/pm/task.php?group_project_id=8706&group_id=$gri_group_id&func=browse\">View to-do list</A><br>\n";
 print "<A HREF=\"$sf_url/cvs/?group_id=$gri_group_id\">Get CVS source</a><br>\n";
 print "<A HREF=\"http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/gri/gri/\">View CVS history</a><br>\n";
+print "<br><a href=\"pre-releases\">pre-release</a> site\n";
 ?>
 
 <?php
