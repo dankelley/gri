@@ -74,7 +74,7 @@ dnl on intel (linux), with g++-2.96 and g++-3.0
 
 
 dnl On DEC computers, with cxx compiler, need something special
-AC_DEFUN(IS_THIS_A_DECCXX_COMPILER,
+AC_DEFUN(DEK_IS_DECCXX,
 AC_MSG_CHECKING(for DEC cxx compiler)
 AC_CACHE_VAL(gri_cv_is_deccxx, [
 AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([$0], [AC_HEADER_EGREP])AC_BEFORE([$0], [AC_TEST_CPP])AC_EGREP_CPP(yes,
@@ -89,7 +89,25 @@ AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([
     fi
 )dnl
 dnl
-IS_THIS_A_DECCXX_COMPILER
+DEK_IS_DECCXX
+
+dnl     See if apple (e.g. OS/X)
+AC_DEFUN(DEK_IS_APPLE,
+AC_MSG_CHECKING(for for apple computer)
+AC_CACHE_VAL(gri_cv_is_apple, [
+AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([$0], [AC_HEADER_EGREP])AC_BEFORE([$0], [AC_TEST_CPP])AC_EGREP_CPP(yes,
+[#if defined(__APPLE__) && defined(__GNUC__)
+  yes
+#endif
+], gri_cv_is_apple=yes, gri_cv_is_apple=no)])
+    AC_MSG_RESULT($gri_cv_is_apple)
+    if test $gri_cv_is_apple = yes; then
+        AC_DEFINE(IS_APPLE)
+    fi
+)dnl
+dnl
+DEK_IS_APPLE
+
 
 AC_DEFUN(IS_THIS_AN_ALPHA_SYSTEM,
 AC_MSG_CHECKING(for DEC alpha computer)
