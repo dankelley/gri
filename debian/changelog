@@ -12,6 +12,7 @@ gri (2.12.6-1) unstable; urgency=low
       postscript')
     - Fix SourceForge bug 750561 (during compilation, `make' rebuilds HTML
       docs even if up-to-date)
+  * debian/control: Standards-Version 3.6.1 without changes.
 
  -- Peter S Galbraith <psg@debian.org>  Mon,  1 Sep 2003 19:51:32 -0400
   
