@@ -93,13 +93,25 @@ eof_status GriString::line_from_FILE(FILE *fp)
 // NOT KEEP NEWLINE; PUT IT BACK INTO FILE SO 'READ WORD' CAN FLUSH COMMENTS
 // AND EXTRA JUNK AT EOL ... PROVISIONAL CHANGE.
 
-bool GriString::word_from_FILE(FILE *fp)
+bool GriString::word_from_DataFile(DataFile& f)
 {
+	bool status;
+	unsigned int eol;
+	status = GriString::word_from_FILE(f.get_fp(), &eol);
+	for (unsigned int e = 0; e < eol; e++) {
+		//printf("dd %s:%d got eol\n", __FILE__,__LINE__);
+		f.increment_line();
+	}
+	return status;
+}
+bool GriString::word_from_FILE(FILE *fp, unsigned int *eol)
+{
+	*eol = 0;
+	//printf("dd eol at start is %d\n", *eol);
         if (feof(fp)) {
                 value[0] = '\0';
                 return true;
         }
-
 	// The default (single or multiple whitespace) is VERY 
 	// different from TAB, since the latter requires precisely
 	// one TAB.  Also, in the default case, whitespace is skipped, 
@@ -114,7 +126,10 @@ bool GriString::word_from_FILE(FILE *fp)
 		}
 		// Flush any existing whitespace
 		while (isspace(value[i])) {
+			//printf(" flushing whitespace [%c] at i=%d\n",value[i],i);
 			value[i] = getc(fp);
+			if (value[i] == '\n')
+				*eol++;
 			if (feof(fp)) {
  				value[i] = '\0';
 				return true;
@@ -133,6 +148,8 @@ bool GriString::word_from_FILE(FILE *fp)
 				value = more_space;
 			}
 			if (value[i] == '\n') {
+				*eol = *eol + 1;
+				//printf("dd *  POSITION 1 newline.  eol is now %d\n", *eol);
 				ungetc(value[i], fp);
 				break;
 			}
@@ -170,6 +187,8 @@ bool GriString::word_from_FILE(FILE *fp)
 				value = more_space;
 			}
 			if (value[i] == '\n') {
+				*eol = *eol + 1;
+				//printf("dd ** POSITION 2 newline.  eol is now %d\n", *eol);
 				ungetc(value[i], fp);
 				break;
 			}

@@ -113,13 +113,23 @@ skip_backwardCmd(int n)
 		warning("Can't `skip forward' in binary files");
 		return false;
 	}
+	unsigned int present_line = _dataFILE.back().get_line();
+	//printf("back skip %d was at present_line=%d\n",n,present_line);
 	rewind(_dataFILE.back().get_fp());
+	_dataFILE.back().set_line(0);
 	clearerr(_dataFILE.back().get_fp());
+	if (n > present_line) {
+		warning("Too few lines to skip that far; instead, rewinding the file.");
+		return true;
+	}
 	GriString inLine(128); // Start short
-	for (int l = 1; l < n; l++) {
+	int num_to_advance = present_line - n;
+	printf("*** num_to_advance %d\n",num_to_advance);
+	for (int l = 0; l < num_to_advance; l++) {
+		//printf(" skip\n");
 		if (inLine.line_from_FILE(_dataFILE.back().get_fp())) {
 			set_eof_flag_on_data_file();
-			warning("`skip forward' at end-of-file on file `\\",
+			warning("`skip back' hit end-of-file on file `\\",
 				_dataFILE.back().get_name(), "'", "\\");
 			break;
 		}

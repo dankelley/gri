@@ -36,7 +36,8 @@ public:
 	~GriString() {delete [] value;}
 	void convert_slash_to_MSDOS();
 	eof_status line_from_FILE(FILE *fp); // Get Line from file, true if EOF
-	bool word_from_FILE(FILE *fp); // Get word from file, true if EOF
+	bool word_from_FILE(FILE *fp, unsigned int *eol); // Get word from file, true if EOF
+	bool word_from_DataFile(DataFile& f); // Get word from file, true if EOF
 	void fromSTR(const char *s);   // Grow if necessary
 	void catSTR(const char *s);	   // Grow if necessary
 	char *getValue() const {return value; }

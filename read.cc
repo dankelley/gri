@@ -2486,6 +2486,7 @@ read_image_maskCmd()
 bool
 read_synonym_or_variableCmd()
 {
+	//printf("dd IN READ SYN/VAR\n");
 	chars_read = 0;
 	if (_nword < 2) {
 		demonstrate_command_usage();
@@ -2553,20 +2554,13 @@ read_synonym_or_variableCmd()
 			if (where_colon == 0)
 				varname++;
 		}
-		if (-1 == ncattinq(_dataFILE.back().get_netCDF_id(),
-				   varid,
-				   varname,
-				   &att.type,
-				   &att.len)) {
+		if (-1 == ncattinq(_dataFILE.back().get_netCDF_id(), varid, varname, &att.type, &att.len)) {
 			err("No netCDF attribute `\\", varname, "' exists", "\\");
 			return false;
 		}
 		att.val = (void *) malloc((unsigned)att.len*nctypelen(att.type));
 		Require(att.val, OUT_OF_MEMORY);
-		if (-1 == ncattget(_dataFILE.back().get_netCDF_id(),
-				   varid,
-				   varname,
-				   att.val)) {
+		if (-1 == ncattget(_dataFILE.back().get_netCDF_id(), varid, varname, att.val)) {
 			err("Cannot get netCDF attribute `\\", varname, "'", "\\");
 			return false;
 		}
@@ -2710,6 +2704,7 @@ read_synonym_or_variableCmd()
 				return false;
 			}
 		}
+		//?????_dataFILE.back().increment_line(); // BUG: should only do this if reading from datafile
 	}
 	// flush to end of line, skipping comment if any
 	int c = 0;
@@ -2919,7 +2914,10 @@ get_next_data_line(const char *prompt, unsigned int expected_fields)
 			return got_eof;
 		}
 	}
+#if 0				// SF bug 669303
 	_dataFILE.back().increment_line(); // BUG: should only do this if reading from datafile
+	printf("incremeing line ... is now %d\n",_dataFILE.back().get_line());
+#endif
 	// If no newline, over-ran buffer.
 	// Check that newline-terminated; note already checked for EOF
 	if (inLine.size() > 0 && inLine[inLine.size() - 1] != '\n') {
@@ -2941,7 +2939,13 @@ get_next_data_word()
 			err("cannot `read variable/synonym' from     interactive cmdfile\n");
 		} else {
 			// from get_next_data_line()
-			if (true == inLine.word_from_FILE(_cmdFILE.back().get_fp())) {
+			unsigned int eol;
+			bool status = inLine.word_from_FILE(_cmdFILE.back().get_fp(), &eol);
+			for (unsigned int e = 0; e < eol; e++) {
+				printf("DEBUG: %s:%d incrementing line number in command file\n", __FILE__, __LINE__);
+				_cmdFILE.back().increment_line();
+			}
+			if (status) {
 				set_eof_flag_on_data_file();
 				return true;
 			}
@@ -2951,7 +2955,7 @@ get_next_data_word()
 		// Get line from data-file.
 		if (_dataFILE.back().get_type() == DataFile::ascii) { 
                         // ASCII file, non interactive
-			if (1 == inLine.word_from_FILE(_dataFILE.back().get_fp())) {
+			if (1 == inLine.word_from_DataFile(_dataFILE.back())) {
 				set_eof_flag_on_data_file();
 				return true;
 			}
@@ -3026,7 +3030,9 @@ get_next_data_word()
 			return true;
 		}
 #endif
+#if 0				// SF bug 669303
 		_dataFILE.back().increment_line();
+#endif
 		// Return flag that didn't run out of data.
 		return false;
 	}
