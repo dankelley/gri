@@ -44,16 +44,15 @@ gri: $(OBJS) $(EXTRA_OBJS)
 # Next is a kludge.  Trying to get a local popt working, 
 # e.g. for solaris.  Based on popt-1.2
 popt/findme.o: popt/findme.c
-	cd popt ; $(CXX) -c $<
+	cd popt ; $(CC) -c findme.c
 popt/popt.o: popt/popt.c
-	cd popt ; $(CXX) -c $<
+	cd popt ; $(CC) -c popt.c
 popt/poptconfig.o: popt/poptconfig.c
-	cd popt ; $(CXX) -c $<
+	cd popt ; $(CC) -c poptconfig.c
 popt/popthelp.o: popt/popthelp.c
-	cd popt ; $(CXX) -c $<
+	cd popt ; $(CC) -c popthelp.c
 popt/poptparse.o: popt/poptparse.c
-	cd popt ; $(CXX) -c $<
-
+	cd popt ; $(CC) -c poptparse.c
 
 
 popt/libpopt.a:
