@@ -1059,7 +1059,7 @@ give_help()
         gr_textput("     gri - draw scientific graphs\n");
         gr_textput("\n");
         gr_textput("SYNOPSIS\n");
-        gr_textput("     gri [OPTIONS] [command_file [postscript_file]]\n");
+        gr_textput("     gri [OPTIONS] [command_file [optional_arguments]]\n");
         gr_textput("\n");
         gr_textput("DESCRIPTION\n");
         gr_textput("     If a command file (command_file) is named, commands are read from that file;\n");
