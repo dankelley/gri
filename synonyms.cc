@@ -546,20 +546,20 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 				chop_into_words(svalue, w, &nw, MAX_nword);
 				
 				if (word_to_report < 0) {
+#if 0				        // annoying since reports in 'false' parts of if.
 					char buf[100];
-					sprintf(buf, "\
-Cannot get word %d of a synonym; using first word instead",
-						word_to_report);
+					sprintf(buf, " Cannot get word %d of a synonym; using first word instead", word_to_report);
 					warning(buf);
+#endif
 					sout.append(w[0]);
 				} else if (word_to_report < nw) {
 					sout.append(w[word_to_report]);
 				} else {
+#if 0				        // annoying since reports in 'false' parts of if.
 					char buf[100];
-					sprintf(buf, "\
-Cannot get word %d of synonym `%s'; using last word ([%d]) instead",
-						word_to_report, sname.c_str(), nw - 1);
+					sprintf(buf, "Cannot get word %d of synonym `%s'; using last word ([%d]) instead", word_to_report, sname.c_str(), nw - 1);
 					warning(buf);
+#endif
 					sout.append(w[nw - 1]);
 				}
 			} else {
