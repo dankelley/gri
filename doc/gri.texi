@@ -14767,6 +14767,7 @@ versions.)
 /usr/local
 |-- bin
 |   |-- gri -> gri-@value{GRI-VERSION}
+|   |-- gri-@value{GRI-VERSION}
 |   |-- gri-@value{GRI-PREVIOUS-VERSION}
 |   |-- gri_merge
 |   `-- gri_unpage
