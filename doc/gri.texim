@@ -15512,6 +15512,7 @@ use it in standalone mode.
 
 @node   Debugging at a Glance, Debugging Example, Debugging Software You'll Need, Killing Bugs
 @comment  node-name,  next,  previous,  up
+@index electric fence, for debugging
 @subsection Debugging at a glance
 The list below is a sketch of what you might try, and in what order.
 @itemize
@@ -15519,6 +15520,14 @@ The list below is a sketch of what you might try, and in what order.
 and also to see if there is a workaround.
 @item Try a more recent version of gri.  If it works, you might wish to 
 archive the version you have at the moment and upgrade.
+@item If you suspect your bug has something to do with system calls, 
+as in the @code{system} command (@ref{System}) or as in piped input
+files (@ref{Open}), you should re-run the script with 
+@code{gri -superuser8} instead of with @code{gri}.  This will cause
+Gri to print out all commands that it is handing over to the operating
+system; you may see the error that way.  (Hint: it may help to
+interactively cut/paste the commands into your OS shell to see what the 
+action of the command is.)
 @item If your bug results in early termination, you should run Gri
 inside a debugger (e.g. GDB, assumed henceforth).  When the program
 terminates, type @code{where} to see where termination occured.  Often
