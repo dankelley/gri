@@ -1,1 +1,3 @@
-(setq gri*WWW-page "file:/usr/share/doc/gri/html/index.html")
+(if (not (file-exists-p "/usr/share/doc/gri/html/index.html"))
+    (message "Package gri-htnl-doc is not installed.  Skipping setup.")
+  (setq gri*WWW-page "file:/usr/share/doc/gri/html/index.html"))

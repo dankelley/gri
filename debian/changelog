@@ -1,3 +1,10 @@
+gri (2.12.4-2) UNRELEASED; urgency=low
+
+  * gri-html-doc.emacsen-startup, gri-el.emacsen-startup: Make sure
+    packages are installed before doing elisp setup.
+
+ -- Peter S Galbraith <psg@debian.org>  Thu, 15 May 2003 11:37:22 -0400
+
 gri (2.12.4-1) unstable; urgency=low
 
   * New upstream release

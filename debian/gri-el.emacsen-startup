@@ -1,3 +1,5 @@
-(setq gri*directory-tree "/usr/share/gri/")
-(autoload 'gri-mode "gri-mode" "Enter Gri-mode." t)
-(setq auto-mode-alist (cons '("\\.gri$" . gri-mode) auto-mode-alist))
+(if (not (file-exists-p "/usr/share/emacs/site-lisp/gri-mode.el"))
+    (message "Package gri is not installed.  Skipping setup.")
+  (setq gri*directory-tree "/usr/share/gri/")
+  (autoload 'gri-mode "gri-mode" "Enter Gri-mode." t)
+  (setq auto-mode-alist (cons '("\\.gri$" . gri-mode) auto-mode-alist)))
