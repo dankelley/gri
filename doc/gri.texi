@@ -531,7 +531,7 @@ set x name "$t_0$"
 # Set up the y axis.
 #
 # Make the y axis run from 10 to 20, with labelled tics at intervals
-# of 5 and smaller, unlabelled, tics, at intervals of 1.  Other
+# of 5 and smaller, unlabelled tics, at intervals of 1.  Other
 # commands are similar to those for the x-axis.
 set y axis 10 20 5 1
 set y size 10
@@ -1014,7 +1014,7 @@ But the box may also be set with the @code{set bounding box} command
 @item  @code{-no_startup_message}
 @cindex startup message
 @cindex @code{-no_startup_message} command-line option
-Stops Gri from printing startup message.
+Stops Gri from printing the startup message.
 @item  @code{-debug} or @code{-d}
 @cindex @code{-debug} command-line option
 @vindex @code{..debug..}, for debugging (by normal users)
@@ -1057,7 +1057,7 @@ end if
 @end example
 @item  @code{-no_startup_message}
 @cindex @code{-no_startup_message} command-line option
-Prevent Gri from printing startup message.  It is not a good idea to use
+Prevent Gri from printing the startup message.  It is not a good idea to use
 this option in general.
 @item  @code{-chatty[N]} or @code{-c[N]}
 @cindex @code{-chatty} command-line option
@@ -1125,7 +1125,7 @@ Display version information and exit successfully.
 If a command file @code{CommandFile} is specified, then commands will
 be read from that file instead of the keyboard.  If the @code{chatty}
 level is 1 or larger, Gri prints the names of the commandfiles at
-startup time.  It's conventional but not necessary that the filename
+startup time.  It is conventional but not necessary that the filename
 ends in @code{.gri}.  If the filename does end in @code{.gri}, you may
 delete this suffix; Gri will assume it as implied. 
 
@@ -1146,13 +1146,13 @@ Gri looks for commandfiles in the local directory.
 @c OLD @example
 @c OLD export GRIINPUTS=".:$HOME/lib/gri:/usr/local/lib/gri"
 @c OLD @end example
-@item @code{PostscriptFile}
+@item @code{PostScriptFile}
 @cindex command-line, specifying PostScript file
 @cindex @code{PostScriptFile} command-line option
 @cindex postscript file
 @cindex files, PostScript-file
 If a command file is specified, then an additional file,
-@code{PostScriptfile}, can be specified as the file in which to store
+@code{PostScriptFile}, can be specified as the file in which to store
 the PostScript description of the plot.  If no PostScript filename is
 given, Gri will make up a filename from the CommandFile name, by first
 removing a trailing @code{".gri"} if it exists, and then appending
@@ -1341,11 +1341,11 @@ most complete request is:
 @example
 `draw zero line [horizontally|vertically]'
   draw zero line
-    Draw line y=0 if it's within axes
+    Draw line y=0 if it is within axes
   draw zero line horizontally
-    Draw line y=0 if it's within axes
+    Draw line y=0 if it is within axes
   draw zero line vertically
-    Draw line x=0 if it's within axes
+    Draw line x=0 if it is within axes
 @end example
 The part enclosed in angled quotes is the syntactical description of the
 command.  (NOTE: The square brackets indicate an optional word (in this
@@ -1357,7 +1357,7 @@ unit; they are used to clarify the choices presented to the OR
 operator.)  Following the syntactical description are examples.  Each
 example is indented 2 spaces, and a description of it (which always
 starts with an upper-case character and ends with a period, to indicate
-that it's an English description) follows that, indented by an
+that it is an English description) follows that, indented by an
 additional 2 spaces.
 
 
@@ -1399,8 +1399,8 @@ draw line from \
 @node   About Variables, User Variables, Variables, Variables
 @comment  node-name,  next,  previous,  up
 @subsection About variables
-Variables store numbers.  As it reads your program, Gri replaces any
-substitutes variable values anyplace a variable appears where a number
+Variables store numbers.  As it reads your program, Gri 
+substitutes variable values any place a variable appears where a number
 normally would.  For example, in the code below @code{.number.} is a
 variable storing the value 10, so the two @code{read} statements have
 the same effect:
@@ -1555,6 +1555,7 @@ fitted line), @code{..coeff1..} (the slope of the fitted line),
 To see the values of the built-in variables (along with the user
 variables), use @code{show variables}.  Here are some useful builtin
 variables: 
+
 @emph{Meanings of the built-in variables}
 
 @itemize @bullet
@@ -1750,7 +1751,7 @@ close
 @end example
 
 @cindex mathematics, rpn notation, example
-The first line needs a bit of explanation. It's a reverse-polish
+The first line needs a bit of explanation. It is a reverse-polish
 expression.  The format is @code{@{} followed by @code{rpn} followed by
 an expression followed by @code{@}}.  Within the expression, spaces must
 separate operands.  This makes @code{.offset.} equal to the height of
@@ -1759,7 +1760,7 @@ y-axis plus 3 cm, so plots are separated by 3 cm.  To learn more about
 
 Another possibly unfamiliar thing is the code @code{+=}.  It means take
 the thing on the left hand side, and add to it the thing on the right
-hand side.  (In this case, it's used to increase the y margin by the
+hand side.  (In this case, it is used to increase the y margin by the
 value of @code{.offset.}.)
 
 
@@ -1775,8 +1776,8 @@ value of @code{.offset.}.)
 Synonyms are used by Gri to store character strings.  Gri denotes
 synonyms with words beginning with backslash (e.g., @code{\syn}),
 following the @TeX{} convention.  You may use any name you like for
-synonyms, but it's a bad idea to use names that begin and end with
-period (since that's what Gri uses for it's own synonyms), or synonyms
+synonyms, but it is a bad idea to use names that begin and end with
+period (since that's what Gri uses for its own synonyms), or synonyms
 with names like @code{\n}, @code{\t}, etc, since you might want to use
 such items in system calls (where they may be intended to mean NEWLINE
 and TAB).
@@ -1938,7 +1939,7 @@ end if
 
 Here the strings are compared with the @code{==} operator.  Inequality
 is tested with @code{!=}.  One can do string comparisons in @code{rpn}
-expressions, e.g @code{if @{rpn "\item" "S"==@}}
+expressions, e.g. @code{if @{rpn "\item" "S"==@}}
 (@ref{rpn Mathematics}).
 
 
@@ -2013,7 +2014,7 @@ synonym @code{\filename}. If the user types nothing, but simply presses
 carriage return, the (optional) default string (which must be enclosed
 in parentheses as shown) is put into @code{\filename}. Note that the
 default is ignored if it is not written properly: it must be enclosed in
-double quotes enclosed in braces, with no intervening spaces.
+double quotes enclosed in parentheses, with no intervening spaces.
 
 
 @subsubsection Reading Synonyms From a File
@@ -2091,7 +2092,7 @@ in the second example:
 @{
   if @{rpn \.words. 4 !=@}
     show "FATAL ERROR in `\.proper_usage.':"
-    show "  Need 4 or 5 words; got \.words. words."
+    show "  Need 4 words; got \.words. words."
     quit
   end if
   # Right number of words, so continue onward...
@@ -2101,11 +2102,11 @@ in the second example:
 These synonyms help you scan for optional words in commands.  Suppose
 you have defined a new command @code{New Thing [option]}.  If you call
 it with @code{New Thing}, then (within @code{New Thing}) @code{\.words.}
-will be @code{"2"}, @code{\.word1.} will be @code{"New"} and @code{\.word2.}
+will be @code{"2"}, @code{\.word0.} will be @code{"New"} and @code{\.word1.}
 will be @code{"Thing"}.  On the other hand, if you call it with
-@code{New Thing 22.3} then @code{\.words.} will be @code{"3},
-@code{\.word1.} will be @code{"New"}, @code{\.word2.} will be
-@code{"Thing"}, and @code{\.word3.} will be @code{"22.3"}.
+@code{New Thing 22.3} then @code{\.words.} will be @code{3},
+@code{\.word0.} will be @code{"New"}, @code{\.word1.} will be
+@code{"Thing"} as before, and @code{\.word2.} will be @code{"22.3"}.
 
 @emph{EXAMPLE}  Here is a new command to label lines drawn by 
 @code{draw curve}: 
@@ -2167,7 +2168,7 @@ Within mathematics mode (portions of strings enclosed within
 dollar-signs), Gri stores the definitions of many Greek letters and
 mathematical symbols as math-mode synonyms (@ref{Mathematical Text}).
 
-Global synonyms are shared amoung commands.  To see the built-in global
+Global synonyms are shared among commands.  To see the built-in global
 synonyms (@ref{Index of Builtins})
 use @code{show synonyms}:
 
@@ -2192,7 +2193,7 @@ gri: Synonyms...
 @cindex time
 @cindex date
 @cindex @code{\.return_value.}, general
-The meanings of these things will be obvious to unix users; for example
+These things will be obvious to unix users; for example
 @code{\.pid.} is the process ID of the job (often used in names for
 temporary files), and @code{\.wd.} is the working directory (often used
 in @code{draw title} commands to indicate in which directory the gri job
@@ -2249,7 +2250,7 @@ an expression of the form @code{@{string1 == string2 @}}.  The symbol
 @code{==} is an operator which tests for string equality.  This expands
 to @code{1} if the strings are equal, or @code{0} otherwise.  The
 strings may be either synonyms or string constants.  If the string
-constant contains only one word, then it's not necessary to enclose it
+constant contains only one word, then it is not necessary to enclose it
 in quotes, but it is clearer to do so.  Examples:
 @cindex labels, on axes
 @example
@@ -2341,7 +2342,7 @@ The column operators are @code{=}, @code{+=}, @code{-=}, @code{*=},
 @code{/=}, @code{^=} (exponentiation) and @code{_=} (logarithm).  There
 must be spaces before and after the operators, but no space between the
 2 letters of the operators. The operations may be applied not only to
-@code{x} and @code{y} as shown, but also so @code{z} (used to hold data
+@code{x} and @code{y} as shown, but also to @code{z} (used to hold data
 to be contoured or written as symbols), and @code{u} and @code{v} (used
 to store vector fields).
 
@@ -2944,7 +2945,7 @@ let us test "this thing"
 let us test "this" "thing"
 let us test "Pi is" @{rpn 3.14@}
 @end example
-If you are using this to parse options given to the command, it's up to
+If you are using this to parse options given to the command, it is up to
 you to skip the non-optional words in the command.  In this case, for
 example, we skipped the first three words (@code{let}, @code{us}, and
 @code{test}).
@@ -3320,7 +3321,7 @@ defined in math mode in Gri (cf tables in Lamport's section 3):
 ({\tt $\backslash$Leftarrow}, $\Leftarrow$),
 ({\tt $\backslash$Leftrightarrow}, $\Leftrightarrow$),
 ({\tt $\backslash$Omega}, $\Omega$),
-({\tt $\backslash$Pi}, $\Phi$),
+({\tt $\backslash$Phi}, $\Phi$),
 ({\tt $\backslash$Pi}, $\Pi$),
 ({\tt $\backslash$Psi}, $\Psi$),
 ({\tt $\backslash$Re}, $\Re$),
@@ -3366,7 +3367,7 @@ defined in math mode in Gri (cf tables in Lamport's section 3):
 ({\tt $\backslash$nu}, $\nu$),
 ({\tt $\backslash$omega}, $\omega$),
 ({\tt $\backslash$partial}, $\partial$),
-({\tt $\backslash$pi}, $\phi$),
+({\tt $\backslash$phi}, $\phi$),
 ({\tt $\backslash$pi}, $\pi$),
 ({\tt $\backslash$pm}, $\pm$),
 ({\tt $\backslash$prod}, $\prod$),
@@ -3494,7 +3495,7 @@ about this topic except for the pleasure of learning about other
 languages.
 
 The method of handling accented characters is very simple.  If you can
-type it, Gri can draw it!  It's up to you to determine how to enter the
+type it, Gri can draw it!  It is up to you to determine how to enter the
 accents.  Most text editors permit this.  Since many users will prefer
 the Emacs editor, a few words about that are in order.
 
@@ -3609,7 +3610,7 @@ An opening square bracket (e.g. @code{[option]})
 @item
 An opening brace (e.g.  @code{@{a|b@}})
 @item
-An choice between two items (e.g.  @code{first|second})
+A choice between two items (e.g.  @code{first|second})
 @end itemize
 
 When Gri finds a command that matches your command line, it assumes that
@@ -3634,7 +3635,7 @@ Draw a foo bar.
 @end example
 
 Gri searches the @file{gri.cmd} file first, so any new command that you
-create that clash with built-in commands will be ignored by Gri
+create that clashes with built-in commands will be ignored by Gri
 (@ref{Invoking Gri}).  Gri will warn you of this, and proceed,
 ignoring your newer definition.  To get around this, use capital letters
 to begin the words of your new command.  By convention, Gri never uses
@@ -3718,7 +3719,7 @@ Cannot handle angled text; doesn't check for
 super/subscripts.
 @{
     if @{rpn "\.word4." "at" !=@}
-      show "ERROR 5th word must be `at', not `\.word4.'"
+      show "ERROR: 5th word must be `at', not `\.word4.'"
       show traceback
       quit
     end if 
@@ -3728,7 +3729,7 @@ super/subscripts.
       .y. = @{rpn \.word6. yusertocm@}
     else if @{rpn \.words. 8 ==@}
       if @{rpn "\.word7." "cm" !=@}
-        show "ERROR: Require 7th word to be `cm'"
+        show "ERROR: Require 8th word to be `cm'"
         show traceback
         quit
       end if
@@ -3809,7 +3810,7 @@ read columns .n. x y
 ...
 @end example
 @item
-Creat new commands to do repetitive work.
+Create new commands to do repetitive work.
 @item
 Use @code{draw time stamp} on all plots except for publication versions:
 @example
@@ -3929,7 +3930,7 @@ These should never appear, and indicate a bug in Gri.  Please report
 these to the author (@ref{Reporting Bugs}).
 @item
 Internal Gri error messages.  The message starts with the words
-@code{FATAL error}, and quote a file number and a line number, e.g.
+@code{FATAL error}, and quotes a file number and a line number, e.g.
 @example
 FATAL error: startup.c:199: ...
 @end example
@@ -4114,7 +4115,7 @@ system rm tmp.\.pid.
 @end example
 
 @item
-Here's how to plot each line in a file called @file{inp} which do have
+Here's how to plot each line in a file called @file{inp} which has
 the string @code{;} at the start of the line.
 @example
 system cat inp | grep -v "^;" | cat > tmp.\.pid.
@@ -4172,7 +4173,7 @@ created with the @code{tmpname} system call, so it is guaranteed not to
 clash with any existing files.  Typically, the filename is something
 like @file{/usr/tmp/griAAAa1233}.  A useful bit of code is
 @example
-\file1 = tmpname
+\file = tmpname
 system ... SOME_SYSTEM_COMMANDS ... > \file
 ... use this new file for something ...
 system rm -f \file
@@ -4187,7 +4188,7 @@ system rm -f \file
 
 @emph{This section only applies to unix systems.}
 
-Save the folowing into a file called @file{p} and chmod it to make it
+Save the following into a file called @file{p} and chmod it to make it
 executable.  It runs Gri on a named file, with the @code{-yes} flag set
 so that any @code{query} commands are automatically answered in the
 affirmative, and then displays the results in a Ghostscript window.
@@ -4333,7 +4334,7 @@ The second line is blank.  Gri ignores blank lines between commands.
 @item
 @code{open example1.dat} tells Gri to open the indicated file (in
 the current directory) as an input data file.  You can specify files
-outside the current directory by using conventional cshell pathnames
+outside the current directory by using conventional unix-shell pathnames
 (e.g., @code{open ~/data/TS/section1/T_S.dat} or 
 @code{open ../data/file.dat}).  You can even use "synonyms" (@ref{Synonyms}.) in
 filenames, as in @code{open \BASENAME.dat}.
@@ -4442,7 +4443,7 @@ at the data points whether or not you've read in a symbol column.
 @cindex legend for symbol
 @cindex symbol legend
 The following example shows how you might write a symbol legend for a
-plot.  The legend is drawn 1 cm to right of right-hand side of the axes,
+plot.  The legend is drawn 1 cm to the right of the right-hand side of the axes,
 with the bottom of the legend one quarter of the way up the plot.  The
 lines in the legend are double-spaced vertically.  To change the
 location of the legend, alter the @code{.legend_x. =} and
@@ -4663,7 +4664,7 @@ read grid data
 4 5 6
 5 6 7
 # Now draw contours (automatically set; we could
-# have done `draw contour 2' to draw contour fro
+# have done `draw contour 2' to draw contour for
 # value 2 or `draw contour 1 10 2' to draw contours
 # ranging from 1 to 10 with an increment of 2.)
 draw contour
@@ -4684,11 +4685,11 @@ located; if you like, you can specify the number of lines to read, as in
 The y-grid for this example is uniform, however, so it may be specified
 with the @code{set y grid} command.  It obtains values (10, 12.5, 15,
 17.5, 20).  The @code{set x|y grid} commands accept negative increments.
-Furthermore, it's possible to specify the number of steps, rather than
+Furthermore, it is possible to specify the number of steps, rather than
 the increment size, by putting @code{/} before the third number; thus
 @code{set x grid 0 1 /5} and @code{set x grid 0 1 0.2} are equivalent.
 
-Having defined a grid, it's time to read in the gridded data.  Here this
+Having defined a grid, it is time to read in the gridded data.  Here this
 is done with the @code{read grid data} command.  Since Gri already knows
 the grid dimensions, it will read the data appropriately.  You could
 also have told it (@code{read grid data 3 5}).  
@@ -4705,7 +4706,7 @@ do that.  If the @code{bycolumns} keyword is present at the end of the
 If you have an extraneous column of data to the left of your data
 matrix, do @code{read grid data * 2 3}
 
-Now Gri has the grid in it's head.  We tell it to draw some contours
+Now Gri has the grid in its head.  We tell it to draw some contours
 with the @code{draw contour} command.   As the comments in the example
 show, the contour values will be selected automatically, but you can
 alter that.
@@ -4872,7 +4873,7 @@ Aside: Images can be converted to grids (for contouring) using
 @code{convert image to grid} (@ref{Convert}).
 @end itemize
 
-Once the image is created, it's grayscale/colorscale may be manipulated
+Once the image is created, its grayscale/colorscale may be manipulated
 with the commands @code{set image grayscale} and 
 @code{set image colorscale}, which permit linear and histogram-equalized
 blendings over the grayscale or color range, or with
@@ -4972,7 +4973,7 @@ histogram-enhanced. The histogram method
 consists of dividing the cumulative histogram for the values in the
 image up into 256 levels, and assigning a graylevel to each.  This has
 the effect of creating maximal contrast in all ranges of graylevel. It
-points up features really well, but it's a nonlinear mapping, so it is
+points up features really well, but it is a nonlinear mapping, so it is
 not good for telling you where gradients are strong or weak.
 
 @c HTML <!--
@@ -5946,7 +5947,7 @@ draw label for last curve "4"
 
 # Draw the key.  
 # NOTES:
-# (1) This key is inside the plot; it's location was chosen 
+# (1) This key is inside the plot; its location was chosen 
 #     after looking at the data.  To put the key in a different 
 #     location, alter the .key_topleft_x. and .key_topleft_y. 
 #     variables.  For example, you could put the key to the 
@@ -6721,7 +6722,7 @@ straightforward!)
 @comment  node-name,  next,  previous,  up
 @subsection Ignoring columns that are not of interest
 Quite often a dataset will have many columns, of which only a couple are
-of interest to you.  Consider for example an oceanographic data which
+of interest to you.  Consider for example oceanographic data which
 has columns storing, in order, these variables: (1) depth in water
 column, (2) "in situ" temperature, (3) "potential" temperature, (4)
 salinity, (5) conductivity, (6) density, (7) sigma-theta, (8) sound
@@ -6746,7 +6747,7 @@ Many users would just as soon not bother with this syntax, preferring
 instead to use system tools with which they are more familiar.  So a
 Gawk user might write
 @example
-open "gawk 'print($1, $4)' file |"
+open "gawk '@{print($1, $4)@}' file |"
 read columns y x
 draw curve
 @end example
@@ -6770,7 +6771,7 @@ draw curve
 or you could use a system tool, e.g. gawk, as in this example (@ref{Awk}).
 
 @example
-open "gawk 'print($1,2*$2)' file|"
+open "gawk '@{print($1,2*$2)@}' file|"
 read columns x y
 draw curve
 @end example
@@ -6784,7 +6785,7 @@ doing the calculation index by index, but if you knew that already you
 wouldn't need to be reading this section!)  Such blending is trivial in
 the operating system, though, as in the following Gawk example (@ref{Awk}).
 @example
-open "gawk 'print($1, $2/$1)' file |"
+open "gawk 'print @{($1, $2/$1)@}' file |"
 read columns x y
 draw curve
 @end example
@@ -7154,7 +7155,7 @@ define the x and y scales of the smoothing function (called @code{.xr.}
 and @code{.yr.}).  (The barnes method has two other optional arguments
 -- see below.)  If you do not supply these arguments, Gri will make a
 reasonable choice and inform you of its decision.  Many users find that
-it's best to @code{convert columns to grid} with no additional
+it is best to @code{convert columns to grid} with no additional
 parameters as a first step, to get advice on values to use for the
 optional parameters.
 
@@ -8751,7 +8752,7 @@ vertically centered on the indicated @code{.y.} location.
 @end example
 @noindent
 With no optional parameters, draw symbols at the (x,y) data.  If a
-z-column has been read with @code{read columns}, then it's value codes
+z-column has been read with @code{read columns}, then its value codes
 the symbol to draw, according to the table below.  (The value of z is
 first rounded to the nearest integer.)  If no z-column has been read,
 the symbol X is drawn at each datum.
@@ -9025,11 +9026,11 @@ draw zero line [horizontally|vertically]
 Draw lines corresponding to x=0 or y=0.
 @itemize @bullet
 @item @code{draw zero line}
-Draw line y=0 if it's within axes.
+Draw line y=0 if it is within axes.
 @item @code{draw zero line horizontally}
-Draw line y=0 if it's within axes.
+Draw line y=0 if it is within axes.
 @item @code{draw zero line vertically}
-Draw line x=0 if it's within axes.
+Draw line x=0 if it is within axes.
 @end itemize
 
 
@@ -9078,6 +9079,7 @@ numerical value of @code{2.0100}.
 @cindex @code{filter} command
 
 @itemize @bullet
+
 @item @code{filter column x|y|z|u|v|r|theta recursively a[0] a[1] ... b[0] b[1] ...}
 Filter indicated column, using a two-pass recursive filter.  The first
 pass runs from the start to the end, while the second pass runs from the
@@ -9120,16 +9122,20 @@ filter column x recursively \
     1     -1.561  0.6414 \
     0.0201 0.0402 0.0201
 @end example
+
 @item @code{filter grid rows|columns recursively a[0] a[1] ... b[0] b[1] ...}
 @noindent
 Apply recursive filter (see @code{filter column ... recursively} for
 meaning of this filter operation) to the individual rows or columns of
-the grid data.  For example, @code{filter grid columns recursively 0 0
-0.5 0.5} applies a 2-point moving average filter across the columns,
+the grid data.  For example, the command
+@code{filter grid columns recursively 0 0 0.5 0.5} 
+applies a 2-point moving average filter across the columns,
 smoothing the grid in the x-direction.
+
 @item @code{filter image highpass}
 Remove low-wavenumber components from image (ie, sharpen edges).  Do
 this by subtracting a Laplacian smoothed version of the image.
+
 @item @code{filter image lowpass}
 Remove high-wavenumber components from image (ie, smooth shapes).  Do
 this by Laplacian smoothing.
@@ -10468,7 +10474,7 @@ a function of @code{y}.
 @item @code{regress y vs x}
 Linear regression of y vs x.  Several quantities are reported and also
 saved into builtin variables.  The intercept is defined as
-@code{..coeff0..}, it's 95 percent confidence limit is defined as
+@code{..coeff0..}, its 95 percent confidence limit is defined as
 @code{..coeff0_sig..}.  Thus the confidence range is
 @code{..coeff0..-..coeff0_sig..} to @code{..coeff0..+..coeff0_sig..}.
 Similarly the slope and confidence limit are stored in @code{..coeff1..}
@@ -11627,7 +11633,7 @@ NOTE: If a range already exists when @code{set image range} is used,
 then the settings are altered.  Thoughtless usage can therefore lead to
 confusing results.  (The situation is like setting an axis scale,
 plotting a curve with no axes, then altering the scale and plotting the
-new axes.  It's legal but not necessarily smart.)
+new axes.  It is legal but not necessarily smart.)
 
 
 
@@ -12875,7 +12881,7 @@ For long commands, there are two approaches, the second preferred:
 @item
 @emph{Use continuation lines}: String a lot of information onto one
 effective system line, using the @code{\} line-continuation character
-at the ends of lines.  The problem is that it's very easy to lose one of
+at the ends of lines.  The problem is that it is very easy to lose one of
 these backslashes.  The next method is better.
 @item
 @emph{Here-is syntax} The here-is syntax of many unix shells is also
@@ -12957,7 +12963,7 @@ print "foobar is \message, and a=", a;
 EOF
 @end example
 
-To get the awkscript to read it's input from a named file, do e.g.
+To get the awkscript to read its input from a named file, do e.g.
 @example
 system \.awk. -f - tst.dat <<"EOF"
 @{print $1;@}
@@ -13362,7 +13368,7 @@ Bear in mind that these tools can do very similar jobs.  For example,
 Awk can do much of what Sed and Grep can do, but also a whole lot more.
 If you don't know Sed or Grep, I suggest you learn Awk instead.  Then
 again, Perl can also do anything Gawk can do, and a whole lot more!
-(For one thing, it's easier to work with multiple files in Perl.)  In
+(For one thing, it is easier to work with multiple files in Perl.)  In
 fact, Perl is the most powerful of this list.  If you know none of these
 tools, you might want to learn Perl instead of the others.  But Perl is
 more complicated for simple work than Awk is, so the most reasonable
@@ -13402,7 +13408,7 @@ results of the calculation.  Note that this file was specifically
 cleaned up by the second @code{system} command.  (Many folks, including
 the author, would prefer to take the perl script out of the above and
 make it a standalone executable script, calling it from Gri with the
-one-line form.  But it's just a matter of style.)
+one-line form.  But it is just a matter of style.)
 
 
 
@@ -13547,7 +13553,7 @@ open "perl -pea 'print($F[0], cos($F[1]))' MyFile |"
 @cindex discussion Group
 @cindex email list
 @section Gri Discussion Group
-Before emailing to the Gri newsgroup, it's a good idea to consult the
+Before emailing to the Gri newsgroup, it is a good idea to consult the
 @c HTML <A HREF="./FAQ.html"> 
 @c HTML FAQ
 @c HTML </A>
@@ -13825,7 +13831,7 @@ system will assume that you want gri-mode if you're editing a Gri file.)
 @cindex gri-mode, Placing gri-mode.el where Emacs can find it.
 
 (Those using gri from gri's @emph{RPM} package, a @emph{Debian} package
-or a @emph{Red Hat Powertools} package users can skip this, as it's done
+or a @emph{Red Hat Powertools} package users can skip this, as it is done
 for them)
 
 Extra @file{.el} files like gri-mode.el that are not part of Emacs
@@ -13859,7 +13865,7 @@ then put this near the top of your @file{~/.emacs} file:
 @cindex gri-mode, Configuring gri-mode to where gri lives on your system
 
 (Those using gri from gri's @emph{RPM} package, a @emph{Debian} package
-or a @emph{Red Hat Powertools} package users can skip this, as it's done
+or a @emph{Red Hat Powertools} package users can skip this, as it is done
 for them)
 
 You may skip this section if gri is installed on your system as
@@ -13987,7 +13993,7 @@ then you'd use:
 @subsection Telling emacs to load gri-mode
 @cindex gri-mode, Telling emacs to load gri-mode
 
-(Those using a @emph{Debian} package can skip this, as it's done
+(Those using a @emph{Debian} package can skip this, as it is done
 for them)
 
 To tell emacs to use this mode with @file{.gri} files, you can load
@@ -14372,7 +14378,7 @@ Source Forge open-source development website, at
 @c HTML <a href="gri.sourceforge.net">
 @file{http://gri.sourceforge.net}.
 @c HTML </a>
-Gri users can benefit from this site in may ways.  First, it's a great
+Gri users can benefit from this site in may ways.  First, it is a great
 way to keep track of new versions.  With a mouse-click you can cause
 SourceForge to email you whenever a new version of Gri is released.
 Second, SourceForge has
@@ -14861,7 +14867,7 @@ run inside an msdos window within windows-95, windows-NT, etc.)
 To compile and install Gri under MSDOS, do this:
 @enumerate
 @item
-To begin, install @code{DJGPP V2}, if it's not on your system already.
+To begin, install @code{DJGPP V2}, if it is not on your system already.
 It can be found at
 @c HTML <A HREF="http://www.delorie.com/djgpp">
 http://www.delorie.com/djgpp.
@@ -14921,7 +14927,7 @@ GSview.
 @cindex compilation under Linux
 @cindex linux compilation
 @cindex LINUX compilation
-Linux is a good emulation of unix, and it's free.  Gri for linux is
+Linux is a good emulation of unix, and it is free.  Gri for linux is
 compiled and installed according to the normal unix instructions.
 The compiled version is with a name like 
 @code{gri-binary-solaris-2.1.10.tar.gz}; treat it as in other unix
@@ -15149,7 +15155,7 @@ switching back and forth between this buffer and various source files.
 @item Reasoning that the error probably occurs at @code{set color} or
 @code{draw box}, try replacing the latter by a command such as
 @code{draw label "hi" at 3 3 cm"}.  The color is still wrong, indicating
-that it's the @code{set color} command that has the problem.
+that it is the @code{set color} command that has the problem.
 
 @item Next, we must find where the C++ code corresponding to the
 @code{set color} command resides.  As it turns out, all @code{set}
@@ -15166,13 +15172,13 @@ command, enclosed in braces; you'll see
 @end example
 which indicates that the subroutine name is @code{set_colorCmd()}.
 
-@item Next we need to edit this subroutine to see what it's doing.
+@item Next we need to edit this subroutine to see what it is doing.
 There are several ways to find it (e.g. @code{grep} through the source
 files), but the easiest is to use the "tags" feature of Emacs, by typing
 @kbd{M-. set_colorCmd}.  This will bring you to the indicated
 subroutine.
 
-@item Have a look through this subroutine to see what it's doing.  It
+@item Have a look through this subroutine to see what it is doing.  It
 looks very much like many other Gri subroutines.  A check is done on the
 number of words provided to the command, in the 
 @example
@@ -15331,6 +15337,8 @@ Dave Hebert,
 @cindex Dave Hebert (contributer)
 Steve Matheson,
 @cindex Steve Matheson (contributer)
+Ed Nather,
+@cindex Ed Nather (contributer)
 Carl Osterwisch,
 @cindex Carl Osterwisch (contributer)
 Richard Andrew Miles Outerbridge,
