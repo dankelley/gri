@@ -96,24 +96,22 @@ AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([
 dnl
 DEK_IS_DECCXX
 
-dnl     See if apple (e.g. OS/X)
-AC_DEFUN(DEK_IS_APPLE,
-AC_MSG_CHECKING(for for apple computer)
-AC_CACHE_VAL(gri_cv_is_apple, [
+AC_DEFUN(DEK_IS_APPLE_OSX,
+AC_MSG_CHECKING(for for apple computer assumed running OSX)
+AC_CACHE_VAL(gri_cv_os_is_apple_osx, [
 AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([$0], [AC_HEADER_EGREP])AC_BEFORE([$0], [AC_TEST_CPP])AC_EGREP_CPP(yes,
 [#if defined(__APPLE__) && defined(__GNUC__)
   yes
 #endif
-], gri_cv_is_apple=yes, gri_cv_is_apple=no)])
-    AC_MSG_RESULT($gri_cv_is_apple)
-    if test $gri_cv_is_apple = yes; then
+], gri_cv_os_is_apple_osx=yes, gri_cv_os_is_apple_osx=no)])
+    AC_MSG_RESULT($gri_cv_os_is_apple_osx)
+    if test $gri_cv_os_is_apple_osx = yes; then
         AM_CXXFLAGS="$AM_CXXFLAGS -O0"
-        AC_DEFINE(IS_APPLE)
+        AC_DEFINE(OS_IS_APPLE_OSX)
     fi
 )dnl
 dnl
-DEK_IS_APPLE
-
+dnl DEK_IS_APPLE_OSX
 
 AC_DEFUN(IS_THIS_AN_ALPHA_SYSTEM,
 AC_MSG_CHECKING(for DEC alpha computer)
@@ -387,7 +385,7 @@ AC_ARG_ENABLE(OSX,
   no)  OSX=false ;;
   *) AC_MSG_ERROR(bad value ${enableval} for --enable-OSX) ;;
 esac],[debug=false])
-AM_CONDITIONAL(OS_IS_OSX, test x$OSX = xtrue)
+AM_CONDITIONAL(OS_IS_APPLE_OSX, test x$OSX = xtrue)
 
 dnl See if the user did   "configure --enable-FINK"
 AC_ARG_ENABLE(FINK,

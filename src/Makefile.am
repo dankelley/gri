@@ -40,6 +40,9 @@ PACKAGE_VERSION = @PACKAGE_VERSION@
 #else
 #DEFS = -DDEFAULT_GRI_DIR=\"$(prefix)/share/gri/\" @DEFS@
 #endif
+if OS_IS_APPLE_OSX
+DGD = /Applications/Gri
+else
 if OS_IS_LINUX_DEBIAN
 DGD = $(prefix)/share/gri/$(PACKAGE_VERSION)/
 else
@@ -47,6 +50,7 @@ if OS_IS_FINK
 DGD = /sw/share/gri/
 else
 DGD = ${prefix}/share/gri/
+endif
 endif
 endif
 DEFS = -DDEFAULT_GRI_DIR=\"$(DGD)\" @DEFS@
