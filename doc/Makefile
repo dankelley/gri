@@ -182,7 +182,7 @@ clean:	info-clean html-clean debian-clean card-clean
 
 help:
 	@echo "Options:"
-	@grep '^[^ ]*:' Makefile | sed -e "s/^/  make /" -e "s/://"
+	@grep '^[^ ]*:' Makefile | sed -e "s/^/  make /" -e "s/:.*//"
 
 linux_redhat:
 	make info
