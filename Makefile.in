@@ -207,6 +207,9 @@ source:
 	    startup.msg startup.debian startup.redhat gri-*.spec grilogo.gif \
 	        $(SOURCE_NAME)
 	install -m 755 configure install-sh $(SOURCE_NAME)
+	install -d $(SOURCE_NAME)/debian
+	install -m 644 debian/{0*,READ*,c*,gri*,watch} $(SOURCE_NAME)/debian
+	install -m 755 debian/rules                    $(SOURCE_NAME)/debian
 #	Copy documentation
 	install -d $(SOURCE_NAME)/doc
 	install -m 644 doc/gri.archive          $(SOURCE_NAME)/doc
