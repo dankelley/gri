@@ -273,7 +273,7 @@ no_gri_cmd(const char *msg_postscript)
 	msg.append("        located, or ...\n");
 	msg.append("    (3) ... recompile Gri so it will know where to look by default (see\n");
 	msg.append("        the INSTALL file in the source directory for instructions).\n");
-	msg.apend("Call was: no_gri_cmd(");
+	msg.append("Call was: no_gri_cmd(");
 	msg.append(msg_postscript);
 	msg.append(");\n");
 	char wd[1024], *ptr = wd;
