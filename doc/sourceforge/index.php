@@ -319,7 +319,7 @@ Search gri manual for (may be a regular expression):<p>
 <!-- <A class="menus" HREF="http://gri.sourceforge.net/gridoc/html/Version_2_6.html#Version2.6">Version 2.6.1 preview</A><br> -->
 <!-- <A class="menus" HREF="./checklist_for_release">Packaging checklist</A><br> -->
         <br>
-        <A CLASS="menus" HREF="./gri-2.8.1-pre3.tgz">2.8.1 pre-release #3</a>
+        <A CLASS="menus" HREF="./gri-2.8.1-pre4.tgz">2.8.1 pre-release #4</a>
 
       </TD>
     </TR>
