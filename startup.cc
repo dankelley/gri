@@ -140,7 +140,6 @@ start_up(int argc, char **argv)
 	extern char _input_data_separator; // defined in gri.cc
 	_input_data_separator = ' ';
 	extern char     _gri_number[];
-	extern char     _gri_release_time[];
 	sscanf(_gri_number, "%d.%d.%d", &major_version, &minor_version, &minor_minor_version);
 	_version = major_version + minor_version / 100.0 
 		+ minor_minor_version / 10000.0;
@@ -245,7 +244,7 @@ first argument looks like a PostScript filename.  Older versions\n\
 #else
 	strcpy(host, "unknown");
 #endif
-	fprintf(_grPS, "%%gri:# Gri (version %s, released %s) was invoked by user named\n%%gri:#     %s\n%%gri:# on host named\n%%gri:#     %s\n%%gri:# using the command\n%%gri:#   ", _gri_number, _gri_release_time, egetenv("USER"), host);
+	fprintf(_grPS, "%%gri:# Gri was invoked by user named\n%%gri:#     %s\n%%gri:# on host named\n%%gri:#     %s\n%%gri:# using the command\n%%gri:#   ",  egetenv("USER"), host);
 	for (int i = 0; i < argc; i++)
 		fprintf(_grPS, " %s", argv[i]);
 	SECOND_TYPE sec;
