@@ -91,7 +91,19 @@ print "    (The last update in 'gri.spec' was on $date_spec)\n";
 print "  Age of gri.spec is $age_spec (yy:mm:wk:dd:hh:mm:ss)\n";
 
 # debian/changelog
-print "  Age of debian/changelog is ...NOT CODED YET...\n";
+# portion of gri.spec
+open(DEBIAN_CHANGELOG, "debian/changelog") 
+    or die "Can't open debian/changelog";
+while(<DEBIAN_CHANGELOG>) {
+    if (/ \-\- (.*) <(.*)> (.*)/) {
+	$date_debian_changelog = &ParseDate($3);
+	print "    (The date sequence is [$3])\n";
+	print "    (The date is $date_debian_changelog)\n";
+	$age_debian_changelog = &DateCalc($now, $date_debian_changelog);
+	last;
+    }
+}
+print "  Age of debian/changelog is $age_debian_changelog (yy:mm:wk:dd:hh:mm:ss)\n";
 
 # doc/gri.texim
 print "  Age of doc/gri.texim is ...NOT CODED YET...\n";
