@@ -134,6 +134,8 @@ help:
 linux_redhat:
 	make info
 	make html
+	make refcard.ps
+	make cmdrefcard.ps
 
 linux_redhat_clean:
 	rm -f gri.info*
@@ -166,12 +168,10 @@ gri.ps: gri.texi
 refcard.ps:	refcard.tex
 	tex refcard.tex
 	dvips -o refcard.ps -t landscape refcard.dvi
-	chmod a+r refcard.*
 
 cmdrefcard.ps:
 	tex cmdrefcard.tex
 	dvips -o cmdrefcard.ps -t landscape cmdrefcard.dvi
-	chmod a+r cmdrefcard.*
 
 # make debian prefix=../debian/tmp/usr/doc INFO_DIR=../debian/tmp/usr/info
 debian: refcard.ps cmdrefcard.ps debian-info
