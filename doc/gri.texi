@@ -16471,8 +16471,14 @@ only in the fixing of bugs.
 
 @item
 Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=1085788&group_id=5511&atid=105511,#1085788}
+@dots{} @code{image *=}, @code{image /=}, @code{image ^=}, and @code{image _=} all gave incorrect results
+
+@item
+Fix SourceForge bug
 @uref{http://sourceforge.net/tracker/index.php?func=detail&aid=1084123&group_id=5511&atid=105511,#1084123}
 @dots{} does not compile in fink
+
 
 @item
 Fix SourceForge bug
