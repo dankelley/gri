@@ -1,11 +1,11 @@
 ;; gri-mode.el - major mode for Gri, a scientific graphics programming language
 
-;; Copyright (C) 1994-2003 Peter S. Galbraith
+;; Copyright (C) 1994-2004 Peter S. Galbraith
  
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.64 (02 Apr 2003)
+;; Version:   2.66 (17 Aug 2004)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -406,6 +406,8 @@
 ;;  gri-what-version: REMOVED function.  Not very useful anyway.
 ;; V2.64 02Apr2003 - Remove old hilit19 code.  Obsolete.
 ;; V2.65 09Jun2003 - Added Help menu entry to gri History.
+;; V2.66 17Aug2004 - Eric Nodwell <nodwell@physics.ubc.ca>
+;;  keybindings similar to phyton-mode to (un)comment regions.
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -3679,8 +3681,10 @@ Any output (errors?) is put in the buffer `gri-WWW-manual'."
   (define-key gri-mode-map "\C-c\C-h" 'gri-help-this-command)
   (define-key gri-mode-map "\C-c\M-i" 'gri-info)
   (define-key gri-mode-map "\C-c\M-h" 'gri-help)
-  (define-key gri-mode-map "\M-\t" 'gri-complete)
-  (define-key gri-mode-map "\C-c?" 'describe-mode)
+  (define-key gri-mode-map "\C-c#"    'gri-comment-out-region)
+  (define-key gri-mode-map "\C-u\C-c#" 'gri-uncomment-out-region)
+  (define-key gri-mode-map "\M-\t"    'gri-complete)
+  (define-key gri-mode-map "\C-c?"    'describe-mode)
   (cond 
    ((string-match "XEmacs\\|Lucid" emacs-version)
     (define-key gri-mode-map [(shift button1)] 'gri-option-select-mouse)
@@ -4426,7 +4430,7 @@ static char * gri_info24x24_xpm[] = {
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.64 (c) 02 April 2003 --  Peter Galbraith <psg@debian.org>
+V2.66 (c) 17 August 2004 --  Peter Galbraith <psg@debian.org>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
@@ -4460,8 +4464,8 @@ COMMANDS AND DEFAULT KEY BINDINGS:
    gri-indent-line       Tab          Indent line for structure.
    gri-indent-region     M-q          Indent all lines between point and mark.
    gri-indent-buffer     M-C-v        Indent all lines in buffer.
-   gri-comment-out-region             To avoid running a block of code.
-   gri-uncomment-out-region           To undo previous command
+   gri-comment-out-region C-c#        To avoid running a block of code.
+   gri-uncomment-out-region C-uC-c#   To undo comments.
    gri-return            RET          Handle return with indenting.
  To use multiple versions of Gri installed on the system
    gri-set-local-version              Set version of gri for this file only.
