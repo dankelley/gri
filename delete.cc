@@ -76,6 +76,7 @@ deleteCmd()
 			_xscale_exists = false;
 			_need_x_axis = true;
 			_user_set_x_axis = false;
+			_xtype = gr_axis_LINEAR;
 			gr_setxtransform(gr_axis_LINEAR);
 			gr_setxlabel("x");
 			return true;
@@ -91,6 +92,7 @@ deleteCmd()
 			_need_y_axis = true;
 			_yincreasing = true;
 			_user_set_y_axis = false;
+			_ytype = gr_axis_LINEAR;
 			gr_setytransform(gr_axis_LINEAR);
 			gr_setylabel("y");
 			return true;
