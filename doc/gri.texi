@@ -5123,11 +5123,12 @@ use at reduction levels typical of Oceanographic journals.
 * Fancy::                       fancy plot with lots of tricks
 * Legend::                      plot with annotated curves and legend
 * Polygons::                    read geometry, then draw polygon
-* New Commands::                making new gri commands
 * TS Diagram::                  temperature-salinity diagrams
 * PDF Diagram::                 probability-density function
 * Running Means::               skyline plot of running means
 * Finite Element Model Mesh::   plotting mesh of FEM-type model
+* New Commands::                making new gri commands
+* Handling Data::               samples of handling data
 @end menu
 
 
@@ -6637,11 +6638,11 @@ quit
 
 
 
-@c HTML <!-- newfile Data.html "Gri: handling data" "Handling Data" -->
+@c HTML <!-- newfile HandlingData.html "Gri: handling data" "Handling Data" -->
 
 @node   Handling Data, Handling Headers, New Commands, Top
 @comment node-name,  next,  previous,  up
-@chapter Handling Data
+@section Handling Data
 @cindex data, dealing with odd datasets
 
 Gri can handle many different sorts of data file formats, including
