@@ -759,7 +759,7 @@ Prints explanation of options.
 @cindex @code{-batch} command-line option
 Stops Gri from printing out prompts and hints.
 @item  @code{-no_bounding_box}
-@cindex Postscript bounding box
+@cindex postscript bounding box
 @cindex bounding box
 @cindex @code{-no_bounding_box} command-line option
 Make the so-called ``bounding box'' in the PostScript file be the full
@@ -908,7 +908,7 @@ Gri looks for commandfiles in the local directory.
 @item @code{PostscriptFile}
 @cindex command-line, specifying PostScript file
 @cindex @code{PostScriptFile} command-line option
-@cindex postScript file
+@cindex postscript file
 @cindex files, PostScript-file
 If a command file is specified, then an additional file,
 @code{PostScriptfile}, can be specified as the file in which to store
@@ -966,7 +966,7 @@ viewers such as @code{ghostview} or @code{gv}.
 @comment  node-name,  next,  previous,  up
 @section Printing Gri Output
 @cindex printing, PostScript devices
-@cindex postScript printing
+@cindex postscript printing
 
 Gri output files are in the PostScript page description language.
 
@@ -2240,7 +2240,6 @@ or even other legal @code{rpnfunction} constructs.  For details,
 @cindex @code{<} comparison operator in rpn expressions
 @cindex @code{>} comparison operator in rpn expressions
 @cindex @code{==} comparison operator in rpn expressions
-@cindex @code{+} and other mathematical operators in rpn expressions
 @cindex mathematical operators in rpn expressions
 @cindex conversion between user and page units
 @cindex page units, converting to user units
@@ -2289,7 +2288,6 @@ Test whether 2 is less than 3, yielding 1.
 Test whether 2 is less than or equal to 3.
 
 @item @{rpn 3 2 >@}
-@cindex @code{>} rpn operator
 @cindex rpn operator @code{>}
 Test whether 2 is greater than 3, yielding 0.
 
@@ -2299,7 +2297,6 @@ Test whether 2 is greater than 3, yielding 0.
 Test whether 2 is greater than or equal to 3, yielding 0.
 
 @item @{rpn 3 2 ==@}
-@cindex @code{==} rpn operator
 @cindex rpn operator @code{==}
 Test whether 2 and 3 are equal, yielding 0.  (Do not confuse this with
 the asignment operator @code{=}, described next.)
@@ -2323,6 +2320,10 @@ Test whether 0 and 1 are both true, yielding 0.
 @cindex rpn operator @code{|}
 Test whether either 0 or 1 is true, yielding 1.
 @item @{rpn 2 3 exch@}
+
+@item @{rpn x 0@}
+Yields the value of the first number in the x column.  A similar form
+also works for@code{y}, etc.  @xref{Manipulation of Columns etc}.
 
 @cindex @code{exch} rpn operator
 @cindex rpn operator @code{exch}
@@ -2401,6 +2402,10 @@ Calculate inverse cosine of 0.5, yielding 60 (degrees).
 @cindex rpn operator @code{acosh}
 Calculate inverse hyperbolic cosine of 2, yielding 1.317.  (Note:
 argument must equal or exceed 1, or an error results.)
+
+@item @{rpn y x area@}
+Calculate the area under the curve y=y(x).  For details
+@xref{Manipulation of Columns etc}.
 
 @item @{rpn 0.5 asin@}
 @cindex @code{asin} rpn operator
@@ -2532,6 +2537,21 @@ Calculate base-10 logarithm of 100, yielding 2.
 @cindex @code{ln} rpn operator
 @cindex rpn operator @code{ln}
 Calculate natural logarithm of 10, yielding 2.30259.
+
+@item @{rpn x mean@}
+Yields the mean value of the (non-missing) numbers in the x column.  A
+similar form also works for @code{y}, etc. 
+@xref{Manipulation of Columns etc}.
+
+@item @{rpn x max@}
+Yields the largest value of the (non-missing) numbers in the x column.  A
+similar form also works for @code{y}, etc. 
+@xref{Manipulation of Columns etc}.
+
+@item @{rpn x min@}
+Yields the smallest value of the (non-missing) numbers in the x column.  A
+similar form also works for @code{y}, etc. 
+@xref{Manipulation of Columns etc}.
 
 @item @{rpn 28.45 pttocm@}
 @cindex @code{pttocm} rpn operator
@@ -4935,7 +4955,7 @@ resolution problems.
 @comment  node-name,  next,  previous,  up
 @section About The PostScript Output
 @cindex image, PostScript output
-@cindex postScript output, embedded images
+@cindex postscript output, embedded images
 
 Programmers Note: Gri inserts some special comments in the PostScript
 file, to help programmers extract the image data; to extract the
@@ -9826,7 +9846,7 @@ datasets spanning several days.
 @comment  node-name,  next,  previous,  up
 @section The @code{postscript} Command
 @cindex write PostScript commands directly to output file
-@cindex postScript file, write to
+@cindex postscript file, write to
 @findex postscript
 @cindex @code{postscript} command
 @example
@@ -10236,7 +10256,6 @@ then a linear full-color spectrum running from red at 10C to magenta at
 @comment  node-name,  next,  previous,  up
 @subsection The @code{read image grayscale} Command
 @findex read image grayscale
-@findex read image greyscale
 @cindex @code{read image grayscale} command
 @cindex @code{read image greyscale} command
 @cindex image grayscale, reading
@@ -11235,7 +11254,7 @@ maintains a separate color from the lines.
 @cindex text, encoding vector of
 @cindex font encoding
 @cindex @code{set font encoding} command
-@cindex Postscript-standard font encoding
+@cindex postscript-standard font encoding
 @cindex ISO latin 1 font encoding
 
 @example
@@ -11969,7 +11988,7 @@ EXAMPLE
 @findex set postscript filename
 @cindex @code{set postscript filename} command
 @cindex name, of PostScript file
-@cindex postScript filename
+@cindex postscript filename
 @example
 `set postscript filename "\name"'
 @end example
@@ -13365,7 +13384,6 @@ and presently does only text and polyline items.  I welcome additions to
 @section Image extractor
 @cindex images, extracting from PostScript
 @cindex postscript file, images embedded within
-@cindex PostScript file, images embedded within
 When Gri draws an image with @code{draw image}, it embeds special
 comments in the PostScript to allow removal of the data by an extractor
 program; for details @xref{Image PostScript Output}.  The extractor

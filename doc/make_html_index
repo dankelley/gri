@@ -18,5 +18,5 @@ while(<IN>) {
     print "\@item\n $_";
 }
 print "\n\@end itemize\n";
-print "\n\@c HTML Dan Kelley\n";
+#print "\n\@c HTML Dan Kelley\n";
 system("rm -f tmp.1 tmp.2");

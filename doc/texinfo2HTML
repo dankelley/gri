@@ -310,12 +310,11 @@ while(<>) {
     # Finally, print modified line
     print;
 } 
-print "____________________________________________________________________\n";
-print "<ADDRESS> $title / $author </ADDRESS>\n";
+#print "____________________________________________________________________\n";
+#print "<ADDRESS> $title / $author </ADDRESS>\n";
 
 print "</BODY>\n";
 print "</HTML>\n";
-
 
 sub process_examples() {
     if (/\@example/o) {
