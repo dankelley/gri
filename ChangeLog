@@ -1,6 +1,9 @@
 2002-03-16  Dan Kelley  <kelley@Limit.Phys.Ocean.Dal.Ca>
 
-	* grstring.cc (gr_DrawChar): Fix Sourceforge bug # 508657 (drawing
+	* regress.cc (regressCmd): Fix Sourceforge bug ##482120 ('regress'
+	ignored data weights.
+	
+	* grstring.cc (gr_DrawChar): Fix Sourceforge bug #508657 (drawing
 	of strings containing undefined synonyms was missing the backslash
 	that should have been present).
 

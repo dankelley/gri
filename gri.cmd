@@ -112,11 +112,11 @@ this as an instruction to modify the default values, described in last
 paragraph, by multiplying by the absolute values of the negative
 numbers given, instead of muliplying by square root of 2.
 
-   If the `chatty' option is turned on (*Note Options On Command
-Line::), then Gri will print out the values of (dx,dy) that it has
-calculated; this gives you some guidance for supplying your own values
-of `(.xr.,.yr.)' if you choose to supply them yourself.  It is also a
-good idea to let these parameters be a guide for your grid spacing; for
+   If the `chatty' option is turned on, then Gri will print out 
+the values of (dx,dy) that it has calculated; this gives you some
+guidance for supplying your own values of `(.xr.,.yr.)' if you 
+choose to supply them yourself.  It is also a good idea to let 
+these parameters be a guide for your grid spacing; for
 example, Koch et al., 1983, suggest using grid spacing of 0.3 to 0.5
 times (dx,dy).
 
@@ -208,11 +208,11 @@ times (dx,dy).
      will fall to zero when x-distance/`.xr.'  and y-distance/`.yr.'
      are less than about 15 to 20.
 
-     If weights have been read in *Note Read Columns::, then these
-     values are applied in addition to the distance-based weighting.
-     (The normalization means that weights for two data points of e.g.
-     1 and 2 will yield the same result as if the weights had been
-     given as 10 and 20.)
+     If weights have been read in, then these values are applied in 
+     addition to the distance-based weighting.  (The normalization
+     means that weights for two data points of e.g. 1 and 2 will 
+     yield the same result as if the weights had been given as 
+     10 and 20.)
 
      The computational cost is proportional to `P*P+P*X*Y)'.  For large
      datasets, the first term (which results from the necessity to
@@ -2836,11 +2836,10 @@ page on which marks have been made.  For example, LaTeX uses the
 bounding box to decide how to position figures in documents.
 
    Normally, the bounding box is computed automatically (unless the
-`-no_bounding_box' commandline option has been specified; *Note Options
-On Command Line::).  But if `set bounding box' is done, the
-automatically computed value is ignored and the given box is used
-instead.  Use this if Gri makes mistakes in its automatic selection of
-bounding box.
+`-no_bounding_box' commandline option has been specified.  But 
+if `set bounding box' is done, the automatically computed value
+is ignored and the given box is used instead.  Use this if Gri 
+makes mistakes in its automatic selection of bounding box.
 
    The coordinates of the bounding box may be specified in (1) user
 coordinates, as defined *at the moment* the command is executed, or (2)
@@ -3526,16 +3525,16 @@ called before any drawing commands.
 
 *Note*: The order of the factor/translate commands matters, so you
 may need to experiment.  For example,
-set page translate 2 1
-set page factor 0.5
+    set page translate 2 1
+    set page factor 0.5
 moves anything that would have been drawn at the lower-left corner of
 the paper onto the point 2cm from the left side and 1cm from the bottom
 side of the paper, and then applies the multiplication factor.
 Reversing the order gives quite different results.  PostScript gurus
 should note that the following two commands are inserted into the
 PostScript file:
-56.900000 28.450000 translate
-0.500000 0.500000 scale
+    56.900000 28.450000 translate
+    0.500000 0.500000 scale
 {
     extern "C" bool set_pageCmd(void);
 }
@@ -4377,7 +4376,7 @@ stored in the builtin variable `..exit_status..'.
      a loop in perl, for example), you must put whitespace before the
      brace.  This won't affect the system command, but it will let Gri
      correctly realize that this is *not* the end of the new-command.
-     For more information on new-commands *Note Parsing::.
+     For more information on new-commands.
 
      *Caution:* Before sending the string to the system, Gri first
      translates any synonyms present.  Be careful with this, since

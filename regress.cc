@@ -8,11 +8,7 @@
 extern char     _grTempString[];
 bool            regressCmd(void);
 bool            regress_linearCmd(void);
-static int      fit(double x[], double y[], int ndata, std::vector<double>::iterator, int mwt, double *a, double *b, double *siga, double *sigb, double *chi2, double *q);
-double          gammln(double xx);
-double          gammq(double a, double x);
-void            gcf(double *gammcf, double a, double x, double *gln);
-void            gser(double *gamser, double a, double x, double *gln);
+static int      fit(double x[], double y[], int ndata, std::vector<double>::iterator, double *a, double *b, double *siga, double *sigb, double *chi2, double *q);
 double          R_linear(double x[], double y[], int n);
 double          rms_deviation(double x[], double y[], int n, double a, double b);
 static double student_t_025(int nu);
@@ -60,20 +56,29 @@ regress_linearCmd()
 		err("keyword 'vs' required. proper: regress y vs x");
 		return false;
 	}
-	if (!strcmp(_word[1], "y") && !strcmp(_word[3], "x")) {
-		std::vector<double> errx(_colX.size(), 0.0);
-		// regress y vs x
+	std::vector<double> sigma(_colX.size(), 0.0);
+	if (_colWEIGHT.size() == _colX.size()) {
+		for (i = 0; i < _colWEIGHT.size(); i++) {
+			if (_colWEIGHT[i])
+				sigma[i] = 1.0 / sqrt(_colWEIGHT[i]);
+			else {
+				sigma[i] = 1.0e10; // something big
+			}
+		}
+	} else {
 		for (i = 0; i < _colX.size(); i++)
-			if (!gr_missing(_colX[i])
-			    && !gr_missing(_colY[i]))
-				errx[i] = 1.0;
+			if (!gr_missing(_colX[i]) && !gr_missing(_colY[i]))
+				sigma[i] = 1.0;
 			else
-				errx[i] = 1.0e10;
+				sigma[i] = 1.0e10;
+	}
+	if (!strcmp(_word[1], "y") && !strcmp(_word[3], "x")) {
+		// regress y vs x
 		int good = fit(_colX.begin(),
 			       _colY.begin(),
 			       _colX.size(), 
-			       errx.begin(),
-			       1, &a, &b, &siga, &sigb, &chi2, &q);
+			       sigma.begin(),
+			       &a, &b, &siga, &sigb, &chi2, &q);
 		r2 = R_linear(_colX.begin(), _colY.begin(), _colX.size());
 		r2 = r2 * r2;
 		double deviation = rms_deviation
@@ -102,20 +107,13 @@ y = %g + %g x; chi2=%g; R^2=%g (%d good data)\n",
 		gr_textput(_grTempString);
 		return true;
 	} else if (!strcmp(_word[1], "x") && !strcmp(_word[3], "y")) {
-		std::vector<double> errx(_colX.size(), 0.0);
 		// regress x vs y
-		for (i = 0; i < _colX.size(); i++)
-			if (!gr_missing(_colX[i])
-			    && !gr_missing(_colY[i]))
-				errx[i] = 1.0;
-			else
-				errx[i] = 1.0e10;
 		int good;
 		good = fit(_colY.begin(),
 			   _colX.begin(),
 			   _colX.size(),
-			   errx.begin(),
-			   1, &a, &b, &siga, &sigb, &chi2, &q);
+			   sigma.begin(),
+			   &a, &b, &siga, &sigb, &chi2, &q);
 		r2 = R_linear(_colY.begin(), _colX.begin(), _colX.size());
 		r2 = r2 * r2;
 		double deviation = rms_deviation
@@ -205,8 +203,7 @@ static double   sqrarg;
 #define SQR(a) (sqrarg=(a),sqrarg*sqrarg)
 static int
 fit(double x[], double y[], int ndata,
-    std::vector<double>::iterator sig,
-    int mwt,
+    std::vector<double>::iterator sig, // std-deviation in y
     double *a, double *b,
     double *siga, double *sigb,
     double *chi2, double *q)
@@ -215,44 +212,22 @@ fit(double x[], double y[], int ndata,
 	int             good = 0;
 	double          wt, t, sxoss, sx = 0.0, sy = 0.0, st2 = 0.0, ss, sigdat;
 	*b = 0.0;
-	if (mwt) {
-		ss = 0.0;
-		for (i = 0; i < ndata; i++) {
-			if (!gr_missing(x[i]) && !gr_missing(y[i]) && !gr_missing(sig[i])) {
-				wt = 1.0 / SQR(sig[i]);
-				sx += x[i] * wt;
-				sy += y[i] * wt;
-				ss += wt;
-				good++;
-			}
-		}
-	} else {
-		ss = 0.0;
-		for (i = 0; i < ndata; i++) {
-			if (!gr_missing(x[i]) && !gr_missing(y[i])) {
-				sx += x[i];
-				sy += y[i];
-				ss += 1.0;
-				good++;
-			}
+	ss = 0.0;
+	for (i = 0; i < ndata; i++) {
+		if (!gr_missing(x[i]) && !gr_missing(y[i]) && !gr_missing(sig[i])) {
+			wt = 1.0 / SQR(sig[i]);
+			sx += x[i] * wt;
+			sy += y[i] * wt;
+			ss += wt;
+			good++;
 		}
 	}
 	sxoss = sx / ss;
-	if (mwt) {
-		for (i = 0; i < ndata; i++) {
-			if (!gr_missing(x[i]) && !gr_missing(y[i]) && !gr_missing(sig[i])) {
-				t = (x[i] - sxoss) / sig[i];
-				st2 += t * t;
-				*b += t * y[i] / sig[i];
-			}
-		}
-	} else {
-		for (i = 0; i < ndata; i++) {
-			if (!gr_missing(x[i]) && !gr_missing(y[i])) {
-				t = x[i] - sxoss;
-				st2 += t * t;
-				*b += t * y[i];
-			}
+	for (i = 0; i < ndata; i++) {
+		if (!gr_missing(x[i]) && !gr_missing(y[i]) && !gr_missing(sig[i])) {
+			t = (x[i] - sxoss) / sig[i];
+			st2 += t * t;
+			*b += t * y[i] / sig[i];
 		}
 	}
 	*b /= st2;
@@ -260,146 +235,21 @@ fit(double x[], double y[], int ndata,
 	*siga = sqrt((1.0 + sx * sx / (ss * st2)) / ss);
 	*sigb = sqrt(1.0 / st2);
 	*chi2 = 0.0;
-	if (mwt == 0) {
-		for (i = 0; i < ndata; i++)
-			if (!gr_missing(x[i]) && !gr_missing(y[i]))
-				*chi2 += SQR(y[i] - (*a) - (*b) * x[i]);
-		*q = 1.0;
-		if (good > 2) {
-			sigdat = sqrt((*chi2) / (good - 2));
-			*siga *= sigdat;
-			*sigb *= sigdat;
-		} else {
-			*siga = -1.0;
-			*sigb = -1.0;
-		}
+	for (i = 0; i < ndata; i++)
+		if (!gr_missing(x[i]) && !gr_missing(y[i]))
+			*chi2 += SQR(y[i] - (*a) - (*b) * x[i]);
+	*q = 1.0;
+	if (good > 2) {
+		sigdat = sqrt((*chi2) / (good - 2));
+		*siga *= sigdat;
+		*sigb *= sigdat;
 	} else {
-		for (i = 0; i < ndata; i++)
-			if (!gr_missing(x[i]) && !gr_missing(y[i]) && !gr_missing(sig[i]))
-				*chi2 += SQR((y[i] - (*a) - (*b) * x[i]) / sig[i]);
-		if (good > 2) {
-			*q = gammq(0.5 * (good - 2), 0.5 * (*chi2));
-			sigdat = sqrt((*chi2) / (good - 2));
-			*siga *= sigdat;
-			*sigb *= sigdat;
-		} else {
-			*q = -1.0;
-			*siga = -1.0;
-			*sigb = -1.0;
-		}
+		*siga = -1.0;
+		*sigb = -1.0;
 	}
 	return good;
 }
-
 #undef SQR
-
-double
-gammln(double xx)
-{
-	double          x, tmp, ser;
-	static double   cof[6] =
-	{76.18009173, -86.50532033, 24.01409822,
-	 -1.231739516, 0.120858003e-2, -0.536382e-5};
-	int             j;
-	x = xx - 1.0;
-	tmp = x + 5.5;
-	tmp -= (x + 0.5) * log(tmp);
-	ser = 1.0;
-	for (j = 0; j <= 5; j++) {
-		x += 1.0;
-		ser += cof[j] / x;
-	}
-	return -tmp + log(2.50662827465 * ser);
-}
-
-double
-gammq(double a, double x)
-{
-	double          gamser, gammcf, gln;
-	if (x < 0.0 || a <= 0.0) {
-		err("regress: Invalid arguments in routine GAMMQ");
-		return 0;
-	}
-	if (x < (a + 1.0)) {
-		gser(&gamser, a, x, &gln);
-		return 1.0 - gamser;
-	} else {
-		gcf(&gammcf, a, x, &gln);
-		return gammcf;
-	}
-}
-
-#define ITMAX 100
-#define EPS 3.0e-7
-
-void
-gcf(double *gammcf, double a, double x, double *gln)
-{
-	int             n;
-	double          gold = 0.0, g, fac = 1.0, b1 = 1.0;
-	double          b0 = 0.0, anf, ana, an, a1, a0 = 1.0;
-	*gln = gammln(a);
-	a1 = x;
-	for (n = 0; n < ITMAX; n++) {
-		an = (double) n;
-		ana = an - a;
-		a0 = (a1 + a0 * ana) * fac;
-		b0 = (b1 + b0 * ana) * fac;
-		anf = an * fac;
-		a1 = x * a0 + anf * a1;
-		b1 = x * b0 + anf * b1;
-		if (a1) {
-			fac = 1.0 / a1;
-			g = b1 * fac;
-			if (fabs((g - gold) / g) < EPS) {
-				*gammcf = exp(-x + a * log(x) - (*gln)) * g;
-				return;
-			}
-			gold = g;
-		}
-	}
-	err("regress: a too large, ITMAX too small in routine GCF");
-	return;
-}
-
-#undef ITMAX
-#undef EPS
-
-#define ITMAX 100
-#define EPS 3.0e-7
-void
-gser(double *gamser, double a, double x, double *gln)
-{
-	int             n;
-	double          sum, del, ap;
-	*gln = gammln(a);
-	if (x <= 0.0) {
-		if (x < 0.0) {
-			err("regress:x less than 0 in routine GSER");
-			return;
-		}
-		*gamser = 0.0;
-		return;
-	} else {
-		ap = a;
-		sum = 1.0 / a;
-		del = sum;
-		for (n = 0; n < ITMAX; n++) {
-			ap += 1.0;
-			del *= x / ap;
-			sum += del;
-			if (fabs(del) < fabs(sum) * EPS) {
-				*gamser = sum * exp(-x + a * log(x) - (*gln));
-				return;
-			}
-		}
-		err("regress:a too large, ITMAX too small in routine GSER");
-		return;
-	}
-}
-
-#undef ITMAX
-#undef EPS
 
 // From table in a book.
 double

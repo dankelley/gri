@@ -98,6 +98,7 @@ fi
 %changelog
 * Sat Mar 16 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
 - Fix Sourceforge bug #508657 (missing backslash in drawing undefined synonyms)
+- Fix Sourceforge bug #482120 ('regress' ignores data weights)
 
 * Tue Mar 12 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
 - Permit 'draw box' to have coordinates in pt, as well as cm.
