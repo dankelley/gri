@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.182 2002/05/09 16:57:38 dankelley Exp $
+@c $Id: gri.texim,v 1.183 2002/05/10 15:08:00 psg Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -4850,20 +4850,20 @@ NOTE: This command does not cause auto-drawing of axes.
 @cindex @code{draw box} command
 
 @example
-`draw box filled .ll_x. .ll_y. .ur_x. .ur_y. [cm|pt]'
+`draw box filled .xleft. .ybottom. .xright. .ytop. [cm|pt]'
 @end example
 
 @noindent 
 Draw filled box spanning indicated range, with lower-left corner at
-(@code{.ll_x.}, @code{.ll_y.}) and upper-right corner at
-(@code{.ur_x.}, @code{.ur_y.}).  The corners are specified in user
+(@code{.xleft.}, @code{.ybottom.}) and upper-right corner at
+(@code{.xright.}, @code{.ytop.}).  The corners are specified in user
 coordinates, unless the optional @code{cm} or @code{pt} keyword is
 present, in which case they are in centimetres or points on the page.
 An error will result if you specify user coordinates but they aren't
 defined yet.
 
 No checking is done on the rectangle; for example, there is no
-requirement that @code{.ll_x.} be to the left of @code{.ur_x.} in your
+requirement that @code{.xleft.} be to the left of @code{.xright.} in your
 coordinate system.
 
 NOTE: if the box is specified in user units, this command will cause
@@ -4871,7 +4871,7 @@ auto-drawing of axes, but not if the box is specified in @code{cm}
 or @code{pt} units
 
 @example
-`draw box .ll_x. .ll_y. .ur_x. .ur_y. [cm|pt]'
+`draw box .xleft. .ybottom. .xright. .ytop. [cm|pt]'
 @end example
 
 @noindent
@@ -4885,7 +4885,7 @@ centimetres or points on the page.  An error will result if you
 specify user coordinates but they aren't defined yet.
 
 No checking is done on the rectangle; for example, there is no
-requirement that @code{.ll_x.} be to the left of @code{.ur_x.} in your
+requirement that @code{.xleft.} be to the left of @code{.xright.} in your
 coordinate system.
 
 
