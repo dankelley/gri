@@ -1,8 +1,4 @@
 all:
-	gri logo
-	mv logo.ps logo.eps
-	perl ../gri2html logo
-
 	gri bottom_banner.gri
 	convert bottom_banner.ps bottom_banner.gif
 	chmod a+r bottom_banner.gif
@@ -13,4 +9,4 @@ all:
 	chmod a+r top_banner.gif
 	rm -f top_banner.ps
 clean:
-	rm -rf logo.html *~
+	rm -rf *~
