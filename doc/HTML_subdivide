@@ -161,13 +161,14 @@ for ($i = 1; $i < $num_files; $i++) {
 <a href=\"Data.html\">11: Handling Data</a><br>
 <a href=\"Commands.html\">12: Gri Commands</a><br>
 <a href=\"Extras.html\">13: Gri Extras</a><br>
-<a href=\"Evolution.html\">14: Evolution of Gri</a><br>
-<a href=\"Access.html\">15: Installing Gri</a><br>
-<a href=\"Bugs.html\">16: Gri Bugs</a><br>
-<a href=\"OverviewSystemTools.html\">17: System Tools</a><br>
-<a href=\"Acknowledgments.html\">18: Acknowledgments</a><br>
-<a href=\"License.html\">19: License</a><br>
-<a href=\"DiscussionGroup.html\">20: Newsgroup</a><br>
+<a href=\"Emacs.html\">14: Emacs Editing Mode</a><br>
+<a href=\"Evolution.html\">15: Evolution of Gri</a><br>
+<a href=\"Access.html\">16: Installing Gri</a><br>
+<a href=\"Bugs.html\">17: Gri Bugs</a><br>
+<a href=\"OverviewSystemTools.html\">18: System Tools</a><br>
+<a href=\"Acknowledgments.html\">19: Acknowledgments</a><br>
+<a href=\"License.html\">20: License</a><br>
+<a href=\"DiscussionGroup.html\">21: Newsgroup</a><br>
 <br>
 <a href=\"ConceptIndex.html\"><i>Concept Index</i></a>
 <br>
