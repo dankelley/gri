@@ -137,6 +137,7 @@ source:
 	mkdir $(TAR_DIR_NAME)/11 ; cp 11/*gri 11/*ps 11/*html $(TAR_DIR_NAME)/11
 	mkdir $(TAR_DIR_NAME)/12 ; cp 12/seawifs.palette 12/*gri 12/*ps 12/*html $(TAR_DIR_NAME)/12
 	mkdir $(TAR_DIR_NAME)/13 ; cp 13/*gri 13/*ps 13/*html $(TAR_DIR_NAME)/13
+	mkdir $(TAR_DIR_NAME)/14 ; cp 14/*gri 14/*ps 13/*html $(TAR_DIR_NAME)/13
 	tar -zchof gri-cookbook-$(VERSION).tgz $(TAR_DIR_NAME)
 	rm -rf $(TAR_DIR_NAME)
 
