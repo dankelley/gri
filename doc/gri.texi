@@ -128,7 +128,7 @@ The Gri web homepage is at
 @comment HTML with a <A HREF="License.html">license</A> that permits 
 @comment HTML sharing in an OpenSource way.
 @c HTML <p><br>
-@c HTML <font size=+1><b>New users:</b></font>
+@c HTML <b>New users:</b>
 @c HTML To see if Gri might be useful to you, spend a few minutes
 @c HTML reading the
 @c HTML <A HREF="#Introduction">introduction</A>, the
@@ -141,23 +141,23 @@ The Gri web homepage is at
 @c HTML <A HREF="#Examples">examples</A>.
 @c HTML Then you should return here to scan the table of contents.  
 @c HTML <P>
-@c HTML <font size=+1><b>Experienced users:</b></font>
+@c HTML <b>Experienced users:</b>
 @c HTML To check the syntax of a command, consult
 @c HTML the <A HREF="#Commands"> list
 @c HTML of Gri commands</A>.  You should also
 @c HTML check the list of <A HREF="#History">new features</A>
 @c HTML occasionally.
 @c HTML <p>
-@c HTML <font size=+1><b>License:</b></font>
+@c HTML <b>Open-Source Development:</b>
 @c HTML Gri is distributed under an OpenSource licence (GPL).
 @c HTML To monitor (or contribute to) the development
-@c HTML process, visit
+@c HTML process visit
 @c HTML <a href="http://sourceforge.net/project/?group_id=5511">
 @c HTML <tt>sourceforge.net</tt></a>.
-@c HTML (You might also like to check out the
-@c HTML <a href="http://www.phys.ocean.dal.ca/~kelley/gre"> Gre
-@c HTML language</a>, but be warned that it is still in active development
-@c HTML and may be buggy.)
+@c HTML <p>
+@c HTML <b>See also:</b>
+@c HTML The <a href="http://www.phys.ocean.dal.ca/~kelley/gre">
+@c HTML Gre language</a> combines Gri features with Perl features.
 @c HTML <br>
 @c HTML <!--
 @menu
