@@ -15,13 +15,9 @@ sub indicate_age($$) {
     } elsif ($mo > 0) {
 	print "\t... $item was last updated $mo months and $w weeks ago\n";
     } elsif ($w > 0) {
-	print "\t... $item was last updated $w weeks and $d days ago\n";
-    } elsif ($d > 0) {
-	print "\t... $item was last updated $d days and $h hours ago\n";
-    } elsif ($h > 0) {
-	print "\t... $item was last updated $h hours and $min minutes ago\n";
+	print "\t... $item was last updated $w weeks ago\n";
     } else {
-	print "\t... $item was last updated $mo months, $w weeks, $h hours and $min minutes ago\n";
+	print "\t... $item was last updated $d days ago\n";
     }
 }
 
@@ -81,7 +77,7 @@ s/.*version //;
 s/\)//;
 $version_cmd = $_;
 die version_mismatch() if $version_cmd ne $version_makefile;
-print "\t... gri.cmd also matches\n";
+print "\t... gri.cmd  also matches\n";
 
 #### #### #### #### #### #### #### #### #### 
 print "Check 2: have various dated files been updated recently?\n";
@@ -128,7 +124,7 @@ indicate_age($date_debian_changelog, "debian/changelog");
 open (DOC, "doc/gri.texim") or die "Cannot open doc/gri.texim";
 $latest = &ParseDate("1971"); # pre-history, basically
 while(<DOC>) {
-    if (/\@subsection Version (.*) \[(.*)\]$/) {
+    if (/\@subsubsection Version (.*) \[(.*)\]$/) {
 	#$version = $1;
 	$date_doc = $2;
 	$latest = $date_doc if (&Date_Cmp($date_doc, $latest) > 0);
