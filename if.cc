@@ -61,33 +61,43 @@ skipping_through_if()
 bool
 handle_if_block()
 {
+	if (((unsigned) superuser()) & FLAG_RPN) printf("DEBUG: %s:%d handle_if_block()\n",__FILE__,__LINE__);
 	initialize_if_necessary();
 	if (!_nword)
 		return false;
-	double           flag;
-	if (!strcmp(_word[0], "if")) {
-		if (_nword < 2) {
-			err("if what?");
-			return true;
-		}
-		if (!strcmp(_word[1], "!")) {
-			if (!getdnum(_word[2], &flag)) {
-				err("if what?");
-				return true;
-			}
-			flag = !flag;
-		} else if (!getdnum(_word[1], &flag)) {
-			err("`if' what?");
-			return true;
-		}
-		push_if(floor(0.5 + flag) ? true : false);
-		return true;
-	}
 	/*
 	 * Handle `end if'
 	 */
 	if (_nword == 2 && !strcmp(_word[0], "end") && !strcmp(_word[1], "if")) {
 		pop_if();
+		return true;
+	}
+	/*
+	 * Handle `if'
+	 */
+	if (!strcmp(_word[0], "if")) {
+		if (_nword < 2) {
+			err("if what?");
+			return true;
+		}
+		double flag;
+
+		if (((unsigned) superuser()) & FLAG_RPN) printf("DEBUG %s:%d DEBUG '%s' ... inside_if= %d    skipping= %d\n",__FILE__,__LINE__,_word[1], inside_if_statement[top], skipping[top]);
+		if (skipping[top]) {
+			push_if(false);	// does the value matter??????
+		} else {
+			if (!strcmp(_word[1], "!")) {
+				if (!getdnum(_word[2], &flag)) {
+					err("if what?");
+					return true;
+				}
+				flag = !flag;
+			} else if (!getdnum(_word[1], &flag)) {
+				err("`if' what?");
+				return true;
+			}
+			push_if(floor(0.5 + flag) ? true : false);
+		}
 		return true;
 	}
 	/*

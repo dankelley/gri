@@ -197,10 +197,11 @@ massage_command_line(char *cmd)
 		remove_source_indicator(cmd);
 	}
 	remove_comment(cmd);
-	//printf("'%s %s'\n", cmd, is_system_command(cmd) ? "SYSTEM" : "NON_SYSTEM");
+
 	if (!is_system_command(cmd))
 		check_usage(cmd);
 	strcpy(_cmdLineCOPY, cmd + skip_space(cmd));
+
 	// For system commands, just substitute synonyms.
 	if (is_system_command(cmd)) {
 		strcpy(cmd, _cmdLineCOPY);
@@ -213,35 +214,11 @@ massage_command_line(char *cmd)
 		chop_into_words(_cmdLineCOPY, _word, &_nword, MAX_nword);
 		return true;
 	}
-	// For `\syn = ...' do not substitute to left of the "=".
-#if 0				// 2.5.5
-	if (*(cmd + skip_space(cmd)) == '\\') {
-#if 1
-		printf("\n");
-		printf("SYN assignment BEFORE. '%s'\n",cmd);
-		while (substitute_rpn_expressions(cmd, _cmdLineCOPY)) {
-			strcpy(cmd, _cmdLineCOPY);
-		}
-		printf("AFTER. '%s'\n",cmd);
-#endif
 
-		strcpy(_cmdLineCOPY, "");	// ensure null-terminated
-		string cmd_sub;
-		substitute_synonyms_cmdline(cmd + skip_space(cmd), cmd_sub, false);
-		strcpy(_cmdLineCOPY, cmd_sub.c_str());
-		remove_trailing_blanks(_cmdLineCOPY);
-		strcpy(cmd, _cmdLineCOPY);
-		// Chop into words.  Note: chop_into_words() destroys it's string, so
-		// use a copy.
-		chop_into_words(_cmdLineCOPY, _word, &_nword, MAX_nword);
-		return true;
-	}
-#endif
 	// Don't massage further if it's a `create new command' or a `postscript'
 	// command.
 	if (is_create_new_command(cmd)) {
-		if (((unsigned) superuser()) & FLAG_NEW)
-			printf("[%s]\n", cmd);
+		if (((unsigned) superuser()) & FLAG_NEW) printf("[%s]\n", cmd);
 		return true;
 	}
 	// Expand blanks, by separating words, but only in certain circumstances.
@@ -271,8 +248,7 @@ massage_command_line(char *cmd)
 		strcpy(cmd, _cmdLineCOPY);
 	}
 	// Substitute synonyms; copy back into cmd.
-	if (((unsigned) superuser()) & FLAG_SYN)
-		printf("[%s]\n", cmd);
+	if (((unsigned) superuser()) & FLAG_SYN) printf("[%s]\n", cmd);
 	// Don't substitute synonyms for these commands: `new \syn ...' `delete
 	// \syn ...'
 	if (re_compare(_cmdLine, "\\s*open\\s*.*")) {
@@ -295,8 +271,7 @@ massage_command_line(char *cmd)
 			remove_trailing_blanks(cmd);
 		}
 	}
-	if (((unsigned) superuser()) & FLAG_SYN)
-		printf("  --> [%s]\n", cmd);
+	if (((unsigned) superuser()) & FLAG_SYN) printf("  --> [%s]\n", cmd);
 	// Substitute backtic and dollar-paren expressions
 #if USE_BACKTIC
 	sub_backtic(cmd, _cmdLineCOPY);
@@ -321,8 +296,7 @@ massage_command_line(char *cmd)
 	}
 	stop_replay_if_error();
 	strcpy(cmd, _cmdLineCOPY);
-	if (((unsigned) superuser()) & FLAG_RPN)
-		printf("  --> [%s]\n", cmd);
+	if (((unsigned) superuser()) & FLAG_RPN) printf("  --> [%s]\n", cmd);
 	// Finally, chop up into words.  The words (_word) and number of words
 	// (_nword) are used all over the place in other functions.
 	chop_into_words(_cmdLineCOPY, _word, &_nword, MAX_nword);
@@ -334,7 +308,7 @@ massage_command_line(char *cmd)
 bool
 perform_command_line(FILE *fp, bool is_which)
 {
-	if (((unsigned) superuser()) & FLAG_RPN) printf("\nDEBUG %s:%d begin of perform_command_line\n",__FILE__,__LINE__);
+	//if (((unsigned) superuser()) & FLAG_RPN) printf("\nDEBUG %s:%d begin of perform_command_line\n",__FILE__,__LINE__);
 	if (strlen(_cmdLine) < 1)
 		return true;		// was ok, just blank
 	// If it's definition of a new gri command, do that.
