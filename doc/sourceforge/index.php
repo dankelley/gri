@@ -1,5 +1,12 @@
       <!-- -*- html -*- -->
 
+<!-- HOW TO INSTALL ON SOURCEFORGE:
+
+       scp index.php dankelley@gri.sourceforge.net:/home/groups/gri/htdocs
+
+-->
+
+
 <!-- colors (copied from SF colors):
   dark, under headings headings:        #737b9c
   light, table background               #EEEEF8
