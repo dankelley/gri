@@ -1,10 +1,10 @@
 Summary: a language for scientific illustration
 Name: gri
-Version: 2.5.5
+Version: 2.6.0
 Release: 1
 Copyright: distributable
 Group: Applications/Engineering
-Source: ftp://ftp.phys.ocean.dal.ca/users/kelley/gri/gri-2.5.5.tgz
+Source: ftp://ftp.phys.ocean.dal.ca/users/kelley/gri/gri-2.6.0.tgz
 URL: http://www.phys.ocean.dal.ca/~kelley/gri/index.html
 Packager: Dan E. Kelley <Dan.Kelley@Dal.CA>
 Icon: grilogo.gif
