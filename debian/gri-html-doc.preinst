@@ -1,0 +1,22 @@
+#!/bin/bash
+
+set -e
+
+### Historic cleanup code, delete files like:
+# /usr/share/doc/gri-html-doc/html/.dhelp
+
+if [ -f "/usr/share/doc/gri-html-doc/html/.dhelp" ]; then
+    rm -f /usr/share/doc/gri-html-doc/html/.dhelp
+    rmdir --ignore-fail-on-non-empty --parents /usr/share/doc/gri-html-doc/html
+fi
+
+### Delete unedited potato /etc/emacs file because it wasn't a conffile
+if [ x$1 = xupgrade ] 
+then
+    if [ `md5sum < /etc/emacs/site-start.d/50gri-html-doc.el` = 4b1366ce9d1e5de4670aba73f37b212a ]
+    then
+        mv /etc/emacs/site-start.d/50gri-html-doc.el /etc/emacs/site-start.d/50gri-html-doc.el.dpkg-old
+    fi
+fi
+
+#DEBHELPER#
