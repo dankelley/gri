@@ -1,12 +1,12 @@
 #!/usr/bin/perl
-# Convert Gre file to texi file.  Supply without suffix
-# $Id: gri2texi,v 1.1 2000/10/18 15:31:42 dankelley Exp $
-die "Usage: gre2texi file (no suffix on filename)" if ($#ARGV !=0);
-open(IN,  "$ARGV[0].gre")   || die "Can't open `$ARGV[0].gre'  for input\n";
+# Convert Gri file to texi file.  Supply without suffix
+# $Id: gri2texi,v 1.2 2000/11/08 21:09:04 psg Exp $
+die "Usage: gri2texi file (no suffix on filename)" if ($#ARGV !=0);
+open(IN,  "$ARGV[0].gri")   || die "Can't open `$ARGV[0].gri'  for input\n";
 open(OUT, ">$ARGV[0].texi") || die "Can't open `$ARGV[0].html' for output\n";
 
 $now = localtime;
-print OUT "\@c Created $now by $0 from $ARGV[0].gre\n" ;
+print OUT "\@c Created $now by $0 from $ARGV[0].gri\n" ;
 print OUT "\@example\n";
 while(<IN>) {
     s:\@:\@\@:g; 
