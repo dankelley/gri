@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.196 2002/06/01 15:06:36 psg Exp $
+@c $Id: gri.texim,v 1.197 2002/06/05 13:17:43 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -204,8 +204,9 @@ simple applications, the learning curve is less than an hour.  Many
 users regard Gri as the plotting equivalent of the La@TeX{} document
 preparation system.
 
-@strong{Computers Gri works on:} unix computers of many types, for
-example linux, sunOS/solaris, HP, IBM, DEC alpha, and Macintosh.
+@strong{Computers Gri works on:} unix computers of many types, plus
+Microsoft Windows, and Macintosh OSX.  You'll find Gri pre-packaged
+for various unixes, e.g. linux/debian, linux/redhat, and freeBSD. 
 
 @strong{Capabilities of Gri} are those scientists commonly want, since Gri
 was written by a scientist.  It is not so useful for business people --
