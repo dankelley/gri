@@ -2,7 +2,7 @@
 # Create HTML index from index of pre-installed info page.
 # Bug: the @code{} items get lost, too bad.
 open(IN, "info -f ./gri.info 'Index of Builtins' |") 
-    ||  die "Cannot get index\n";
+    ||  die "Cannot get 'Index of Builtins'\n";
 
 print "
 \@c HTML <!-- newfile BuiltinIndex.html \"Gri: Builtin Index\" \"Builtin Index\" -->
@@ -10,7 +10,7 @@ print "
 \@node   Index of Builtins, Concept Index, Index of Commands, Top
 
 \@c HTML <b>Navigation</b>:
-\@c HTML <a href=\"#ConceptIndex\">next</a>,
+\@c HTML <a href=\"#Top\">next</a>,
 \@c HTML <a href=\"#CommandIndex\">previous</a>,
 \@c HTML <a href=\"#Top\">parent</a>.
 

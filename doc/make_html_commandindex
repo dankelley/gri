@@ -2,7 +2,7 @@
 # Create HTML index from index of pre-installed info page.
 # Bug: the @code{} items get lost, too bad.
 open(IN, "info -f ./gri.info 'Index of Commands' |") 
-    ||  die "Cannot get index\n";
+    ||  die "Cannot get 'Index of Commands'\n";
 # Following is kludge, really
 print "
 \@c HTML <!-- newfile CommandIndex.html \"Gri: Command Index\" \"Command Index\" -->
@@ -11,7 +11,7 @@ print "
 
 \@c HTML <b>Navigation</b>:
 \@c HTML <a href=\"#BuiltinIndex\">next</a>,
-\@c HTML <a href=\"#License\">previous</a>,
+\@c HTML <a href=\"#ConceptIndex\">previous</a>,
 \@c HTML <a href=\"#Top\">parent</a>.
 
 \@itemize \@bullet

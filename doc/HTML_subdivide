@@ -179,6 +179,7 @@ Indices:</br>
 </font>
 <td width=\"500\" valign=\"top\">
 ";
+	    print "file $file\n" if $debug;
             if ($file ne "index.html") {
                 print PASS3 "<map name=\"navigate_top\">\n";
 		print PASS3 "<area alt=\"$name_of_top_node\" shape=\"rect\" coords=\"5,2,218,24\" href=\"$name_of_top_node\">\n";

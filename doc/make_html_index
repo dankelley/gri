@@ -2,7 +2,7 @@
 # Create HTML index from index of pre-installed info page.
 # Bug: the @code{} items get lost, too bad.
 open(IN, "info -f ./gri.info 'Concept Index' | ") 
-    ||  die "Cannot get index\n";
+    ||  die "Cannot get 'Concept Index'\n";
 
 print "
 \@c HTML <!-- newfile ConceptIndex.html \"Gri: Concept Index\" \"Concept Index\" -->
@@ -10,8 +10,8 @@ print "
 \@node   Concept Index, Index of Builtins, Index of Builtins, Top
 
 \@c HTML <b>Navigation</b>:
-\@c HTML <a href=\"#End\">next</a>,
-\@c HTML <a href=\"#BuiltinIndex\">previous</a>,
+\@c HTML <a href=\"#CommandIndex\">next</a>,
+\@c HTML <a href=\"#License\">previous</a>,
 \@c HTML <a href=\"#Top\">parent</a>.
 
 \@itemize \@bullet
@@ -27,7 +27,4 @@ while(<IN>) {
         print "\@item\n $_";
     }
 }
-print "
-\@end itemize
-\@c HTML <!-- newfile End.html \"Gri: End\" \"Top\" -->
-";
+print "\@end itemize\n";

@@ -44,9 +44,9 @@ html: gri.texi gri.info texinfo2HTML HTML_subdivide
 	cd tst_suite ; make html
 	cd screenshots; make png
 	cat gri.texi     		>  TMP
+	perl make_html_index		>> TMP
 	perl make_html_commandindex	>> TMP
 	perl make_html_builtinindex	>> TMP
-	perl make_html_index		>> TMP
 	cat TMP | perl texinfo2HTML	>  $(HTML_LONG_NAME)
 	rm -f TMP
 	make read
