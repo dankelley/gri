@@ -2,7 +2,6 @@
 
 VERSION = 0.1.4
 CONVERT  = convert		# /usr/X11R6/bin/convert in redhat-6.1 linux
-PSTOPDF = ps2pdf
 
 all:
 	for f in 1 2 3 4 5 6 7 8 9 10 11 12 13 14; do make $$f; done
@@ -108,7 +107,6 @@ FORCE:
 13: FORCE
 	perl ./gri2html $@/example
 	$(CONVERT) $@/example.ps $@/example.gif
-	$(PSTOPDF) $@/example.ps $@/example.pdf
 	$(CONVERT) -geometry 999x200 $@/example.ps $@/example-small.gif
 	chmod a+r $@/*
 14: FORCE
@@ -118,7 +116,7 @@ FORCE:
 	chmod a+r $@/*
 
 clean:
-	-rm -f *.lof *.dvi *.idx *.ilg *.ind *.log *.toc *.aux *.bbl *.blg cookbook.ps *~ */example-small.gif */example.gif */example.pdf */example.html 12/example-vertical.html
+	-rm -f *.lof *.dvi *.idx *.ilg *.ind *.log *.toc *.aux *.bbl *.blg cookbook.ps *~ */example-small.gif */example.gif */example.html 12/example-vertical.html
 
 HTMLDIR=gri-cookbook-$(VERSION)
 html-tar:
@@ -140,6 +138,10 @@ html-tar:
 	mkdir $(HTMLDIR)/12; cp 12/seawifs.palette 12/*gri 12/*gif 12/*html $(HTMLDIR)/12
 	mkdir $(HTMLDIR)/13; cp 13/*gri 13/*gif 13/*html $(HTMLDIR)/13
 	mkdir $(HTMLDIR)/14; cp 14/*gri 14/*gif 14/*html $(HTMLDIR)/14
+	chmod a+rx $(HTMLDIR)
+	chmod a+r  $(HTMLDIR)/*
+	chmod a+x  $(HTMLDIR)/[1-9]*
+	chmod a+r  $(HTMLDIR)/*/*
 	tar -chf gri-cookbook-$(VERSION).tar $(HTMLDIR)
 	gzip --best gri-cookbook-$(VERSION).tar
 	rm -rf $(HTMLDIR)
