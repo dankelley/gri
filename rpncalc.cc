@@ -1424,22 +1424,22 @@ do_operation(operator_name oper)
 	if (oper == DEFINED) {
 		NEED_ON_STACK(1);
 		NEED_IS_TYPE(1, STRING);
-		extern char     _grTempString[];
 		string n1(NAME(1));
 		un_double_quote(n1);
 		// It's either a synonym or a variable, or not defined 
 		if (is_syn(n1)) {
 			bool exists;
+			string syn_value; // not used, actually
 			if (n1[1] == '\\') {
 				if (n1[2] == '@') {
 					string d("\\");
 					d.append(n1.substr(3, n1.size()));
-					exists = get_syn(d.c_str(), _grTempString);
+					exists = get_syn(d.c_str(), syn_value);
 				} else {
-					exists = get_syn((n1.substr(1, n1.size())).c_str(), _grTempString);
+					exists = get_syn((n1.substr(1, n1.size())).c_str(), syn_value);
 				}
 			} else {
-				exists = get_syn(n1.c_str(), _grTempString);
+				exists = get_syn(n1.c_str(), syn_value);
 			}
 			if (exists)
 				SET(1, "", 1.0, NUMBER);

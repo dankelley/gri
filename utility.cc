@@ -1844,7 +1844,7 @@ de_reference(string& syn)
 		string deref("\\");
 		deref.append(syn.substr(2, syn.size()));
 		//printf("2. deref= <%s>\n", deref.c_str());
-		char buf[100];
+		string buf;
 		if (get_syn(deref.c_str(), buf)) {
 			syn.assign(buf);
 			//printf("3. syn= <%s>\n", syn.c_str());

@@ -120,43 +120,37 @@ delete_syn(const string& name)
 // have been set aside by the calling routine.
 // RETURN true if synonym is defined and has a value
 bool
-get_syn(const char *name, char *value)
+get_syn(const char *name, string& value)
 {
 	// printf("DEBUG get_syn(%s,)\n",name);
 	if (!is_syn(name))
 		return false;
 	if (!strncmp(name, "\\.proper_usage.", 15)) {
-		/*
-		 * Take care of synonym \.proper_usage., used to demonstrate the
-		 * proper usage of a command.
-		 */
-		string tmp;
-		unbackslash(_command[cmd_being_done()].syntax, tmp);
-		strcpy(value, tmp.c_str());
+		// Take care of synonym \.proper_usage., used to demonstrate the
+		// proper usage of a command.
+		unbackslash(_command[cmd_being_done()].syntax, value);
 		return true;
 	} else if (!strncmp(name, "\\.word", 6) && strlen(name) > 6) {
-		/*
-		 * Take care of the synonym list for the command being processed.
-		 * This list has synonyms \.words. (number of words in last level
-		 * command) and \.word0., \.word1., etc (the words in last level
-		 * command).
-		 * 
-		 * This list is not stored in the normal synonym stack, but is created
-		 * here using the word stack is maintained in command.c.
-		 * 
-		 * Here is what the command stack will look like, for the command `New
-		 * Draw TS Line \rho' within a new gri command named `Draw
-		 * Isopycnals' which was called with the line `New Draw TS Line
-		 * 26.00':
-		 * 
-		 * -----
-		 * 
-		 * Draw Isopycnals
-		 * 
-		 * -----
-		 * 
-		 * New Draw TS Line 26.00
-		 */
+		// Take care of the synonym list for the command being processed.
+		// This list has synonyms \.words. (number of words in last level
+		// command) and \.word0., \.word1., etc (the words in last level
+		// command).
+		// 
+		// This list is not stored in the normal synonym stack, but is created
+		// here using the word stack is maintained in command.c.
+		// 
+		// Here is what the command stack will look like, for the command `New
+		// Draw TS Line \rho' within a new gri command named `Draw
+		// Isopycnals' which was called with the line `New Draw TS Line
+		// 26.00':
+		// 
+		// -----
+		// 
+		// Draw Isopycnals
+		// 
+		// -----
+		// 
+		// New Draw TS Line 26.00
 		int             i;
 		extern int      _num_command_word;
 		extern char    *_command_word[MAX_cmd_word];
@@ -175,18 +169,20 @@ get_syn(const char *name, char *value)
 							else
 								count++;
 						}
-						sprintf(value, "%d", count);
+						char value_buffer[100];
+						sprintf(value_buffer, "%d", count);
+						value.assign(value_buffer);
 						return true;
 					}
 				}
 			} else {
-				strcpy(value, "\\.words.");
+				value.assign("\\.words.");
 			}
 			return true;
 		} else if (1 == sscanf(name + 6, "%d", &i)) {
 			// The synonym \.wordn. is the n-th word in the command.
 			if (_num_command_word == 0) {
-				strcpy(value, name);
+				value.assign(name);
 				return true;
 			}
 			int             cmd, level = 0;
@@ -200,45 +196,39 @@ get_syn(const char *name, char *value)
 					break;
 				}
 			}
-			/*
-			 * If the command is requesting a word beyond the list (e.g.
-			 * \.word10. in a line with only 3 words) just paste the name of
-			 * the desired synonym (e.g "\.word10.") onto the line, and let
-			 * further processing catch the error, if it is in a bit of code
-			 * that is not being skipped.
-			 */
+			// If the command is requesting a word beyond the list (e.g.
+			// \.word10. in a line with only 3 words) just paste the name of
+			// the desired synonym (e.g "\.word10.") onto the line, and let
+			// further processing catch the error, if it is in a bit of code
+			// that is not being skipped.
 			if (cmd >= _num_command_word) {
-				strcpy(value, name);
+				value.assign(name);
 			} else {
-				/*
-				 * The word does exist.  If it's a quoted string, remove the
-				 * quotes ...
-				 */
+				// The word does exist.  If it's a quoted string, remove the
+				// quotes ...
 				if (*_command_word[cmd] == '"') {
-					strcpy(value, 1 + _command_word[cmd]);
-					if (*(value + strlen(value) - 1) == '"') {
-						value[strlen(value) - 1] = '\0';
+					value.assign(1 + _command_word[cmd]);
+					if (value[value.size() - 1] == '"') {
+						value.STRINGERASE(value.size() - 1, 1);
 					}
 				} else {
-					/* ... otherwise copy it directly. */
-					strcpy(value, _command_word[cmd]);
+					// ... otherwise copy it directly
+					value.assign(_command_word[cmd]);
 				}
 			}
-			return true;		/* .word#. */
+			return true;		// .word#.
 		} else {
-			strcpy(value, name);
+			value.assign(name);
 			return true;
 		}
 	} else {
-		/*
-		 * It's an ordinary synonym.  Look it up in the stack
-		 */
-		int             i;
-		unsigned        stackLen = synonymStack.size();
+		// It's an ordinary synonym.  Look it up in the stack
+		int i;
+		unsigned int stackLen = synonymStack.size();
 		if (stackLen > 0) {
 			for (i = stackLen - 1; i >= 0; i--) {
 				if (!strcmp(name, synonymStack[i].getName())) {
-					strcpy(value, synonymStack[i].getValue());
+					value.assign(synonymStack[i].getValue());
 					synonymStack[i].incrementCount();
 					return true;
 				}
@@ -448,27 +438,28 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 				tmp += s[i++];
 			}
 			//printf("DEREF tmp [%s]\n", tmp.c_str());
-			char deref_name[100];// BUG: size won't be sufficient in general BUG
+			string deref_name;
 			get_syn(tmp.c_str(), deref_name);
 			//printf("this syn value is [%s]\n", deref_name);
-			char deref_value[4000]; // BUG: size won't be sufficient in general BUG
+			string deref_value;
 			if (deref_name[0] == '\\') {
-				if (get_syn(deref_name + 1, deref_value)) {
+				if (get_syn(deref_name.substr(1, deref_name.size()).c_str(), deref_value)) {
 					sout.append(deref_value);
 					//printf("DEBUG %s:%d looked up '%s' (after skipping) to get '%s'\n",__FILE__,__LINE__,deref_name,deref_value);
 				} else {
-					err("Cannot de-reference `\\", deref_name, "'.", "\\");
+					err("Cannot de-reference `\\", deref_name.c_str(), "'.", "\\");
 					return false;
 				}
 			} else {
 				double value = 0.0;
-				if (get_var(deref_name, &value)) {
+				if (get_var(deref_name.c_str(), &value)) {
 					//printf("OK %d   isvar=%d\n",ok,is_var(deref_name));
 					//printf("looked up '%s' to get %f NUM\n",deref_name,value);
-					sprintf(deref_value, "%f", value);
-					sout.append(deref_value);
+					char deref_value_buffer[100];
+					sprintf(deref_value_buffer, "%f", value);
+					sout.append(deref_value_buffer);
 				} else {
-					err("Cannot de-reference `\\", deref_name, "'.", "\\");
+					err("Cannot de-reference `\\", deref_name.c_str(), "'.", "\\");
 					return false;
 				}
 			}
@@ -572,10 +563,14 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 		if (sname[1] == ' ') {
 			warning("Found `\\ ', which is not legal; is this a malformed continuation?");
 		}
-		
 		// Substitute known synonym, then skip over the space the synonym
 		// name occupied.
-		if (get_syn(sname.c_str(), svalue)) {
+		string synonym_value;
+		if (get_syn(sname.c_str(), synonym_value)) {
+			if (synonym_value.size() > _grTempStringLEN - 1) {
+				OUT_OF_MEMORY;
+			}
+			strcpy(svalue, synonym_value.c_str());
 			if (((unsigned) superuser()) & FLAG_SYN) printf("Syn value is <%s>\n", svalue);
 			if (report_num_words) {
 				char *w[MAX_nword];

@@ -121,7 +121,7 @@ bool            getdnum(const char *string, double *number);
 bool            get_flag(const char *name);
 bool            getinum(const char *string, int *number);
 bool            get_var(const char *name, double *value);
-bool            get_syn(const char *name, char *value);
+bool            get_syn(const char *name, string& value);
 void            give_help(void);
 void            gri_abort(void);
 void            gri_exit(int code);
