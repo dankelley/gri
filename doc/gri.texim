@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.194 2002/06/01 13:12:11 dankelley Exp $
+@c $Id: gri.texim,v 1.195 2002/06/01 14:36:42 psg Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16269,7 +16269,12 @@ Fix SourceForge bug
 @c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=562911&group_id=5511&atid=105511">
 #562911
 @c HTML </a>
-(won't build with @file{gcc}-3.0 compiler)
+(won't build with @file{gcc}-3.0 compiler;  This was reported by
+the Debian hppa builder as Debian bug
+@c HTML <a href="http://bugs.debian.org/148572">
+#148572
+@c HTML </a>
+)
 
 @item
 Fix SourceForge bug
@@ -16283,7 +16288,11 @@ Fix SourceForge bug
 @c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=562014&group_id=5511&atid=105511">
 #562014
 @c HTML </a>
-(won't build if @code{popt} library is unavailable)
+(won't build if @code{popt} library is unavailable;  This was reported by
+the Debian ia64 builder as Debian bug
+@c HTML <a href="http://bugs.debian.org/148493">
+#148493
+@c HTML </a>)
 
 @item
 Fix SourceForge bug
