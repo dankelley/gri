@@ -213,7 +213,6 @@ source:
 	install -m 755 debian/rules                    $(SOURCE_NAME)/debian
 #	Copy documentation
 	install -d $(SOURCE_NAME)/doc
-	install -m 644 doc/gri.archive          $(SOURCE_NAME)/doc
 	install -m 755 doc/archive-to-html.pl   $(SOURCE_NAME)/doc
 	install -m 644 doc/cmdrefcard.tex       $(SOURCE_NAME)/doc
 	install -m 644 doc/refcard.tex          $(SOURCE_NAME)/doc
