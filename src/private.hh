@@ -139,6 +139,7 @@ bool            grid_exists(void);
 bool            group_end();
 bool            group_start(const char *id ="");
 bool            gr_missing(double x);
+double          gr_page_height_pt();
 bool            handle_if_block(void);
 void            highpass_image(void);
 void            histogram_stats(const double *x, unsigned int nx, double *q1, double *q2, double *q3);

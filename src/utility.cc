@@ -2457,3 +2457,10 @@ assign_to_column(int index, double value, const char* c)
 		ASSIGN_TO_COLUMN(index, value, _colWEIGHT);
 	return true;
 }
+
+double
+gr_page_height_pt()
+{
+	extern rectangle _page_size;
+	return (_page_size.ury() * PT_PER_CM);
+}

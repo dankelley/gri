@@ -151,6 +151,7 @@ void GriPath::fill(units the_units, bool closepath)
 
 void GriPath::stroke_or_fill(char s_or_f, units the_units, double width, bool closepath)
 {
+	double page_height_pt = gr_page_height_pt();
 	if (depth < 1)
 		return;
 	const unsigned int max_length = GR_POINTS_IN_PS_PATH - 1;
@@ -256,7 +257,7 @@ void GriPath::stroke_or_fill(char s_or_f, units the_units, double width, bool cl
 						fprintf(_grPS, "%.2f %.2f m\n", xc[i] * PT_PER_CM, yc[i] * PT_PER_CM);
 						break;
 					case svg:
-						fprintf(_grSVG, "M%.2f %.2f\n", xc[i] * PT_PER_CM, yc[i] * PT_PER_CM);
+						fprintf(_grSVG, "M%.2f %.2f\n", xc[i] * PT_PER_CM, page_height_pt - yc[i] * PT_PER_CM);
 						break;
 					case gif:
 						break;
@@ -273,7 +274,7 @@ void GriPath::stroke_or_fill(char s_or_f, units the_units, double width, bool cl
 						fprintf(_grPS, "%.2f %.2f l\n", xc[i] * PT_PER_CM, yc[i] * PT_PER_CM);
 						break;
 					case svg:
-						fprintf(_grSVG, "L%.2f %.2f\n", xc[i] * PT_PER_CM, yc[i] * PT_PER_CM);
+						fprintf(_grSVG, "L%.2f %.2f\n", xc[i] * PT_PER_CM, gr_page_height_pt() - yc[i] * PT_PER_CM);
 						break;
 					case gif:
 						break;

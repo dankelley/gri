@@ -150,6 +150,8 @@ last_name(char *s)
 bool
 start_up(int argc, char **argv)
 {
+	extern rectangle _page_size;
+	_page_size.set(0.0, 0.0, 0.0, 0.0);
 /*
 #if defined(TEST_POPT)
 	printf("DEBUG: %s:%d: FYI, start_up() found the raw args to be:\n",__FILE__,__LINE__);
@@ -320,8 +322,6 @@ first argument looks like a PostScript filename.  Older versions\n\
 
 	_first = true;
 	_bounding_box.set(0.0, 0.0, 0.0, 0.0);
-	extern rectangle _page_size;
-	_page_size.set(0.0, 0.0, 0.0, 0.0);
 	//printf("At end of start_up, _cmdLine is <%s>\n",_cmdLine);
 	return true;
 }
@@ -765,8 +765,11 @@ interpret_optional_arguments(int argc, char *argv[])
 						fatal_err("Cannot open SVG file named `\\", o.c_str(), "'", "\\");
 					}
 					fprintf(_grSVG, "<?xml version=\"1.0\" standalone=\"yes\"?>\n");
-					fprintf(stderr, "%s:%d: SVG error: assuming height and width both 500 pixels, for now\n", __FILE__,__LINE__);
-					fprintf(_grSVG, "<svg width=\"500\" height=\"500\">\n");
+					//fprintf(stderr, "%s:%d: SVG error: assuming height and width both 500 pixels, for now\n", __FILE__,__LINE__);
+					extern rectangle _page_size;
+					_page_size.set(0.0, 0.0, 8.5, 11.0); // BUG: SVG setting fixed paper size
+					_page_size.scale(CM_PER_IN);
+					fprintf(_grSVG, "<svg width=\"%d\" height=\"%d\">\n", int(8.5*PT_PER_IN), int(11.0*PT_PER_IN));
 				} else {
 					warning("Sorry, cannot determine type of output file; using default postscript filename instead");
 				}
@@ -938,9 +941,11 @@ interpret_optional_arguments(int argc, char *argv[])
 									fatal_err("Cannot open SVG file named `\\", o.c_str(), "'", "\\");
 								}
 								fprintf(_grSVG, "<?xml version=\"1.0\" standalone=\"yes\"?>\n");
-								fprintf(stderr, "%s:%d: SVG error: assuming height and width both 500 pixels, for now\n", __FILE__,__LINE__);
-								fprintf(_grSVG, "<svg width=\"500\" height=\"500\">\n");
-
+								//fprintf(stderr, "%s:%d: SVG error: assuming height and width both 500 pixels, for now\n", __FILE__,__LINE__);
+								extern rectangle _page_size;
+								_page_size.set(0.0, 0.0, 8.5, 11.0); // BUG: SVG setting fixed paper size
+								_page_size.scale(CM_PER_IN);
+								fprintf(_grSVG, "<svg width=\"%d\" height=\"%d\">\n", int(8.5*PT_PER_IN), int(11.0*PT_PER_IN));
 							} else {
 								warning("Sorry, cannot determine type of output file; using default postscript filename instead");
 							}
