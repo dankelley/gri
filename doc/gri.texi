@@ -1077,7 +1077,7 @@ additional 2 spaces.
 @cindex continued lines
 @cindex commands extending over several lines
 
-To extend a command across several lines, use a backslash @code{\\} at
+To extend a command across several lines, use a backslash @code{\} at
 the @emph{very} end of all lines but the last:
 @example
 draw line from \
