@@ -10117,7 +10117,9 @@ then a linear full-color spectrum running from red at 10C to magenta at
 @comment  node-name,  next,  previous,  up
 @subsection The @code{read image grayscale} Command
 @findex read image grayscale
+@findex read image greyscale
 @cindex @code{read image grayscale} command
+@cindex @code{read image greyscale} command
 @cindex image grayscale, reading
 @cindex grayscale of image, reading from file
 @example
@@ -10825,7 +10827,9 @@ Turn PostScript clipping off.
 @comment  node-name,  next,  previous,  up
 @subsection The @code{set color} @dots{} Command
 @findex set color
+@findex set colour
 @cindex @code{set color} command
+@cindex @code{set colour} command
 @example
 `set color \name               | \
     @{rgb .red. .green. .blue.@} | \
@@ -11085,10 +11089,12 @@ kelley2      17jun97  for kelley only: print
 @comment  node-name,  next,  previous,  up
 @subsection The @code{set font color} @dots{} Command
 @findex set font color
+@findex set font colour
 @cindex font, setting color of
 @cindex text, color used for
 @cindex color, for text
 @cindex @code{set font color} command
+@cindex @code{set font colour} command
 @example
 set font color \name           | \
     @{rgb .red. .green. .blue.@} | \
@@ -11199,7 +11205,9 @@ font is @code{Helvetica}.
 @comment  node-name,  next,  previous,  up
 @subsection The @code{set graylevel} @dots{} Command
 @findex set graylevel
+@findex set greylevel
 @cindex @code{set graylevel} command
+@cindex @code{set greylevel} command
 @cindex graylevel, command
 @cindex lines, gray, command
 @example
@@ -11302,7 +11310,9 @@ future EOFs.
 @comment  node-name,  next,  previous,  up
 @subsection The @code{set image colorscale} @dots{} Command
 @findex set image colorscale
+@findex set image colourscale
 @cindex @code{set image colorscale} command
+@cindex @code{set image colourscale} command
 @cindex colorscale, setting for images
 @cindex image plots, setting colorscale
 @example
@@ -11357,7 +11367,13 @@ See also @code{read image colorscale} @xref{Read Image Colorscale}.
 @comment  node-name,  next,  previous,  up
 @subsection The @code{set image grayscale} @dots{} Command
 @findex set image grayscale
+@findex set image greyscale
+@findex set image grayscale using histogram
+@findex set image greyscale using histogram
 @cindex @code{set image grayscale} command
+@cindex @code{set image greyscale} command
+@cindex @code{set image grayscale using histogram} command
+@cindex @code{set image greyscale using histogram} command
 @cindex grayscale, setting for images
 @cindex image plots, setting grayscale
 @example
@@ -11432,7 +11448,9 @@ draw image palette left \
 @comment  node-name,  next,  previous,  up
 @subsection The @code{set image missing value color} @dots{} Command
 @findex set image missing value color
+@findex set image missing value colour
 @cindex @code{set image missing value color} command
+@cindex @code{set image missing value colour} command
 @example
 set image missing value color to white|black|\
     @{graylevel .brightness.@}|@{rgb .r. .g. .b.@}
