@@ -321,7 +321,7 @@ while(get_a_line()) {
 		$the_item =~ s:\@{:{:og;
 		$the_item =~ s:\@}:}:og;
 		$the_item =~ s:\@\@:\@:og;
-		$the_item =~ s:\@code{(.*)}:`<font color="$ex_color"><code>$1</code></font>':og;
+		$the_item =~ s:\@code{([^}]*)}:`<font color="$ex_color"><code>$1</code></font>':og;
 		print "<dt> $start_item$the_item$end_item\n<dd>";
 	    } else {
 		print "<p>" if (/^$/o);
@@ -422,10 +422,10 @@ sub sub_emphasis {
     s,\@b{([^}]*)},<b>$1</b>,g;
     s,\@code{([^}]*)},`<font color="$ex_color"><code>$1</code></font>',g;
     s,\@\@,\@,g;
-    s,\@samp{([^}]*)},`<samp>$1</samp>',g;
-    s,\@key{([^}]*)},`<kbd>$1</kbd>',g;
-    s,\@kbd{([^}]*)},`<kbd>$1</kbd>',g;
-    s,\@file{([^}]*)},`<samp>$1</samp>',g;
+    s,\@samp{([^}]*)},`<font color="$ex_color"><samp>$1</samp></font>',g;
+    s,\@key{([^}]*)},`<font color="$ex_color"><kbd>$1</kbd></font>',g;
+    s,\@kbd{([^}]*)},`<font color="$ex_color"><kbd>$1</kbd></font>',g;
+    s,\@file{([^}]*)},`<font color="$ex_color"><samp>$1</samp></font>',g;
     s,TEXINFO2HTML-CLOSE-BRACE,},g;
     s,TEXINFO2HTML-AT-AT,\@,g;
 }
