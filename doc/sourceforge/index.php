@@ -94,8 +94,8 @@ scp index.php psg@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.7-1.src.rpm">Source RPM</a><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.7-1.i386.rpm">Intel RPM</a><br>
 		    <b>Debian GNU/Linux</b><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.8.6-0potato1_i386.deb">Deb for Potato</a><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.8.7-1_i386.deb">Deb for Woody</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.8.6-0potato1_i386.deb">Package for Potato</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.8.7-1_i386.deb">Package for Woody</a><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.7static_2.8.7-1_i386.deb">Static Deb (no docs)</a><br>
                     <A class="menus" HREF="http://packages.debian.org/unstable/science/gri.html">gri at Debian</A><br>
                     <A class="menus" HREF="http://packages.debian.org/unstable/doc/gri-html-doc.html">HTML manual at Debian</A><br>
