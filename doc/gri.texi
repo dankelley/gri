@@ -14240,17 +14240,32 @@ is in no particular order.  Please contact me at
 @c HTML </A>
 if you particularly need one of these things, or
 if you need something else that I've not listed.
+
 @enumerate
+
+@item Add readline support, to handle history, command-line editing, etc, 
+for interactive usage [probably for version 2.8]
+
+@item Add ability to read PNG images @xref{Read Image}.
+[probably for version 2.8, at least in a limited form]
+
+@item Add optimal interpolation as another method for gridding
+data @xref{Convert Columns to Grid}.
+
 @item Rewrite section 15.2.1 (Unix installation) to reflect current usage.
+
 @item Porting to more machines.   (Most Unix platforms are supported, but 
-Gri doesn't work at all on Apple platforms, and the Windows support is definitely
-not up to scratch.
-@item Better command-line interface, with history and editing as in Bash, Emacs, etc.  
-(This may be built on the GNU Readline library.)
-@item Support for image types other than 8-bit. 
-(This may be build upon the PNG library.)
+Gri doesn't work at all on Apple platforms, and the Windows support is
+definitely not up to scratch.
+
 @item Rewrite manual section on the versions, breaking it up into "stable" 
 and "unstable" releases instead of "compatible" and "incompatible" changes.
+
+@item Perhaps add non-RPN mathematics.
+
+@item Perhaps add graphical output to the screen as commands are executed.  
+(This could be done well if a good display-postscript library were available.)
+
 @end enumerate
 
 
