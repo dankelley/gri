@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.221 2002/12/05 23:29:32 dankelley Exp $
+@c $Id: gri.texim,v 1.222 2002/12/05 23:42:02 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -1445,7 +1445,7 @@ Here is an example of using @code{create columns from function}:
 
 @example
 show "First 2 terms of perturbation expansion"
-set y axis label horizontal
+set y axis name horizontal
 set y name "sea-level"
 set x name "$\omega$t"
 
@@ -2137,7 +2137,7 @@ Set up axes
     set x axis \xmin \xmax \xinc
     set y name "$\sigma_T$"
     set y size 5
-    set y axis label horizontal
+    set y axis name horizontal
     set y axis \ymin \ymax \yinc
     set y format "%.1f"
 @}
@@ -2291,7 +2291,7 @@ Set up axes.
     set x axis \xmin \xmax \xinc
     set y size 5
     set y name "$\sigma_T$"
-    set y axis label horizontal
+    set y axis name horizontal
     set y axis \ymin \ymax \yinc
     set y format %.1lf
     draw axes none
@@ -10053,11 +10053,11 @@ Control various things about the y axis.
 
 @itemize @bullet
 
-@item @code{set y axis label horizontal}
-Make y label be horizontal.
+@item @code{set y axis name horizontal}
+Make y-axis name be horizontal.
 
-@item @code{set y axis label vertical}
-Make y label be vertical (default).
+@item @code{set y axis name vertical}
+Make y-axis name be vertical (default).
 
 @item @code{set y axis left}
 Make next y-axis to be drawn have labels to the left of the axis.
@@ -11274,7 +11274,7 @@ set x margin 6.0           # (cm)
 set x name "x"
 set x size 10              # (cm)
 set x type linear
-set y axis label vertical
+set y axis name vertical
 set y format %lg
 set y margin 6.0           # (cm)
 set y name "y"
