@@ -1,5 +1,5 @@
 Summary: A language for scientific illustration
-%define griversion 2.12.0
+%define griversion 2.12.1
 Name: gri
 Version: %{griversion}
 Release: 1
@@ -96,8 +96,11 @@ then
 fi
 
 %changelog
+* Wed Sep 25 2002  Dan Kelley <Dan.Kelley@Dal.Ca>
+- Version 2.12.1
+- fix SourceForge bug 613075 (sin, cos, tan problem in RPN)
 * Sun Sep 15 2002  Dan Kelley <Dan.Kelley@Dal.Ca>
-- Version 2.12.0
+- Version 2.12.1
 - add 'sed' RPN operator
 - add 'skewness' RPN operator
 - add 'kurtosis' RPN operator

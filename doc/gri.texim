@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.216 2002/09/25 12:42:39 dankelley Exp $
+@c $Id: gri.texim,v 1.217 2002/09/25 14:41:34 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -55,7 +55,7 @@
 @comment %**start of header
 @setfilename gri.info
 @settitle Gri
-@set GRI-VERSION 2.12.0
+@set GRI-VERSION 2.12.1
 @set GRI-PREVIOUS-VERSION 2.10.1
 @set AUTHOR-EMAIL Dan.Kelley@@Dal.CA
 @c %**end of header
@@ -16325,7 +16325,7 @@ only in the fixing of bugs.
 @subsection Version 2.12
 @cindex version 2.12
 
-@subsubsection Version 2.12.0 [2002 ??? ??]
+@subsubsection Version 2.12.1 [2002 ??? ??]
 @strong{Bug Fixes}
 
 @itemize
@@ -16339,7 +16339,7 @@ Fix SourceForge bug
 
 
 
-@subsubsection Version 2.12.0 [2002 Sep 15]
+@subsubsection Version 2.12.1 [2002 Sep 15]
 (@uref{http://www.terryfox.org/,Terry Fox Day}, Canada.)
 
 @strong{New Features}
