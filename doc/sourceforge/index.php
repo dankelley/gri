@@ -190,6 +190,7 @@ as simple as the following.
 	    <tr><td class="menus" align="left">
 		<A class="menus" HREF="http://www.sourceforge.net/forum/?group_id=5511">Discussion Forums</A><br>
 		<A class="menus" HREF="http://sourceforge.net/tracker/?group_id=5511">Tracker</A><br>
+		<A class="menus" HREF="http://sourceforge.net/tracker/?atid=105511&group_id=5511&func=browse">Bug Reporter</A><br>
 		<A class="menus" HREF="http://www.sourceforge.net/survey/?group_id=5511">Public Surveys</A><br>
                 <A class="menus" HREF="http://www.sourceforge.net/mail/?group_id=5511">Mailing Lists</A><br> 
 		<A class="menus" HREF="mailto:dankelley@users.sourceforge.net">Email the author</A><br>
