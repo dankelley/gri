@@ -74,25 +74,13 @@ called
 <a href="http://packages.debian.org/unstable/science/gri-el.html">gri-el</a>.<br>
 </p>
 
-<p>For <b>other platforms</b>, not used by the main developers, versions are provided as well, but on a slower timetable.  These include 
-versions for 
-<?php print "<A HREF=\"$ftp_site/gri-$gri_stable_version-SunOS5.tar.gz\">
-Solaris/OS5</a>\n"; ?>,
-for <A HREF="http://gnuwin32.sourceforge.net/packages/gri.htm">Microsoft Windows</a>,
-and for
-<A HREF="http://fink.sourceforge.net/pdb/package.php/gri">Macintosh OS-X</a>.  
-NOTE: The windows/mac versions are built by developers outside the Gri project;
-if you have
-a new platform you'd like to support, please contact one of the developers and
-we will put a link here.
-</p>
+<p>For <b>Macintosh OSX</b>, a 
+<A HREF="http://fink.sourceforge.net/pdb/package.php/gri">Fink</a>  package
+is available, and a OS-X bundle will be prepared given
+sufficient interest.</p>
 
-<p>
-Of course, this
-<?php print $development_site_name;?> site also contains 
-<a href="<?php print "$sf_url/project/showfiles.php?group_id=$gri_group_id";?>">
-downloadable versions</a> of not just the present version, but of older
-versions as well.</p>
+<p>Upon request, versions may be provided 
+for <b>other platforms</b>, e.g. Solaris, Windows, etc.</p>
 
 <h1>Source Code</h1>
 <p>
