@@ -3,7 +3,10 @@
 #include        <string.h>
 #include	<ctype.h>
 #include	<stdio.h>
-#include <strstream>
+#if defined(HAVE_LSTAT)
+#include	<sys/stat.h>
+#endif
+#include        <strstream>
 #include	"gr.hh"
 #include	"extern.hh"
 #include        "private.hh"
@@ -239,8 +242,26 @@ perform_new_command(const char *s)
 	return true;
 }
 
+void
+no_gri_cmd()
+{
+	string msg("ERROR: Gri can't locate the `gri.cmd' file\n\"");
+	msg.append("You need to tell Gri the directory containing this file.\n");
+	msg.append("  There are three ways in which you may do this:\n");
+	msg.append("    (1) Name the directory storing `gri.cmd' when you invoke Gri, e.g.\n");
+	msg.append("            gri -directory /usr/share/gri/lib\n");
+	msg.append("        where you may change the directory name to whatever directory\n");
+	msg.append("        contains the correct `gri.cmd' file, or ...\n");
+	msg.append("    (2) ... set an environment variable named GRI_LIBRARY_DIRECTORY\n");
+	msg.append("        to the name of a directory in which the `gri.cmd' file is\n");
+	msg.append("        located, or ...\n");
+	msg.append("    (3) ... recompile Gri so it will know where to look by default (see\n");
+	msg.append("        the INSTALL file in the source directory for instructions).\n");
+	gr_textput(msg.c_str());
+	gri_exit(1);
+}
 bool
-create_commands(const char *filename)
+create_commands(const char *filename, bool user_gave_directory)
 {
 	string fullfilename(_lib_directory.c_str());
 	// Must check for '/' as file separator, on some machines.
@@ -258,52 +279,48 @@ create_commands(const char *filename)
 #endif
 #endif
 	fullfilename += filename;
-	if (push_cmd_file(fullfilename.c_str(), false, false, "r")) {
-		/*
-		  First, see if the version number in gri.cmd matches hard-wired one.
-		  The gri.cmd is of the form:
-		  //         gri - scientific graphic program (version 2.1.6)
-		  and is contained on first line of file.
-		*/
-		get_command_line();
-		char *s = _cmdLine;
-		while (*s != '(')
-			s++;
-		int major_version, minor_version, minor_minor_version;
-		if (3 != sscanf(s, "(version %d.%d.%d)", 
-				&major_version, &minor_version, &minor_minor_version)) {
-			warning("Cannot find version info in gri.cmd");
-		} else {
-			int major2 = int(floor(1e-10+_version));
-			int minor2 = int(floor(100*(_version - major2)));
-			int minor_minor2 = int(floor(1e-10+10000*(_version - major2 - 0.01*minor2)));
-			if (major2 != major_version
-			    || minor2 != minor_version
-			    || minor_minor2 != minor_minor_version) {
-				char msg[200];
-				sprintf(msg, "Gri version number (%d.%d.%d) doesn't match version (%d.%d.%d) in library file gri.cmd", major2, minor2, minor_minor2, major_version, minor_version, minor_minor_version);
-				warning(msg);
-			}
-		}
-		// Finally, ok to process the startup file
-		while (do_command_line()) {
-			;			// EMPTY 
-		}
+	//printf("FIRST <%s>\n",fullfilename.c_str());
+	if (!push_cmd_file(fullfilename.c_str(), false, false, "r")) {
+		if (user_gave_directory)
+			no_gri_cmd(); // exits
+		char *gri_directory_library = egetenv("GRI_DIRECTORY_LIBRARY");
+		string envvar_location(gri_directory_library);
+		envvar_location.append("/gri.cmd");
+		if (*gri_directory_library == '\0')
+			no_gri_cmd(); // exits
+		//printf("TRY <%s>\n",envvar_location.c_str());
+		if (!push_cmd_file(envvar_location.c_str(), false, false, "r"))
+			no_gri_cmd(); // exits
+	}
+	/*
+	  First, see if the version number in gri.cmd matches hard-wired one.
+	  The gri.cmd is of the form:
+	  //         gri - scientific graphic program (version 2.1.6)
+	  and is contained on first line of file.
+	*/
+	get_command_line();
+	char *s = _cmdLine;
+	while (*s != '(')
+		s++;
+	int major_version, minor_version, minor_minor_version;
+	if (3 != sscanf(s, "(version %d.%d.%d)", 
+			&major_version, &minor_version, &minor_minor_version)) {
+		warning("Cannot find version info in gri.cmd");
 	} else {
-		// Couldn't find that file.
-		string msg("ERROR: Gri can't locate the startup file `");
-		msg += fullfilename;
-		msg += "'.\n\
-  You need to tell Gri the directory containing this file.\n\
-  There are several ways to do this:\n\
-    (1) Name the directory storing `gri.cmd' when you invoke Gri, e.g.\n\
-            gri -directory /usr/share/gri/lib\n\
-        where you may change the directory name to whatever directory\n\
-        contains the correct `gri.cmd' file.\n\
-    (2) Recompile Gri so it will know where to look by default (see\n\
-        the INSTALL file in the source directory for instructions).\n";
-		gr_textput(msg.c_str());
-		gri_exit(1);
+		int major2 = int(floor(1e-10+_version));
+		int minor2 = int(floor(100*(_version - major2)));
+		int minor_minor2 = int(floor(1e-10+10000*(_version - major2 - 0.01*minor2)));
+		if (major2 != major_version
+		    || minor2 != minor_version
+		    || minor_minor2 != minor_minor_version) {
+			char msg[200];
+			sprintf(msg, "Gri version number (%d.%d.%d) doesn't match version (%d.%d.%d) in library file gri.cmd", major2, minor2, minor_minor2, major_version, minor_version, minor_minor_version);
+			warning(msg);
+		}
+	}
+	// Finally, ok to process the startup file
+	while (do_command_line()) {
+		;			// EMPTY 
 	}
 	return true;
 }

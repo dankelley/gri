@@ -79,7 +79,7 @@ void            clear_eof_flag_on_data_file(void);
 void            clean_blanks_quotes(string& c);
 void            close_data_files();
 int             cmd_being_done(void);
-bool            create_commands(const char *filename);
+bool            create_commands(const char *filename, bool user_gave_directory);
 bool            create_color(const char *name, double r, double g, double b);
 bool            create_new_command(FILE * fp, char *line);
 bool            create_synonym(const char *name, const char *value);

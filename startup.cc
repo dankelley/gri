@@ -39,6 +39,7 @@ static superuser_flag sflag[] = {
 	{0, NULL}
 };
 static string psname("");
+static bool user_gave_directory = false;
 
 extern char     _grTempString[];
 
@@ -251,7 +252,7 @@ first argument looks like a PostScript filename.  Older versions\n\
 	_store_cmds_in_ps = false;
 	if (superuser() & FLAG_AUT2)
 		printf("Processing gri.cmd ...");
-	create_commands(GRI_COMMANDS_FILE);
+	create_commands(GRI_COMMANDS_FILE, user_gave_directory);
 	if (superuser() & FLAG_AUT2)
 		printf(" done\n");
 	create_builtin_colors();
@@ -702,6 +703,7 @@ interpret_optional_arguments(int argc, char *argv[])
 				} else if (!strcmp(argv[i], "-nowarn_offpage")){
 					_warn_offpage = false;
 				} else if (!strcmp(argv[i], "-directory")) {
+					user_gave_directory = true;
 					number_optional_arg++;
 					i++;
 					if (i < argc)
