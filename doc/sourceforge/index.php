@@ -317,6 +317,7 @@ Search gri manual for (may be a regular expression):<p>
     <TR>
       <td class="menus" align="left">
         <A class="menus" HREF="http://www.sourceforge.net/project/?group_id=5511">Visit SourceForge</A><br>
+        <A CLASS="menus" HREF="http://cvs.sourceforge.net/cvstarballs/gri-cvsroot.tar.gz">Nightly CVS tarball</a><br>
         <A class="menus" HREF="http://www.sourceforge.net/cvs/?group_id=5511">Get CVS source</a><br>
         <A class="menus" HREF="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/gri">View CVS history</a><br>
 <!--	<a class="menus" href="http://sourceforge.net/project/showfiles.php?group_id=5511">File download area</a><br> -->
@@ -325,6 +326,7 @@ Search gri manual for (may be a regular expression):<p>
 <!-- <A class="menus" HREF="http://gri.sourceforge.net/gridoc/html/Version_2_6.html#Version2.6">Version 2.6.1 preview</A><br> -->
 <!-- <A class="menus" HREF="./checklist_for_release">Packaging checklist</A><br> -->
         <br>
+
 
 <!-- 
 <A CLASS="menus" HREF="./gri-2.8.2-pre5.tgz">2.8.2 pre-release #5</a>
