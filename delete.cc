@@ -26,13 +26,15 @@ deleteCmd()
 		err("`delete' what?");
 		return false;
 	} 
-	string w1(_word[1]);
+	string w1(_word[1]); 
+	un_double_quote(w1);
 	un_double_slash(w1);
 	de_reference(w1);
 	if (is_var(w1) || is_syn(w1)) {
 		/* Deleting variable/synonym (s) */
 		for (int i = 1; i < _nword; i++) {
 			w1.assign(_word[i]);
+			un_double_quote(w1);
 			un_double_slash(w1);
 			de_reference(w1);
 			if (is_var(w1)) {
@@ -42,10 +44,12 @@ deleteCmd()
 				}
 			} else if (is_syn(w1)) {
 				if (!delete_syn(w1)) {
-					warning("`delete' can't delete non-existent synonym `\\",
-						w1.c_str(), "'", "\\");
+					warning("`delete' can't delete non-existent synonym `\\", w1.c_str(), "'", "\\");
 					return false;
 				}
+			} else {
+				warning("`delete' can't delete item `\\", w1.c_str(), "' since it is neither a synonym nor a variable", "\\");
+				return false;
 			}
 		}
 		return true;

@@ -1850,10 +1850,10 @@ de_reference(string& syn)
 }
 
 void
-un_double_slash(string& word)
+un_double_slash(string& word)	// change leading double-backslash to single-backslash
 {
 	if (word[0] == '\\' && word[1] == '\\')
-		word.STRINGERASE(0, 2);
+		word.STRINGERASE(0, 1);
 }
 
 void
