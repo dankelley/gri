@@ -3718,7 +3718,7 @@ NOTE: this only works if the y-scale is LINEAR (see `set y type').
     extern "C" bool set_v_scaleCmd(void);
 }
 
-`set x axis top|bottom|increasing|decreasing|{.left. .right. [.incBig. [.incSml.]]}|unknown'
+`set x axis top|bottom|increasing|decreasing|{.left. .right. [.incBig. [.incSml.]]}|{labels .pos. "label" [...]}|{labels automatic}||unknown'
 Control various things about the x axis.
 
 `set x axis top'
@@ -3761,6 +3761,20 @@ logarithmic, the value of `.incSml.' takes on a special meaning: if it
 is positive then small tics are put at values 2, 3, 4, etc. between
 the decades, but if `.incSml.' is negative then no such small tics are
 used. 
+
+`set x axis labels .position. "label" [.position. "label" [...]]'
+Override the automatic labelling at axis tics, and instead put the
+indicated labels at the indicated x values.  For example, a
+day-of-week axis can be created by the code:
+
+    set x axis 0 7 1
+    set x axis labels 0.5 "Mon" 1.5 "Tue" 2.5 "Wed" \
+		      3.5 "Thu" 4.5 "Fri" 5.5 "Sat" \
+		      6.5 "Sun"
+
+`set x axis labels automatic'
+Return to automatically-generated axis labels, undoing the command of
+the previous item.
 {
     extern "C" bool set_x_axisCmd(void);
 }
@@ -3882,7 +3896,7 @@ Make y label be vertical (default).
     extern "C" bool set_y_axis_labelCmd(void);
 }
 
-`set y axis left|right|increasing|decreasing|{.bottom. .top. [.incBig. [.incSml.]]}|unknown'
+`set y axis left|right|increasing|decreasing|{.bottom. .top. [.incBig. [.incSml.]]}|{labels .pos. "label" [...]}|{labels automatic}|unknown'
 Control various things about the y axis.
 `set y axis left'
 Make next y-axis to be drawn have labels to the left of the axis.
@@ -3921,6 +3935,19 @@ axis is logarithmic, the value of `.incSml.' takes on a special
 meaning: if it is positive then small tics are put at values 2, 3, 4,
 etc. between the decades, but if `.incSml.' is negative then no such
 small tics are used. 
+
+`set y axis labels .position. "label" [.position. "label" [...]]'
+Override the automatic labelling at axis tics, and instead put the
+indicated labels at the indicated y values.  For example, a
+day-of-week axis can be created by the code:
+
+    set y axis 0 1 0.5
+    set y axis labels 0.25 "Weak" 0.75 "Strong"
+
+`set y axis labels automatic'
+Return to automatically-generated axis labels, undoing the command of
+the previous item.
+
 {
     extern "C" bool set_y_axisCmd(void);
 }

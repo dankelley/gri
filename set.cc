@@ -2733,6 +2733,8 @@ set_x_axisCmd()
 			//printf("DEBUG: cleared x axis labels\n");
 			return true;
 		} else {
+			_x_labels.erase(_x_labels.begin(), _x_labels.end());
+			_x_label_positions.erase(_x_label_positions.begin(), _x_label_positions.end());
 			//printf("DEBUG: setting x axis labels...\n");
 			for (unsigned int i = 4; i < _nword; i++) {
 				double tmp;
@@ -3192,6 +3194,8 @@ set_y_axisCmd()
 			//printf("DEBUG: cleared x axis labels\n");
 			return true;
 		} else {
+			_y_labels.erase(_y_labels.begin(), _y_labels.end());
+			_y_label_positions.erase(_y_label_positions.begin(), _y_label_positions.end());
 			//printf("DEBUG: setting x axis labels...\n");
 			for (unsigned int i = 4; i < _nword; i++) {
 				double tmp;

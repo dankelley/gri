@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.161 2002/04/04 14:50:01 dankelley Exp $
+@c $Id: gri.texim,v 1.162 2002/04/04 19:00:32 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -9772,6 +9772,7 @@ NOTE: this only works if the y-scale is LINEAR (see @code{set y type}).
 `set x axis unknown'
 `set x axis .left. .right. [.incBig. [.incSml.]]'
 `set x axis labels .position_1. "label_1" [.position_2. "label_2" [...]]'
+`set x axis labels automatic'
 @end example
 
 @noindent
@@ -9832,6 +9833,10 @@ set x axis labels 0.5 "Mon" 1.5 "Tue" 2.5 "Wed" \
                   3.5 "Thu" 4.5 "Fri" 5.5 "Sat" \
                   6.5 "Sun"
 @end example
+
+@item @code{set x axis labels automatic}
+Return to automatically-generated axis labels, undoing the command of
+the previous item.
 
 @end itemize
 
@@ -10020,6 +10025,7 @@ BUG: this only has an effect if the axis is not already of type
 `set y axis decreasing'
 `set y axis .bottom. .top. [.incBig. [.incSml.]]'
 `set y axis labels .position_1. "label_1" [.position_2. "label_2" [...]]'
+`set y axis labels automatic'
 @end example
 
 @noindent
@@ -10078,6 +10084,10 @@ physical-condition axis can be created by the code:
 set y axis 0 1 0.5
 set y axis labels 0.25 "Weak" 0.75 "Strong"
 @end example
+
+@item @code{set y axis labels automatic}
+Return to automatically-generated axis labels, undoing the command of
+the previous item.
 
 @end itemize
 
