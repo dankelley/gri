@@ -1891,15 +1891,19 @@ known synonyms, do @code{show synonyms}.
 @cindex @code{[]} syntax for selecting words in synonyms
 Individual words of synonyms may be accessed by prefixing the synonym
 name with the index number of the word (starting at 0) enclosed in
-square brackets.  If the number is negative or exceeds the number of
-words less 1, then the first or last word is retrieved.  If no number
-appears in the brackets, the result is the number of words in a synonym.
+square brackets.  This number may be a constant or a variable, but not a
+more complicated expression.  If the index value is negative or exceeds
+the number of words less 1, then the first or last word is retrieved.
+If no number appears in the brackets, the result is the number of words
+in a synonym.
 
 @example
-\syn = "This has 4 words"
+\syn = "This has 4 words in it"
 show "\[0]syn   ... gives 'This'"
 show "\[1]syn   ... gives 'has'"
-show "\[]syn    ... gives '4', i.e. number of words"
+.i. = 2
+show \[.i.]syn  ... gives '4'"
+show "\[]syn    ... gives '6', i.e. number of words"
 @end example
 
 @node   Testing For Existence Of Synonyms, Using Synonyms In If Statements, Accessing Individual Words Within Synonyms, About Synonyms
@@ -14356,8 +14360,12 @@ The next sections outline the changes made in Gri.
 @comment  node-name,  next,  previous,  up
 @subsection Version 2.6
 @table @emph
-@item 2.6.0 [2000-Jul-16]
-
+@item 2.6.0 [2000-Jul-26]
+@sp 1
+Permit indexing of synonym words with variables, in addition to
+constants (@ref{Accessing Individual Words Within Synonyms}).
+@sp 1
+Fix bug in interpolating synonyms in the test-expression of @code{while} loops.
 @sp 1
 Put source on the
 Source Forge open-source development website, at

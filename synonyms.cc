@@ -588,8 +588,8 @@ substitute_synonyms(const char *s, char *sout, bool allow_math)
 			}
 #endif
 		} else if (s[i + 1] == '[') {
+			// Indexing a word within synonym
 			//printf("Indexing within synonym.\n");
-			// See if indexing a word within synonym
 			int index_length = -1;
 			int j;
 			for (j = i + 2; j < slen; j++) {
@@ -606,7 +606,10 @@ substitute_synonyms(const char *s, char *sout, bool allow_math)
 				for (j = 0; j < index_length; j++) 
 					num[j] = s[i + 2 + j];
 				num[j] = '\0';
-				sscanf(num, "%d", &word_to_report);
+				double tmp;
+				getdnum(num, &tmp);
+				word_to_report = int(floor(0.5 + tmp));
+				printf("'%s' gave %f  ie %d\n",num,tmp,word_to_report);
 				delete [] num;
 			}
 			i += index_length + 2;
@@ -815,8 +818,7 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 			}
 #endif
 		} else if (s[i + 1] == '[') {
-			//printf("Indexing within synonym.\n");
-			// See if indexing a word within synonym
+			// Indexing a word within synonym
 			int index_length = -1;
 			int j;
 			for (j = i + 2; j < slen; j++) {
@@ -833,7 +835,9 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 				for (j = 0; j < index_length; j++) 
 					num[j] = s[i + 2 + j];
 				num[j] = '\0';
-				sscanf(num, "%d", &word_to_report);
+				double tmp;
+				getdnum(num, &tmp);
+				word_to_report = int(floor(0.5 + tmp));
 				delete [] num;
 			}
 			i += index_length + 2;
@@ -855,7 +859,6 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 		strcat(sname, s + i + 1);
 		// To find length, scan the string, checking characters against
 		// stopper characters.
-		//
 		syn_len = 1; // the backslash
 		syn_len += dots_in_name; // perhaps some dots
 		while (!end_of_synonym(sname[syn_len], inmath, need_brace)) {
