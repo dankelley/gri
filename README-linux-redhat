@@ -43,11 +43,11 @@ at the unix prompt (or through access by emacs or other facilities).
 Many users will find it easier to study the HTML version of the
 documentation, available at the local URL
 
-    /usr/doc/gri-N.N.N/html/index.html
+    /usr/share/doc/gri-N.N.N/html/index.html
 
 Copyright restrictions
 ======================
 
 The Gri programming languages, and all manuals and online help-files,
-are (c) 1991-2001 Dan E. Kelley <Dan.Kelley@Dal.CA>, and covered by
+are (c) 1991-2003 Dan E. Kelley <Dan.Kelley@Dal.CA>, and covered by
 the GNU copyleft license.

@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.249 2003/04/15 21:06:32 dankelley Exp $
+@c $Id: gri.texim,v 1.250 2003/05/03 14:07:02 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16371,6 +16371,11 @@ only in the fixing of bugs.
 @subsubsection Version 2.12.5 [2003 ??? ??]
 @strong{New Features}
 @itemize @bullet
+@item
+Apply a patch provided Kawamura Masao, relating to (a) errors in the
+documentation of file locations and (b) a programming error hidden
+behind an unset precompiler flag.
+
 @item Add hexadecimal colornames (@ref{Pen Color}).
 @end itemize
 
@@ -18589,6 +18594,9 @@ Dave Hebert,
 Alejandro López-Valencia,
 @cindex Alejandro Lopez-Valencia (contributer)
 @cindex contributer, Alejandro Lopez-Valencia
+Kawamura Masao,
+@cindex Kawamura Masao (contributer)
+@cindex contributer, Kawamura Masao
 Steve Matheson,
 @cindex Steve Matheson (contributer)
 @cindex contributer, Steve Matheson

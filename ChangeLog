@@ -1,3 +1,9 @@
+2003-05-03  Dan E. Kelley  <kelley@Limit.Phys.Ocean.Dal.Ca>
+
+	* README-linux-redhat: had wrong directory for docs (patch provided by Kawamura Masao)
+
+	* utility.cc (tmp_file_name): fix bug that would prevent compilation if the HAVE_TEMPNAM flag were set (patch provided by Kawamura Masao)
+
 2003-04-14  Peter S Galbraith  <psg@debian.org>
 
 	* Makefile.in: Fix HTML manual link in gri-mode.el installed on

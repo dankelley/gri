@@ -2132,7 +2132,7 @@ tmp_file_name()
 	char *rval;
 #if defined(HAVE_TEMPNAM)
 	rval = tempnam("/usr/tmp", "gri");
-	if (return_value == NULL) 
+	if (rval == NULL) 
 		return NULL;
 	return rval;
 #else

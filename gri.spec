@@ -96,7 +96,9 @@ then
 fi
 
 %changelog
-* Tue Apr 15 18:03:06 ADT 2003 <Dan.Kelley@Dal.Ca> (fix by Peter Galbraith)
+* Sat May 03 2003 <Dan.Kelley@Dal.Ca> (fix by Kawamura Masao)
+- fix several typos on filenames, plus a compilation error hidden behind a precompilation flag
+* Tue Apr 15 2003 <Dan.Kelley@Dal.Ca> (fix by Peter Galbraith)
 - fix Sourceforge bug 720607 (emacs mode couldn't find html docs in redhat)
 * Sun Apr 06 2003 Dan Kelley <Dan.Kelley@Dal.Ca>
 - fix SourceForge bug 696073 (incorrect handling of \$() syntax)

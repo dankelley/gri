@@ -173,7 +173,8 @@ install_linux_redhat:
 	/usr/bin/install -m 644  license.txt                   $(DESTDIR)$(prefix)/share/gri/license.txt
 #
 #	gri mode (tweaked a bit for redhat since debian goes to web to see manual)
-	sed -e "s,WWW-page \"http://gri.sourceforge.net/gridoc/html/index.html\",WWW-page \"file:$(prefix)/share/doc/gri-$(VERSION)/html/index.html\",;s,gri\*directory-tree \"/usr/local/share/gri\",gri*directory-tree \"/usr/share/gri\"," gri-mode.el > tmp
+#OLD:	sed -e "s,WWW-page \"http://gri.sourceforge.net/gridoc/html/index.html\",WWW-page \"file:$(prefix)/share/doc/gri-$(VERSION)/html/index.html\",;s,gri\*directory-tree \"/usr/local/share/gri\",gri*directory-tree \"/usr/share/gri\"," gri-mode.el > tmp
+	sed -e "s,WWW-page \"http://gri.sourceforge.net/gridoc/html/index.html\",WWW-page \"file:$(datadir)/doc/gri-$(VERSION)/html/index.html\",;s,gri\*directory-tree \"/usr/local/share/gri\",gri*directory-tree \"/usr/share/gri\"," gri-mode.el > tmp
 	/usr/bin/install -m 644  tmp                           $(DESTDIR)$(prefix)/share/emacs/site-lisp/gri-mode.el
 	-rm -f tmp
 	cat doc/gri-manpage-redhat.1 | sed -e s,VERSION,${VERSION}, > tmp
