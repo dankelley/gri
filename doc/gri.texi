@@ -13220,7 +13220,7 @@ this means a substantial saving in development time.
 
 @c HTML <A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri">Click here
 @c HTML to get to Gri FTP site, where the mode is stored as
-@c HTML grimode.el</A> <P>  
+@c HTML gri-mode.el</A> <P>  
 
 
 To install gri-mode in your emacs, the only emacs variable you @emph{need}
@@ -13463,6 +13463,9 @@ First debian release.  Versions exist for intel, alpha, 68K and powerpc.
 
 
 @table @emph
+@item 2.5.2 [2000-May-18]
+Add new features to @code{gri-mode.el}, bringing it up to version 2.24.
+
 @item 2.5.1 [2000-May-10]
 Add two new RPN operators, @code{file_exists} and
 @code{directory_exists} @xref{Unary Operators}.
