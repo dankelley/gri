@@ -37,6 +37,11 @@
 ;; obtained at:
 ;;   ftp://ftp.phys.ocean.dal.ca/users/rhogee/elisp/gri-mode.el
 
+;; Full documentation on the installation and use of gri-mode.el is
+;; provided in the Gri manual, included in source form in gri's source tar
+;; file, in Info and HTML form in binary packages, and on-line at
+;;       http://www.phys.ocean.dal.ca/~kelley/gri/index.html
+
 ;; Features of gri-mode include:
 ;;
 ;;   Automatic indentation for block structures, line continuations, 
