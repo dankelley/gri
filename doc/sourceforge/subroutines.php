@@ -5,7 +5,7 @@ $development_site = "http://gri.sourceforge.net";
 $development_site_name = "SourceForge";
 $gri_stable_version_major = "2"; // !!!
 $gri_stable_version_intermediate = "12"; // !!!
-$gri_stable_version_minor = "8"; // !!!
+$gri_stable_version_minor = "9"; // !!!
 $gri_stable_version = "$gri_stable_version_major.$gri_stable_version_intermediate.$gri_stable_version_minor";
 $gri_group_id = "5511";
 $sf_url = "http://sourceforge.net";
@@ -58,7 +58,9 @@ function age() {
 # Vsn 2.12.7: 2003-09-04 10:12 Halifax time, 6:12 SF time
 #	$diff = time() - mktime(6, 12, 0, 9, 4, 2003); // !!!
 # Vsn 2.12.8: 2004-10-02 12:33 Halifax time, 8:33 SF time
-	$diff = time() - mktime(8, 33, 0, 10, 2, 2004); // !!!
+#	$diff = time() - mktime(8, 33, 0, 10, 2, 2004); // !!!
+# Vsn 2.12.9: 2005-01-06 12:02 Halifax time, 8:03 SF time
+	$diff = time() - mktime(8, 03, 0, 1, 1, 2005); // !!!
 
 	$days = floor($diff / 24 / 60 / 60);
 	$weeks = floor($days / 7);
