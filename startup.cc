@@ -28,6 +28,8 @@ extern "C" int gethostname(char *name, int namelen);
 #endif
 static std::vector<GriNamedColor> colorStack;
 
+static const char** argv_leftover;
+
 typedef struct {
 	unsigned int code;
 	char *action;
@@ -57,8 +59,8 @@ int             create_arrays(void);
 static void     create_builtin_variables(void);
 static void     create_builtin_synonyms(void);
 static void     set_defaults(void);
-static int      interpret_optional_arguments(int argc, const char *argv[]);
-static void     get_input_simulation(int argc, const char *argv[], int separator);
+const char**    interpret_optional_arguments(int argc, const char *argv[]);
+static void     get_input_simulation(int argc, const char *argv[]);
 static void     insert_creator_name_in_PS(int argc, const char *argv[], const std::string&psname);
 static void     dogrirc(void);
 #if 0
@@ -162,20 +164,25 @@ start_up(int argc, const char **argv)
 	PUT_VAR("..ylast..", 0.0);
 	PUT_VAR("..image_width..", 0.0);
 	PUT_VAR("..image_height..", 0.0);
-	last_optional_arg = interpret_optional_arguments(argc, argv);
-	//printf("DEBUG1 last_optional_arg= %d\n", last_optional_arg);
-
-	// Get name of PostScript file if it was provided.  Must do this before
-	// getting cmd file because of demands of gr_setup.  Also, check here for
-	// input_simulation words.
-	int separator = last_optional_arg;
-	if (last_optional_arg == argc - 1) {
+	
+	// Get leftover (non-optional) arguments
+	argv_leftover = interpret_optional_arguments(argc, argv);
+	const char **argv_leftover_start = argv_leftover;
+	unsigned int argc_leftover = 0;
+	//printf("leftover arguments:\n");
+	while(*argv_leftover != NULL) {
+		argc_leftover++;
+		//printf("\t<%s>\n", *argv_leftover);
+		*argv_leftover++;
+	}
+	argv_leftover = argv_leftover_start;
+	//printf("end. LEFTOVER.  have %d\n",argc_leftover);
+	if (argc_leftover == 0) {
 		_margin.assign("  ");
 		push_cmd_file("stdin", batch() ? false : true, true, "r");
 	} else {
-		separator++;
-		std::string fname(argv[1 + last_optional_arg]);
-
+		std::string fname(*argv_leftover);
+		//printf("FILENAME '%s'\n",fname.c_str());
 		// If filename shorter than 4 characters, cannot have .gri suffix,
 		// so append it.
 		std::string::size_type p = fname.rfind(".gri");
@@ -201,6 +208,7 @@ start_up(int argc, const char **argv)
 			gri_exit(1);
 		}
 
+#if 0
 		// Possibly they gave a ps filename ...
 		if (argc > last_optional_arg + 2) {
 			std::string tmp(argv[last_optional_arg+2]);
@@ -215,11 +223,12 @@ first argument looks like a PostScript filename.  Older versions\n\
 				//psname = tmp;
 			}
 		}
+#endif
 		gr_setup_ps_filename(psname.c_str());
 	}
 
 	//printf("DEBUG2 separator= %d\n", separator);
-	get_input_simulation(argc, argv, separator);
+	get_input_simulation(argc_leftover, argv_leftover);
 
 	insert_creator_name_in_PS(argc, argv, psname);
 	// Finally, ready to begin plot.
@@ -415,19 +424,18 @@ file_in_list(const char *name, bool show_nonlocal_files, bool show_local_files)
 }
 #endif
 
-static void
-get_input_simulation(int argc, const char *argv[], int separator)
+static void			// save extra words
+get_input_simulation(int argc_leftover, const char *argv_leftover[])
 {
-	if (separator >= argc)
+	if (argc_leftover < 1)
 		return;
-	// Save the words following SEPARATOR into the stdin io buffer.
 	extern std::vector<const char*> _argv;
-	for (int i = separator; i < argc; i++) {
-		//printf("\t push %d <%s>\n",i,argv[i]);
+	for (int i = 0; i < argc_leftover; i++) {
+		//printf("\t push %d <%s>\n",i,argv_leftover[i]);
 #if 0				// 2001-feb-23 vsn 2.6.0 (alpha)
-		gr_textsave(argv[i]);
+		gr_textsave(argv_leftover[i]);
 #endif
-		_argv.push_back(argv[i]);
+		_argv.push_back(argv_leftover[i]);
 	}
 }
 
@@ -605,7 +613,7 @@ create_builtin_variables()
 }
 
 // return value: number of optional arguments
-static int
+const char**
 interpret_optional_arguments(int argc, const char *argv[])
 {
 #if 1 //defined(HAVE_LIBPOPT) && defined(TEST_POPT)
@@ -650,10 +658,8 @@ interpret_optional_arguments(int argc, const char *argv[])
 	int arg;
 	extern char _gri_number[];
 	_lib_directory.assign(DEFAULT_GRI_DIR);
-	int number_optional_arg = 0;
 	while ((arg = poptGetNextOpt(optCon)) > 0) {
 		optArg = poptGetOptArg(optCon);
-		number_optional_arg++;
 		int ival;
 		switch (arg) {
 		case 'b':
@@ -661,7 +667,6 @@ interpret_optional_arguments(int argc, const char *argv[])
 		        //printf("DEBUG: %s:%d set to 'batch' mode\n",__FILE__,__LINE__);
 			break;
 		case 'c':
-			number_optional_arg++;
 			//printf("DEBUG: %s:%d <%s>\n",__FILE__,__LINE__,optArg);
 			if (1 == sscanf(optArg, "%d", &ival))
 				_chatty = ival;
@@ -694,7 +699,6 @@ interpret_optional_arguments(int argc, const char *argv[])
 			PUT_VAR("..use_default_for_query..", 1.0);
 			break;
 		case FLAG_DIRECTORY:
-			number_optional_arg++;
 			user_gave_directory = true;
 			_lib_directory.assign(optArg);
 			//printf("DEBUG: %s:%d got directory as '%s'\n",__FILE__,__LINE__,optArg);
@@ -705,7 +709,6 @@ interpret_optional_arguments(int argc, const char *argv[])
 			gri_exit(0);
 			break;	// never done
 		case FLAG_OUTPUT:
-			number_optional_arg++;
 			psname.assign(optArg);
 			gr_setup_ps_filename(psname.c_str());
 			break;
@@ -732,7 +735,6 @@ interpret_optional_arguments(int argc, const char *argv[])
 			break;
 		case FLAG_CREATOR:
 			{
-				number_optional_arg++;
 				FILE *fp;
 				if (NULL == (fp = fopen(optArg, "r")))
 					fatal_err("`gri -creator' cannot open file `\\", optArg, "'", "\\");
@@ -746,8 +748,6 @@ interpret_optional_arguments(int argc, const char *argv[])
 			gri_exit(0);
 			break;	// never executed
 		case FLAG_SUPERUSER:
-			number_optional_arg++;
-			printf("YAYAYAY [%s]\n",optArg);
 			if ('?' == *optArg) {
 				superuser_flag *sf = sflag;
 				printf("Superuser flags, with actions:\n");
@@ -920,7 +920,7 @@ interpret_optional_arguments(int argc, const char *argv[])
 	}
 #endif // BUG: this block should be trimmed when I see that popt is OK.
 	put_syn("\\.lib_dir.", _lib_directory.c_str(), true);
-	return number_optional_arg;
+	return poptGetArgs(optCon);
 }
 
 void
