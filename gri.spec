@@ -96,6 +96,8 @@ then
 fi
 
 %changelog
+* Sat Jan 18 2003 Dan Kelley <Dan.Kelley@Dal.Ca>
+- fix SourceForge bug 669603 ('skip backward .n.' did not work)
 * Tue Jan 14 2003 Dan Kelley <Dan.Kelley@Dal.Ca>
 - fix SourceForge bug 667754 ('read image pgm' segfaults on memory)
 * Wed Jan 8 2003  Dan Kelley <Dan.Kelley@Dal.Ca>
