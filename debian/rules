@@ -115,13 +115,13 @@ binary-arch: build-arch install
 # See files 00Porters.readme and README.Debian.unofficial
 binary-arch-unofficial:    debian/copyright build-arch
 	rm -f debian/*debhelper
-	rm -rf debian/gri debian/gri-$(version)static
+	rm -rf debian/gri-$(version) debian/gri-$(version)static
 	-cp debian/control debian/control.real 
 	sed -e 's/VSN/$(version)/g' debian/control.unofficial > debian/control 
 	-cp debian/README.Debian debian/README.Debian.real 
 	-cp debian/README.Debian.unofficial debian/README.Debian
-	make install_linux_debian_grionly debian=debian/gri
-	(cd debian/gri/usr/share/gri/$(version) ; ln -s ../../common-licenses/GPL license.txt)
+	make install_linux_debian_grionly debian=debian/gri-$(version)
+	(cd debian/gri-$(version)/usr/share/gri/$(version) ; ln -s ../../common-licenses/GPL license.txt)
 	mv gri gri.real
 	-rm debian/substvars
 	make LIBS="-lm  -L/usr/lib/netcdf -lnetcdf -static"
