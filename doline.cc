@@ -675,7 +675,7 @@ remove_comment(char *s)
 	// Discard comment on end
 	if (len > 0) {
 		for (sPtr = s, i = 0; i < len; i++, sPtr++) {
-			if (*sPtr == '"')
+			if (*sPtr == '"' || *sPtr == '\'')
 				inquote = !inquote;
 			else if (!inquote && (!strncmp(sPtr, "//", 2) || *sPtr == '#')) {
 				*sPtr = '\0';
