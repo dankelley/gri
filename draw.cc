@@ -1806,29 +1806,36 @@ draw_image_paletteCmd()
 			     false);
 	}
 	fprintf(_grPS, "Q %% turn clipping off for image palette\n");
+	double actual_linewidth = _griState.linewidth_line();
+	_griState.set_linewidth_line(_griState.linewidth_axis());
 	if (rotpal==0) {
 		if (otherside==0)
 			gr_drawxaxis(0.0, left, inc, right, gr_axis_BOTTOM);
 		else
 			gr_drawxaxis(1.0, left, inc, right, gr_axis_TOP);
+		fprintf(_grPS, "%.3f w %% test\n", _griState.linewidth_axis());
 		GriPath p(4);
 		p.push_back(left, 0.0, 'm');
 		p.push_back(left, 1.0, 'l');
 		p.push_back(right, 1.0, 'l');
 		p.push_back(right, 0.0, 'l');
+		p.push_back(left, 0.0, 'l');
 		p.stroke(units_user);
 	} else {
 		if (otherside==0)
 			gr_drawyaxis(0.0, left, inc, right, gr_axis_LEFT);
 		else
 			gr_drawyaxis(1.0, left, inc, right, gr_axis_RIGHT);
+		fprintf(_grPS, "%.3f w\n", _griState.linewidth_axis());
 		GriPath p(4);
 		p.push_back(0.0, left, 'm');
 		p.push_back(1.0, left, 'l');
 		p.push_back(1.0, right, 'l');
 		p.push_back(0.0, right, 'l');
+		p.push_back(0.0, left, 'l');
 		p.stroke(units_user);
 	}
+	_griState.set_linewidth_line(actual_linewidth);
 	return true;
 }
 
