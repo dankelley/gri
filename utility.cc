@@ -28,7 +28,7 @@
 #include "GriTimer.hh"
 
 #ifdef DEBUG_RE
-static void     show_pattern(char *target, int tlen, int star, int plus);
+static void     show_pattern(const char *target, int tlen, int star, int plus);
 #endif
 extern double   strtod(const char *, char **);
 
@@ -1741,6 +1741,7 @@ find_target(const char *pattern, int *pindex, int plen, std::string& target, int
 		case 's':		/* whitespace as in perl */
 			target += ' ';
 			target += '\t';
+			//target += '\r';
 			target += '\n';
 			(*pindex)++;	/* the backslash */
 			(*pindex)++;	/* the 's' */
@@ -1777,7 +1778,7 @@ find_target(const char *pattern, int *pindex, int plen, std::string& target, int
 
 #ifdef DEBUG_RE
 static void
-show_pattern(char *target, int tlen, int star, int plus)
+show_pattern(const char *target, int tlen, int star, int plus)
 {
 	int             i;
 	printf("target: ");
@@ -2344,4 +2345,13 @@ xy_to_cm(double xin, double yin, units u, double *xout, double *yout)
 	}
 	return true;
 }
-
+
+void
+fix_line_ending(char *line)
+{
+	unsigned int len = strlen(line);
+	if (len > 2 && line[len - 2] == '\r') {
+		line[len - 2] = '\n';
+		line[len - 1] = '\0';
+	}
+}

@@ -329,7 +329,6 @@ create_commands(const char *filename, bool user_gave_directory)
 bool
 create_new_command(FILE * fp, char *line)
 {
-	int             existing;
 	if (_num_command >= COMMAND_STACK_SIZE)
 		fatal_err("Too many commands defined");
 	if (!extract_syntax(line))
@@ -355,7 +354,7 @@ create_new_command(FILE * fp, char *line)
 	// identical, but are separated for ease of documenting in the help
 	// files: `draw symbol .code.|\name at .x. .y. [cm]' `draw symbol
 	// [.code.|\name]'
-	existing = match_gri_syntax(_command[_num_command].syntax, 0);
+	int existing = match_gri_syntax(_command[_num_command].syntax, 0);
 	if (existing
 	    && strcmp(_command[_num_command].procedure,
 		      _command[existing - 1].procedure)
@@ -430,6 +429,7 @@ bool extract_help(FILE * fp, char *line)
 		unsigned             i;
 		char lastc = '\0';
 		fgets(line, LineLength, fp);
+		fix_line_ending(line);
 		_command[_num_command].fileline++;
 		_cmdFILE.back().increment_line();
 		insert_cmd_in_ps(line/*, "command.cc:387"*/);
@@ -449,9 +449,10 @@ bool extract_help(FILE * fp, char *line)
 					lastc = '{';
 				} else {
 					// Unprotected -- check rest is whitespace 
-					unsigned int ii;
-					for (ii = i + 1; ii < len; ii++) {
-						if (*(line + ii) == '\n' || *(line + ii) == '\0') {
+					for (unsigned int ii = i + 1; ii < len; ii++) {
+						if (*(line + ii) == '\n'
+						    || *(line + ii) == '\r' // DOS
+						    || *(line + ii) == '\0') {
 							break;
 						} else if (!isspace(*(line + ii))) {
 							err("Require `{' to be on line by itself.");
@@ -482,7 +483,6 @@ bool
 extract_procedure(FILE * fp, char *line)
 {
 	int size = 0;
-	// Redundant error test. 
 	if (!re_compare(line, "\\s*{\\s*")) {
 		err("Couldn't find { in the following line `\\", line, "'", "\\");
 		return false;
@@ -491,6 +491,7 @@ extract_procedure(FILE * fp, char *line)
 	strcpy(_command[_num_command].procedure, "");
 	while (!feof(fp)) {
 		fgets(line, LineLength, fp);
+		fix_line_ending(line);
 #if 0				// messing up
 		if (((unsigned) superuser()) & FLAG_AUT1) {
 			extern void insert_source_indicator(char *cl);
