@@ -2,6 +2,20 @@ gri (2.12.8-1) unstable; urgency=low
 
   * New upstream release
     Bug Fixes:
+    - Fix SourceForge bug #1019141 (draw arc' ignores the present pen color)
+    - Fix SourceForge bug #997741 (PostScript broken on images with y-axis
+      decreasing, and enclosed by PostScript clipping)
+    - Fix SourceForge bug #978822 (documentation wrong on `set path to')
+    - Fix SourceForge bug #932203 (misplaced labels caused by
+      `set x axis labels')
+    - Fix SourceForge bug #928277 (`draw polygon' should take `cm' and `pt'
+      units)
+    - Fix SourceForge bug #930259 (fix `draw arc's drawing of an extra line;
+      thanks for the fix, Wolfgang Voegeli)
+    - Fix SourceForge bug #923719 (`draw curve overlying' ignored the effect
+      of `set dash')
+    - Fix SourceForge bug #914125 (offpage points in axes were reported as
+      having been drawn by `draw curve')
     - Fix SourceForge bug #877613 (`help' and other commands using temporary
       files do not work in OSX/Fink version.)
     - Fix SourceForge bug #874483 (`state save' doesn't keep track of `dash'
@@ -15,7 +29,7 @@ gri (2.12.8-1) unstable; urgency=low
     in /tmp instead of
     e.g. /usr/share/emacs21/site-lisp/gri-mode.CompilationLog.gz
 
- -- Peter S Galbraith <psg@debian.org>  Tue, 10 Feb 2004 22:41:34 -0500
+ -- Peter S Galbraith <psg@debian.org>  Thu, 25 Nov 2004 11:22:34 -0500
 
 gri (2.12.7-1) unstable; urgency=low
 
