@@ -1390,6 +1390,10 @@ Grid height %ld disagrees with existing y-grid, which is %d high",
 		gr_Error("Gri internal error: attempting to use nonexistent netCDF library");
 		return false;
 #endif
+	} else if (_dataFILE.back().get_type() == DataFile::bin_unknown) {
+                // If not supplied in `open', assume 32 bit float
+		if (!read_grid_binary(bycolumns, 'f'))
+			return false;
 	} else if (_dataFILE.back().get_type() == DataFile::bin_uchar) {
 		if (!read_grid_binary(bycolumns, 'u'))
 			return false;
@@ -2107,7 +2111,7 @@ read_imageCmd()
 	for (j = int(ny - 1); j > -1; j--) {
 		for (i = 0; i < int(nx); i++) {
 			tmpB = 0;
-			if (imtype == DataFile::bin_uchar) {
+			if (imtype == DataFile::bin_unknown || imtype == DataFile::bin_uchar) {
 				// Get 1 binary datum.
 				if (1 != fread((char *) & tmpB, 1, 1, imfile)) {
 					sprintf(emessage, "Cannot read whole %dx%d 8-bit image.  Only read %d bytes of the %d bytes expected in image", nx, ny, (i + j * nx), (nx * ny));

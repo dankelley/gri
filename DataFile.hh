@@ -12,7 +12,7 @@
 class DataFile
 {
 public:
-	enum type {from_cmdfile, ascii, bin_uchar, bin_16bit, bin_int, bin_float, bin_double, bin_netcdf};
+	enum type {from_cmdfile, ascii, bin_unknown, bin_uchar, bin_16bit, bin_int, bin_float, bin_double, bin_netcdf};
 	DataFile() {
 		extern vector<CmdFile>  _cmdFILE;
 		name.assign("stdin");

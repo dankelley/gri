@@ -29,19 +29,7 @@ openCmd()
 			return false;
 #endif
 		} else if (!strcmp(_word[2], "binary")) {
-			open_file(DataFile::bin_uchar);
-		} else if (!strcmp(_word[2], "uchar")) {
-			open_file(DataFile::bin_uchar);
-		} else if (!strcmp(_word[2], "8bit")) {
-			open_file(DataFile::bin_uchar);
-		} else if (!strcmp(_word[2], "16bit")) {
-			open_file(DataFile::bin_16bit);
-		} else if (!strcmp(_word[2], "int")) {
-			open_file(DataFile::bin_int);
-		} else if (!strcmp(_word[2], "float")) {
-			open_file(DataFile::bin_float);
-		} else if (!strcmp(_word[2], "double")) {
-			open_file(DataFile::bin_double);
+			open_file(DataFile::bin_unknown);
 		} else {
 			err("\
 `open filename' can't understand final word `\\",
@@ -52,7 +40,7 @@ openCmd()
 			return false;
 		}
 		break;
-	case 4:
+	case 4:			// open filename binary type
 		if (strcmp(_word[2], "binary")) {
 			err("\
 Third word of `open filename' must be \"binary\", not `\\",
