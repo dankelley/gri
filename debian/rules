@@ -129,14 +129,14 @@ binary-arch-unofficial:    debian/copyright build-arch
 	sed -e 's/VSN/$(version)/g' debian/control.unofficial > debian/control 
 	-cp debian/README.Debian debian/README.Debian.real 
 	-cp debian/README.Debian.unofficial debian/README.Debian
-	make install_linux_debian_grionly debian=debian/gri-$(version)
+	cd src; make install_linux_debian_grionly debian=../debian/gri-$(version)
 	(cd debian/gri-$(version)/usr/share/gri/$(version) ; ln -s ../../common-licenses/GPL license.txt)
-	mv gri gri.real
+	cd src;  mv gri gri.real
 	-rm debian/substvars
 	make LIBS="-lm  -L/usr/lib/netcdf -lnetcdf -static"
-	make install_linux_debian_grionly debian=debian/gri-$(version)static
+	cd src; make install_linux_debian_grionly debian=../debian/gri-$(version)static
 	(cd debian/gri-$(version)static/usr/share/gri/$(version) ; ln -s ../../common-licenses/GPL license.txt)
-	mv gri.real gri
+	cd src; mv gri.real gri
 	dh_testdir -a
 	dh_testroot -a
 	dh_installdocs -a -A README debian/README.Debian
