@@ -1,5 +1,4 @@
 #!/usr/bin/perl
-
 $usage = "
 PURPOSE: Strings Gri PostScript files together.
 

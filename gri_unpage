@@ -1,5 +1,4 @@
 #!/usr/bin/perl
-
 $usage = "
 PURPOSE: Chop multipage Gri PostScript file into one file per page.
 USAGE:   gri_unpage name.ps -- create files name-1.ps, name-2.ps, etc, one
