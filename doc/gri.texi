@@ -1,7 +1,7 @@
 \input texinfo 
 
 
-@c $Id: gri.texi,v 1.135 2003/06/10 18:36:01 dankelley Exp $
+@c $Id: gri.texi,v 1.136 2003/06/14 13:12:22 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16394,7 +16394,7 @@ only in the fixing of bugs.
 
 @comment ADD-NEW-BUG-FIXES-HERE
 
-@subsubsection Version 2.12.6 [2003 Jun 7]
+@subsubsection Version 2.12.6 [2003 Jun 14]
 
 @strong{New Features}
 @itemize @bullet
@@ -16407,6 +16407,11 @@ only in the fixing of bugs.
 Fix SourceForge bug
 @uref{http://sourceforge.net/tracker/index.php?func=detail&aid=743134&group_id=5511&atid=105511,#743134}
 @dots{} bounding box not limited by @code{set clip postscript}
+
+@item
+Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=750561&group_id=5511&atid=105511,#750561}
+@dots{} during compilation, @code{make} rebuilds HTML docs even if up-to-date
 
 @end itemize
 

@@ -96,6 +96,8 @@ then
 fi
 
 %changelog
+* Sat Jun 14 2003 <Dan.Kelley@Dal.Ca>
+- fix Sourceforge bug 750561 (make rebuilt HTML docs even if up-to-date)
 * Sun Jun 7 2003 <Dan.Kelley@Dal.Ca>
 - fix Sourceforge bug 743134 (bounding box not limited by 'set clip postscript')
 * Sat May 31 2003 <Dan.Kelley@Dal.Ca>
