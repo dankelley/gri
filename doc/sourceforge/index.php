@@ -230,7 +230,7 @@ Search gri manual for (may be a regular expression):<p>
 	# Vsn 2.8.3: 2001-oct-01
 	#$diff = time() - mktime(10, 58, 0, 10, 01, 2001);
 	# Vsn 2.8.4: 2001-oct-9 3:19 Halifax time
-	$diff = time() - mktime(9, 19, 0, 10, 9, 2001);
+	$diff = time() - mktime(11, 19, 0, 10, 9, 2001);
 	$days = floor($diff / 24 / 60 / 60);
 	$weeks = floor($days / 7);
 	$months = floor($days / 7 / 4);
