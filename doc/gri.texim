@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.210 2002/09/06 22:40:53 dankelley Exp $
+@c $Id: gri.texim,v 1.211 2002/09/07 00:03:30 psg Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16325,7 +16325,7 @@ only in the fixing of bugs.
 @subsection Version 2.12
 @cindex version 2.12
 
-@subsubsection Version 2.12.1 [2002 Sep 13]
+@subsubsection Version 2.12.0 [2002 Sep 13]
 
 @subsubsection New Features
 
