@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.112 2001/07/17 17:48:45 dankelley Exp $
+@c $Id: gri.texim,v 1.113 2001/07/18 18:12:14 psg Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16206,7 +16206,9 @@ change:
 @itemize @bullet
 @item
 Enhancements to @code{gri-mode}: meta-tab completion of builtin variables
-and synonyms, etc.
+and synonyms, idle timer help displays defaults for builtin variables under
+the cursor, fontification of builtin variables only occurs for known
+variables, etc.
 @item
 Add @code{unlink} command (@ref{Unlink}).
 @item
