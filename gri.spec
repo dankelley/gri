@@ -96,7 +96,7 @@ then
 fi
 
 %changelog
-* Thu Apr 19 09:17:05 ADT 2001 Dan Kelley <dan.kelley@dal.ca>
+* Thu Apr 19 2001 Dan Kelley <dan.kelley@dal.ca>
 - Rename this file as gri.spec, without the version number embedded 
   in the filename.  Upgrade to version number 2.6.1.  Change url to
   point to sourceforge site (but leave ftp as it is, for now anyway).
