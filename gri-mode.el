@@ -1,11 +1,11 @@
 ;; gri-mode.el - major mode for Gri, a scientific graphics programming language
 
-;; Copyright (C) 1994-2001 Peter S. Galbraith
+;; Copyright (C) 1994-2002 Peter S. Galbraith
  
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.58 (24 July 2001)
+;; Version:   2.59 (24 January 2002)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -391,156 +391,18 @@
 ;; V2.56 18Jul01 RCS 1.81 - Fontify defined builtins distinctively
 ;; V2.57 18Jul01 RCS 1.82 - Tweak the new local .variable. regexp for font-lock
 ;; V2.58 24Jul01 RCS 1.83 - Typo fix.
+;; V2.59 24Jan02 RCS 1.85 - Support gv -watch option.  When using gri-run,
+;;   an existing gv process will be stopped during figure regeneration, and
+;;   therafter continued.  gv will then redisplay automatically.
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
 
-(cond
- ((not (fboundp 'defcustom))
-  (defvar gri*directory-tree "/usr/local/share/gri"
-    "*Root of the gri directory tree.
+(defgroup gri nil 
+  "Gri - Scientific graphics language" :group 'languages)
 
-Root of the gri directory tree holding versions of gri library files.
-This is either a string, or a list of strings.
-
-In the following file layout, gri*directory-tree should be set to 
-\"/usr/lib/gri\"
-
- /usr/bin/gri-2.1.17
- /usr/lib/gri/2.1.17/gri.cmd
-
-In the following file layout, gri*directory-tree should be set to \"/opt/gri\"
-
- /opt/gri/2.1.17/bin/gri
- /opt/gri/2.1.17/lib/gri.cmd
-
-If you had both layouts, you'd use:
-
- (setq gri*directory-tree '(\"/opt/gri/\" \"/usr/lib/gri\"))
-
-Notes:
- 1 - The lib/ directory is optional.
- 2 - The bin/ directory may exist to hold the gri binary.  If it doesn't
-     exist, gri-mode will assume that the gri command suffixed with the 
-     version number exists in the path (e.g. /usr/bin/gri-2.1.17).
-
-This variable must be set correctly for gri-mode to function properly, and
-for the `gri-set-version' command to switch between gri versions.
-
-See the gri-mode.el file itself for more information.")
-
-;;----------------------
-;; The folowing are user-configurable variables which can be set in the 
-;; user's .emacs file to change the behaviour of gri-mode
-;; They can be set using the customize interface:  M-x gri-customize
-
-  (defvar gri-idle-display-defaults
-    (fboundp 'run-with-idle-timer)
-    "*t means to display function defaults under point when Emacs is idle.")
-
-  (defvar gri-menubar-cmds-action 'Info
-    "Default action to do on listed Gri command in Cmds menu-bar menu.
-This can be set to one of 'Info, 'Help or 'Insert.")
-
-  (defvar gri*run-settings nil
-    "*List of optional parameters to pass to gri when running it.
-This is the default initial setting in the menu-bar pull-down menu.
-Valid entries are:
- \"-debug\"
- \"-nowarn_offpage\"
- \"-no_bounding_box\"
- \"-publication\"
- \"-trace\"
-Like this like so:
- (setq gri*run-settings '(\"-publication\" \"-trace\"))")
-;; FIXME: add -superuser with a value above somehow.
-
-  (defvar gri*use-imenu (fboundp 'imenu-add-to-menubar)
-    "*Use imenu package for gri-mode?
-If you do not wish this behaviour, reset it in your .emacs file like so:
-
-  (setq gri*use-imenu nil)")
-
-  (defvar gri*view-after-run t
-    "*When set to true, gri-run will call gri-view after successful completion.
-If you do not wish this behaviour, reset it in your .emacs file like so:
-
-  (setq gri*view-after-run nil)")
-
-  (defvar gri*view-command "gv"
-    "*command used by gri-view to preview postscript file.
-Reset this in your .emacs file (but not in your gri-mode-hook) like so:
-
-  (setq gri*view-command \"ghostview -magstep -1\") ;for small screens
-or
-  (setq gri*view-command \"gv -media letter\")
-
-Note: If you use gv as a viewer, use the gri*view-scale variable to set 
-the default scale; don't use the gv -scale option in this variable.")
-
-  (defvar gri*view-landscape-arg "-landscape" 
-    "*argument used to obtain landscape orientation in gri-view.
-This argument is passed to the shell along with the command stored 
-in the variable gri*view-command.
-Reset this in your .emacs file (but not in your gri-mode-hook) like so:
-
-  (setq gri*view-landscape-arg \"\")
-
-  where the empty string is used here (as an example) if no landscape
-  argument exists for the command used in gri*view-command.")
-
-  (defvar gri*view-scale 0
-  "Default scale arguument to use when using gv as gri-view command.
-Changed via menu-bar.")
-  (make-variable-buffer-local 'gri*view-scale)
-
-  (defvar gri*WWW-program nil
-    "*Program name for World-Wide-Web browser, used by command gri-WWW-manual.
-If set to nil, gri-mode will use the Emacs' browse-url package to deal with
-the browser request.  If set to a string, gri-mode will start it as a
-sub-process.
-
-On your system, this could be `netscape'.  If so, set this variable in your
-.emacs file like so:
-
-  (setq gri*WWW-program \"netscape\")")
-
-  (defvar gri*WWW-page "http://gri.sourceforge.net/gridoc/html/index.html"
-  "*Web page or local html index file for the gri manual.
-This is used by the gri-WWW-manual command.
-If the sourceforge site is down, try:
- http://www.phys.ocean.dal.ca/~kelley/gri/index.html
-On your system, this could be reset to a local html file, e.g.
- (setq gri*WWW-page \"file:/usr/share/doc/gri-html-doc/html/index.html\")
-but it defaults to the online gri manual at sourceforge.net:
- http://gri.sourceforge.net/gridoc/html/index.html
-
-See also:  variable gri*WWW-program.")
-
-  (defvar gri-indent-before-return nil
-    "*Set to `t' to indent current line before newline on carriage return.
-Reset this in your .emacs file like so:
-
-  (setq gri-indent-before-return t)")
-
-  (defvar gri*lpr-command (if (boundp 'lpr-command) 
-                              lpr-command
-                            "lpr")
-    "*Command used by gri-mode to print PostScript files produced by gri.
-Set only the command name here.  Options are set in gri*print-switches")
-  
-  (defvar gri*lpr-switches (if (boundp 'lpr-switches) lpr-switches)
-    "*Options used to print PostScript files produced by gri.
-This is usually entered as a list of strings:
-   (setq gri*lpr-switches '(\"-P las_imlsta\" \"-ps\"))
-but can also be entered simply as a single string:
-   (setq gri*lpr-switches \"-P las_imlsta -ps\")"))
- (t
-  (defgroup gri nil 
-    "Gri - Scientific graphics language" :group 'languages)
-
-  (defcustom gri*directory-tree "/usr/local/share/gri"
-    "Root of the gri directory tree.
+(defcustom gri*directory-tree "/usr/local/share/gri"
+  "Root of the gri directory tree.
 
 Root of the gri directory tree holding versions of gri library files.
 This is either a string, or a list of strings.
@@ -573,50 +435,50 @@ See the gri-mode.el file itself for more information."
     :group 'gri
     :type '(choice (directory) (repeat directory)))
 
-  (defcustom gri-idle-display-defaults
-    (fboundp 'run-with-idle-timer)
-    "*t means to display function defaults under point when Emacs is idle."
-    :group 'gri
-    :type 'boolean)
+(defcustom gri-idle-display-defaults
+  (fboundp 'run-with-idle-timer)
+  "*t means to display function defaults under point when Emacs is idle."
+  :group 'gri
+  :type 'boolean)
 
-  (defcustom gri-menubar-cmds-action 'Info
-    "Default action to do on listed Gri command in Cmds menu-bar menu.
+(defcustom gri-menubar-cmds-action 'Info
+  "Default action to do on listed Gri command in Cmds menu-bar menu.
 This can be set to one of Info, Help or Insert."
-    :group 'gri
+  :group 'gri
 ;;; :type '(restricted-sexp :match-alternatives ('Info 'Help 'Insert)
-    :type '(choice (const :tag "Info" Info)
-                   (const :tag "Help" Help)
-                   (const :tag "Insert" Insert)))
+  :type '(choice (const :tag "Info" Info)
+                 (const :tag "Help" Help)
+                 (const :tag "Insert" Insert)))
 
-  (defcustom gri*run-settings nil
-    "List of optional parameters to pass to gri when running it.
+(defcustom gri*run-settings nil
+  "List of optional parameters to pass to gri when running it.
 This list makes the startup values used in the menubar pull-down menu."
-    :group 'gri
-    :type '(set (const "-debug")
-                (const "-nowarn_offpage")
-                (const "-no_bounding_box")
-                (const "-publication")
-                (const "-trace")))
+  :group 'gri
+  :type '(set (const "-debug")
+              (const "-nowarn_offpage")
+              (const "-no_bounding_box")
+              (const "-publication")
+              (const "-trace")))
 
-  (defcustom gri*use-imenu (fboundp 'imenu-add-to-menubar)
-    "*Use imenu package for gri-mode?
+(defcustom gri*use-imenu (fboundp 'imenu-add-to-menubar)
+  "*Use imenu package for gri-mode?
 If you do not wish this behaviour, reset it in your .emacs file like so:
 
   (setq gri*use-imenu nil)"
-    :group 'gri
-    :type 'boolean)
+  :group 'gri
+  :type 'boolean)
 
-  (defcustom gri*view-after-run t
-    "When true, the graph will be displayed after compilation.
+(defcustom gri*view-after-run t
+  "When true, the graph will be displayed after compilation.
 See also variable gri*view-command to set what viewer to use.
 If you do not wish this behaviour, reset it in your .emacs file like so:
 
   (setq gri*view-after-run nil)"
-    :group 'gri
-    :type 'boolean)
+  :group 'gri
+  :type 'boolean)
 
-  (defcustom gri*view-command "gv"
-    "Command used by gri-view to display postscript file.
+(defcustom gri*view-command "gv"
+  "Command used by gri-view to display postscript file.
 Reset this in your .emacs file (but not in your gri-mode-hook) like so:
 
   (setq gri*view-command \"ghostview -magstep -1\") ;for small screens
@@ -625,11 +487,11 @@ or
 
 Note: If you use gv as a viewer, use the gri*view-scale variable to set 
 the default scale; don't use the gv -scale option in this variable."
-    :group 'gri
-    :type 'string)
+  :group 'gri
+  :type 'string)
 
-  (defcustom gri*view-landscape-arg "-landscape" 
-    "Argument used to obtain landscape orientation in gri-view.
+(defcustom gri*view-landscape-arg "-landscape" 
+  "Argument used to obtain landscape orientation in gri-view.
 This argument is passed to the shell along with the command stored 
 in the variable gri*view-command.
 Reset this in your .emacs file (but not in your gri-mode-hook) like so:
@@ -638,29 +500,37 @@ Reset this in your .emacs file (but not in your gri-mode-hook) like so:
 
   where the empty string is used here (as an example) if no landscape
   argument exists for the command used in gri*view-command."
-    :group 'gri
-    :type 'string)
+  :group 'gri
+  :type 'string)
 
-  (defcustom gri*view-scale 0
+(defcustom gri*view-scale 0
   "Default scale argument to use when using gv as gri-view command.
 You may change this via the menu-bar during an editing session."
-    :group 'gri
-;;  :type 'integer)
-    :type '(choice (const :tag "0.1" -5)
-                   (const :tag "0.125" -4)
-                   (const :tag "0.25" -3)
-                   (const :tag "0.5" -2)
-                   (const :tag "0.707" -1)
-                   (const :tag "1" 0)
-                   (const :tag "1.414" 1)
-                   (const :tag "2" 2)
-                   (const :tag "4" 3)
-                   (const :tag "8" 4)
-                   (const :tag "10" 5)))
-  (make-variable-buffer-local 'gri*view-scale)
+  :group 'gri
+  ;;  :type 'integer)
+  :type '(choice (const :tag "0.1" -5)
+                 (const :tag "0.125" -4)
+                 (const :tag "0.25" -3)
+                 (const :tag "0.5" -2)
+                 (const :tag "0.707" -1)
+                 (const :tag "1" 0)
+                 (const :tag "1.414" 1)
+                 (const :tag "2" 2)
+                 (const :tag "4" 3)
+                 (const :tag "8" 4)
+                 (const :tag "10" 5)))
+(make-variable-buffer-local 'gri*view-scale)
 
-  (defcustom gri*WWW-program nil
-    "Program name for World-Wide-Web browser, used by command gri-WWW-manual.
+(defcustom gri*view-watch t
+  "When true, use -watch option with gv to check the document periodically.
+If changes are detected gv will automatically display the newer version of
+the file."
+  :group 'gri
+  :type 'boolean)
+(make-variable-buffer-local 'gri*view-watch)
+
+(defcustom gri*WWW-program nil
+  "Program name for World-Wide-Web browser, used by command gri-WWW-manual.
 If set to nil, gri-mode will use the Emacs' browse-url package to deal with
 the browser request.  If set to a string, gri-mode will start it as a
 sub-process.
@@ -669,13 +539,13 @@ On your system, this could be `netscape'.  If so, set this variable in your
 .emacs file like so:
 
   (setq gri*WWW-program \"netscape\")"
-    :group 'gri
+  :group 'gri
 ;;; :type '(restricted-sexp :match-alternatives (stringp 'nil))
-    :type '(choice (const :tag "Use browse-url package" nil)
-                   (string :tag "Specify a program")))
+  :type '(choice (const :tag "Use browse-url package" nil)
+                 (string :tag "Specify a program")))
 
 
-  (defcustom gri*WWW-page "http://gri.sourceforge.net/gridoc/html/index.html"
+(defcustom gri*WWW-page "http://gri.sourceforge.net/gridoc/html/index.html"
   "*Web page or local html index file for the gri manual.
 This is used by the gri-WWW-manual command.
 If the sourceforge site is down, try:
@@ -686,33 +556,37 @@ but it defaults to the online gri manual at sourceforge.net:
  http://gri.sourceforge.net/gridoc/html/index.html
 
 See also:  variable gri*WWW-program."
-    :group 'gri
-    :type 'string)
+  :group 'gri
+  :type 'string)
 
-  (defcustom gri-indent-before-return nil
-    "Set to true to indent current line when pressing carriage return.
+(defcustom gri-indent-before-return nil
+  "Set to true to indent current line when pressing carriage return.
 Reset this in your .emacs file like so:
 
   (setq gri-indent-before-return t)"
-    :group 'gri
-    :type 'boolean)
+  :group 'gri
+  :type 'boolean)
 
-  (defcustom gri*lpr-command (if (boundp 'lpr-command) 
-                              lpr-command
-                            "lpr")
-    "Command used by gri-mode to print PostScript files produced by gri.
+(defcustom gri*lpr-command (if (boundp 'lpr-command) 
+                               lpr-command
+                             "lpr")
+  "Command used by gri-mode to print PostScript files produced by gri.
 Set only the command name here.  Options are set in gri*print-switches"
-    :group 'gri
-    :type 'string)
-  
-  (defcustom gri*lpr-switches (if (boundp 'lpr-switches) lpr-switches)
-    "Options used to print PostScript files produced by gri.
+  :group 'gri
+  :type 'string)
+
+(defcustom gri*lpr-switches (if (boundp 'lpr-switches) lpr-switches)
+  "Options used to print PostScript files produced by gri.
 This is usually entered as a list of strings:
    (setq gri*lpr-switches '(\"-P las_imlsta\" \"-ps\"))
 but can also be entered simply as a single string:
    (setq gri*lpr-switches \"-P las_imlsta -ps\")"
-    :group 'gri
-    :type '(repeat string))))
+  :group 'gri
+  :type '(repeat string))
+
+(defvar gri-view-process nil
+  "Buffer local variable holding the process object for gri-view, if any.")
+(make-variable-buffer-local 'gri-view-process)
 
 (defvar gri*use-hilit19 (not (featurep 'font-lock))
   "*Use the hilit19 package to highlight gri code.
@@ -2851,6 +2725,12 @@ Usually used to send debugging flags."
   (if (buffer-modified-p)
       (save-buffer))
   (let ((resize-mini-windows nil))
+    (when (and gri-view-process
+               gri*view-watch
+               (eq (process-status gri-view-process) 'run))
+      ;; If using gri-view with -watch option, stop that process now to
+      ;; prevent it from updating while we regenerate the postscript file.
+      (signal-process (process-id gri-view-process) 'SIGSTOP))
     (cond
      ((string-equal "" gri-command-arguments)
       (message "%s %s %s %s (on newly saved file)" 
@@ -2871,12 +2751,18 @@ Usually used to send debugging flags."
                (file-name-nondirectory buffer-file-name)
                " " gri-command-postarguments)))))
   (message "Running gri done.")
-  (if (not (get-buffer "*Shell Command Output*"))  ;;need this for emacs-18
-      (progn
-        (if (and gri*view-after-run
-                 (not inhibit-gri-view))
-            (gri-view))
-        (message "Gri command completed with no output."))
+  (cond
+   ((not (get-buffer "*Shell Command Output*"))
+    (cond
+     ((and gri-view-process
+           gri*view-watch
+           (eq (process-status gri-view-process) 'stop))
+      (signal-process (process-id gri-view-process) 'SIGCONT))      
+     ((and gri*view-after-run
+           (not inhibit-gri-view))
+      (gri-view)))
+    (message "Gri command completed with no output."))
+   (t
     ;; There is a shell ouput buffer...
     (let ((display-buffer-p)(msg)(eline)(efile))
       (save-excursion
@@ -2921,9 +2807,14 @@ Usually used to send debugging flags."
                    (if (= (buffer-size) 0)
                        0
                      (count-lines (point-min) (point-max)))))))
-          (if (and gri*view-after-run
-                   (not inhibit-gri-view))
-              (gri-view))
+          (cond
+           ((and gri-view-process
+                 gri*view-watch
+                 (eq (process-status gri-view-process) 'stop))
+            (signal-process (process-id gri-view-process) 'SIGCONT))      
+           ((and gri*view-after-run
+                 (not inhibit-gri-view))
+            (gri-view)))
           ;; If there was only one line of output from Gri, we should
           ;; repeat it here.
           (cond ((= lines 0)
@@ -2936,7 +2827,7 @@ Usually used to send debugging flags."
                             (goto-char (point-min))
                             (buffer-substring 
                              (point)
-                             (progn (end-of-line)(point)))))))))))))
+                             (progn (end-of-line)(point))))))))))))))
 
 (defun gri-run (&optional inhibit-gri-view)
   "Save buffer to a file, then run Gri on it, creating a PostScript file
@@ -2950,7 +2841,12 @@ it will try to place the edit point on the source line which contains
 the error.  
 
 If an optional prefix argument is supplied to gri-run, gri-view will not 
-be run."
+be run.
+
+If using \"gv\" and the \"-watch\" option, the gv process will be stopped
+during the time gri-run regenerates the menu, and continued thereafter and
+gv will redisplay the figure (instead of gri-mode starting up a new gv
+process)."
   (interactive "P")
   (if (string-equal gri-bin-file "gri") ; Use shell default version
       (gri-do-run (concat "gri -b -y ") inhibit-gri-view)
@@ -2968,98 +2864,58 @@ Reset variables gri*view-command and gri*view-landscape-arg in your .emacs
 file to control what commands are sent to the shell to display the
 postscript file.  Default values are: 
 
-  (setq gri*view-command \"ghostview\")
+  (setq gri*view-command \"gv\")
   (setq gri*view-landscape-arg \"-landscape\") 
 
-See also the gri-run command, which calls gri-view automatically after
-successfully executing your gri buffer if the variable gri*view-after-run 
-is set to true.
+The default viewer is \"gv\" because is has options that gri-mode knows
+about, such as -watch and -scale.  Default values for these options are
+selectable from gri-customize, and buffer-local settings can be made
+from the menubar.
 
-In emacs version 19, the process is run asynchronously such that you can 
-continue editing.  Unfortunately, emacs version 18 doesn't support this feature
-and you must quit out of ghostview before you can continue to edit in emacs."
+See also the gri-run command, which calls gri-view automatically after
+successfully executing your gri buffer if the variable gri*view-after-run
+is set to true.  If using \"gv\" and the \"-watch\" option, the gv process
+will be stopped during the time gri-run regenerates the menu, and continued
+thereafter and gv will redisplay the figure (instead of gri-mode starting
+up a new gv process)."
 ;;; Asynchronyous output goes to *shell-command* buffer.
 ;;;  Return windows to original state because that buffer is usually empty
 ;;;  (if no error occurred) and will probably be empty on error by the time
 ;;;  the function finishes, because it's asynchronious.
   (interactive)
   (let ((psfile (or filename
-                    (concat (filename-sans-gri-suffix buffer-file-name) ".ps")))
-        (landscape "") (the-command) (scale ""))
+                    (concat (file-name-nondirectory 
+                             (filename-sans-gri-suffix buffer-file-name))
+                            ".ps")))
+        (landscape "") (scale "") (scalearg "") (watch ""))
     (save-excursion
       (goto-char (point-min))
       (if (re-search-forward "^[ \t]*set[ ]+page[ ]+landscape" nil t)
-          (setq landscape (concat gri*view-landscape-arg " "))))
+          (setq landscape gri*view-landscape-arg)))
     (if (equal gri*view-command "gv")
-        (setq scale (concat "-scale " (int-to-string gri*view-scale) " ")))
+        (setq scale "-scale"
+              scalearg (int-to-string gri*view-scale)))
+    (if (and (equal gri*view-command "gv") gri*view-watch)        
+        (setq watch "-watch"))
     (if (not (file-readable-p psfile))
         (if (not (file-readable-p (concat psfile ".gz")))
             (error "%s not found or not readable" psfile)
           ;;Found gzipped version of file
-          (setq the-command 
-                (concat "gunzip -c " psfile ".gz | " gri*view-command
-                        " " landscape scale "-")))
-      ;;Found postscript file
-      (setq the-command (concat gri*view-command " " landscape scale psfile)))
-    (message the-command)
-    (if (string-match "^18" emacs-version)
-        (save-window-excursion
-          (shell-command the-command))
-      ;; Do it Asynchronyously for emacs-19...
-      (let ((buffer (get-buffer-create "*gri-view*"))
-            (shell-command-switch 
-             (or (and (boundp 'shell-command-switch) shell-command-switch)
-                 "-c"))
-            (directory default-directory)
-            proc)
-        (save-excursion
-          (set-buffer buffer)
-          ;;(display-buffer buffer)
-          (setq default-directory directory))
-        (setq proc (start-process 
-                    "Shell" buffer shell-file-name 
-                    shell-command-switch the-command))
-        (setq mode-line-process '(":%s"))
-        (set-process-sentinel proc 'shell-command-sentinel)
-        (set-process-filter proc 'gri-insertion-filter)))))
+          (setq psfile (concat psfile ".gz"))))
+    (message "%s %s %s %s %s %s" 
+             gri*view-command psfile landscape scale scalearg watch)
+    (let ((shell-command-switch
+           (or (and (boundp 'shell-command-switch) shell-command-switch) "-c"))
+          (directory default-directory))
+      (setq gri-view-process (start-process "gri-view" nil gri*view-command
+                                            psfile landscape watch scale 
+                                            scalearg))
+    ;;(setq mode-line-process '(":%s"))
+    ;;(set-process-sentinel gri-view-process 'shell-command-sentinel)
+      (set-process-filter   gri-view-process 'gri-insertion-filter))))
 
-;; From elisp Info manual as ordinary-insertion-filter
-(defun gri-insertion-filter (proc string)
-  (let ((old-buffer (current-buffer)))
-    (unwind-protect
-        (let (moving)
-          (set-buffer (process-buffer proc))
-          (setq moving (= (point) (process-mark proc)))
-          (save-excursion
-            ;; Insert the text, moving the process-marker.
-            (goto-char (process-mark proc))
-            (insert string)
-            (set-marker (process-mark proc) (point)))
-          (if moving (goto-char (process-mark proc))))
-      (set-buffer old-buffer))))
-
-;; From emacs-19.27:
-;;(defun shell-command-filter (proc string)
-;;;; Do save-excursion by hand so that we can leave point numerically unchanged
-;;;; despite an insertion immediately after it.
-;;  (let* ((obuf (current-buffer))
-;;         (buffer (process-buffer proc))
-;;         opoint
-;;         (window (get-buffer-window buffer))
-;;         (pos (window-start window)))
-;;    (unwind-protect
-;;        (progn
-;;          (set-buffer buffer)
-;;          (or (= (point) (point-max))
-;;              (setq opoint (point)))
-;;          (goto-char (point-max))
-;;          (insert-before-markers string))
-;;      ;; insert-before-markers moved this marker: set it back.
-;;      (set-window-start window pos)
-;;      ;; Finish our save-excursion.
-;;      (if opoint
-;;          (goto-char opoint))
-;;      (set-buffer obuf))))
+(defun gri-insertion-filter (gri-view-process string)
+  (message "gri-view: %s" string))
 
 (defun gri-indent-buffer ()
   "Indent the entire gri buffer. Won't indent hidden user commands."
@@ -4033,7 +3889,13 @@ Any output (errors?) is put in the buffer `gri-WWW-manual'."
        :visible gri-command-postarguments]
       )
      ["View existing PostScript"      gri-view  t]
-     ("gv scale selection"
+     ("gv settings"
+      "Run-Time Options"
+      ["gv -watch" (if gri*view-watch 
+                       (setq gri*view-watch nil)
+                     (setq gri*view-watch t))
+       :style toggle :selected gri*view-watch]
+      "Scale Selection"
       ["0.1" 
 ;;FIXME: simply this code!
 ;;Try  (setq gri*view-scale -5)
@@ -4824,7 +4686,7 @@ static char * gri_info24x24_xpm[] = {
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.58 (c) 24 July 2001 --  Peter Galbraith <psg@debian.org>
+V2.59 (c) 24 Jan 2002 --  Peter Galbraith <psg@debian.org>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
