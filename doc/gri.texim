@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.205 2002/07/21 13:31:02 dankelley Exp $
+@c $Id: gri.texim,v 1.206 2002/08/19 20:25:19 psg Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -5670,7 +5670,7 @@ z-column exists.  The numerical/name codes are:
 11 filledbox           filled box
 12 bullet              filled circle
 13 filleddiamond       filled diamond
-14 filledtriangelup    filled triangleup
+14 filledtriangleup    filled triangleup
 15 filledtriangleright filled triangleright
 16 filledtriangledown  filled triangledown
 17 filledtriangleleft  filled triangleleft
@@ -5741,7 +5741,7 @@ z-column exists.  The numerical/name codes are:
 11 filledbox           filled box
 12 bullet              filled circle
 13 filleddiamond       filled diamond
-14 filledtriangelup    filled triangleup
+14 filledtriangleup    filled triangleup
 15 filledtriangleright filled triangleright
 16 filledtriangledown  filled triangledown
 17 filledtriangleleft  filled triangleleft
