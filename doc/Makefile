@@ -76,7 +76,7 @@ html-install:	html
 	cp resources/*.gif     $(HTML_DIR)/resources
 	chmod 644              $(HTML_DIR)/resources/*
 	cp examples/*.jpg      $(HTML_DIR)/
-	chmod 644              $(HTML_DIR)/resources/*.jpg
+	chmod 644              $(HTML_DIR)/*.jpg
 	cp examples/model*     $(EXAMPLE_DIR)
 	chmod 644              $(EXAMPLE_DIR)/model*
 	cp examples/*.dat      $(EXAMPLE_DIR)
