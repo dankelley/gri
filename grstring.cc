@@ -293,7 +293,7 @@ gr_drawstring(const char *s)
 						extern bool     _grWritePS;
 						if (_grWritePS) {
 							STOP_OLD_TEXT;
-							fprintf(_grPS, "(\\261) sh\n");	// endash
+							fprintf(_grPS, "(\\055) sh\n");	// endash
 							check_psfile();
 							START_NEW_TEXT;
 						}
@@ -410,7 +410,7 @@ gr_drawstring(const char *s)
 					extern bool     _grWritePS;
 					if (_grWritePS) {
 						STOP_OLD_TEXT;
-						fprintf(_grPS, "(\\261) sh\n");	// endash 
+						fprintf(_grPS, "(\\055) sh\n");	// endash 
 						START_NEW_TEXT;
 						check_psfile();
 					}
