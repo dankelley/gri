@@ -85,7 +85,7 @@ scp index.php psg@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
                 </td> </tr>
                 <tr>
                   <td class="menus" align="right">
-		    <b>Source tar ball</b><br>
+		    <b>Source tarball</b><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.0.tgz">gri-2.8.0.tgz</a><br>
 		    <b>RedHat Linux</b><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.0-1.src.rpm">gri-2.8.0-1.src.rpm</a><br>
@@ -316,9 +316,11 @@ Search gri manual for (may be a regular expression):<p>
 <!--	<a class="menus" href="http://sourceforge.net/project/showfiles.php?group_id=5511">File download area</a><br> -->
         <A class="menus" HREF="http://www.sourceforge.net/patch/?group_id=5511">Submit a patch</A><br>
         <A class="menus" HREF="http://sourceforge.net/pm/task.php?group_project_id=8706&group_id=5511&func=browse">View to-do list</A><br>
-<!--        <a class="menus" href="./gri-2.8.0-pre1.tgz"><font color="red">2.8.0 pre-release #1</font></a>  -->
 <!-- <A class="menus" HREF="http://gri.sourceforge.net/gridoc/html/Version_2_6.html#Version2.6">Version 2.6.1 preview</A><br> -->
 <!-- <A class="menus" HREF="./checklist_for_release">Packaging checklist</A><br> -->
+        <br>
+        <A CLASS="menus" HREF="./gri-2.8.1-pre3.tgz">2.8.1 pre-release #3</a>
+
       </TD>
     </TR>
   </table>
