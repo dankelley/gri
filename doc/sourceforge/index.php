@@ -75,8 +75,8 @@
 		    <b>General tarball</b><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.1.tgz">gri-2.6.1.tgz</a><br>
 		    <b>Linux Pre-packaged</b><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.0-1.src.rpm">gri-2.6.0-1.src.rpm</a><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.0-1.i386.rpm">gri-2.6.0-1.i386.rpm</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.1-1.src.rpm">gri-2.6.1-1.src.rpm</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.1-1.i386.rpm">gri-2.6.1-1.i386.rpm</a><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.6.1-0potato1_i386.deb">gri_2.6.1-0potato1_i386.deb</a><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.6.1-0woody1_i386.deb">gri_2.6.1-0woody1_i386.deb</a><br>
                     <A class="menus" HREF="http://packages.debian.org/unstable/science/gri.html">gri-2.6.1 at Debian</A><br>
@@ -187,7 +187,7 @@ as simple as the following.
     <tr> 
       <td  class="menubox">
         <font size="-1">
-        Vsn 2.6.0: 2001-apr-01</br>
+        Vsn 2.6.1: 2001-may-11</br>
         </font>
       </td>
     </tr>
@@ -240,8 +240,8 @@ as simple as the following.
 	<a class="menus" href="http://sourceforge.net/project/showfiles.php?group_id=5511">File download area</a><br>
         <A class="menus" HREF="http://www.sourceforge.net/patch/?group_id=5511">Submitting patches</A><br>
         <A class="menus" HREF="http://sourceforge.net/pm/task.php?group_project_id=8706&group_id=5511&func=browse">To-do list</A><br>
-        <A class="menus" HREF="http://gri.sourceforge.net/gridoc/html/Version_2_6.html#Version2.6">Version 2.6.1 preview</A><br>
-        <A class="menus" HREF="./checklist_for_release">Packaging checklist</A><br>
+<!-- <A class="menus" HREF="http://gri.sourceforge.net/gridoc/html/Version_2_6.html#Version2.6">Version 2.6.1 preview</A><br> -->
+<!-- <A class="menus" HREF="./checklist_for_release">Packaging checklist</A><br> -->
       </TD>
     </TR>
   </table>
