@@ -1,9 +1,12 @@
-//#define _POSIX_SOURCE 1		// for gethostname ... not that it works!
+#define TEST_POPT // uncomment this to test the POPT library
 
 #include	<string>
 #include	<unistd.h>
 #include	<stdio.h>
 #include	<time.h>
+#if defined(HAVE_LIBPOPT)
+#include        <popt.h>
+#endif
 #include	"gr.hh"
 #include	"extern.hh"
 #include        "private.hh"
@@ -54,15 +57,15 @@ int             create_arrays(void);
 static void     create_builtin_variables(void);
 static void     create_builtin_synonyms(void);
 static void     set_defaults(void);
-static int      interpret_optional_arguments(int argc, char *argv[]);
-static void     get_input_simulation(int argc, char *argv[], int separator);
-static void     insert_creator_name_in_PS(int argc, char *argv[], const std::string&psname);
+static int      interpret_optional_arguments(int argc, const char *argv[]);
+static void     get_input_simulation(int argc, const char *argv[], int separator);
+static void     insert_creator_name_in_PS(int argc, const char *argv[], const std::string&psname);
 static void     dogrirc(void);
 #if 0
 static void     show_startup_msg(void);
 #endif
 int             last_optional_arg = 0;
-#define SEPARATOR ":"		// used to separate query input
+
 
 // RETURN 1 if found color and dumped RGB into red, green, blue
 bool
@@ -118,13 +121,11 @@ last_name(char *s)
 #endif
 
 bool
-start_up(int argc, char **argv)
+start_up(int argc, const char **argv)
 {
-#if 0
-	{
-		printf("ARGS:\n");
-		for (int i = 0; i < argc; i++) printf("\t'%s'\n", argv[i]);
-	}
+#if defined(TEST_POPT)
+	printf("DEBUG: %s:%d: FYI, start_up() found the raw args to be:\n",__FILE__,__LINE__);
+	for (int i = 0; i < argc; i++) printf("DEBUG:                     '%s'\n", argv[i]);
 #endif
 	// Record version number
 	int major_version, minor_version, minor_minor_version;
@@ -160,7 +161,6 @@ start_up(int argc, char **argv)
 	PUT_VAR("..image_width..", 0.0);
 	PUT_VAR("..image_height..", 0.0);
 	last_optional_arg = interpret_optional_arguments(argc, argv);
-
 	//printf("DEBUG1 last_optional_arg= %d\n", last_optional_arg);
 
 	// Get name of PostScript file if it was provided.  Must do this before
@@ -414,12 +414,12 @@ file_in_list(const char *name, bool show_nonlocal_files, bool show_local_files)
 #endif
 
 static void
-get_input_simulation(int argc, char *argv[], int separator)
+get_input_simulation(int argc, const char *argv[], int separator)
 {
 	if (separator >= argc)
 		return;
 	// Save the words following SEPARATOR into the stdin io buffer.
-	extern std::vector<char*> _argv;
+	extern std::vector<const char*> _argv;
 	for (int i = separator; i < argc; i++) {
 		//printf("\t push %d <%s>\n",i,argv[i]);
 #if 0				// 2001-feb-23 vsn 2.6.0 (alpha)
@@ -428,7 +428,6 @@ get_input_simulation(int argc, char *argv[], int separator)
 		_argv.push_back(argv[i]);
 	}
 }
-#undef SEPARATOR
 
 static void
 set_defaults()
@@ -605,8 +604,178 @@ create_builtin_variables()
 
 // return value: number of optional arguments
 static int
-interpret_optional_arguments(int argc, char *argv[])
+interpret_optional_arguments(int argc, const char *argv[])
 {
+#if defined(HAVE_LIBPOPT) && defined(TEST_POPT)
+#define FLAG_DIRECTORY		1000
+#define FLAG_DIRECTORY_DEFAULT	1001
+#define FLAG_CREATOR            1002
+#define FLAG_NO_BOUNDING_BOX	1003
+#define FLAG_NO_CMD_IN_PS	1004
+#define FLAG_NO_EXPECTING	1005
+#define FLAG_NO_STARTUP_MESSAGE	1006
+#define FLAG_NO_WARN_OFFPAGE	1007
+#define FLAG_OUTPUT		1008
+#define FLAG_PUBLICATION	1009
+#define FLAG_SUPERUSER		1010
+#define FLAG_WARN_OFFPAGE	1011
+	// I use the 'FLAG_...' numbers for options that lack single-character abbreviations.
+	static struct poptOption optionsTable[] = {
+		{ "batch",             'b',  POPT_ARG_NONE   | POPT_ARGFLAG_ONEDASH, NULL, 'b'                   },
+		{ "chatty",            'c',  POPT_ARG_INT    | POPT_ARGFLAG_ONEDASH, NULL, 'c'                   },
+		{ "creator",           '\0', POPT_ARG_STRING | POPT_ARGFLAG_ONEDASH, NULL, FLAG_CREATOR          },
+		{ "debug",             'd',  POPT_ARG_NONE   | POPT_ARGFLAG_ONEDASH, NULL, 'd'                   },
+		{ "directory",         '\0', POPT_ARG_STRING | POPT_ARGFLAG_ONEDASH, NULL, FLAG_DIRECTORY        },
+		{ "directory_default", '\0', POPT_ARG_NONE   | POPT_ARGFLAG_ONEDASH, NULL, FLAG_DIRECTORY_DEFAULT},
+		{ "help",              'h',  POPT_ARG_NONE   | POPT_ARGFLAG_ONEDASH, NULL, 'h'                   },
+		{ "output",            '\0', POPT_ARG_STRING | POPT_ARGFLAG_ONEDASH, NULL, FLAG_OUTPUT           },
+		{ "no_bounding_box",   '\0', POPT_ARG_NONE   | POPT_ARGFLAG_ONEDASH, NULL, FLAG_NO_BOUNDING_BOX  },
+		{ "no_cmd_in_ps",      '\0', POPT_ARG_NONE   | POPT_ARGFLAG_ONEDASH, NULL, FLAG_NO_CMD_IN_PS     },
+		{ "no_startup_message",'\0', POPT_ARG_NONE   | POPT_ARGFLAG_ONEDASH, NULL, FLAG_NO_STARTUP_MESSAGE},
+		{ "no_warn_offpage",   '\0', POPT_ARG_NONE   | POPT_ARGFLAG_ONEDASH, NULL, FLAG_NO_WARN_OFFPAGE  },
+		{ "publication",       '\0', POPT_ARG_NONE   | POPT_ARGFLAG_ONEDASH, NULL, FLAG_PUBLICATION      },
+		{ "superuser",         '\0', POPT_ARG_STRING | POPT_ARGFLAG_ONEDASH, NULL, FLAG_SUPERUSER        },
+		{ "trace",             't',  POPT_ARG_NONE   | POPT_ARGFLAG_ONEDASH, NULL, 't'                   },
+		{ "version",           'v',  POPT_ARG_NONE   | POPT_ARGFLAG_ONEDASH, NULL, 'v'                   },
+		{ "warn_offpage",      '\0', POPT_ARG_NONE   | POPT_ARGFLAG_ONEDASH, NULL, FLAG_WARN_OFFPAGE     },
+		{ "yes",               'y',  POPT_ARG_NONE   | POPT_ARGFLAG_ONEDASH, NULL, 'y'                   },
+		{  0,                   0,                                       0,     0, 0                     }
+	};
+	poptContext optCon;
+	optCon = poptGetContext("gri", argc, argv, optionsTable, 0);
+	poptReadDefaultConfig(optCon, 0); // for aliasing ... this seems broken though
+	const char *optArg;
+	int arg;
+	extern char _gri_number[];
+	_lib_directory.assign(DEFAULT_GRI_DIR);
+	int number_optional_arg = 0;
+	while ((arg = poptGetNextOpt(optCon)) > 0) {
+		optArg = poptGetOptArg(optCon);
+		number_optional_arg++;
+		int ival;
+		switch (arg) {
+		case 'b':
+			PUT_VAR("..batch..", 1.0);
+		        printf("DEBUG: %s:%d set to 'batch' mode\n",__FILE__,__LINE__);
+			break;
+		case 'c':
+			number_optional_arg++;
+			printf("DEBUG: %s:%d <%s>\n",__FILE__,__LINE__,optArg);
+			if (1 == sscanf(optArg, "%d", &ival))
+				_chatty = ival;
+			else
+				_chatty = 1;
+		        printf("DEBUG: %s:%d set to 'chatty' level %d\n",__FILE__,__LINE__, _chatty);
+			break;
+		case 'd':
+		        printf("DEBUG: %s:%d set to 'debug' mode\n",__FILE__,__LINE__);
+			PUT_VAR("..debug..", 1);
+			_debugFlag = 1;
+			break;
+		case 'h':
+			give_help();
+			printf("DEBUG: %s:%d set the 'help' flag\n",__FILE__,__LINE__);
+			gri_exit(0);
+			break;	// never executed
+		case 't':
+			printf("DEBUG: %s:%d set the 'trace' flag\n",__FILE__,__LINE__);
+			PUT_VAR("..trace..", 1.0);
+			break;
+		case 'v':
+			gr_textput("gri version ");
+			gr_textput(_gri_number);
+			gr_textput("\n");
+			gri_exit(0);
+			break;	// never done
+		case 'y':
+			_use_default_for_query = true;
+			PUT_VAR("..use_default_for_query..", 1.0);
+			break;
+		case FLAG_DIRECTORY:
+			number_optional_arg++;
+			user_gave_directory = true;
+			_lib_directory.assign(optArg);
+			//printf("DEBUG: %s:%d got directory as '%s'\n",__FILE__,__LINE__,optArg);
+			break;
+		case FLAG_DIRECTORY_DEFAULT:
+			gr_textput(_lib_directory.c_str());
+			gr_textput("\n");
+			gri_exit(0);
+			break;	// never done
+		case FLAG_OUTPUT:
+			number_optional_arg++;
+			psname.assign(optArg);
+			gr_setup_ps_filename(psname.c_str());
+			break;
+		case FLAG_WARN_OFFPAGE:
+			_warn_offpage = true;
+			break;
+		case FLAG_NO_BOUNDING_BOX:
+			{
+				extern bool _no_bounding_box;
+				_no_bounding_box = true;
+			}
+			break;
+		case FLAG_NO_CMD_IN_PS:
+			_store_cmds_in_ps = false; // <-> read.c
+			break;
+		case FLAG_NO_STARTUP_MESSAGE:
+			_no_startup_message = true;
+			break;
+		case FLAG_NO_WARN_OFFPAGE:
+			_warn_offpage = false;
+			break;
+		case FLAG_PUBLICATION:
+			PUT_VAR("..publication..", 1.0);
+			break;
+		case FLAG_CREATOR:
+			{
+				number_optional_arg++;
+				FILE *fp;
+				if (NULL == (fp = fopen(optArg, "r")))
+					fatal_err("`gri -creator' cannot open file `\\", optArg, "'", "\\");
+				GriString inLine(128); // Start short
+				while (!inLine.line_from_FILE(fp)) {
+					if (!strncmp(inLine.getValue(), "%gri:", 5)) {
+						ShowStr(inLine.getValue() + 5);
+					}
+				}
+			}
+			gri_exit(0);
+			break;	// never executed
+		case FLAG_SUPERUSER:
+			number_optional_arg++;
+			printf("YAYAYAY [%s]\n",optArg);
+			if ('?' == *optArg) {
+				superuser_flag *sf = sflag;
+				printf("Superuser flags, with actions:\n");
+				while (sf->action != NULL) {
+					printf(" -superuser %d\t => %s\n", sf->code, sf->action);
+					sf++;
+				}
+				gri_exit(0);
+			}
+			if (1 == sscanf(optArg, "%d", &ival)) {
+				PUT_VAR("..superuser..", double(ival));
+				printf("got superuser as %d\n",ival);
+			} else {
+				PUT_VAR("..superuser..", 1.0);
+				printf("CANNA READ in '%s'\n",optArg);
+			}
+			break;
+		default:
+			printf("Unknown option\n");
+			break;
+		}
+	}
+	const char *last_option = poptBadOption(optCon,arg);
+	printf("DEBUG %s:%d last_option = '%s'  arg=%d\n",__FILE__,__LINE__,last_option,arg);
+	if (arg <= 0 && *last_option == '-') {
+		fprintf(stderr, "Unknown option `%s'.  Type `gri -h' for valid options\n", last_option);
+		gri_exit(1);
+	}
+	//printf("DEBUG: %s:%d last_option [%s]\n",__FILE__,__LINE__,last_option);
+#else
 	extern char     _gri_number[];
 	int             number_optional_arg = 0;
 	_lib_directory.assign(DEFAULT_GRI_DIR);
@@ -628,54 +797,6 @@ interpret_optional_arguments(int argc, char *argv[])
 						ShowStr(inLine.getValue() + 5);
 					}
 				}
-				gri_exit(0);
-			} else if (!strcmp(argv[i], "-repair")) {
-				// Repair a postscript file made by a gri job that died
-				// midway, so didn't finish off some "paths" and didn't
-				// showpage.
-				// ??BUG?? Assumes that no words follow "stroke", etc
-				FILE           *fpin, *fpout;
-				int             newpaths = 0;
-				if (i != argc - 3)
-					fatal_err("`gri -repair' needs 2 filenames");
-				if (NULL == (fpin = fopen(argv[i + 1], "r")))
-					fatal_err("`gri -repair' cannot open file `\\",
-						  argv[i + 1], "'", "\\");
-				if (NULL == (fpout = fopen(argv[i + 2], "w")))
-					fatal_err("`gri -repair' cannot open file `\\",
-						  argv[i + 2], "'", "\\");
-				while (NULL != fgets(_cmdLine, LineLength_1, fpin)) {
-					if (!strcmp(_cmdLine, "n\n")
-					    || !strcmp(_cmdLine, "newpath\n")) {
-						printf("+");
-						newpaths++;
-					} else if (!strcmp(_cmdLine, "s\n")	// stroke
-						   ||!strcmp(_cmdLine, "S\n")	// stroke
-						   ||!strcmp(_cmdLine, "stroke\n")
-						   || !strcmp(_cmdLine, "c\n")	// closepath
-						   ||!strcmp(_cmdLine, "h\n")	// closepath
-						   ||!strcmp(_cmdLine, "closepath\n")) {
-						printf("-");
-						newpaths--;
-					}
-					fputs(_cmdLine, fpout);
-				}
-				if (newpaths) {
-					for (i = 0; i < newpaths; i++) {
-						fprintf(fpout,
-							"stroke  %% inerted by `gri -repair %s %s'\n",
-							argv[2], argv[3]);
-					}
-					fprintf(fpout,
-						"showpage %% inerted by `gri -repair %s %s'\n",
-						argv[2], argv[3]);
-					fprintf(fpout, "%%Trailer\n");
-					fprintf(fpout, "%%DocumentFonts: Times-Roman Courier Helvetica Symbol Palatino-Roman Palatino-Italic\n");
-					fprintf(fpout, "%%Pages: 1\n");
-					fprintf(fpout, "%%BoundingBox: 0 0 612 792\n");
-				}
-				fclose(fpin);
-				fclose(fpout);
 				gri_exit(0);
 			}
 
@@ -731,7 +852,6 @@ interpret_optional_arguments(int argc, char *argv[])
 					gri_exit(0);
 				} else if (!strcmp(argv[i], "-p") || !strcmp(argv[i], "-publication")) {
 					PUT_VAR("..publication..", 1.0);
-
 				} else if (!strncmp(argv[i], "-c", 2)) {
 					if (1 == sscanf(argv[i], "-c%d", &val)) {
 						_chatty = val;
@@ -783,10 +903,12 @@ interpret_optional_arguments(int argc, char *argv[])
 				}
 				number_optional_arg++;
 			} else {
+				//printf("%s:%d DEBUG last option was argv[%d] = '%s'\n",__FILE__,__LINE__,i,argv[i]);
 				break;
 			}
 		}
 	}
+#endif
 	put_syn("\\.lib_dir.", _lib_directory.c_str(), true);
 	return number_optional_arg;
 }
@@ -824,7 +946,7 @@ give_help()
         gr_textput("     -warn_offpage\n");
         gr_textput("             Warn if any item is drawn far off a 8.5x11\" page.\n");
         gr_textput("             (This is the default.)\n");
-        gr_textput("     -nowarn_offpage\n");
+        gr_textput("     -no_warn_offpage\n");
         gr_textput("             Don't warn if any item is drawn far off a 8.5x11\" page\n");
 
         gr_textput("     -directory pathname\n");
@@ -886,7 +1008,7 @@ give_help()
 
 // Insert Creator info in PS file
 static void
-insert_creator_name_in_PS(int argc, char *argv[], const std::string& psname)
+insert_creator_name_in_PS(int argc, const char *argv[], const std::string& psname)
 {
 	extern char _gri_release_time[];
 	extern char _gri_number[]; // see version.c
