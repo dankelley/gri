@@ -179,9 +179,9 @@ The Gri web homepage is at
 * Acknowledgments::             People who have helped me develop Gri
 * License::                     The Gri license
 Indices
+* Concept Index::               Detailed index
 * Index of Commands::           Commands in Gri
 * Index of Builtins::           Builtin variables
-* Concept Index::               Detailed index
 @end menu
 @c HTML -->
 
@@ -15248,7 +15248,7 @@ Japanese with English abstract)
 
 @c HTML <!-- newfile License.html  "Gri: License" "License" -->
 
-@node   License, Index of Commands, Acknowledgments, Top
+@node   License, Concept Index, Acknowledgments, Top
 @comment  node-name,  next,  previous,  up
 @chapter License
 @cindex license
@@ -15740,20 +15740,20 @@ this License.
 
 @c HTML <!--
 
-@node   Index of Commands, Index of Builtins, License, Top
+@node   Concept Index, Index of Commands, License, Top
+@comment node-name, next, previous, up
+@unnumbered Index, general
+@printindex cp
+
+@node   Index of Commands, Index of Builtins, Concept Index, Top
 @comment node-name, next, previous, up
 @unnumbered Index of Commands
 @printindex fn
 
-@node   Index of Builtins, Concept Index, Index of Commands, Top
+@node   Index of Builtins, , Index of Commands, Top
 @comment  node-name,  next,  previous,  up
 @unnumbered Index of Built-in Variables and Synonyms
 @printindex vr
-
-@node   Concept Index, , Index of Builtins, Top
-@comment node-name, next, previous, up
-@unnumbered Index, general
-@printindex cp
 
 @c HTML -->
 
