@@ -2232,7 +2232,7 @@ the single line
 It is @emph{very important} to note that if multiple items of the same
 name exist (e.g. if a @code{new} command has been executed) then Gri
 uses the instance of the item that is "active" at the moment the
-@code{\&&} code is executed.  Thus, for example, the following prints
+@code{\@@} code is executed.  Thus, for example, the following prints
 200, not 100.
 @example
 .a. = 100
@@ -2242,8 +2242,35 @@ new .a.       # this "shadows" the previous instance
 show \@@alias # prints 200, not 100
 @end example
 For this reason, you should not use the aliasing syntax if you wish to
-create a newcommand that can modify its arguments; for that you should
-use a pointing synonym (described in the next section).
+create a newcommand that can modify its arguments.  This is because a 
+name collision could result.  Consider
+@example
+`Newcommand \a'
+@{
+    new \a            # set up a local version
+    \@.word1. = "BYE" # try to modify argument
+    delete \a         # clean up local version
+@}
+
+# Test 1
+\a = "HI"
+Newcommand "\\a"
+show "\a" # prints HI, not HI
+
+# Test 2
+\b = "HI"             
+Newcommand "\\b"
+show "\b" # prints BYE since no name collision
+@end example
+Note that test 2 correctly prints "BYE" since there is no name collision
+between the local @code{\a} and the global @code{\b} that is passed as
+an argument.  However, test 1 incorrectly prints "HI" since there is a
+name collision, and the modification is done on the @emph{local} version
+of @code{\a}.  In other words, the result of the newcommand depends on
+the @emph{name} of the argument supplied to it!  This is a demonstration
+of why you should @emph{never} use syntax such as @code{\@@.word1.}  in
+your code.
+
 
 
 @node   Pointing Synonyms, If Statements, Aliasing Synonyms, Synonyms
