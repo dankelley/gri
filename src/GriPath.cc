@@ -122,18 +122,16 @@ ps_begin_path(double width)	// Q: what's with this width=-1 condition??
 		fprintf(_grPS, "] %d d\n", int(_dash.size()));
 		break;
 	case svg:
-		fprintf(stderr, "%s:%d:gr_begin_path() is ignoring line color on SVG output\n", __FILE__,__LINE__);
-		fprintf(stderr, "%s:%d:gr_begin_path() is ignoring line_cap   on SVG output\n", __FILE__,__LINE__);
-		fprintf(stderr, "%s:%d:gr_begin_path() is ignoring line_join  on SVG output\n", __FILE__,__LINE__);
-		fprintf(_grSVG, "<g>\n<path style=\"stroke:#%02x%02x%02x; stroke-width:%.3f; fill:none;stroke-opacity:%f\"\nd=\"\n",
+		fprintf(_grSVG, "<g>\n<path style=\"stroke:#%02x%02x%02x; stroke-width:%.3f; fill:none;stroke-opacity:%f;stroke-linejoin:%s;stroke-linecap:%s\"\nd=\"\n",
 			int(255.0*_griState.color_line().getR()),
 			int(255.0*_griState.color_line().getG()),
 			int(255.0*_griState.color_line().getB()),
 			_griState.linewidth_line(),
-			1.0 - _griState.color_line().getT());
-		if (_dash.size() > 0) {
+			1.0 - _griState.color_line().getT(),
+			_griState.line_join() == 0 ? "sharp" : (_griState.line_join() == 1 ? "round" : "bevel"),
+			_griState.line_cap()  == 0 ? "butt"  : (_griState.line_cap()  == 1 ? "round" : "square"));
+		if (_dash.size() > 0)
 			fprintf(stderr, "%s:%d:gr_begin_path() is ignoring dash type for SVG output\n", __FILE__,__LINE__);			
-		}
 		break;
 	}
 }
@@ -163,9 +161,9 @@ void GriPath::stroke_or_fill(char s_or_f, units the_units, double width, bool cl
 			break;
 	if (i == depth)
 		return;
-	if (_output_file_type != postscript) {
-		fprintf(stderr, "%s:%d:stroke_or_file() is broken on non-postscript file output\n", __FILE__,__LINE__);
-	}
+//	if (_output_file_type != postscript) {
+//		fprintf(stderr, "%s:%d:stroke_or_file() is broken on non-postscript file output\n", __FILE__,__LINE__);
+//	}
 	// must be some data.  Process island by island
 	double        *xc = new double[depth];	if (!xc) OUT_OF_MEMORY;
 	double        *yc = new double[depth];	if (!yc) OUT_OF_MEMORY;
@@ -296,7 +294,7 @@ void GriPath::stroke_or_fill(char s_or_f, units the_units, double width, bool cl
 				fprintf(_grPS, "%% END GriPath stroke/fill\n");
 				break;
 			case svg:
-				fprintf(stderr, "%s:%d:GriPath.cc is ignoring the _type_ of path (filled/stroked, etc)\n", __FILE__,__LINE__);
+				fprintf(stderr, "%s:%d:GriPath.cc SVG is not being told the _type_ of path (filled/stroked, etc)\n", __FILE__,__LINE__);
 				fprintf(_grSVG, "\"/>\n</g>\n");
 				break;
 			case gif:
