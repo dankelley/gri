@@ -255,9 +255,12 @@ while(<>) {
 	print "</UL>\n";
     }
     if (/\@table\s*(.*)/o) {
-	print STDERR "table item is $1\n";
-	$is_code = 0;
-	$is_code = 1 if ($1 eq "\@code");
+	if ($1 eq "\@code") {
+	    $start_item = "<tt>"; $end_item = "</tt>"
+	}
+	if ($1 eq "\@emph") {
+	    $start_item = "<i>"; $end_item = "</i>"
+	}
 	print "<dl>\n";
 	while(<>) {
 	    next if /\@sp/;
@@ -268,21 +271,12 @@ while(<>) {
 		last;
 	    }
 	    if (/\s*\@item\s*(.*)/o) {
-		print STDERR "\nBEFORE ($is_code) '$1'\n";
                 $the_item = $1;
 		$the_item =~ s:\@{:{:g;
 		$the_item =~ s:\@}:}:g;
-		if ($is_code) {
-		    print "<dt> <tt>$the_item</tt>\n<dd>";
-		    print STDERR "<dt> <tt>$the_item</tt>\n<dd>";
-		} else {
-		    print "<dt> $the_item\n<dd>";
-		    print STDERR "<dt> $the_item\n<dd>";
-		}
+		print "<dt> $start_item$the_item$end_item\n<dd>";
 	    } else {
-		if (/^$/o) {
-		    print "<p>";
-		}
+		print "<p>" if (/^$/o);
 	        &sub_refs;
 	        &sub_headings;
 		&sub_emphasis;
