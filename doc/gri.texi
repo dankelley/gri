@@ -1835,11 +1835,18 @@ location.  In the example below, the first system call prints
 @code{fooled you!} on one line line, because Gri substituted for what it
 thought was a synonym called @code{\nbar}; the second (correctly) prints
 @code{foo} on one line and @code{bar} on the next.
+@cindex @code{system} command, how to get a tab
+@cindex @code{system} command, how to get a newline
+@cindex tab, in a @code{system} command
+@cindex newline, in a @code{system} command
 @example
 \nbar = "led you!"
 system perl -e 'print "foo\nbar\n";'
 system perl -e 'print "foo\\nbar\\n";'
 @end example
+Similarly, if your system command is expecting to see @code{\t} (for a
+tab character), then you must write @code{\\t} to prevent Gri from
+trying to substitute a synonym named @code{\t}.
 
 @node   Dot Naming Convention For Builtin Synonyms, Displaying Synonyms, Synonym Names, About Synonyms
 @comment  node-name,  next,  previous,  up
@@ -12376,14 +12383,18 @@ y = .intercept. + .slope. * x
 Show some information by printing it to standard output.
 
 @itemize @bullet
+
 @item @code{show all}
 Show lots of information about plot.
+
 @item @code{show axes}
 @cindex axes, displaying information about
 Show information about axes.
+
 @item @code{show color}
 Show the current pen color used for lines and text.  This is not to be
 confused with image color, which is independent.
+
 @item @code{show colornames}
 @cindex RGB values of known colors
 @cindex color, displaying names and RGB values of
@@ -12391,17 +12402,22 @@ Show all colors known by name, as defined by @code{read colornames}
 command and also the builtin colors defined automatically
 (e.g. @code{white}, @code{black}, @code{red}, etc),
 (@ref{Read Colornames}).
+
 @item @code{show columns}
 Show x, y, z, u, v column data.
+
 @item @code{show columns statistics}
 @cindex statistics of column data
 @cindex column, displaying statistics of
 Show means, std devs, etc for columns.
+
 @item @code{show flags}
 Show values of all flags. (Developers only.)
+
 @item @code{show grid}
 @cindex grid data, displaying
 Show an indication of the grid data (used for contouring).
+
 @item @code{show grid mask}
 @cindex grid mask, displaying
 Show 1 if grid data are valid or 0 if contours wil not extend into this
@@ -12419,43 +12435,59 @@ region.
 @c REMOVED FOR 2.6.0 @file{~/.gri-hint-cache}.  This command will 
 @c REMOVED FOR 2.6.0 produce warning if the system program @code{lynx} is not available for
 @c REMOVED FOR 2.6.0 downloading.
+
 @item @code{show image}
 @cindex image, displaying histogram of
 Show information about image, such as a histogram of values, and, if the
 image is small enough, the actual data.
+
 @item @code{show license}
 Show the license for Gri, which outlines how users are allowed to share
 it freely.
+
 @item @code{show misc}
 Show miscellaneous information about the plot, the data, etc.
+
 @item @code{show next line}
 Show next line of data-file.
+
 @item @code{show synonyms}
 @cindex synonyms, displaying list of
 Show values of all synonyms, whether built-in or user-defined.
 
+@item @code{show stopwatch}
 @cindex timing things
 @cindex stopwatch, for timing things
 @cindex @code{show stopwatch} command
-@item @code{show stopwatch}
 Show elapsed time since first call to this command in the given Gri program.
+
 @item @code{show time}
 Show the current time.
+
 @item @code{show traceback}
 @cindex traceback
 Show traceback (i.e., the tree of commands being done at this instant).
+
 @item @code{show variables}
 @cindex variables, displaying list of
 Show values of all variables, whether built-in or user-defined.
+
 @item @code{show .value.}
 Show value of indicated variable.
+
 @item @code{show @{rpn ...@}}
 Show result of computing indicated expression.
+
 @item @code{show "some text"}
+@cindex @code{show} command, how to get a tab
+@cindex @code{show} command, how to get a newline
+@cindex tab, in a @code{show} command
+@cindex newline, in a @code{show} command
 Print the indicated string.  Certain control codes are allowed:
 @code{\\n} means newline; @code{\\t} means tab.  (The double-slash notation
 is required so that Gri doesn't interpret these backslashes as designating
 the starts of synonyms.)
+
 @item @code{show "time=" .time. "; depth=" .depth.}
 Print strings and values as indicated.  If the last item is ellipses
 (three dots with no spaces between them), then no newline is printed;
