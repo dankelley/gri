@@ -1793,7 +1793,7 @@ draw_image_paletteCmd()
 			     left_cm, bottom_cm, right_cm, top_cm,
 			     false);
 	}
-	fprintf(_grPS, "S Q %% turn clipping off for image palette\n");
+	fprintf(_grPS, "Q %% turn clipping off for image palette\n");
 	if (rotpal==0) {
 		if (otherside==0)
 			gr_drawxaxis(0.0, left, inc, right, gr_axis_BOTTOM);
