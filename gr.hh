@@ -293,10 +293,10 @@ double lapse_rate(double S, double t, double p);
 
 // Pin number to a range
 #if !defined(pin0_1)
-#define pin0_1(x)  	(x < 0 ? 0 : (x <   1 ? x :   1))
+#define pin0_1(x)  	((x) < 0 ? 0 : ((x) <   1 ? (x) :   1))
 #endif
 #if !defined(pin0_255)
-#define pin0_255(x)	(x < 0 ? 0 : (x < 255 ? x : 255))
+#define pin0_255(x)	((x) < 0 ? 0 : ((x) < 255 ? (x) : 255))
 #endif
 
 // Allocate storage, printing file/line if cannot
