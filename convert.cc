@@ -1396,8 +1396,6 @@ convert_grid_to_imageCmd()
 	}
 	bool warned = false;
 	GriTimer t;
-
-
 	for (i = 0; i < width; i++) {
 		xx = _image_llx + i * dxx;
 		for (j = 0; j < height; j++) {

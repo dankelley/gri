@@ -41,6 +41,7 @@ allocate_image_storage(int nx, int ny)
 	_image.image = new unsigned char[_image.ras_length];
 	if (!_image.image) OUT_OF_MEMORY;
 	_imageHist_exists = false;
+	//printf("%s:%d got storage for image %d wide and %d tall\n",__FILE__,__LINE__,_image.ras_width,_image.ras_height);
 	return true;
 }
 
