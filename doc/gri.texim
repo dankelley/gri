@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.123 2001/07/27 20:22:25 dankelley Exp $
+@c $Id: gri.texim,v 1.124 2001/08/12 18:19:29 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -15854,7 +15854,7 @@ Complete the port to IBM's compiler for their AIX operating system.
 @comment  node-name,  next,  previous,  up
 @subsection Version 2.6
 
-@subsection Version 2.6.4 [2001 Jul 9]
+@subsection Version 2.6.4 [2001 Jul 9 (Dan's birthday!)]
 @itemize @bullet
 @item
 Fix SourceForge bug 
@@ -15986,22 +15986,17 @@ Fix SourceForge bug
 
 @subsubsection Version 2.6.0 [2001 April 1]
 @itemize @bullet
-
 @item
 Permit @code{rewind} to take a filename.
-
 @item
 Make @code{open} set @code{\.return_value.} to the full pathname of the
 file that was opened.
-
 @item
 Add @code{set path} command (@ref{Set Path To}).
-
 @item
 Remove functioning of @code{GRIINPUTS} environment variable, since this
 is more cleanly handled with the newly added @code{set path to} command
 (@ref{Set Path To}).
-
 @item
 Remove @code{\.awk.} synonym, which was deemed to be unhelpful.  Users
 with many scripts that use this variable might wish to put a line like
@@ -16009,91 +16004,67 @@ with many scripts that use this variable might wish to put a line like
 \.awk. = "gawk"
 @end example
 in their @file{~/.grirc} file.
-
 @item
 Change the format of images in the PostScript output file, as a
 workaround for a bug in the @code{ps2pdf} program.
-
 @item
 Add ``ampersand'' (@code{\&} and @code{\&&})
 syntax to permit newcommands to
 look up the name and nesting level of changeable arguments
 (@ref{Changeable Command Arguments}).
-
 @item
 Add ``at-sign'' (@code{@@}) syntax for aliases
 (@ref{Alias Synonyms}).
-
 @item
 Add ability to embed newlines in @code{show} 
 commands with the @code{\<<} sequence (@ref{Show}).
-
 @item
 Add ability to embed TAB characters in @code{show} 
 commands with the @code{\>>} sequence (@ref{Show}).
-
 @item
 Make various @code{read} commands (@ref{Read}) able to decode synonyms
 as well as variables and simple numbers.
-
 @item
 Add @code{strlen} RPN operator (@ref{Unary Operators}).
-
 @item
 Add @code{default} option to @code{set x format} and 
 @code{set y format} commands.
-
 @item
 Add @code{new postscript file} (@ref{New Postscript File}) command.
-
 @item
 Switch email list from @code{majordomo} to GNU @code{mailman}.
-
 @item
 No longer remove comments from data lines that are read.  This served
 little function, interfered with recent user code, and could be
 accomplished by reading through a @code{sed} pipe in any case.
-
 @item
 Make the first element of the @code{argv} array be the name of 
 the command-file.  (This makes Gri consistent with languages such
 as C.)
-
 @item
 Add chapter on test suite (@ref{Test Suite}).
-
 @item
 Let newcommands have changeable arguments (@ref{Changeable Command Arguments}).
-
 @item
 Remove @code{-s} as an abbreviation for the commandline option @code{-superuser}.
-
 @item
 Remove the @code{:} syntax from the commandline options.
-
 @item
 Add commandline option @code{-output PS_file_name}.
-
 @item
 Add @code{assert} command (@ref{Assert}).
-
 @item
 Add test suite (mainly for developers).
-
 @item
 Add @code{sleep} command (@ref{Sleep}).
-
 @item
 Remove command @code{show hint of the day}, since I no longer permission
 to use cgi-bin to provide the hints via web-server.
-
 @item
 Permit indexing of synonym words with variables, in addition to
 constants.
-
 @item
 Fix bug in interpolating synonyms in the test-expression of @code{while} loops.
-
 @item
 Put source on the
 Source Forge open-source development website, at
@@ -16114,41 +16085,31 @@ bug-tracking facility.
 With this you may check for existing bugs reported by users, submit new
 bug reports, and also track the process of bug removal (e.g. optionally
 receiving emails when the bug is removed).
-
 @item
 Add @code{set colorname} command (@ref{Set Colorname}).
-
 @item
 Add @code{source} command (@ref{Source}).
-
 @item
 Add RPN operators @code{wordc} (@ref{Solitary Operators}) and
 @code{wordv} (@ref{Unary Operators}) for accessing the words in the
 present Gri command.
-
 @item
 Add RPN operators @code{argc} (@ref{Solitary Operators}) and
 @code{argv} (@ref{Unary Operators}) for accessing the command-line
 arguments used when Gri was invoked from the operating system.
-
 @item
 Add automatic support for compressed data files.  So far, this only
 works with gzipped files (@ref{Open}).
-
 @item
 Add two new RPN operators, @code{file_exists} and
 @code{directory_exists} (@ref{Unary Operators}).
-
 @item
 Reorganize parts of manual (e.g.  changing the section about the Emacs
 @file{gri-mode.el} into a chapter, with screen snapshots).
-
 @item
 Improve the HTML form of the manual (e.g. color-code the Gri syntax in
 examples, provide access to all the indices, use Jpeg format, et.).
-
 @item
-
 Add several new features to @code{gri-mode.el}:
 
 1) Add a menubar pull-down menu listing all Gri commands,
@@ -16179,7 +16140,7 @@ Add several new features to @code{gri-mode.el}:
 @comment  node-name,  next,  previous,  up
 @subsection Version 2.4
 
-@subsubsection Version 2.4.4 [2000-May-07]
+@subsubsection Version 2.4.4 [2000 May 7]
 Change so that only a warning is printed if mathematical operations are
 requested on empty arrays (e.g. @code{y += 10}).  Previously, an error
 was reported and Gri exited with an error condition, which is bothersome
@@ -16187,21 +16148,21 @@ in scripts that rely on successful completion of the Gri job.
 
 Port to the BeOS operating system.
 
-@subsubsection Version 2.4.3 [2000-Apr-01]
+@subsubsection Version 2.4.3 [2000 Apr 1]
 Change location of all files, to be consistent with Redhat convention.
 Previously, things were in @code{/opt/gri}; now they are in more
 standard locations.
 
-@subsubsection Version 2.4.2 [2000-Mar-25]
+@subsubsection Version 2.4.2 [2000 Mar 25]
 Remove bug in which @code{convert grid to image} produced incorrect
 images, visible as a patchy appearance with coarse grids.
 
-@subsubsection Version 2.4.1 [2000-Jan-31]
+@subsubsection Version 2.4.1 [2000Jan 31]
 Remove bug in which @code{convert image to grid} failed to take note of
 the gri minimum and maximum, so that contouring of the grid was not
 possible for grids created from images.
 
-@subsubsection Version 2.4.0 [2000-Jan-05]
+@subsubsection Version 2.4.0 [2000 Jan 05]
 Add @code{set input data separator}.  Make @code{read columns} work with
 various input separators. Make @code{read .x.}, etc, work with various
 input separators.
