@@ -404,6 +404,7 @@
 ;;  gri-validate-version: new function, see if specified version is available.
 ;;  gri-validate-cmd-file: new function, see if gri-cmd-file as set ik okay.
 ;;  gri-what-version: REMOVED function.  Not very useful anyway.
+;; V2.64 02Apr2003 - Remove old hilit19 code.  Obsolete.
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -614,42 +615,6 @@ but can also be entered simply as a single string:
 (defvar gri-view-process nil
   "Buffer local variable holding the process object for gri-view, if any.")
 (make-variable-buffer-local 'gri-view-process)
-
-(defvar gri*use-hilit19 (not (featurep 'font-lock))
-  "*Use the hilit19 package to highlight gri code.
-This does not *force* gri-mode to load hilit19.
-
-You may configure hilit19 to highlight only certain modes.  Unfortunately,
-gri-mode isn't smart enough to sort this out.  Therefore, gri-mode will
-only use hilit19 if (1) it is loaded and (2) this variable is set to t.
-To force gri-mode to never use hilit19 by itself, use:
-
-  (setq gri*use-hilit19 nil)")
-
-(defvar gri*hilit-declarations t 
-  "*highlight variable and synonym declarations when using hilit19 in gri-mode.
-Reset this in your .emacs file (but not in your gri-mode-hook) like so:
-
-  (setq gri*hilit-declarations nil)")
-
-(defvar gri*hilit-variables nil 
-  "*highlight all variables and synonyms when using hilit19 in gri-mode.
-Set this in your .emacs file (but not in your gri-mode-hook) like so:
-
-  (setq gri*hilit-variables t)")
-
-(defvar gri*hilit-rpn-contents nil 
-  "*highlight contents of rpn expressions when using hilit19 in gri-mode.
-Set this in your .emacs file (but not in your gri-mode-hook) like so:
-
-  (setq gri*hilit-rpn-contents t)")
-
-(defvar gri*hilit-before-return nil
-  "*If t, current line is highlighted before newline is inserted.
-This variable is ignored for when not using emacs-19 in its own X-window.
-Reset this in your .emacs file like so:
-
-  (setq gri*hilit-before-return t)")
 
 ;; ----------------------------------------------------------------------------
 ;; The syntax file looks like:     Used by:
@@ -3054,11 +3019,7 @@ You can remove these comments using gri-uncomment-out-region."
         (insert "#")
         (while (and (= 0 (forward-line 1))
                     (not (= (point) (point-max))))
-          (insert "#")))
-      (if (and gri*use-hilit19
-               (fboundp 'hilit-rehighlight-region))
-          ;;Wish hilit had a function to tell if current buffer uses hilit
-          (hilit-rehighlight-region (point-min) (point-max) t)))))
+          (insert "#"))))))
  
 (defun gri-uncomment-out-region (from to)
   "Remove Comments at beginning of lines in the region between point and mark."
@@ -3075,9 +3036,7 @@ You can remove these comments using gri-uncomment-out-region."
         (if (looking-at "//")
             (delete-char 2))
         (if (looking-at "#")
-            (delete-char 1)))
-      (if (and gri*use-hilit19 (fboundp 'hilit-rehighlight-region))
-          (hilit-rehighlight-region (point-min) (point-max) t)))))
+            (delete-char 1))))))
         
 (defun gri*date-function ()
   "Adapted from objective-C-mode.  Add name, author and date on current line."
@@ -3151,113 +3110,27 @@ Code from objective-C-mode."
     (previous-line 5)))
 
 (defun gri-fontify-buffer ()
-  "Fontify buffer with font-lock or else hilit19"
+  "Fontify buffer with font-lock"
   (interactive)
   (cond
    ((featurep 'font-lock)
     (font-lock-fontify-buffer))
    ((load "font-lock" t t)
     (font-lock-fontify-buffer))
-   ((featurep 'hilit19)
-    (gri-highlight-buffer))
-   ((load "hilit19" t t)
-    (gri-highlight-buffer))
    (t
-    (message "We neither have font-lock or hilit19 to use"))))
-    
-(defun gri-highlight-buffer ()
-  "Call hilit-highlight-buffer, loading hilit19 if required.
-
-Variables: 
-       gri*hilit-declarations (default is t)
-        If set to true, highlight variable and synonym declarations.
-        To turn this off, put the following in your .emacs file:
-          (setq gri*hilit-declarations nil)
-        This does not go in your gri-mode-hook! 
-       gri*hilit-variables (default is nil)
-        If set to true, highlight all variables and synonyms 
-       gri*hilit-rpn-contents (default is nil)
-        If set to true, highlight entire contents of rpn expressions
-        (everything within the curly braces)
-       gri*hilit-before-return (default is nil)
-        If set to true, auto-highlight current line on newline (<CR>)
-
-Note: If you find the faces used ugly, use hilit-translate to switch
-      them.  e.g.   
-                  (hilit-translate string 'bold)"
-  (interactive)
-  (if (string-equal "18" (substring emacs-version 0 2))
-      (error "Sorry, this is an emacs-19 feature."))
-  (if (not window-system)
-      (error "Sorry, this runs under a window system only."))
-  (if (not (fboundp 'hilit-highlight-buffer))
-      (progn
-        (require 'hilit19)
-        (gri-set-mode-patterns)))
-  (hilit-highlight-buffer))
+    (message "font-lock is not available."))))
 
 (defun gri-return ()
   "Carriage return in Gri-mode with optional highlighting and indentation.
 If variable gri-indent-before-return is t, 
-  current line is indented before newline is created.
-If variable gri*hilit-before-return is t,
-  current line is highlighted (using hilit19) before newline is inserted."
+  current line is indented before newline is created."
   (interactive)
   (if gri-indent-before-return
       (gri-indent-line))
   ;; FIXME: I could also use font-lock on region to get continued system lines
   ;;        fontified okay.
-  (if (and gri*hilit-before-return
-           (fboundp 'hilit-rehighlight-region))
-      (let ((the-start))
-        (save-excursion
-          (while (and (= 0 (forward-line -1)) (gri-continuation-line)))
-          (forward-line 1) 
-          (beginning-of-line)
-          (setq the-start (point)))
-        (newline)
-        (hilit-rehighlight-region the-start (point) t))
-    (newline))                          ;Not gri*hilit-before-return
+  (newline)
   (gri-indent-line))
-
-(defun gri-set-mode-patterns ()
-  "Calls hilit-set-mode-patterns to sets the gri-mode patterns"
-  (hilit-set-mode-patterns 
-   'gri-mode
-   (append
-    '(("/\\*" "\\*/" comment)           ; Comments override all other hilits
-      ("//" "[^\\]\\($\\|\C-m\\)" comment)   
-
-      ("^`.*'\\($\\|\C-m\\)" nil defun) ; User command declaration
-      ("\\(^\\|\C-m\\)\\({\\|}\\)\\($\\|\C-m\\)" nil defun) ;("^{$\\|^}$")
-      ;;("^`.*'$" "^{$" string)         ; User command help (below hidden code)
-      ("^`.*'\\($\\|\C-m\\)" "\\(^\\|\C-m\\){\\($\\|\C-m\\)" string)
-
-      ("\\(^\\|\C-m\\)[ \t]*\\(quit\\|return\\|if\\|else\\|else if\\|end if\\|break\\|while\\|end while\\|system\\)\\>"
-       nil keyword))
-
-    (and gri*hilit-declarations         ; Hilit after `\sysnonym = system' line
-         '(("\\\\[^ ]+[ ]+[\\+\\*/^-]?= " nil define)
-           ("\\.[^ .]+\\.[ ]+[\\+\\*/^-]?= " nil define)))
-
-    '(("\\(^\\|\C-m\\)[ \t]*\\(\\\\[^ ]+[ ]+=[ ]+\\)?system[^\C-m$]*<<\"EOF\"" 
-       ;;                   ^^^^^^^^^^^^^^^^^^^^^^^^optional synonym assignment
-       "\\(^\\|\C-m\\)[ \t]*EOF" msg-header)
-
-      ("\\(^\\|\C-m\\)[ \t]*\\(\\\\[^ ]+[ ]+=[ ]+\\)?system" 
-       ;;                   ^^^^^^^^^^^^^^^^^^^^^^^^optional synonym assignment
-       "[^\\]\\($\\|\C-m\\)" msg-header)
-
-      ;;("\"" ".*\"" string)            ; standard but fails with two on a line
-      ("\"[^\"]*\"" nil string))        ; this is a better string regexp
-
-    (and gri*hilit-variables
-         '((" \\.+[A-z][^ .$\C-m]*\\.+" nil struct) ; .variables.
-           (" \\\\[^ $\C-m]+" nil struct)))  ; \.synonyns.
-    (and gri*hilit-rpn-contents
-         '(("{[ ]*rpn" "}" formula)))   ; the contents of the {rpn expression}
-    (and (not gri*hilit-rpn-contents)
-         '(("{\\|}\\|rpn" nil include))))))
 
 ;;; -- font-lock stuff
 (defvar gri-mode-system-face			'gri-mode-system-face
@@ -3546,9 +3419,7 @@ gets the following comment:
           (insert "# ")
           (forward-line 1)
           (setq number-of-lines (1- number-of-lines)))
-        (setq the-end (point)))
-      (if (and gri*use-hilit19 (fboundp 'hilit-rehighlight-region))
-        (hilit-rehighlight-region (point) the-end t)))))
+        (setq the-end (point))))))
 
 (defun gri-string-at-point (chars &optional punct)
   "Return maximal string around point, of chars specified by string CHARS.
@@ -3714,9 +3585,6 @@ Any output (errors?) is put in the buffer `gri-WWW-manual'."
 ;;       draw ...                ^ user modified indentation 
 ;;       ^ proper indentation regardless of continuated line
 ;;         based on base line of continuated line (draw label ...)
-
-(if (fboundp 'hilit-set-mode-patterns) ;Do only if hilit19 in use
-    (gri-set-mode-patterns))
 
 (defconst gri-comment-column 32
   "*The goal comment column in Gri-mode buffers.")
@@ -4783,7 +4651,6 @@ COMMANDS AND DEFAULT KEY BINDINGS:
    gri-indent-buffer     M-C-v        Indent all lines in buffer.
    gri-comment-out-region             To avoid running a block of code.
    gri-uncomment-out-region           To undo previous command
-   gri-fontify-buffer    S-C-l        Fontify the buffer with font-lock/hilit19
    gri-return            RET          Handle return with indenting.
  To use multiple versions of Gri installed on the system
    gri-set-local-version              Set version of gri for this file only.
@@ -4815,16 +4682,9 @@ VARIABLES:
   gri*WWW-page                      Page to use by browser
   fill-column                       Column used in auto-fill (default=70).
   gri-comment-column                Goal column for on-line comments.
-  gri*hilit-before-return           If true, highlight current line on <CR>
   gri-indent-before-return          If true, indent current line on <CR>
   gri-indent-level                  Level to indent blocks.
   gri-new-command-help-indent-level Level to indent help in new commands.
-
-  gri*use-hilit19                   t or nil, use hilit19 without warning.
-  gri*hilit-declarations            t or nil, highlight variable and synonym
-                                      declarations with hilit19.
-  gri*hilit-variables               t or nil, hilit all variables and synonyms
-  gri*hilit-rpn-contents            t or nil, hilit contents of rpn expressions
 
 ACCESSING:  
 To add automatic support put something like the following in your .emacs file:
@@ -4839,10 +4699,6 @@ And optionally, customize the mode in your .emacs file:
   (setq gri*view-command \"ghostview -magstep -1\") ;for small screens
   (setq gri*view-after-run nil)         ;Don't call gri-view after gri-run.
   (setq gri*WWW-program \"xmosaic\")      ;Our local WWW browser program
-  (setq gri*hilit-declarations nil)     ;Don't highlight declarations
-  (setq gri*hilit-variables t)          ;hilit all variables and synonyms
-  (setq gri*hilit-rpn-contents t)       ;hilit contents of {rpn expressions}
-  (setq gri*hilit-before-return t)      ;auto-highlight current line on <CR>
   (setq gri-indent-before-return t)     ;Indent current line on <CR>
   (setq gri-mode-hook                   ;Hook gets invoked after gri-mode
        '(lambda () 
