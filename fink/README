@@ -5,18 +5,15 @@ BUILDING A LOCAL GRI FOR FINK
 	fink validate gri.info
 to find errors, and fix these before proceeding to step 2.
 
-3. Create the tarball
+2. Create the tarball
 	cd ~/src/gri
 	make dist
 	mv gri-2.12.9.tar.gz gri-2.12.9.tgz 
 
-2. Deposit files in correct places for build
+3. Deposit files in correct places for build
 	cd ~/src/gri/fink
 	sudo cp gri.info           /sw/fink/dists/local/main/finkinfo/
 	sudo cp ../gri-2.12.9.tgz  /sw/src
-
-3. Download the gri source
-	fink fetch gri
 
 4. Build it
 	fink rebuild gri
