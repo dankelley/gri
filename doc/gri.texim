@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.78 2001/04/22 21:16:48 dankelley Exp $
+@c $Id: gri.texim,v 1.79 2001/04/22 21:20:36 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -15568,6 +15568,12 @@ and adjust the "status" menu to read "closed".
 
 @subsection Version 2.6.1 [NOT RELEASED YET]
 @itemize @bullet
+@item
+Fix SourceForge bug 
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=418065&group_id=5511&atid=105511">
+#418065
+@c HTML </a>
+(documentation mentions back-tic notation, which is not available)
 @item
 Fix SourceForge bug 
 @c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=417333&group_id=5511&atid=105511">
