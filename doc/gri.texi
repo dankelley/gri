@@ -3609,7 +3609,6 @@ sure that a Gri bug must underly them.
 * Color::                       Controlling the pen color
 * Interaction::                 Talking with user
 * Operating System::            Using Gri in OS and OS in Gri
-* Library Files::               Storing gri files for easy access
 * Resource File::               Personalizing Gri
 * Defaults::                    How Gri normally acts
 @end menu
@@ -4123,7 +4122,7 @@ system rm -f \file
 
 
 
-@node   Using Gri Inside OS, Library Files, Using OS Inside Gri, Operating System
+@node   Using Gri Inside OS, Resource File, Using OS Inside Gri, Operating System
 @comment  node-name,  next,  previous,  up
 @subsection Using Gri from within the OS
 
@@ -4149,81 +4148,9 @@ esac
 @end example
 
 
-
-
-
-@c HTML <!-- newfile LibraryFiles.html "Gri: library files" "General Issues" -->
-
-@node   Library Files, Resource File, Using Gri Inside OS, General Issues
-@comment  node-name,  next,  previous,  up
-@section Library Files
-Gri has a facility for using "library files" in addition to your command
-files.  This a somewhat new facility, and at the moment no library files
-are provided with Gri.
-
-Invoking a library file is done at the system prompt, while invoking Gri
-itself.  For example, suppose that a library file called @file{10pt}
-were present on the system (the directory in which this file might sit
-will be discussed momentarily), which consisted of the single line
-@example
-set font size 10
-@end example
-and that Gri were invoked as
-@example
-gri 10pt,myfile.gri
-@end example
-instead of
-@example
-gri myfile.gri
-@end example
-
-Then, before Gri executed any commands in @file{myfile.gri}, it would
-would first execute @file{10pt}, setting the font size to 10 points.  Of
-course, this will have no practical effect if @file{myfile.gri} sets the
-font size before drawing text.  The idea is that you would @emph{not}
-set font sizes in @file{myfile.gri}, but use defaults instead.  
-
-@emph{Note} that it is conventional not to give library files a
-@file{.gri} suffix.  Then again, your own command files don't need these
-suffices either, so you could write
-@example
-gri 10pt,myfile
-@end example
-instead of the above.
-
-So, for example, you might like to set up a library file called
-@file{seminar}, which sets a big font size, thick line widths, large
-symbols, etc.  Another file, @file{publication}, say might set these
-things in an appropriate way for journals.  And so one figure could be
-formatted for a seminar presentation with
-@example
-gri seminar,myfile.gri
-@end example
-and for publication with
-@example
-gri publication,myfile.gri
-@end example
-
-Gri normally looks in the directory @file{/usr/share/gri} for library
-files, but you can control where it looks by setting the
-@code{GRIINPUTS} unix environment variable; for more on this
-@xref{Options On Command Line}.  But, here's an example to save you
-following the cross-reference: just put the line
-@example
-export GRIINPUTS=".:$HOME/lib/gri:/usr/share/gri"
-@end example
-@noindent
-in your @file{~/.environment} file (in the bourne shell).
-
-@emph{Note} that library files are a new feature in Gri, and no library
-files are shipped with Gri.  Indeed, library files are probably the kind
-of thing that users should prepare and share, as opposed to the Gri
-developer, since they are a personalization feature, after all.
-
-
 @c HTML <!-- newfile ResourceFile.html "Gri: The Gri resource file" "General Issues" -->
 
-@node   Resource File, Defaults, Library Files, General Issues
+@node   Resource File, Defaults, Using Gri Inside OS, General Issues
 @comment  node-name,  next,  previous,  up
 @section Sample Resource File
 @cindex files, @file{~/.grirc} initialization file
