@@ -875,76 +875,16 @@ expected.  EXAMPLE:
     end if
 }
 
-`draw gri logo [size .fontsize. at .xcm. .ycm.]'
-Draw gri logo at specified location, in specified fontsize, or at a default
-location at the top-right of the page.
-26 NOV 94: THIS COMMAND UNDER CONSTRUCTION; SYNTAX AND OUTPUT MAY CHANGE.
+`draw gri logo .x_cm. .y_cm. .height_cm. .style. \fgcolor \bgcolor'
+.style.    style
+=======    ===================
+   0       stroke curve
+   1       fill with color \fgcolor, no background
+   2       fill with color \fgcolor it in tight box of color \bgcolor
+   3       as 2 but in square box
+   4       draw in \fgcolor on top of shifted copy in \bgcolor
 {
-    new .old_fontsize. .old_ticsize. .old_red. .old_green. .old_blue.
-    .old_fontsize. = ..fontsize..
-    .old_ticsize. = ..tic_size..
-    .old_red. = ..red..
-    .old_green. = ..green..
-    .old_blue. = ..blue..
-    new .fontsize. .x_cm. .y_cm.
-    if {rpn \.words. 3 ==}
-	# Use default size and location
-	.fontsize. = 24
-	if ..landscape..
-	    .x_cm. = {rpn 11.0 2.54 * 2.5 -}
-	    .y_cm. = {rpn  8.5 2.54 * 2.0 -}
-	else
-	    .x_cm. = {rpn  8.5 2.54 * 2.5 -}
-	    .y_cm. = {rpn 11.0 2.54 * 2.0 -}
-	end if
-    else if {rpn \.words. 8 ==}
-	# Use specified size and location
-	.fontsize. = \.word4.
-	.x_cm. = \.word6.
-	.y_cm. = \.word7.
-    else
-	show "ERROR: Require 4 words, but got \.words. words."
-        show traceback
-	quit
-    end if
-    set tic size {rpn .fontsize. pttocm 20 /}
-    set font to PalatinoRoman	# Pick any font
-    set font size .fontsize.
-    .dx_cm. = {rpn .fontsize. pttocm 2 / 8 /} # offset for each copy
-    .dy_cm. = {rpn .dx_cm. 0.70 *} # angle letters a little
-    set x size {rpn "Gri" width  .dx_cm. 3 * +}
-    set y size {rpn "Gri" ascent .dy_cm. 3 * + 0.618 /} # golden ratio
-    set x margin .x_cm.
-    set y margin .y_cm.
-    set x axis 0 1 0.25
-    set y axis 0 1 0.25
-    draw axes none
-    set color rgb 0.93 0.95 1.000000
-    draw box filled ..xleft.. ..ybottom.. ..xright.. ..ytop..
-    set color rgb 0.529412 0.807843 1.000000 #SkyBlue1
-    open "gawk 'BEGIN{for(x=0;x<=1.01;x+=.05){print x, 0.6 + 0.25*x + 0.1 * sin(x * 6.282 / .75)}}' | "
-    read columns x y
-    draw curve filled to 0 y
-    .x_cm. += {rpn .dx_cm. 1.5 *}
-    .y_cm. += {rpn .dy_cm. 1.5 *}
-    set color black
-    draw label "Gri" at .x_cm. .y_cm. cm
-    .x_cm. += .dx_cm.
-    .y_cm. += .dy_cm.
-    set color white
-    draw label "Gri" at .x_cm. .y_cm. cm
-    set font size {rpn .fontsize. 6 /}
-    set color black
-    set font size 0
-    draw axes frame
-    draw x axis at bottom
-    draw y axis at left
-    # Clean up
-    delete .fontsize. .x_cm. .y_cm. # These used here
-    set font size .old_fontsize. # Old values
-    set tic size .old_ticsize.
-    set color rgb .old_red. .old_green. .old_blue.
-    delete .old_fontsize. .old_ticsize. .old_red. .old_green. .old_blue.
+    extern "C" bool draw_gri_logoCmd(void);
 }
 
 `draw grid'
@@ -4609,20 +4549,6 @@ Main adjustable parameters marked with '*' in comment.
 	{rpn ..ymargin.. ..ysize.. + 1.0 +} \
 	{rpn ..xmargin.. ..xsize.. +} \
 	{rpn ..ymargin.. ..ysize.. + 2.0 +}
-}
-
-`Draw gri logo .x_cm. .y_cm. .height_cm. .style. \fgcolor \bgcolor'
-.style.    style
-=======    ===================
-   0       stroke curve
-   1       fill with color \fgcolor, no background
-   2       fill with color \fgcolor it in tight box of color \bgcolor
-   3       as 2 but in square box
-   4       draw in \fgcolor on top of shifted copy in \bgcolor
-NOTE: Only author should use this for now!!
-NOTE: uses env-vars DX and DY; see draw.cc
-{
-    extern "C" bool draw_gri_logoCmd(void);
 }
 
 rpnfunction e 2.7182818284590452354

@@ -2823,15 +2823,7 @@ set_y_scale()
 bool
 draw_gri_logoCmd()
 {
-#if 1
-	double dx, dy;
-	warning("DEBUG: using .dx. and .dy. temporarily.  draw_gri_logoCmd()/draw.cc");
-	if (!get_var(".dx.", &dx))
-		err("DEBUG: cannot find .dx.");
-	if (!get_var(".dy.", &dy))
-		err("DEBUG: cannot find .dy.");
-#endif
-	printf("DEBUG: dx=%f dy=%f cm LATER HARD-WIRE IN.\n", dx, dy);
+	double dx=0.03, dy=0.03; // Q: should these be arguments?
 	//
 	// Process args
 	double x_cm, y_cm, height_cm;
