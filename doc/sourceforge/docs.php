@@ -23,11 +23,13 @@ set_up_lhs();
 <h1>Publications</h1>
 
 <p>
-An 
+Dan and Peter have written an
 <A HREF="http://www2.linuxjournal.com/lj-issues/issue75/3743.html">
 article on Gri</a>
-appeared in Linux Journal (July 2000).  This might be a good introduction 
-for many users.
+in Linux Journal (July 2000); users may find this introduction gentler
+than the manuals.
+</p>
+
 
 <h1>Online resources</h1>
 
