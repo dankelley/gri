@@ -264,13 +264,12 @@ show_columnsCmd()
 {
 	unsigned int    i;
 	unsigned        xlength = _colX.size();
-	unsigned        rlength = _colR.size();
-	if (xlength < 1 && rlength < 1) {
+	if (xlength < 1) {
 		warning("`show columns' -- no columns exist");
 		return true;
 	}
 
-	unsigned int length = xlength == 0 ? rlength : xlength;
+	unsigned int length = xlength;
 
 	if (_nword == 2) {
 		// `show columns'
@@ -302,14 +301,6 @@ show_columnsCmd()
 		}
 		if (_colZ.size() > 0) {
 			sprintf(_grTempString, "%15s\t", "z");
-			ShowStr(_grTempString);
-		}
-		if (_colR.size() > 0) {
-			sprintf(_grTempString, "%15s\t", "r");
-			ShowStr(_grTempString);
-		}
-		if (_colTHETA.size() > 0) {
-			sprintf(_grTempString, "%15s\t", "theta");
 			ShowStr(_grTempString);
 		}
 		if (_colWEIGHT.size() > 0) {
@@ -357,24 +348,6 @@ show_columnsCmd()
 			}
 			if (_colZ.size() > 0) {
 				tmp = _colZ[i];
-				if (gr_missing(tmp)) {
-					ShowStr(MISSING);
-				} else {
-					sprintf(_grTempString, "%15g\t", tmp);
-					ShowStr(_grTempString);
-				}
-			}
-			if (_colR.size() > 0) {
-				tmp = _colR[i];
-				if (gr_missing(tmp)) {
-					ShowStr(MISSING);
-				} else {
-					sprintf(_grTempString, "%15g\t", tmp);
-					ShowStr(_grTempString);
-				}
-			}
-			if (_colTHETA.size() > 0) {
-				tmp = _colTHETA[i];
 				if (gr_missing(tmp)) {
 					ShowStr(MISSING);
 				} else {
@@ -476,39 +449,11 @@ v[1-%4d]:         mean       stddev     skewness     kurtosis\n\
 			_colV.min(), q1, q2, q3, _colV.max());
 		gr_textput(_grTempString);
 	}
-	if (_colR.size() > 0) {
-		moment(_colR.begin(), _colR.size(), &ave, &adev, &sdev, &svar, &skew, &kurt);
-		histogram_stats(_colR.begin(), _colR.size(), &q1, &q2, &q3);
-		sprintf(_grTempString, "\
-r[1-%4d]:         mean       stddev     skewness     kurtosis\n\
-           %12g %12g %12g %12g\n",
-			int(_colR.size()), ave, sdev, skew, kurt);
-		gr_textput(_grTempString);
-		sprintf(_grTempString, "\
-                minimum           q1       median           q3      maximum\n\
-          %12g %12g %12g %12g %12g\n",
-			_colR.min(), q1, q2, q3, _colR.max());
-		gr_textput(_grTempString);
-	}
-	if (_colTHETA.size() > 0) {
-		moment(_colTHETA.begin(), _colTHETA.size(), &ave, &adev, &sdev, &svar, &skew, &kurt);
-		histogram_stats(_colTHETA.begin(), _colTHETA.size(), &q1, &q2, &q3);
-		sprintf(_grTempString, "\
-theta[1-%4d]:         mean       stddev     skewness     kurtosis\n\
-                   %12g %12g %12g %12g\n",
-			int(_colY.size()), ave, sdev, skew, kurt);
-		gr_textput(_grTempString);
-		sprintf(_grTempString, "\
-                    minimum           q1       median           q3      maximum\n\
-          %12g %12g %12g %12g %12g\n",
-			_colTHETA.min(), q1, q2, q3, _colTHETA.max());
-		gr_textput(_grTempString);
-	}
 	if (_colWEIGHT.size() > 0) {
 		moment(_colWEIGHT.begin(), _colWEIGHT.size(), &ave, &adev, &sdev, &svar, &skew, &kurt);
 		histogram_stats(_colWEIGHT.begin(), _colWEIGHT.size(), &q1, &q2, &q3);
 		sprintf(_grTempString, "\
-theta[1-%4d]:         mean       stddev     skewness     kurtosis\n\
+weight[1-%4d]:         mean       stddev     skewness     kurtosis\n\
                    %12g %12g %12g %12g\n",
 			int(_colWEIGHT.size()), ave, sdev, skew, kurt);
 		gr_textput(_grTempString);

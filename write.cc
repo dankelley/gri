@@ -222,8 +222,7 @@ bool
 write_columnsCmd(const char *filename)
 {
 
-	int num = (_colX.size() > _colR.size()) 
-		? _colX.size() : _colR.size();
+	int num = _colX.size();
 	if (num < 1) {
 		err("Can't `write columns \\file' since no columns exist yet\n");
 		return false;
@@ -252,10 +251,6 @@ write_columnsCmd(const char *filename)
 		fprintf(fp, "%15s\t", "v");
 	if (_colZ.size() > 0)
 		fprintf(fp, "%15s\t", "z");
-	if (_colR.size() > 0)
-		fprintf(fp, "%15s\t", "r");
-	if (_colTHETA.size() > 0)
-		fprintf(fp, "%15s\t", "theta");
 	fprintf(fp, "\n");
 	for (int i = 0; i < num; i++) {
 		fprintf(fp, "%15g\t%15g\t", _colX[i], _colY[i]);
@@ -265,10 +260,6 @@ write_columnsCmd(const char *filename)
 			fprintf(fp, "%15g\t", _colV[i]);
 		if (_colZ.size() > 0)
 			fprintf(fp, "%15g\t", _colZ[i]);
-		if (_colR.size() > 0)
-			fprintf(fp, "%15g\t", _colR[i]);
-		if (_colTHETA.size() > 0)
-			fprintf(fp, "%15g\t", _colTHETA[i]);
 		fprintf(fp, "\n");
 	}
 	fclose(fp);

@@ -88,7 +88,7 @@ filter_gridCmd()
 	return true;
 }
 
-// filter column x|y|z|u|v|r|theta recursively a[0] a[1] ... b[0] b[1] ...
+// filter column x|y|z|u|v|weight recursively a[0] a[1] ... b[0] b[1] ...
 bool
 filter_columnCmd()
 {
@@ -115,12 +115,9 @@ filter_columnCmd()
 	} else if (word_is(2, "v")) {
 		num = _colV.size();
 		orig = _colV.begin();
-	} else if (word_is(2, "r")) {
-		num = _colR.size();
-		orig = _colR.begin();
-	} else if (word_is(2, "theta")) {
-		num = _colTHETA.size();
-		orig = _colTHETA.begin();
+	} else if (word_is(2, "weight")) {
+		num = _colWEIGHT.size();
+		orig = _colWEIGHT.begin();
 	} else {
 		orig = 0;		// prevent compiler warning
 		err("Unknown item.");

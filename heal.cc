@@ -47,10 +47,8 @@ heal_columnsCmd()
 		heal_col(_colV.begin(), _colV.size());
 	if (_colZ.size() > 0)
 		heal_col(_colZ.begin(), _colZ.size());
-	if (_colR.size() > 0)
-		heal_col(_colR.begin(), _colR.size());
-	if (_colTHETA.size() > 0)
-		heal_col(_colTHETA.begin(), _colTHETA.size());
+	if (_colWEIGHT.size() > 0)
+		heal_col(_colWEIGHT.begin(), _colWEIGHT.size());
 	return true;
 }
 

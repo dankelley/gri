@@ -336,21 +336,19 @@ number_missing_cols()
 {
 	// Only examine other columns if they have same length
 	unsigned int length = _colX.size();
-	bool do_y     = _colY.size()     == length;
-	bool do_z     = _colZ.size()     == length;
-	bool do_U     = _colU.size()     == length;
-	bool do_V     = _colV.size()     == length;
-	bool do_R     = _colR.size()     == length;
-	bool do_THETA = _colTHETA.size() == length;
+	bool do_y      = _colY.size()      == length;
+	bool do_z      = _colZ.size()      == length;
+	bool do_U      = _colU.size()      == length;
+	bool do_V      = _colV.size()      == length;
+	bool do_WEIGHT = _colWEIGHT.size() == length;
 	unsigned int missing = 0;
 	for (unsigned int i = 0; i < length; i++) {
-		if (            gr_missing(_colX[i]))     { missing++; continue; }
-		if (do_y     && gr_missing(_colY[i]))	  { missing++; continue; }
-		if (do_z     && gr_missing(_colZ[i]))	  { missing++; continue; }
-		if (do_U     && gr_missing(_colU[i]))	  { missing++; continue; }
-		if (do_V     && gr_missing(_colV[i]))	  { missing++; continue; }
-		if (do_R     && gr_missing(_colR[i]))	  { missing++; continue; }
-		if (do_THETA && gr_missing(_colTHETA[i])) { missing++; continue; }
+		if (             gr_missing(_colX[i]))      { missing++; continue; }
+		if (do_y      && gr_missing(_colY[i]))	    { missing++; continue; }
+		if (do_z      && gr_missing(_colZ[i]))	    { missing++; continue; }
+		if (do_U      && gr_missing(_colU[i]))	    { missing++; continue; }
+		if (do_V      && gr_missing(_colV[i]))	    { missing++; continue; }
+		if (do_WEIGHT && gr_missing(_colWEIGHT[i])) { missing++; continue; }
 	}
 	return missing;
 }

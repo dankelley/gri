@@ -444,8 +444,6 @@ set_defaults()
 	_colX.setName("x");
 	_colY.setName("y");
 	_colZ.setName("z");
-	_colR.setName("r");
-	_colTHETA.setName("theta");
 	_colWEIGHT.setName("weight");
 	_prompt.assign("gri: ");
 	PUT_VAR("..arrowsize..", ARROWSIZE_DEFAULT);

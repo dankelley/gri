@@ -76,17 +76,9 @@ reduce_columns(unsigned int n)
 				return false;
 			}
 		}
-		if (_colR.size()) {
-			if (_colR.size() >= n) {
-				_colR.setDepth(_colR.size() - n);
-			} else {
-				err("Too few columns to do that");
-				return false;
-			}
-		}
-		if (_colTHETA.size()) {
-			if (_colTHETA.size() >= n) {
-				_colTHETA.setDepth(_colTHETA.size() - n);
+		if (_colWEIGHT.size()) {
+			if (_colWEIGHT.size() >= n) {
+				_colWEIGHT.setDepth(_colWEIGHT.size() - n);
 			} else {
 				err("Too few columns to do that");
 				return false;

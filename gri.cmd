@@ -320,20 +320,6 @@ Splines" Springer-Verlag.
     extern "C" bool convert_columns_to_splineCmd(void);
 }
 
-`convert columns from polar to rectangular'
-Convert polar (r, theta) columnar dat to rectangular (x, y) format. 
-NOTE: theta is in degrees.
-{
-    extern "C" bool convert_columns_from_polar_to_rectangularCmd(void);
-}
-
-`convert columns from rectangular to polar'
-Convert rectangular (x, y) columnar data to polar (r, theta) format. 
-NOTE: theta is in degrees.
-{
-    extern "C" bool convert_columns_from_rectangular_to_polarCmd(void);
-}
-
 `convert grid to columns'
 Create column data from grid data.  Each non-missing gridpoint is
 translated into a single (x,y,f) triplet.  If column data already exist,
@@ -1713,7 +1699,7 @@ value of `2.0100'.
     extern "C" bool expectingCmd(void);
 }
 
-`filter column x|y|z|u|v|r|theta recursively .a0. .a1. ... .b0. .b1. ...'
+`filter column x|y|z|u|v recursively .a0. .a1. ... .b0. .b1. ...'
      Filter indicated column, using a two-pass recursive filter.  The
      first pass runs from the start to the end, while the second pass
      runs from the end to the start; in this way, the phase shift
@@ -2237,8 +2223,7 @@ names.  For example, `read columns x y' instructs Gri to read data
 into columns called `x' and `y'; it is these data that Gri will use if
 you tell it to `draw curve'.  Other columns are: `z', used for
 contouring a function `z=z(x,y)'; `weight', used for weighting data
-points; `u' and `v', used for arrow (vector) plots; `r' and `theta',
-polar coordinates.
+points; `u' and `v', used for arrow (vector) plots.
 
 If the keyword `appending' is given as the last word on the `read
     columns' line, then the new data will be appended to any existing
@@ -2286,9 +2271,6 @@ If the keyword `appending' is given as the last word on the `read
     the "arrow" data `u' and `v' as third and fourth columns.
     
     * `read columns .rows. x y' Read `.rows.' rows of column data.
-    
-    * `read columns r theta' Read polar coordinates, `r' in column 1,
-    `theta' (in radians) in column 2.
     
     NOTE FOR BINARY FILES: For ascii files, Gri will proceed to a new
     line after it has read the items requested; it skips any words

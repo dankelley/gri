@@ -1616,23 +1616,14 @@ do_operation(operator_name oper)
 			}
 			SET(2, "", _colV[index], NUMBER);
 			rS.pop_back();
-		} else if (!strcmp(NAME(2), "r")) {
-			if (index > int(_colR.size() - 1)) {
-				sprintf(_grTempString, "Cannot index %d-th value of r column; valid range is 0 to %d", index, int(_colR.size() - 1));
+		} else if (!strcmp(NAME(2), "weight")) {
+			if (index > int(_colWEIGHT.size() - 1)) {
+				sprintf(_grTempString, "Cannot index %d-th value of weight column; valid range is 0 to %d", index, int(_colWEIGHT.size() - 1));
 				err(_grTempString);
 				RpnError = GENERAL_ERROR;
 				return false;
 			}
-			SET(2, "", _colR[index], NUMBER);
-			rS.pop_back();
-		} else if (!strcmp(NAME(2), "theta")) {
-			if (index > int(_colTHETA.size() - 1)) {
-				sprintf(_grTempString, "Cannot index %d-th value of theta column; valid range is 0 to %d", index, int(_colTHETA.size() - 1));
-				err(_grTempString);
-				RpnError = GENERAL_ERROR;
-				return false;
-			}
-			SET(2, "", _colTHETA[index], NUMBER);
+			SET(2, "", _colWEIGHT[index], NUMBER);
 			rS.pop_back();
 
 		} else {

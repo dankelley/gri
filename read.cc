@@ -70,7 +70,7 @@ extern bool     _input_data_window_y_exists;
 static bool     maybe_make_grids(void);
 static GriString inLine(128);	// Start short
 static double   tmpf, tmpf2;
-static int colu, colv, colx, coly, colz, colr, coltheta, colweight;
+static int colu, colv, colx, coly, colz, colweight;
 
 bool
 read_from_filenameCmd()
@@ -306,8 +306,6 @@ read_columnsCmd()
 		_colZ.setDepth(0);
 		_colU.setDepth(0);
 		_colV.setDepth(0);
-		_colR.setDepth(0);
-		_colTHETA.setDepth(0);
 		_colWEIGHT.setDepth(0);
 	}
 	//
@@ -346,18 +344,6 @@ read_columnsCmd()
 						_nword++;
 					return false;
 				}
-			} else if (!strcmp(_word[i], "r")) {
-				if (!read_netCDF_column(i, &_colR, &expected_length, append)) {
-					if (append)
-						_nword++;
-					return false;
-				}
-			} else if (!strcmp(_word[i], "theta")) {
-				if (!read_netCDF_column(i, &_colTHETA, &expected_length, append)) {
-					if (append)
-						_nword++;
-					return false;
-				}
 			} else if (!strcmp(_word[i], "weight")) {
 				if (!read_netCDF_column(i, &_colWEIGHT, &expected_length, append)) {
 					if (append)
@@ -377,7 +363,7 @@ read_columnsCmd()
 	} else {
 		// Data in a normal ascii or binary file
 		// Find what cols are data in.
-		colu = colv = colx = coly = colz = colr = coltheta = colweight =-1;
+		colu = colv = colx = coly = colz = colweight =-1;
 		for (i = 2 + (int) number_specified; i < _nword; i++) {
 			if (!strncmp(_word[i], "u", 1)) {
 				colu = figure_column(_word[i], i - 1 - number_specified);
@@ -389,10 +375,6 @@ read_columnsCmd()
 				coly = figure_column(_word[i], i - 1 - number_specified);
 			} else if (!strncmp(_word[i], "z", 1)) {
 				colz = figure_column(_word[i], i - 1 - number_specified);
-			} else if (!strncmp(_word[i], "r", 1)) {
-				colr = figure_column(_word[i], i - 1 - number_specified);
-			} else if (!strncmp(_word[i], "theta", 5)) {
-				coltheta = figure_column(_word[i], i - 1 - number_specified);
 			} else if (!strncmp(_word[i], "weight", 5)) {
 				colweight = figure_column(_word[i], i - 1 - number_specified);
 			} else if (!strcmp(_word[i], "*")) {
@@ -418,10 +400,6 @@ read_columnsCmd()
 			maxCol = coly;
 		if (colz > maxCol)
 			maxCol = colz;
-		if (colr > maxCol)
-			maxCol = colr;
-		if (coltheta > maxCol)
-			maxCol = coltheta;
 		if (colweight > maxCol)
 			maxCol = colweight;
 		// Read data.
@@ -528,28 +506,6 @@ read_columnsCmd()
 					_colZ.push_back(tmpf);
 				}
 			}
-			if (colr > 0) {
-				if (*_word[colr-1] == '\0' || colr > int(numCols)) {
-					_colR.push_back(missing);
-				} else {
-					if (!getdnum(_word[colr - 1], &tmpf)) {
-						err("Can't read r");
-						continue;
-					}
-					_colR.push_back(tmpf);
-				}
-			}
-			if (coltheta > 0) {
-				if (*_word[coltheta-1] == '\0' || coltheta > int(numCols)) {
-					_colTHETA.push_back(missing);
-				} else {
-					if (!getdnum(_word[coltheta - 1], &tmpf)) {
-						err("Can't read theta");
-						continue;
-					}
-					_colTHETA.push_back(tmpf);
-				}
-			}
 			if (colweight > 0) {
 				if (*_word[colweight-1] == '\0' || colweight > int(numCols)) {
 					_colWEIGHT.push_back(missing);
@@ -593,14 +549,6 @@ read_columnsCmd()
 						if (colz > 0) {
 							_colZ.pop_back();
 							_colZ.push_back(missing);
-						}
-						if (colr > 0) {
-							_colR.pop_back();
-							_colR.push_back(missing);
-						}
-						if (coltheta > 0) {
-							_colTHETA.pop_back();
-							_colTHETA.push_back(missing);
 						}
 						if (colweight > 0) {
 							_colWEIGHT.pop_back();
@@ -662,14 +610,6 @@ read_columnsCmd()
 						if (colz > 0) {
 							_colZ.pop_back();
 							_colZ.push_back(missing);
-						}
-						if (colr > 0) {
-							_colR.pop_back();
-							_colR.push_back(missing);
-						}
-						if (coltheta > 0) {
-							_colTHETA.pop_back();
-							_colTHETA.push_back(missing);
 						}
 						if (colweight > 0) {
 							_colWEIGHT.pop_back();
@@ -769,8 +709,6 @@ read_columnsCmd()
 	_colZ.compact();
 	_colU.compact();
 	_colV.compact();
-	_colR.compact();
-	_colTHETA.compact();
 	_colWEIGHT.compact();
 	if (append)
 		_nword++;

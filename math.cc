@@ -129,13 +129,12 @@ column_math(double *Ptr, int n, int operator_position /*= 1*/)
 {
 	Require(n > 0, gr_Error("Trying to do column-math on non-existent column."));
 	// Ensure enough space
-	if      (word_is(0, "x"))	  {_colX.setDepth(n);     Ptr = _colX.begin();}
-	else if (word_is(0, "y"))	  {_colY.setDepth(n);     Ptr = _colY.begin();}
-	else if (word_is(0, "u"))	  {_colU.setDepth(n);     Ptr = _colU.begin();}
-	else if (word_is(0, "v"))	  {_colV.setDepth(n);     Ptr = _colV.begin();}
-	else if (word_is(0, "z"))	  {_colZ.setDepth(n);     Ptr = _colZ.begin();}
-	else if (word_is(0, "R"))	  {_colR.setDepth(n);     Ptr = _colR.begin();}
-	else if (word_is(0, "THETA")) {_colTHETA.setDepth(n); Ptr = _colTHETA.begin();}
+	if      (word_is(0, "x"))	  {_colX.setDepth(n);      Ptr = _colX.begin();}
+	else if (word_is(0, "y"))	  {_colY.setDepth(n);      Ptr = _colY.begin();}
+	else if (word_is(0, "u"))	  {_colU.setDepth(n);      Ptr = _colU.begin();}
+	else if (word_is(0, "v"))	  {_colV.setDepth(n);      Ptr = _colV.begin();}
+	else if (word_is(0, "z"))	  {_colZ.setDepth(n);      Ptr = _colZ.begin();}
+	else if (word_is(0, "WEIGHT"))    {_colWEIGHT.setDepth(n); Ptr = _colWEIGHT.begin();}
 
 	// special case of `y = x...'
 	if (_nword == 3 && word_is(0, "y") && word_is(1, "=") && word_is(2, "x")) {

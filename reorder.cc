@@ -104,8 +104,7 @@ reorder_cols_randomly()
 		swap(&_colZ, i, inew);
 		swap(&_colU, i, inew);
 		swap(&_colV, i, inew);
-		swap(&_colR, i, inew);
-		swap(&_colTHETA, i, inew);
+		swap(&_colWEIGHT, i, inew);
 	}
 	return true;
 }
@@ -132,8 +131,7 @@ reorder_cols_order(bool ascending, int which, int n)
 						swap(&_colZ, i, inew);
 						swap(&_colU, i, inew);
 						swap(&_colV, i, inew);
-						swap(&_colR, i, inew);
-						swap(&_colTHETA, i, inew);
+						swap(&_colWEIGHT, i, inew);
 					}
 				}
 			}
@@ -147,8 +145,7 @@ reorder_cols_order(bool ascending, int which, int n)
 						swap(&_colZ, i, inew);
 						swap(&_colU, i, inew);
 						swap(&_colV, i, inew);
-						swap(&_colR, i, inew);
-						swap(&_colTHETA, i, inew);
+						swap(&_colWEIGHT, i, inew);
 					}
 				}
 			}
@@ -168,8 +165,7 @@ reorder_cols_order(bool ascending, int which, int n)
 						swap(&_colZ, i, inew);
 						swap(&_colU, i, inew);
 						swap(&_colV, i, inew);
-						swap(&_colR, i, inew);
-						swap(&_colTHETA, i, inew);
+						swap(&_colWEIGHT, i, inew);
 					}
 				}
 			}
@@ -183,8 +179,7 @@ reorder_cols_order(bool ascending, int which, int n)
 						swap(&_colZ, i, inew);
 						swap(&_colU, i, inew);
 						swap(&_colV, i, inew);
-						swap(&_colR, i, inew);
-						swap(&_colTHETA, i, inew);
+						swap(&_colWEIGHT, i, inew);
 					}
 				}
 			}
@@ -204,8 +199,7 @@ reorder_cols_order(bool ascending, int which, int n)
 						swap(&_colZ, i, inew);
 						swap(&_colU, i, inew);
 						swap(&_colV, i, inew);
-						swap(&_colR, i, inew);
-						swap(&_colTHETA, i, inew);
+						swap(&_colWEIGHT, i, inew);
 					}
 				}
 			}
@@ -219,8 +213,7 @@ reorder_cols_order(bool ascending, int which, int n)
 						swap(&_colZ, i, inew);
 						swap(&_colU, i, inew);
 						swap(&_colV, i, inew);
-						swap(&_colR, i, inew);
-						swap(&_colTHETA, i, inew);
+						swap(&_colWEIGHT, i, inew);
 					}
 				}
 			}

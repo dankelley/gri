@@ -128,8 +128,6 @@ GriColumn _colV;
 GriColumn _colX;
 GriColumn _colY; 
 GriColumn _colZ; 
-GriColumn _colR;
-GriColumn _colTHETA;
 GriColumn _colWEIGHT;
 
 // Command stack

@@ -216,10 +216,8 @@ delete_all_columns()
 	_colU.compact();
 	_colV.setDepth(0);
 	_colV.compact();
-	_colR.setDepth(0);
-	_colR.compact();
-	_colTHETA.setDepth(0);
-	_colTHETA.compact();
+	_colWEIGHT.setDepth(0);
+	_colWEIGHT.compact();
 }
 
 static bool
@@ -256,9 +254,7 @@ delete_columns_randomly()
 			continue;
 		if (_colV.size() > 0 && (_colV[i] == miss))
 			continue;
-		if (_colR.size() > 0 && (_colR[i] == miss))
-			continue;
-		if (_colTHETA.size() > 0 && (_colTHETA[i] == miss))
+		if (_colWEIGHT.size() > 0 && (_colWEIGHT[i] == miss))
 			continue;
 		ok[i] = (char)1;
 		good++;
@@ -308,10 +304,9 @@ delete_columns_randomly()
 				_colU[i] = miss;
 			if (_colV.size())
 				_colV[i] = miss;
-			if (_colR.size())
-				_colR[i] = miss;
-			if (_colTHETA.size())
-				_colTHETA[i] = miss;
+			if (_colWEIGHT.size())
+				_colWEIGHT[i] = miss;
+			
 		}
 	}	
 	return true;
@@ -320,8 +315,8 @@ delete_columns_randomly()
 bool
 delete_columns_where_missing()
 {
-	int haveX, haveY, haveZ, haveU, haveV, haveR, haveTHETA;
-	haveX = haveY = haveZ = haveU = haveV = haveR = haveTHETA = 0;
+	int haveX, haveY, haveZ, haveU, haveV, haveWEIGHT;
+	haveX = haveY = haveZ = haveU = haveV = haveWEIGHT = 0;
 	unsigned int length = _colX.size();
 	unsigned int i;
 	for (i = 0; i < length; i++) {
@@ -330,16 +325,14 @@ delete_columns_where_missing()
 		if (_colZ.size()) haveZ = 1;
 		if (_colU.size()) haveU = 1;
 		if (_colV.size()) haveV = 1;
-		if (_colR.size()) haveR = 1;
-		if (_colTHETA.size()) haveTHETA = 1;
+		if (_colWEIGHT.size()) haveWEIGHT = 1;
 	}
 	double *xP = _colX.begin();
 	double *yP = _colY.begin();
 	double *zP = _colZ.begin();
 	double *uP = _colU.begin();
 	double *vP = _colV.begin();
-	double *rP = _colR.begin();
-	double *thetaP = _colTHETA.begin();
+	double *weightP = _colWEIGHT.begin();
 	std::vector<int> kill((size_t)length, 0);
 	int num_to_kill = 0;
 	for (i = 0; i < length; i++) {
@@ -358,10 +351,7 @@ delete_columns_where_missing()
 		if (haveV && gr_missing(vP[i])) {
 			kill[i] = 1; num_to_kill++; continue;
 		}
-		if (haveR && gr_missing(rP[i])) {
-			kill[i] = 1; num_to_kill++; continue;
-		}
-		if (haveTHETA && gr_missing(thetaP[i])) {
+		if (haveWEIGHT && gr_missing(weightP[i])) {
 			kill[i] = 1; num_to_kill++; continue;
 		}
 	}
@@ -375,8 +365,7 @@ delete_columns_where_missing()
 			if (haveZ) _colZ.erase(_colZ.begin() + i);
 			if (haveU) _colU.erase(_colU.begin() + i);
 			if (haveV) _colV.erase(_colV.begin() + i);
-			if (haveR) _colR.erase(_colR.begin() + i);
-			if (haveTHETA) _colTHETA.erase(_colTHETA.begin() + i);
+			if (haveWEIGHT) _colWEIGHT.erase(_colWEIGHT.begin() + i);
 		}
 	}
 	PUT_VAR("..num_col_data..", double(_colX.size()));

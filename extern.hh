@@ -38,8 +38,6 @@ extern double   _xright;	// ..xright..
 extern double   _ybottom;	// ..ybottom..
 extern double   _ytop;		// ..ytop..
 // Column data
-extern GriColumn _colR;
-extern GriColumn _colTHETA;
 extern GriColumn _colU;
 extern GriColumn _colV;
 extern GriColumn _colX;

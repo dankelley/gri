@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.99 2001/06/22 17:53:32 dankelley Exp $
+@c $Id: gri.texim,v 1.100 2001/06/23 16:21:24 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -3919,13 +3919,11 @@ otherwise close the indicated file.
 @subsection The @code{convert} commands
 
 @menu
-* Convert Columns to Grid::      Create grid from (x,y,f) data
+* Convert Columns To Grid::      Create grid from (x,y,f) data
 * Convert Columns to Spline::    Create spline (x',y') from (x,y) data
-* Convert Columns From Polar to Rectangular:: As it says
-* Convert Columns From Rectangular to Polar:: As it says
-* Convert Grid to Columns::      Create (x,y,f) data from grid
+* Convert Grid To Columns::      Create (x,y,f) data from grid
 * Convert Grid To Image::        Create an image from grid data
-* Convert Image to Grid::        Create a grid from image data
+* Convert Image To Grid::        Create a grid from image data
 @end menu
 
 
@@ -4287,7 +4285,7 @@ tunable parameters: @code{(L_x,L_y,gamma)}.
 
 
 
-@node   Convert Columns to Spline, Convert Columns From Polar to Rectangular, Convert Columns to Grid, Convert
+@node   Convert Columns To Spline, Convert Grid to Columns, Convert Columns To Grid, Convert
 @comment  node-name,  next,  previous,  up
 @subsubsection @code{convert columns to spline}
 @cindex spline, fitting to (x,y) data
@@ -4335,38 +4333,7 @@ draw curve
 @end example
 
 
-@node   Convert Columns From Polar to Rectangular, Convert Columns From Rectangular to Polar, Convert Columns to Spline, Convert
-@comment  node-name,  next,  previous,  up
-@subsubsection @code{convert columns from polar}
-@findex convert columns from polar to rectangular
-@cindex @code{convert columns from polar to rectangular} command
-
-@example
-`convert columns from polar to rectangular'
-@end example
-
-@noindent
-Convert polar (r, theta) columnar dat to rectangular (x, y) format.
-NOTE: theta is in degrees.
-
-
-
-@node   Convert Columns From Rectangular to Polar, Convert Grid to Columns, Convert Columns From Polar to Rectangular, Convert
-@comment  node-name,  next,  previous,  up
-@subsubsection @code{convert columns from rectangular}
-@findex convert columns from rectangular to polar
-@cindex @code{convert columns from rectangular to polar} command
-
-@example
-`convert columns from rectangular to polar'
-@end example
-
-@noindent
-Convert rectangular (x, y) columnar data to polar (r, theta) format.
-NOTE: theta is in degrees.
-
-
-@node   Convert Grid to Columns, Convert Grid To Image, Convert Columns From Rectangular to Polar, Convert 
+@node   Convert Grid To Columns, Convert Grid To Image, Convert Columns To Spline, Convert 
 @comment  node-name,  next,  previous,  up
 @subsubsection @code{convert grid to columns}
 @findex convert grid to columns
@@ -6041,7 +6008,7 @@ numerical value of @code{2.0100}.
 
 @itemize @bullet
 
-@item @code{filter column x|y|z|u|v|r|theta recursively a[0] a[1] ... b[0] b[1] ...}
+@item @code{filter column x|y|z|u|v|weight recursively a[0] a[1] ... b[0] b[1] ...}
 Filter indicated column, using a two-pass recursive filter.  The first
 pass runs from the start to the end, while the second pass runs from the
 end to the start; in this way, the phase shift inherent in this type of
@@ -7206,8 +7173,7 @@ to read data into columns called @code{x} and @code{y}; it is these data
 that Gri will use if you tell it to @code{draw curve}.  Other columns
 are: @code{z}, used for contouring a function @code{z=z(x,y)};
 @code{weight}, used for weighting data points; @code{u} and @code{v},
-used for arrow (vector) plots; @code{r} and @code{theta}, polar
-coordinates.
+used for arrow (vector) plots.
 
 If the keyword @code{appending} is given as the last word on the
 @code{read columns} line, then the new data will be appended to any
@@ -7271,9 +7237,6 @@ Read @code{x} and @code{y} in first two columns, and the ``arrow'' data
 @code{u} and @code{v} as third and fourth columns.
 @item @code{read columns .rows. x y}
 Read @code{.rows.} rows of column data.
-@item @code{read columns r theta}
-Read polar coordinates, @code{r} in column 1, @code{theta} (in radians)
-in column 2.
 @end itemize
 
 @cindex column data, x in one file and y in another
@@ -8075,7 +8038,7 @@ Set various flags and parameters which Gri will use in later commands.
 @example
 set axes style .style.     \
   | @{offset [.dist_cm.]@} \
-  | rectangular|polar|none|default
+  | rectangular|none|default
 @end example
 
 @noindent
@@ -8102,9 +8065,6 @@ location is not explicitly given.
 @item @code{set axes style rectangular}
 Set axes to be rectangular, with an x-y axes frame labelled at the left
 and bottom.
-@item @code{set axes style polar}
-Set axes to be polar.  @strong{See also} @code{convert columns to polar}
-and @code{read columns r theta} commands.
 @item @code{set axes style none}
 Tell gri not to bother drawing axes before drawing curves, etc.
 @item @code{set axes style default}
@@ -16685,8 +16645,6 @@ sources in April 2001.)
   @}
 @end example
 
-@item
-Polar (r-theta) graphs do not work.
 @item
 The EPSF bounding-box defaults to an 8.5 by 11 inch page, if
 @code{-no_bounding_box} is specified on the commandline 
