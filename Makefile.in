@@ -211,8 +211,9 @@ source:
 	        $(SOURCE_NAME)
 	install -m 755 configure install-sh $(SOURCE_NAME)
 	install -d $(SOURCE_NAME)/debian
-	install -m 644 debian/{0*,READ*,c*,gri*,watch} $(SOURCE_NAME)/debian
-	install -m 755 debian/rules                    $(SOURCE_NAME)/debian
+	(cd debian; \
+	    install -m 644 0* READ* c* gri* watch ../$(SOURCE_NAME)/debian)
+	install -m 755 debian/rules                  $(SOURCE_NAME)/debian
 #	Copy documentation
 	install -d $(SOURCE_NAME)/doc
 	install -m 755 doc/archive-to-html.pl   $(SOURCE_NAME)/doc
@@ -244,8 +245,8 @@ source:
 	install -m 644 doc/examples/model.nodes    $(SOURCE_NAME)/doc/examples
 	install -m 644 doc/examples/Makefile       $(SOURCE_NAME)/doc/examples
 	install -d $(SOURCE_NAME)/doc/screenshots
-	install -m 644 doc/screenshots/{Makefile,*.png} \
-		$(SOURCE_NAME)/doc/screenshots
+	(cd doc/screenshots/; \
+	    install -m 644 Makefile *.png ../../$(SOURCE_NAME)/doc/screenshots)
 #
 #	Tar package, compress it, install it.
 	tar -c -f $(SOURCE_NAME).tar $(SOURCE_NAME)
