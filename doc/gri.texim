@@ -15512,7 +15512,7 @@ use it in standalone mode.
 
 @node   Debugging at a Glance, Debugging Example, Debugging Software You'll Need, Killing Bugs
 @comment  node-name,  next,  previous,  up
-@index electric fence, for debugging
+@cindex electric fence, for debugging
 @subsection Debugging at a glance
 The list below is a sketch of what you might try, and in what order.
 @itemize
