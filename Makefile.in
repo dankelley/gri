@@ -99,21 +99,9 @@ startup.o: version.cc startup.cc Makefile.in
 
 # Install all relevant files, creating directories, destroying old
 # links and creating new links as necessary.
-HAVE_CONVERT=@HAVE_CONVERT@
 install: all install-bin
 	@echo "Installing into '$(prefix)' directory"
-        ifeq "$(HAVE_CONVERT)" "no"
-		@echo "** Warning: ImageMagick's convert is not on your system, and is needed"
-		@echo "**          to make PNG images in the HTML manual."
-		@echo "**          Expect broken image links in the manual!"
-        endif
 	cd doc; prefix=$(prefix) make install
-        ifeq "$(HAVE_CONVERT)" "no"
-		@echo "** Repeating this to make sure you see it..."
-		@echo "** Warning: ImageMagick's convert is not on your system, and is needed"
-		@echo "**          to make PNG images in the HTML manual."
-		@echo "**          Expect broken image links in the manual!"
-        endif
 
 install-bin:
 	cat startup.msg | sed -e s,VSN,${VERSION}, -e s,PREFIX,$(prefix), > tmp
