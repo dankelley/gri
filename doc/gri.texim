@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.207 2002/08/26 14:27:28 dankelley Exp $
+@c $Id: gri.texim,v 1.208 2002/08/30 12:37:30 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -17086,6 +17086,11 @@ na/
 @subsubsection Bug Fixes
 
 @itemize
+
+@item
+Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=600395&group_id=5511&atid=105511,#600395}
+@dots{} won't compile with recently released version (3.2) of GCC compiler.
 
 @item
 Fix SourceForge bug
