@@ -7,7 +7,6 @@
 #define BEGIN_MATH "{"
 #define END_MATH   "}"
 extern int      rpn(int nw, char **w, char ** result); // in rpncalc.cc
-extern void     print_rpn_stack(void);		       // in rpncalc.cc
 
 bool
 rpnfunctionCmd()
@@ -85,7 +84,6 @@ substitute_rpn_expressions(const char *s, char *sout)
 	chop_into_words(copy, _Words2, &nword, MAX_nword);
 	if (nword < 2) {
 		strcpy(sout, _Words2[0]);
-		//printf("1111\n");
 		return false;
 	}
 	strcpy(sout, "");		// initialize
@@ -152,7 +150,7 @@ substitute_rpn_expressions(const char *s, char *sout)
 			}
 			//printf("about to call rpn(%d,...)\n",rpn_end-rpn_start-2);
 			error = rpn(rpn_end - rpn_start - 2, &_Words2[rpn_start + 2], &result);
-
+			if (((unsigned) superuser()) & FLAG_RPN) printf("%s:%d error= %d\n",__FILE__,__LINE__,error);
 			switch (error) {
 			case BAD_WORD:
 				err("unknown item in rpn expression");
@@ -220,5 +218,6 @@ final rpn stack has more than 1 operand.  Did you forget an operator?");
 			strcat(sout, " ");
 		}
 	}
+	if (((unsigned) superuser()) & FLAG_RPN) printf("substitute_expressions returning %s\n", found ? "TRUE" : "FALSE");
 	return found;
 }

@@ -236,7 +236,6 @@ static operator_name is_oper(const char *w);
 static operand_type is_operand(const char *w, double *operand);
 bool            rpn_create_function(char *name, char ** w, unsigned int nw);
 static unsigned int rpn_which_function(const char *w);
-bool            print_rpn_stack(void);
 int             rpn(int nw, char **w, char ** result);
 static bool     do_operation(operator_name oper);
 
@@ -253,9 +252,11 @@ rpn(int nw, char **w, char ** result)
 	char           *W[MAX_nword];
 	operator_name   oper;
 	double          operand_value;
-	*result = (char*)NULL;	// empty
-	if (nw < 1)
+	*result = "";
+	if (nw < 1) {
+		if (((unsigned) superuser()) & FLAG_RPN) printf("rpn() go stack underflow\n");
 		return STACK_UNDERFLOW;
+	}
 	RpnError = 0;
 	// Dump into new array (so can manipulate for funtions)
 	NW = nw;
@@ -1174,6 +1175,7 @@ do_operation(operator_name oper)
 			return false;
 		}
 		rS.pop_back();
+		rS.pop_back();
 		delete [] unadorned;
 		return true;
 	} 
@@ -1796,10 +1798,12 @@ do_operation(operator_name oper)
 
 // Used by rpn.cc also, in case of stack overflow
 bool
-print_rpn_stack()
+print_rpn_stack(const char *msg="")
 {
 	int             i;
 	int             stack_len = rS.size();
+	if (strlen(msg) > 0) 
+		ShowStr(msg);
 	ShowStr("Operands on rpn stack: (");
 	for (i = 0; i < stack_len; i++) {
 		char            str[100];
