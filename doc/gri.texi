@@ -13757,6 +13757,8 @@ of all commands and key definitions.
 @section Gri-mode screenshots, what it looks like.
 @cindex gri-mode, screenshots
 
+
+
 @comment First handle Info version
 @c HTML <!--
 @ifinfo
@@ -13766,6 +13768,9 @@ look up @file{http://www.phys.ocean.dal.ca/~kelley/gri/Emacs.html} on the
 web and check it out.
 @end ifinfo
 @c HTML -->
+
+@cindex screen snapshots, using Gri
+@cindex snapshots of computer screen, using Gri
 
 @comment Now handle PostScript version
 @iftex
