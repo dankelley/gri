@@ -90,12 +90,12 @@ scp index.php psg@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
                 <tr>
                   <td class="menus" align="right">
 		    <b>Source [unbuilt docs]</b><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.5.tgz">gri-2.8.5.tgz</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.6.tgz">gri-2.8.6.tgz</a><br>
 		    <b>Source [built docs]</b><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.5-arch-indep.tar.gz">gri-2.8.5-arch-indep.tar.gz</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.6-arch-indep.tar.gz">gri-2.8.6-arch-indep.tar.gz</a><br>
 		    <b>RedHat Linux</b><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.5-1.src.rpm">gri-2.8.5-1.src.rpm</a><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.5-1.i386.rpm">gri-2.8.5-1.i386.rpm</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.6-1.src.rpm">gri-2.8.6-1.src.rpm</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.6-1.i386.rpm">gri-2.8.6-1.i386.rpm</a><br>
 		    <b>Debian GNU/Linux</b><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.8.5-1potato2_i386.deb">Fixed 2.8.5 for Potato</a><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.8.5-2_i386.deb">Fixed 2.8.5 for Woody</a><br>
@@ -224,7 +224,7 @@ Search gri manual for (may be a regular expression):<p>
     <tr> 
       <td  class="menubox">
 	Stable version 
-	<a href="http://sourceforge.net/project/showfiles.php?group_id=5511&release_id=65554">2.8.5</a>
+	<a href="http://sourceforge.net/project/showfiles.php?group_id=5511&release_id=75100">2.8.6</a>
 	released
 	<? 
 	# REF: mktime(hour,minute,second,month,day,year)
@@ -239,7 +239,9 @@ Search gri manual for (may be a regular expression):<p>
 	# Vsn 2.8.4: 2001-oct-9 3:19 Halifax time
 	#$diff = time() - mktime(11, 19, 0, 10, 9, 2001);
 	# Vsn 2.8.5: 2001-dec-13 18:00 Halifax time, 14:00 SF time
-	$diff = time() - mktime(14, 0, 0, 12, 13, 2001);
+	#$diff = time() - mktime(14, 0, 0, 12, 13, 2001);
+	# Vsn 2.8.6: 2002-02-14 11:24 Halifax time, 7:24 SF time
+	$diff = time() - mktime(7, 24, 0, 2, 14, 2002);
 	$days = floor($diff / 24 / 60 / 60);
 	$weeks = floor($days / 7);
 	$months = floor($days / 7 / 4);
@@ -261,9 +263,9 @@ Search gri manual for (may be a regular expression):<p>
 	} else {
 	    echo floor($seconds), " seconds ago";
         }
-        echo ";";
+        #echo ";";
 	?>
-      pre-release #5 of 2.8.6 is <a href="./pre5/">here</a>.
+<!--      pre-release #5 of 2.8.6 is <a href="./pre5/">here</a>.-->
       </td>
     </tr>
   </table>
@@ -332,7 +334,7 @@ Search gri manual for (may be a regular expression):<p>
     </TR>
     <TR>
       <td class="menus" align="left">
-        <A class="menus" HREF="http://www.sourceforge.net/project/?group_id=5511">Gri at SourceForge</A><br>
+        <A class="menus" HREF="http://www.sourceforge.net/project/?group_id=5511">Developers' Page</A><br>
         <A CLASS="menus" HREF="http://cvs.sourceforge.net/cvstarballs/gri-cvsroot.tar.gz">Nightly CVS tarball</a><br>
         <A class="menus" HREF="http://www.sourceforge.net/cvs/?group_id=5511">Get CVS source</a><br>
         <A class="menus" HREF="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/gri">View CVS history</a><br>
