@@ -52,10 +52,9 @@ html: gri.texi
 	perl archive-to-html.pl > Newsgroup.html
 	touch html
 
-card-install: card
+card-install: FORCE
 	install -m 644 refcard.ps    $(CARD_DIR)
 	install -m 644 cmdrefcard.ps $(CARD_DIR)
-	touch card
 
 html-install:	html
 	install -d $(HTML_DIR)/examples
