@@ -1,0 +1,26 @@
+This file is intended for the developers to discuss plans for
+error-level handling.  When/if this is implemented in Gri, the present
+file will be removed from the CVS tree.
+
+Basic idea: have 3 levels of error tolerance, set by a commandline
+flag perhaps of the following form:
+
+	-error_tolerance ERROR_LEVEL
+
+where 
+	ERROR_LEVEL = 0: stop executation if _any_ error is encountered
+	ERROR_LEVEL = 1: stop executation if one or more level-1 errors 
+	                 is encountered
+	ERROR_LEVEL = 2: stop executation if one or more level-2 errors 
+	                 is encountered, or if one or more level-1
+                         errors is encountered
+
+LEVEL 0 ERROR LIST:
+	- add items to this list -
+
+LEVEL 1 ERROR LIST:
+	- add items to this list -
+
+LEVEL 2 ERROR LIST:
+	- add items to this list -
+
