@@ -283,99 +283,6 @@ put_syn(const char *name, const char *value, bool replace_existing)
 	return true;
 }
 
-#if 0
-// Scan through input string s[], substituting synonyms.  The result is put
-// into string sout[].
-//
-// If inmath=1, special math strings such as \alpha are inserted as different
-// fonts.
-//
-// RETURN true if line not empty
-bool
-OLD-NOT-USED-substitute_synonyms_cmdline(const char *s, char *sout, bool allow_math)
-{
-	if (strlen(s) < 1) {
-		strcpy(sout, s);
-		return false;
-	}
-	*sout = '\0';
-	char *sCopy = strdup(s);
-	int             nword;
-	chop_into_words(sCopy, _Words2, &nword, MAX_nword);
-
-	int offset = 0;
-#if 1 // 9apr95, vsn2.035
-	// Pass `sprintf \synonym ...' through directly
-	if (nword > 1 && !strcmp(_Words2[0], "sprintf")) {
-		strcat(sout, _Words2[0]);
-		strcat(sout, " ");
-		strcat(sout, _Words2[1]); // the synonym name
-		strcat(sout, " ");
-		offset = skip_space(s);	// initial blanks
-		offset += skip_nonspace(s + offset); // SPRINTF
-		offset += skip_space(s + offset);    // blanks
-		offset += skip_nonspace(s + offset); // the synonym name
-		offset += skip_space(s + offset);    // blanks
-	}
-#endif
-	// Pass `show defined ... (\synonym)' through directly
-	if (nword > 2 && !strcmp(_Words2[0], "show") && !strcmp(_Words2[1], "defined")) {
-		strcpy(sout, s);
-		free(sCopy);
-		return true;
-	}
-	// Pass `delete \synonym' through directly.
-	if (nword == 2 && !strcmp(_Words2[0], "delete") && *_Words2[1] == '\\') {
-		free(sCopy);
-		return true;
-	}
-	if (nword < 1) {
-		free(sCopy);
-		return true;
-	}
-	// Pass `read \syn ...' and `read .var. ...' through without substituting
-	if (!strcmp(_Words2[0], "read")
-	    && nword > 1 
-	    && (is_syn(_Words2[1]) || is_var(_Words2[1]))) {
-		strcpy(sout, s);
-		free(sCopy);
-		return true;
-	}
-#if 1
-	// Pass `while ...' through
-	if (!strcmp(_Words2[0], "while")) {
-		strcpy(sout, s);
-		free(sCopy);
-		return true;
-	}
-#endif
-	// Some special cases are passed through without the syn name being
-	// substituted.  This is done by supplying an offset to the string.
-	if (!strcmp(_Words2[0], "query")) {
-		strcpy(sout, _Words2[0]);
-		strcat(sout, " ");
-		strcat(sout, _Words2[1]);
-		strcat(sout, " ");
-		offset = skip_space(s);	// initial blanks
-		offset += skip_nonspace(s + offset); // query
-		offset += skip_space(s + offset);    // blanks
-		offset += skip_nonspace(s + offset); // item
-		offset += skip_space(s + offset);    // blanks
-	}
-	// Protect first word of `\name = "value"', but not of `\syn ...'. In
-	// other words, protect first word if matches \synonym[ ]*=.*
-	if (*_Words2[0] == '\\') {
-		if (nword > 1 && !strcmp(_Words2[1], "=")) {
-			strcpy(sout, _Words2[0]);
-			strcat(sout, " ");
-			offset = 1 + strlen(_Words2[0]);
-		}
-	}
-	free(sCopy);
-	return substitute_synonyms(s + offset, sout, allow_math);
-}
-#else
-
 // Scan through input string s[], substituting synonyms.  The result is put
 // into string sout[].
 //
@@ -482,238 +389,6 @@ substitute_synonyms_cmdline(const char *s, string& sout, bool allow_math)
 	}
 	return substitute_synonyms(s + offset, sout, allow_math);
 }
-#endif
-
-#if 0 // before 2.6.0, using 'char*' as the output buffer, but that's dangerous
-// Walk through string, substituting synonyms if not in math mode.
-// RETURN 0 if empty line, 1 otherwise.
-bool
-OLD-NOT-USED-substitute_synonyms(const char *s, char *sout, bool allow_math)
-{
-	//printf("--- substitute_synonyms('%s',...)\n",s);
-	bool            inmath = false; // are we within a math string?
-	int             trailing_dots_in_name = 0;
-	int             dots_in_name = 0;
-	int             slen = strlen(s);
-	char           *sname = new char [1 + slen]; // certainly long enough
-	char           *svalue = new char [_grTempStringLEN]; // very long also
-	for (int i = 0; i < slen; i++) {
-		//printf("DEBUG1: i %d  (%s)\n",i,s+i);
-		int             found = 0;
-		int             syn_len = 0;
-		// If entering or leaving math mode, just paste $ onto the end and
-		// skip to the next character.
-		//
-		if (s[i] == '$' && allow_math) {
-			if (i == 0) {
-				inmath = true;
-			} else if (s[i - 1] != '\\') {	// \$ is escape to pass $
-				inmath = inmath ? false : true;
-			}
-			strcat_c(sout, '$');
-			continue;
-		}
-		// If not start of synonym, just paste character onto end of string
-		// and continue. (This also applies to apparent synonyms, if they are
-		// during math mode.)
-		if (s[i] != '\\' || inmath) {
-			strcat_c(sout, s[i]);
-			continue;
-		}
-
-		// Now know that s[i] is backslash, and not inmath.
-		// Pass a few escape strings through directly. 
-		if (s[i + 1] == '$'
-#if 0				// 2.2.3
-		    || s[i + 1] == '['
-		    || s[i + 1] == ']'
-#endif
-		    || s[i + 1] == '"'
-		    || s[i + 1] == '\\') {
-			strcat_c(sout, s[i]);
-			strcat_c(sout, s[++i]);
-			continue;
-		}
-		// Now know that it's the start of a synonym.  Isolate it, then find
-		// value.   But first, take note of whether name has a period at the
-		// start (since this determines whether a period can be used to end
-		// it).
-		bool            report_num_words = false;
-		bool            report_a_word = false;
-		int             word_to_report = -1;
-		bool            need_brace = (s[i + 1] == '{');
-		//printf("DEBUG1: i %d  (%s)\n",i,s+i);
-#if 0
-		if (need_brace)
-			i++;		// skip the brace itself
-#endif
-		if (s[i + 1] == '.') {
-			int ii;
-			for(ii = i + 1; ii < slen; ii++) {
-				if (s[ii] == '.')
-					dots_in_name++;
-				else
-					break;
-			}
-#if 0			// 2.5.5. not sure if I want to do this but keep in case
-			// Check for e.g. \.argv[0]. (starting in version 2.5.5).
-			// BUG: only permits integer \.argv[]. indices
-			printf("dotty: '%s'\n",s+i);
-			if (dots_in_name == 1) {
-				printf("one dot in name '%s'.  checking '%s'\n",s+i,s+i+1);
-				if (!strncmp(s + i + 1, ".argv[", 6)) {
-					int ends_at = -1;
-					for (int ii = i; ii < int(strlen(s)) - 1; ii++) {
-						if (s[ii] == ']') {
-							if (s[ii + 1] == '.')
-								ends_at = ii + 1;
-							else
-								fatal_err("Cannot parse `\\", s + i, "'", "\\");
-							break;
-						}
-					}
-					printf("'%s' it ends at %d, trailer '%s'\n",s+i,ends_at,s+ends_at);
-					int the_index;
-					if (1 != sscanf(s + i + 1, ".argv[%d].", &the_index)) {
-						fatal_err("ERROR: cannot figure out argv[] index at `", s + 1 + i, "'", "\\");
-					}
-					//printf("YUP.  matches index=%d\n", the_index);
-					extern vector<char*> _argv;
-					if (the_index < _argv.size()) {
-						strcat(sout, _argv[the_index]);
-					}
-					//strcat(sout, "TEST_OF_ARGV");
-					//fprintf(stderr, "argc %d\n",_argv.size());
-					i = ends_at + 1;
-				}
-			}
-#endif
-		} else if (s[i + 1] == '[') {
-			// Indexing a word within synonym
-			//printf("Indexing within synonym.\n");
-			int index_length = -1;
-			int j;
-			for (j = i + 2; j < slen; j++) {
-				if (s[j] == ']') {
-					index_length = j - i - 2;
-					break;
-				}
-			}
-			if (index_length == 0) {
-				report_num_words = true;
-			} else {
-				report_a_word = true;
-				char *num = new char [index_length + 1];
-				for (j = 0; j < index_length; j++) 
-					num[j] = s[i + 2 + j];
-				num[j] = '\0';
-				double tmp;
-				getdnum(num, &tmp);
-				word_to_report = int(floor(0.5 + tmp));
-				printf("'%s' gave %f  ie %d\n",num,tmp,word_to_report);
-				delete [] num;
-			}
-			i += index_length + 2;
-			// Check to see if synonym-name has dots in it
-			if (s[i + 1] == '.') {
-				for(int ii = i + 1; ii < slen; ii++) {
-					if (s[ii] == '.')
-						dots_in_name++;
-					else
-						break;
-				}
-			}
-		}
-		trailing_dots_in_name = 0;
-		if (strlen(s + i) > _grTempStringLEN) {
-			fatal_err("Not enough space for string `\\", s + i, "'", "\\");
-		}
-		strcpy(sname, "\\");
-		strcat(sname, s + i + 1);
-		// To find length, scan the string, checking characters against
-		// stopper characters.
-		//
-		syn_len = 1; // the backslash
-		syn_len += dots_in_name; // perhaps some dots
-		while (syn_len < sname.size() && !end_of_synonym(sname[syn_len], inmath, need_brace)) {
-			// Also end synonym if its an unmatched dot
-			if (sname[syn_len] == '.') {
-				trailing_dots_in_name++;
-				if (trailing_dots_in_name > dots_in_name) {
-					break;
-				} else if (trailing_dots_in_name == dots_in_name) {
-					syn_len++;
-					break;
-				}
-			}
-			syn_len++;
-		}
-		if (need_brace)
-			syn_len++;
-		sname[syn_len] = '\0';
-		// Catch '\ ', which is not a synonym, and which can come in by
-		// malformed continuation lines
-		if (sname[1] == ' ') {
-			warning("Found `\\ ', which is not legal; is this a malformed continuation?");
-		}
-		if (get_syn(sname, svalue)) {
-				// Substitute known synonym, then skip over the space the synonym
-				// name occupied.
-			if (report_num_words) {
-				char *w[MAX_nword];
-				int nw;
-				chop_into_words(svalue, w, &nw, MAX_nword);
-				char tmp[30];
-				sprintf(tmp, "%d", nw);
-				strcat(sout, tmp);
-			} else if (report_a_word) {
-				char *w[MAX_nword];
-				int nw;
-				chop_into_words(svalue, w, &nw, MAX_nword);
-				
-				if (word_to_report < 0) {
-					char buf[100];
-					sprintf(buf, "\
-Cannot get word %d of a synonym; using first word instead",
-						word_to_report);
-					warning(buf);
-					strcat(sout, w[0]);
-				} else if (word_to_report < nw) {
-					printf("*** Pasting word[%d], i.e. '%s', onto output\n",word_to_report,w[word_to_report]);
-					strcat(sout, w[word_to_report]);
-				} else {
-					char buf[100];
-					sprintf(buf, "\
-Cannot get word %d of synonym `%s'; using last word ([%d]) instead",
-						word_to_report, sname, nw - 1);
-					warning(buf);
-					strcat(sout, w[nw - 1]);
-				}
-			} else {
-				strcat(sout, svalue);
-			}
-			i += syn_len - 1;
-			report_a_word = false;	// reset
-			report_num_words = false;
-		} else {
-				// Leave unknown synonym in place.
-			if (!found) {
-				strcat_c(sout, '\\');
-				while (!end_of_synonym(s[++i], inmath, need_brace))
-					strcat_c(sout, s[i]);
-				if (s[i] == '\0')
-					strcat_c(sout, '\0');
-				i--;		// otherwise miss next char
-			}
-		}
-	}
-	// Paste on final blank [can't remember why, but what the heck].
-	strcat(sout, " ");
-	delete [] sname;
-	delete [] svalue;
-	return true;
-}
-#else
 
 // Walk through string, substituting synonyms if not in math mode.
 // RETURN 0 if empty line, 1 otherwise.
@@ -726,8 +401,14 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 	int             dots_in_name = 0;
 	int             slen = strlen(s);
 	string sname;
-	char *svalue = (char*)malloc(_grTempStringLEN * sizeof(char)); // very long BUG: should use a string
-	if (!svalue) OUT_OF_MEMORY;
+
+	// Keep this buffer forever.  BUG: may not be long enough
+	static char* svalue = NULL;
+	if (svalue == NULL) {
+		svalue = (char*)malloc(_grTempStringLEN * sizeof(char));
+		if (!svalue) OUT_OF_MEMORY;
+	}
+
 	for (int i = 0; i < slen; i++) {
 		//printf("DEBUG1: i %d  (%s)\n",i,s+i);
 		int             found = 0;
@@ -901,11 +582,9 @@ Cannot get word %d of synonym `%s'; using last word ([%d]) instead",
 	}
 	// Paste on final blank [can't remember why, but what the heck].
 	sout.append(" ");
-	free(svalue);
 	if (((unsigned) superuser()) & FLAG_SYN) printf("Finally [%s]\n",sout.c_str());
 	return true;
 }
-#endif
 
 static inline int
 end_of_synonym(char c, bool inmath, bool need_brace)
