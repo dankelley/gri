@@ -6,7 +6,7 @@ export CVSROOT=dankelley@cvs.gri.sourceforge.net:/cvsroot/gri
 export PHP="index.php bugs.php contact.php developers.php docs.php download.php subroutines.php news.php"
 export IMAGES="xml.png project-support.jpg"
 
-scp $PHP dankelley@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
+scp $PHP gri.css dankelley@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
 scp $IMAGES dankelley@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs/images
 
 # pre-releases
