@@ -13,10 +13,13 @@ will be able to find it
 	fink fetch gri
 
 4. Build it
-	fink build gr
+	fink build gri
 
 5. Install it
 	fink install gri
+
+6. Test it
+	fink validate /sw/fink/debs/gri_2.12.8-1_darwin-powerpc.deb 
 
 
 REFERENCES
