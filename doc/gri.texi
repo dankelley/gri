@@ -15175,7 +15175,7 @@ debugger output or the PostScript file, and any necessary data files
 into one package.  Usually the easiest way to prepare a tarfile with
 these things, and send as one attachment, e.g. in unix one might do
 @example
-tar -cvhf - bug.tar README bug.gri bug.dat
+tar -cvhf bug.tar README bug.gri bug.dat
 @end example
 @noindent
 and then email the @file{bug.tar} file.  If the file is big, you'll
