@@ -108,7 +108,7 @@ gr_show_at(/*const*/ char *s, double xcm, double ycm, gr_textStyle style, double
 		 || ycm > OFFPAGE_TOP)) {
 		warning("Drawing text at a location which is offpage.");
 	}
-	char *fn_svg;
+	char *fn_svg = NULL;
 	double r, g, b;
 	_griState.color_text().getRGB(&r, &g, &b);
 	switch (_output_file_type) {
@@ -162,9 +162,11 @@ gr_show_at(/*const*/ char *s, double xcm, double ycm, gr_textStyle style, double
 	switch (style) {
 	case TEXT_LJUST:
 		gr_moveto_cm(xcm, ycm);
-		if (_output_file_type==postscript && _grWritePS && fabs(angle_deg) > 0.1) {
-			fprintf(_grPS, "%.2f rotate ", angle_deg);
-			gr_drawstring(s);
+		if (_output_file_type==postscript) {
+			if (_grWritePS && fabs(angle_deg) > 0.1) {
+				fprintf(_grPS, "%.2f rotate ", angle_deg);
+				gr_drawstring(s);
+			}
 		} else if (_output_file_type == svg) {
 			fprintf(_grSVG, "<text\nx=\"%.3f\"\ny=\"%.3f\"\nstyle=\"font-family:%s; font-size:%.2f; fill:#%02x%02x%02x; font-style:normal;\">\n",
 				xcm * PT_PER_CM,
@@ -185,13 +187,15 @@ gr_show_at(/*const*/ char *s, double xcm, double ycm, gr_textStyle style, double
 		box.shift_y(ycm);
 		break;
 	case TEXT_RJUST:
-		if (_output_file_type==postscript && _grWritePS) {
-			fprintf(_grPS, "%.1f %.1f m ",
-				PT_PER_CM * (xcm - width_cm * cos(angle_deg / DEG_PER_RAD)),
-				PT_PER_CM * (ycm - width_cm * sin(angle_deg / DEG_PER_RAD)));
-			if (fabs(angle_deg) > 0.1)
-				fprintf(_grPS, "%.2f rotate ", angle_deg);
-			gr_drawstring(s);
+		if (_output_file_type==postscript) {
+			if (_grWritePS) {
+				fprintf(_grPS, "%.1f %.1f m ",
+					PT_PER_CM * (xcm - width_cm * cos(angle_deg / DEG_PER_RAD)),
+					PT_PER_CM * (ycm - width_cm * sin(angle_deg / DEG_PER_RAD)));
+				if (fabs(angle_deg) > 0.1)
+					fprintf(_grPS, "%.2f rotate ", angle_deg);
+				gr_drawstring(s);
+			}
 		} else if (_output_file_type == svg) {
 			fprintf(_grSVG, "<text\nx=\"%.3f\"\ny=\"%.3f\"\nstyle=\"font-family:%s; font-size:%.2f; fill:#%02x%02x%02x; font-style:normal;\">\n", 
 				PT_PER_CM * (xcm - width_cm * cos(angle_deg / DEG_PER_RAD)),
@@ -214,13 +218,15 @@ gr_show_at(/*const*/ char *s, double xcm, double ycm, gr_textStyle style, double
 		box.shift_y(ycm);
 		break;
 	case TEXT_CENTERED:
-		if (_output_file_type==postscript && _grWritePS) {
-			fprintf(_grPS, "%.1f %.1f m ",
-				PT_PER_CM * (xcm - 0.5 * width_cm * cos(angle_deg / DEG_PER_RAD)),
-				PT_PER_CM * (ycm - 0.5 * width_cm * sin(angle_deg / DEG_PER_RAD)));
-			if (fabs(angle_deg) > 0.1)
-				fprintf(_grPS, "%.2f rotate ", angle_deg);
-			gr_drawstring(s);
+		if (_output_file_type==postscript) {
+			if (_grWritePS) {
+				fprintf(_grPS, "%.1f %.1f m ",
+					PT_PER_CM * (xcm - 0.5 * width_cm * cos(angle_deg / DEG_PER_RAD)),
+					PT_PER_CM * (ycm - 0.5 * width_cm * sin(angle_deg / DEG_PER_RAD)));
+				if (fabs(angle_deg) > 0.1)
+					fprintf(_grPS, "%.2f rotate ", angle_deg);
+				gr_drawstring(s);
+			}
 		} else if (_output_file_type == svg) {
 			fprintf(_grSVG, "<text\nx=\"%.3f\"\ny=\"%.3f\"\nstyle=\"font-family:%s; font-size:%.2f; fill:#%02x%02x%02x; font-style:normal;\">\n", 
 				PT_PER_CM * (xcm - 0.5 * width_cm * cos(angle_deg / DEG_PER_RAD)),
@@ -259,6 +265,7 @@ gr_show_at(/*const*/ char *s, double xcm, double ycm, gr_textStyle style, double
 		exit(99);
 		break;
 	default:
+		fprintf(stderr, "%s:%d unknown file output type\n",__FILE__,__LINE__);
 		break;		// BUG: should check filetype here
 	}
 	// Update bounding box
