@@ -882,47 +882,49 @@ abort_gri()
 void
 gr_hsv2rgb(double h, double s, double v, double *r, double *g, double *b)
 {
-    h = 6.0 * pin0_1(h);
-    s = pin0_1(s);
-    v = pin0_1(v);
-    int i = (int) floor(h + 1.0e-6);/* add a tiny bit just in case */
-    double f = h - i;
-    double p = v * (1.0 - s);
-    double q = v * (1.0 - s * f);
-    double t = v * (1.0 - s * (1.0 - f));
-    switch (i) {
-    case 0:
-	*r = v;
-	*g = t;
-	*b = p;
-	break;
-    case 1:
-	*r = q;
-	*g = v;
-	*b = p;
-	break;
-    case 2:
-	*r = p;
-	*g = v;
-	*b = t;
-	break;
-    case 3:
-	*r = p;
-	*g = q;
-	*b = v;
-	break;
-    case 4:
-	*r = t;
-	*g = p;
-	*b = v;
-	break;
-    case 5:
-    default:			// guess
-	*r = v;
-	*g = p;
-	*b = q;
-	break;
-    }
+	h = 6.0 * pin0_1(h);
+	s = pin0_1(s);
+	v = pin0_1(v);
+	int i = (int) floor(h);
+	if (i > 5)
+		i = 5;		// Prevent problem if hue is exactly 1
+	double f = h - i;
+	double p = v * (1.0 - s);
+	double q = v * (1.0 - s * f);
+	double t = v * (1.0 - s * (1.0 - f));
+	switch (i) {
+	case 0:
+		*r = v;
+		*g = t;
+		*b = p;
+		break;
+	case 1:
+		*r = q;
+		*g = v;
+		*b = p;
+		break;
+	case 2:
+		*r = p;
+		*g = v;
+		*b = t;
+		break;
+	case 3:
+		*r = p;
+		*g = q;
+		*b = v;
+		break;
+	case 4:
+		*r = t;
+		*g = p;
+		*b = v;
+		break;
+	case 5:
+	default:
+		*r = v;
+		*g = p;
+		*b = q;
+		break;
+	}
 }
 
 // Is value missing?  (No notice of whether x or y.)
