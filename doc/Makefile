@@ -7,8 +7,7 @@
             REFCARD = refcard
         CMD_REFCARD = cmdrefcard
      HTML_LONG_NAME = gri-long
-#          INFO_DIR = $(prefix)/info
-           INFO_DIR = %{_infodir}
+           INFO_DIR = $(prefix)/info
             INSTALL = install
 
 FORCE:
