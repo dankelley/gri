@@ -3361,11 +3361,22 @@ This computer can't `\\synonym = system ...' since no popen() subroutine.");
 		if (pipefile) {
 			string result;
 			GriString this_line;
-			while (!this_line.line_from_FILE(pipefile))
+			//printf("START.\n");
+			do {
+				eof_status s = this_line.line_from_FILE(pipefile);
+				//printf("<%s> %d (%d=eof_after %d=eofbeforedata, %d=no_eof)\n",this_line.getValue(),s,eof_after_data,eof_before_data,no_eof);
+				if (s == eof_before_data)
+					break;
 				result.append(this_line.getValue());
+				//printf("NOW <%s>\n",result.c_str());
+			} while (1);
 			pclose(pipefile);
-			while (result[result.size() - 1] == '\n')
+			while (result[result.size() - 1] == '\n') {
+				//printf("ERASING newline at end ....\n");
 				result.STRINGERASE(result.size() - 1, 1);
+				//printf("<%s>\n",result.c_str());
+			}
+			//printf("final <%s>\n",result.c_str());
 			if (!put_syn(_word[0], result.c_str(), true)) OUT_OF_MEMORY;
 			return true;
 		} else {

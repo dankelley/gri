@@ -472,12 +472,12 @@ is_system_command(const char *s)
 bool
 systemCmd()
 {
-
-	char           *s = _cmdLine;
+	printf("in SYSTEM %s:%d\n",__FILE__,__LINE__);
 	if (skipping_through_if())
 		return true;
 	// Much of following code duplicated in assign_synonym(), so if any
 	// problems crop up, check there too.
+	char *s = _cmdLine;
 	s += skip_space(s);		// skip any initial space
 	s += skip_nonspace(s);	// skip "system"
 	s += skip_space(s);
