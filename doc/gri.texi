@@ -52,7 +52,7 @@
 @comment %**start of header
 @setfilename gri.info
 @settitle Gri
-@set GRI-VERSION 2.5.1
+@set GRI-VERSION 2.5.2
 @set AUTHOR-EMAIL Dan.Kelley@@Dal.CA
 @c %**end of header
 @iftex
@@ -316,12 +316,12 @@ When you launch Gri interactively (without naming a commandfile, i.e. by
 just typing @code{gri} at the unix prompt), you'll see something like
 
 @example
-gri - scientific graphic program (version 2.5.1)
+gri - scientific graphic program (version 2.5.2)
  GPL Copyright 2000 by Dan E. Kelley.
 
  Type `help' to view list of commands, or
  type `show license' to view license.  View
- /usr/doc/gri-2.5.1/html/gri1.html or access `gri'
+ /usr/doc/gri-2.5.2/html/gri1.html or access `gri'
  INFO node for the online manual.
 @end example
 
@@ -644,12 +644,12 @@ about drawing labels (the boldface string @b{gri:} is a prompt typed by
 gri):
 @example
 gri
-gri - scientific graphic program (version 2.5.1)
+gri - scientific graphic program (version 2.5.2)
  GPL Copyright 2000 by Dan E. Kelley.
 
  Type `help' to view list of commands, or
  type `show license' to view license.  View
- /usr/doc/gri-2.5.1/html/gri1.html or access `gri'
+ /usr/doc/gri-2.5.2/html/gri1.html or access `gri'
  INFO node for the online manual.
 
 @b{gri: } help             # get help in general
@@ -13247,7 +13247,7 @@ appropriate place (e.g., @file{/usr/local/share/emacs/19.31/site-lisp}
 or some other file named in your Emacs ``load-path''), and then put
 lines like the following in your @file{~/.emacs} file:
 @example
-(setq gri*WWW-page "file:/usr/doc/gri-2.5.1/html/index.html")
+(setq gri*WWW-page "file:/usr/doc/gri-2.5.2/html/index.html")
 (setq gri*directory-tree "/usr/share/gri")
 (autoload 'gri-mode "gri-mode" "Enter Gri-mode." t)
 (setq auto-mode-alist 
@@ -13402,10 +13402,10 @@ Archiving the source is a simple matter of copying files.  You need to
 copy the executable (normally called @file{/usr/bin/gri}) and the
 startup file (normally called @file{/usr/share/gri/gri.cmd})
 to some location.  Let's say, for convenience, that this location is the
-directory @file{/usr/OLD_GRI_VERSIONS/2.5.1}.  Then, just create a
-shellscript named @code{/usr/bin/gri-2.5.1} that reads
+directory @file{/usr/OLD_GRI_VERSIONS/2.5.2}.  Then, just create a
+shellscript named @code{/usr/bin/gri-2.5.2} that reads
 @example
-/usr/OLD_GRI_VERSIONS/2.5.1/gri -directory /usr/OLD_GRI_VERSIONS/2.5.1
+/usr/OLD_GRI_VERSIONS/2.5.2/gri -directory /usr/OLD_GRI_VERSIONS/2.5.2
 @end example
 
 
