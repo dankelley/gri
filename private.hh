@@ -130,6 +130,7 @@ bool            get_var(const char *name, double *value);
 void            give_help(void);
 void            gri_abort(void);
 void            gri_exit(int code);
+bool            gri_version_exceeds(unsigned int n1, unsigned int n2, unsigned int n3);
 bool            grid_interp(double xx, double yy, double *value);
 bool            grid_exists(void);
 bool            gr_missing(double x);

@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.165 2002/04/06 14:42:05 dankelley Exp $
+@c $Id: gri.texim,v 1.166 2002/04/06 23:34:53 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -10039,8 +10039,6 @@ BUG: this only has an effect if the axis is not already of type
 @cindex @code{set y axis} command
 
 @example
-`set y axis label horizontal'
-`set y axis label vertical'
 `set y axis left'
 `set y axis right'
 `set y axis increasing'
@@ -10115,6 +10113,12 @@ existing information.
 @item @code{set y axis labels automatic}
 Return to automatically-generated axis labels, undoing the command of
 the previous item.
+
+@item @code{set y axis name vertical}
+Cause future y axes to be drawn with the name aligned vertically (the default).
+
+@item @code{set y axis name horizontal}
+Cause future y axes to be drawn with the name aligned horizontally.
 
 @end itemize
 
@@ -16964,8 +16968,10 @@ data (@ref{Convert Columns To Grid}).
 
 @itemize @bullet
 @item @emph{version 2.9.0}
-
-Replace @code{set y axis label horizontal} with @code{set y name horizontal}.
+@itemize @bullet
+@item Replace @code{set y axis label horizontal} with @code{set y axis name horizontal}.
+@item Replace @code{set y axis label vertical} with @code{set y axis name vertical}.
+@end itemize
 @end itemize
 
 

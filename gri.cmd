@@ -3903,17 +3903,7 @@ various map projections.
     extern "C" bool set_x_typeCmd(void);
 }
 
-`set y axis label horizontal|vertical'
-`set y axis label horizontal'
-Make y label be horizontal.
-
-`set y axis label vertical'
-Make y label be vertical (default).
-{
-    extern "C" bool set_y_axis_labelCmd(void);
-}
-
-`set y axis left|right|increasing|decreasing|{.bottom. .top. [.incBig. [.incSml.]]}|{labels [add] .pos. "label" [...]}|{labels automatic}|unknown'
+`set y axis left|right|increasing|decreasing|{.bottom. .top. [.incBig. [.incSml.]]}|{labels [add] .pos. "label" [...]}|{labels automatic}|{name vertical|horizontal}|unknown'
 Control various things about the y axis.
 `set y axis left'
 Make next y-axis to be drawn have labels to the left of the axis.
@@ -3967,6 +3957,11 @@ existing information.
 Return to automatically-generated axis labels, undoing the command of
 the previous item.
 
+`set y axis name vertical'
+Cause future y axes to be drawn with the name aligned vertically (the default).
+
+`set y axis name horizontal'
+Cause future y axes to be drawn with the name aligned horizontally.
 {
     extern "C" bool set_y_axisCmd(void);
 }
@@ -4844,3 +4839,7 @@ rpnfunction linear_intercept exch dup roll_left roll_left roll_left dup roll_rig
 # @variable \.ps_file. name of PostScript file being created
 # @variable \.path_data. directory path for finding data @default "."
 # @variable \.path_commands. directory path for finding commands @default "."
+
+# BEGIN deprecated commands
+# @deprecated 2.9.0 `set y axis label horizontal|vertical'
+# END   deprecated commands

@@ -26,7 +26,7 @@ bool            set_image_rangeCmd(void);
 bool            set_grid_missingCmd(void);
 bool            set_grid_missing_curve(bool inside);
 bool            mask_an_island(double *x, double *y, unsigned int n);
-bool            set_y_axis_labelCmd(void);
+bool            set_y_axis_nameCmd(void);
 // following shared with read.c
 double          _input_data_window_x_min = 1.0;
 double          _input_data_window_x_max = -1.0;
@@ -3269,10 +3269,26 @@ set_y_axisCmd()
 		_user_set_y_axis = false;
 		return true;
 	}
-	// set y axis label horizontal
-	if (_nword == 5 && !strcmp(_word[3], "label")) {
-		set_y_axis_labelCmd();
+	// set y axis name ...
+	if (_nword == 5 && word_is(3, "name")) {
+		set_y_axis_nameCmd(); 
 		return true;
+	}
+	if (_nword == 5 && word_is(3, "label")) {
+		//printf("YA YA YA %f %f %d\n",_version,_version_expected,gri_version_exceeds(2,8,99));
+		if (gri_version_exceeds(2, 8, 99)) {
+			if (_version_expected != 0 && _version_expected < 2.0899) {
+				warning("Using compatibility mode, interpreting `set y axis label'\n         as if it were the newly-named command  `set y axis name'.");
+				set_y_axis_nameCmd(); 
+				return true;
+			} else {
+				err("The `set y axis label' command is no longer available.\n       Please use `set y axis name' instead, or use the `expecting'\n       command with a version number lower than 2.9.0, to get\n       backwards compatability.");
+				return false;
+			}
+		} else {
+			set_y_axis_nameCmd(); 
+			return true;
+		}
 	}
 	// ... specifying y axis
 	if (_nword == 5) {
@@ -3392,15 +3408,25 @@ set_y_axisCmd()
 }
 
 bool
-set_y_axis_labelCmd()
+set_y_axis_nameCmd()
 {
-	if (_nword == 5 && !strcmp(_word[3], "label")) {
+	if (_nword == 5 && !strcmp(_word[3], "label")) { // Syntax prior to version 2.9.0
 		if (!strcmp(_word[4], "horizontal"))
 			gr_setyaxisstyle(1);
 		else if (!strcmp(_word[4], "vertical"))
 			gr_setyaxisstyle(0);
 		else {
-			err("`set y axis label' expecting 'horizontal' or 'vertical', but got `\\", _word[4], "'", "\\");
+			err("`set y axis name' expecting 'horizontal' or 'vertical', but got `\\", _word[4], "'", "\\");
+			demonstrate_command_usage();
+			return false;
+		}
+	} else if (_nword == 5 && !strcmp(_word[3], "name")) { // From version 2.9.0 onwards
+		if (!strcmp(_word[4], "horizontal"))
+			gr_setyaxisstyle(1);
+		else if (!strcmp(_word[4], "vertical"))
+			gr_setyaxisstyle(0);
+		else {
+			err("`set y axis name' expecting 'horizontal' or 'vertical', but got `\\", _word[4], "'", "\\");
 			demonstrate_command_usage();
 			return false;
 		}

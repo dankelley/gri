@@ -2301,3 +2301,10 @@ endian_swap_uint(unsigned int v)
 }
 #undef gri_bswap_constant_32
 
+
+bool
+gri_version_exceeds(unsigned int n1, unsigned int n2, unsigned int n3)
+{
+	double v = n1 + n2 / 100.0 + n3 / 100000.0;
+	return _version > v;
+}
