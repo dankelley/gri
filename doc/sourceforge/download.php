@@ -11,10 +11,11 @@ set_up_lhs();
 <b>Debian/GNU Linux</b><br>
 - <A HREF="<?php print "$ftp_site/gri_2.8.6-0potato1_i386.deb";				?>">potato [old]	</a><br>
 - <A HREF="<?php print "$ftp_site/gri_$gri_stable_version-0woody1_i386.deb";			?>">woody		</a><br>
-- <A HREF="<?php print "$ftp_site/gri-${gri_stable_version}static_2.12.1-1_i386.deb";
+- <A HREF="<?php print "$ftp_site/gri-${gri_stable_version}static_${gri_stable_version}-1_i386.deb";
         ?>">statically linked		</a><br>
 - <A HREF="http://packages.debian.org/unstable/science/gri.html">Gri
 at Debian</a><br>
+- <a href="http://packages.debian.org/unstable/science/gri-el.html">Emacs mode</a><br>
 - <A HREF="http://packages.debian.org/unstable/doc/gri-html-doc.html">HTML manual</a><br>
 - <A HREF="http://packages.debian.org/unstable/doc/gri-ps-doc.html">PostScript
 manual</a><br>
@@ -54,21 +55,26 @@ old package</a>
 suitable for the Potato distribution,
 along with two up-to-date packages:
 <A HREF="<?php print "$ftp_site/gri_$gri_stable_version-0woody1_i386.deb";?>">
-the 2.12.1 package compiled for woody
+the
+<?php print "${gri_stable_version}";?>
+ package compiled for woody
 </a>
 , and
-<A HREF="<?php print "$ftp_site/gri-${gri_stable_version}static_2.12.1-1_i386.deb";?>">
-an unofficial statically linked package of 2.12.1
+<A HREF="<?php print "$ftp_site/gri-${gri_stable_version}static_${gri_stable_version}-1_i386.deb";?>">
+an unofficial statically linked package of
+<?php print "${gri_stable_version}";?>
 </a>.  The statically linked package is
 for installation alongside other Gri releases, yielding
-backwards compatibility, and therefore it lacks Info files or the Emacs 
-gri-mode.  
+backwards compatibility, and therefore it lacks Info files.
 <font color="green">
 To distinguish this package from the regular gri package, it is named 
 <i>
 <?php print "gri-${gri_stable_version}static";?>
 </i> as opposed to <i>gri</i>.
-</font>
+</font><br>
+The Emacs gri-mode has recently been split off into it's own package
+called
+<a href="http://packages.debian.org/unstable/science/gri-el.html">gri-el</a>.<br>
 Consult the
 <a href="http://packages.debian.org/unstable/science/gri.html">
 Gri page at Debian</a> for packages available for each Debian release as well
