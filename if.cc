@@ -119,6 +119,12 @@ handle_if_block()
 			skipping[top] = (skip_to_end[top] || skipping[top - 1]) ? true : false;
 			return true;
 		} else if (_nword > 2 && !strcmp(_word[1], "if")) {
+			// Must figure out rpn expressions (if any) since they
+			// are ignored for the 'false' part of if blocks, and
+			// that's what we are in at the moment.
+			while (substitute_rpn_expressions(_cmdLine, _cmdLineCOPY))
+				strcpy(_cmdLine, _cmdLineCOPY);
+			chop_into_words(_cmdLine, _word, &_nword, MAX_nword);
 			/* `else if #' */
 			double           tmp;
 			if (!getdnum(_word[2], &tmp)) {
