@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.149 2002/02/07 13:38:40 dankelley Exp $
+@c $Id: gri.texim,v 1.150 2002/02/07 21:57:08 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16390,8 +16390,19 @@ enter the next stable stream of Gri, but it is important to note that
 main exception is bug fixes, which will enter the stable stream unless
 they are found to create new bugs.
 @itemize @bullet
+
 @item
-Add @code{set clip to curve} command. Caution: this needs extension, and may have a bug if called twice in succession [but is this with an intervening 'set clip off'??]
+Fix SourceForge bug
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=514495&group_id=5511&atid=105511">
+#514495
+@c HTML </a>
+in which @code{set clip to curve} failed to handle missing values in the curve.
+@c HTML </a>
+
+@item
+Add @code{set clip to curve} command. Caution: this needs extension, and may
+have a bug if called twice in succession [but is this with an intervening
+@code{set clip off}]
 
 @item
 Add @code{group} and @code{end group} commands ... or, at least, tags for 

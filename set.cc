@@ -364,12 +364,14 @@ set_clipCmd()
 		for (unsigned int i = 0; i < xlen; i++) {
 			double x = *xp;
 			double y = *yp;
-			double xpt, ypt;
-			gr_usertopt(x, y, &xpt, &ypt);
-			if (i == 0)
-				fprintf(_grPS, "%f %f moveto\n", xpt, ypt);
-			else 
-				fprintf(_grPS, "%f %f lineto\n", xpt, ypt);
+			if (!gr_missingx((double)x) && !gr_missingy((double)y)) {
+				double xpt, ypt;
+				gr_usertopt(x, y, &xpt, &ypt);
+				if (i == 0)
+					fprintf(_grPS, "%f %f moveto\n", xpt, ypt);
+				else 
+					fprintf(_grPS, "%f %f lineto\n", xpt, ypt);
+			}
 			xp++;
 			yp++;
 		}
