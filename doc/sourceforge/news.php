@@ -29,7 +29,7 @@ is available.
 <h1>New features</h1>
 <p>
 <?php
-print "<A HREF=\"$development_site/gridoc/html/Version_2_10.html#Version2.10\">\n";
+print "<A HREF=\"$development_site/gridoc/html/Version_2_12.html#Version2.12\">\n";
 ?>
 Changes
 </a>

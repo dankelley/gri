@@ -3,7 +3,7 @@
 $ftp_site = "http://ftp1.sourceforge.net/gri";
 $development_site = "http://gri.sourceforge.net";
 $development_site_name = "SourceForge";
-$gri_stable_version = "2.12.1";
+$gri_stable_version = "2.12.2";
 $gri_group_id = "5511";
 $sf_url = "http://sourceforge.net";
 $sf_ftp = "http://ftp1.sourceforge.net";
@@ -18,11 +18,13 @@ function age() {
 # Vsn 2.10.0: 2002-05-20 09:15 Halifax time, 5:15 SF time
 #$diff = time() - mktime(5, 15, 0, 5, 20, 2002);
 # Vsn 2.10.1: 2002-06-1 15:36 Halifax time, 11:36 SF time
-$diff = time() - mktime(11, 36, 0, 6, 1, 2002);
+#	$diff = time() - mktime(11, 36, 0, 6, 1, 2002);
 # Vsn 2.12.0: 2002-09-15 10:48 Halifax time, 6:48 SF time
-	$diff = time() - mktime(6, 48, 0, 9, 15, 2002);
+#	$diff = time() - mktime(6, 48, 0, 9, 15, 2002);
 # Vsn 2.12.1: 2002-09-25 13:55 Halifax time, 9:55 SF time
-	$diff = time() - mktime(9, 55, 0, 9, 25, 2002);
+#	$diff = time() - mktime(9, 55, 0, 9, 25, 2002);
+# Vsn 2.12.2: 2003-02-07 10:00 Halifax time, 6:00 SF time
+	$diff = time() - mktime(6, 00, 0, 2, 7, 2003);
 
 	$days = floor($diff / 24 / 60 / 60);
 	$weeks = floor($days / 7);
@@ -120,7 +122,7 @@ function footer()
 	print "<td valign=\"top\" bgcolor=\"#FFFFFF\">\n";
 	print "<center>\n";
 	print "<small>\n";
-	print "Copyright &copy; 2002 by\n";
+	print "Copyright &copy; 2002-2003 by\n";
         global $sf_url;
 	print "<a href=\"$sf_url/users/dankelley\">Dan Kelley</a>\n";
 	print " and ";
