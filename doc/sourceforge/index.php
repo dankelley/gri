@@ -3,6 +3,7 @@
 <!-- HOW TO INSTALL ON SOURCEFORGE:
 
   scp index.php dankelley@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
+  scp index.php psg@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
 
 -->
 
