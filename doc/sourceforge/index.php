@@ -228,12 +228,13 @@ HREF="http://gri.sourceforge.net/gridoc/html/Version_2_6.html#Version2.6">here</
     </tr>
     <tr>
       <td class="menus" align="left">
-	<A class="menus" HREF="http://www.sourceforge.net/forum/?group_id=5511">Discussion Forums</A><br>
-	<A class="menus" HREF="http://sourceforge.net/tracker/?atid=105511&group_id=5511&func=browse">Reporting bugs</A><br>
-	<A class="menus" HREF="http://sourceforge.net/tracker/?atid=355511&group_id=5511&func=browse">Requesting features</A><br>
-	<A class="menus" HREF="http://www.sourceforge.net/survey/?group_id=5511">Public Surveys</A><br>
+	<A class="menus" HREF="http://www.sourceforge.net/forum/forum.php?forum_id=16974">Discussion Forum</A><br>
+	<A class="menus" HREF="http://www.sourceforge.net/forum/forum.php?forum_id=16975">Help Forum</A><br>
+	<A class="menus" HREF="http://sourceforge.net/tracker/?atid=105511&group_id=5511&func=browse">Bug Reports</A><br>
+	<A class="menus" HREF="http://sourceforge.net/tracker/?atid=355511&group_id=5511&func=browse">Feature Requests</A><br>
+	<!-- <A class="menus" HREF="http://www.sourceforge.net/survey/?group_id=5511">Public Surveys</A><br> -->
 	<A class="menus" HREF="http://www.sourceforge.net/mail/?group_id=5511">Mailing Lists</A><br> 
-	<A class="menus" HREF="mailto:dankelley@users.sourceforge.net">Email the author</A><br>
+	<A class="menus" HREF="mailto:dankelley@users.sourceforge.net">Email Author</A><br>
       </td>
     </tr>
   </table>
@@ -279,3 +280,4 @@ HREF="http://gri.sourceforge.net/gridoc/html/Version_2_6.html#Version2.6">here</
     </table>
   </body>
 </html>
+
