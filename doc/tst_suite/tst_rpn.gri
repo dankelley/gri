@@ -85,13 +85,18 @@ assert {rpn 45 tan 1      same}           " failed test 8.3"
 set missing value -99
 read .x. .y.
 1 -99
-
 assert {rpn .y. ismissing}                " failed test 9.1"
 assert {rpn .y. -99 ==   }                " failed test 9.2"
-assert {rpn .y. -99 != ! }                " failed test 9.3"
+assert {rpn .y. -99 !=  !}                " failed test 9.3"
 assert {rpn .y.   0 !=   }                " failed test 9.4"
+# some boolean tests need not check that both values exist
+assert {rpn .y.   0  &  !}                " failed test 9.5"
+assert {rpn  0   .y. &  !}                " failed test 9.6"
+assert {rpn .y.   1  &   }                " failed test 9.7"
+assert {rpn .y.   1  |   }                " failed test 9.8"
+assert {rpn  1   .y. |   }                " failed test 9.9"
 if {rpn .y. -99 !=}
-    show                                  " failed test 9.5"
+    show                                  " failed test 9.10"
 end if
 		    
 show " passed"

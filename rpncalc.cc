@@ -739,15 +739,38 @@ do_operation(operator_name oper)
 	} 
 	if (oper == AND) {
 		NEED_ON_STACK(2); NEED_IS_TYPE(1, NUMBER); NEED_IS_TYPE(2, NUMBER);
-		if (VALID(1) && VALID(2))
+		// if EITHER on stack is 0, result is 0
+		if (VALID(1) && !VALUE(1)) {
+			SET(2, "", 0.0, NUMBER, true);
+			rS.pop_back();
+			return true;
+		}
+		if (VALID(2) && !VALUE(2)) {
+			SET(2, "", 0.0, NUMBER, true);
+			rS.pop_back();
+			return true;
+		}
+		if (VALID(1) && VALID(2)) {
 			SET(2, "", (VALUE(1)&&VALUE(2)?1.0:0.0), NUMBER, true);
-		else 
+		} else {
 			SET(2, "", missing, NUMBER, false);
+		}
 		rS.pop_back();
 		return true;
 	} 
 	if (oper == OR) {
 		NEED_ON_STACK(2); NEED_IS_TYPE(1, NUMBER); NEED_IS_TYPE(2, NUMBER);
+		// if EITHER on stack is 1, result is 1
+		if (VALID(1) && VALUE(1)) {
+			SET(2, "", 1.0, NUMBER, true);
+			rS.pop_back();
+			return true;
+		}
+		if (VALID(2) && VALUE(2)) {
+			SET(2, "", 1.0, NUMBER, true);
+			rS.pop_back();
+			return true;
+		}
 		if (VALID(1) && VALID(2))
 			SET(2, "", (VALUE(1)||VALUE(2)?1.0:0.0), NUMBER, true);
 		else 
