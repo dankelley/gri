@@ -352,7 +352,7 @@ time, since the program is meant to be relatively stable and bug-free.
 @cindex first-time usage
 @cindex hint, first-time usage
 @cindex beginners, simple example
-@cindex drawing X-Y graphs
+@cindex drawing x-y graphs, simple
 This chapter introduces Gri with a common example: a x-y graph.  The
 example is discussed in detail later @xref{X-y Plots}.  The data files
 and command files here and throughout the manual should be available to
@@ -362,7 +362,6 @@ you in a directory @file{.../gri/examples} on unix machines.
 
 
 @section Gri Command file
-@cindex drawing x-y plots
 
 @cindex example 1, linegraph using data in a separate file
 
@@ -691,7 +690,7 @@ at the keyboard.
 To make Gri extract the commands that created a PostScript file:
 @cindex recovering commands from a PostScript file
 @cindex command-line option @code{-creator}
-@cindex @code{-creator} command-line option
+@cindex @code{-creator} command-line option TEST2
 @example
 `gri -creator PostScriptFile'
 @end example
@@ -1260,8 +1259,7 @@ variables:
 
 @itemize @bullet
 @item @code{..arrowsize..}
-@cindex arrows, setting size of heads using @code{..arrowsize..}
-@cindex size of arrows, setting size using @code{..arrowsize..}
+@cindex arrows, size of heads stored in @code{..arrowsize..}
 @vindex @code{..arrowsize..}, size of arrows
 Stores either a positive number representing the halfwidth of arrowheads
 measured in centimetres, or a negative number giving the negative of the
@@ -1607,9 +1605,6 @@ show "\[]syn    ... gives '4', i.e. number of words"
 @node   Testing For Existence Of Synonyms, Using Synonyms In If Statements, Accessing Individual Words Within Synonyms, About Synonyms
 @comment  node-name,  next,  previous,  up
 @subsubsection Testing for existence of synonyms
-@cindex testing for existence of synonyms
-@cindex existence of synonyms, testing for
-@cindex synonyms, testing for existence of
 To see if a given named synonym (or variable) exists, use the RPN
 operator @code{defined} @xref{rpn Mathematics}.
 
@@ -2231,10 +2226,10 @@ procedure.
 @node   Existence of Item, Binary Operators, rpn Constants, rpn Mathematics
 @comment  node-name,  next,  previous,  up
 @subsection Testing for Existence of Files, Variables, and Synonym
-@cindex existence of a given variable, testing
-@cindex existence of a given synonym, testing
-@cindex testing for existence of a given variable
-@cindex testing for existence of a given synonym
+@cindex existence of a variable, testing
+@cindex existence of a synonym, testing
+@cindex testing for existence of a variable
+@cindex testing for existence of a synonym
 @cindex variables, checking for existence of
 @cindex synonyms, checking for existence of
 @cindex @code{defined} rpn operator 
@@ -3565,8 +3560,8 @@ Axes are linear by default; to make logarithmic axes, use commands
 @node   Length, Range, Log And Linear, Axes
 @comment  node-name,  next,  previous,  up
 @subsection Length
-@cindex length of axes
-@cindex axes, length of
+@cindex axes, guide to choosing length of
+@cindex length of axes, guide on choosing
 @cindex data files, protecting against movement of
 The axes are normally 10 centimetres long.  To set the axis lengths (in
 centimetres), use commands like @code{set x size 5} and 
@@ -4191,7 +4186,7 @@ The following Gri commands will draw a linegraph.  For the output graph
 @xref{Simple Example}.
 @cindex linegraphs
 @cindex x-y graphs
-@cindex drawing x-y plots
+@cindex drawing linegraphs
 @cindex example 1, linegraph using data in a separate file
 
 This plots a simple linegraph.
@@ -5983,7 +5978,6 @@ line 4-n:
 @cindex oceanographic plots
 @cindex oceanographic plots: isopycnals on TS diagrams
 @cindex T-S diagram, example of drawing
-@cindex t-s diagram, example of drawing
 @cindex temperature-salinity diagram
 @cindex isopycnals
 Here is how you might draw an oceanographic "TS" (temperature salinity)
@@ -8230,7 +8224,6 @@ Draw black/white image made by @code{convert grid to image} or by
 @findex draw isopycnal
 @cindex @code{draw isopycnal} command
 @cindex T-S diagram, drawing isopycnals on
-@cindex t-s diagram, drawing isopycnals on
 @cindex temperature-salinity diagram, drawing isopycnals on
 @cindex isopycnals
 @cindex oceanographic plots: isopycnals on TS diagrams
@@ -8324,7 +8317,6 @@ the y-axis.
 @findex draw isospice
 @cindex @code{draw isospice} command
 @cindex T-S diagram, drawing spice lines on
-@cindex t-s diagram, drawing spice lines on
 @cindex temperature-salinity diagram, drawing spice lines on
 @cindex spice lines, on TS diagram
 @cindex oceanographic plots: iso-spice lines on TS diagrams
@@ -9392,8 +9384,8 @@ unix environment variable, or in the list (@file{.},
 @section The @code{interpolate} Command
 @findex interpolate
 @cindex @code{interpolate} command
-@cindex contouring
-@cindex grid
+@cindex contouring, interpolating to new grid
+@cindex grid, interpolating from one to another
 @example
 interpolate x grid to .left. .right. .inc.|@{/.cols.@}'
 interpolate y grid to .bottom. .top. .inc.|@{/.rows.@}'
@@ -10815,7 +10807,6 @@ Turn PostScript clipping off.
 @emph{See also} @code{set input data window}.
 @cindex data, clipping using @code{set input clip}
 @cindex clipping data using @code{set input clip}
-@cindex color
 @end itemize
 
 
