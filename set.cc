@@ -361,16 +361,20 @@ set_clipCmd()
                 fprintf(_grPS, "q n %% `set clip to curve' setting clipping on\n");
 		double *xp = _colX.begin();
 		double *yp = _colY.begin();
+		bool need_moveto = true;
 		for (unsigned int i = 0; i < xlen; i++) {
 			double x = *xp;
 			double y = *yp;
 			if (!gr_missingx((double)x) && !gr_missingy((double)y)) {
 				double xpt, ypt;
 				gr_usertopt(x, y, &xpt, &ypt);
-				if (i == 0)
+				if (need_moveto)
 					fprintf(_grPS, "%f %f moveto\n", xpt, ypt);
 				else 
 					fprintf(_grPS, "%f %f lineto\n", xpt, ypt);
+				need_moveto = false;
+			} else {
+				need_moveto = true;
 			}
 			xp++;
 			yp++;
