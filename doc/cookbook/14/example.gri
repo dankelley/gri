@@ -1,3 +1,7 @@
+# Example 14 -- Grided bathymetry data, converted to image, then countoured
+#
+# Contributed 2000-May-25 by Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
+
 set trace on
 set page landscape
 
@@ -17,10 +21,9 @@ set x type map W
 set y type map N
 set x name ""
 set y name ""
-set x axis \xl \xr  -5 -1
-set y axis \yb \yt 1 {rpn 1 6 /} 
 set y margin 3
 set x margin 3
+set tic size {rpn ..tic_size.. 2 /} # Make smaller tic sizes (by half)
 set y size 14
 if {rpn "/usr/local/bin/map-merc-scale-factor" file_exists}
     # Use my proj-based script to calc Mercator resizing if available
@@ -30,11 +33,15 @@ else
     # else use Gri (Less than 0.2% difference anyway)
     resize x for maps
 end if
-
-# Draw the axes
+set x axis \xl \xr  -5 -1
+# I want bigger tic marks at degree intervals, even if unlabelled
+set font size 0
+set y axis \yb \yt 1 {rpn 1 6 /} 
+draw y axis 
+# Reset to label every second one to draw the labelled axes.
+set y axis \yb \yt 2 {rpn 1 6 /} 
 set font to Helvetica
 set font size 12
-set tic size {rpn ..tic_size.. 2 /} # Make smaller tic sizes (by half)
 draw axes
 
 # Get the x and y grid point locations from the pre-gridded `x y z' data file.
