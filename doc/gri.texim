@@ -15482,10 +15482,19 @@ in the next section (@ref{Killing Bugs}).
 
 @c HTML <!-- newfile KillingBugs.html "Gri: bugs" "Gri Bugs" -->
 
-@node   Killing Bugs, Test Suite, Reporting Bugs, Bugs
+@node   Killing Bugs, Debugging Software You'll Need, Reporting Bugs, Bugs
 @comment  node-name,  next,  previous,  up
 @cindex bugs, how to kill them
 @section Killing Bugs
+@menu
+* Debugging Software You'll Need:: 
+* Debugging at a Glance::          
+* Debugging Example::
+@end menu
+
+@node   Debugging Software You'll Need, Debugging at a Glance, Killing Bugs, Killing Bugs
+@comment  node-name,  next,  previous,  up
+@subsection Software that you'll need
 This section is intended to help you find and kill bugs yourself, by
 indicating how the author does this work.  Since Gri is open-source, all
 users are invited to try to kill bugs themselves!
@@ -15501,7 +15510,33 @@ the Emacs editor, and running @code{gdb} from within Emacs.  Otherwise,
 you'll want to glance at the documentation on @code{gdb} to see how to
 use it in standalone mode.
 
+@node   Debugging at a Glance, Debugging Example, Debugging Software You'll Need, Killing Bugs
+@comment  node-name,  next,  previous,  up
+@subsection Debugging at a glance
+The list below is a sketch of what you might try, and in what order.
+@itemize
+@item Check the bug list to see if other users have found your bug,
+and also to see if there is a workaround.
+@item Try a more recent version of gri.  If it works, you might wish to 
+archive the version you have at the moment and upgrade.
+@item If your bug results in early termination, you should run Gri
+inside a debugger (e.g. GDB, assumed henceforth).  When the program
+terminates, type @code{where} to see where termination occured.  Often
+this will give a clue.  In many cases, early termination results from
+faults in memory allocation.  To check memory allocation, you'll need to
+recompile Gri, linking it against a debugging memory allocator.  Many
+such tools exist; see comments in the @code{Makefile} for a hint at how
+to use a popular one, called ``Electric Fence.''
+@item If your bug does not result in early termination, you may find 
+the best scheme is to trim your example down as much as possible, and
+then run Gri inside the GDB (or other debugger) so that you can monitor
+program execution.  The next section explains this in detail.
+@end itemize
 
+
+@node   Debugging Example, Test Suite, Debugging at a Glance, Killing Bugs
+@comment  node-name,  next,  previous,  up
+@subsection A debugging Example
 Let's take a recent bug as an example.  Peter Galbraith found that the
 gri script
 @example
@@ -15699,7 +15734,7 @@ will be as small as it can be.
 
 @c HTML <!-- newfile TestSuite.html "Gri: Test Suite" "Test Suite" -->
 
-@node   Test Suite, Acknowledgments, Killing Bugs, Top
+@node   Test Suite, Acknowledgments, Debugging Example, Top
 @comment  node-name,  next,  previous,  up
 @chapter Test Suite
 
