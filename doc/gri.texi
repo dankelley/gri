@@ -14259,14 +14259,18 @@ The next sections outline the changes made in Gri.
 @subsection Version 2.6
 @table @emph
 @item 2.6.0 [2000-Jul-26]
+
 @sp 1
 Remove command @code{show hint of the day}, since I no longer permission
 to use cgi-bin to provide the hints via web-server.
+
 @sp 1
 Permit indexing of synonym words with variables, in addition to
 constants (@ref{Accessing Individual Words Within Synonyms}).
+
 @sp 1
 Fix bug in interpolating synonyms in the test-expression of @code{while} loops.
+
 @sp 1
 Put source on the
 Source Forge open-source development website, at
