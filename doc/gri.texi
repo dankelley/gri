@@ -9513,7 +9513,7 @@ plotted along with your data.
 
 @c HTML <!-- newfile Open.html "Gri: `open' command" "Gri Commands" -->
 
-@node   Open, Postscript, Newpage, Commands
+@node   Open, Opening Simple Files, Newpage, Commands
 @comment  node-name,  next,  previous,  up
 @section The @code{open} Command
 @findex open
@@ -9523,42 +9523,132 @@ plotted along with your data.
 @cindex system commands acting as datafiles
 @cindex data files, opening
 @cindex opening data files
-Possibilities are:
+There are two styles of @code{open} command.  In the first style, a
+simple file is to be opened.  In the second style a unix-like "pipe" is
+opened, i.e. Gri will read the output of a system command instead of a
+file.
+@menu
+* Opening Simple Files:: 
+* Opening Pipes::
+@end menu
+
+
+@node   Opening Simple Files, Ascii Files, Open, Open
+@comment  node-name,  next,  previous,  up
+@subsection Opening simple files
+
+@menu
+* Ascii Files::
+* Binary Files::
+* NetCDF Files::
+@end menu
+
+@node   Ascii Files, Binary Files, Opening Simple Files, Opening Simple Files
+@comment  node-name,  next,  previous,  up
+@subsubsection Ascii Files
+Most applications involve ascii files, and these are very easy to handle
+in Gri.  For example given a data file named @file{foo.dat}, just use
+the command
 @example
-`open \filename'
-
-`open \filename binary \
-    [uchar|8bit|int|float|double|16bit]'
-
-`open \filename netCDF'
-
-`open "SYS-CMD |" \
-    [binary [uchar|8bit|int|float|double|16bit]]'
+open foo.dat
 @end example
-@noindent
-The first three forms work on data files.  In these, the symbol
-@code{\filename} stands for a filename.
+and then you can read the data using various commands.  Thus a complete
+program might be
+@example
+open foo.dat
+read columns x y
+draw curve
+@end example
 
-@emph{Important} You must use double-quotes around filenames with
-punctuation in them (e.g. @code{open "../data"} or @code{open
-"a-z.dat"}).  Many users put double quotes around all filenames in open
-commands, as a matter of habit.
+If a filename contains blanks or punctuation symbols, you must put it in
+double quotes (@code{"}), e.g.
+@example
+open "foo bar.dat"
+@end example
+Actually, Gri accepts double-quotes on any @code{open} command and some
+folks use it on all commands, as a matter of habit.
 
-Files may be ascii (the default) or binary.  On systems with the
-@code{netCDF} libraries installed, they may also be in the @code{netCDF}
-format.
+Gri can handle compressed files appropriately, e.g.
+@example
+open foo.data.gz
+@end example
+so that there is no need to uncompress data for use with Gri.
 
 @cindex compressed files, opening
 @cindex gzipped files, opening
 @cindex opening gzipped
 @cindex opening compressed files
-If the file name ends in @code{.gz}, then Gri will assume it has been
-compressed with the @code{gzip} utility, and will uncompress it before
-reading.
 
-If the file is not found, then Gri tries looking for a compressed
-version by appending @code{.gz} to the name (and gives a warning that it
-is doing so).
+Indeed, Gri is quite persistant in looking for your file, and if a given
+file is not found, it will then check to see if a compressed version is
+available, and use that instead.  Thus
+@example
+open foo.dat
+@end example
+will look for a file named @file{foo.dat.gz} if @file{foo.dat} is not
+available.  (Only files compressed with the GNU @code{gzip} utility are
+handled.)
+
+
+
+@node   Binary Files, NetCDF Files, Ascii Files, Opening Simple Files
+@comment  node-name,  next,  previous,  up
+@cindex binary data
+
+@subsubsection Binary Files
+Like most computer programs, Gri has some trouble with binary files.
+One big issue is the so-called "endian" character of the computer.  Some
+computers store multi-byte values with the most significant bytes first,
+while others store them with the most significant bytes last.  The
+problem is that nothing is stored in data files to indicate which
+convention was employed.  For this reason, a version of Gri compiled on
+a so-called "big-endian" computer will misinterpret multi-byte values
+that were created on a so-called "little-endian" computer.  Many folks
+in the scientific community have converted to using the NetCDF format
+(@ref{NetCDF Files}) for precisely this reason, since this format is
+independent of the endian character of the computer.
+
+Presuming an appropriate endian character, however, reading is
+straightforward.  A command of the form
+@example
+open foo.dat binary
+@end example
+tells Gri that the data are stored in a binary format.  With the above
+syntax, Gri expects images to be in @code{unsigned char} (8 bits), while
+other data, such as columns and grids, are expected to be in 32-bit
+format (suitable for reading into a so-called "float" variable in the C
+programming language).
+
+You may also specify the format directly, as in the following examples;
+Gri then interprets all data as being in the indicated format and then
+converts to the internal format before using the data.
+@example
+open \filename binary uchar
+open \filename binary 8bit
+open \filename binary int
+open \filename binary float
+open \filename binary double
+open \filename binary 16bit
+@end example
+
+As with ascii files, Gri will automatically uncompress any files that
+are compressed, and if it fails to find a given filename, it will try to
+open a compressed version of it (i.e. one with a @file{.gz} suffix).
+
+
+@node   NetCDF Files, Opening Pipes, Binary Files, Opening Simple Files
+@comment  node-name,  next,  previous,  up
+@subsubsection NetCDF Files
+@cindex netcdf data
+The NetCDF format provides the best of both worlds.  It is binary, so
+that data are relatively compact, and may be read very quickly.
+(Reading ascii data is time-consuming in C++, the language in which Gri
+is written.)  But it does not suffer the endian problem problem of
+normal binary files (@ref{Binary Files}), since information about the
+endian character is stored in the file itself, and Gri uses this
+information to decode the data without difficulty, regardless of the
+endian characteristics of the computer on which Gri is running and of
+the computer that created the data.
 
 For more information on netCDF format, see
 
@@ -9566,72 +9656,104 @@ For more information on netCDF format, see
 @c HTML <a href="http://www.unidata.ucar.edu/packages/netcdf/index.html">
 @c HTML here </a>.
 
-The @code{SYSTEM-COMMAND} form is used to work on a temporary file
-created by a system command.  An overview of useful system commands is
-provided elsewhere in this manual (@ref{Overview of System Tools}).
-
-Several binary file types are allowed.  The keywords @code{uchar}, etc,
-can be used to specify the type of data in the file.  If no keyword is
-given, Gri assumes that images use @code{unsigned char} (8 bits),
-columns use @code{float} (32 bits), and that grids use @code{float} (32
-bits).
+The syntax of opening NetCDF files is as below
+@example
+open foo.nc netCDF
+@end example
+and the syntax for reading such files is described in sections on the
+various @code{read} commands (e.g. @ref{Read Columns}
 
 
+
+@node   Opening Pipes, Postscript, NetCDF Files, Open
+@comment  node-name,  next,  previous,  up
+@subsection Opening pipes
 @cindex pipes, opening files through them
-@cindex opening files through pipes
-In the @code{SYSTEM-COMMAND} form, the indicated system command is
-performed, with the output being inserted into a temporary file.  Future
-@code{read}, @code{close}, etc, commands apply to to this temporary
-file.  (The temporary file is automatically deleted by Gri, but if Gri
-aborts the file will not be deleted, so you should scan @file{/usr/tmp/}
-for files that you own.)  For example
+Sometimes it makes sense to get Gri to work with the results of another
+command in the OS.  Gri handles this by creating a so-called "pipe",
+thus reading the output from the other command.  (Readers familiar with
+the unix OS will know what pipes are all about, and especially why they
+are a good thing.  Other readers might wish to skip this section.)
+
+Suppose we wish to plot an x-y plot using just the first few lines of a
+datafile named @file{foo.dat}.  Unix users will know that a good way to
+see the first few lines of such a file would be to type the command
+@code{head foo.dat}.  They also know that these lines could be provided
+to a second unix command, named @file{do_foo} say, by the command
+@code{head foo.dat | do_foo}.  This uses a so-called "pipe", designated
+by the vertical line (called a pipe symbol below).
+
+Gri can read the output from system commands by using a syntax in which
+the (quoted) system command ends in a pipe symbol, e.g.
+@example
+open "head foo.dat |"
+@end example
+as in the example above.
+
+@emph{Aside}: When pipe-open commands are used, Gri creates a temporary
+file (often located in @file{/usr/tmp}, but that varies with machine).
+This is automatically cleaned up when Gri completes executation, but if
+Gri dies (or is interrupted) before it finishes, you'll be left with an
+extra file in this temporary-storage directory.  It's up to you to clean
+that directory up from time to time.
+
+Some common examples of pipe-open commands are given below.
+
+@enumerate
+
+@item
+@cindex csv data
+@cindex data, csv
+@cindex data, comma-separated values
+@cindex data, stored in comma-separated values
+@cindex data, from a spreadsheet
+@cindex data, spreadsheet
+@cindex comma-separated values
+@cindex spreadsheet data
+@emph{Comma-separated values} are common in files created by, or
+intended for, spreadsheets.  Since Gri expects data elements to be
+separated by blanks (or tabs), you'll have to convert the commas into
+blanks.  There are many ways to do that using pipes, e.g.
+@file{sed} system utility, e.g.
+@example
+open "sed -e 's/,/ /g' foo.dat |"
+@end example
+Other unix facilities, such as @code{tr} will also work, of course.  If
+the file has headers, you'll want to remove them also.  This can be done
+with the @code{skip} command (@ref{Skip}) but you could also do it at
+the open stage, e.g. to remove the first two lines, use
+@example
+open "sed -e 's/,/ /g' foo.dat | tail +2 |"
+@end example
+
+@item
+@emph{Manipulating column data} is done by e.g.
 @example
 open "cat a.dat | \.awk. '@{$1, $2 * 22@}' |"
-read columns x y
 @end example
 @noindent
-gets awk to multiply the y column by 22.  (Note the use of
-@code{\.awk.}, a builtin synonym naming the awk program on your system.)
-The ability to use system commands in @code{open} statements lets you
-use familiar system tools like @code{head}, @code{sed}, @code{awk},
-@code{perl}, etc, to work on your data.  For example, if you store your
-data in compressed form, and do not wish to have temporary files sitting
-around, you might wish to do something like
-@cindex compressed data
-@cindex reading compressed data
-@cindex zcat, using to uncompress data
-@example
-open "zcat myfile.dat.Z | "
-@end example
+where @file{awk} has been used to multiply the second column by 22.
+(Note the use of @code{\.awk.}, a builtin synonym naming the awk program
+on your system.)
 
+@item
 @cindex files, opening remote WWW files
 @cindex WWW data files, opening
 @cindex world-wide web data files, opening
-Files may be opened across the WWW (world-wide web).  Below is a
-replacement for example1.gri (@ref{Getting More Control}).
+@emph{Web-based files} may be opened by using lynx or other tools, e.g.
 @example
 open "lynx -dump \
-  http://www.phys.ocean.dal.ca/~kelley\
-/gri/examples/example1.dat \
-  | tail +2 |"
+ http://www.phys.ocean.dal.ca/~kelley/gri/examples/example1.dat\
+ | tail +2 |"
 read columns x y
 draw curve
-draw title "Example 1"
 @end example
-Note: the @code{tail +2} removes the initial blank line that lynx
-generates.
 
-For complicated data manipulation, a system tool like @file{awk} or
-@file{perl} is ideal.
-
-Here are a couple of examples.
-
-
-@enumerate
 @item
-For example, suppose x and y data are stored in Hour.minutesecond
-format, e.g. 12.2133 means hour 12, minute 21, second 33.  Gri doesn't
-read HMS format, but gawk can be told to:
+@emph{Time-based and geographical data} are sometimes encountered.  For
+an example, suppose that longitude/latitude (i.e. x/y) data are stored
+in Hour.minutesecond format, e.g. 12.2133 means hour 12, minute 21,
+second 33.  Gri doesn't read HMS format, but gawk can be told to:
 
 @cindex geography, converting hour-minute-second to decimal hour
 @cindex maps, converting hour-minute-second to decimal hour
@@ -9656,8 +9778,14 @@ open "cat datafile.HMS |        \
     @}' | "
     read columns x y
 @end example
+
 @item
-Suppose we have timeseries data in the form
+@emph{Timeseries data} are often stored in formats that blend letters
+and numbers.  For one thing, using letters (e.g. @code{aug}) removes an
+ambiguity in numerically-based data.  (Example: 02/03/2000 means one
+thing to an American and another thing in the rest of the world.
+However, everybody agrees on what 2000-Feb-03 means.)  Suppose, for
+example, that we have data in a format such as
 @example
 Tue_Jul_25_11:07:51 0.62
 Tue_Jul_25_11:22:51 0.59
@@ -9681,7 +9809,7 @@ datasets spanning several days.
 
 @c HTML <!-- newfile PostScript.html "Gri: `postscript' command" "Gri Commands" -->
 
-@node   Postscript, Pwd, Open, Commands
+@node   Postscript, Pwd, Opening Pipes, Commands
 @comment  node-name,  next,  previous,  up
 @section The @code{postscript} Command
 @cindex write PostScript commands directly to output file
