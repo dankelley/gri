@@ -21,9 +21,24 @@ Options:
       -h :  display this message.
 
 ToDo: Handle release date in version.cc
+      Put prior version in comments in version.cc
 ";
 
 die "$usage" if ($opt_h || ! $opt_v || ($opt_v == ""));
+
+die "CVSROOT not defined" if (! defined($ENV{'CVSROOT'}));
+die "CVSROOT not pointing to cvs.gri.sourceforge.net" 
+    if (! $ENV{'CVSROOT'} =~ /cvs.gri.sourceforge.net/);
+
+$CVSmsg = " is read-only.
+Are you sure the file is checked out for edit?  Do:
+# cvs edit Makefile.in gri-*.spec gri.cmd version.cc doc/gri.texi
+";
+
+die "Makefile.in $CVSmsg" if (! -w "Makefile.in");
+die "gri.cmd $CVSmsg" if (! -w "gri.cmd");
+die "version.cc $CVSmsg" if (! -w "version.cc");
+die "doc/gri.texi $CVSmsg" if (! -w "doc/gri.texi");
 
 # Get current version number
 $version = `awk '(/VERSION =/) {print \$3}' Makefile.in`;
