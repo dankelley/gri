@@ -29,11 +29,13 @@ newCmd()
 		return false;
 	}
 	for (int i = 1; i < _nword; i++) {
-		if (is_syn(_word[i])) {
-			/* Make new synonym */
-			create_synonym(_word[i], "");
-		} else if (is_var(_word[i])) {
-			create_variable(_word[i], 0.0);
+                string w(_word[i]);
+		un_double_quote(w);
+		de_reference(w);
+		if (is_syn(w)) {
+			create_synonym(w.c_str(), "");
+		} else if (is_var(w)) {
+			create_variable(w.c_str(), 0.0);
 		} else {
 			demonstrate_command_usage();
 			err("`new' only works on synonyms and variables, not on an item named `\\", _word[i], "'", "\\");

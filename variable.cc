@@ -72,6 +72,13 @@ is_var(const char *w)
 	int             len = strlen(w);
 	return (len > 2 && w[0] == '.' && w[-1 + len] == '.' ? true : false);
 }
+// is_var - return 0 if not a variable, or 1 if is
+bool
+is_var(const string& w)
+{
+	int len = w.size();
+	return (len > 2 && w[0] == '.' && w[-1 + len] == '.' ? true : false);
+}
 
 // for internal debugging
 void
@@ -92,11 +99,11 @@ show_var_stack()
 
 // Delete variable, searching from end of stack
 bool
-delete_var(const char *name)
+delete_var(const string& name)
 {
 	unsigned stackLen = variableStack.size();
 	for (int i = stackLen - 1; i >= 0; i--) {
-		if (!strcmp(name, variableStack[i].getName())) {
+		if (name == variableStack[i].getName()) {
 			for (unsigned int j = i; j < stackLen - 1; j++)
 				variableStack[j] = variableStack[j + 1];
 			variableStack.pop_back();

@@ -21,8 +21,7 @@ closeCmd()
 		break;
 	case 2:
 		fname.assign(_word[1]);
-		if (fname[0] == '"')			fname.STRINGERASE(0, 1);
-		if (fname[fname.size()-1] == '"')	fname.STRINGERASE(fname.size()-1,1);
+		un_double_quote(fname);
 		file = data_file_index(fname.c_str());
 		if (file < 0) {
 			extern char     _grTempString[];

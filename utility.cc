@@ -1828,4 +1828,40 @@ is_odd_integer(double v)
 		return true;
 	return false;
 }
-
+
+void
+de_reference(string& syn)
+{
+	//printf("%s:%d 1. de_reference (%s)...\n",__FILE__,__LINE__,syn.c_str());
+	if (syn[0] == '\\' && syn[1] == '@') {
+		string deref("\\");
+		deref.append(syn.substr(2, syn.size()));
+		//printf("2. deref= <%s>\n", deref.c_str());
+		char buf[100];
+		if (get_syn(deref.c_str(), buf)) {
+			syn.assign(buf);
+			//printf("3. syn= <%s>\n", syn.c_str());
+			if (syn[0] == '\\' && syn[1] == '\\')
+				syn.STRINGERASE(0, 1);
+			//printf("4. syn= <%s>\n", syn.c_str());
+		}
+	}
+	//printf("%s:%d de_reference returning MODIFIED TO <%s>\n",__FILE__,__LINE__,syn.c_str());
+}
+
+void
+un_double_slash(string& word)
+{
+	if (word[0] == '\\' && word[1] == '\\')
+		word.STRINGERASE(0, 2);
+}
+
+void
+un_double_quote(string& word)
+{
+	if (word[0] == '"') 
+		if (word[word.size() - 1] == '"') {
+			word.STRINGERASE(word.size() - 1, 1);
+			word.STRINGERASE(0, 1);
+		}
+}

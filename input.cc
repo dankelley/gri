@@ -12,10 +12,7 @@ inputCmd()
 {
 	double          xcm = 0.0, ycm = 0.0, xmag = 1.0, ymag = 1.0, angle = 0.0;
 	string fname(_word[1]);
-	if (fname[0] == '"')
-		fname.STRINGERASE(0, 1);
-	if (fname[-1 + fname.size()] == '"')
-		fname.STRINGERASE(-1 + fname.size(), 1);
+	un_double_quote(fname);
 	string completefilename(fname);
 	resolve_filename(completefilename, true);
 	switch (_nword) {

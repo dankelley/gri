@@ -37,8 +37,7 @@ write_contourCmd(const char *filename)
 		return false;
 	}
 	string fname(filename);
-	if (fname[0] == '"')		fname.STRINGERASE(0, 1);
-	if (fname[fname.size()-1] == '"')	fname.STRINGERASE(fname.size()-1, 1);
+	un_double_quote(fname);
 	if (!strcmp(fname.c_str(), "stdout"))
 		fp = stdout;
 	else if (!strcmp(fname.c_str(), "stderr"))
@@ -154,8 +153,7 @@ write_gridCmd(const char *filename)
 	case 4:
 		// `write grid to filename'
 		fname.assign(filename);
-		if (fname[0] == '"')		fname.STRINGERASE(0, 1);
-		if (fname[fname.size()-1] == '"') fname.STRINGERASE(fname.size()-1, 1);
+		un_double_quote(fname);
 		if (!strcmp(fname.c_str(), "stdout"))
 			fp = stdout;
 		else if (!strcmp(fname.c_str(), "stderr"))
@@ -170,8 +168,7 @@ write_gridCmd(const char *filename)
 		// `write grid to filename bycolumns'
 		if (word_is(4, "bycolumns")) {
 			fname.assign(_word[_nword - 2]);
-			if (fname[0] == '"')		fname.STRINGERASE(0, 1);
-			if (fname[fname.size()-1] == '"')	fname.STRINGERASE(fname.size()-1,1);
+			un_double_quote(fname);
 			bycolumns = true;
 			if (!strcmp(fname.c_str(), "stdout"))
 				fp = stdout;
@@ -233,8 +230,7 @@ write_columnsCmd(const char *filename)
 		return false;
 	}
 	string fname(filename);
-	if (fname[0] == '"')		fname.STRINGERASE(0, 1);
-	if (fname[fname.size()-1] == '"')	fname.STRINGERASE(fname.size()-1, 1);
+	un_double_quote(fname);
 	if (!strcmp(fname.c_str(), "stdout"))
 		fp = stdout;
 	else if (!strcmp(fname.c_str(), "stderr"))
@@ -292,8 +288,7 @@ write_imageCmd(const char *filename, int image_type)
 		return false;
 	}
 	string fname(filename);
-	if (fname[0] == '"')		fname.STRINGERASE(0, 1);
-	if (fname[fname.size()-1]=='"')	fname.STRINGERASE(fname.size()-1,1);
+	un_double_quote(fname);
 	if (!strcmp(fname.c_str(), "stdout"))
 		fp = stdout;
 	else if (!strcmp(fname.c_str(), "stderr"))
@@ -362,8 +357,7 @@ write_image_maskCmd(const char *filename, int image_type)
 		return false;
 	}
 	string fname(filename);
-	if (fname[0] == '"')		fname.STRINGERASE(0, 1);
-	if (fname[fname.size()-1] == '"')	fname.STRINGERASE(fname.size()-1, 1);
+	un_double_quote(fname);
 	if (!strcmp(fname.c_str(), "stdout"))
 		fp = stdout;
 	else if (!strcmp(fname.c_str(), "stderr"))
@@ -422,8 +416,7 @@ write_image_colorscaleCmd(const char *filename)
 		return false;
 	}
 	string fname(filename);
-	if (fname[0] == '"')		fname.STRINGERASE(0, 1);
-	if (fname[fname.size()-1] == '"')	fname.STRINGERASE(fname.size()-1, 1);
+	un_double_quote(fname);
 	if (!strcmp(fname.c_str(), "stdout"))
 		fp = stdout;
 	else if (!strcmp(fname.c_str(), "stderr"))
@@ -453,8 +446,7 @@ write_image_grayscaleCmd(const char *filename)
 		return false;
 	}
 	string fname(filename);
-	if (fname[0] == '"')		fname.STRINGERASE(0, 1);
-	if (fname[fname.size()-1] == '"')	fname.STRINGERASE(fname.size()-1, 1);
+	un_double_quote(fname);
 	if (!strcmp(fname.c_str(), "stdout"))
 		fp = stdout;
 	else if (!strcmp(fname.c_str(), "stderr"))

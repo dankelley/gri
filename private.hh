@@ -45,9 +45,6 @@ typedef struct {
 #define RMT_EQUAL_RGB   1
 #define RMT_RAW         2
 
-
-
-
 bool            allocate_grid_storage(int nx, int ny);
 bool            allocate_image_storage(int nx, int ny);
 bool            allocate_imageMask_storage(int nx, int ny);
@@ -93,10 +90,10 @@ char           *cshell_name(const char *s);
 int             data_file_index(const char *name);
 bool            define_image_scales(double llx, double lly, double urx, double ury);
 bool            delete_file(const char *filename);
-bool            delete_syn(const char *name);
-bool            delete_var(const char *name);
+bool            delete_syn(const string& name);
+bool            delete_var(const string& name);
 bool            demonstrate_command_usage(void);
-bool            de_reference(string& word);
+void            de_reference(string& word);
 void            display_cmd_being_done_stack();
 void            display_cmd_stack(const char *s);
 void            display_data_stack(const char *s);
@@ -150,8 +147,10 @@ bool            is_odd_integer(double v);
 bool            is_create_new_command(const char *cmdline);
 bool            is_punctuation(int c);
 bool            is_syn(const char *name);
+bool            is_syn(const string& name);
 bool            is_system_command(const char *s);
-bool            is_var(const char *w);
+bool            is_var(const char *name);
+bool            is_var(const string& name);
 char            last_character(const char *s);
 bool            look_up_color(const char *name, double *red, double *green, double *blue);
 void            lowpass_image(void);
@@ -223,7 +222,8 @@ char*           tmp_file_name();
 bool            tracing(void);
 bool            update_readfrom_file_name(void);
 void            unbackslash(const char *s, string& res);
-bool            un_double_slash(string& word);
+void            un_double_quote(string& word);
+void            un_double_slash(string& word);
 unsigned char   value_to_image(double v);
 void		vector_reverse(double *x, int n);
 double          vector_min(double *x, unsigned n);

@@ -68,8 +68,7 @@ read_from_filenameCmd()
 {
 	if (_nword == 3) {
 		string fname(_word[2]);
-		if (fname[0] == '"')			fname.STRINGERASE(0, 1);
-		if (fname[fname.size()-1] == '"')	fname.STRINGERASE(fname.size()-1,1);
+		un_double_quote(fname);
 		if (!push_data_file_to_top(fname.c_str())) {
 			err("Must `open \\",
 			    fname.c_str(),
@@ -93,8 +92,7 @@ read_colornamesCmd()
 	FILE *fp;
 	char name[100];		// should be long enough ??
 	string fname(_word[4]);
-	if (fname[0] == '"')			fname.STRINGERASE(0, 1);
-	if (fname[fname.size()-1] == '"')	fname.STRINGERASE(fname.size()-1,1);
+	un_double_quote(fname);
 	fp = fopen(fname.c_str(), "r");
 	Require(fp != NULL,
 		err("`read colornames' cannot open file `\\", fname.c_str(), "'", "\\"));
@@ -156,8 +154,7 @@ read_netCDF_column(int iword, GriColumn *col, int *expected_length, bool append)
 		long length;		// Length of column 
 		int var_id, dim_ids[10], dims;
 		string varname(_word[iword + 2]);
-		if (varname[0] == '"')		      varname.STRINGERASE(0, 1);
-		if (varname[varname.size()-1]=='"') varname.STRINGERASE(varname.size()-1,1);
+		un_double_quote(varname);
 		var_id = ncvarid(_dataFILE.back().get_netCDF_id(), varname.c_str());
 		Require(var_id != -1, err("Cannot find netCDF variable `\\", varname.c_str(), "'", "\\"));
 		nc_type type;

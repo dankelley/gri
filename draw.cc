@@ -603,10 +603,7 @@ draw_contourCmd()
 			return false;
 		user_gave_label = true;	// label is _word[4]
 		user_label.assign(_word[4]);
-		if (user_label[0] == '"')
-			user_label.STRINGERASE(0, 1);
-		if (user_label[user_label.size()-1] == '"')
-			user_label.STRINGERASE(user_label.size()-1,1);
+		un_double_quote(user_label);
 		dmin = level;
 		dmax = level;
 		dinc = level;

@@ -484,8 +484,7 @@ set_colorCmd()
 	switch (_nword) {
 	case 3:
 		cname.assign(_word[2]);
-		if (cname[0] == '"')			cname.STRINGERASE(0, 1);
-		if (cname[cname.size()-1] == '"')	cname.STRINGERASE(cname.size()-1,1);
+		un_double_quote(cname);
 		if (!look_up_color(cname.c_str(), &red, &green, &blue)) {
 			err("`set color' given unknown colorname `\\", cname.c_str(), "'", "\\");
 			return false;
@@ -3224,7 +3223,7 @@ set_y_sizeCmd()
 bool
 assign_synonym()
 {
-	//printf("%s:%d in assign_synonym\n", __FILE__,__LINE__);
+	//printf("%s:%d in assign_synonym.  _word[0] is [%s]\n", __FILE__,__LINE__,_word[0]);
 	Require (_nword > 2, err("Can't understand command."));
 	// Following check should never be needed, but keep for possible future
 	// changes.
@@ -3388,13 +3387,6 @@ This computer can't `\\synonym = system ...' since no popen() subroutine.");
 #endif
 	} else {
 		// `\synonym = "..."'
-#if 0
-		printf("DEBUG %s:%d syn= ... '%s' (have %d words)\n", __FILE__,__LINE__,_cmdLine, _nword);
-		printf("%d words...\n",_nword);
-		printf("0 <<%s>>\n",_word[0]);
-		printf("1 <<%s>>\n",_word[1]);
-		printf("2 <<%s>>\n",_word[2]);
-#endif
 		string unquoted;
 		if (!ExtractQuote(_cmdLine, unquoted)) {
 			err("Can't extract value for synonym '\\",
@@ -3403,10 +3395,8 @@ This computer can't `\\synonym = system ...' since no popen() subroutine.");
 			    "\\");
 			return false;
 		}
-#if 0
-		printf("after extract quote, have '%s'\n",unquoted.c_str());
-#endif
-		// Store synonym
+		//printf("after extract quote, have '%s'\n",unquoted.c_str());
+		//printf("%s:%d about to put_syn(%s,%s,1)\n",__FILE__,__LINE__,_word[0],unquoted.c_str());
 		if (!put_syn(_word[0], unquoted.c_str(), true)) OUT_OF_MEMORY;
 	}
 	return true;

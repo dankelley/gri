@@ -1235,10 +1235,7 @@ do_operation(operator_name oper)
 			gr_setfontsize_pt(fontsize);
 			gr_setfont(old_font);
 			string       no_quotes(NAME(1));
-			if (no_quotes[0] == '"')
-				no_quotes.STRINGERASE(0, 1);
-			if (no_quotes[no_quotes.size()-1] == '"')
-				no_quotes.STRINGERASE(no_quotes .size()-1,1);
+			un_double_quote(no_quotes);
 			gr_stringwidth(no_quotes.c_str(), &width, &ascent, &descent);
 			SET(1, "", width, NUMBER);
 		}
@@ -1260,10 +1257,7 @@ do_operation(operator_name oper)
 			gr_setfontsize_pt(fontsize);
 			gr_setfont(old_font);
 			string       no_quotes(NAME(1));
-			if (no_quotes[0] == '"')
-				no_quotes.STRINGERASE(0, 1);
-			if (no_quotes[no_quotes.size()-1] == '"')
-				no_quotes.STRINGERASE(no_quotes .size()-1,1);
+			un_double_quote(no_quotes);
 			gr_stringwidth(no_quotes.c_str(), &width, &ascent, &descent);
 			SET(1, "", ascent, NUMBER);
 		}
@@ -1285,10 +1279,7 @@ do_operation(operator_name oper)
 			gr_setfontsize_pt(fontsize);
 			gr_setfont(old_font);
 			string       no_quotes(NAME(1));
-			if (no_quotes[0] == '"')
-				no_quotes.STRINGERASE(0, 1);
-			if (no_quotes[no_quotes.size()-1] == '"')
-				no_quotes.STRINGERASE(no_quotes .size()-1,1);
+			un_double_quote(no_quotes);
 			gr_stringwidth(no_quotes.c_str(), &width, &ascent, &descent);
 			SET(1, "", descent, NUMBER);
 		}
@@ -1303,10 +1294,7 @@ do_operation(operator_name oper)
 		} else {
 #if defined(HAVE_ACCESS)
 			string fname(NAME(1));
-			if (fname[0] == '"')
-				fname.STRINGERASE(0, 1);
-			if (fname[fname.size()-1] == '"')
-				fname.STRINGERASE(fname.size()-1, 1);
+			un_double_quote(fname);
 			if (fname[0] == '~') {
 				fname.STRINGERASE(0, 1);
 				string home(egetenv("HOME"));
@@ -1414,10 +1402,7 @@ do_operation(operator_name oper)
 		} else {
 #if defined(HAVE_ACCESS)
 			string fname(NAME(1));
-			if (fname[0] == '"')
-				fname.STRINGERASE(0, 1);
-			if (fname[fname.size()-1] == '"')
-				fname.STRINGERASE(fname.size()-1, 1);
+			un_double_quote(fname);
 			if (fname[0] == '~') {
 				fname.STRINGERASE(0, 1);
 				string home(egetenv("HOME"));
@@ -1440,24 +1425,30 @@ do_operation(operator_name oper)
 		NEED_ON_STACK(1);
 		NEED_IS_TYPE(1, STRING);
 		extern char     _grTempString[];
-		char *unadorned = new char[1 + strlen(NAME(1))];
-		if (!unadorned) OUT_OF_MEMORY;
-		strcpy(unadorned, 1 + NAME(1));
-		// Remove quote (check, although MUST be there 
-		if (*(unadorned + strlen(unadorned) - 1) == '"')
-			*(unadorned + strlen(unadorned) - 1) = '\0';
+		string n1(NAME(1));
+		un_double_quote(n1);
 		// It's either a synonym or a variable, or not defined 
-		if (*unadorned == '\\') {
-			// Add 1 to string to skip first backslash; for example, the
-			// word might be syn.  If it is a variable, though, it
-			// would be e.g. .var. so no skipping needed.
-			if (get_syn(1 + unadorned, _grTempString))
+		if (is_syn(n1)) {
+			bool exists;
+			if (n1[1] == '\\') {
+				if (n1[2] == '@') {
+					string d("\\");
+					d.append(n1.substr(3, n1.size()));
+					exists = get_syn(d.c_str(), _grTempString);
+				} else {
+					exists = get_syn((n1.substr(1, n1.size())).c_str(), _grTempString);
+				}
+			} else {
+				exists = get_syn(n1.c_str(), _grTempString);
+			}
+			if (exists)
 				SET(1, "", 1.0, NUMBER);
 			else
 				SET(1, "", 0.0, NUMBER);
-		} else if (*unadorned == '.') {
-			double          tmp;
-			if (get_var(unadorned, &tmp))
+		} else if (is_var(n1)) {
+			double tmp;
+			bool exists = get_var(n1.c_str(), &tmp);
+			if (exists)
 				SET(1, "", 1.0, NUMBER);
 			else
 				SET(1, "", 0.0, NUMBER);
@@ -1466,7 +1457,6 @@ do_operation(operator_name oper)
 			RpnError = ILLEGAL_TYPE;
 			return false;
 		}
-		delete [] unadorned;
 		return true;
 	} 
 	if (oper == ISMISSING) {

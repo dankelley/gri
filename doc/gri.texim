@@ -1,3 +1,6 @@
+@c -*-mode: texinfo; -*-
+
+
 \input texinfo @c -*-texinfo-*-
 @c
 @comment *** Start of HTML stuff ***
@@ -2222,9 +2225,9 @@ meaning of the return value varies from command to command.
 @subsection De-referenced Synonyms
 @cindex synonyms, de-referenced
 @cindex de-referenced synonyms
+@cindex dereferenced synonyms
+@cindex call by reference, synonyms
 @cindex call-by-reference, synonyms
-
-@emph{NOTE: THE SYNTAX OF THIS SECTION IS _NOT_ CODED YET <2000-oct-16>}
 
 If you never use new-commands, or if you never program Gri, you may
 safely skip this subsection.  Otherwise, please bear with me for a
@@ -2309,6 +2312,17 @@ Note that it was necessary to use a double-backslash, to protect the
 name of the synonym, since Gri otherwise would have interpolated
 (substituted) its value into the calling line.
 
+Some notes on de-referencing follow.
+@table @emph
+@item De-referenced synonyms and the  RPN 'defined' operator
+You must preceed the de-referenced name by double-backslash, to prevent
+interpolation.  For example, write 
+@example
+\a = "HI"
+\point_to_a = "\\a"
+if @{rpn "\\@@point_to_a" defined @} # BUG: HTML shows two 'at' signs but should be 1
+@end example
+@end table
 
 @c HTML <!-- newfile IfStatements.html "Gri: if statements" "Programming Gri" -->
 

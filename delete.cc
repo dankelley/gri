@@ -5,6 +5,7 @@
 
 #include        "gr.hh"
 #include	"extern.hh"
+#include        "private.hh"
 
 bool            delete_columnsCmd(void);
 static void     delete_all_columns(void);
@@ -22,23 +23,27 @@ bool
 deleteCmd()
 {
 	if (_nword == 1) {
-		/* Missing item */
 		err("`delete' what?");
 		return false;
-	} else if (is_var(_word[1]) || is_syn(_word[1])) {
+	} 
+	string w1(_word[1]);
+	un_double_slash(w1);
+	de_reference(w1);
+	if (is_var(w1) || is_syn(w1)) {
 		/* Deleting variable/synonym (s) */
-		int             i;
-		for (i = 1; i < _nword; i++) {
-			if (is_var(_word[i])) {
-				if (!delete_var(_word[i])) {
-					warning("`delete' can't delete non-existent variable `\\",
-						_word[i], "'", "\\");
+		for (int i = 1; i < _nword; i++) {
+			w1.assign(_word[i]);
+			un_double_slash(w1);
+			de_reference(w1);
+			if (is_var(w1)) {
+				if (!delete_var(w1)) {
+					warning("`delete' can't delete non-existent variable `\\", w1.c_str(), "'", "\\");
 					return false;
 				}
-			} else if (is_syn(_word[i])) {
-				if (!delete_syn(_word[i])) {
+			} else if (is_syn(w1)) {
+				if (!delete_syn(w1)) {
 					warning("`delete' can't delete non-existent synonym `\\",
-						_word[i], "'", "\\");
+						w1.c_str(), "'", "\\");
 					return false;
 				}
 			}

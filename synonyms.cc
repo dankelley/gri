@@ -28,7 +28,7 @@ show_synonymsCmd()
 	vector<GriSynonym>::iterator i;
 	for (i = synonymStack.begin(); i < synonymStack.end(); i++) {
 		extern char     _grTempString[];
-		sprintf(_grTempString, "    \\\\%-25s = \"%s\"\n", 
+		sprintf(_grTempString, "    %-25s = \"%s\"\n", 
 			i->getName(), i->getValue());
 		ShowStr(_grTempString);
 		have_some = true;
@@ -80,6 +80,11 @@ is_syn(const char *name)
 {
 	return ((name[0] == '\\') ? true : false);
 }
+bool
+is_syn(const string& name)
+{
+	return ((name[0] == '\\') ? true : false);
+}
 
 void
 show_syn_stack()
@@ -97,12 +102,11 @@ show_syn_stack()
 
 // delete_syn() - delete synonym
 bool
-delete_syn(const char *name)
+delete_syn(const string& name)
 {
-	int i;
 	unsigned stackLen = synonymStack.size();
-	for (i = stackLen - 1; i >= 0; i--) {
-		if (!strcmp(name, synonymStack[i].getName())) {
+	for (int i = stackLen - 1; i >= 0; i--) {
+		if (name == synonymStack[i].getName()) {
 			for (unsigned j = i; j < stackLen - 1; j++)
 				synonymStack[j] = synonymStack[j + 1];
 			synonymStack.pop_back();
@@ -263,13 +267,13 @@ unbackslash(const char *s, string& res)
 bool
 put_syn(const char *name, const char *value, bool replace_existing)
 {
-	int             i;
-	unsigned        stackLen = synonymStack.size();
-	// In the case where instructed by the value of replace_existing, simply
-	// replace the value of the variable if it already exists.
+	// In the case where instructed by the value of 
+	// replace_existing, simply replace the value of
+	// the variable (if it already exists).
 	if (replace_existing) {
+		unsigned stackLen = synonymStack.size();
 		if (stackLen) {
-			for (i = stackLen - 1; i >= 0; i--) {
+			for (int i = stackLen - 1; i >= 0; i--) {
 				if (!strcmp(name, synonymStack[i].getName())) {
 					synonymStack[i].setValue(value);
 					return true;
