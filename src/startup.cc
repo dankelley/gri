@@ -329,7 +329,6 @@ first argument looks like a PostScript filename.  Older versions\n\
 static void
 create_builtin_colors()
 {
-	printf("OK? %s:%d\n",__FILE__,__LINE__);
 	GriNamedColor color;
 	color.setNameRGB("white",		1.000,	1.000,	1.000);
 	colorStack.push_back(color);
@@ -361,7 +360,6 @@ create_builtin_colors()
 	colorStack.push_back(color);
 	color.setNameRGB("magenta",		1.000,	0.000,	1.000);
 	colorStack.push_back(color);
-	printf("OK? %s:%d\n",__FILE__,__LINE__);
 }
 
 bool
@@ -936,7 +934,7 @@ interpret_optional_arguments(int argc, char *argv[])
 								_output_file_type = gif;
 							} else if (strEQ(o.c_str() + suffix_index, ".svg")) {
 								extern FILE *_grSVG;
-								fprintf(stderr, "%s:%d: SVG output to file '%s' does not work yet\n", __FILE__,__LINE__, o.c_str());
+								fprintf(stderr, "%s:%d: warning: SVG output is rudimentary.  Note the warnings below.\n\tAlso, the following fail completely:\n\t\tfilled curves\n\t\timages\n\t\t...\n", __FILE__,__LINE__, o.c_str());
 								_output_file_type = svg;
 								_grSVG = fopen(o.c_str(), "w");
 								if (!_grSVG) {

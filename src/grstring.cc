@@ -93,12 +93,12 @@ gr_font_info    font_list[] =
 void
 gr_show_at(/*const*/ char *s, double xcm, double ycm, gr_textStyle style, double angle_deg)
 {
-	double          oldfontsize_pt = gr_currentfontsize_pt();
-	gr_fontID       oldfontID = gr_currentfont();
-	double          width_cm, ascent_cm, descent_cm;
 	if (0.0 == gr_currentfontsize_pt() || !strlen(s)) {
 		return;
 	}
+	double          oldfontsize_pt = gr_currentfontsize_pt();
+	gr_fontID       oldfontID = gr_currentfont();
+	double          width_cm, ascent_cm, descent_cm;
 	rectangle box;
 	extern bool _warn_offpage;
 	if (_warn_offpage 
@@ -108,42 +108,40 @@ gr_show_at(/*const*/ char *s, double xcm, double ycm, gr_textStyle style, double
 		 || ycm > OFFPAGE_TOP)) {
 		warning("Drawing text at a location which is offpage.");
 	}
+	char *fn_svg;
+	double r, g, b;
+	_griState.color_text().getRGB(&r, &g, &b);
 	switch (_output_file_type) {
 	case  postscript:
 		fprintf(_grPS, "%% gr_show_at() BEGIN\n");
 		break;
-	case svg: {
-		double r, g, b;
-		_griState.color_text().getRGB(&r, &g, &b);
+	case svg: 
 #if 1
-		char *fn;
-		switch(CurrentFont.id) {
-		case gr_font_Courier:            fn = "Courier";            break;
-		case gr_font_CourierOblique:     fn = "Courier-Italic";     break;
-		case gr_font_CourierBold:        fn = "Courier-Bold";       break;
-		case gr_font_CourierBoldOblique: fn = "Courier-BoldItalic"; break;
-		case gr_font_Helvetica:          fn = "Helvetica";          break;
-		case gr_font_HelveticaOblique:   fn = "Helvetica-Italic";   break;
-		case gr_font_HelveticaBold:      fn = "Helvetica-Bold";     break;
+		switch (CurrentFont.id) {
+		case gr_font_Courier:            fn_svg = "Courier";            break;
+		case gr_font_CourierOblique:     fn_svg = "Courier-Italic";     break;
+		case gr_font_CourierBold:        fn_svg = "Courier-Bold";       break;
+		case gr_font_CourierBoldOblique: fn_svg = "Courier-BoldItalic"; break;
+		case gr_font_Helvetica:          fn_svg = "Helvetica";          break;
+		case gr_font_HelveticaOblique:   fn_svg = "Helvetica-Italic";   break;
+		case gr_font_HelveticaBold:      fn_svg = "Helvetica-Bold";     break;
 		case gr_font_PalatinoRoman: 
 		case gr_font_PalatinoItalic:
 		case gr_font_PalatinoBold:
 		case gr_font_PalatinoBoldItalic:
-			fn = "Times";
+			fn_svg = "Times";
 			warning("SVG cannot handle Palatino font yet");
 			break;
-		case gr_font_Symbol:             fn = "Symbol";           break;
-		case gr_font_TimesRoman:         fn = "Times";            break;
-		case gr_font_TimesItalic:        fn = "Times-Italic";     break;
-		case gr_font_TimesBold:          fn = "Times-Bold";       break;
-		case gr_font_TimesBoldItalic:    fn = "Times-BoldItalic"; break;
+		case gr_font_Symbol:             fn_svg = "Symbol";           break;
+		case gr_font_TimesRoman:         fn_svg = "Times";            break;
+		case gr_font_TimesItalic:        fn_svg = "Times-Italic";     break;
+		case gr_font_TimesBold:          fn_svg = "Times-Bold";       break;
+		case gr_font_TimesBoldItalic:    fn_svg = "Times-BoldItalic"; break;
 		default: 
-			fn = "Times";
+			fn_svg = "Times";
 			warning("SVG defaulting to Times font");
 			break;
-		}
 #endif
-		fprintf(_grSVG, "<text\nx=\"%.3f\"\ny=\"%.3f\"\nstyle=\"font-family:%s; font-size:%.2f; fill:#%02x%02x%02x; font-style:normal;\">\n", xcm * PT_PER_CM, gr_page_height_pt() - ycm * PT_PER_CM, fn, gr_currentfontsize_pt(), int(255*r+0.5), int(255*g+0.5), int(255*b+0.5));
 		}
 		break;
 	case  gif:
@@ -152,10 +150,7 @@ gr_show_at(/*const*/ char *s, double xcm, double ycm, gr_textStyle style, double
 		break;
 	}
 	if (_output_file_type == svg) {
-		fprintf(stderr, "%s:%d attempting highly approximate text output of '%s' at %f %f cm\n", __FILE__, __LINE__, s, xcm, ycm);
-		fprintf(_grSVG, "%s\n", s);
-		if (style != TEXT_LJUST) fprintf(stderr, "%s:%d ignoring justification (code=%d) of text '%s'\n", __FILE__,__LINE__,style,s);
-		if (angle_deg != 0.0) fprintf(stderr, "%s:%d ignoring angle %f of text '%s'\n", __FILE__,__LINE__,angle_deg,s);
+		fprintf(stderr, "%s:%d approximating drawing of '%s' NOTE: subscripts, etc won't work\n", __FILE__, __LINE__, s);
 	}
 
 
@@ -167,9 +162,22 @@ gr_show_at(/*const*/ char *s, double xcm, double ycm, gr_textStyle style, double
 	switch (style) {
 	case TEXT_LJUST:
 		gr_moveto_cm(xcm, ycm);
-		if (_grWritePS && fabs(angle_deg) > 0.1)
+		if (_output_file_type==postscript && _grWritePS && fabs(angle_deg) > 0.1) {
 			fprintf(_grPS, "%.2f rotate ", angle_deg);
-		gr_drawstring(s);
+			gr_drawstring(s);
+		} else if (_output_file_type == svg) {
+			fprintf(_grSVG, "<text\nx=\"%.3f\"\ny=\"%.3f\"\nstyle=\"font-family:%s; font-size:%.2f; fill:#%02x%02x%02x; font-style:normal;\">\n",
+				xcm * PT_PER_CM,
+				gr_page_height_pt() - ycm * PT_PER_CM, 
+				fn_svg,
+				gr_currentfontsize_pt(), int(255*r+0.5), int(255*g+0.5), int(255*b+0.5));
+			if (fabs(angle_deg) > 0.1) {
+				fprintf(stderr, "%s:%d: SVG cannot rotate text\n",__FILE__,__LINE__);
+			}
+			fprintf(_grSVG, "%s\n", s);
+		} else {
+			fprintf(stderr, "%s:%d unknown file output type\n",__FILE__,__LINE__);
+		}
 		// This box not tested specifically
 		box.set(0, -descent_cm, width_cm, ascent_cm);
 		box.rotate(angle_deg);
@@ -177,14 +185,28 @@ gr_show_at(/*const*/ char *s, double xcm, double ycm, gr_textStyle style, double
 		box.shift_y(ycm);
 		break;
 	case TEXT_RJUST:
-		if (_grWritePS) {
+		if (_output_file_type==postscript && _grWritePS) {
 			fprintf(_grPS, "%.1f %.1f m ",
 				PT_PER_CM * (xcm - width_cm * cos(angle_deg / DEG_PER_RAD)),
 				PT_PER_CM * (ycm - width_cm * sin(angle_deg / DEG_PER_RAD)));
 			if (fabs(angle_deg) > 0.1)
 				fprintf(_grPS, "%.2f rotate ", angle_deg);
+			gr_drawstring(s);
+		} else if (_output_file_type == svg) {
+			fprintf(_grSVG, "<text\nx=\"%.3f\"\ny=\"%.3f\"\nstyle=\"font-family:%s; font-size:%.2f; fill:#%02x%02x%02x; font-style:normal;\">\n", 
+				PT_PER_CM * (xcm - width_cm * cos(angle_deg / DEG_PER_RAD)),
+				gr_page_height_pt() - PT_PER_CM * (ycm - width_cm * sin(angle_deg / DEG_PER_RAD)),
+				fn_svg,
+				gr_currentfontsize_pt(), 
+				int(255*r+0.5), int(255*g+0.5), int(255*b+0.5));
+			if (fabs(angle_deg) > 0.1) {
+				fprintf(stderr, "%s:%d: SVG cannot rotate text\n",__FILE__,__LINE__);
+			}
+			fprintf(_grSVG, "%s\n", s);
+		} else {
+			fprintf(stderr, "%s:%d unknown file output type\n",__FILE__,__LINE__);
 		}
-		gr_drawstring(s);
+
 		// This box not tested specifically
 		box.set(-width_cm, -descent_cm, 0.0, ascent_cm);
 		box.rotate(angle_deg);
@@ -192,14 +214,27 @@ gr_show_at(/*const*/ char *s, double xcm, double ycm, gr_textStyle style, double
 		box.shift_y(ycm);
 		break;
 	case TEXT_CENTERED:
-		if (_grWritePS) {
+		if (_output_file_type==postscript && _grWritePS) {
 			fprintf(_grPS, "%.1f %.1f m ",
 				PT_PER_CM * (xcm - 0.5 * width_cm * cos(angle_deg / DEG_PER_RAD)),
 				PT_PER_CM * (ycm - 0.5 * width_cm * sin(angle_deg / DEG_PER_RAD)));
 			if (fabs(angle_deg) > 0.1)
 				fprintf(_grPS, "%.2f rotate ", angle_deg);
+			gr_drawstring(s);
+		} else if (_output_file_type == svg) {
+			fprintf(_grSVG, "<text\nx=\"%.3f\"\ny=\"%.3f\"\nstyle=\"font-family:%s; font-size:%.2f; fill:#%02x%02x%02x; font-style:normal;\">\n", 
+				PT_PER_CM * (xcm - 0.5 * width_cm * cos(angle_deg / DEG_PER_RAD)),
+				gr_page_height_pt() - PT_PER_CM * (ycm - 0.5 * width_cm * sin(angle_deg / DEG_PER_RAD)),
+				fn_svg,
+				gr_currentfontsize_pt(),
+				int(255*r+0.5), int(255*g+0.5), int(255*b+0.5));
+			if (fabs(angle_deg) > 0.1) {
+				fprintf(stderr, "%s:%d: SVG cannot rotate text\n",__FILE__,__LINE__);
+			}
+			fprintf(_grSVG, "%s\n", s);
+		} else {
+			fprintf(stderr, "%s:%d unknown file output type\n",__FILE__,__LINE__);
 		}
-		gr_drawstring(s);
 		box.set(-width_cm/2, -descent_cm, width_cm/2, ascent_cm);
 		box.rotate(angle_deg);
 		box.shift_x(xcm);
@@ -208,12 +243,12 @@ gr_show_at(/*const*/ char *s, double xcm, double ycm, gr_textStyle style, double
 	default:
 		warning("gr_show_at type is UNKNOWN\n");
 	}
-	if (_grWritePS && fabs(angle_deg) > 0.1) {
-		fprintf(_grPS, "%.2f rotate ", -angle_deg);
-		check_psfile();
-	}
 	switch (_output_file_type) {
 	case  postscript:
+		if (_grWritePS && fabs(angle_deg) > 0.1) {
+			fprintf(_grPS, "%.2f rotate ", -angle_deg);
+			check_psfile();
+		}
 		fprintf(_grPS, "%% gr_show_at() END\n");
 		break;
 	case svg:
@@ -223,6 +258,8 @@ gr_show_at(/*const*/ char *s, double xcm, double ycm, gr_textStyle style, double
 		fprintf(stderr, "INTERNAL error at %s:%d -- nothing known for GIF\n\n", __FILE__, __LINE__);
 		exit(99);
 		break;
+	default:
+		break;		// BUG: should check filetype here
 	}
 	// Update bounding box
 	bounding_box_update(box);
