@@ -235,9 +235,6 @@ source-copy:
 	(cd popt ; \
 	    install -m 644 popt.c findme.c poptparse.c poptconfig.c popthelp.c \
 	                   ../$(SOURCE_NAME)/popt )
-	(cd popt ; \
-	    install -m 755 configure \
-	                   ../$(SOURCE_NAME)/popt )
 	install -m 755 configure install-sh $(SOURCE_NAME)
 	install -d $(SOURCE_NAME)/debian
 	(cd debian; \
