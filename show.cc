@@ -658,19 +658,22 @@ show_grid(void)
 	return true;
 }
 
-// Display hint of the day, possibly downloading it from gri
-// www site, if no hint file exists, or if it is out of date.
+// DELETE THIS COMMAND FOR VERSION 2.6.0 SINCE I NO LONGER HAVE
+// ABILITY TO PROVIDE A CGI-BIN BASED SOURCE OF HINTS.
+
+// I TRIED USING SOURCE-FORGE (SEE BELOW) BUT PROCESSING THE
+// OUTPUT FROM THE 'LYNX' COMMAND IS TOO DAUNTING TO JUSTIFY,
+// GIVEN THAT I THINK *NOBODY* HAS EVER USED THIS COMMAND!
+#if 0
 bool
 show_hintCmd()
 {
-	char *lynx_cmd = "\
-lynx -dump \"http://www.phys.ocean.dal.ca/cgi-bin/ocean/gri_hints\" | tail +7 >> %s";
-	char *home = getenv("HOME");
-	char *name = "/.gri-hint-cache";
-	char *filename = new char [1 + strlen(home) + strlen(name)];
-	if (!filename) OUT_OF_MEMORY;
-	strcpy(filename, home);
-	strcat(filename, name);
+	// The next declaration contains a URL; old versions are listed in
+	// the rest of this comment.
+        //     http://www.phys.ocean.dal.ca/cgi-bin/ocean/gri_hints
+	const char *lynx_cmd = "lynx -dump \"http://gri.sourceforge.net/gridoc/html/Hints.html\" | tail +7 >> %s";
+	string filename(getenv("HOME"));
+	filename.append("/.gri-hint-cache");
 	SECOND_TYPE sec;
 	time(&sec);
 	char now[30];		// 27 should be enough by Sun manpage
@@ -684,11 +687,13 @@ lynx -dump \"http://www.phys.ocean.dal.ca/cgi-bin/ocean/gri_hints\" | tail +7 >>
 		if (count == 3)
 			break;
 	}
-	if (count != 3)
-		gri_exit(2);
+	if (count != 3) {
+		err("Problem figuring out time, in `show hint of the day'");
+		return false;
+	}
 	now[i] = '\0';
 	bool get_new_hints = false;
-	FILE *fp = fopen(filename, "r");
+	FILE *fp = fopen(filename.c_str(), "r");
 	if (fp) {
 		char file_time[100];
 		fgets(file_time, 99, fp);
@@ -699,25 +704,27 @@ lynx -dump \"http://www.phys.ocean.dal.ca/cgi-bin/ocean/gri_hints\" | tail +7 >>
 	} else {
 		get_new_hints = true;
 	}
+
 	char cmd[200];
 	if (get_new_hints) {
-		sprintf(cmd, "echo '%s' > %s\n", now, filename);
+		sprintf(cmd, "echo '%s' > %s\n", now, filename.c_str());
 		system(cmd);
-		sprintf(cmd, lynx_cmd, filename);
+		sprintf(cmd, lynx_cmd, filename.c_str());
 		ShowStr("Getting new hints file from Gri WWW site ...");
 		system(cmd);
 		ShowStr(" done\n");
 	}
 	// Now see if we have an up-to-date hints file
-	fp = fopen(filename, "r");
+	fp = fopen(filename.c_str(), "r");
 	if (!fp) {
 		warning("Sorry, but the ~/gri-hint-cache file does not exist\n");
 		return true;		// do not fail only because of this
 	}
-	sprintf(cmd, "cat %s\n", filename);
+	sprintf(cmd, "cat %s\n", filename.c_str());
 	system(cmd);
 	return true;
 }
+#endif
 
 bool
 show_imageCmd()

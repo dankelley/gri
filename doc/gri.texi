@@ -12406,19 +12406,19 @@ Show an indication of the grid data (used for contouring).
 @cindex grid mask, displaying
 Show 1 if grid data are valid or 0 if contours wil not extend into this
 region.
-@item @code{show hint of the day}
-@cindex hint of the day, displaying
-Show a Gri hint for today, picked at random from hints stored on the web
-at 
-@c HTML <A HREF="http://gri.sourceforge.net/gridoc/html/HINTS.html">
-@file{http://gri.sourceforge.net/gridoc/html/HINTS.html}
-@c HTML </A>
-These will be downloaded at most once per day.  Since the download might
-take a couple of seconds, the hint is only downloaded once per day,
-being cached for later uses in the given day, in a user file called
-@file{~/.gri-hint-cache}.  This command will 
-produce warning if the system program @code{lynx} is not available for
-downloading.
+@c REMOVED FOR 2.6.0 @item @code{show hint of the day}
+@c REMOVED FOR 2.6.0 @cindex hint of the day, displaying
+@c REMOVED FOR 2.6.0 Show a Gri hint for today, picked at random from hints stored on the web
+@c REMOVED FOR 2.6.0 at 
+@c REMOVED FOR 2.6.0 @c HTML <A HREF="http://gri.sourceforge.net/gridoc/html/HINTS.html">
+@c REMOVED FOR 2.6.0 @file{http://gri.sourceforge.net/gridoc/html/HINTS.html}
+@c REMOVED FOR 2.6.0 @c HTML </A>
+@c REMOVED FOR 2.6.0 These will be downloaded at most once per day.  Since the download might
+@c REMOVED FOR 2.6.0 take a couple of seconds, the hint is only downloaded once per day,
+@c REMOVED FOR 2.6.0 being cached for later uses in the given day, in a user file called
+@c REMOVED FOR 2.6.0 @file{~/.gri-hint-cache}.  This command will 
+@c REMOVED FOR 2.6.0 produce warning if the system program @code{lynx} is not available for
+@c REMOVED FOR 2.6.0 downloading.
 @item @code{show image}
 @cindex image, displaying histogram of
 Show information about image, such as a histogram of values, and, if the
@@ -14225,6 +14225,9 @@ The next sections outline the changes made in Gri.
 @subsection Version 2.6
 @table @emph
 @item 2.6.0 [2000-Jul-26]
+@sp 1
+Remove command @code{show hint of the day}, since I no longer permission
+to use cgi-bin to provide the hints via web-server.
 @sp 1
 Permit indexing of synonym words with variables, in addition to
 constants (@ref{Accessing Individual Words Within Synonyms}).
