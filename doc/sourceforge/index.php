@@ -86,12 +86,15 @@
             </td>
             <tr>
               <td class="menus" align="right">
+                <b>2.8.0 just released!</b>
+<!--
 		<b>General tarball</b><br>
-<!--                 <A class="menus" HREF="http://people.debian.org/~psg/gri-cvs/gri_2.7.0.orig.tar.gz">Recent CVS sources</A><br> -->
-                <A class="menus" HREF="http://people.debian.org/~psg/gri-cvs/gri_2.8.0.orig.tar.gz">2.8.0 pre-release #1</A><br>
+                  <A class="menus" HREF="http://people.debian.org/~psg/gri-cvs/gri_2.7.0.orig.tar.gz">Recent CVS sources</A><br>
+                  <A class="menus" HREF="http://people.debian.org/~psg/gri-cvs/gri_2.8.0.orig.tar.gz">2.8.0 pre-release #1</A><br>
                 <b>Linux Pre-packaged</b><br>
-<!--                 <A class="menus" HREF="http://people.debian.org/~psg/gri-cvs.html">CVS Debian packages</A><br> -->
-                 <A class="menus" HREF="http://people.debian.org/~psg/gri-cvs.html">2.8.0 pre-1 for Debian</A><br>
+                  <A class="menus" HREF="http://people.debian.org/~psg/gri-cvs.html">CVS Debian packages</A><br>
+                  <A class="menus" HREF="http://people.debian.org/~psg/gri-cvs.html">2.8.0 pre-1 for Debian</A><br>
+ -->
               </td>
             </tr>
 
