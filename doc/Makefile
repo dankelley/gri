@@ -1,6 +1,6 @@
 # Makefile for Gri documentation files.
 
-            DOC_DIR = $(prefix)/share/doc/gri
+            DOC_DIR = $(prefix)/share/gri/doc
            HTML_DIR = $(DOC_DIR)/html
        EXAMPLES_DIR = $(DOC_DIR)/examples
                  RM = rm -f
