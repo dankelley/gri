@@ -1,9 +1,17 @@
-gri (2.12.4-3) UNRELEASED; urgency=low
+gri (2.12.5-1) unstable; urgency=low
 
+  * New upstream version
+    New Features:
+    - Add hexadecimal colornames (Pen Color)
+    Bug Fixes:
+    - Fix SourceForge bug #739761 (`draw time stamp' named the
+      command-file incorrectly).
+    - Fix SourceForge bug #720607 (the emacs mode looked for html
+      documentation files in an incorrect location on linux/redhat systems)
   * gri-html-doc.emacsen-startup, gri-el.emacsen-startup: Make sure
     packages are installed before doing elisp setup.
 
- -- Peter S Galbraith <psg@debian.org>  Thu, 15 May 2003 11:37:22 -0400
+ -- Peter S Galbraith <psg@debian.org>  Tue, 20 May 2003 10:28:24 -0400
 
 gri (2.12.4-2) unstable; urgency=low
 
