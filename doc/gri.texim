@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.89 2001/05/19 15:07:52 dankelley Exp $
+@c $Id: gri.texim,v 1.90 2001/05/20 16:19:20 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -11747,10 +11747,10 @@ produces output that looks something like the following.
 Synonyms...
     \.missingvalue.           = "10000000000000000000000.000000"
     \.return_value.           = ""
-    \.version.                = "2.6.2"
-    \.pid.                    = "24489"
-    \.wd.                     = "/home/kelley/src/gri/doc"
-    \.time.                   = "Fri Apr 20 12:03:14 2001"
+    \.version.                = "2.7.0"
+    \.pid.                    = "3043"
+    \.wd.                     = "/home/kelley"
+    \.time.                   = "Sun May 20 13:18:32 2001"
     \.user.                   = "kelley"
     \.host.                   = "Intrusion.phys.ocean.dal.ca"
     \.system.                 = "unix"
