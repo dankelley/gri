@@ -86,13 +86,13 @@ scp index.php psg@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
                 <tr>
                   <td class="menus" align="right">
 		    <b>Source tarball</b><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.0.tgz">gri-2.8.0.tgz</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.1.tgz">gri-2.8.1.tgz</a><br>
 		    <b>RedHat Linux</b><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.0-1.src.rpm">gri-2.8.0-1.src.rpm</a><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.0-1.i386.rpm">gri-2.8.0-1.i386.rpm</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.1-1.src.rpm">gri-2.8.1-1.src.rpm</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.1-1.i386.rpm">gri-2.8.1-1.i386.rpm</a><br>
 		    <b>Debian GNU/Linux</b><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.8.0-0potato1_i386.deb">2.8.0 for Potato</a><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.8.0-0woody1_i386.deb">2.8.0 for Woody</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.8.1-0potato1_i386.deb">2.8.1 for Potato</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.8.1-0woody1_i386.deb">2.8.1 for Woody</a><br>
                     <A class="menus" HREF="http://packages.debian.org/unstable/science/gri.html">gri at Debian</A><br>
                     <A class="menus" HREF="http://packages.debian.org/unstable/doc/gri-html-doc.html">HTML manual at Debian</A><br>
                     <A class="menus" HREF="http://packages.debian.org/unstable/doc/gri-ps-doc.html">PS manual at Debian</A><br>
@@ -214,18 +214,20 @@ Search gri manual for (may be a regular expression):<p>
     </tr>
     <tr> 
       <td  class="menubox">
-        <!-- Vsn 2.8.0: 2001-jul-27</br> -->
 	Stable version 
-	<a href="http://sourceforge.net/project/showfiles.php?group_id=5511&release_id=45649">2.8.0</a>
+	<a href="http://sourceforge.net/project/showfiles.php?group_id=5511&release_id=45649">2.8.1</a>
 	released
 	<? 
 	# mktime(hour,minute,second,month,day,year)
-	$diff = time() - mktime(12, 29, 0, 7, 27, 2001);
+        # Vsn 2.8.0: 2001-jul-27
+	# $diff = time() - mktime(12, 29, 0, 7, 27, 2001);
+        # Vsn 2.8.1: 2001-sep-07
+	$diff = time() - mktime(12, 29, 0, 9, 7, 2001);
 	$days = floor($diff / 24 / 60 / 60);
 	$weeks = floor($days / 7);
 	$months = floor($days / 7 / 4);
 	$hours = floor(($diff - $days * 24) / 60 / 60);
-	$minutes = floor($diff - $days * 24 * 60 * 60 - $hours * 60 * 60) / 60;
+	$minutes = floor(floor($diff - $days * 24 * 60 * 60 - $hours * 60 * 60) / 60);
 	$seconds = floor($diff - $days * 24 * 60 * 60 - $hours * 60 * 60 - $minutes * 60);
 	# Below I break up into intervals that make sense, e.g.
 	# only switching to months if it's been 3 or more.
@@ -319,7 +321,9 @@ Search gri manual for (may be a regular expression):<p>
 <!-- <A class="menus" HREF="http://gri.sourceforge.net/gridoc/html/Version_2_6.html#Version2.6">Version 2.6.1 preview</A><br> -->
 <!-- <A class="menus" HREF="./checklist_for_release">Packaging checklist</A><br> -->
         <br>
+<!--
         <A CLASS="menus" HREF="./gri-2.8.1-pre4.tgz">2.8.1 pre-release #4</a>
+-->
 
       </TD>
     </TR>
