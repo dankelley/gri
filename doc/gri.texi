@@ -1,6 +1,6 @@
 \input texinfo 
 
-@c $Id: gri.texi,v 1.126 2003/05/19 12:13:09 dankelley Exp $
+@c $Id: gri.texi,v 1.127 2003/05/19 12:25:13 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16369,6 +16369,8 @@ only in the fixing of bugs.
 @comment ADD-NEW-BUG-FIXES-HERE
 
 @subsubsection Version 2.12.5 [2003 May 19]
+(Victoria Day Holiday, Canada.)
+
 @strong{New Features}
 @itemize @bullet
 @item
