@@ -4,9 +4,11 @@
 bindir_default="/usr/local/bin"
 libdir_default="/usr/local/share/gri/VSN/lib"
 docdir_default="/usr/local/share/gri/VSN/doc"
+emacsdir_default="/usr/local/share/emacs/site-lisp"
 
 echo "Please enter the full pathname of the directory in which the Gri executable"
-echo "is to be stored. [Press ENTER to get the default of $bindir_default]"
+echo "is to be stored."
+echo "    [Press ENTER to get the default of $bindir_default]"
 read BINDIR
 if [ -z "$BINDIR" ]
 then
@@ -16,7 +18,8 @@ else
 fi
 
 echo "Please enter the full pathname the directory in which the Gri library"
-echo "files are to be stored. [Press ENTER to get the default of $libdir_default]"
+echo "files are to be stored."
+echo "    [Press ENTER to get the default of $libdir_default]"
 read LIBDIR
 if [ -z "$LIBDIR" ]
 then
@@ -26,13 +29,25 @@ else
 fi
 
 echo "Please enter the full pathname the directory in which the Gri documentation"
-echo "files are to be stored. [Press ENTER to get the default of $docdir_default]"
+echo "files are to be stored."
+echo "    [Press ENTER to get the default of $docdir_default]"
 read DOCDIR
 if [ -z "$DOCDIR" ]
 then
     docdir="$docdir_default"
 else
     docdir="$DOCDIR"
+fi
+
+echo "Please enter the full pathname the directory in which the Gri"
+echo "Emacs editing mode should be stored. "
+echo "    [Press ENTER to get the default of $emacsdir_default]"
+read EMACSDIR
+if [ -z "$EMACSDIR" ]
+then
+    emacsdir="$emacsdir_default"
+else
+    emacsdir="$EMACSDIR"
 fi
 
 # Install the files, creating directories if needed.
@@ -77,3 +92,6 @@ chmod a+rx      $docdir/html/tst_suite
 chmod a+r       $docdir/html/examples/*
 chmod a+r       $docdir/html/resources/*
 chmod a+r       $docdir/html/tst_suite/*
+
+echo "Installing Gri Emacs editing mode in $emacsdir"
+cp -f lib/gri-mode.el $emacsdir

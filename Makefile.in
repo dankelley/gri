@@ -288,25 +288,25 @@ what_is_new:
 # entirely different computer!!
         SUNOS5_NAME = gri-$(VERSION)-SunOS5
 package-SunOS5:
-	rm -rf          $(SUNOS5_NAME)
-	mkdir -m 755 -p $(SUNOS5_NAME)
-	mkdir -m 755 -p $(SUNOS5_NAME)/bin
-	mkdir -m 755 -p $(SUNOS5_NAME)/lib
-	mkdir -m 755 -p $(SUNOS5_NAME)/doc
-	mkdir -m 755 -p $(SUNOS5_NAME)/doc/html
-	mkdir -m 755 -p $(SUNOS5_NAME)/doc/html/resources
-	mkdir -m 755 -p $(SUNOS5_NAME)/doc/html/screenshots
-	mkdir -m 755 -p $(SUNOS5_NAME)/doc/html/tst_suite
-	mkdir -m 755 -p $(SUNOS5_NAME)/doc/html/examples
+	-rm -rf          $(SUNOS5_NAME)
+	-mkdir -m 755 -p $(SUNOS5_NAME)
+	-mkdir -m 755 -p $(SUNOS5_NAME)/bin
+	-mkdir -m 755 -p $(SUNOS5_NAME)/lib
+	-mkdir -m 755 -p $(SUNOS5_NAME)/doc
+	-mkdir -m 755 -p $(SUNOS5_NAME)/doc/html
+	-mkdir -m 755 -p $(SUNOS5_NAME)/doc/html/resources
+	-mkdir -m 755 -p $(SUNOS5_NAME)/doc/html/screenshots
+	-mkdir -m 755 -p $(SUNOS5_NAME)/doc/html/tst_suite
+	-mkdir -m 755 -p $(SUNOS5_NAME)/doc/html/examples
 	-cp -p gri                                                        $(SUNOS5_NAME)/bin
-	-cp  gri.cmd logo.dat copyright.txt license.txt                   $(SUNOS5_NAME)/lib
+	-cp  gri.cmd logo.dat copyright.txt license.txt gri-mode.el       $(SUNOS5_NAME)/lib
 	-cat startup.msg | sed -e s,VSN,${VERSION}, | sed -e "s/DATE/`date`/" > tmp
 	-cp tmp                                                           $(SUNOS5_NAME)/lib/startup.msg
 	-cat install-SunOS5 | sed -e s,VSN,${VERSION}, > tmp
 	-cp tmp                                                           $(SUNOS5_NAME)/install
-	chmod a+rx                                                        $(SUNOS5_NAME)/install
+	-chmod a+rx                                                       $(SUNOS5_NAME)/install
 	-cp README-SunOS5                                                 $(SUNOS5_NAME)/README
-	cat doc/gri-manpage-SunOS5.1 | sed -e s,VERSION,${VERSION}, >tmp
+	-cat doc/gri-manpage-SunOS5.1 | sed -e s,VERSION,${VERSION}, >tmp
 	-cp tmp                                                           $(SUNOS5_NAME)/doc/gri.1
 	-rm -f tmp
 #       Next should really be done by "cd doc; make something" etc.
@@ -316,6 +316,6 @@ package-SunOS5:
 	-cp doc/screenshots/*png                                          $(SUNOS5_NAME)/doc/html/screenshots
 	-cp doc/tst_suite/*dat doc/tst_suite/*gri doc/tst_suite/*html     $(SUNOS5_NAME)/doc/html/tst_suite
 	-cp doc/examples/*dat doc/examples/*gri doc/examples/*html        $(SUNOS5_NAME)/doc/html/examples
-	tar -c -f $(SUNOS5_NAME).tar $(SUNOS5_NAME)
-	rm -rf $(SUNOS5_NAME)
-	gzip $(SUNOS5_NAME).tar
+	-tar -c -f $(SUNOS5_NAME).tar $(SUNOS5_NAME)
+	-rm -rf $(SUNOS5_NAME)
+	-gzip $(SUNOS5_NAME).tar
