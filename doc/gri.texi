@@ -12690,10 +12690,16 @@ Show result of computing indicated expression.
 @cindex @code{show} command, how to get a newline
 @cindex tab, in a @code{show} command
 @cindex newline, in a @code{show} command
-Print the indicated string.  Certain control codes are allowed:
-@code{\\n} means newline; @code{\\t} means tab.  (The double-slash notation
-is required so that Gri doesn't interpret these backslashes as designating
-the starts of synonyms.)
+Print the indicated string.  You may use a double-slash to prevent Gri
+from substituting synonym values; thus it is common to do e.g.
+@example
+\var = "Temperature"
+show "Plotting \\var = 'var'"
+@end example
+which will produce the output line
+@example
+Plotting \\var = 'Temperature'
+@end example
 
 @item @code{show "time=" .time. "; depth=" .depth.}
 Print strings and values as indicated.  If the last item is ellipses
