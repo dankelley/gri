@@ -448,14 +448,14 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 				tmp += s[i++];
 			}
 			//printf("DEREF tmp [%s]\n", tmp.c_str());
-			char deref_name[100];
+			char deref_name[100];// BUG: size won't be sufficient in general BUG
 			get_syn(tmp.c_str(), deref_name);
 			//printf("this syn value is [%s]\n", deref_name);
-			char deref_value[100]; // BUG: size won't be sufficient
+			char deref_value[4000]; // BUG: size won't be sufficient in general BUG
 			if (deref_name[0] == '\\') {
 				if (get_syn(deref_name + 1, deref_value)) {
 					sout.append(deref_value);
-					//printf("looked up '%s' (after skipping) to get '%s'\n",deref_name,deref_value);
+					//printf("DEBUG %s:%d looked up '%s' (after skipping) to get '%s'\n",__FILE__,__LINE__,deref_name,deref_value);
 				} else {
 					err("Cannot de-reference `\\", deref_name, "'.", "\\");
 					return false;
