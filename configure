@@ -11,7 +11,6 @@
 ac_help=
 ac_default_prefix=/usr/local
 # Any additions from configure.in:
-ac_default_prefix=/usr
 
 # Initialize some variables set by options.
 # The variables have the same names as the options, with
