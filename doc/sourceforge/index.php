@@ -236,6 +236,7 @@ as simple as the following.
 	<a class="menus" href="http://sourceforge.net/project/showfiles.php?group_id=5511">File download area</a><br>
         <A class="menus" HREF="http://www.sourceforge.net/patch/?group_id=5511">Submitting patches</A><br>
         <A class="menus" HREF="http://sourceforge.net/pm/task.php?group_project_id=8706&group_id=5511&func=browse">To-do list</A><br>
+        <A class="menus" HREF="http://gri.sourceforge.net/gridoc/html/Version_2_6.html#Version2.6">Version 2.6.1 preview</A><br>
       </TD>
     </TR>
   </table>
