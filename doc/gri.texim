@@ -2223,78 +2223,82 @@ safely skip this subsection.  Otherwise, please bear with me for a
 paragraph while I establish some notation.
 
 Many programming languages support two types of arguments to
-subroutines: "call by value" and "call by reference."  In the "by value"
-scheme, the @emph{value} of the argument is passed to the subroutine,
-and the subroutine is unable to modify the value the object has in the
-calling program.  In the "by reference" scheme, the subroutine can alter
-the value.  Naturally, this distinction only makes sense if the object
-is a variable, as opposed to a numerical/textual constant.
+subroutines: "call by value" and "call by reference."  These come up
+when a subroutine is called with an argument equal to a variable name.
 
-In Fortran, all subroutines use the "by reference" scheme, and so any
-subroutine may alter the values of any variables that are passed to it.
-This is a bit dangerous since it means that the programmer must be fully
-aware of all the subroutines that are called in a piece of code, and of
-all the subroutines that those subroutines might call!  I'm just
-guessing about history here, but I speculate that this may be why more
-modern languages provide a choice.  In C, you may call be either value
-or by reference, and you can be sure that if you call by value, that the
-original value may not be altered.  The C++ language adds extra
-subtleties.
+In the "by value" scheme, the @emph{value} of the argument is passed to
+the subroutine.  This means the subroutine cannot modify the value and
+transmit this new value back to the calling program.
 
-In Gri, the equivalent of the subroutine is the "new command".
-Arguments to new command are provided within the commands as the
-synonyms named @code{\.word0.}, @code{\.word1.}, etc.; for more on this
-see @ref{Local Synonyms} above.  But these items are just textual copies
-of the words on the calling line, so that the syntax
+In the "by reference" scheme, the subroutine is provided with a
+reference to where the variable is stored.  This means that a subroutine
+may change parameter values.
+
+FORTRAN uses the "by reference" scheme, so that subroutines may alter
+the values of variables passed as arguments, while more modern languages
+such as C provide a choice of the "reference" or "value" methods.
+
+Gri uses "call by value" for its equivalent of subroutines, that is, for
+new commands.  When a new command is called, Gri parses all arguments,
+substituting the values of variables and synonyms as they exist at the
+time of the call.  These values are provided to the new command as the
+special synonyms named @code{\.word0.}, @code{\.word1.}, and so forth;
+for more on this see @ref{Local Synonyms}.  For an example, consider the
+code
+
 @example
-`foo .value.'
+`foo .value.'  # line 1
 @{
-    show "\.word0."
+    show "\.word1."
 @}
 .x. = 10
-foo .x.
+foo .x.  # line 6
 @end example
-displays the value of @code{.x.}, but has no way to modify this value.  
+@noindent
+When Gri gets to line 6, it substitutes the value (10) for the variable
+named @code{.x.}, replacing that line with the command @code{foo 10}.
+Gri recognizes this as a call to the newcommand defined in line 1, and
+thus passes this value, 10, as @code{\.word1.}.  (Note that
+@code{\.word0.} is equal to @code{foo} in this example.)
 
-Gri provides a way to modify values in such a context - or in any
-context - by means of "de-referenced synonyms".  
+If a newcommand needs to alter a variable, then one must use
+"de-referenced synonyms".  The idea is to pass the @emph{name} of the
+variable as an argument, not the variable itself.  Thus, line 6 of the
+above would be written
 
-The syntax is simple.  Suppose that some synonym, @code{\syn} say, holds
-as its value the @emph{name} of another synonym, or the name of a
-variable.  Then the syntax @code{\@@syn} provides @emph{a reference to}
-the @emph{named} item.  This reference may be used to the left of an
-equals sign (in which case you may assign to the named item) or to the
-right (in which case you may access the value of the named item).  Thus,
-we could write code to double a variable in the following way:
+@example
+foo ".x."  # pass the NAME of the variable, not the value
+@end example
+@noindent 
+so that @code{\.word1.} within the newcommand will equal the string
+@code{".x."}, which refers to the @emph{name} of the variable of
+interest.  Then Gri provides access to the named item by the so-called
+"at" syntax, in which the @code{@@} sign is put to the right of the
+backslash.  An example will clarify.  We could write a newcommand to
+double the value of a variable in the following way.
+
 @example
 `double .value.'
 @{
-    show "Variable being doubled is named \.word1., "
-    show "and its value is " \@@.word1.
-    \@@.word1. = @{rpn \@@.word1. 2 *@}  # de-reference
-    show "while its final (doubled) value is " \@@.word1.
+    \@@.word1. = @{rpn \@@.word1. 2 *@}
 @}
 .x. = 10
-double .x.
+double ".x."
+assert @{rpn .x. 20 ==@}
 @end example
+@noindent
 which would cause @code{.x.}, making it equal to @code{20} after
 @code{double} has been called.
-
-The point of this is that the @code{double} new-command is very general;
-it can be used to double the value of any variable.  If you're used to
-programming in other languages, you can probably see that this is a
-useful thing to be able to do sometimes (even if the present example is
-a bit over-simplified).
 
 Another example, perhaps more useful, might be to "complete" filenames, 
 by prepending a directory name:
 @example
 `complete \fname.'
 @{
-    \@@.word0. = "/data/\@@.word0."  # de-reference
+    \@@.word1. = "/data/\@@.word1."  # de-reference
 @}
 \filename = "myfile.dat"
-complete \\filename
+complete "\\filename"
 open \filename                     # uses "/data/myfile.dat"
 @end example
 Note that it was necessary to use a double-backslash, to protect the
@@ -2310,6 +2314,18 @@ interpolation.  For example, write
 \a = "HI"
 \point_to_a = "\\a"
 if @{rpn "\\@@point_to_a" defined @} # BUG: HTML shows two 'at' signs but should be 1
+@end example
+@item On the calling line of a newcommand, you must enclose the
+item in double-quotes, and if it's a synonym you must double-backslash
+it.  Continuing with the "double" example, if you call the @code{double}
+code with the line
+@example
+double .a.
+@end example
+then Gri will substitute the value of @code{.a.} (10, in this case) and
+you'll get an error message like the following
+@example
+ERROR: Cannot de-reference `10'.
 @end example
 @end table
 

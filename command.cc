@@ -614,7 +614,7 @@ push_command_word_buffer()
 			bool ok = get_var(_word[i], &v);
 			if (ok) {
 				char value[100];
-				sprintf(value, "%e", v);
+				sprintf(value, "%g", v);
 				GET_STORAGE(cp, char, 1 + strlen(value));
 				strcpy(cp, value);
 			} else {

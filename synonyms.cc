@@ -457,7 +457,7 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 					sout.append(deref_value);
 					//printf("looked up '%s' (after skipping) to get '%s'\n",deref_name,deref_value);
 				} else {
-					err("Cannot de-reference \\`", deref_name, "'.", "\\");
+					err("Cannot de-reference `\\", deref_name, "'.", "\\");
 					return false;
 				}
 			} else {
@@ -468,7 +468,7 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 					sprintf(deref_value, "%f", value);
 					sout.append(deref_value);
 				} else {
-					err("Cannot de-reference \\`", deref_name, "'.", "\\");
+					err("Cannot de-reference `\\", deref_name, "'.", "\\");
 					return false;
 				}
 			}
