@@ -359,6 +359,7 @@ explanation.
 
 @section Data File
 The data file @file{example1.dat} looks like:
+
 @example
 0.05 12.5  # first point
 0.25 19    # second point
@@ -432,6 +433,7 @@ below.
 @cindex font, selecting
 Below is a followup to the previous example, which names the x and the y
 axes.
+
 @example
 # Fancier version of Example 1
 open example1.dat
@@ -440,6 +442,7 @@ set x name "Time, hours"
 set y name "U, m/s"
 draw curve
 @end example
+
 The difference is that the x and y axes are named with a @code{set}
 command.  There are many @code{set} commands, and they are all pretty
 simple, e.g. @code{set x size 15} makes the x-axis be 15 centimeters
@@ -639,6 +642,7 @@ so-called golden ratio @code{(root(5)-1)/2}; to get that, you could do
 this: 
 @cindex axis sizes, scaled with golden ratio
 @cindex golden ratio, used for axes sizes
+
 @example
 set x size 15
 set y size @{rpn ..xsize.. 5 0.5 power 1 - 2 / *@}
@@ -747,6 +751,7 @@ percent gray tone.
 The graylevel applies to text as well as lines.  Often you'll want to
 draw a gray line and a black label beside it, or you'll want to set a
 graylevel temporarily.  Here's how to do it:
+
 @example
 # Save old graylevl, set, then reset to old
 .old_gray. = ..graylevel..
@@ -777,6 +782,7 @@ default.
 
 @cindex builtin colors, list of 
 @cindex colors, list of
+
 @example
 NAME               RED    GREEN  BLUE
 "white"            1.000  1.000  1.000
@@ -819,6 +825,7 @@ Set the individual color components as follows.  The numbers
 contribution of that color component to the final color) to 1 (for
 maximal contribution).  Values less than 0 are clipped to 0; values
 greater than 1 are clipped to 1. EXAMPLES:
+
 @example
 set color rgb 0   0   0  # black
 set color rgb 1   1   1  # white
@@ -853,6 +860,7 @@ like decreasing the intensity of the light you shine on a painting.
 
 Hue, saturation, and brightness values are all clipped to the range 0 to 1.
 EXAMPLES:
+
 @example
 set color hsb 0    1   1  # pure, bright red
 set color hsb 0    1 0.5  # half black, half red
@@ -870,22 +878,27 @@ set color hsb .333 1   1  # pure, bright green
 @chapter Invoking Gri
 @section Invoking Gri in a nutshell
 First, the short story.  In 90 percent of cases, Gri is run as
+
 @example
 gri myscript
 @end example
+
 where the file @file{myscript.gri} holds a script (list of Gri
 commands), and Gri will create a PostScript file called
 @file{myscript.ps} with the output.  
 
 Some folks like to give the @file{.gri} suffix explicitly, so they
 would invoke Gri as
+
 @example
 gri myscript.gri
 @end example
-instead.  
+
+@noindent instead.  
 
 If you'd rather not have @file{myscript.ps} as the PostScript output file
 name (let's say you prefer @file{graph1.ps}) you'd do
+
 @example
 gri -output graph1.ps myscript.gri
 @end example
@@ -896,15 +909,19 @@ arguments that Gri can handle.
 
 @section Using Gri to draw things
 To draw things, invoke Gri as
+
 @example
 gri [OPTIONS] [CmdFile [optional_arguments]]
 @end example
+
 @cindex @code{[]} syntax for optional words in commands
 @cindex optional words in commands, @code{[]} syntax
+
 @noindent
 where the square brackets indicate that the enclosed items
 are optional.  The @code{OPTIONS} item may consist of one 
 or more of the following (explained below):
+
 @example
 [-batch]
 [-chatty[N]]
@@ -1058,6 +1075,7 @@ Stops Gri from printing the startup message.
 Sets the built-in variable @code{..publication..} to 1.  You may use
 this to distinguish between working plots and publication plots, as in
 this example:
+
 @example
 if !..publication..
   draw time stamp
@@ -1156,9 +1174,11 @@ Gri looks for commandfiles in the local directory.
 
 @emph{NOTE}:  If you don't need to supply commandline options, you can
 put the following line as the first line in your Gri program
+
 @example
 #!/usr/bin/gri
 @end example
+
 @noindent (or point to wherever Gri is located on your machine), and
 @code{chmod +x} the file.  Then you can run Gri simply by naming the
 file.  There is no particular advantage in this, except for saving the
@@ -1170,17 +1190,21 @@ typing of a few characters, but some folks like this.
 @cindex recovering commands from a PostScript file
 @cindex command-line option @code{-creator}
 @cindex @code{-creator} command-line option
+
 @example
 gri -creator PostScriptFile
 @end example
+
 @noindent @emph{See also} @code{-no_cmd_in_ps}.
 
 @section Fixing a broken PostScript file
 To make Gri repair a PostScript file created by a Gri job that failed
 midway through:
+
 @example
 gri -repair bad.ps good.ps
 @end example
+
 This may very well not work, and the author only provides it in case it
 may help you.  Essentially all it does it try to complete a so-called
 PostScript "path", if Gri died in the middle of drawing a path.  Please
@@ -1240,6 +1264,7 @@ At startup time, Gri sets the values of some things, like font size.
 Since Gri is still under development, some of these defaults might
 change, so you should not rely on them remaining the same.    Presently,
 the defaults are equivalent to:
+
 @example
 set arrow size 0.2         # (cm)
 set axes style 0
@@ -1298,6 +1323,7 @@ function @code{gr_begin()} in @file{gr.c}.)
 @cindex online help
 Type @code{help} to get a list of available commands and other topics of
 interest. Here's how Gri responds
+
 @example
 Type `help' followed by a command-name:
  assert      cd            close         convert
@@ -1316,20 +1342,25 @@ Or type `help -' followed by a topic from this list:
  example     extending     files         math
  strings     synonyms      variables     manual
 @end example
+
 Some commands have more words than shown.  You can type these additional
 words to narrow the help down; otherwise Gri will give you help
 on all commands that begin with the indicated words.  For example, try
 @code{help set} and @code{help set x}.  When you ask for help on a
 multi-word command, Gri tells you about all commands which begin
 with the words you've typed.  Thus,
+
 @example
 help
 help draw
 help draw zero
 help draw zero line
 @end example
+
+@noindent 
 narrow in on the command @code{draw zero line}.  The response to the
-most complete request is:
+most complete request is
+
 @example
 `draw zero line [horizontally|vertically]'
   draw zero line
@@ -1339,6 +1370,7 @@ most complete request is:
   draw zero line vertically
     Draw line x=0 if it is within axes
 @end example
+
 The part enclosed in angled quotes is the syntactical description of the
 command.  (NOTE: The square brackets indicate an optional word (in this
 case) or words.  The vertical bar indicates that either the item on the
@@ -1364,6 +1396,7 @@ additional 2 spaces.
 
 To extend a command across several lines, use a backslash @code{\} at
 the @emph{very} end of all lines but the last:
+
 @example
 draw line from \
   10 20 \
@@ -1396,6 +1429,7 @@ substitutes variable values any place a variable appears where a number
 normally would.  For example, in the code below @code{.number.} is a
 variable storing the value 10, so the two @code{read} statements have
 the same effect:
+
 @example
 .number. = 10
 read columns .number. x y
@@ -1415,13 +1449,18 @@ because Gri uses names like that to store built-in variables for its own
 use (e.g., @code{..xsize..} saves the width of the plot).
 
 To store a number into a variable, use a command like
+
 @example
 .time. = 10
 @end example
+
+@noindent
 or
+
 @example
 .time. = @{rpn 10 sin@}
 @end example
+
 Storage is automatically set aside when you assign into a nonexistent
 variable; no ``declaration'' statements are required as in the C
 language.
@@ -1433,6 +1472,7 @@ temporary variables without worrying about overwriting values outside
 the local block of code.  The syntax is @code{new .variable. = value}
 (where, as usual, @code{value} may be an rpn expression 
 (@ref{rpn Mathematics}).  Here is an example:
+
 @example
 `foo bar'
 @{
@@ -1458,6 +1498,7 @@ operator @code{defined} (@ref{rpn Mathematics}).
 You can get Gri to read values for variables from your file.  Here's how
 to read a number from a header line and then read that many lines of
 columnar data:
+
 @example
 open file.dat
 read .num.
@@ -1465,6 +1506,7 @@ read columns .num. x y
 @end example
 
 You can define variables within the Gri program:
+
 @example
 .num. = 10
 read columns .num. x y
@@ -1476,6 +1518,7 @@ You can get variables interactively from the user, using the
 command-line flag @code{-y} was specified when invoking Gri, the value
 100 will be assigned to @code{.num.}).
 For example, 
+
 @example
 query .num. "Number of rows to read?" (100)
 read columns .num. x y
@@ -1483,6 +1526,7 @@ read columns .num. x y
 
 Gri allows you to use a previous value of the variable in the default
 string, as in this example:
+
 @example
 .start. = 8                             # default
 .stop. = 2                              # default
@@ -1495,6 +1539,7 @@ mathematical operations (@ref{rpn Mathematics}).
 
 Variables are often useful in @code{if} statements.  Here are some
 examples:
+
 @example
 read .num_pts.
 if .num_pts.
@@ -1567,12 +1612,14 @@ Equal to 1 if the @code{-debug} command-line flag was set.  Flag used
 for debugging (@ref{Invoking Gri}).  The @code{..debug..}
 built-in variable is useful in isolating code to use only in test runs.
 For example, you might use
+
 @example
 if ..debug..
   show "Following are the column data"
   show columns 
 end if
 @end example
+
 When you run the program with command-line @code{gri -debug file.gri}
 the code in the @code{if} block will print out the columnar data, but
 when you run it with @code{gri file.gri} these lines are not printed.
@@ -1585,6 +1632,7 @@ Flag indicating whether an end-of-file was encountered on the last
 @cindex reading data, checks
 @cindex data files, words in lines
 Number of words on last dataline.  This is useful in constructs like
+
 @example
 open tmp.dat
 .num. = 0
@@ -1600,6 +1648,7 @@ while 1
 end while
 show "Got " .num. "data lines."
 @end example
+
 @item @code{..fontsize..}
 @cindex font, size
 @vindex @code{..fontsize..}, size of letters
@@ -1650,11 +1699,13 @@ or use it in accessing individual elements of columns
 Flag for final copy of plot.  The command-line option @code{-p} sets the
 value of @code{..publication..} to 1.  A typical, and highly
 recommended, code fragment is
+
 @example
 if !..publication..
   draw time stamp
 end if
 @end example
+
 @item @code{..red..}, @code{..green..}, @code{..blue..}
 @vindex @code{..blue..}
 Description of present color.  The values are between 0 and 1, with
@@ -1717,6 +1768,7 @@ system calls have been done yet).
 
 You may use any of these built-in variables anywhere.  For example,
 here's how to stack 3 graphs vertically on the page:
+
 @example
 .offset. = @{rpn ..ysize.. 3 + @}
 open file1
@@ -1855,11 +1907,13 @@ thought was a synonym called @code{\nbar}; the second (correctly) prints
 @cindex @code{system} command, how to get a newline
 @cindex tab, in a @code{system} command
 @cindex newline, in a @code{system} command
+
 @example
 \nbar = "led you!"
 system perl -e 'print "foo\nbar\n";'
 system perl -e 'print "foo\\nbar\\n";'
 @end example
+
 Similarly, if your system command is expecting to see @code{\t} (for a
 tab character), then you must write @code{\\t} to prevent Gri from
 trying to substitute a synonym named @code{\t}.
@@ -1923,6 +1977,7 @@ that synonyms must be enclosed in quotes if they are to be compared with
 strings.
 
 @cindex interaction with user, @code{query} command
+
 @example
 query \item "Item to plot?" ("S")
 if @{"\item" == "S"@}
@@ -1960,12 +2015,14 @@ expressions, e.g. @code{if @{rpn "\item" "S" ==@}}
 @cindex filenames, constructing using the operating system
 
 @subsubsection Simple Assignment
+
 @example
 \filename = "columns.dat"
 open \filename
 @end example
 
 @subsubsection System Output Stored Into Synonyms
+
 @example
 # Show the date.
 \date = system date
@@ -1978,6 +2035,7 @@ show "The commandfile name is \.command_file."
 \fn = system echo `basename \.command_file. .gri`.dat
 show "A filename constructed from this is \fn"
 @end example
+
 This example uses the Unix system commands @code{echo} and
 @code{basename} to  construct a filename ending in @file{.dat}, from the
 command file name (stored in the builtin string @code{\.command_file.}),
@@ -1990,11 +2048,13 @@ designator (the string @code{#}), protect it with double-quotes
 
 @subsubsection Assignment by Extraction of Words from Strings:
 This is an adjunct to the @code{[]} syntax for synonyms.
+
 @example
 \sentence = "This sentence has five words"
 \first_word = word 0 of "\sentence"
 \last_word = word 4 of "This sentence has five words"
 @end example
+
 @noindent
 Note: this is often used together with @code{read \synonym}, to allow
 the Gri program to access individual words in a data file.
@@ -2003,10 +2063,12 @@ the Gri program to access individual words in a data file.
 @subsubsection User-supplied Strings (Interactive)
 
 You can ask the user for the contents of strings:
+@cindex interaction with user, @code{query} command
+
 @example
 query \filename "What's the data file?" ("file.dat")
 @end example
-@cindex interaction with user, @code{query} command
+
 @noindent
 The prompt @code{What's the name of the data file?} is typed to the
 terminal, and whatever string the user types is inserted into the
@@ -2019,6 +2081,7 @@ double quotes enclosed in parentheses, with no intervening spaces.
 
 @subsubsection Reading Synonyms From a File
 You can read the contents of synonyms from a file:
+
 @example
 open \directory_file
 read \file_name
@@ -2026,6 +2089,7 @@ close
 open \file_name
 read columns x y
 @end example
+
 @noindent
 The first (space-separated) word is read into the the first synonym after
 the @code{read} command, the second word into the second synonym, and so on.
@@ -2082,6 +2146,7 @@ then use the RPN operator @code{wordv} instead (@ref{Unary Operators}).
 Within any new Gri command, the proper calling usage is available in
 @code{\.proper_usage.}.  This is useful in tests of syntax 
 (@ref{New Commands}).  For example:
+
 @example
 `draw depths from \file'
 Draw depth data stored in indicated file.  If the 
@@ -2099,6 +2164,7 @@ in the second example:
   # Right number of words, so continue onward...
 @}
 @end example
+
 @end itemize
 These synonyms help you scan for optional words in commands.  Suppose
 you have defined a new command @code{New Thing [option]}.  If you call
@@ -2111,6 +2177,7 @@ will be @code{"Thing"}.  On the other hand, if you call it with
 
 @emph{EXAMPLE}  Here is a new command to label lines drawn by 
 @code{draw curve}: 
+
 @example
 `Draw Label For Last Curve "label"'
 Draw a label for the last curve drawn, using
@@ -2132,6 +2199,7 @@ draw curve
 \label = "Illustration"
 Draw Label For Last Curve "\label"
 @end example
+
 @noindent
 (Note that Gri has a built-in command 
 @code{draw label for last curve "\label"} written much as above, so
@@ -2172,6 +2240,7 @@ mathematical symbols as math-mode synonyms (@ref{Mathematical Text}).
 Global synonyms are shared among commands.  To see the built-in global
 synonyms (@ref{Index of Builtins}) use @code{show synonyms}, which
 produces output that looks something like the following.
+
 @example
 gri: Synonyms...
 \.missingvalue.="10000000000000000000000.000000"
@@ -2190,6 +2259,7 @@ gri: Synonyms...
 \.readfrom_file.="stdin"
 \.ps_file.="gri-??.ps"
 @end example
+
 @cindex time
 @cindex date
 @cindex @code{\.return_value.}, general
@@ -2310,6 +2380,7 @@ of the synonym containing the pointer.
 
 A few examples should clarify this.  Here is how to store a pointer to a
 variable:
+
 @example
 .v. = 10
 \vptr = &.v.
@@ -2317,7 +2388,10 @@ assert @{rpn 10 *\vptr ==@} " variable-pointer error 1"
 *\vptr = 20
 assert @{rpn 20 *\vptr ==@} " variable-pointer error 2"
 @end example
-@noindent and here is how to store a pointer to a synonym:
+
+@noindent
+and here is how to store a pointer to a synonym:
+
 @example
 \s = "HI"
 \sptr = &\s
@@ -2341,6 +2415,7 @@ the ability to modify arguments @ref{New Commands}.
 Gri has @code{if} statements to make your programs more flexible.
 Here's an example:
 @cindex interaction with user, @code{query} command
+
 @example
 query \thick "Use thick lines? (0 or 1)" ("0")
 if \thick
@@ -2349,6 +2424,7 @@ else
   set line width 0.5
 end if
 @end example
+
 @noindent
 If you answer 1 to the question, the line thickness will be set at 2
 points.  If you answer 0 then a thin line will be used.  If you press
@@ -2360,20 +2436,24 @@ The item following the @code{if} can be
 a number (1 means true; anything else means false)
 @item
 a variable (1 means true; anything else means false). Example:
+
 @example
 if .plot_contours.
   draw contour
 end if
 @end example
+
 @item
 a synonym which expands to a number (1 means true; anything else means
 false). Example:
+
 @example
 \plot_contours = "1"
 if \plot_contours
   draw contour
 end if
 @end example
+
 (Don't worry about the fact that synonyms are strings; Gri
 expands the string value before interpreting the @code{if} statement.)
 @item
@@ -2384,6 +2464,7 @@ strings may be either synonyms or string constants.  If the string
 constant contains only one word, then it is not necessary to enclose it
 in quotes, but it is clearer to do so.  Examples:
 @cindex labels, on axes
+
 @example
 if @{"\variable" == "Salinity"@}
   set x name "Salinity"
@@ -2391,9 +2472,11 @@ else
   set x name "Unknown"
 end if
 @end example
+
 @item
 a rpn (reverse polish notation) expression 
 (@ref{rpn Mathematics}):
+
 @example
 if @{rpn .time. 100 <@}
   # ie, (100 < time), not (time < 100)
@@ -2411,10 +2494,12 @@ else
   show "Time is not equal to 10"
 end if
 @end example
+
 @end itemize
 
 There is no need to put the else part in if you don't need it. You
 can do
+
 @example
 set line width 0.5
 if \use_thick_lines
@@ -2422,9 +2507,11 @@ if \use_thick_lines
 end if
 @end example
 
+@noindent
 if you wish.
 
 If you want just the else part, you can do
+
 @example
 if ! \use_thick_lines
   set line width 0.5
@@ -2436,6 +2523,7 @@ end if
 
 If statements may be nested many levels deep.  You may also have
 @code{else if} blocks, as in:
+
 @example
 if @{"\variable" == "S"@}
   set x name "Salinity"
@@ -2499,6 +2587,7 @@ you've already read column data.)
 @cindex mathematics, on grid data
 Various commands let you alter grid data as used in contouring
 (@ref{Contour Plots}).  Possible commands are as follows.
+
 @example
 grid data = number
 grid data += number
@@ -2507,16 +2596,12 @@ grid data *= number
 grid data /= number
 grid data ^= number # take data to power 'number'
 grid data _= number # take log base 'number'
-@end example
-@example
 grid x = number
 grid x += number
-... others as in `grid data'
-@end example
-@example
+#... others as in `grid data'
 grid y = number
 grid y += number
-... others as in `grid data'
+#... others as in `grid data'
 @end example
 
 
@@ -2525,6 +2610,7 @@ grid y += number
 @cindex mathematics, on images
 Various commands let you alter image data (@ref{Images}.).
 Possible commands are as follows.
+
 @example
 image += number
 image -= number
@@ -2541,6 +2627,7 @@ image _= number # logarithm
 @cindex mathematics, on image grayscale/colorscale
 Various commands let you alter image data (@ref{Images}).
 Possible commands are as follows.
+
 @example
 image grayscale += number
 image grayscale  -= number
@@ -2560,6 +2647,7 @@ image colorscale  _= number # logarithm
 @cindex scalar operations
 @cindex mathematics, on variables
 Possible commands are:
+
 @example
 .variable. = number
 .variable. += number
@@ -2594,6 +2682,7 @@ could write @code{set x size @{rpn 20 2 /@}}, where the expression
 @code{@{rpn 20 2 /@}} tells Gri to insert the number 20 onto a stack,
 then insert the number 2 above it on the stack, and then divide the top
 two items on the stack.  The following are equivalent:
+
 @example
 set x size @{rpn 20 2 /@}           # 10 = 20/2
 set x size @{rpn 30 2 / 5 -@}       # 10 = (30/2-5)
@@ -2647,6 +2736,7 @@ stack).
 
 For example, the following shows how you might use @code{exch} or
 @code{roll_right} to change the sense of a subtraction.
+
 @example
 show @{rpn 1 2            -@} " ... yields -1"
 show @{rpn 1 2 exch       -@} " ... yields  1"
@@ -2881,10 +2971,14 @@ also the @code{argc} solitary operator (@ref{Solitary Operators}), which
 returns the number of optional arguments.
 
 For example, if Gri is invoked as
+
 @example
 gri myscript.gri file1.dat file2.dat
 @end example
+
+@noindent
 and if @file{myscript.gri} contained
+
 @example
 .n. = @{rpn argc@}
 .i. = 0
@@ -2893,7 +2987,10 @@ while @{rpn .n. .i. <@}
     .i. += 1
 end while
 @end example
+
+@noindent
 then the output would be
+
 @example
 argument 0 is myscript.gri
 argument 1 is file1.dat
@@ -3079,6 +3176,7 @@ Determine width of this string (in cm), in the present font and fontsize.
 @cindex @code{wordv} RPN operator
 Returns the first word used in invoking the present command.  Similar
 to the @code{\.word0.} synonym (@ref{Local Synonyms}).  Example:
+
 @example
 `let us test .it.'
 @{
@@ -3092,6 +3190,7 @@ let us test "this thing"
 let us test "this" "thing"
 let us test "Pi is" @{rpn 3.14@}
 @end example
+
 If you are using this to parse options given to the command, it is up to
 you to skip the non-optional words in the command.  In this case, for
 example, we skipped the first three words (@code{let}, @code{us}, and
@@ -3150,9 +3249,12 @@ The solitary operators are illustrated below, in alphabetical order.
 @item @{rpn argc@}
 Yields number of command-line arguments given by the user when Gri was
 invoked.  Thus, invoking Gri as
+
 @example
     gri myfile.gri file1.dat file2.dat
 @end example
+
+@noindent
 yields 3, for arguments @file{myfile.gri}, @code{file1.dat},
 and @code{file2.dat}.  These arguments are accessible through
 the @code{argv} unary operator (@ref{Unary Operators}).
@@ -3178,6 +3280,7 @@ Generate a random number in the range 0 to 1, using the C subroutine
 @cindex @code{wordc} RPN operator
 Returns number of words used in invoking the present command.  Similar
 to the @code{\.words.} synonym (@ref{Local Synonyms}).  Example:
+
 @example
 `let us test .it.'
 @{
@@ -3188,6 +3291,7 @@ let us test @{rpn 3 1 +@}
 let us test "this"
 let us test "this thing"
 @end example
+
 The operator @code{wordv} may be used to extract the words of the
 command (@ref{Unary Operators}).
 @end table
@@ -3211,6 +3315,7 @@ command (@ref{Unary Operators}).
 Individual data in the @code{x}, @code{y}, @code{z}, @code{u}, @code{v}
 and @code{weight} columns can be accessed with the @code{@@} operator.
 The first point has index 0.  Examples:
+
 @example
 show "first x is " @{rpn x 0 @@ @}
 show "last  x is " @{rpn x ..num_col_data.. 1 - @@ @}
@@ -3315,17 +3420,22 @@ The units of @code{sin}, @code{cos}, etc, are degrees, not radians.
 @cindex mathematics, rpn notation, example
 The scales of the plot are accessible to @code{rpn}.  For example, with
 the command
+
 @example
 draw label "hi" at 10 20
 @end example
-@noindent you draw the indicated string at the indicated location in
+
+@noindent
+you draw the indicated string at the indicated location in
 user coordinates.  To put it 0.15 centimetres to the right of this
 location and 0.1 centimetres lower, you could do as follows:
+
 @example
 draw label "\label" at \
     @{rpn .x. xusertocm 0.15 + xcmtouser@} \
     @{rpn .y. yusertocm 0.10 - ycmtouser@}
 @end example
+
 (Note that the x and y scales have individual translations from "user"
 to "cm" coordinates.)
 @item
@@ -3336,11 +3446,13 @@ points to centimetres.  For example, here is how to label a data curve
 with a label placed near the last y-value of the data set:
 @cindex drawing labels for data curves
 @cindex labels, on data curves
+
 @example
 draw curve
 .y. = @{rpn ..ylast.. yusertocm 0.5 - ycmtouser@}
 draw label "Smoothed" at ..xlast.. .y.
 @end example
+
 @end itemize
 
 
@@ -3377,6 +3489,7 @@ LaTeX-style syntax.
 example, you can include the name of a data file in the title of your
 plot as follows
 @cindex interaction with user, @code{query} command
+
 @example
 query \filename "File to read from?" ("data.file")
 open \filename
@@ -3384,6 +3497,7 @@ read columns x y
 draw curve
 draw title "data from \filename"
 @end example
+
 Within math strings (ie, between matched dollar-signs), these synonyms
 are disabled, and only the mathematical symbols and Greek letters work.
 
@@ -3401,12 +3515,15 @@ As in @TeX{} and La@TeX{}, you must be in math-mode to use subscripts;
 in other words, you must enclose the string or substring in
 dollar-signs.  For single-character subscripts, insert an underline
 prior to the character to be subscripted:
+
 @example
 draw title "$a_2$"
 @end example
+
 @noindent
 For multiple-character subscripts, insert braces before and after the
 item to be subscripted:
+
 @example
 draw title "$a_@{22@}$"
 @end example
@@ -3418,12 +3535,15 @@ As in @TeX{} and La@TeX{}, you must be in math-mode to use superscripts;
 in other words, you must enclose the string or substring in
 dollar-signs.  For single-character superscripts, insert a carat prior
 to the character to be superscripted:
+
 @example
 draw title "$a^2$"
 @end example
+
 @noindent
 For multiple-character superscripts, insert braces before and after the
 item to be superscripted:
+
 @example
 draw title "$a^@{22@}$"
 @end example
@@ -3566,6 +3686,7 @@ defined in math mode in Gri (cf tables in Lamport's section 3):
 
 @noindent
 For example, you might use these as follows:
+
 @example
 draw title "$\alpha$ = thermal expansion coefficient"
 @end example
@@ -3604,6 +3725,7 @@ doing something like @code{set x name "A$\,$B"}.
 To get a hat over a single character, do something like the following
 (which draws a hat over the character "h"):
 @cindex hat, drawing hat on top of character
+
 @example
 draw label "h$@{\!\!\!^@{^\wedge@}@}$" at 10 12 cm
 @end example
@@ -3612,6 +3734,7 @@ draw label "h$@{\!\!\!^@{^\wedge@}@}$" at 10 12 cm
 @cindex latex overline command, emulating
 @cindex overline, emulating latex command
 To get an overbar on a rho, do this:
+
 @example
 draw label "$\rho\!\!\!\!^-$" at 3 3 cm
 @end example
@@ -3650,11 +3773,13 @@ text-editor. There are several ways of doing this (and you may wish to
 consult your emacs info manual).  A method that works in emacs-19 up to
 current emacs-20 versions uses the emacs @file{iso-transl.el} package by
 putting the following in your @file{~/.emacs} file:
+
 @example
 (require 'iso-transl)
 (iso-transl-set-language "French")
 (standard-display-european t)
 @end example
+
 Loading this package defines three ways of entering the non-ASCII
 printable characters with codes above 127: the prefix @kbd{C-x 8}, or
 the @key{Alt} key, or a dead accent key.  For example, you can enter
@@ -3666,9 +3791,11 @@ quick insertion of iso-latin-1 characters. Do the Emacs command
 @code{M-x iso-accents-mode} (either manually, or in a hook that's done
 automatically). Now, suppose the x-axis is to represent temperature. All
 you'd have to do is type in the command
+
 @example
 set x name "Temp'erature"
 @end example
+
 As you type, the quote mark will dissappear, and reappear as an accent
 on the @code{e}.  And then, Gri will recognize this accented @code{e},
 and it will draw the accent on the axis label.
@@ -3714,6 +3841,7 @@ little like subroutines other programming languages.  For example, you
 might find that you often draw filled curves with a particular graylevel
 (say 0.5), and then return the graylevel to the previous value.  This
 requires you to do the following each time:
+
 @example
 new .old_graylevel.
 .old_graylevel. = ..graylevel..
@@ -3726,6 +3854,7 @@ delete .old_graylevel.
 @noindent
 This gets a bit tedious, and it would obviously be nicer to just say
 something like
+
 @example
 Draw my kinda curve
 @end example
@@ -3774,6 +3903,7 @@ For example, if your resource file contained these lines, Gri would
 the first command.  To avoid this, you may either reverse the order of
 the definitions, so that Gri will find the proper routine, or rename one
 of the routines.
+
 @example
 `Draw foo'
 Draw a foo.
@@ -3804,6 +3934,7 @@ similar command you might have defined previously, such as in your
 To make a new command called @code{Show The Time} insert the following
 into your @file{~/.grirc} resource file or into your command-file
 somewhere near the top, or at least before you use the command.
+
 @example
 `Show The Time'
 New command to show the time of day.
@@ -3811,6 +3942,7 @@ New command to show the time of day.
   show "\.time."
 @}
 @end example
+
 @noindent
 EXPLANATION:
 @itemize @bullet
@@ -3821,9 +3953,11 @@ prevent a name clash with a present or future built-in Gri command.
 @emph{Formatting convention:} Make sure that the entire definition
 string, from the opening angled quote to the ending angled quote,
 appears on one line.  Otherwise Gri will give an error like
+
 @example
 ERROR: Can't extract syntax for new command
 @end example
+
 @item
 Following the name line, you may optionally insert any number of lines
 which will become the @code{help} information for the new command.  See
@@ -3940,6 +4074,7 @@ item on the calling line, and put a @code{*} to the left of the
 associated local synonym inside the newcommand.
 
 For example, here is how to double the value of a variable: 
+
 @example
 `double &.value.'
 @{
@@ -3949,6 +4084,7 @@ For example, here is how to double the value of a variable:
 double &.x.
 assert @{rpn .x. 20 ==@} " Failed variable test"
 @end example
+
 Note the use of the @code{&} in the syntax declaration.  As usual, Gri
 doesn't parse this in any real way; it does no more than realize that
 the first word is fixed and further words are not fixed.  However, the
@@ -3985,6 +4121,7 @@ useful information about the statistics (min/max/histogram) of the items.
 Use the operating system, not Gri, to manipulate your data.  For
 example, if you have a file whose first column is x times 100, and third
 is the arcsin of y, you could do:
+
 @example
 open "gawk '@{print $1/100, sin($3)@}' |"
 read columns x y
@@ -4008,6 +4145,7 @@ achieved.  The process can be speeded up by limiting the number of data
 being processed, as shown below.  (If Gri finds fewer data in the file
 than specified, it will simply use the data that it found; so when the
 program works, just change @code{.n.} into something large.)
+
 @example
 .n. = 100 # 10000 for later
 ...
@@ -4018,15 +4156,18 @@ read columns .n. x y
 read columns .n. x y
 ...
 @end example
+
 @item
 Create new commands to do repetitive work.
 @item
 Use @code{draw time stamp} on all plots except for publication versions:
+
 @example
 if !..publication..
   draw time stamp
 end if
 @end example
+
 @item
 For multiple panels on one page, do @code{delete x scale} 
 or @code{delete y scale} before each
@@ -4039,6 +4180,7 @@ Use the @code{..num_col_data..} built-in variable to see how many data
 have passed the @code{set input data window} data window in the last
 @code{read columns} command.  The following example shows how to
 avoid drawing an unwanted curve:
+
 @example
 open \f
 read columns x y
@@ -4055,6 +4197,7 @@ end if
 @item
 Use synonyms and @code{query} for filenames.  This makes programs much
 more flexible.  Note that you can string synonyms together:
+
 @example
 \dir = "~/EOS/iso0/"
 query \file "Give file in directory \dir" ("1.dat")
@@ -4066,10 +4209,12 @@ your @code{query} command, to avoid complicated @code{if} commands later
 (@ref{Query}).
 @item
 Use multiple @code{draw title} commands:
+
 @example
 draw title "Atlantic water entering Arctic Ocean"
 draw title "\.command_file. \.time."
 @end example
+
 @end itemize
 
 
@@ -4107,11 +4252,13 @@ Sprinkle @code{show} commands throughout your program, to see what's
 happening.  Even when you are sure your program works, it is a good idea
 to embed @code{show} statements so are they executed if the
 @code{-debug} flag is set:
+
 @example
 if ..debug..
   show "X=" .x. "and label is `\label'"
 end if
 @end example
+
 @item 
 If your @code{draw} commands don't draw anything, check to see
 whether you've fooled yourself by enforcing an improper scaling; remove
@@ -4142,9 +4289,11 @@ these to the author (@ref{Reporting Bugs}).
 @item
 Internal Gri error messages.  The message starts with the words
 @code{FATAL error}, and quotes a file number and a line number, e.g.
+
 @example
 FATAL error: startup.c:199: ...
 @end example
+
 @noindent
 Such errors indicate either a deficiency in your computer (e.g.
 insufficient storage space) or an internal bug in Gri.  If the message
@@ -4162,11 +4311,13 @@ about the Gri bug.
 An indication that your commandfile is flawed, either in syntax or in
 meaning.  These messages end with a line indicating the offending line
 in your commandfile, e.g. the command @code{set x axis 0 1 -1} yields:
+
 @example
 ERROR: `set x axis .left. .right. .incBig.'
         has .incBig. of wrong sign
  Bad command:  `set x axis 0 1 -1 '
 @end example
+
 @noindent
 Normally, such error messages do not indicate a flaw in Gri, but rather
 in your reasoning, so report them to the author only if you are very
@@ -4259,6 +4410,7 @@ nesting level.
 @cindex commandfile, pathname
 Often the dollar-parentheis syntax is used in title commands, to
 indicate the full pathname of the Gri commandfile, e.g.
+
 @example
 draw title "\$(pwd)/\.command_file."
 @end example
@@ -4266,11 +4418,11 @@ draw title "\$(pwd)/\.command_file."
 In assignment to synonyms, expansion of dollar-parenthesis is not done.
 Thus the operating system is called twice on the second line below, and
 not at all on the first line; to see this, run it as @code{gri -s8 -t}.
+
 @example
 \dir = "\$(echo $MY_DIR)"
 show "\$(head -1 \dir/MY_FILE)"
 @end example
-
 
 @emph{Syntax Note} Dollar-parenthesis blocks must be prefixed with
 backslash to avoid confusion with math expressions within strings, for
@@ -4294,10 +4446,8 @@ open "\dir/solar_data_file_name`
 ...
 open "\$(echo DIR_ANOTHER)/another_data_set"
 @end example
+
 @noindent
-
-
-
 Another method is to pass instructions to the operating system with the
 @code{system} command.  This discards output.  Whatever follows the word
 @code{system} is first scanned for synonyms (but not rpn expressions or
@@ -4317,6 +4467,7 @@ naming the awk program on your system), @code{head}, @code{grep} and
 Here's how to paste several files together to form a temporary file for
 plotting.  (Notice that a temporary file incorporating the PID of the job
 is created and later removed.)
+
 @example
 system paste -d" " 1.dat 2.dat 3.dat > tmp.\.pid.
 open tmp.\.pid.
@@ -4328,16 +4479,18 @@ system rm tmp.\.pid.
 @item
 Here's how to plot each line in a file called @file{inp} which has
 the string @code{;} at the start of the line.
+
 @example
 system cat inp | grep -v "^;" | cat > tmp.\.pid.
 open tmp.\.pid.
 read columns x y
 system rm tmp.\.pid.
-@dots{}
 @end example
+
 @item
 Here's how to use the @code{awk} system command to create a tabulated
 function for plotting.
+
 @example
 system \.awk. \
     'BEGIN @{ \
@@ -4352,13 +4505,15 @@ close
 system rm tmp.\.pid.
 draw curve
 @end example
-@noindent
 
 @cindex pipes, opening files through them
 @cindex opening files through pipes
+
+@noindent
 This example is more cleanly written using the piping facility of the
 @code{open} command (which automatically creates a temporary file, and
-destroys it when @code{close} is done):
+destroys it when @code{close} is done)
+
 @example
 open "\.awk. 'BEGIN @{\
   for(x=0;x<1;x+=0.1) @{\
@@ -4369,6 +4524,7 @@ read columns x y
 close
 draw curve
 @end example
+
 @item
 Sometimes you need just a single output item from the operating system.
 In this case, you can store the results from the operating system in a
@@ -4382,15 +4538,16 @@ A related command is @code{\synonym = tmpname}, which stores in the
 synonym the name of a temporary file created by the system.  The file is
 created with the @code{tmpname} system call, so it is guaranteed not to
 clash with any existing files.  Typically, the filename is something
-like @file{/usr/tmp/griAAAa1233}.  A useful bit of code is
+like @file{/usr/tmp/griAAAa1233}.  A useful bit of code i
+
 @example
 \file = tmpname
 system ... SOME_SYSTEM_COMMANDS ... > \file
 ... use this new file for something ...
 system rm -f \file
 @end example
-@end itemize
 
+@end itemize
 
 
 @node   Using Gri Inside OS, Resource File, Using OS Inside Gri, Operating System
@@ -4405,6 +4562,7 @@ executable using @code{chmod}.  It runs Gri on a named file, with the
 so that any @code{query} commands are automatically answered in the
 affirmative, and then displays the results in a Ghostscript window.
 (USAGE: @code{p cmdfile.gri})
+
 @example
 #!/usr/bin/sh
 # Run Gri, then plot in gs window
@@ -4432,6 +4590,7 @@ esac
 @cindex resource files
 The following shows a sample @file{~/.grirc} resource file.  Much of the
 code here is adding new commands (@ref{Adding New Commands}.)
+
 @example
 # Some folks like tics to point inwards ...
 set tics in
@@ -4612,10 +4771,12 @@ To get a scattergraph with symbols at the data points, substitute
 result if both @code{draw curve} and @code{draw symbols} are used.
 See @ref{Getting More Control} for an example.
 
+@cindex symbol codes
+
 By default, the symbol used is an x.  To get another symbol, use a
 command like @code{draw symbol 0} or @code{draw symbol plus}.  These are
 the numerical codes and the associated names:
-@cindex symbol codes
+
 @example
 0  plus         
 1  times        
@@ -4662,6 +4823,7 @@ lines in the legend are double-spaced vertically.  To change the
 location of the legend, alter the @code{.legend_x. =} and
 @code{.legend_y. =} lines.  To change the spacing, alter the
 @code{.legend_y. +=} line.
+
 @example
 set x axis -1 5 1
 set y axis -1 5 1
@@ -4701,6 +4863,7 @@ There are two methods for formula graphs.
 @enumerate
 @item @emph{Use the system yourself.}
 Do as in this example:
+
 @example
 open "\.awk. 'BEGIN@{for(i=0;i<3.141;i+=0.05)\
     @{print(i,cos(i))@}@}' |"
@@ -4709,6 +4872,7 @@ close
 draw curve
 quit
 @end example
+
 @noindent
 (Note the use of @code{\.awk.}, a builtin synonym naming the awk program
 on your system.)
@@ -4724,6 +4888,7 @@ Gri uses the program @code{awk} to create the columns, and cannot work
 without it.  
 
 Here is an example of using @code{create columns from function}:
+
 @example
 show "First 2 terms of perturbation expansion"
 set y axis label horizontal
@@ -4754,6 +4919,7 @@ Here's another example, in which the curve @code{y = 1/(\int + \sl*x)}
 is drawn through some data.  Note how @code{sprintf} is used to set
 @code{\xmin} and @code{\xmax} using the scales that Gri has determined
 in reading the data.
+
 @example
 open file.data
 read columns x y
@@ -4767,6 +4933,7 @@ sprintf \xmax "%f" ..xright..
 create columns from function
 draw curve
 @end example
+
 @end enumerate
 
 
@@ -4807,6 +4974,7 @@ started.
 
 @cindex grid data, determining geometry from file
 @cindex image data, determining geometry from file
+
 @example
 \file = "somefile.dat"
 \rows = system wc \file      | \.awk. '@{print $1@}'
@@ -4818,6 +4986,7 @@ read grid data \rows \cols
 close
 draw contour
 @end example
+
 @noindent
 (Note the use of @code{\.awk.}, a builtin synonym naming the awk program
 on your system.)
@@ -5117,6 +5286,7 @@ file, to help programmers extract the image data; to extract the
 information, you'll have to understand how PostScript handles images.
 Gri inserts a single comment line before a line ending in the token
 @code{im}:
+
 @example
 %BEGIN_IMAGE
 170.70 170.70 534.86 534.86 128 128 im
@@ -5127,7 +5297,8 @@ upper-right corners of the image, in units of points on the page (72
 points = 1 inch).  The fifth and sixth numbers are the width of the
 image and the height of the image.  The keyword @code{im} is always
 present on this line.  Gri inserts the following comment line at the end
-of the image data:
+of the image data
+
 @example
 %END_IMAGE
 @end example
@@ -5149,15 +5320,19 @@ the histograms, which is done if @code{\histo} is 1.
 The file in this example covers 128 * 128 pixels over the Gulf of
 Maine. The numbers in @code{\filename} correspond to surface
 temperatures according to the equation 
+
 @example
 T = 5 + 0.1 * pixel_value
 @end example
+
 @noindent
 which explains the following lines in the command file:
+
 @example
 \0val = "5"             # 0 in image
 \255val = "30.5"        # 255 in image
 @end example
+
 @cindex images, histogram scaling
 @cindex images, linear scaling
 
@@ -6100,6 +6275,7 @@ quit
 The following example shows how to draw polygons of a graylevel that is
 read in.  It also draws a bullet (within the polygon).  See the help
 lines at the start.
+
 @example
 `Draw Polygon And Bullet'
 Draw a polygon of a given graylevel, with a bullet
@@ -6533,6 +6709,7 @@ triangles.  The second, @file{model.elements} say, consists of a
 description of which triplet of nodes defines each triangle in the mesh.
 Here, from a sample application, is a node file called
 @file{model.nodes}:
+
 @example
 1	1	1
 2	2	1
@@ -6542,15 +6719,16 @@ Here, from a sample application, is a node file called
 6	1.5	3
 @end example
 @noindent
-Here is the corresponding file of the elements, called @file{model.elements}:
+Here is the corresponding file of the elements, called @file{model.elements}
+
 @example
 1	1	2	3
 2	2	5	3
 3	2	4	5
 4	3	5	6
 @end example
-@noindent
 
+@noindent
 In each of these files, the first column is a reference number.  Thus,
 @file{model.elements} indicates that the first triangle is defined by
 the nodes numbered @code{1}, @code{2} and @code{3} as defined in
@@ -6558,6 +6736,7 @@ the nodes numbered @code{1}, @code{2} and @code{3} as defined in
 vertices at (x,y) locations (1,1), (2,1), and (1,2).
 
 A Gri program, named @file{FEM.gri}, to draw the nodes is the following.
+
 @example
 set missing value -99.99
 # Create data using perl-script ...
@@ -6570,9 +6749,11 @@ draw curve
 # ... and, finally, clean up the temporary file
 system rm tmp
 @end example
+
 @noindent
 The work of interpreting the data files is done by the perlscript that
 follows, named @file{FEM.pl}
+
 @example
 #!/usr/bin/perl -w
 $missing = -99.99;              # missing value
@@ -6728,6 +6909,7 @@ quit
 @b{Case 1 -- known number of header lines.}
 This is easy.  If you know that the file has, say, 10 header lines, you
 can just do this:
+
 @example
 open file
 skip 10
@@ -6739,6 +6921,7 @@ read columns x y
 Quite often the first line of a file will indicate the number of header
 lines.  For example, suppose the first line contains a single number,
 indicating the number of header lines to follow:
+
 @example
 open file
 read .skip.
@@ -6753,9 +6936,11 @@ characters @code{HEADER} at the start of the line in the file.  The easy
 way to skip such a header is to use a system command.  Depending on your
 familiarity with the operating system (here presumed to be Unix), you
 might choose to use Grep, Awk, or Perl.  Here are examples:
+
 @example
 open "grep -v '^HEADER' file |"
 @end example
+
 For more on the @code{|} mechanism, see @ref{Open}.  The Grep command
 prints lines which do not match the indicated string
 (because of the @code{-v} switch), and the @code{^} character stands for
@@ -6772,6 +6957,7 @@ at a particular time from a fixed location, with the main data being air
 temperature as a function of elevation of the balloon.  The time
 indication might be, for instance, the hour number.  One might need to
 know the time to print a label on the diagram.  You could do that by:
+
 @example
 open file
 read .time.
@@ -6780,6 +6966,7 @@ draw curve
 sprintf \label "Time of observation is %f hour" .time.
 draw title "\label"
 @end example
+
 @noindent
 where the @code{sprintf} command has been used to change the numerical
 time indication into a synonym that can be inserted into a quoted string
@@ -6787,6 +6974,7 @@ for drawing the title of the diagram (@ref{Sprintf}).  Here the time has
 been assumed to be a decimal hour.  You might also have three numbers on
 the line, perhaps a day, an hour and a minute.  Then you could do
 something like
+
 @example
 open file
 read .d. .h. .m.
@@ -6795,16 +6983,19 @@ draw curve
 sprintf \label "Obs. %.0f:%.0f, day %.0f" .h. .m. .d.
 draw title "\label"
 @end example
+
 @noindent
 Here the @code{%.0f} code is used to ensure no numbers will be written
 after the decimal point.  Naturally, you could convert this to a decimal
 day, by e.g.
+
 @example
 ...
 .dday. = @{rpn .day. .hour. 24 / .min. 24 / 60 /@}
 sprintf \label "Decimal day is %.4f" .dday.
 ...
 @end example
+
 @noindent
 (Some of you might know how many minutes in a day, but I'm silly so I
 kept the extra mathematical step -- nothing is lost by being
@@ -6823,14 +7014,18 @@ salinity, (5) conductivity, (6) density, (7) sigma-theta, (8) sound
 speed, and (9) oxygen concentration.  But you might only be interested
 in plotting a graph of salinity on the x-axis and depth on the y-axis.
 Here are several ways to do this:
+
 @example
 open file
 read columns y * * x
 draw curve
 @end example
+
+@noindent
 where the @code{*} is a place-keeper to indicate to skip that column.
 For a large number of columns, or as an aesthetic choice, you might
-prefer to write this as
+prefer to write this a
+
 @example
 open file
 read columns y=1 x=4
@@ -6840,11 +7035,13 @@ draw curve
 Many users would just as soon not bother with this syntax, preferring
 instead to use system tools with which they are more familiar.  So a
 Gawk user might write
+
 @example
 open "gawk '@{print($1, $4)@}' file |"
 read columns y x
 draw curve
 @end example
+
 @noindent
 For more on the Gawk command see @ref{Awk}.
 
@@ -6856,12 +7053,15 @@ For more on the Gawk command see @ref{Awk}.
 @subsection Algebra on column data
 Suppose the file contains (x,y), but you wish to plot 2y times x.  You
 could do the doubling of y within Gri, as
+
 @example
 open file
 read columns x y
 y *= 2
 draw curve
 @end example
+
+@noindent
 or you could use a system tool, e.g. gawk, as in this example (@ref{Awk}).
 
 @example
@@ -6878,6 +7078,7 @@ ratio y/x in Gri.  (Actually, you can, by looping through your data and
 doing the calculation index by index, but if you knew that already you
 wouldn't need to be reading this section!)  Such blending is trivial in
 the operating system, though, as in the following Gawk example (@ref{Awk}).
+
 @example
 open "gawk 'print @{($1, $2/$1)@}' file |"
 read columns x y
@@ -6894,6 +7095,7 @@ second column (@code{x}) from a second data file.  The easy way is to
 use a system command to create a new file, for example the Unix command
 @code{paste} -- but of course you don't want to clutter your filesystem
 with such files, so you should do this withing Gri:
+
 @example
 open "paste file1 file2 |"
 read columns x y
@@ -6909,18 +7111,22 @@ draw curve
 Sometimes you'll have a datafile with the first column being x, and the
 other columns being various things to plot versus x.  For example, you
 might have the data
+
 @example
 1  8 11  9
 2 22 21 20
 3 11 10  9
 4 20 15 10
 @end example
+
+@noindent
 in a file called @code{test.dat}.  Let's say the x-column is time, and
 the y-columns are the readings from three temperature sensors.  The
 following illustrates how you might plot these data.  If you think the
 new-command which starts this script is useful, just insert it in your
 @file{~/.grirc} file and you can just use it without re-defining it each
 time.  This will give Gri a command called @code{draw curves}.
+
 @example
 `draw curves \xname \y1name ...'
 Draw multiple y columns versus an x column.  Assumes
@@ -7109,14 +7315,17 @@ The syntax description is enclosed within angled single quotes, optional
 items are enclosed in square brackets, multiword items are enclosed in
 curly braces, and vertical bars separate different legitimate choices.
 For example, the documentation item for the command for drawing contours
+
 @example
 `draw contour \
     [.value. |  \
       @{.min. .max. .inc. [.inc_unlabelled.]@}] \
     [unlabelled]'
 @end example
+
 @noindent
 indicates that following are legal:
+
 @example
 draw contour                   # gri selects levels
 draw contour unlabelled        # " but unlabelled
@@ -7131,9 +7340,11 @@ draw contour 0 10 1 0.1
 @noindent
 Note that items enclosed in braces must appear in their entirety; for
 example,
+
 @example
 draw contour 0 10              # WRONG; missing .inc.
 @end example
+
 @noindent
 which might look similar @code{draw contour .min. .max. .inc.} to you,
 looks like garbage to Gri.  Gri will recognize it as an attempt at the
@@ -7151,9 +7362,11 @@ but it will then get confused, spit out an error message, and quit.
 @cindex debugging, with @code{assert} command
 @cindex @code{assert} command, for debugging
 @findex assert
+
 @example
 `assert .condition. ["msg"]
 @end example
+
 @noindent
 The condition may be a variable, a synonym, or an RPN expression.  If
 this condition is true (i.e. evaluates to a non-zero number), do
@@ -7186,9 +7399,11 @@ command.)
 @cindex directories, changing
 @cindex @code{cd} command
 @findex cd
+
 @example
 `cd [\pathname]'
 @end example
+
 @noindent
 If a pathname specified, change to that directory.  Normal unix
 filenames are used, as in the C-shell convention.  For example, the
@@ -7208,9 +7423,11 @@ exactly as @code{cd ~} and @code{cd $HOME} do.
 @cindex closing files
 @findex close
 @cindex @code{close} command
+
 @example
 `close [\filename]'
 @end example
+
 @noindent
 If no filename is specified, close the most recently opened data-file;
 otherwise close the indicated file.
@@ -7240,18 +7457,22 @@ Various @code{convert} commands:
 @findex convert columns to grid
 @cindex @code{convert columns to grid} command
 Various forms exist:
+
 @example
 `convert columns to grid OPTIONS'
 @end example
+
 @noindent
 where the @code{OPTIONS} may be omitted or
 selected from this list:
+
 @example
 `neighbor'
 `boxcar    [.xr. .yr. [.n. .e.]]'
 `objective [.xr. .yr. [.n. .e.]]'
 `barnes    [.xr. .yr. .gamma. .iter.]'
 @end example
+
 @noindent
 For more discussion on the methods see @ref{Ungridded Data}.
 
@@ -7594,11 +7815,13 @@ tunable parameters: @code{(L_x,L_y,gamma)}.
 @cindex spline, fitting to (x,y) data
 @findex convert columns to spline
 @cindex @code{convert columns to spline} command
+
 @example
 `convert columns to spline \
     [.gamma.] \
     [.xmin. .xmax. .xinc.]'
 @end example
+
 Fit a normal or taut interpolating spline, y=y(x), through the (x,y)
 data.  Then subsample this spline to get a new set of (x,y) data.  If
 the spline x-values, @code{.xmin.}, etc, are not specified, the spline
@@ -7639,9 +7862,11 @@ draw curve
 @subsection The @code{convert columns from polar to rectangular} Command
 @findex convert columns from polar to rectangular
 @cindex @code{convert columns from polar to rectangular} command
+
 @example
 `convert columns from polar to rectangular'
 @end example
+
 @noindent
 Convert polar (r, theta) columnar dat to rectangular (x, y) format.
 NOTE: theta is in degrees.
@@ -7653,9 +7878,11 @@ NOTE: theta is in degrees.
 @subsection The @code{convert columns from rectangular to polar} Command
 @findex convert columns from rectangular to polar
 @cindex @code{convert columns from rectangular to polar} command
+
 @example
 `convert columns from rectangular to polar'
 @end example
+
 @noindent
 Convert rectangular (x, y) columnar data to polar (r, theta) format.
 NOTE: theta is in degrees.
@@ -7667,9 +7894,11 @@ NOTE: theta is in degrees.
 @findex convert grid to columns
 @cindex columns, creating from grid
 @cindex @code{convert grid to columns} command
+
 @example
 `convert grid to columns'
 @end example
+
 @noindent
 Create column data from grid data.  Each non-missing gridpoint is
 translated into a single (x,y,z) triplet.  If column data already exist,
@@ -7679,6 +7908,7 @@ the following example, a new grid with x=(0, 0.05, 0.1, ..., 0.1) and
 y=(10, 11, ..., 20) is created.  The default gridding method
 (@code{convert columns to grid}) is used here, but of course one is free
 to adjust the method as usual.
+
 @example
 # ... read/create grid
 convert grid to columns
@@ -7695,12 +7925,14 @@ convert columns to grid
 @findex convert grid to image
 @cindex image, creating from grid
 @cindex @code{convert grid to image} command
+
 @example
 `convert grid to image [size .width. .height.] \
     [box .ll_x. .ll_y. .ur_x. .ur_y.]'
 @end example
 
-@noindent With no options specified, convert grid to a 128x128 image,
+@noindent
+With no options specified, convert grid to a 128x128 image,
 using an image range as previously set by @code{set image range}.  
 
 @cindex image, interpolation from grid
@@ -7749,17 +7981,21 @@ command.
 @findex convert image to grid
 @cindex @code{convert image to grid} command
 @cindex grid, creating from image
+
 @example
 `convert image to grid'
 @end example
+
 @noindent
 Convert image to grid, using current graylevel/colorlevel mapping.  For
 example, if one had a linear mapping of pixel values 0->255 into the
 user values 10->20, as in
+
 @example
 set image range 10 20
 set image grayscale black 10 white 20
 @end example
+
 @noindent
 then the output grid will be of value 10 where the pixel value is 0,
 etc.  If the image is in color, the grid values will represent the
@@ -7788,11 +8024,14 @@ the image x/y grids have already been defined.
 @subsection The @code{create columns from function} Command
 @findex create
 @cindex @code{create columns from function} command
+
 @example
 `create columns from function'
 @end example
+
 @noindent
 Plot a function of x which is defined in synonym \function.
+
 @example
 ENVIRONMENT
 \function = function to plot.
@@ -7809,6 +8048,7 @@ create columns from function
 draw curve
 quit
 @end example     
+
 @noindent
 NOTE: This only works on machines which have the @code{awk} command
 available at the commandline.  This means most unix machines and some
@@ -7819,9 +8059,11 @@ vax machines.
 @subsection The @code{create image grayscale} @dots{} Command
 @cindex image, banded
 @findex create image grayscale
+
 @example
 `create image grayscale banded .band.'
 @end example
+
 @noindent
 Make a banded grayscale with in units of .band. pixel values each.
 Thus, pixel values 0 to (.band. - 1) on the image will map to 0, while
@@ -7837,9 +8079,11 @@ example, .band. = 2 gives grayscale = (0 0 2 2 4 4 6 6 ... 252 252 254
 @cindex debugging
 @findex debug
 @cindex @code{debug} command
+
 @example
 `debug [.n.]|[clipped values in draw commands]|off'
 @end example
+
 @noindent
 With no optional parameters, sets the value of @code{..debug..} to 1.
 (Normally, @code{..debug..} is 0.)  You may use @code{..debug..} in 
@@ -7850,11 +8094,13 @@ is invoked with the commandline switch @code{-d}.
 With @code{.n.} specified, @code{..debug..} is set to @code{.n.}; a
 value of zero for @code{.n.} turns debugging off, while 1 turns it on.
 Higher values may be used for deeper debugging, if you choose:
+
 @example
 if @{rpn ..debug.. 2 <@}
   # Code to do if ..debug.. is greater than 2.
 end if
 @end example
+
 @noindent
 Note that you can assign to @code{..debug..} as you can to any other
 variable; @code{debug .n.} is equivalent to @code{..debug.. = .n.}.
@@ -7879,6 +8125,7 @@ All these forms of debugging are cancelled by @code{debug off}.
 @cindex variables, deleting
 @findex delete
 @cindex @code{delete} command
+
 @example
 `delete .variable.|\synonym [.variable.|\synonym [...]]'
 `delete columns [where missing]'
@@ -7886,6 +8133,7 @@ All these forms of debugging are cancelled by @code{debug off}.
 `delete grid'
 `delete [x|y] scale'
 @end example
+
 @noindent
 Delete some item or characteristic.
 
@@ -7922,9 +8170,11 @@ Delete scales for y, so next @code{read columns} will set it.
 @cindex differentiation
 @findex differentiate
 @cindex @code{differentiate} command
+
 @example
 `differentiate @{x|y wrt index|y|x@} | @{grid wrt x|y@}'
 @end example
+
 @noindent
 Differentiate column data or grid data.  Only the @code{x} and @code{y}
 columns may be differentiated.  They may be differentiated either with
@@ -8002,9 +8252,11 @@ sure to do @code{draw axes} before you modify the graylevel.)
 @comment  node-name,  next,  previous,  up
 @subsection The @code{draw arrow} @dots{} Command
 @cindex arrows, drawing single
+
 @example
 draw arrow from .x0. .y0. to .x1. .y1. [cm]
 @end example
+
 With no optional parameters, draw an arrow from (@code{.x0.},
 @code{.y0.}) to (@code{.x1.}, @code{.y1.}), where coordinates are in
 user units.  The arrow head will be at (@code{.x1.}, @code{.y1.}), and
@@ -8017,9 +8269,11 @@ page.  NOTE: This will not cause auto-drawing of axes.
 @subsection The @code{draw arrows} Command
 @findex draw arrows
 @cindex @code{draw arrows} command
+
 @example
 `draw arrows'
 @end example
+
 @noindent
 Draw a vector field consisting of arrows emanating from the coordinates
 stored in the (x, y) columns.  The lengths and orientations of the
@@ -8034,9 +8288,11 @@ arrow, use @code{draw arrow}.
 @findex draw axes if needed
 @cindex @code{draw axes if needed} command
 @subsection The @code{draw axes if needed} Command
+
 @example
 `draw axes if needed'
 @end example
+
 @noindent
 Draw axes frame if required.  Used within gri commands that auto-draw axes.
 NOTE: this should only be done by developers.
@@ -8048,9 +8304,11 @@ NOTE: this should only be done by developers.
 @findex draw axes
 @cindex @code{draw axes} command
 @subsection The @code{draw axes} @dots{} Command
+
 @example
 `draw axes [.style.|frame|none]'
 @end example
+
 @noindent
 With no style (@code{.style.}) specified, draw x-y axes frame labelled
 at left and bottom. The value of @code{.style.} determines the style of
@@ -8077,10 +8335,12 @@ drawing axes when drawing curves.
 @findex draw border box
 @cindex @code{draw border box} command
 @subsection The @code{draw border box} @dots{} Command
+
 @example
 `draw border box .ll_x. .ll_y. .ur_x. .ur_y. \
     .width_cm. .brightness.'
 @end example
+
 @noindent
 Draw gray box, as decoration or alignment key for pastup. The box, with
 outer lower left corner at (@code{.ll_x.}, @code{.ll_y.}) and outer
@@ -8103,9 +8363,11 @@ NOTE: This command does not cause auto-drawing of axes.
 @subsection The @code{draw box} @dots{} Command
 @findex draw box
 @cindex @code{draw box} command
+
 @example
 `draw box filled .ll_x. .ll_y. .ur_x. .ur_y. [cm]'
 @end example
+
 @noindent
 Draw filled box spanning indicated range, with lower-left corner at
 (@code{.ll_x.}, @code{.ll_y.}) and upper-right corner at (@code{.ur_x.},
@@ -8121,10 +8383,10 @@ coordinate system.
 NOTE: if the box is specified in user units, this command will cause
 auto-drawing of axes, but not if the box is specified in cm units.
 
-
 @example
 `draw box .ll_x. .ll_y. .ur_x. .ur_y. [cm]'
 @end example
+
 @noindent
 Draw box spanning indicated range, with lower-left corner at
 (@code{.ll_x.}, @code{.ll_y.)} and upper-right corner at (@code{.ur_x.},
@@ -8146,9 +8408,11 @@ coordinate system.
 @cindex circles, drawing
 @findex draw circle
 @cindex @code{draw circle} command
+
 @example
 draw circle with radius .r_cm. at .x_cm. .y_cm.
 @end example
+
 @noindent
 Draw circle of specified radius (in cm) at the specified
 location (in cm on the page).
@@ -8161,12 +8425,14 @@ location (in cm on the page).
 @cindex contouring
 @findex draw contour
 @cindex @code{draw contour} command
+
 @example
 `draw contour [@{.value. \
   [unlabelled | @{labelled "\label"@}]@} \
   | @{.min. .max. .inc. \
     [.inc_unlabelled.] [unlabelled]@}]'
 @end example
+
 @noindent
 This command draws contours based on the "grid" data previously read in
 by a @code{read grid data} command or created by gridding column data
@@ -8196,6 +8462,7 @@ course), Gri will not label the contour(s).
 
 @emph{Hint:} It can be effective to draw contours at a certain interval
 with labels, and a thicker pen, e.g.
+
 @example
 set line width rapidograph 3x0
 draw contour -2 5 1 0.25
@@ -8225,6 +8492,7 @@ Several forms exist.
 @example
 `draw curve'
 @end example
+
 @noindent
 Draws a curve connecting the points (x,y), which have been read in by a
 command like @code{read columns x y}.  Line segments are drawn between
@@ -8236,6 +8504,7 @@ clipping region.  @emph{See also} @code{draw curve overlying}
 @example
 `draw curve overlying'
 @end example
+
 @noindent
 Like @code{draw curve}, except that before drawing, the area underneath
 the curve (+/- one linewidth) is whited out.  This clarifies graphs
@@ -8245,6 +8514,7 @@ where curves overlie other curves or the axes.
 @example
 `draw curve filled [to @{.y. y@}|@{.x. x@}]'
 @end example
+
 @noindent
 The form @code{draw curve filled ...} draws filled curves.  If the
 @code{to .value.} is not specified, fill the region defined by the x-y points
@@ -8267,9 +8537,11 @@ and x = @code{.x.}
 @subsection The @code{draw essay} @dots{} Command
 @findex draw essay
 @cindex @code{draw essay} command
+
 @example
 `draw essay "text"|reset'
 @end example
+
 @noindent
 Draw indicated text on the page.  Succeeding calls draw text further and
 further down the page, starting at the top.
@@ -8281,6 +8553,7 @@ When @code{reset} is present instead of text, the drawing position is
 reset to the top of the page.  Use this after a @code{new page} command
 to ensure that the next text lines will appear at the top of the page as
 expected.  EXAMPLE:
+
 @example
 set font size 2 cm
 draw essay "Line 1, at top of page"
@@ -8293,10 +8566,12 @@ draw essay "Line 2, below top line"
 @subsection The @code{draw gri logo} Command
 @findex draw gri logo
 @cindex @code{draw gri logo} command
-@cindex logo, how to draw
+@cindex logo, how to dra
+
 @example
 `draw gri logo .x_cm. .y_cm. .height_cm. .style. \fgcolor \bgcolor'
 @end example
+
 @noindent
 Draw a Gri logo at given location with given style and colors.  The
 lower-left corner of the logo will be @code{.x_cm.} centimeters from the
@@ -8304,7 +8579,8 @@ left-hand side of the page and @code{.y_cm.} centimeters from the bottom
 of the page.  The logo will be @code{.height_cm.} centimeters tall.  The
 textual parameters @code{\fgcolor} and @code{\bgcolor} give the foreground and
 background colors, respectively, and these are used in styles as noted
-in the table below.
+in the table below
+
 @example
 .style.    style
 =======    ===================
@@ -8314,7 +8590,9 @@ in the table below.
    3       as 2 but in square box
    4       draw in \fgcolor on top of shifted copy in \bgcolor
 @end example
-An example is given below:
+
+An example is given below
+
 @example
 draw gri logo 1 1 3 4 blue green
 @end example
@@ -8323,10 +8601,12 @@ draw gri logo 1 1 3 4 blue green
 @comment  node-name,  next,  previous,  up
 @subsection The @code{draw grid} Command
 @findex draw grid
-@cindex @code{draw grid} command
+@cindex @code{draw grid} comman
+
 @example
 `draw grid'
 @end example
+
 @noindent
 Draw plus-signs at locations where grid data are non-missing.
 
@@ -8335,11 +8615,13 @@ Draw plus-signs at locations where grid data are non-missing.
 @subsection The @code{draw image histogram} @dots{} Command
 @findex draw image histogram
 @cindex @code{draw image histogram} command
-@cindex image, histogram
+@cindex image, histogra
+
 @example
 `draw image histogram \
   [box .llx_cm. .lly_cm. .urx_cm. .ury_cm.]'
 @end example
+
 @noindent
 With no optional parameters, draw histogram of all unmasked parts of the
 image, placing it above the current top of the plot.
@@ -8354,13 +8636,15 @@ done.
 @comment  node-name,  next,  previous,  up
 @subsection The @code{draw image palette} @dots{} Command
 @findex draw image palette
-@cindex @code{draw image palette} command
+@cindex @code{draw image palette} comman
+
 @example
 `draw image palette 
    [axisleft|axisright|axistop|axisbottom] 
    [left .left. right .right. [increment .inc.]] 
    [box .ll_x_cm. .ll_y_cm. .ur_x_cm. .ur_y_cm.]'
 @end example
+
 @noindent
 @cindex image, drawing palette
 @cindex image, drawing colorscale palette
@@ -8389,17 +8673,18 @@ the image plot.
 @emph{Hint} It is a good idea to make the palette range @code{.left.} to
 @code{.right.} extend a little beyond the range of full white and full
 black, since otherwise neither pure white nor pure black will appear in
-the colorbar.  For example:
+the colorbar.  For example
+
 @example
 set image grayscale black 0 white 1 increment 0.1
 draw image palette left -0.1 right 1.1 increment 0.1
 @end example
 
-
 @cindex hint, contour lines on image palette
 @emph{Hint} Continuous-tone images with superimposed contours are often
 effective.  To get the contour lines drawn on the image palette, do
-something like this:
+something like this
+
 @example
 draw image
 .left.   = 0
@@ -8438,10 +8723,12 @@ end while
 @comment  node-name,  next,  previous,  up
 @subsection The @code{draw image} Command
 @findex draw image
-@cindex @code{draw image} command
+@cindex @code{draw image} comman
+
 @example
 `draw image'
 @end example
+
 @noindent
 Draw black/white image made by @code{convert grid to image} or by
 @code{read image}.
@@ -8455,7 +8742,8 @@ Draw black/white image made by @code{convert grid to image} or by
 @cindex T-S diagram, drawing isopycnals on
 @cindex temperature-salinity diagram, drawing isopycnals on
 @cindex isopycnals
-@cindex oceanographic plots: isopycnals on TS diagrams
+@cindex oceanographic plots: isopycnals on TS diagram
+
 @example
 `draw isopycnal \
    [unlabelled] .density. [.P_sigma. [.P_theta.]]'
@@ -8504,9 +8792,12 @@ If the y-axis is in-situ temperature, the command should be called
 without specifying @code{.P_sigma.}, or, equivalently, with
 @code{.P_sigma.} = 0.  That is, the resultant curve will
 correspond to the (S,T) solution to the equation
+
 @example
 .density. = RHO(S, T, 0)
 @end example
+
+@noindent
 where @code{RHO=RHO(S,T,p)} is the UNESCO equation of state for
 seawater.  This is a curve of constant sigma_T.
 
@@ -8515,22 +8806,31 @@ If the y-axis is potential temperature referenced to the surface,
 zero.  The resultant curve corresponds to a constant value of
 potential density referenced to pressure @code{.P_sigma.}, i.e. the
 (S,theta) solution to the equation
+
 @example
 .density. = RHO(S, theta, .P_sigma.)
 @end example
+
+@noindent
 For example, with @code{.P_sigma.=0} (the default), the result
 is a curve of constant sigma_theta.
 
 If the y-axis is potential temperature referenced to some pressure other
 than that at the surface, @code{.P_theta.} should be supplied.  The
 resultant curve will be the (S,theta) solution to the equation
+
 @example
 .density. = RHO(S, T', .P_sigma.)
 @end example
+
+@noindent
 where
+
 @example
 T'=THETA(S, theta, .P_theta., .P_sigma.)
 @end example
+
+@noindent
 where @code{THETA=THETA(S,T,P,Pref)} is the UNESCO formula for potential
 temperature of a water-parcel moved to a reference pressure of
 @code{Pref}.  Note that @code{theta}, potential temperature referenced
@@ -8549,9 +8849,11 @@ the y-axis.
 @cindex temperature-salinity diagram, drawing spice lines on
 @cindex spice lines, on TS diagram
 @cindex oceanographic plots: iso-spice lines on TS diagrams
+
 @example
 `draw isospice .spice. [unlabelled]'
 @end example
+
 @noindent
 Draw an iso-spice line for a "TS" diagram, using (S, T) data stored in
 files in a subdirectory named @code{iso-spice0} in a directory named by
@@ -8576,6 +8878,7 @@ Clipping should be on when drawing iso-spice lines.  A warning will be
 given if the isospice line does not intersect the clipping region.
 
 EXAMPLE
+
 @example
 set clip on
 draw isospice line 27.00
@@ -8592,9 +8895,11 @@ draw isospice line 27.50 unlabelled
 @cindex drawing text strings
 @cindex drawing labels
 @cindex labels, drawing text anywhere
+
 @example
 `draw label boxed "string" at .ll_x. .ll_y. [cm]'
 @end example
+
 @noindent
 Draw boxed label for plot, located with lower-left corner at indicated
 (x,y) position (specified in user units or in cm on the page).  The
@@ -8607,9 +8912,11 @@ current font size, with the label being centered within the box.
 @subsection The @code{draw label whiteunder} @dots{} Command
 @findex draw label whiteunder
 @cindex @code{draw label whiteunder} command
+
 @example
 `draw label whiteunder "\string" at .ll_x. .ll_y. [cm]'
 @end example
+
 @noindent
 Draw label for plot, located with lower-left corner at indicated (x,y)
 position (specified in user units or in cm on the page).  Whiteout is
@@ -8622,11 +8929,13 @@ text; doesn't check for super/subscripts.
 @subsection The @code{draw label for last curve} @dots{} Command
 @findex draw label for last curve
 @cindex @code{draw label for last curve} command
+@cindex drawing labels on xy curves
+@cindex labels, for xy curves
+
 @example
 `draw label for last curve "label"'
 @end example
-@cindex drawing labels on xy curves
-@cindex labels, for xy curves
+
 @noindent
 Draw a label for the last curve drawn, using the @code{..xlast..} and
 @code{..ylast..} built-in variables.
@@ -8637,11 +8946,13 @@ Draw a label for the last curve drawn, using the @code{..xlast..} and
 @subsection The @code{draw label} @dots{} Command
 @findex draw label
 @cindex @code{draw label} command
+
 @example
 `draw label "\string" [centered|rightjustified] \
     at .x. .y. [cm] \
     [rotated .deg.]'
 @end example
+
 @noindent
 With no optional parameters, draw string at given location in USER units.
 
@@ -8663,9 +8974,11 @@ text end at the given location.
 @subsection The @code{draw line from} @dots{} @code{to} @dots{} Command
 @findex draw line
 @cindex @code{draw line} command
+
 @example
 `draw line from .x0. .y0. to .x1. .y1. [cm]'
 @end example
+
 @noindent
 With no optional parameters, draw a line from (@code{.x0.}, @code{.y0.})
 to (@code{.x1.}, @code{.y1}.), where coordinates are in user units.
@@ -8679,9 +8992,11 @@ on the page.  NOTE: This will not cause auto-drawing of axes.
 @subsection The @code{draw line legend} @dots{} Command
 @findex draw line legend
 @cindex @code{draw line legend} command
+
 @example
 `draw line legend "label" at .x. .y. [cm] [length .cm.]'
 @end example
+
 @noindent
 Draw a legend identifying the current line type with the given label.  A
 short horizontal line is drawn starting at the location (`.x.',
@@ -8693,6 +9008,7 @@ to the right of the line.
 @emph{See also} @code{draw symbol legend ...}.
      
 EXAMPLE (of keeping track of the desired location for the legend)
+
 @example
 .offset. = 1                    # cm to offset legends
 # ... get salinity data
@@ -8713,10 +9029,12 @@ draw line legend "Temperature" at .x. .y.
 @subsection The @code{draw lines} Command
 @findex draw lines
 @cindex @code{draw lines} command
+
 @example
 `draw lines @{vertically .left. .right. .inc.@} | \
     @{horizontally .bottom. .top. .inc.@}'
 @end example
+
 @noindent
 Draw several lines, either vertically or horizontally.  This can be
 useful in drawing gridlines for axes, etc.  The following example shows
@@ -8743,9 +9061,11 @@ set graylevel 0
 @cindex @code{draw patches} command
 @cindex linear regression
 @cindex regression, linear
+
 @example
 `draw patches .width. .height. [cm]'
 @end example
+
 @noindent
 With the optional @code{cm} keyword not present, draw column data z(x,y)
 as gray patches according to the grayscale as set by most recent
@@ -8765,9 +9085,11 @@ specified in centimetres.
 @cindex @code{draw polygon} command
 @cindex polygons, drawing
 @cindex drawing polygons
+
 @example
 `draw polygon [filled] .x0. .y0. .x1. .y1. [...]'
 @end example
+
 @noindent
 Draw a polygon connecting the indicated points, specified in user units.
 The last point is joined to the first by a line segment.  At least two
@@ -8785,6 +9107,7 @@ polygon is filled with the current pen color.
 @example
 `draw regression line [clipped]'
 @end example
+
 @noindent
 Fit and draw a regression line to column data, of the form
  @code{y = ..coeff0.. + ..coeff1.. * x}, exporting @code{..coeff0..},
@@ -8797,6 +9120,7 @@ the keyword @code{clipped} is given.
 
 @noindent
 HINT: to label the plot you might do the following:
+
 @example
 sprintf \label "y = %f + %f * x. R$^2$=%f" \
   ..coeff0.. ..coeff1.. ..R2..
@@ -8813,12 +9137,12 @@ draw title "The linear fit is \label"
 
 @cindex symbols, drawing single ones
 @cindex drawing single symbols
+
 @example
 `draw symbol .code.|\name at .x. .y. [cm]'
 @end example
+
 @noindent
-
-
 Draw a symbol at given (single) location.  The location is normally in
 user coordinates; it will be in centimetres on the page if the optional
 @code{cm} keyword is given.
@@ -8861,10 +9185,12 @@ z-column exists.  The numerical/name codes are:
 @subsection The @code{draw symbol legend} @dots{} Command
 @findex draw symbol legend
 @cindex @code{draw symbol legend} command
+
 @example
 `draw symbol legend \symbol_name "label" \
     at .x. .y. [cm]'
 @end example
+
 @noindent
 Draw indicated symbol at indicated location, with the indicated label
 beside it.  The label is drawn one M-space to the right of the symbol,
@@ -8877,6 +9203,7 @@ vertically centered on the indicated @code{.y.} location.
 @subsection The @code{draw symbol} Command
 @findex draw symbol
 @cindex @code{draw symbol} command
+
 @example
 `draw symbol [[.code.|\name]    \
     | [graylevel z]             \
@@ -8884,6 +9211,7 @@ vertically centered on the indicated @code{.y.} location.
              [brightness .b.]   \
              [saturation .s.]]]'
 @end example
+
 @noindent
 With no optional parameters, draw symbols at the (x,y) data.  If a
 z-column has been read with @code{read columns}, then its value codes
@@ -8943,6 +9271,7 @@ Example: draw all in green dots
 
 
 Example: display spectrum of dots
+
 @example
 set symbol size 0.3
 open "awk 'END@{ \
@@ -8956,18 +9285,19 @@ draw symbol bullet color hue z
 
 
 
-
 @node   Draw Time Stamp, Draw Title, Draw Symbol, Draw
 @comment  node-name,  next,  previous,  up
 @subsection The @code{draw time stamp} Command
 @findex draw times stamp
 @cindex @code{draw time stamp} command
+
 @example
 `draw time stamp \
     [fontsize .points. \
         [at .x_cm. .y_cm. cm \
             [with angle .deg.]]]'
 @end example
+
 @noindent
 Draw the command-file name, PostScript file name, and time, at the top
 of graph.  Normally, the timestamp is drawn at the top of the page, in a
@@ -8985,9 +9315,11 @@ that @code{set page landscape} precedes @code{draw time stamp.}
 @subsection The @code{draw title} @dots{} Command
 @findex draw title
 @cindex @code{draw title} command
+
 @example
 `draw title "\string"'
 @end example
+
 @noindent
 Draw the indicated string above the plot.
 
@@ -8998,12 +9330,14 @@ Draw the indicated string above the plot.
 @subsection The @code{draw values} @dots{} Command
 @findex draw values
 @cindex @code{draw values} command
+
 @example
 draw values                 \
     [.dx. .dy.]             \
     [\format]               \
     [separation .xcm. .ycm.]
 @end example
+
 @noindent
 Draw values of @code{z} column, at corresponding (@code{x}, @code{y})
 locations.  If the @code{separation} keyword is present, the distance
@@ -9036,9 +9370,11 @@ indicated format.
 @subsection The @code{draw x axis} @dots{} Command
 @findex draw x axis
 @cindex @code{draw x axis} command
+
 @example
 draw x axis [at bottom|top|@{.y. [cm]@} [lower|upper]]
 @end example
+
 @noindent
 Draw an x axis, optionally at a specified location and of a specified
 style.
@@ -9066,9 +9402,11 @@ Draw an upper x axis at indicated value of .y.
 @subsection The @code{draw x box plot} @dots{} Command
 @findex draw x box plot
 @cindex @code{draw x box plot} command
+
 @example
 draw x box plot at .y. [size .cm.]
 @end example
+
 @noindent
 Draw Tukey box plots (which give a summary of histogram properties).
 Box plots were invented by Tukey for eda (exploratory data analysis).
@@ -9100,9 +9438,11 @@ y=@code{.y.} and of width @code{.cm.} centimetres.
 @subsection The @code{draw y axis} @dots{} Command
 @findex draw y axis
 @cindex @code{draw y axis} command
+
 @example
 draw y axis [at left|right|@{.x. cm@} [left|right]]
 @end example
+
 @noindent
 Draw a y axis, optionally at a specified location and of a specified
 style.
@@ -9132,9 +9472,11 @@ the line) at indicated value of @code{.x.}
 @subsection The @code{draw y box plot} @dots{} Command
 @findex draw y box plot
 @cindex @code{draw y box plot} command
+
 @example
 draw y box plot at .x. [size .cm]
 @end example
+
 @noindent
 Draw Tukey box plots (which give summary of histogram properties).
 @itemize @bullet
@@ -9153,9 +9495,11 @@ x=@code{.x.} and of width @code{.cm.} centimetres.
 @subsection The @code{draw zero line} @dots{} Command
 @findex draw zero line
 @cindex @code{draw zero line} command
+
 @example
 draw zero line [horizontally|vertically]
 @end example
+
 @noindent
 Draw lines corresponding to x=0 or y=0.
 @itemize @bullet
@@ -9179,9 +9523,11 @@ Draw line x=0 if it is within axes.
 @findex expecting
 @cindex @code{expecting} command
 @cindex incompatibilities, keeping track of
+
 @example
 expecting version .n.
 @end example
+
 @noindent
 Show a list of incompatibilites since the named version.  This protects
 you from being clobbered by changes made to Gri, since you will be
@@ -9220,6 +9566,7 @@ pass runs from the start to the end, while the second pass runs from the
 end to the start; in this way, the phase shift inherent in this type of
 filter is removed entirely.  The coefficients are used in the following
 formula (demonstrated on the @code{x} column):
+
 @example
 x_new[i] = b[0] * x[i] \
   + b[1] * x[i-1] \
@@ -9229,6 +9576,7 @@ x_new[i] = b[0] * x[i] \
   - a[2] * x_new[i-2] \
   - ...
 @end example
+
 @noindent
 Thus, for example, setting @code{a[i]} = 0 results in a simple
 backwards-looking moving-average filter applied in two passes.  The real
@@ -9238,6 +9586,7 @@ depends on @code{x_new[i-...]}).  See any standard reference on digital
 filters for an explanation.  You might find that the Matlab command
 @code{butter} an easy way to design filter coefficients.  Here are some
 examples:
+
 @example
 # Filter x column with simple 2-point moving
 # average.  (This slurs into a 3-point moving
@@ -9288,9 +9637,11 @@ this by Laplacian smoothing.
 @cindex flipping grids and images
 @findex flip
 @cindex @code{flip} command
+
 @example
 `flip grid|image x|y'
 @end example
+
 @noindent
 Flip grid or image by relecting it about a horizontal or vertical
 centerline.
@@ -9319,9 +9670,11 @@ Flip image so bottom side becomes top side.
 @cindex operating system, environment variables
 @findex get env
 @cindex @code{get env} command
+
 @example
 `get env \result \environment_variable'
 @end example
+
 @noindent
 Get the value of an "environment variable" from the unix operating system,
 and store the result in the indicated synonym.  This makes most sense on
@@ -9334,6 +9687,7 @@ directory is moved.  But if the name of the datafile is stored in an
 unix environment variable, @code{DIR_BRAVO} say, then the gri program will
 work no matter where the Bravo data are moved, so long as an appropriate
 environment variable is modified when the data are moved.  Example:
+
 @example
 get env \dir DIR_BRAVO
 if @{rpn "\dir" "" ==@}
@@ -9376,6 +9730,7 @@ to neighboring valid data.  All gaps in the data will get replaced
 by a linear function of index which matches the data at the indices just
 before and just after the gap.  For example, if the y data were
 like
+
 @example
 111
 3
@@ -9385,9 +9740,11 @@ like
 7
 333
 @end example
+
 @noindent
 where @code{-9} is the missing-value code, then they would get
 replace by
+
 @example
 111
 3
@@ -9397,6 +9754,7 @@ replace by
 7
 333
 @end example
+
 @noindent
 Notes: (1) This is done @emph{independently} for all existing columns.
 (2) Gaps at the start and end of the columns are not filled in.
@@ -9420,9 +9778,11 @@ interpolation.  Since this uses the the y-grid, you must first have done
 @section The @code{help} Command
 @findex help
 @cindex @code{help} command
+
 @example
 `help [*|command_name|@{- topic@}]'
 @end example
+
 @noindent
 Give help on a command or topic.
 @itemize @bullet
@@ -9451,20 +9811,24 @@ request.
 @findex if
 @cindex @code{if} command
 (@emph{See also} @ref{If Statements}.)
+
 @example
 `if @{[!] .flag.@}|\flag|@{@{"string1" == "string2"@}@}'
 @end example
+
 @noindent
 Control program flow.  The @code{if} block is ended with a line
 containing @code{end if}.  Optional @code{else} and @code{else if}
 blocks are allowed.  Note that rpn expressions are allowed, and a
 special form of string comparison is allowed, as in the examples below.
+
 @example     
 if .flag.
   # List of Gri commands to be done if .flag. is 1.
   # This list may extend across any number of lines.
 end if
 @end example
+
 @noindent
 If the variable @code{.flag.} is not equal to 0, do the code between the
 @code{if} line and the @code{end if} line.
@@ -9476,6 +9840,7 @@ else
   # Commands done if .flag. is 0
 end if
 @end example
+
 @noindent
 If the variable @code{.flag.} is not equal to 0, do the code between the
 @code{if} line and the @code{else} line.  If @code{.flag.} is equal to
@@ -9486,6 +9851,7 @@ if ! .flag.
   # Commands done if .flag. is 0
 end if
 @end example
+
 @noindent
 If the variable @code{.flag.} is equal to 0, do the code between the
 @code{if} line and the @code{end if} line.
@@ -9496,6 +9862,7 @@ if @{rpn .flag. 10 <@}
   # Commands done if 10 is less than .flag.
 end if
 @end example
+
 @noindent
 If the variable @code{.flag.} is greater than 10, 
 do the code between the
@@ -9508,6 +9875,7 @@ else
   # Commands done if \smooth is 0
 end if
 @end example
+
 @noindent
 If the number stored in the synonym @code{\smooth} is not equal to 0, do
 the code between the @code{if} line and the @code{else} line.  If the
@@ -9521,6 +9889,7 @@ if @{"\item" == "Temperature"@}
   # indicated text string.
 end if
 @end example
+
 @noindent
 If the synonym @code{\item} has the value @code{Temperature} stored in
 it, do the indicated code.
@@ -9531,6 +9900,7 @@ if @{rpn "\item" "Temperature" ==@}
   # equals indicated text string.
 end if
 @end example
+
 @noindent
 As above, but using the @code{rpn} calculator 
 (@ref{rpn Mathematics}).   
@@ -9540,6 +9910,7 @@ if @{rpn "\item" "Temperature" !=@}
   # ...
 end if
 @end example
+
 @noindent
 As above, but do the indicated code if @code{\item} is @emph{not} equal
 to @code{Temperature}.
@@ -9553,9 +9924,11 @@ to @code{Temperature}.
 @section The @code{ignore} Command
 @findex ignore
 @cindex @code{ignore} command
+
 @example
 `ignore last .n.'
 @end example
+
 @noindent
 Ignores last @code{.n.} lines read by @code{read columns}.
 
@@ -9567,12 +9940,14 @@ Ignores last @code{.n.} lines read by @code{read columns}.
 @section The @code{input} Command
 @findex input
 @cindex @code{input} command
+
 @example
 `input \ps_filename \
   [.xcm. .ycm. \
     [.xmag. .ymag. \
       [.rot_deg.]]]'
 @end example
+
 @noindent
 Input the named PostScript file directly into the Gri output PostScript
 file.  (If the filename has punctuation, insert it in double quotes,
@@ -9597,9 +9972,11 @@ the (translation, scaling, rotation) operations.
 @section The @code{insert} Command
 @findex insert
 @cindex @code{insert} command
+
 @example
 `insert \filename'
 @end example
+
 @noindent
 Perform the commands in the indicated file.
 
@@ -9626,10 +10003,12 @@ Contrast this with the @code{source} command, which does not search the
 @cindex @code{interpolate} command
 @cindex contouring, interpolating to new grid
 @cindex grid, interpolating from one to another
+
 @example
 interpolate x grid to .left. .right. .inc.|@{/.cols.@}'
 interpolate y grid to .bottom. .top. .inc.|@{/.rows.@}'
 @end example
+
 @noindent
 Transform grid by interpolating between existing grid data, according to
 a new x or y grid specified in the manner of @code{set x grid} and
@@ -9647,9 +10026,11 @@ the @code{convert grid to image} command.
 @section The @code{list} Command
 @findex list
 @cindex @code{list} command
+
 @example
 `list \command-syntax'
 @end example
+
 @noindent
 List the source of a gri command.  Often this is just the name of a C
 function internal to gri (try @code{list list} for an example), but when
@@ -9666,9 +10047,11 @@ be more understandable (try @code{list set panel}).
 @cindex directory listing
 @findex ls
 @cindex @code{ls} command
+
 @example
 `ls [\file_specification]'
 @end example
+
 @noindent
 List files in current directory.  (The current directory can be printed
 by the gri command @code{pwd} and can be set by the gri command
@@ -9686,9 +10069,11 @@ specification options are understood.
 @cindex image, masking
 @findex mask
 @cindex @code{mask} command
+
 @example
 `mask the image [to @{uservalue .u.@}|@{imagevalue .i.@}]'
 @end example
+
 @noindent
 Examine both the image and the mask pixel by pixel.  For any pixels
 which have a mask value of 1 (which indicates an invalid region of the
@@ -9714,11 +10099,13 @@ for 8-bit images).
 @cindex synonyms, making local versions
 @cindex variables, making local versions
 @cindex variables, multiple copies of
+
 @example
 new .variable_name. | \synonym_name \
   [.variable_name. | \synonym_name \
     [...]]
 @end example
+
 @noindent
 Set aside storage for new version of the named variable(s) and/or
 synonym(s).  Any number of variables and synonyms may be specified.  If
@@ -9736,6 +10123,7 @@ use of the @code{new/delete} statements prevents the assignment to the
 local version of the variable @code{.tmp.} from affecting the value
 known outside the @code{if} block, if in fact @code{.tmp.} happened to
 exist outside the block.
+
 @example
 set font size 10
 draw label "This is in fontsize 10" at 10 2 cm
@@ -9760,9 +10148,11 @@ draw label "This is 10 font" at 10 8 cm
 @cindex page breaks
 @findex new page
 @cindex @code{new page} command
+
 @example
 `new page'
 @end example
+
 @noindent
 Finish the present page, and start a new page.  All settings (of
 linewidth, axes, landscape/portrait, etc) are retained on the new page.
@@ -9775,9 +10165,11 @@ plotted along with your data.
 @section The @code{new postscript file} Command
 @findex new postscript file
 @cindex @code{new postscript file} command
+
 @example
 `new postscript file "name"'
 @end example
+
 @noindent
 Finish the present Postscript file, and start a new page with the given
 name.  All settings (of linewidth, axes, landscape/portrait, etc.) and
@@ -9823,11 +10215,15 @@ file.
 Most applications involve ascii files, and these are very easy to handle
 in Gri.  For example given a data file named @file{foo.dat}, just use
 the command
+
 @example
 open foo.dat
 @end example
+
+@noindent
 and then you can read the data using various commands.  Thus a complete
 program might be
+
 @example
 open foo.dat
 read columns x y
@@ -9836,16 +10232,21 @@ draw curve
 
 If a filename contains blanks or punctuation symbols, you must put it in
 double quotes (@code{"}), e.g.
+
 @example
 open "foo bar.dat"
 @end example
+
 Actually, Gri accepts double-quotes on any @code{open} command and some
 folks use it on all commands, as a matter of habit.
 
 Gri can handle compressed files appropriately, e.g.
+
 @example
 open foo.data.gz
 @end example
+
+@noindent
 so that there is no need to uncompress data for use with Gri.
 
 @cindex compressed files, opening
@@ -9856,9 +10257,12 @@ so that there is no need to uncompress data for use with Gri.
 Indeed, Gri is quite persistant in looking for your file, and if a given
 file is not found, it will then check to see if a compressed version is
 available, and use that instead.  Thus
+
 @example
 open foo.dat
 @end example
+
+@noindent
 will look for a file named @file{foo.dat.gz} if @file{foo.dat} is not
 available.  (Only files compressed with the GNU @code{gzip} utility are
 handled.)
@@ -9887,9 +10291,12 @@ independent of the endian character of the computer.
 
 Presuming an appropriate endian character, however, reading is
 straightforward.  A command of the form
+
 @example
 open foo.dat binary
 @end example
+
+@noindent
 tells Gri that the data are stored in a binary format.  With the above
 syntax, Gri expects images to be in @code{unsigned char} (8 bits), while
 other data, such as columns and grids, are expected to be in 32-bit
@@ -9899,6 +10306,7 @@ programming language).
 You may also specify the format directly, as in the following examples;
 Gri then interprets all data as being in the indicated format and then
 converts to the internal format before using the data.
+
 @example
 open \filename binary uchar
 open \filename binary 8bit
@@ -9934,9 +10342,12 @@ For more information on netCDF format, see
 @c HTML here </a>.
 
 The syntax of opening NetCDF files is as below
+
 @example
 open foo.nc netCDF
 @end example
+
+@noindent
 and the syntax for reading such files is described in sections on the
 various @code{read} commands (e.g. @ref{Read Columns}
 
@@ -9962,9 +10373,12 @@ by the vertical line (called a pipe symbol below).
 
 Gri can read the output from system commands by using a syntax in which
 the (quoted) system command ends in a pipe symbol, e.g.
+
 @example
 open "head foo.dat |"
 @end example
+
+@noindent
 as in the example above.
 
 @emph{Aside}: When pipe-open commands are used, Gri creates a temporary
@@ -9992,22 +10406,27 @@ intended for, spreadsheets.  Since Gri expects data elements to be
 separated by blanks (or tabs), you'll have to convert the commas into
 blanks.  There are many ways to do that using pipes, e.g.
 @file{sed} system utility, e.g.
+
 @example
 open "sed -e 's/,/ /g' foo.dat |"
 @end example
+
 Other unix facilities, such as @code{tr} will also work, of course.  If
 the file has headers, you'll want to remove them also.  This can be done
 with the @code{skip} command (@ref{Skip}) but you could also do it at
 the open stage, e.g. to remove the first two lines, use
+
 @example
 open "sed -e 's/,/ /g' foo.dat | tail +2 |"
 @end example
 
 @item
 @emph{Manipulating column data} is done by e.g.
+
 @example
 open "cat foo.dat | \.awk. '@{$1, $2 * 22@}' |"
 @end example
+
 @noindent
 where @file{awk} has been used to multiply the second column in the file
 named @file{foo.dat} by 22.  (Note the use of @code{\.awk.}, a builtin
@@ -10018,6 +10437,7 @@ synonym naming the awk program on your system.)
 @cindex WWW data files, opening
 @cindex world-wide web data files, opening
 @emph{Web-based files} may be opened by using lynx or other tools, e.g.
+
 @example
 open "lynx -dump \
  http://www.phys.ocean.dal.ca/~kelley/gri/examples/example1.dat\
@@ -10038,6 +10458,7 @@ second 33.  Gri doesn't read HMS format, but gawk can be told to:
 @cindex hms format
 @cindex hour, minute, second data
 @cindex gawk, using to convert files from HMS to decimal
+
 @example
 open "cat datafile.HMS |        \
     \.awk. '@{                   \
@@ -10063,15 +10484,18 @@ ambiguity in numerically-based data.  (Example: 02/03/2000 means one
 thing to an American and another thing in the rest of the world.
 However, everybody agrees on what 2000-Feb-03 means.)  Suppose, for
 example, that we have data in a format such as
+
 @example
 Tue_Jul_25_11:07:51 0.62
 Tue_Jul_25_11:22:51 0.59
 Tue_Jul_25_11:37:51 0.56    
 @end example
+
 @noindent
 (stored in a file called @file{foo.dat} say) and we want a graph of the
 y-variable (0.62, 0.59, 0.56) versus x-variable, time expressed say as
 seconds in the day.  Then here is how that could be done:
+
 @example
 open "cat foo.dat |\
     sed -e 's/_/ /g' -e 's/:/ /g' |\
@@ -10079,6 +10503,7 @@ open "cat foo.dat |\
 read columns x y
 draw curve
 @end example
+
 Note that the actual day information is skipped in this example;
 seasoned @code{awk} users could easily fill in the code to handle
 datasets spanning several days.
@@ -10093,12 +10518,15 @@ datasets spanning several days.
 @cindex postscript file, write to
 @findex postscript
 @cindex @code{postscript} command
+
 @example
 `postscript \string'
 @end example
+
 @noindent
 Write the indicated string to the PostScript output file, after
 substitution of synonyms if there are any.  Example:
+
 @example
 \a = "45"  # angle
 \w = "8.5" # page width
@@ -10108,6 +10536,7 @@ postscript grestore
 @end example
 
 Here is how to draw an image palette vertically instead of horizontally:
+
 @example
 \X = "3"	# cm
 \Y = "10"	# cm
@@ -10132,9 +10561,11 @@ is in the file @file{doline.cc}; look for the string
 @cindex directory, how to find out
 @findex pwd
 @cindex @code{pwd} command
+
 @example
 `pwd'
 @end example
+
 @noindent
 Print current directory (which can be set by @code{cd}).
 
@@ -10149,10 +10580,12 @@ Print current directory (which can be set by @code{cd}).
 @cindex @code{query} command
 @cindex user interaction, @code{query} command
 @cindex interaction with user, @code{query} command
+
 @example
 `query \synonym|.variable. \
   ["\prompt" [("\default"|.default)]]'
 @end example
+
 @noindent
 Ask the user for the value of a variable (number) or synonym (text
 string).  Gri recognizes the type of the item being asked for, either a
@@ -10182,9 +10615,11 @@ questions.  Thus the defaults, if they exist, are selected.
 @cindex stopping Gri
 @findex quit
 @cindex @code{quit} command
+
 @example
 `quit [.exit_status.]'
 @end example
+
 @noindent
 Exits the gri program.  If an exit status (@code{.exit_status.}) is
 specified, then Gri returns this value, rounded to the nearest integer,
@@ -10220,9 +10655,11 @@ There are several varieties of @code{read} command.
 @cindex @code{read colornames} command
 @cindex Colors, reading from X11 database
 @cindex X11 colors, reading
+
 @example
 `read colornames from RGB "\filename"'
 @end example
+
 @noindent
 Read colornames from named file, which is in the X11 format.  This
 format has 4 or more columns, the first three giving the red, green and
@@ -10250,6 +10687,7 @@ X11 database, so that the color constitutents range from 0 to 255.
 @subsection The @code{read columns} @dots{} Command
 @findex read columns
 @cindex @code{read columns} command
+
 @example
 `read columns ...'
 @end example
@@ -10299,10 +10737,12 @@ permits using a given number to fill several variables (for example
 If the file is a @code{netCDF} file, opened
 by e.g. @code{open myfile.nc netCDF}, then the @code{netCDF} variables
 for the columns, e.g. 
+
 @example
 open latlon.nc netCDF
 read columns x="longitude" y="latitude"
 @end example
+
 @noindent
 Note: the data @emph{must} be stored as the @code{netCDF} ``float''
 type.
@@ -10333,6 +10773,7 @@ in column 2.
 Sometimes you'll have @code{x} in one file and @code{y} in another.  In
 that case, use the operating system or an editor to put the columns in
 one file.  In unix, the easy way is
+
 @example
 open "paste file_with_x file_with_y |"
 read columns x y
@@ -10371,6 +10812,7 @@ the object that is contoured.)
 
 For normal ascii or binary files, the commands to read the grid's
 x-locations, y-locations and data are:
+
 @example
 `read grid x [.rows.]'
 `read grid y [.rows.]'
@@ -10382,11 +10824,13 @@ x-locations, y-locations and data are:
 For @code{netCDF} files, the commands are as follows (note that it is
 not possible to specify the number of data to read, nor to read the grid
 by columns).
+
 @example
 `read grid x = "variable_name"'
 `read grid y = "variable_name"'
 `read grid data = "variable_name"'
 @end example
+
 @noindent
 The ordering of the y-grid data is the same as if they were read from a
 normal file: the first number is considered to be at the top of the
@@ -10422,6 +10866,7 @@ can be skipped; see discussion of the @code{*} keyword below.)  Gri
 will interpret the first line it reads as the grid data corresponding
 to a value of y equal to @code{y[.rows.]}.  Thus, file should be
 arranged like this:
+
 @example
 f(x[1], y[.rows.])  ...  f(x[.cols.], y[.rows.])
         .
@@ -10441,6 +10886,7 @@ present).  (Extra information in the file can be skipped; see
 discussion of the @code{*} keyword below).  The first line of the data
 file contains the first column of the gridded data, corresponding to x
 equal to @code{x[1]}).  The file should look like this:
+
 @example
 f(x[1], y[1])     ...     f(x[1], y[.cols.])
 f(x[2], y[1])     ...     f(x[2], y[.cols.])
@@ -10450,6 +10896,7 @@ f(x[3], y[1])     ...     f(x[3], y[.cols.])
         .
 f(x[.rows.],y[1]) ...  f(x[.rows.], y[.cols.])
 @end example
+
 @item @code{read grid data * * [.rows. .cols.]}
 As @code{read grid data .rows. .cols.} except that the first two words
 on each line are skipped.  As usual, trailing extraneous numbers are
@@ -10481,6 +10928,7 @@ RETURN VALUE:
 @example
 `read image colorscale [rgb|hsb]'
 @end example
+
 @noindent
 Read colorscale for image, from 256 lines each containing values for
 Red, Green, and Blue (or Hue, Saturation and Brightness), separated by
@@ -10490,6 +10938,7 @@ clipped to these limits if not.
 For hints on how to create such an input file, 
 @ref{Read Image Grayscale}.  If the example given there has the
 following code instead, 
+
 @example
 open "\.awk. 'BEGIN @{            \
      for(i=0;i<256;i++) @{        \
@@ -10498,6 +10947,7 @@ open "\.awk. 'BEGIN @{            \
    @}' |"
 read image colorscale hsb
 @end example
+
 @noindent
 then a linear full-color spectrum running from red at 10C to magenta at
 15C is achieved.
@@ -10511,9 +10961,11 @@ then a linear full-color spectrum running from red at 10C to magenta at
 @cindex @code{read image greyscale} command
 @cindex image grayscale, reading
 @cindex grayscale of image, reading from file
+
 @example
 `read image grayscale'
 @end example
+
 @noindent
 Read grayscale for an image, from 256 lines each containing a
 single value.  The values are expected to be in the range 0 to 1, and
@@ -10522,12 +10974,15 @@ these values by 255, and uses this list for the grayscale mapping.  Such
 a list is created by @code{write image grayscale}.
 
 As an example, consider the code fragment (@ref{Images}).
+
 @example
 set image range 5 30.5
 set image grayscale black 10 white 15
 @end example
+
 @noindent
 is equivalent to
+
 @example
 set image range 5 30.5
 open "\.awk. 'BEGIN @{\
@@ -10538,6 +10993,7 @@ open "\.awk. 'BEGIN @{\
 read image grayscale
 close
 @end example
+
 @noindent
 because the image formula is
 @quotation
@@ -10557,6 +11013,7 @@ Sometimes you will have a file, say named @file{map.dat}, with RGB
 numbers in the range 0-255, rather than 0-1 as Gri requires.  To read
 them, use the operating system to convert the numbers for you
 (@ref{Open}).
+
 @example
 open "cat map.dat \
   | \.awk. '@{print(($1+$2+$3)/3/255)@}' |"
@@ -10572,9 +11029,11 @@ close
 @cindex @code{read image mask} command
 @cindex mask for image, reading
 @cindex image mask, reading
+
 @example
 `read image mask rasterfile|@{.rows. .cols.@}'
 @end example
+
 @noindent
 Read image mask.  The mask is associated with the image read in by the
 @code{read image} command in the following way.  When computing image
@@ -10605,11 +11064,13 @@ in the first format given below.  The other formats make use of the
 header information in, e.g. PGM files.
 
 @emph{Headerless images}
+
 @example
 `read image .rows. .cols. \
   [box .ll_x. .ll_y. .ur_x. .ur_y.] \
   [bycolumns]'
 @end example
+
 @noindent
 With no options specified (@code{read image .rows. .cols.}), read binary
 data defining an @code{image}.  The image range must have previously
@@ -10629,17 +11090,21 @@ from top-to-bottom, then left-to-right, instead of the usual order.
 
 
 @emph{Sun rasterfile images}
+
 @example
 `read image rasterfile [box .ll_x. .ll_y. .ur_x. .ur_y.]'
 @end example
+
 @noindent
 Read image in Sun rasterfile format.  Image geometry is inferred from
 the header, so @code{.rows.} and @code{.cols} parameters are not given.
 
 @emph{PGM images}
+
 @example
 `read image pgm [box .ll_x. .ll_y. .ur_x. .ur_y.]'
 @end example
+
 @noindent
 Read image in PGM (Portable Gray Map) format.  Image geometry is
 inferred from the header, so @code{.rows.} and @code{.cols} parameters
@@ -10660,9 +11125,11 @@ for which libraries exist to ease the input.
 @findex read from
 @cindex @code{read from} command
 @cindex file, selecting between open files
+
 @example
 `read from \filename'
 @end example
+
 @noindent
 Cause future @code{read} commands to read from the indicated file.  If
 that file is not open, an error message will result.  Use 
@@ -10682,6 +11149,7 @@ that file is not open, an error message will result.  Use
 @example
 `read [* [*...]] \synonym|.variable. [\synonym|.variable. [...]]@}'
 @end example
+
 @noindent
 Read one or more items from the next line of the input file.  These
 items may be synonyms or variables.  The token @code{*} indicates
@@ -10691,14 +11159,21 @@ may be embedded in the commandfile, providing the last data line is blank.
 Normally one would use synonyms for words, and variables for numbers.
 The items are separated by one or more "whitespace" characters
 (e.g. space or TAB).  Thus, if a file contained the line
+
 @example
 Temperature 10.3
 @end example
+
+@noindent
 then the line
+
 @example        
 read \var_name .var_value.
 @end example    
+
+@noindent
 would have the same result as
+
 @example        
 \var_name = "Temperature"
 .var_value. = 10.3
@@ -10757,9 +11232,11 @@ For more information on netCDF format, see
 @cindex synonyms, reading
 @cindex reading variables
 @cindex reading synonyms
+
 @example
 `read line \synonym'
 @end example
+
 @noindent
 Read the next line of the datafile (or commandfile), trim off a trailing
 comment if there is one, and then store the next line of datafile into
@@ -10775,9 +11252,11 @@ the named synonym.
 @cindex regression, linear
 @findex regress
 @cindex @code{regress} command
+
 @example
 `regress @{y vs x [linear]@}|@{x vs y [linear]@}'
 @end example     
+
 @noindent
 Perform linear regression of @code{y} as a function of @code{x} or @code{x} as
 a function of @code{y}.
@@ -10816,13 +11295,14 @@ Linear regression of x vs y; for notation see above.
 @cindex reordering Columns
 @findex reorder
 @cindex @code{reorder} command
+
 @example
 `reorder columns randomly \
   |@{ascending in x|y|z@} \
   |@{descending in x|y|z@}'
 @end example
-@noindent
 
+@noindent
 Reorder the columns in various ways.  
 
 In the @code{randomly} style, the column data are shuffled randomly by
@@ -10849,9 +11329,11 @@ The @code{ascending} and @code{descending} styles do what you'd expect.
 @cindex math on columns, rescaling after
 @findex rescale
 @cindex @code{rescale} command
+
 @example
 `rescale'
 @end example     
+
 @noindent
 Re-determine the scales for the x and y axes.  Typically used after a
 column math operation, when you want the new data to be auto-scaled.
@@ -10871,9 +11353,11 @@ then Gri will automatically rescale the axes it is planning to draw.)
 @cindex maps, scales
 @findex resize x
 @cindex @code{resize x} command
+
 @example
 `resize @{x for maps@}|@{y for maps@}'
 @end example
+
 @noindent
 Resize the axes frame region in such a way that geographical objects
 appear in correct proportions.  This assumes that y is degrees latitude
@@ -10911,9 +11395,11 @@ north-south and east-west directions.
 @section The @code{return} Command
 @findex return
 @cindex @code{return} command
+
 @example
 `return'
 @end example
+
 @noindent
 Return early from a user-defined function or an @code{insert} file.  Or,
 in the main gri program, do the same thing as @code{quit}.
@@ -10926,9 +11412,11 @@ in the main gri program, do the same thing as @code{quit}.
 @section The @code{rewind} Command
 @findex rewind
 @cindex @code{rewind} command
+
 @example
 `rewind'
 @end example
+
 @noindent
 Rewind data-file to the beginning.
 
@@ -10944,9 +11432,11 @@ Rewind data-file to the beginning.
 @cindex functions in rpn expressions
 @findex rpnfunction
 @cindex @code{rpnfunction} command
+
 @example
 `rpnfunction name replacement-words'
 @end example
+
 @noindent
 Create a new keyword for use in rpn expressions.  Inside any RPN
 expression which follows this line, the word @code{name} will be
@@ -10976,11 +11466,13 @@ finding the slope and intercept of a line joining two points, e.g.
 @cindex @code{linear_intercept} rpn operator
 @cindex rpn operator @code{linear_slope}
 @cindex rpn operator @code{linear_intercept}
+
 @example
 # Expect answers 1 and 10 ...
 show "slope=" @{rpn 0 1 1 11 linear_slope@}
 show "inter=" @{rpn 0 1 1 11 linear_intercept@}
 @end example
+
 These are useful in @code{set grid missing above .intercept. .slope.}
 and @code{set z missing above .intercept. .slope.}.
 
@@ -11059,11 +11551,13 @@ Set various flags and parameters which Gri will use in later commands.
 @subsection The @code{set axes style} @dots{} Command
 @findex set axes style
 @cindex @code{set axes style} command
+
 @example
 set axes style .style.     \
   | @{offset [.dist_cm.]@} \
   | rectangular|polar|none|default
 @end example
+
 @noindent
 Tell Gri how you want the axes to look.
 
@@ -11103,11 +11597,13 @@ Same as @code{set axes style 0}, and with @code{offset} turned off.
 @findex set arrow size
 @cindex @code{set arrow size} command
 @cindex arrows, setting size of heads
+
 @example
 `set arrow size .size.           \
   | @{as .num. percent of length@} \
   | default'
 @end example
+
 @noindent
 Set the arrowsize (which is stored in the builtin variable
 @code{..arrowsize..}). 
@@ -11130,9 +11626,11 @@ Set the arrow size to the default of 0.2 cm.
 @findex set arrow type
 @cindex @code{set arrow type} command
 @cindex arrows
+
 @example
 set arrow type .which.
 @end example
+
 Set type of arrow, according to the value of @code{.which.}, rounded to
 the nearest integer.  A rounded @code{.which.} value of 0 yields the
 default arrows, drawn with three line strokes.  Value 1 yields outlined
@@ -11153,9 +11651,11 @@ first set the line join parameter to 0.
 @cindex @code{set beep} command
 @cindex errors, beeping
 @cindex beeping on errors
+
 @example
 `set beep on|off'
 @end example
+
 @noindent
 The command @code{set beep on} makes gri beep on errors and
 @code{query}.  @code{set beep off} (the default) turns this beeping off.
@@ -11167,11 +11667,12 @@ The command @code{set beep on} makes gri beep on errors and
 @findex set bounding box
 @cindex @code{set bounding box} command
 @cindex bounding box, setting
+
 @example
 `set bounding box .ll_x. .ll_y. .ur_x. .ur_y. [pt|cm]'
 @end example
-@noindent
 
+@noindent
 Set the PostScript bounding box for the graph to the indicated values.  The
 bounding box is used by some programs to determine the region of the
 page on which marks have been made.  For example, La@TeX{} uses the
@@ -11207,11 +11708,13 @@ makes sense to put this command at the end of the commandfile.
 @subsection The @code{set clip} @dots{} Command
 @findex set clip
 @cindex @code{set clip} command
+
 @example
 `set clip [postscript] \
   @{on [.xleft. .xright. .ybottom. .ytop.]@} \
   | off'
 @end example
+
 @noindent
 Control clipping of following drawing commands.
 @itemize @bullet
@@ -11225,12 +11728,14 @@ Plot all data, whether inside the axes or not.
 Turn PostScript clipping on.  This will prevent @emph{any} drawing
 outside the named box.  Note that it will also prevent axis drawing, so
 the recommended procedure is something like
+
 @example
 draw axes
 set postscript clip on 10 20 0 1
 draw curve
 set postscript clip off
 @end example
+
 @item @code{set clip postscript off}
 Turn PostScript clipping off.
 @emph{See also} @code{set input data window}.
@@ -11246,11 +11751,13 @@ Turn PostScript clipping off.
 @findex set colour
 @cindex @code{set color} command
 @cindex @code{set colour} command
+
 @example
 `set color \name               | \
     @{rgb .red. .green. .blue.@} | \
 @{hsb .hue. .saturation. .brightness.@}'
 @end example
+
 @noindent
 Set the color of the ``pen'' used for drawing lines and text.  Normally
 lines and text are drawn in the same color, but the text color can be
@@ -11272,6 +11779,7 @@ components as indicated.  The numbers @code{.red.}, @code{.green.} and
 @code{.blue.} range from 0 (for no contribution of that color component
 to the final color) to 1 (for maximal contribution).  Values less than 0
 are clipped to 0; values greater than 1 are clipped to 1.  EXAMPLES:
+
 @example
 set color rgb 0   0   0 # black
 set color rgb 1   1   1 # white
@@ -11291,6 +11799,7 @@ visible) to 1 (the maximal amount is present).  The brightness of the
 color, represented by @code{.brightness.}, ranges from 0 (black) to 1
 (maximal brigntness).  Values less than 0 are clipped to 0; values
 greater than 1 are clipped to 1.  EXAMPLES:
+
 @example
 set color hsb 0    1   1 # pure, bright red
 set color hsb 0    1 0.5 # half black, half red
@@ -11303,18 +11812,22 @@ set color hsb .333 1   1 # pure, bright green
 @subsection The @code{set colorname} @dots{} Command
 @findex set colorname
 @cindex @code{set color name} command
+
 @example
 `set colorname \name @{rgb .red. .green. .blue.@} \
                    | @{hsb .hue. .saturation. .brightness.@}'
 @end example
+
 @noindent
 Create a colorname with the indicated color.  The color components range
 from 0 to 1, and will be clipped to these values if they are outside
 this range.  EXAMPLE (borrowing a color from @file{/usr/lib/X11/rgb.txt}):
+
 @example
 set colorname peachpuff rgb 1 @{rpn 218 255 / @}  @{rpn 185 255 / @}
 draw box filled 2 2 3 3 cm
 @end example
+
 This command is akin to @code{read colornames} (@ref{Read Colornames}),
 except that the latter uses an X11 database, so the color constituents
 range from 0 to 255, whereas for @code{set colorname} they range from 0
@@ -11327,9 +11840,11 @@ to 1.
 @subsection The @code{set contour format} @dots{} Command
 @findex set contour format
 @cindex @code{set contour format} command
+
 @example
 `set contour format \style|default'
 @end example
+
 @noindent
 Normally, Gri draws the numeric labels of contours using a format code
 called @code{%g} in the "C" language.  You may specify any other "long"
@@ -11347,9 +11862,11 @@ word (e.g. @code{set contour format "%.1f m/s"}).
 @subsection The @code{set contour label for} @dots{} Command
 @findex set contour label for
 @cindex @code{set contour label for} command
+
 @example
 `set contour label for lines exceeding .x. cm'
 @end example
+
 @noindent
 Make it so contour lines shorter than @code{.x.} centimeters will not be
 labelled. 
@@ -11363,12 +11880,14 @@ labelled.
 @cindex @code{set contour label position} command
 @cindex contours, spacing of labels on
 @cindex labels, on contours
+
 @example
 `set contour label position \
   @{.start_cm. .between_cm.@} \
   | centered \
   | default'
 @end example
+
 @noindent
 By default, contour labels are drawn at the location 1 cm into the
 contour curve, measured from the startpoint of the contour (e.g., for
@@ -11393,12 +11912,14 @@ centered along the length of the line.
 @cindex contours, orientation of labels
 @cindex contours, whiting/nowhiting under the labels
 @cindex labels on contour lines, controlling orientation and white-under
+
 @example
 set contour labels rotated \
   | horizontal \
   | whiteunder \
   | nowhiteunder
 @end example
+
 @noindent
 The first two options control whether contour labels are rotated to line
 up with the contour lines, or whether they are horizontal (the default).
@@ -11420,9 +11941,11 @@ space for the text, but no whiting out is done.
 @cindex lines, dashed
 @vindex @code{..length_dash..}, length/cm of dashes
 @vindex @code{..length_blank..}, length/cm of blanks
+
 @example
 `set dash [.n.|@{.dash_cm. .blank_cm. ...@}|off]'
 @end example
+
 @noindent
 Control dash-style for following @code{draw curve} and @code{draw line}
 commands. 
@@ -11432,6 +11955,7 @@ commands.
 Set to dashed line (0.4cm dashes, 0.1cm blanks).
 @item @code{set dash .n.}
 Set to indicated pre-defined dashed line, according to table:
+
 @example
 .n. dash/cm blank/cm
  0        -        -   ... (Solid line)
@@ -11447,6 +11971,7 @@ Set to indicated pre-defined dashed line, according to table:
 14      w        5w
 15      w        6w
 @end example
+
 @noindent
 Where @code{w} is written, it indicates the current linewidth.  Thus,
 types 10 through 15 give square-dotted lines.
@@ -11467,9 +11992,11 @@ Turn dashing off, setting to a solid line.
 @findex set environment
 @cindex @code{set environment} command
 @cindex developer command @code{set environment}
+
 @example
 `set environment'
 @end example
+
 @noindent
 Set environment (graylevel, axis length, etc) so that following plotting
 commands will make use of anything set by either a @code{set} command or
@@ -11483,9 +12010,11 @@ NOTE: this should @emph{only} be done by developers.
 @findex set error
 @cindex @code{set error} command
 @cindex Handling errors with @code{set error} command
+
 @example
 `set error action to core dump'
 @end example
+
 @noindent
 Make Gri dump core when any error is found, to facilitate debugging.
 
@@ -11495,9 +12024,11 @@ Make Gri dump core when any error is found, to facilitate debugging.
 @findex set flag
 @cindex @code{set flag} command
 @cindex developer command @code{set flag}
+
 @example
 `set flag \name [off]'
 @end example
+
 @noindent
 Set the indicated flag to YES.  The name of the flag is contained in a
 single word, e.g. @code{set flag dan_28sep_test}.  The action of the
@@ -11534,11 +12065,13 @@ kelley2      17jun97  for kelley only: print
 @cindex color, for text
 @cindex @code{set font color} command
 @cindex @code{set font colour} command
+
 @example
 set font color \name           | \
     @{rgb .red. .green. .blue.@} | \
 @{hsb .hue. .saturation. .brightness.@}
 @end example
+
 @noindent
 The syntax is the same as @code{set color}, except that this applies to
 text only.  By default, text is drawn in the same color as lines, so
@@ -11562,6 +12095,7 @@ maintains a separate color from the lines.
 @example
 set font encoding PostscriptStandard | isolatin1
 @end example
+
 @noindent
 Permits one to control the so-called ``font encoding'' used in text.
 The default font encoding is ISO-Latin-1, which is best for English and
@@ -11583,9 +12117,11 @@ what ``font encoding'' is about, ignore this command!
 @findex set font size
 @cindex @code{set font size} command
 @cindex font size
+
 @example
 `set font size @{.size. [cm]@}|default'
 @end example
+
 @noindent
 Set the size of the font for drawing of text.
 
@@ -11616,9 +12152,11 @@ figure not exceed 2.
 @subsection The @code{set font to} @dots{} Command
 @findex set font to
 @cindex @code{set font to} command
+
 @example
 `set font to \fontname'
 @end example
+
 @noindent
 Set font to named style.  Note that the backslash is @emph{not} to be
 written, but here merely means that this word has several alternatives.
@@ -11645,9 +12183,11 @@ font is @code{Helvetica}.
 @cindex @code{set greylevel} command
 @cindex graylevel, command
 @cindex lines, gray, command
+
 @example
 `set graylevel .brightness.|white|black'
 @end example
+
 @noindent
 Set graylevel for lines to indicated numerical value between 0=black and
 1=white, or to the named color.
@@ -11672,15 +12212,20 @@ Union (publishers of J. Geophysical Res.), as of 1998.
 @cindex contouring, clipping out invalid areas
 
 General format is
+
 @example
 `set grid missing \
   @{above|below .intercept. .slope@} \
   | @{inside curve@}'
 @end example
+
+@noindent
 The style
+
 @example
 `set grid missing above|below .intercept. .slope'
 @end example
+
 @noindent
 sets grid to missing value for all points above/below the line defined
 by
@@ -11692,9 +12237,11 @@ y = .intercept. + .slope. * x
 @end ifinfo
 
 The style
+
 @example
 `set grid missing inside curve'
 @end example
+
 @noindent
 sets the grid to the missing value throughout an area described
 by the curve last read in with @code{read columns}.  This is
@@ -11712,9 +12259,11 @@ them.  Multiple islands may be separated by missing-value codes.
 @subsection The @code{set ignore initial newline} @dots{} Command
 @findex set ignore initial newline
 @cindex @code{set ignore initial newline} command
+
 @example
 `set ignore initial newline [off]'
 @end example
+
 @noindent
 Make Gri ignore a newline if it occurs as the first character of the
 next data file.  This is used for files made by FORTRAN programs on
@@ -11730,9 +12279,11 @@ VAX/VMS computers.
 @cindex eof on files
 @cindex testing for end of file
 @cindex testing for file eof
+
 @example
 `set ignore error eof'
 @end example
+
 @noindent
 Stop Gri from considering that to encounter an end of file in future
 @code{read} commands consitutes an error; Gri will simply warn about
@@ -11750,6 +12301,7 @@ future EOFs.
 @cindex @code{set image colourscale} command
 @cindex colorscale, setting for images
 @cindex image plots, setting colorscale
+
 @example
 set image colorscale hsb .h. .s. .b. .im_value. \
     hsb .h. .s. .b. .im_value. [increment .im_value.]
@@ -11760,6 +12312,7 @@ set image colorscale \
   \name .im_value. \
   [increment .im_value.]
 @end example
+
 @noindent
 Set colorscale mapping for image, using HSB (hue, saturation,
 brightness) specification, RGB (red, green, blue) color specification,
@@ -11773,6 +12326,7 @@ methods create simple blending between the two endpoints.
 
 EG: To get a spectrum ranging between pure red (H=0) for image value of
 -10.0, and pure blue (H=2/3) for image value of 10.0, do this:
+
 @example
 set image colorscale hsb 0 1 1 -10 hsb .666 1 1 10
 @end example
@@ -11781,6 +12335,7 @@ EG: To get a scale running from pure red (at image-value 10.0) into pure
 blue (at image-value 25.1), but with the colors blending intuitively in
 between (i.e., blending as paint might), use @code{rgb} color
 specification, as follows:
+
 @example
 set image colorscale rgb 1 0 0 10 rgb  0 0 1 25.1
 @end example
@@ -11788,9 +12343,11 @@ set image colorscale rgb 1 0 0 10 rgb  0 0 1 25.1
 EG: To get a quantized blend between the X11 colors @code{skyblue} at
 image value of 0 and @code{tan} at image value of 20, and with steps at
 image values incrementing by 5, do this:
+
 @example
 set image colorscale skyblue 0 tan 20 increment 5
 @end example
+
 @noindent
 Note that the traversal is through RGB space, so it is
 intuitive, not spectral.  See @code{set color} for a list of X11 colors
@@ -11811,6 +12368,7 @@ See also @code{read image colorscale} (@ref{Read Image Colorscale}).
 @cindex @code{set image greyscale using histogram} command
 @cindex grayscale, setting for images
 @cindex image plots, setting grayscale
+
 @example
 `set image grayscale using histogram \
   [black .bl. white .wh.]'
@@ -11818,6 +12376,7 @@ See also @code{read image colorscale} (@ref{Read Image Colorscale}).
 `set image grayscale \
   [black .bl. white .wh. [increment .inc.]]'
 @end example
+
 @noindent
 Set up a grayscale mapping for images.  The image range must have
 previously have been set by @code{set image range}.
@@ -11825,6 +12384,7 @@ previously have been set by @code{set image range}.
 @example
 `set image grayscale using histogram [black .bl. white .wh.]'
 @end example
+
 @noindent
 Create a grayscale mapping using linearized cumulative histogram
 enhancement.  The image range must have previously have been set by
@@ -11844,6 +12404,7 @@ histogram is done between these values.
 `set image grayscale \
   [black .bl. white .wh. [increment .inc.]]'
 @end example
+
 @noindent
 With no optional parameters, create a grayscale mapping for the current
 image, scaling it from black for the mininum value in the image to white
@@ -11867,6 +12428,7 @@ pure black is present inside the interval from @code{.wh.} to
 @code{.bl.}.  Therefore, when using the @code{draw image palette}
 command, you might want to extend the range by one increment so as to
 get an example of both pure white and pure black.
+
 @example
 .w. = 0
 .b. = 1
@@ -11886,10 +12448,12 @@ draw image palette left \
 @findex set image missing value colour
 @cindex @code{set image missing value color} command
 @cindex @code{set image missing value colour} command
+
 @example
 set image missing value color to white|black|\
     @{graylevel .brightness.@}|@{rgb .r. .g. .b.@}
 @end example
+
 @noindent
 Set the color of ``missing'' pixels (white by default).  The image range
 must have previously have been set by @code{set image range}.  Pixels
@@ -11905,9 +12469,12 @@ full color.
 @subsection The @code{set image range} Command
 @findex set image range
 @cindex @code{set image range} command
+
 @example
 set image range .0value. .255value.
 @end example
+
+@noindent
 Specify maximum possible range of values that images can hold, in user
 units.  Gri needs to know this because it stores images in a limited
 format capable of holding only 256 distinct values.  Unlike some other
@@ -11953,9 +12520,11 @@ new axes.  It is legal but not necessarily smart.)
 @subsection The @code{set input data window} Command
 @findex set input data window
 @cindex @code{set input data window} command
+
 @example
 `set input data window x|y @{.min. .max.@}|off'
 @end example
+
 @noindent
 Create a data window for following @code{read} statements.
 
@@ -11975,6 +12544,7 @@ Analagous to command for x.
 
 EXAMPLE: To set the input data window as the current x axis plus a
 border of 5 centimetres to left and right, do the following:
+
 @example
 set input data window x \
   @{rpn ..xleft..  xusertocm 5 - xcmtouser@} \
@@ -11993,9 +12563,11 @@ set input data window x \
 @subsection The @code{set input data separator} Command
 @findex set input data separator
 @cindex @code{set input data separator} command
+
 @example
 `set input data separator TAB|default'
 @end example
+
 @noindent
 Set the separator between data items.  The @code{default} method is to
 assume that data items are separated by one or more spaces or tabs, and
@@ -12018,9 +12590,11 @@ since the assignment of null values is problematic.
 @cindex @code{set line cap} command
 @cindex setting line cap type
 @cindex line cap
+
 @example
 `set line cap .type.'
 @end example
+
 @noindent
 Set the type of ends (caps) of lines.  Use @code{.type.} of value 0 for
 square ends, cut off precisely at the end of line, or 1 for round ends
@@ -12042,11 +12616,12 @@ line cap of 0.
 @cindex @code{set line join} command
 @cindex setting line join type
 @cindex line join
+
 @example
 `set line join .type.'
 @end example
-@noindent
 
+@noindent
 Set the type of intersection of lines.  Use @code{.type.} of value 0 for
 mitered joins (pointy ends that may extend beyond the data points), a
 value of 1 for rounded ends (the default), or a value of 2 for bevelled
@@ -12066,6 +12641,7 @@ line join of 0.
 @cindex @code{set line width} command
 @cindex setting line width
 @cindex line width
+
 @example
 `set line width \
   [axis|symbol|all] \
@@ -12073,6 +12649,7 @@ line join of 0.
   | @{rapidograph \name@} \
   | default'
 @end example
+
 @noindent
 Set the width of lines used to draw curves (default), axes, symbols, or
 all of the above.  The width may be set to a value specified in points
@@ -12117,6 +12694,7 @@ factor of 4.
 
 
 This is the list of @code{rapidograph} linewidths:
+
 @example
   Name      pt    cm
   ====    =====  =====
@@ -12144,9 +12722,11 @@ This is the list of @code{rapidograph} linewidths:
 @findex set missing value
 @cindex @code{set missing value} command
 @cindex missing values
+
 @example
 `set missing value .value.'
 @end example
+
 @noindent
 Set missing-value code (stored in the builtin variable
 @code{..missingvalue..} and builtin synonym @code{\.missingvalue..}) to
@@ -12160,12 +12740,14 @@ ignored.  The initial default is 1.0e22.
 @subsection The @code{set page} @dots{} Command
 @findex set page
 @cindex @code{set page} command
+
 @example
 `set page portrait \
   | landscape \
   | @{factor .mag.@} \
   | @{translate .xcm. .ycm.@}'
 @end example
+
 @noindent
 Control orientation or scaling of what is drawn on the paper.
 
@@ -12191,10 +12773,12 @@ distances.  This @emph{must} be called before any drawing commands.
 
 @emph{Note}: The order of the factor/translate commands matters, so you
 may need to experiment.  For example,
+
 @example
 set page translate 2 1
 set page factor 0.5
 @end example
+
 @noindent
 moves anything that would have been drawn at the lower-left corner of
 the paper onto the point 2cm from the left side and 1cm from the bottom
@@ -12202,6 +12786,7 @@ side of the paper, and then applies the multiplication factor.
 Reversing the order gives quite different results.  PostScript gurus
 should note that the following two commands are inserted into the
 PostScript file:
+
 @example
 56.900000 28.450000 translate
 0.500000 0.500000 scale
@@ -12215,9 +12800,12 @@ PostScript file:
 @cindex @code{set panel} command
 @cindex Multi-panel plots
 @cindex Window-pane plots
+
 @example
 set panel .row. .col.
 @end example
+
+@noindent
 Establish the geometry for the panel in the indicated row and column;
 that is, select which defined panel to draw into.  The
 bottom row has @code{.row.} = 1, and the leftmost column has
@@ -12232,9 +12820,12 @@ layout using @code{Panels .row. .col. .dx_cm. .dy_cm.}.
 @cindex @code{set panels} command
 @cindex Multi-panel plots
 @cindex Window-pane plots
+
 @example
 set panels .rows. .cols. [.dx_cm. .dy_cm.]
 @end example
+
+@noindent
 Set up for multipanel plots, with spacing @code{.dx_cm.} between the
 columns and @code{.dy_cm.} between the rows.  If the spacings are not
 supplied, 2cm is used.  The panels fill the rectangle which would
@@ -12247,6 +12838,7 @@ and @code{.panel_ysize} are created, to be used by later calls to
 @code{set panel}.
 
 EXAMPLE 
+
 @example
   # Draw 2 panels across, 3 up the page.
 
@@ -12288,9 +12880,12 @@ EXAMPLE
 @cindex @code{set postscript filename} command
 @cindex name, of PostScript file
 @cindex postscript filename
+
 @example
 `set postscript filename "\name"'
 @end example
+
+@noindent
 Set name of PostScript file, over-riding the present name.
 
 
@@ -12301,9 +12896,11 @@ Set name of PostScript file, over-riding the present name.
 @cindex @code{set symbol size} command
 @cindex setting symbol size
 @cindex symbols, setting size
+
 @example
 `set symbol size .diameter_cm.|default'
 @end example
+
 @noindent
 Control the diameter of symbols drawn by @code{draw symbol} command.
 
@@ -12322,9 +12919,11 @@ Set to default diameter of 0.1 cm.
 @cindex tic size, setting
 @findex set tic size
 @cindex @code{set tic size} command
+
 @example
 `set tic size .size.|default'
 @end example
+
 @noindent
 Control size of tics on axes.
 @itemize @bullet
@@ -12342,9 +12941,11 @@ Make axis tics point inward or outward.  The default is outward.
 @subsection The @code{set trace} @dots{} Command
 @findex set trace
 @cindex @code{set trace} command
+
 @example
 `set trace [on|off]'
 @end example
+
 @noindent
 Control printing of command lines as they are processed.
 
@@ -12363,9 +12964,11 @@ Prevent printing command lines (default).
 @subsection The @code{set u scale} @dots{} Command
 @findex set u scale
 @cindex @code{set u scale} command
+
 @example
 `set u scale .cm_per_unit.|@{as x@}'
 @end example
+
 @noindent
 Set scale for x-component of arrows.
 
@@ -12387,9 +12990,11 @@ NOTE: this only works if the x-scale is LINEAR (see @code{set x type}).
 @subsection The @code{set v scale} @dots{} Command
 @findex set v scale
 @cindex @code{set v scale} command
+
 @example
 `set v scale .cm_per_unit.|@{as y@}'
 @end example
+
 @noindent
 Set scale for y-component of arrows.
 
@@ -12410,6 +13015,7 @@ NOTE: this only works if the y-scale is LINEAR (see @code{set y type}).
 @subsection The @code{set x axis} @dots{} Command
 @findex set x axis
 @cindex @code{set x axis} command
+
 @example
 `set x axis top | \
     bottom      | \
@@ -12418,6 +13024,7 @@ NOTE: this only works if the y-scale is LINEAR (see @code{set y type}).
     unknown     | \
 @{.left. .right. [.incBig. [.incSml.]]@}'
 @end example
+
 @noindent
 Control various things about the x axis.
 
@@ -12461,9 +13068,11 @@ no such small tics are used.
 @subsection The @code{set x format} Command
 @findex set x format
 @cindex @code{set x format} command
+
 @example
 `set x format \format|default|off
 @end example
+
 @noindent
 Set format for numbers on x axis.  The format is specified in the manner
 of the "C" programming language.  The C formats (i.e., @code{%f},
@@ -12484,9 +13093,11 @@ The default format is @code{%lg}.
 @subsection The @code{set x grid} @dots{} Command
 @findex set x grid
 @cindex @code{set x grid} command
+
 @example
 `set x grid .left. .right. .inc.|@{/.cols.@}'
 @end example
+
 @noindent
 Create x-grid for contour or image.  If a grid already exists, an error
 will be declared; the way to interpolate from an existing grid to a new
@@ -12507,9 +13118,11 @@ Create x-grid with @code{.cols.} points, ranging from the value
 @subsection The @code{set x margin} @dots{} Command
 @findex set x margin
 @cindex @code{set x margin} command
+
 @example
 `set x margin @{[bigger|smaller] .size.@}|default'
 @end example
+
 @noindent
 Control x margin, that is, the space between the left-hand side of the
 page and the left-hand side of the plotting area.  (Note that axis
@@ -12535,9 +13148,11 @@ Set left margin to default = 6 cm.
 @subsection The @code{set x name} @dots{} Command
 @findex set x name
 @cindex @code{set x name} command
+
 @example
 set x name "\string"
 @end example
+
 @noindent
 Set name of x-axis to indicated string.  The empty string 
 (@code{set x name ""}) can be used to make the x axis be unlabelled.
@@ -12549,9 +13164,11 @@ Set name of x-axis to indicated string.  The empty string
 @subsection The @code{set x size} @dots{} Command
 @findex set x size
 @cindex @code{set x size} command
+
 @example
 `set x size .width_cm.|default'
 @end example
+
 @noindent
 Set the width of the plotting area.  This does not include axis labels,
 only the interior part of the plot.
@@ -12570,9 +13187,11 @@ Set width of x-axis to default = 10 cm.
 @subsection The @code{set x type} @dots{} Command
 @findex set x type
 @cindex @code{set x type} command
+
 @example
 set x type linear|log|@{map E|W|N|S@}
 @end example
+
 @noindent
 Control transformation function mapping user units to centimetres on the
 page.  
@@ -12607,6 +13226,7 @@ BUG: this only has an effect if the axis is not already of type
 @subsection The @code{set y axis} @dots{} Command
 @findex set y axis
 @cindex @code{set y axis} command
+
 @example
 `set y axis label horizontal|vertical'
 `set y axis left | \
@@ -12615,6 +13235,7 @@ BUG: this only has an effect if the axis is not already of type
     decreasing   | \
     @{.bottom. .top. [.incBig. [.incSml.]]@}'
 @end example
+
 @noindent
 Control various things about the y axis.
 
@@ -12661,9 +13282,11 @@ no such small tics are used.
 @subsection The @code{set y format} Command
 @findex set y format
 @cindex @code{set y format} command
+
 @example
 `set y format \format|default|off'
 @end example
+
 @noindent
 Set format for numbers on y axis.  The format is specified in the manner
 of the "C" programming language.  The C formats (i.e., @code{%f},
@@ -12684,9 +13307,11 @@ The default format is @code{%lg}.
 @subsection The @code{set y grid} @dots{} Command
 @findex set y grid
 @cindex @code{set y grid} command
+
 @example
 `set y grid .bottom. .top. .inc.|@{/.rows.@}'
 @end example
+
 @noindent
 Create y-grid for contour or image.  If a grid already exists, an error
 will be declared; the way to interpolate from an existing grid to a new
@@ -12708,9 +13333,11 @@ Create y-grid with @code{.rows.} points, ranging from the value
 @subsection The @code{set y margin} @dots{} Command
 @findex set y margin
 @cindex @code{set y margin} command
+
 @example
 `set y margin @{[bigger|smaller] .size.@}|default'
 @end example
+
 @noindent
 Control y margin, that is, the space between the bottom side of the page
 and the bottom of the plotting area.  (Note that axis labels are drawn
@@ -12736,9 +13363,11 @@ Set bottom margin to default = 6 cm.
 @subsection The @code{set y name} @dots{} Command
 @findex set y name
 @cindex @code{set y name} command
+
 @example
 set y name "\string"
 @end example
+
 @noindent
 Set name of y-axis to indicated string.  The empty string 
 (@code{set y name ""}) can be used to make the y axis be unlabelled.
@@ -12750,9 +13379,11 @@ Set name of y-axis to indicated string.  The empty string
 @subsection The @code{set y size} @dots{} Command
 @findex set y size
 @cindex @code{set y size} command
+
 @example
 `set y size .height_cm.|default'
 @end example
+
 @noindent
 Set the width of the plotting area.  This does not include axis labels,
 only the interior part of the plot.
@@ -12771,9 +13402,11 @@ Set width of y-axis to default = 10 cm.
 @subsection The @code{set y type} @dots{} Command
 @findex set y type
 @cindex @code{set y type} command
+
 @example
 set y type linear|log|@{map N|S|E|W@}
 @end example
+
 @noindent
 Control transformation function mapping user units to centimetres on the
 page.  
@@ -12805,9 +13438,11 @@ BUG: this only has an effect if the axis is not already of type
 @subsection The @code{set z missing} @dots{} Command
 @findex set z missing
 @cindex @code{set z missing} command
+
 @example
 set z missing above|below .intercept. .slope.
 @end example
+
 @noindent
 Set @code{z} column to be missing whenever the associated @code{y} and
 @code{x} columns are above/below the line defined by
@@ -12826,9 +13461,12 @@ y = .intercept. + .slope. * x
 @section The @code{show} Command
 @findex show
 @cindex @code{show} command
+
 @example
 `show ...'
 @end example
+
+@noindent
 Show some information by printing it to standard output.
 
 @itemize @bullet
@@ -12934,11 +13572,15 @@ Show result of computing indicated expression.
 @cindex newline, in a @code{show} command
 Print the indicated string.  You may use a double-slash to prevent Gri
 from substituting synonym values; thus it is common to do e.g.
+
 @example
 \var = "Temperature"
 show "Plotting \\var = 'var'"
 @end example
+
+@noindent
 which will produce the output line
+
 @example
 Plotting \\var = 'Temperature'
 @end example
@@ -12959,6 +13601,7 @@ this makes the next @code{show} statement print on the same line.
 @cindex @code{skip} command
 @cindex data files, positioning within
 @cindex files, positioning within
+
 @example
 `skip [forward|backward] [.n.]'
 @end example
@@ -12988,6 +13631,7 @@ binary files, skip backward @code{.n.} bytes.
 @cindex sleep, causing Gri to
 @cindex process, causing Gri to sleep
 @cindex @code{sleep} command
+
 @example
 `sleep .sec.'
 @end example
@@ -13023,6 +13667,7 @@ is up to the user.
 @end example
 
 The @code{smooth x} command does smoothing by the following formula
+
 @example
 x[i-1]   x[i]   x[i+1]
 ------ + ---- + ------
@@ -13045,11 +13690,13 @@ you'd like that `feature' to be an option.)
 The @code{smooth grid data} command smooths gridded data, by weighted
 average in a plus-shaped window about each gridpoint.  The smoothing
 algorithm replaces each interior gridpoint value @code{z[i][j]} by
+
 @example
 z[i][j]   z[i-1][j] + z[i+1][j] + z[i][j-1] + z[i][j+1]
 ------- + ---------------------------------------------
    2                          8
 @end example     
+
 @noindent
 Points along the edges are smoothed by the same formula, after
 inventing image points outside the domain by planar extrapolation.
@@ -13058,9 +13705,11 @@ The @code{smooth grid data .f.} command performs partial smoothing.  A
 temporary fully-smoothed grid @code{zSMOOTH[i][h]} is constructed as
 above, and a linear combination of this grid and the original grid is
 used as the replacement grid:
+
 @example
 z[i][j] = (1-f) * z[i][j] + f * zSMOOTH[i][j]
 @end example
+
 @noindent
 where @code{f} is the value indicated on the command line.  
 Thus, @code{smooth grid data 0} performs no smoothing at all, while
@@ -13069,11 +13718,13 @@ Thus, @code{smooth grid data 0} performs no smoothing at all, while
 The @code{smooth grid data along x} command smooths the grid data
 across @code{x} (i.e., horizontally), by replacing each value
 @code{z[i][j]} with the value
+
 @example
 z[i][j]   z[i-1][j] + z[i+1][j]
 ------- + ---------------------
    2                4
 @end example
+
 @noindent
 Points along the edges are smoothed by the same formula, after
 inventing image points outside the domain by linear extrapolation.
@@ -13095,9 +13746,11 @@ which allows for more sophisticated filters.
 @findex source
 @cindex @code{source} command, for running another command file
 @cindex running a commandfile
+
 @example
 `source \filename'
 @end example
+
 @noindent
 Perform the commands in the indicated file.
 
@@ -13116,9 +13769,11 @@ If the file cannot be found, an error results.  Contrast this with
 @cindex variables, storing values within synonyms (strings)
 @cindex strings, storing variable values within
 @cindex synonyms, storing variable values within
+
 @example
 `sprintf \synonym "format" .variable. [.variable. [...]]'
 @end example
+
 @noindent
 Write numbers into a synonym (text string).  This is useful for
 labelling plots.
@@ -13130,11 +13785,13 @@ called @code{\out}, and print the values of the variables @code{.a.} and
 @code{\out} will be @code{"a = 1 b = 0.11"}
 
 Formatting codes are as in the C programming language, eg:
+
 @example
 %.2f  -- Use floating point with 2 decimal places.
 %9.2f -- As above, but number takes 9 characters.
 %e    -- Use exponential notation.
 @end example
+
 @noindent
 @emph{CAUTION}: Variables are stored in the @emph{floating point} in
 Gri, so you must use a format like @code{"%f"},
@@ -13152,9 +13809,11 @@ If you want an integer, use @code{"%.0f"}.
 @cindex restoring graphics state
 @cindex graphics state, saving and restoring
 @findex @code{state} command
+
 @example
 `state save|restore|display'
 @end example
+
 @noindent
 The @code{save} operation pushes a record of the graphics state (pen and
 font characteristics, margins, axis lengths, min/max/inc values on axes,
@@ -13179,9 +13838,11 @@ should be saved has not yet been finalized by the author.
 @cindex superuser flags
 @findex superuser
 @cindex @code{superuser} command
+
 @example
 `superuser [value]'
 @end example
+
 @noindent
 Allow extra debugging information and commands.  Normally, this command
 and the corresponding commandline flag @code{-superuser} are only used
@@ -13215,9 +13876,11 @@ specifying 15 yields flags 1, 2, 4 and 8.
 @cindex system commands, assigned to synonyms
 @findex system
 @cindex @code{system} command
+
 @example
 `system \system-command'
 @end example
+
 @noindent
 Tell the operating system to perform the indicated action.  Whatever
 string follows the word @code{system} is passed directly to the
@@ -13285,6 +13948,7 @@ to make sure any @code{\n} characters appear at the end of strings, and
 then simply avoid having a synonym named @code{\n}.
 
 Here is a Perl example.
+
 @example
 \m = "Foo bar"
 system perl <<"EOF"
@@ -13301,6 +13965,7 @@ the absence of a final newline in the string; Awk does not require one,
 while Perl does.  (Finally, as usual, note that the synonym
 @code{\.awk.} is being used instead of @code{awk}, to ensure
 portability.) 
+
 @example
 \m = "Foo bar"
 system \.awk. -f - <<"EOF"
@@ -13310,8 +13975,10 @@ print "foobar is \m, and a=", a, "\n";
 @}
 EOF
 @end example
+
 @noindent
 which, written more safely (avoiding the string @code{\n}), is
+
 @example
 \message = "Foo bar"
 system \.awk. -f - <<"EOF"
@@ -13323,11 +13990,13 @@ EOF
 @end example
 
 To get the awkscript to read its input from a named file, do e.g.
+
 @example
 system \.awk. -f - tst.dat <<"EOF"
 @{print $1;@}
 EOF
 @end example
+
 @noindent
 where the file @file{tst.dat} contains lines the first item of which
 will be printed to the screen by this awkscript. 
@@ -13341,6 +14010,7 @@ To get the first 15 lines of a file called @file{foo.dat} inserted into
 another file called @file{bar.dat}, you might do the following.  Only
 the first method works; the second will fail because @code{.n.} will not
 be translated before passing to the operating system.
+
 @example
 \num = "-15"
 system head \num foo.dat > bar.dat
@@ -13349,26 +14019,32 @@ system head \num foo.dat > bar.dat
 .num. = -15
 system head .num. foo.dat > bar.dat
 @end example
+
 @item
 Issue a unix command to get a listing of files in the current
 working directory, and pipe them into the @code{more} system command.
+
 @example
 system ls -l *c | more
 @end example
+
 @item
 Store the date and time into a synonym, and use it in a
 title:
+
 @example
 \time = system date
 ...
 draw title "Plotted at time \time"
 @end example
+
 @item
 Use @code{awk} to prepare a two-column table of x, ranging
 from 0 to 1 in steps of 0.1, and sin(x).  The table is stored in a file
 whose suffix is the process ID of the Gri job.  This file is then
 opened, and the data plotted.  Finally, a system command is issued to
 remove the temporary file.
+
 @example
 system \.awk. 'BEGIN @{ \
     for (x=0; x<1; x+=0.1) @{ \
@@ -13382,6 +14058,7 @@ system rm tmp.\.pid.
 draw curve
 quit
 @end example
+
 @noindent
 (Note the use of @code{\.awk.}, a builtin synonym naming the awk program
 on your system.)
@@ -13390,14 +14067,18 @@ NOTE Under unix, this command calls the Bourne shell, not the C-shell
 that is often used interactively.  For many simple uses, the only
 difference from normal interactive use will be that @code{~} is not
 expanded to the home directory.  For example, you'd do
+
 @example
 system \.awk. -f $HOME/foo/bar/cmd.gawk
 @end example
+
 @noindent
 instead of the
+
 @example
 system \.awk. -f ~/foo/bar/cmd.gawk
 @end example
+
 @noindent
 that you might expect from interactive C-shell use.
 @noindent
@@ -13416,9 +14097,11 @@ Sets @code{\.return_value} to system status
 @cindex loops
 @findex while
 @cindex @code{while} command
+
 @example
 `while .test.|@{rpn ...@}'
 @end example
+
 @noindent
 Perform statements in loop while the value of @code{.test.} or the RPN
 expression is nonzero.  The end of the loop designated by a line
@@ -13435,15 +14118,18 @@ as a debugging measure to catch unintended infinite loops.
 @itemize @bullet
 @item
 Loop forever, printing a message over and over.
+
 @example
 while 1
   show "This loops forever. Need to 'break'"
 end while
 @end example
+
 @item
 Repeatedly read two numbers, and plot a bullet at the indicated
 location.  If (or, hopefully, ``when'') the end of the file is
 encountered, break out of the loop; otherwise continue plotting forever.
+
 @example
 while 1
   read .x. .y.
@@ -13452,12 +14138,14 @@ while 1
   end if
   draw symbol bullet at .x. .y.
 end while
+
 @end example
 @item
 Loop 10 times, printing the values of @code{.i.} as they range 0, 1,
 @dots{}, 9.  After exiting from the loop, @code{.i.} will equal 10.  Be
 @emph{careful} to use the correct rpn greater-than test to avoid an
 infinite loop.
+
 @example
 .i. = 0
 while @{rpn .i. 10 >@}
@@ -13465,8 +14153,8 @@ while @{rpn .i. 10 >@}
   .i. += 1
 end while
 @end example
-@end itemize
 
+@end itemize
 
 
 @c HTML <!-- newfile Write.html "Gri: Write commands" "Gri Commands" -->
@@ -13488,6 +14176,7 @@ information is written to the standard error device (ie, the screen).
 output file, as opposed to overwriting the contents of the file.
 Therefore if you've run the Gri script before, and want fresh output,
 make sure to do something like the following
+
 @example
 system rm -f the_grid.dat
 write grid to grid.dat
@@ -13505,9 +14194,12 @@ write grid to grid.dat
 @cindex writing to a file, column data
 @cindex column data, writing to a file
 @cindex data in columns, writing to a file
+
 @example
 `write columns to \filename'
 @end example
+
+@noindent
 Append data columns to the end of the indicated file.
 
 @node   Write Contour, Write Grid, Write Columns, Write
@@ -13515,9 +14207,12 @@ Append data columns to the end of the indicated file.
 @cindex writing to a file, contour data
 @cindex contour data, writing to a file
 @cindex data in contours, writing to a file
+
 @example
 `write contour .value. to \filename'
 @end example
+
+@noindent
 Append to the named file the (x,y) pairs defining the contour of the indicated value.
 
 The first line of output is a header line, containing two numbers: the
@@ -13528,6 +14223,7 @@ example, if the contour contained two closed regions, Gri would output a
 pair of missing values as one of the xy pairs, to denote the separation
 of the two curves.  You could read and plot the output as in this
 example
+
 @example
 write contour 10 to contour.out
 write contour 20 to contour.out
@@ -13543,10 +14239,13 @@ draw curve
 @cindex writing to a file, grid data
 @cindex grid data, writing to a file
 @cindex data in grid, writing to a file
+@cindex grid data, write to file
+
 @example
 `write grid to \filename [bycolumns]'
 @end example
-@cindex grid data, write to file
+
+@noindent
 Append grid to the end of the named file.  Storage is in @code{%f}
 format, and is in normal image order.  If the keyword @code{bycolumns}
 is present, then the grid is transposed first, in such a way that
@@ -13558,9 +14257,12 @@ the original grid data.
 @cindex writing to a file, image data
 @cindex image data, writing to a file
 @cindex data in image, writing to a file
+
 @example
 `write image ... to \filename'
 @end example
+
+@noindent
 The variants of this command write various things about the image to the
 named file, as illustrated in the following table.
 
@@ -13635,6 +14337,7 @@ separate pages
 Merge separate PostScript files, created by Gri, into one page.  To
 learn how it works, type @code{gri_merge -h} at the system prompt, to
 see:
+
 @example
 PURPOSE: Strings Gri PostScript files together.
 
@@ -13682,6 +14385,7 @@ EXAMPLE (style 2):
 Given a multipage PostScript file, @code{gri_unpage} creates several new
 PostScript files, one for each page.  To learn how it works, type
 @code{gri_unpage -h} at the system prompt, to see:
+
 @example
 PURPOSE: Chop multipage Gri PostScript file into one file per page.
 USAGE:   gri_unpage name.ps -- create files name-1.ps, name-2.ps, etc, one
@@ -13733,9 +14437,11 @@ path might be to learn both Awk and Perl.
 
 For simple applications, you will probably want to use these tools in a
 piped open command, e.g.
+
 @example
 open "awk '@{print $1, $3/$2@}' MyFile |"
 @end example
+
 @noindent
 which creates a temporary file (automatically erased when Gri finishes)
 which contains the output from running the system command that preceeds
@@ -13746,6 +14452,7 @@ user's input file is named @file{MyFile}.)
 
 For more complicated appplications, you may use the Gri @code{system}
 command as follows.
+
 @example
 system perl   >tmp  <<"EOF"
 open(IN, "MyFile");
@@ -13759,6 +14466,7 @@ read columns x y
 draw curve
 system rm -f tmp
 @end example
+
 @noindent
 Here a temporary file, named @file{tmp}, has been used to store the
 results of the calculation.  Note that this file was specifically
@@ -13779,10 +14487,12 @@ one-line form.  But it is just a matter of style.)
 The most common application of Grep is to select lines matching a
 pattern, or not matching a pattern.  Here is how to skip all lines with
 the word "HEADER" in them:
+
 @example
 open "grep -v 'HEADER' MyFile |"
 ...
 @end example
+
 @noindent
 Note that Gawk and Perl do this just as easily.
 
@@ -13797,6 +14507,7 @@ Note that Gawk and Perl do this just as easily.
 Sed is normally used for simple changes to files.  For example, if you
 have columnar data which are separated with comma characters instead of
 whitespace, you could make it Gri compatible by 
+
 @example
 open "sed -e 's/,/ /g' MyFile |"
 @end example
@@ -13843,10 +14554,12 @@ The default action is to print the line, and this is done if no action
 is supplied.
 
 Here are a few examples.  To skip first 10 lines of a file:
+
 @example
 open "awk 'NR>10' MyFile |"
 read ...
 @end example
+
 @noindent
 Here the pattern was that @code{NR} (a special Awk variable for the
 number of the record, starting with 1 for the first line of the file)
@@ -13855,17 +14568,20 @@ supplied between braces, to print this line.
 
 @noindent
 To plot the cosine of the second column against the first column:
+
 @example
 open "awk '@{print ($1, cos($2))@}' MyFile |"
 read columns x y
 draw curve
 @end example
+
 @noindent
 Here no pattern was supplied, so the action was done for every line.
 
 Combining these two forms, then, and supplying both a pattern and an
 action, here is how one might print the first and eighth columns of the
 file @file{MyFile}, but only for the first 10 lines of the file:
+
 @example
 open "awk NR<=10 @{print ($1, $8)@} MyFile |"
 @end example
@@ -13888,6 +14604,7 @@ indicates that a Perl command is given in the next word of the command
 line.  The commandline switch @code{-p} indicates to print the line,
 after any indicated Perl actions have been done on it.  Here, for
 example, is how one would emulate a Sed replacement of comma by blank:
+
 @example
 open "perl -pe 's/,/ /g' MyFile |"
 @end example
@@ -13898,6 +14615,7 @@ of this array is @code{$F[0]}.  Splitting is normally done on
 white-space character(s), although this may be changed if desired.
 Here, for example, is how to take the cosine of the second column of a
 file, and print this after the first column:
+
 @example
 open "perl -pea 'print($F[0], cos($F[1]))' MyFile |"
 @end example
@@ -14237,12 +14955,18 @@ will also look to find gri.cmd and the gri executable like so:
    @code{gri*directory-tree}/gri.cmd 
    and the gri executable in the PATH
 @end example
+
+@noindent
 or
+
 @example
    @code{gri*directory-tree}/lib/gri.cmd 
    and the gri executable in the PATH
 @end example
+
+@noindent
 or
+
 @example
    @code{gri*directory-tree}/bin/gri
    @code{gri*directory-tree}/lib/gri.cmd
@@ -14288,26 +15012,34 @@ of them:
 @item
  If you use a RedHat Powertool package (or Gri's own packaged RPM)
  installed like:
+
  @example
   /usr/bin/gri
   /usr/share/gri/gri.cmd
  @end example
+
  then you'd also use:
+
  @example
   (setq gri*directory-tree "/usr/share/gri/")
  @end example
+
  but gri-mode would know of only one installed version of gri.
 
 @item
  If you use a Debian GNU/Linux installation like:
+
  @example
   /usr/bin/gri -> /usr/bin/gri-2.1.17
   /usr/share/gri/2.1.17/gri.cmd
  @end example
+
  then you'd use:
+
  @example
   (setq gri*directory-tree "/usr/share/gri/")
  @end example
+
  Note that all gri binaries must exist in the path with version number
  suffixes (e.g. @file{gri-2.1.17}) since there is no
  @file{/usr/share/gri/2.1.17/bin/} directory (using a similar structure
@@ -14317,16 +15049,20 @@ of them:
 @item
  If you had multiple versions of Gri installed like so (this reflects
  the installation paths used in older gri releases): 
+
  @example
   /opt/gri/2.040/bin/gri
   /opt/gri/2.040/lib/gri.cmd
   /opt/gri/2.041/bin/gri
   /opt/gri/2.041/lib/gri.cmd
  @end example
+
 then you'd use:
+
  @example
   (setq gri*directory-tree "/opt/gri/")
  @end example
+
 @end enumerate
 
 @node   Step 3, Step 4, Step 2, Installing gri-mode.el
@@ -14419,16 +15155,21 @@ gri command as much as possible, then indents it.
 
 It works one word at a time, for example typing-in "dr"
 and then pressing @key{M-tab}:
+
 @example
   dr@key{M-tab}
 @end example
 expands the "dr" to "draw".
 
 It also works with many words at a time, e.g. 
+
 @example
   dr x a@key{M-tab}
 @end example
+
+@noindent
 expands it to:
+
 @example
   draw x axis [at bottom|top|@{.y. [cm]@} [lower|upper]]
 @end example
@@ -14470,21 +15211,30 @@ bash.
 
 If a completion is ambiguous, but could be exact, invoke
 gri-complete a second time to complete it. e.g.
+
 @example
   sh@key{M-tab}
 @end example
+
+@noindent
 expands to
+
 @example
   show
 @end example
+
+@noindent
 and informs you that 12 possible completions exists; then
+
 @example
   show@key{M-tab}
 @end example
+
 @noindent
 will display these completions in the completions buffer; then typing
 @key{M-tab} again forces completion to a complete but not unique
 possibility:
+
 @example
   show .value.|@{rpn ...@}|"\text" [.value.|@{rpn ...@}|text [...]]
 @end example
@@ -14522,6 +15272,7 @@ draw x axis [at bottom|top|@{.y. [cm]@} [lower|upper]]
 
 This is the gri way of describing many commands at once.  The above
 syntax description is a shortcut formulation for all of:
+
 @example
   draw x axis
   draw x axis at bottom
@@ -14539,21 +15290,27 @@ The @code{gri-option-select} (@kbd{C-C C-o}) command provides easy
 navigation to select one of these commands.  The narrowing process is
 governed by the cursor position.  For example, to get the command
 narrowed down to
+
 @example
   draw x axis at bottom [lower|upper]
 @end example
+
 @noindent
 place the cursor somewhere in the word `bottom' and invoke
 @code{gri-option-select}.  To complete the narrowing process, selecting
+
 @example
   draw x axis at bottom lower
 @end example
+
 @noindent
 move the cursor to some place in the word `lower' and invoke
 @code{gri-option-select again}.  On the other hand, to get
+
 @example
   draw x axis at bottom
 @end example
+
 @noindent
 you would have put the cursor over either the word `lower' or `upper',
 and invoke @code{gri-kill-option} (@kbd{C-C C-k}) instead.
@@ -14667,13 +15424,18 @@ Usually, gri is run specifying only a gri command file to process, which
 lends itself well to the gri-mode command @code{gri-run}.  But Gri can
 be also invoked from the command line using optional arguments, usually
 filenames but not necessarily, e.g.
+
 @example
 $ gri somefile.gri datafile.dat datafile2.dat ...
 @end example
+
+@noindent
 or
+
 @example
 $ gri somefile.gri *.dat
 @end example
+
 The arguments are accessed with RPN operators @file{argc} and
 @file{argv} (@ref{Unary Operators}).
 
@@ -14708,6 +15470,7 @@ copy both to the directory
 @file{/usr/local/share/gri/@value{GRI-VERSION}/} and create a wrapper
 script called @file{/usr/local/bin/gri-@value{GRI-VERSION}} to invoke
 this version of gri.  The script might look something like
+
 @example
 #!/usr/bin/sh
 /usr/local/share/gri/@value{GRI-VERSION}/gri \
@@ -14720,6 +15483,7 @@ gri-mode, you would reset the Emacs variable @code{gri*directory-tree}
 like so in the file @file{~/.emacs} 
 (@ref{Step 2} in 
 @ref{Installing gri-mode.el})
+
 @example
 (setq gri*directory-tree
     '("/usr/local/share/gri/" "/usr/share/gri/"))
@@ -15074,17 +15838,22 @@ the normal method for these distributions ... if you have the
 distribution, you surely know what to do.  If you don't, you may want to
 switch when you see that you can install Gri by clicking an icon in a
 window, or by typing, e.g. in RedHat linux:
+
 @example
 rpm -i gri-@value{GRI-VERSION}
 @end example
 
 Debian-linux installation may be done with any of several GUI-based
 tools, or with the following system command:
+
 @example
 dkpg -i gri_@value{GRI-VERSION}-1_i386.deb
 @end example
+
+@noindent
 or via a properly configured @code{apt} interface that will fetch the
 latest version from the net:
+
 @example
 apt-get install gri
 @end example
@@ -15112,14 +15881,18 @@ Here's how to install Gri, starting with this tar file:
 @enumerate
 @item
 First, uncompress (unzip) the file, and un-tar it, by doing
+
 @example
 gunzip -c gri-binary-SunOS5-@value{GRI-VERSION}.tar.gz | tar xvf -
 @end example
+
 @noindent
 or
+
 @example
 zcat gri-binary-SunOS5-@value{GRI-VERSION}.tar.gz | tar xvf -
 @end example
+
 @noindent
 This will yield a new directory, with a name like
 @file{gri-binary-SunOS5-@value{GRI-VERSION}}, which contains the
@@ -15158,15 +15931,19 @@ directory, to which you must add the package @file{build-essential}.
 
 @item Unpack the source
 Type 
+
 @example
 gunzip gri-@value{GRI-VERSION}.tgz
 tar xvf gri-@value{GRI-VERSION}.tar
 @end example
+
+@noindent
 (or similar commands) to uncompress and untar the contents.  This will
 yield a new directory named @file{gri-@value{GRI-VERSION}} which
 contains many files.
 
 @item Move to the Gri directory
+
 @example
 cd gri-@value{GRI-VERSION}
 @end example
@@ -15179,15 +15956,21 @@ is one overall choice that you may wish to make: the place on your
 filesystem where Gri (and many associated library and documentation
 files) will reside.  To get the default installation, with files
 residing within the directory @file{/usr/local}, type
+
 @example
 ./configure
 @end example
+
+@noindent
 at this time.  If you'd rather the files go into another location, run
 the @code{configure} script differently, e.g.  to get the Gri files to
 reside within the @file{/opt} directory, type:
+
 @example
 ./configure --prefix=/opt
 @end example
+
+@noindent
 In response, you'll see the results of several tests of the properties
 of your operating system, your C++ compiler, etc.  Normally you can
 ignore these results.
@@ -15204,6 +15987,7 @@ version @value{GRI-PREVIOUS-VERSION} has also been retained.  (Note that
 only one copy of the documentation is retained; this is all that's
 needed, since old versions are documented there as well as new
 versions.)
+
 @example
 /usr/local
 |-- bin
@@ -15259,10 +16043,12 @@ is, you'll be asked, for confirmation, whether you wish to use the
 @code{n} to this question.  The prompt will explain.  Also, note that
 you can avoid the prompt by running configure as either of the two
 below:
+
 @example
 ./configure --enable-frepo
 ./configure --disable-frepo
 @end example
+
 (Such switches will be ignored unless you're using the GNU compiler.)
 
 @b{Trouble-shooting 3}: If optional system libraries like the netCDF
@@ -15272,12 +16058,14 @@ For example, on my machine the @code{netcdf} library is not installed in
 @file{/usr/lib}, as the @code{configure} script assumes, but rather in
 @file{/usr/local/share/netcdf/lib}.  Therefore I have the following line
 in one of my startup files:
+
 @example
 export LD_LIBRARY_PATH=/usr/lib:/usr/local/share/netcdf/lib
 @end example
 
 @item Compiling Gri
 Now compile Gri by typing
+
 @example
 make
 @end example
@@ -15285,30 +16073,39 @@ make
 @item Testing Gri
 @cindex test suite
 Type
+
 @example
 make test
 @end example
+
+@noindent
 to do some tests on the version of Gri that you just compiled.  If no
 errors are reported, you may go to the next step.
 
 @item Installing Gri
 Assuming compilation succeeds, install @file{gri} and the ancillary file
 @file{gri.cmd}, by typing
+
 @example
 make install
 @end example
+
 If you wish to see where files where be installed, first try a dry run
 typing 
+
 @example
 make -n install
 @end example
 
 @item Cleaning up
 Once these things are done, you may type
+
 @example
 make clean
 cd doc ; make clean
 @end example
+
+@noindent
 to clean up some files.  Of course, you could just erase the whole
 source, but the source is probably worth a penny of hard-drive space,
 isn't it?
@@ -15466,6 +16263,7 @@ Newcommands can suffer the "name clash" bug (@ref{Aliasing Synonyms}).
 The PDF version of the manual, created by @code{make gri.pdf},
 won't work unless the following patch is applied to one of
 the files of TexInfo, version 1999-03-26.17):
+
 @example
 *** /usr/share/texmf/pdftex/texinfo/pdftexinfo.tex	Wed Dec 20 11:54:04 2000
 --- /usr/share/texmf/pdftex/texinfo/pdftexinfo.tex~	Mon Mar 29 06:17:02 1999
@@ -15667,12 +16465,15 @@ program execution.  The next section explains this in detail.
 @subsection A debugging Example
 Let's take a recent bug as an example.  Peter Galbraith found that the
 gri script
+
 @example
 set color hsb 0.999 1 1
 draw box filled 2 2 3 3 cm
 set color hsb 1.000 1 1
 draw box filled 4 2 5 3 cm
 @end example
+
+@noindent
 produced odd results in a previous version of Gri; the color patches
 should have been of nearly the same color, but the first one was red, as
 expected, and the second was magenta.
@@ -15715,11 +16516,14 @@ knows this -- how would you?  The answer is to look in the
 @file{gri.cmd} file, for the @code{set color} command.  (Search for the
 string @code{`set color }.) Then read down to see the body of the
 command, enclosed in braces; you'll see
+
 @example
 @{
     extern "C" bool set_colorCmd(void);
 @}
 @end example
+
+@noindent
 which indicates that the subroutine name is @code{set_colorCmd()}.
 
 @item Next we need to edit this subroutine to see what it is doing.
@@ -15731,16 +16535,22 @@ subroutine.
 @item Have a look through this subroutine to see what it is doing.  It
 looks very much like many other Gri subroutines.  A check is done on the
 number of words provided to the command, in the 
+
 @example
 	switch (_nword) @{
 @end example
+
+@noindent
 line.  (That's line @file{set.cc:484} at the moment -- but it may be
 different by the time you read this file, if I've changed it!)  We are
 calling it with 6 words (@code{set color hsb 1.000 1 1}), so move down
 to the line
+
 @example
 	case 6:
 @end example
+
+@noindent
 and you'll see that there is an @code{if} statement seeing whether this
 word is @code{rgb} or @code{hsv}.  These statements are checking
 @code{_word[2]}, which is the third word of the command.  (In Gri, as in
@@ -15749,6 +16559,7 @@ C, words start at zero.  Thus, for this command, @code{_word[0]} is
 expected to be either @code{rgb} or @code{hsb}.  We are having problems
 with the @code{hsb} style, so we'll move down to that code.  The code
 that's being executed is as follows.
+
 @example
 @} else if (!strcmp(_word[2], "hsb")) @{
         // `set color hsb .hue. .saturation. .brightness.'
@@ -15774,6 +16585,7 @@ that's being executed is as follows.
                 _griState.set_color_text(c);
         return true;
 @end example
+
 The @code{Require} lines are ensuring that we could decode the values of
 the variables @code{hue}, etc, from the commandline.  Then we clip the
 range of these values.  Then we convert from @code{hsb} color format to
@@ -15790,25 +16602,37 @@ format, so the we may well suspect that the problem is in the
 it, in the editor, and insert a "breakpoint" there by typing
 @kbd{C-x SPC}.  Then move to the @code{gdb} buffer and re-run Gri
 by typing 
+
 @example
 run -directory . test.gri
 @end example
+
+@noindent
 to run Gri on our script.  Then, magic happens!  Gri stops at the
 indicated breakpoint, and Emacs will display both the @code{gdb} buffer
 and the @code{set.cc} buffer.  The latter has a margin indication
 telling what line were are on.  You may now type @code{gdb} commands in
 the @code{gdb} buffer.  In particular, type
+
 @example
 p hue
 @end example
+
+@noindent
 to print the hue.  Then type
+
 @example
 p red
 @end example
+
+@noindent
 to see the red value.  Then type
+
 @example
 c
 @end example
+
+@noindent
 to continue running Gri.  It will pause again.  Check the hue and red
 values again, as above.  If you like, play around with hue value in the
 Gri script @file{test.gri} and run gri again (type @code{r} in
@@ -15822,6 +16646,7 @@ in the @code{gdb} buffer).  When it stops just before this subroutine,
 type @kbd{s} to "step into" the subroutine.  Then you'll see a
 conversion code from the (wonderful) textbook of Foley and Van Dam.
 You'll see
+
 @example
 void
 gr_hsv2rgb(double h, double s, double v, 
@@ -15837,6 +16662,8 @@ gr_hsv2rgb(double h, double s, double v,
 	double p = v * (1.0 - s);
         ...
 @end example
+
+@noindent
 in the present version of Gri, but in the previous (buggy) version, the
 @code{if} statement was missing.  Without this @code{if} statement, Gri
 produced wrong colors.  With the statement, the colors are correct.
@@ -15849,10 +16676,12 @@ erroneous.
 
 In reading the code, you may notice that it is formatted in a uniform
 way.  I use the Emacs indentation feature, with 
+
 @example
 (c-set-style "K&R")
 (setq c-basic-offset 8)
 @end example
+
 If you submit patches, please bear this in mind.  I'm reluctant to just
 blindly apply patches, and my procedure is to examine them by eye before
 trying to do the patch.  Therefore, if you re-indent the source-code,
@@ -16005,6 +16834,7 @@ Gri is distributed under the GPL public license, an Open Source license
 that provides certain rights and freedom to users, notably the access
 to source code and the right to modify it and/or redistribute it.
 The full text of the GPL license is given below.
+
 @example
 		    GNU GENERAL PUBLIC LICENSE
 		       Version 2, June 1991
