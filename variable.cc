@@ -52,7 +52,7 @@ show_variablesCmd()
 	int n = variableStack.size();
 	for (int i = 0; i < n; i++) {
 		extern char     _grTempString[];
-		sprintf(_grTempString, "%3d:    %-25s = %g\n", i, variableStack[i].get_name(), variableStack[i].get_value());
+		sprintf(_grTempString, "    %-25s = %g\n", variableStack[i].get_name(), variableStack[i].get_value());
 		ShowStr(_grTempString);
 		have_some = true;
 	}

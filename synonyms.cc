@@ -182,7 +182,7 @@ show_synonymsCmd()
 	int n = synonymStack.size();
 	for (int i = 0; i < n; i++) {
 		extern char _grTempString[];
-		sprintf(_grTempString, "%3d:    %-25s = \"%s\"\n", i, synonymStack[i].get_name(), synonymStack[i].get_value());
+		sprintf(_grTempString, "    %-25s = \"%s\"\n", synonymStack[i].get_name(), synonymStack[i].get_value());
 		ShowStr(_grTempString);
 		have_some = true;
 	}
@@ -786,6 +786,7 @@ find_synonym_name(const string &s, string& name, bool inmath)
 		if (c == '\t') break;
 		if (c == '\n') break;
 		if (c == '`')  break;
+		if (c == '\'') break;
 		if (c == '\\') break;
 		if (c == '"')  break;
 		if (c == '|')  break;
@@ -815,9 +816,10 @@ find_synonym_name(const string &s, string& name, bool inmath)
 			}
 			break;
 		}
-		name += s[len++];
+		name += c;
+		len++;
 	}
-	if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d got syn-name '%s'\n",__FILE__,__LINE__,name.c_str());
+	if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d find_synonym_name() got syn-name [%s]\n",__FILE__,__LINE__,name.c_str());
 	return len;
 }
 
@@ -834,11 +836,11 @@ end_of_synonym(char c, bool inmath, bool need_brace)
 	case '\t':
 	case '\n':
 	case '`':
+	case '\'':
 	case '\\':
 	case '\0':
 	case '"':
 	case '|':
-	case '\'':
 	case ':':
 	case ';':
 	case '#':
@@ -863,6 +865,6 @@ end_of_synonym(char c, bool inmath, bool need_brace)
 		if (((unsigned) superuser()) & FLAG_SYN) printf("\t\t returning %d at place 3\n", !inmath);
 		return (!inmath);
 	}
-	//if (((unsigned) superuser()) & FLAG_SYN) printf("\t\t returning FALSE at place 4\n");
+	if (((unsigned) superuser()) & FLAG_SYN) printf("\t\t returning FALSE at place 4\n");
 	return false;
 }
