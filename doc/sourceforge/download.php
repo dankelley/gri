@@ -86,10 +86,11 @@ we will put a link here.
 </p>
 
 <p>
-The
-<?php print $development_site_name;?> site for full list of
+Of course, this
+<?php print $development_site_name;?> site also contains 
 <a href="<?php print "$sf_url/project/showfiles.php?group_id=$gri_group_id";?>">
-downloadable files</a>, for the present version and for older versions.
+downloadable versions</a> of not just the present version, but of older
+versions as well.</p>
 
 <h1>Source Code</h1>
 <p>
