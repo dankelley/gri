@@ -175,7 +175,7 @@ HREF="http://gri.sourceforge.net/gridoc/html/Version_2_6.html#Version2.6">here</
     <tr> 
       <td  class="menubox">
         <font size="-1">
-        Vsn 2.6.4: <a class="menus" href="http://www.phys.ocean.dal.ca/~kelley/gri-2.6.4-PRE-1.tgz">pre-release #1</a></br>
+        Vsn 2.6.4: avail. soon</br>
         Vsn 2.6.3: broken</br>
         Vsn 2.6.2: 2001-may-20</br>
         Vsn 2.6.1: 2001-may-11</br>
