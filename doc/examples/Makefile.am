@@ -3,7 +3,36 @@
      srcdir = @srcdir@
      VPATH = @srcdir@
 
-EXTRA_DIST = \
+txt_files = example1.txt example2.txt example3.txt example4.txt example5.txt\
+ example6color.txt example6histogram.txt example6.txt\
+ example7.txt example8.txt example9.txt\
+ example10color.txt example10.txt\
+ example11.txt example12.txt example13.txt\
+ FEM.txt
+html_files = example1.html example2.html example3.html example4.html \
+ example5.html example6.html example6histogram.html \
+ example7.html example8.html example9.html example10.html \
+ example10color.html example11.html example12.html example13.html \
+ FEM.html\
+ logo.html
+eps_files =  example1.eps example2.eps example3.eps example4.eps example5.eps\
+ example6.eps example6histogram.eps\
+ example7.eps example8.eps example9.eps example10.eps\
+ example10color.eps example11.eps example12.eps example13.eps\
+ FEM.eps\
+ logo.eps
+png_files = FEM.png example1.png example2.png example3.png example4.png \
+ example5.png example6.png example6histogram.png \
+ example7.png example8.png example9.png example10.png \
+ example10color.png example11.png example12.png example13.png \
+ FEM-tiny.png example1-tiny.png example2-tiny.png example3-tiny.png \
+ example4-tiny.png example5-tiny.png example6-tiny.png \
+ example6histogram-tiny.png example7-tiny.png \
+ example8-tiny.png example9-tiny.png example10-tiny.png \
+ example10color-tiny.png example11-tiny.png example12-tiny.png \
+ example13-tiny.png logo.png
+
+EXTRA_DIST = $(txt_files) \
  example1.gri example2.gri example3.gri example4.gri example5.gri\
  example6.gri example6histogram.gri example7.gri example8.gri\
  example9.gri example10.gri example10color.gri example11.gri\
@@ -24,12 +53,7 @@ EXTRA_DIST = \
  example12.ps example13.ps \
  logo.ps FEM.ps
 
-DISTCLEANFILES = `ls *.html *.png *.eps`
-GRITEST = ../../gri -directory ../.. -y
-GRI = gri -y -p
-
-%.ps : %.gri
-	$(GRI) $<
+DISTCLEANFILES = $(png_files) $(eps_files) $(html_files)
 
 %.eps : %.ps
 	cp $< $@
@@ -46,38 +70,26 @@ GRI = gri -y -p
 	perl $(srcdir)/../gri2html $< $@
 
 all: html png eps
+html: $(html_files)
+eps: $(eps_files)
+png: $(png_files)
 
-original_all:
+# Everything below this line is old, or is provide
+# for the developer's use only.
+GRITEST = ../../gri -directory ../.. -y
+GRI = gri -y -p
+%.ps : %.gri
+	$(GRI) $<
+
+old_all_target:
 	make eps
 	make html
 	make png
-
-html: FEM.html example1.html example2.html example3.html example4.html \
- example5.html example6.html example6histogram.html \
- example7.html example8.html example9.html example10.html \
- example10color.html example11.html example12.html example13.html \
- logo.html
-
-eps: FEM.eps example1.eps example2.eps example3.eps example4.eps \
- example5.eps example6.eps example6histogram.eps \
- example7.eps example8.eps example9.eps example10.eps \
- example10color.eps example11.eps example12.eps example13.eps logo.eps
 
 pdf: FEM.pdf example1.pdf example2.pdf example3.pdf example4.pdf \
  example5.pdf example6.pdf example6histogram.pdf \
  example7.pdf example8.pdf example9.pdf example10.pdf \
  example10color.pdf example11.pdf example12.pdf example13.pdf logo.pdf
-
-png: FEM.png example1.png example2.png example3.png example4.png \
- example5.png example6.png example6histogram.png \
- example7.png example8.png example9.png example10.png \
- example10color.png example11.png example12.png example13.png \
- FEM-tiny.png example1-tiny.png example2-tiny.png example3-tiny.png \
- example4-tiny.png example5-tiny.png example6-tiny.png \
- example6histogram-tiny.png example7-tiny.png \
- example8-tiny.png example9-tiny.png example10-tiny.png \
- example10color-tiny.png example11-tiny.png example12-tiny.png \
- example13-tiny.png logo.png
 
 ps: FEM.ps example1.ps example2.ps example3.ps example4.ps \
  example5.ps example6.ps example6histogram.ps \
