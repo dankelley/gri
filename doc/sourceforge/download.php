@@ -39,6 +39,18 @@ print "<A HREF=\"$ftp_site/gri_2.8.6-0potato1_i386.deb\">old package</a> for the
 print "<A HREF=\"$ftp_site/gri_$gri_stable_version-1_i386.deb\">woody</a> distribution, and\n";
 print "a <A HREF=\"$ftp_site/gri-${gri_stable_version}static_2.10.1-1_i386.deb\">static</a> package, with no documentation files.</a>\n";
 ?>
+The Potato package is the last version of gri which would build without
+changes in that distribution (due to uncompatible changes in debhelper
+scripts which are used to make the package).  The woody package is
+identical to the package currently in Debian's unstable distribution (sid),
+but is woody-compatible with respect to libraries.  The static package
+is a version-specific package made to live alongside other releases
+(possibly newer) of the regular gri package, thus providing backwards
+compatibility for your old code that may depend on a version of Gri.  To
+distinguish this package from the regular `gri' package, it is named as
+<i>gri-2.10.1static</i> as opposed to simply <i>gri</i>.  It does not
+contain Info files or the Emacs gri-mode;  install a regular version of the
+Gri package to get those.
 
 <p>For <b>Solaris OS5</b>,
 a <?php print "<A HREF=\"$ftp_site/gri-$gri_stable_version-SunOS5.tar.gz\">pre-compiled tarball</a>\n"; ?>
