@@ -1,0 +1,10 @@
+set font to TimesRoman
+set font size 12
+draw label "The Gri Graphing Language" at 2 2 cm
+set line width rapidograph 00
+draw line from 2 1.85 to 18 1.85 cm
+set symbol size 0.4
+set color rgb {rpn 99 255 /} {rpn 33 255 /} {rpn 33 255 /}
+draw symbol filledtriangleup    at 16.2 2.10 cm
+draw symbol filledtriangleleft  at 17.2 2.15 cm
+draw symbol filledtriangleright at 17.7 2.15 cm

@@ -1,0 +1,924 @@
+%!PS-Adobe-2.0 EPSF-1.2
+%%Creator: Gri2.2.4 (released 1999-Oct-20).  User=kelley, commandfile=example3.gri
+%%Title: example3.ps
+%%CreationDate: Thu Oct 21 11:30:26 1999
+%%Pages: (atend)
+%%BoundingBox: (atend)
+%%TemplateBox: 0 0 612 792
+%%DocumentFonts: (atend)
+%%Endcomments
+% NOTE: The Gri postscript dictionary is being converted to the Adobe
+% Illustrator 3.0 dialect of PostScript, as described in the Adobe
+% documents stored at URL
+%   http://www.adobe.com/Support/TechNotes.html
+% (as of Jan 1996, this doc is number 5007).  When the conversion
+% is complete, the Adobe Illustrator drawing program -- and any
+% program compatible with AI -- will be able to edit Gri output.
+%
+% The IslandDraw (TM) program is able to read Gri output
+% at this time; remarkably, it can read/edit arbitrary PostScript.
+%
+% The definitions below are presented in the same order as the Adobe
+% manual.  The stack configuration before and after is shown in curly
+% brackets.  All the operators are listed, but only some are defined
+% here. Most things are faithful, except that no distinction is made
+% between colors for stroking and filling paths.  The string 'WRONGLY'
+% appears with commands that are approximations.
+%
+% PDF-style abbreviations:
+/rg {setrgbcolor} def   % {red green blue}            {-} set RGB color
+/RG {setrgbcolor} def   % {red green blue}            {-} set RGB color
+/q {gsave} def
+/Q {grestore} def
+/W {clip} def
+/W* {eoclip} def
+%
+% Gri-specific abbreviations:
+/hsb {sethsbcolor} def  % {hue saturation brightness} {-} set HSB color
+%
+% Following all try to mimic Adobe Illustrator
+%
+% Mimicking section 5.1 of Adobe manual:
+%A                      % {flag A}          {-} Determine whether
+                        %                       following object can
+                        %                       be selected. Flag=1
+                        %                       prevents selection;
+                        %                       flag=0 allows it.
+
+% Mimicking section 5.2 of Adobe manual:
+%u                      % {u}               {-} start group
+%U                      % end group
+%q                      % as 'u' but first item is a clip path
+%Q                      % as 'U' but first item is a clip path
+
+% Mimicking section 5.3 of Adobe manual:
+/g {setgray} def        % {gray g}          {-} Set gray for fill
+                        %                       path, WRONGLY used
+                        %                       for stroking also. 
+/G {setgray} def        % As 'g', but for filling path.
+%k                      % Set cmyk color for filling path.
+%K                      % As 'k', but for stroking path.
+%x                      % Set cmyk custom color for filling path.
+%X                      % As 'x' but for stroking path.
+%p                      % Define pattern for filling path.
+%P                      % As 'p' but for stroking path.
+%O                      % Specify whether overprinting for fill paths
+%R                      % As 'O' but for stroking path.
+
+% Mimicking section 5.4 of Adobe manual:
+/d {setdash} def        % {[array] phase d} {-} Set dash.
+/i {setflat} def        % {flatness i}      {-} Set flatness.
+/j {setlinejoin} def    % {linejoin j}      {-} Set line join.
+/J {setlinecap} def     % {linecap J}       {-} Set line cap.
+/M {setmiterlimit} def  % {miterlimit M}    {-} Set miter limit.
+/w {setlinewidth} def   % {linewidth w}     {-} Set line width.
+
+% Mimicking section 5.5 of Adobe manual:
+/m {moveto} def         % {x y m}           {-} Move to locn
+/l {lineto} def         % {x y l}           {-} Draw line to locn
+                        %                       not a smooth point.
+                        %                       WRONGLY, no
+                        %                       distinction is made
+                        %                       between smooth and
+                        %                       corner. 
+%L                      % {x y L}           {-} As 'l' but a corner
+%c                      % Bezier curve to smooth point.
+%C                      % As 'c' but to corner point.
+%v                      % Something else to do with Bezier.
+%V                      % 
+%y                      % 
+%Y                      % 
+
+% Mimicking section 5.6 of Adobe manual:
+%N                      % {N}               {-} As 'n' for nondrawn stuff
+/n {newpath} def        % {n}               {-} WRONGLY interpreted
+                        %                       as path constructor
+/F {fill} def           % {F}               {-} Fill current path.
+%f                      % {f}               {-} 'F' but close first
+/S {stroke} def         % {S}               {-} Stroke current path.
+%s                      % {s}               {-} 'S' but close first
+%B                      % {B}               {-} As 's' but don't empty path.
+%b                      % {b}               {-} As 'f' but don't empty path.
+%H                      % no-op (weird huh?)
+/h {closepath} def      % {h}               {-} Close  current path
+%W                      % Used to create masks.
+
+% Mimicking section 5.7 of Adobe manual:
+%a                      % Begin text block ...
+%e                      % Similar to 'a' but ...
+%I                      % Similar to 'a' but ...
+%o                      % Similar to 'a' but ...
+%r                      % Similar to 'a' but ...
+%t                      % {len (string) t}  {-} Render string.
+%T                      % End block of text
+
+% That's the end of the Illustrator stuff. Following are some Gri
+% definitions which provide a temporary way of handling fonts. 
+/sf {setfont} def       % {fontname sf}     {-} Set font name.
+/sh {show} def          % {(text) sh}       {-} Show text.
+/sc {scalefont} def     % {size sc}         {-} Scale font.
+% Gri items which should be translated to Illustrator format:
+/rl {rlineto} def
+/rm {rmoveto} def
+% Procedures
+/cimdict 7 dict def
+/cim {
+ cimdict begin
+ /cl exch def
+ /rw exch def
+ /yur exch def
+ /xur exch def
+ /yll exch def
+ /xll exch def
+ q
+ xll yll translate
+ xur xll sub yur yll sub scale
+ /do cl 3 mul string def
+ cl rw 8 [cl 0 0 rw neg 0 rw] {currentfile do readhexstring pop} false 3 colorimage
+ Q
+ end
+} def
+/imdict 14 dict def
+/im {
+ imdict begin
+ /cl exch def
+ /rw exch def
+ /yur exch def
+ /xur exch def
+ /yll exch def
+ /xll exch def
+ /imagemap exch def
+ q
+ % Add the mapping to the transfer function (ref: white book, p 743.
+ [{255 mul cvi imagemap exch get} /exec load currenttransfer /exec load]
+   cvx settransfer
+ xll yll translate
+ xur xll sub yur yll sub scale
+ /do cl string def
+ cl rw 8 [cl 0 0 rw neg 0 rw] {currentfile do readhexstring pop}image
+ Q
+ end
+} def
+/frdict  5 dict def
+/fr {
+ frdict begin
+ /yt exch def
+ /xr exch def
+ /yb exch def
+ /xl exch def
+ n
+ xl yb m
+ xl yt l
+ xr yt l
+ xr yb l
+ h
+ F
+ n
+ end
+} def
+/plusdict 3 dict def
+/_plus {
+ plusdict begin
+ dup 0.5 mul /t0 exch def
+ /t1 exch def
+ 0 t0 rm
+ 0 t1 neg rl
+ t0 neg t0 rm
+ t1 0 rl
+ t0 neg 0 rm
+ end
+} def
+/timesdict 3 dict def
+/_times {
+ timesdict begin
+ dup 0.353553 mul /t0 exch def
+ 0.707106 mul /t1 exch def
+ t0 neg t0 rm
+ t1 dup neg rl
+ t1 neg 0 rm
+ t1 dup rl
+ t0 neg dup rm
+ end
+} def
+/boxdict 3 dict def
+/_box {
+ boxdict begin
+ dup 0.5 mul /t0 exch def
+ 1 mul /t1 exch def
+ t0 neg t0 rm
+ t1 0 rl
+ 0 t1 neg rl
+ t1 neg 0 rl
+ h
+ t0 dup neg rm
+ end
+} def
+/filledboxdict 3 dict def
+/_filledbox {
+ filledboxdict begin
+ dup 0.5 mul /t0 exch def
+ 1 mul /t1 exch def
+ t0 neg t0 rm
+ t1 0 rl
+ 0 t1 neg rl
+ t1 neg 0 rl
+ h
+ t0 dup neg rm
+ F end
+} def
+/diamonddict 2 dict def
+/_diamond {
+ diamonddict begin
+ 0.5 mul /t0 exch def
+ t0 neg 0 rm
+ t0 dup rl
+ t0 dup neg rl
+ t0 neg dup rl
+ h
+ t0 0 rm
+ end
+} def
+/filleddiamonddict 2 dict def
+/_filleddiamond {
+ filleddiamonddict begin
+ 0.5 mul /t0 exch def
+ t0 neg 0 rm
+ t0 dup rl
+ t0 dup neg rl
+ t0 neg dup rl
+ h
+ t0 0 rm
+ F end
+} def
+/triangleupdict 5 dict def
+/_triangleup {
+ triangleupdict begin
+ dup 0.25 mul /t0 exch def
+ dup 0.433013 mul /t1 exch def
+ dup 0.75 mul /t2 exch def
+ 0.866026 mul /t3 exch def
+ t1 neg t0 neg rm
+ t1 t2 rl
+ t1 t2 neg rl
+ h
+ t1 t0 rm
+ end
+} def
+/filledtriangleupdict 5 dict def
+/_filledtriangleup {
+ filledtriangleupdict begin
+ dup 0.25 mul /t0 exch def
+ dup 0.433013 mul /t1 exch def
+ dup 0.75 mul /t2 exch def
+ 0.866026 mul /t3 exch def
+ t1 neg t0 neg rm
+ t1 t2 rl
+ t1 t2 neg rl
+ h
+ t1 t0 rm
+ F end
+} def
+/trianglerightdict 5 dict def
+/_triangleright {
+ trianglerightdict begin
+ dup 0.25 mul /t0 exch def
+ dup 0.433013 mul /t1 exch def
+ dup 0.75 mul /t2 exch def
+ 0.866026 mul /t3 exch def
+ t0 neg t1 rm
+ t2 t1 neg rl
+ t2 neg t1 neg rl
+ h
+ t0 t1 neg rm
+ end
+} def
+/filledtrianglerightdict 5 dict def
+/_filledtriangleright {
+ filledtrianglerightdict begin
+ dup 0.25 mul /t0 exch def
+ dup 0.433013 mul /t1 exch def
+ dup 0.75 mul /t2 exch def
+ 0.866026 mul /t3 exch def
+ t0 neg t1 rm
+ t2 t1 neg rl
+ t2 neg t1 neg rl
+ h
+ t0 t1 neg rm
+ F end
+} def
+/triangledowndict 5 dict def
+/_triangledown {
+ triangledowndict begin
+ dup 0.25 mul /t0 exch def
+ dup 0.433013 mul /t1 exch def
+ dup 0.75 mul /t2 exch def
+ 0.866026 mul /t3 exch def
+ t1 neg t0 rm
+ t3 0 rl
+ t1 neg t2 neg rl
+ h
+ t1 t0 neg rm
+ end
+} def
+/filledtriangledowndict 5 dict def
+/_filledtriangledown {
+ filledtriangledowndict begin
+ dup 0.25 mul /t0 exch def
+ dup 0.433013 mul /t1 exch def
+ dup 0.75 mul /t2 exch def
+ 0.866026 mul /t3 exch def
+ t1 neg t0 rm
+ t3 0 rl
+ t1 neg t2 neg rl
+ h
+ t1 t0 neg rm
+ F end
+} def
+/triangleleftdict 5 dict def
+/_triangleleft {
+ triangleleftdict begin
+ dup 0.25 mul /t0 exch def
+ dup 0.433013 mul /t1 exch def
+ dup 0.75 mul /t2 exch def
+ 0.866026 mul /t3 exch def
+ t0 t1 rm
+ 0 t3 neg rl
+ t2 neg t1 rl
+ h
+ t0 neg t1 neg rm
+ end
+} def
+/filledtriangleleftdict 5 dict def
+/_filledtriangleleft {
+ filledtriangleleftdict begin
+ dup 0.25 mul /t0 exch def
+ dup 0.433013 mul /t1 exch def
+ dup 0.75 mul /t2 exch def
+ 0.866026 mul /t3 exch def
+ t0 t1 rm
+ 0 t3 neg rl
+ t2 neg t1 rl
+ h
+ t0 neg t1 neg rm
+ F end
+} def
+/circdict 5 dict def
+/_circ {
+ circdict begin
+ 0.5 mul /t0 exch def
+ currentpoint
+ /t2 exch def
+ /t1 exch def
+ S n t1 t2 t0 0 360 arc
+ t1 t2 m
+ end
+} def
+/bulldict 3 dict def
+/_bull {
+ bulldict begin
+ 0.5 mul /r exch def
+ currentpoint /y exch def /x exch def
+ S n x y r 0 360 arc h F S
+ end
+} def
+/filledhalfmoonupdict 3 dict def
+/_filledhalfmoonup {
+ bulldict begin
+ 0.5 mul /r exch def
+ currentpoint /y exch def /x exch def
+ S n x y r 0 180 arc h F S
+ end
+} def
+/filledhalfmoondowndict 3 dict def
+/_filledhalfmoondown {
+ bulldict begin
+ 0.5 mul /r exch def
+ currentpoint /y exch def /x exch def
+ S n x y r 180 360 arc h F S
+ end
+} def
+1 1 scale
+10.0 M
+1 j
+/Courier findfont dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse } forall
+  /Encoding ISOLatin1Encoding def
+  currentdict
+end
+/Courier-ISOLatin1 exch definefont pop
+/Courier-Bold findfont dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse } forall
+  /Encoding ISOLatin1Encoding def
+  currentdict
+end
+/Courier-Bold-ISOLatin1 exch definefont pop
+/Helvetica findfont dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse } forall
+  /Encoding ISOLatin1Encoding def
+  currentdict
+end
+/Helvetica-ISOLatin1 exch definefont pop
+/Helvetica-Bold findfont dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse } forall
+  /Encoding ISOLatin1Encoding def
+  currentdict
+end
+/Helvetica-Bold-ISOLatin1 exch definefont pop
+/Palatino-Roman findfont dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse } forall
+  /Encoding ISOLatin1Encoding def
+  currentdict
+end
+/Palatino-Roman-ISOLatin1 exch definefont pop
+/Palatino-Bold findfont dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse } forall
+  /Encoding ISOLatin1Encoding def
+  currentdict
+end
+/Palatino-Bold-ISOLatin1 exch definefont pop
+/Palatino-Italic findfont dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse } forall
+  /Encoding ISOLatin1Encoding def
+  currentdict
+end
+/Palatino-Italic-ISOLatin1 exch definefont pop
+/Symbol findfont dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse } forall
+  /Encoding ISOLatin1Encoding def
+  currentdict
+end
+/Symbol-ISOLatin1 exch definefont pop
+/Times findfont dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse } forall
+  /Encoding ISOLatin1Encoding def
+  currentdict
+end
+/Times-ISOLatin1 exch definefont pop
+/Times-Bold findfont dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse } forall
+  /Encoding ISOLatin1Encoding def
+  currentdict
+end
+/Times-Bold-ISOLatin1 exch definefont pop
+/Times-Roman findfont dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse } forall
+  /Encoding ISOLatin1Encoding def
+  currentdict
+end
+/Times-Roman-ISOLatin1 exch definefont pop
+%%EndProlog
+%%Page: 1 1
+/Helvetica-ISOLatin1 findfont 12.00 sc sf
+%gri:# Example 3 -- Controlling scales, etc
+%gri:# $Id: example3.ps,v 1.1 2000/05/11 15:07:57 dankelley Exp $
+%gri:
+%gri:#
+%gri:# Example of how to control axis scales, etc.  This example makes
+%gri:# two panels, plotting the same data in different ways.
+%gri:#
+%gri:#
+%gri:# ----- PANEL 2 ------------------------------------------------
+%gri:#
+%gri:# Set up the x axis.
+%gri:#
+%gri:# Make the x axis run from 0 to 1, with labelled tics each 0.25. 
+%gri:set x axis 0   1   .25
+%gri:# Make the plot 5 cm wide.
+%gri:set x size 5
+%gri:# 2 cm of space between the left edge of the plot
+%gri:# and the left edge of the paper.
+%gri:set x margin 2
+%gri:# Give the x-axis the name "t" with subscript 0.
+%gri:set x name "$t_0$"
+%gri:#
+%gri:# Set up the y axis.
+%gri:#
+%gri:# Make the y axis run from 10 to 20, with labelled tics at intervals
+%gri:# of 5 and smaller, unlabelled, tics, at intervals of 1.  Other
+%gri:# commands are similar to those for the x-axis.
+%gri:set y axis 10 20 5 1
+%gri:set y size 10
+%gri:set y margin 2
+%gri:set y name "F"
+%gri:#
+%gri:# Now, read our simple data set.
+%gri:open example1.dat
+%gri:read columns x y
+%gri:close
+%gri:#
+%gri:# Draw a curve connecting these (x,y) data.  Note that the axes, as
+%gri:# defined above, will be drawn automatically along with the curve.
+%gri:draw curve 
+%^ scale 1 56.9 0 142.25 1 56.9 10 28.45
+0.709 w
+0 g
+0 G
+1.0 i 0 J 1 j 0.709 w 10.0 M [] 0 d
+64.01 128.03 m
+92.46 312.95 l
+128.03 199.15 l
+163.59 199.15 l
+192.04 142.25 l
+S
+% END GriPath stroke/fill
+% gr_show_at() BEGIN
+0 g
+0 G
+53.6 36.1 m (0) sh
+% gr_show_at() END
+% gr_show_at() BEGIN
+0 g
+0 G
+80.7 36.1 m (0.25) sh
+% gr_show_at() END
+% gr_show_at() BEGIN
+0 g
+0 G
+119.7 36.1 m (0.5) sh
+% gr_show_at() END
+% gr_show_at() BEGIN
+0 g
+0 G
+151.9 36.1 m (0.75) sh
+% gr_show_at() END
+% gr_show_at() BEGIN
+0 g
+0 G
+195.8 36.1 m (1) sh
+% gr_show_at() END
+0 g
+0 G
+1.0 i 0 J 0 j 0.369 w 10.0 M [] 0 d
+56.90 56.90 m
+56.90 56.90 l
+56.90 51.21 l
+56.90 56.90 l
+92.46 56.90 l
+92.46 51.21 l
+92.46 56.90 l
+128.03 56.90 l
+128.03 51.21 l
+128.03 56.90 l
+163.59 56.90 l
+163.59 51.21 l
+163.59 56.90 l
+199.15 56.90 l
+199.15 51.21 l
+199.15 56.90 l
+199.19 56.90 l
+S
+% END GriPath stroke/fill
+% gr_show_at() BEGIN
+0 g
+0 G
+123.0 20.9 m () sh
+/Helvetica-Oblique-ISOLatin1 findfont 12.00 sc sf
+(t) sh
+0.0 -3.2 rm
+/Helvetica-Oblique-ISOLatin1 findfont 9.00 sc sf
+() sh
+/Helvetica-ISOLatin1 findfont 9.00 sc sf
+(0) sh
+/Helvetica-Oblique-ISOLatin1 findfont 9.00 sc sf
+() sh
+/Helvetica-Oblique-ISOLatin1 findfont 12.00 sc sf
+0.0 3.2 rm
+() sh
+/Helvetica-ISOLatin1 findfont 12.00 sc sf
+() sh
+% gr_show_at() END
+/Helvetica-ISOLatin1 findfont 0.00 sc sf
+0 g
+0 G
+1.0 i 0 J 0 j 0.369 w 10.0 M [] 0 d
+56.90 341.40 m
+56.90 341.40 l
+56.90 347.09 l
+56.90 341.40 l
+92.46 341.40 l
+92.46 347.09 l
+92.46 341.40 l
+128.03 341.40 l
+128.03 347.09 l
+128.03 341.40 l
+163.59 341.40 l
+163.59 347.09 l
+163.59 341.40 l
+199.15 341.40 l
+199.15 347.09 l
+199.15 341.40 l
+199.19 341.40 l
+S
+% END GriPath stroke/fill
+/Helvetica-ISOLatin1 findfont 12.00 sc sf
+% gr_show_at() BEGIN
+0 g
+0 G
+32.0 52.6 m (10) sh
+% gr_show_at() END
+% gr_show_at() BEGIN
+0 g
+0 G
+32.0 194.8 m (15) sh
+% gr_show_at() END
+% gr_show_at() BEGIN
+0 g
+0 G
+32.0 337.1 m (20) sh
+% gr_show_at() END
+0 g
+0 G
+1.0 i 0 J 0 j 0.369 w 10.0 M [] 0 d
+56.90 56.90 m
+56.90 56.90 l
+51.21 56.90 l
+56.90 56.90 l
+56.90 85.35 l
+54.05 85.35 l
+56.90 85.35 l
+56.90 113.80 l
+54.05 113.80 l
+56.90 113.80 l
+56.90 142.25 l
+54.05 142.25 l
+56.90 142.25 l
+56.90 170.70 l
+54.05 170.70 l
+56.90 170.70 l
+56.90 199.15 l
+51.21 199.15 l
+56.90 199.15 l
+56.90 227.60 l
+54.05 227.60 l
+56.90 227.60 l
+56.90 256.05 l
+54.05 256.05 l
+56.90 256.05 l
+56.90 284.50 l
+54.05 284.50 l
+56.90 284.50 l
+56.90 312.95 l
+54.05 312.95 l
+56.90 312.95 l
+56.90 341.40 l
+51.21 341.40 l
+56.90 341.40 l
+56.90 341.40 l
+S
+% END GriPath stroke/fill
+% gr_show_at() BEGIN
+0 g
+0 G
+26.1 195.5 m 90.00 rotate (F) sh
+-90.00 rotate % gr_show_at() END
+/Helvetica-ISOLatin1 findfont 0.00 sc sf
+0 g
+0 G
+1.0 i 0 J 0 j 0.369 w 10.0 M [] 0 d
+199.15 56.90 m
+199.15 56.90 l
+204.84 56.90 l
+199.15 56.90 l
+199.15 85.35 l
+201.99 85.35 l
+199.15 85.35 l
+199.15 113.80 l
+201.99 113.80 l
+199.15 113.80 l
+199.15 142.25 l
+201.99 142.25 l
+199.15 142.25 l
+199.15 170.70 l
+201.99 170.70 l
+199.15 170.70 l
+199.15 199.15 l
+204.84 199.15 l
+199.15 199.15 l
+199.15 227.60 l
+201.99 227.60 l
+199.15 227.60 l
+199.15 256.05 l
+201.99 256.05 l
+199.15 256.05 l
+199.15 284.50 l
+201.99 284.50 l
+199.15 284.50 l
+199.15 312.95 l
+201.99 312.95 l
+199.15 312.95 l
+199.15 341.40 l
+204.84 341.40 l
+199.15 341.40 l
+199.15 341.40 l
+S
+% END GriPath stroke/fill
+/Helvetica-ISOLatin1 findfont 12.00 sc sf
+%gri:
+%gri:
+%gri:#
+%gri:# ----- PANEL 2 -----------------------------------------
+%gri:#
+%gri:# OK, now for a more complicated version.  We'll keep the
+%gri:# same data, but redraw it in a new panel, to the right of
+%gri:# the first graph.  So, the first step is to increase the
+%gri:# x margin.  The rpn command creates a number which is
+%gri:# the sum of the old x margin (stored in the variable
+%gri:# ..xmargin..) and the old plot width (stored in
+%gri:# the variable ..xsize..), plus an extra 1 cm
+%gri:set x margin bigger {rpn ..xsize.. ..xmargin.. + 1 +}
+%gri:# 
+%gri:# Set the line thickness for the curve to 1 point (0.3 mm) and the
+%gri:# axis line thickness to 0.2 points (0.1 mm).
+%gri:set line width 1.0		# points
+%gri:set line width axis 0.2		# points
+%gri:# Set the tics to be 1.5 mm.
+%gri:set tic size 0.15		# centimetres
+%gri:# Draw axes and frame, with axes offset from frame.  Some
+%gri:# people find this more attractive.
+%gri:set axes style offset
+%gri:draw axes 1
+% gr_show_at() BEGIN
+0 g
+0 G
+281.2 33.2 m (0) sh
+% gr_show_at() END
+% gr_show_at() BEGIN
+0 g
+0 G
+308.3 33.2 m (0.25) sh
+% gr_show_at() END
+% gr_show_at() BEGIN
+0 g
+0 G
+347.3 33.2 m (0.5) sh
+% gr_show_at() END
+% gr_show_at() BEGIN
+0 g
+0 G
+379.5 33.2 m (0.75) sh
+% gr_show_at() END
+% gr_show_at() BEGIN
+0 g
+0 G
+423.4 33.2 m (1) sh
+% gr_show_at() END
+0 g
+0 G
+1.0 i 0 J 0 j 0.200 w 10.0 M [] 0 d
+284.50 52.63 m
+284.50 52.63 l
+284.50 48.36 l
+284.50 52.63 l
+320.06 52.63 l
+320.06 48.36 l
+320.06 52.63 l
+355.62 52.63 l
+355.62 48.36 l
+355.62 52.63 l
+391.19 52.63 l
+391.19 48.36 l
+391.19 52.63 l
+426.75 52.63 l
+426.75 48.36 l
+426.75 52.63 l
+426.79 52.63 l
+S
+% END GriPath stroke/fill
+% gr_show_at() BEGIN
+0 g
+0 G
+350.6 18.1 m () sh
+/Helvetica-Oblique-ISOLatin1 findfont 12.00 sc sf
+(t) sh
+0.0 -3.2 rm
+/Helvetica-Oblique-ISOLatin1 findfont 9.00 sc sf
+() sh
+/Helvetica-ISOLatin1 findfont 9.00 sc sf
+(0) sh
+/Helvetica-Oblique-ISOLatin1 findfont 9.00 sc sf
+() sh
+/Helvetica-Oblique-ISOLatin1 findfont 12.00 sc sf
+0.0 3.2 rm
+() sh
+/Helvetica-ISOLatin1 findfont 12.00 sc sf
+() sh
+% gr_show_at() END
+% gr_show_at() BEGIN
+0 g
+0 G
+256.7 52.6 m (10) sh
+% gr_show_at() END
+% gr_show_at() BEGIN
+0 g
+0 G
+256.7 194.8 m (15) sh
+% gr_show_at() END
+% gr_show_at() BEGIN
+0 g
+0 G
+256.7 337.1 m (20) sh
+% gr_show_at() END
+0 g
+0 G
+1.0 i 0 J 0 j 0.200 w 10.0 M [] 0 d
+280.23 56.90 m
+280.23 56.90 l
+275.96 56.90 l
+280.23 56.90 l
+280.23 85.35 l
+278.10 85.35 l
+280.23 85.35 l
+280.23 113.80 l
+278.10 113.80 l
+280.23 113.80 l
+280.23 142.25 l
+278.10 142.25 l
+280.23 142.25 l
+280.23 170.70 l
+278.10 170.70 l
+280.23 170.70 l
+280.23 199.15 l
+275.96 199.15 l
+280.23 199.15 l
+280.23 227.60 l
+278.10 227.60 l
+280.23 227.60 l
+280.23 256.05 l
+278.10 256.05 l
+280.23 256.05 l
+280.23 284.50 l
+278.10 284.50 l
+280.23 284.50 l
+280.23 312.95 l
+278.10 312.95 l
+280.23 312.95 l
+280.23 341.40 l
+275.96 341.40 l
+280.23 341.40 l
+280.23 341.40 l
+S
+% END GriPath stroke/fill
+% gr_show_at() BEGIN
+0 g
+0 G
+250.9 195.5 m 90.00 rotate (F) sh
+-90.00 rotate % gr_show_at() END
+0 g
+0 G
+1.0 i 0 J 1 j 0.200 w 10.0 M [] 0 d
+284.50 341.40 m
+426.75 341.40 l
+426.75 56.90 l
+284.50 56.90 l
+284.50 341.40 l
+S
+% END GriPath stroke/fill
+%gri:# Now draw the actual curve.
+%gri:draw curve
+%^ scale 1 284.5 0 142.25 1 56.9 10 28.45
+1.000 w
+0 g
+0 G
+1.0 i 0 J 1 j 1.000 w 10.0 M [] 0 d
+291.61 128.03 m
+320.06 312.95 l
+355.62 199.15 l
+391.19 199.15 l
+419.64 142.25 l
+S
+% END GriPath stroke/fill
+%gri:# Superimpose dots (radius 1.5 mm) at the data.
+%gri:set symbol size 0.15
+%gri:draw symbol bullet
+%^ scale 1 284.5 0 142.25 1 56.9 10 28.45
+0 g
+0 G
+0.369 w
+0.369 w
+n 291.6 128.0 m 4.3 _bull S
+n 320.1 312.9 m 4.3 _bull S
+n 355.6 199.1 m 4.3 _bull S
+n 391.2 199.1 m 4.3 _bull S
+n 419.6 142.2 m 4.3 _bull S
+%gri:#
+%gri:# All done.
+%gri:# Draw a title above the plot.
+%gri:set font size 20
+/Helvetica-ISOLatin1 findfont 20.00 sc sf
+%gri:\label = "Example 3 -- scales, axes, etc"
+%gri:draw label "\label" at              {rpn 8.5 2.54 * "\label" width - 2 /}     {rpn ..ytop.. yusertocm 2 +}    cm
+%^ scale 1 284.5 0 142.25 1 56.9 10 28.45
+% gr_show_at() BEGIN
+0 g
+0 G
+S
+n
+173.3 398.3 m
+(Example 3 -- scales, axes, etc) sh
+% gr_show_at() END
+%gri:quit
+showpage
+%%Trailer
+%%BoundingBox: 15 13 443 415
+%%DocumentFonts: Courier Helvetica Palatino-Roman Palatino-Italic Symbol Times-Roman
+%%Pages: 1

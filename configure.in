@@ -1,0 +1,274 @@
+dnl HINT: to figure out machine name, compile a program (even a dummy
+dnl program) with options as
+dnl             gcc -E -dM dummy.c
+dnl and note defines that look like the machine name.  For example,
+dnl on a Silicon Graphics (SGI) machine, you'll see, among other
+dnl things, a line like 
+dnl         #define sgi 1
+dnl To see how this is used, see the "DEK_IS_SGI" code below, in the
+dnl present file.
+
+dnl For intro on how to code in this 'configure' (really, 'm4')
+dnl language, see the file
+dnl     /opt/gnu/share/autoconf/acspecific.m4
+
+AC_PREREQ(2.1)
+
+AC_INIT(gr.hh)
+
+AC_PREFIX_DEFAULT(/usr)
+
+AC_PROG_INSTALL
+
+PROGS="gri"
+
+AC_SUBST(PROGS)
+
+dnl     checks for programs.
+
+AC_PROG_CXX
+AC_PROG_CXXCPP
+AC_LANG_CPLUSPLUS
+
+dnl	See if uses string::remove or string::erase
+AC_DEFUN(CHECK_OLD_STRING,
+AC_MSG_CHECKING(for old C++ subroutine called string::remove)
+AC_CACHE_VAL(gri_cv_have_old_string, [
+    AC_TRY_COMPILE([
+#define _POSIX_SOURCE 1
+#include <string>
+], [
+string s("hi");
+s.remove(0,1);
+], gri_cv_have_old_string=yes, gri_cv_have_old_string=no)])
+    AC_MSG_RESULT($gri_cv_have_old_string)
+    if test $gri_cv_have_old_string = yes ; then
+        AC_DEFINE(HAVE_OLD_STRING)
+    fi
+    )dnl
+dnl
+CHECK_OLD_STRING
+
+
+define(GCC_TWEAK1,
+AC_MSG_CHECKING(for gcc compiler)
+[AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([$0], [AC_HEADER_EGREP])AC_BEFORE([$0], [AC_TEST_CPP])AC_EGREP_CPP(yes,
+[#if defined(__GNUC__)
+  yes
+#endif
+], GCC=yes, GCC=no)
+if test $GCC = yes; then
+  EXTRA_CFLAGS_TEMPLATE="$EXTRA_CFLAGS -Wall"
+  EXTRA_CFLAGS="$EXTRA_CFLAGS -Wall -fno-implicit-templates"
+  AC_SUBST(EXTRA_CFLAGS)
+  AC_SUBST(EXTRA_CFLAGS_TEMPLATE)
+fi
+AC_MSG_RESULT($GCC)
+])dnl
+dnl
+GCC_TWEAK1
+
+dnl On DEC computers, with cxx compiler, need something special
+AC_DEFUN(IS_THIS_A_DECCXX_COMPILER,
+AC_MSG_CHECKING(for DEC cxx compiler)
+AC_CACHE_VAL(gri_cv_is_deccxx, [
+AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([$0], [AC_HEADER_EGREP])AC_BEFORE([$0], [AC_TEST_CPP])AC_EGREP_CPP(yes,
+[#ifdef __DECCXX
+  yes
+#endif
+], gri_cv_is_deccxx=yes, gri_cv_is_deccxx=no)])
+    AC_MSG_RESULT($gri_cv_is_deccxx)
+    if test $gri_cv_is_deccxx = yes; then
+        CXXFLAGS="$CXXFLAGS -D_ANSI_C_SOURCE"
+        AC_SUBST(CXXFLAGS)
+    fi
+)dnl
+dnl
+IS_THIS_A_DECCXX_COMPILER
+
+AC_DEFUN(IS_THIS_AN_ALPHA_SYSTEM,
+AC_MSG_CHECKING(for DEC alpha computer)
+AC_CACHE_VAL(gri_cv_is_dec_alpha, [
+AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([$0], [AC_HEADER_EGREP])AC_BEFORE([$0], [AC_TEST_CPP])AC_EGREP_CPP(yes,
+[#ifdef __alpha__
+  yes
+#endif
+], gri_cv_is_dek_alpha=yes, gri_cv_is_dec_alpha=no)])
+    AC_MSG_RESULT($gri_cv_is_dec_alpha)
+    if test $gri_cv_is_dec_alpha = yes; then
+        AC_DEFINE(IS_DEC_ALPHA)
+    fi
+)dnl
+dnl
+IS_THIS_AN_ALPHA_SYSTEM
+
+AC_DEFUN(IS_THIS_A_BEOS_SYSTEM,
+AC_MSG_CHECKING(for BeOS environment)
+AC_CACHE_VAL(gri_cv_is_beos, [
+AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([$0], [AC_HEADER_EGREP])AC_BEFORE([$0], [AC_TEST_CPP])AC_EGREP_CPP(yes,
+[#ifdef __BEOS__
+  yes
+#endif
+], gri_cv_is_beos=yes, gri_cv_is_beos=no)])
+    AC_MSG_RESULT($gri_cv_is_beos)
+    if test $gri_cv_is_beos = yes; then
+        AC_DEFINE(OS_IS_BEOS)
+    fi
+)dnl
+dnl
+IS_THIS_A_BEOS_SYSTEM
+
+
+dnl     See if HPUX system
+AC_DEFUN(IS_THIS_AN_HPUX_SYSTEM,
+AC_MSG_CHECKING(for HPUX environment)
+AC_CACHE_VAL(gri_cv_is_hpux, [
+AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([$0], [AC_HEADER_EGREP])AC_BEFORE([$0], [AC_TEST_CPP])AC_EGREP_CPP(yes,
+[#ifdef hpux
+  yes
+#endif
+], gri_cv_is_hpux=yes, gri_cv_is_hpux=no)])
+    AC_MSG_RESULT($gri_cv_is_hpux)
+    if test $gri_cv_is_hpux = yes; then
+        AC_DEFINE(OS_IS_HPUX)
+    fi
+)dnl
+dnl
+IS_THIS_AN_HPUX_SYSTEM
+
+
+
+dnl     See if SUN computer
+AC_DEFUN(DEK_IS_SUN,
+AC_MSG_CHECKING(for for Sun Microsystems computer)
+AC_CACHE_VAL(gri_cv_is_sun, [
+AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([$0], [AC_HEADER_EGREP])AC_BEFORE([$0], [AC_TEST_CPP])AC_EGREP_CPP(yes,
+[#ifdef sun
+  yes
+#endif
+], gri_cv_is_sun=yes, gri_cv_is_sun=no)])
+    AC_MSG_RESULT($gri_cv_is_sun)
+    if test $gri_cv_is_sun = yes; then
+        AC_DEFINE(IS_SUN)
+    fi
+)dnl
+dnl
+DEK_IS_SUN
+
+
+AC_CHECK_HEADERS(unistd.h)
+
+
+dnl     Check for netcdf library.  It might be
+dnl	in one of several places, so check
+dnl	several locations, reporting location
+dnl	if found.
+AC_MSG_CHECKING(for netcdf library)
+define(CHECK_FOR_NETCDF, [
+    if test -d /opt/netcdf/include ; then
+	#
+	# Solaris often has it here
+	CXXFLAGS="$CXXFLAGS -I/opt/netcdf/include"
+        LIBS="$LIBS -L/opt/netcdf/lib -lnetcdf"
+	if test $gri_cv_is_sun = yes ; then
+	    LIBS="$LIBS -lnsl"
+	fi
+	AC_DEFINE(HAVE_LIBNETCDF)
+        echo "yes (in /opt/netcdf/include/netcdf.h and /opt/netcdf/lib/libnetcdf.a)"
+    else
+	if test -f /usr/local/include/netcdf.h ; then
+	    CXXFLAGS="$CPPFLAGS -I/usr/local/include"
+	    LIBS="$LIBS -L/usr/local/lib -lnetcdf"
+            if test $gri_cv_is_sun = yes ; then
+		LIBS="$LIBS -lnsl"
+	    fi
+	    AC_DEFINE(HAVE_LIBNETCDF)
+            echo "yes (in /usr/local/include/netcdf.h and /usr/local/lib/libnetcdf.a)"
+	else
+	    #
+	    # Linux/debian often has it here.
+	    if test -f /usr/include/netcdf.h ; then
+                CXXFLAGS="$CPPFLAGS -I/usr/include/netcdf"
+                LIBS="$LIBS -L/usr/lib/netcdf -lnetcdf"
+                if test $gri_cv_is_sun = yes ; then
+                    LIBS="$LIBS -lnsl"
+                fi
+                AC_DEFINE(HAVE_LIBNETCDF)
+                echo "yes (in /usr/include/netcdf.h and /usr/lib/libnetcdf.a)"
+            else
+		if test -f /boot/home/lib/netcdf ; then
+		    CXXFLAGS="$CPPFLAGS -I/boot/home/include/netcdf"
+		    LIBS="$LIBS -L/boot/home/lib/netcdf -lnetcdf"
+                    if test $gri_cv_is_sun = yes ; then
+			LIBS="$LIBS -lnsl"
+		    fi
+                    echo "yes (in /boot/home/netcdf)"
+		    AC_DEFINE(HAVE_LIBNETCDF)
+		else
+	            echo "no"
+		fi
+            fi
+        fi
+    fi
+])dnl
+dnl
+CHECK_FOR_NETCDF
+
+AC_CHECK_LIB(m,sin)
+
+
+dnl     Don't use AC_PROG_AWK, since gets 'mawk' before 'gawk'
+define(DEK_PROG_AWK, [AC_CHECK_PROGS(AWK, gawk nawk mawk awk,)])dnl
+DEK_PROG_AWK
+
+dnl     checks for UNIX variants that set `DEFS'
+
+dnl     checks for header files
+dnl     stdarg.h, stdlib.h
+AC_HEADER_STDC
+
+dnl     checks for typedefs
+AC_TYPE_PID_T
+
+dnl     Check for POSIX times()
+AC_DEFUN(CHECK_FOR_POSIX_TIMES,
+AC_MSG_CHECKING(for POSIX times() subroutine)
+AC_CACHE_VAL(gri_cv_have_posix_times, [
+    AC_TRY_COMPILE([
+#define _POSIX_SOURCE 1
+#include <unistd.h>
+#include <limits.h>
+#include <time.h>
+#include <sys/times.h>
+], [
+struct tms buffer; 
+clock_t t = times(&buffer);
+], gri_cv_have_posix_times=yes, gri_cv_have_posix_times=no)])
+    AC_MSG_RESULT($gri_cv_have_posix_times)
+    if test $gri_cv_have_posix_times = yes ; then
+        AC_DEFINE(HAVE_POSIX_TIMES)
+    fi
+    )dnl
+dnl
+CHECK_FOR_POSIX_TIMES
+
+
+dnl     checks for functions
+AC_CHECK_FUNCS(isnan isinf acosh getcwd getenv popen drand48 tmpnam tempname gethostname access)
+
+dnl     checks for structure members
+
+dnl     checks for compiler characteristics
+
+dnl     checks for operating system services
+
+dnl     other checks for UNIX variants
+
+AC_OUTPUT(Makefile)
+
+echo
+echo "*  Note to developers: to get debugging malloc library,"
+echo "*  edit the Makefile and follow the directions in lines"
+echo "*  enclosed by comments like"
+echo "* # <<<--- DEVELOPERS: YOU MAY NEED TO EDIT THIS SECTION ------------------->>>"
+echo "* # <<<--- DEVELOPERS: END OF SECTION YOU MIGHT NEED TO EDIT --------------->>>"

@@ -1,0 +1,68 @@
+
+// Axes
+set page landscape
+set x margin 2.5
+set y margin 5
+set x size 20
+set y size 10
+set x axis -180 180 30
+set y axis -90 90 30
+set x name "Longitude"
+set y name "Latitude"
+set x format %.0lf$\circ$
+set y format %.0lf$\circ$
+draw axes
+
+// Read bathymetry data:
+open world.grid
+read .cols. .rows. .xl. .xr. .yb. .yt.
+//.xl. += {rpn .xr. .xl. - .cols. / 0.5 *}
+//.xr. += {rpn .xr. .xl. - .cols. / 0.5 *}
+//.yb. += {rpn .yt. .yb. - .rows. / 0.5 *}
+//.yt. += {rpn .yt. .yb. - .rows. / 0.5 *}
+set x grid .xl. .xr. /.cols.
+set y grid .yb. .yt. /.rows.
+read grid data .rows. .cols.
+close
+
+// Draw image
+set image range -5000 500
+open "\.awk. 'BEGIN { \
+    for (i = 0; i < 256; i++) { \
+    if (i <= 255) {R=0.8627; G=0.6588; B=0.3961;}\
+    if (i <= 241) {R=0.9020; G=0.7137; B=0.4392;}\
+    if (i <= 236) {R=0.9451; G=0.7647; B=0.4784;}\
+    if (i <= 232) {R=0.8824; G=0.9882; B=0.9686;}\
+    if (i <= 226) {R=0.7490; G=0.9490; B=0.9255;}\
+    if (i <= 222) {R=0.6275; G=0.9098; B=0.8941;}\
+    if (i <= 209) {R=0.5137; G=0.8706; B=0.8706;}\
+    if (i <= 185) {R=0.4078; G=0.8039; B=0.8314;}\
+    if (i <= 139) {R=0.3098; G=0.7333; B=0.7882;}\
+    if (i <=  93) {R=0.2196; G=0.6549; B=0.7490;}\
+    if (i <=  46) {R=0.1333; G=0.5725; B=0.7098;}\
+    if (i <=   0) {R=0.0588; G=0.4863; B=0.6706;}\
+    print(R, G, B); \
+    } \
+    }' |"
+read image colorscale rgb
+close
+convert grid to image #size 360 180
+draw image
+
+// Draw contours
+set line width 0.25
+set colour black
+
+if 1
+    draw contour     0 unlabelled
+    draw contour -1000 unlabelled
+    draw contour -2000 unlabelled
+    draw contour -3000 unlabelled
+    draw contour -4000 unlabelled
+    draw contour -5000 unlabelled
+end if
+
+draw axes
+
+
+

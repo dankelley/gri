@@ -1,0 +1,75 @@
+`setup seawifs colorscale'
+{
+    # Formula to convert chlorophyll (C) to 'image' value (V):
+    #     V = [2 + log(C)] / 3.699
+    # transformation, C values ranging from 0.01 to 64 map, 
+    # logarithmically, into the V range 0 to 1.
+
+    set image range 0 1
+    open "gawk '{print($1/255,$2/255,$3/255)}' seawifs.palette |"
+    read image colorscale rgb
+    close
+}
+
+# Vertical palette
+`palette label .value'
+{
+    # Tics
+    .x0. = .px0.
+    .y0. = {rpn \.word2. log 2 + 3.699 / .py1. .py0. - * .py0. +} 
+    .x1. = {rpn .px0. "M" ascent 0.5 * -}
+    .y1. = {rpn \.word2. log 2 + 3.699 / .py1. .py0. - * .py0. +}
+    draw line from .x0. .y0. to .x1. .y1. cm
+
+    # Numbers
+    draw label  "\.word2." centered at \
+	{rpn .x0. "M" width 2 * -} \
+	{rpn .y0. "M" ascent 2 / -} cm
+}
+
+`draw seawifs palette .x_ll_cm. .y_ll_cm. .x_ur_cm. .y_ur.cm.'
+{
+    set font size 0
+    set tic size 0
+    .px0. = \.word3.
+    .py0. = \.word4.
+    .px1. = \.word5.
+    .py1. = \.word6.
+
+    draw image palette axisright box .px0. .py0. .px1. .py1.
+    set font size 5
+    palette label ".01"
+    palette label ".02"
+    palette label ".03"
+    palette label  ".02"
+    palette label  ".03"
+    palette label  ".05"
+    palette label  ".1"
+    palette label  ".2"
+    palette label  ".3"
+    palette label  ".5"
+    palette label  "1"
+    palette label  "2"
+    palette label  "3"
+    palette label  "5"
+    palette label "10"
+    palette label "15"
+    palette label "20"
+    palette label "30"
+    palette label "50"
+
+    set font size 8
+    draw label "Chlorophyll a Concentration, mg/m$^3$" centered at \
+	{rpn .px0. .px1. + 2 /} {rpn .py0. "M" ascent 5 * -} cm
+    set tic size 0.1
+}
+
+    .
+    .
+    .
+
+draw seawifs palette 20 4 20.3 8
+
+    .
+    .
+    .

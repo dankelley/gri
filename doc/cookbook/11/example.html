@@ -1,0 +1,97 @@
+<html>
+<head>
+<title>11/example.gri</title>
+</head>
+<body>
+<pre>
+<i>// Example 10 -- Geographical map using fancy map projection</i>
+<i>// Note: the map projection is done with the 'proj' program,</i>
+<i>// not part of Gri.</i>
+<i>//</i>
+<i>// Contributed 6 May 1996 by J. Witte <jwitte@phys.ocean.dal.ca>.</i>
+
+\head = <u>"laea projection of 1990 NOx aircraft emissions at 9km"</u>
+\world = <u>"/users/dek/kelley/data/Coastline/world1.dat"</u>
+\nox = <u>"example.dat"</u>
+
+<i>// Convert world map by first transforming coordinates ...</i>
+system proj +proj=laea \
+    +over \
+    +ellips=clrk66 \
+    +lon_0=250 \
+    +lat_0=90 \
+    -m 1:10000000 \
+    -f '%.4f' \
+    < \world > tmp
+<i>// ... and then fixing the -999 values (used to indicate</i>
+<i>// missing data at the ends of isolated coastline segments,</i>
+<i>// for example around islands).</i>
+system sed -e s/*/-999/g < tmp > tmp2
+
+<i>// Convert coordinates of NOx emission trajectories, stored</i>
+<i>// in first two columns.  Note that other columns in the</i>
+<i>// file are retained by 'proj', as are comment lines.</i>
+system proj +proj=laea \
+    +over \
+    +ellips=clrk66 \
+    +lon_0=250 \
+    +lat_0=90 \
+    -m 1:10000000 \
+    -f '%.4f' \
+    < \nox > airnox
+
+open <u>"gawk  'NR>1 && $5<50 {print($1,$2,$5)}' airnox |"</u>
+read columns x y z
+set clip on
+set x margin 3
+set x size 14
+set y margin 6
+set y size 14
+
+set x axis -0.6376 0.6326
+set y axis -0.6353 0.558
+
+set x name <u>""</u>
+set y name <u>""</u>
+draw axes frame
+
+z /=50				<i>// scale</i>
+set symbol size 0.15
+draw symbol filledbox color hue z
+
+draw label <u>"\head"</u> centered at \
+    {rpn ..xmargin.. ..xsize.. 2 / +} \
+    {rpn ..ymargin.. ..ysize.. + <u>"M"</u> ascent 2 . +} \
+    cm
+
+<i>// Draw palette</i>
+set image range 0 50
+set x format %g
+set image colorscale hsb 0 1 1 0.0 hsb 1 1 1 50.0
+draw image palette left 0 right 50 increment 5 \
+	box {rpn ..xmargin..} {rpn ..ymargin.. ..ysize.. + 2 +}\
+	{rpn ..xmargin.. ..xsize.. +} {rpn ..ymargin.. ..ysize.. + 2.5 +}
+
+close
+system rm -f airnox
+
+<i>// Draw coastline</i>
+open tmp2
+set missing value -999
+read columns x y
+set clip on
+set x margin 3
+set x size 14
+set y margin 6
+set y size 14
+
+set x axis -0.6376 0.6326
+set y axis -0.6353 0.558
+draw axes frame
+close
+set line width rapidograph 1	<i>// fairly thick curve</i>
+draw curve
+system rm -f tmp tmp2
+</pre>
+</body>
+</html>

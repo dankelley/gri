@@ -1,0 +1,116 @@
+# Instructions for compiling on MSDOS.
+#
+# 1) There is a good chance that this Makefile will work as is,
+#    so try that first.
+#
+# 2) If you have the 'netcdf' library (used for certain types
+#    of atmospheric and oceanographic datasets), then un-comment
+#    and possibly edit the appropriate NETCDF_... lines below, as
+#    instructed by the comments preceding these lines.
+#
+# 3) If you don't want Gri inserted in the directory "c:/gri", 
+#    edit the "instdir = ..." line below.
+#
+# 4) If you get error messages about the 'stdcxx' library, edit
+#    the "LIBS" line below, rewriting "-lstdcxx' as '-lstdcx'.
+#
+# 5) If you get compilation errors relating to 'time' or to 'ftime',
+#    try putting the token "-DHAVE_FTIME=1" in the list of similar 
+#    token in the "DEFS = ..." line.  For consistency (basically,
+#    so the author can help you if you do this), put it right 
+#    after the "-D_GRI_=1" token.
+
+# <<<Uncomment next three lines and change directory name
+#    if you have netCDF-2.4.x packages for MSDOS>>
+#NETCDF_DEFS = -DHAVE_NETCDF=1
+#NETCDF_INCLUDE = -I/netcdf24/include
+#NETCDF_LIBS = -L/netcdf24/lib -lnetcdf
+
+instdir = c:/gri
+
+
+srcdir = .
+
+VPATH = .
+
+CC = gcc	# No other compiler will do
+CXX = gxx
+
+AWK = gawk
+
+INSTALL = copy
+
+INSTALL_PROGRAM = $(INSTALL)
+
+INSTALL_DATA = $(INSTALL)
+
+LIBS =  -lm -lstdcxx $(DBMALLOC_LIBS) $(NETCDF_LIBS)
+DEFS =  -D_GRI_=1 -DHAVE_STDLIB_H=1 -DHAVE_ISNAN=1 -DHAVE_ISINF=1 -DHAVE_ACOSH=1 -DHAVE_GETENV=1 -DHAVE_POPEN=1 -DHAVE_TMPNAM=1 -DDEFAULT_GRI_DIR=\"$(bindir)\" -DAWK=\"$(AWK)\" $(DBMALLOC_DEFS) $(KELLEY_DEFS) -DHAVE_UNISTD_H=1 -DSTDC_HEADERS=1 -DHAVE_BOOL=1 -DHAVE_STL=1 $(NETCDF_DEFS)
+
+CFLAGS = -m486 -Wall
+
+LDFLAGS =
+
+prefix = d:/proga~1/gri
+
+exec_prefix = $(prefix)
+
+binprefix =
+
+manprefix =
+
+bindir = $(exec_prefix)
+
+libdir = /etc
+
+mandir = $(prefix)/man/man1
+
+manext = 1
+
+
+#### End of system configuration section. ####
+
+#SHELL = /bin/sh
+
+OBJS = GriColor.o GriPath.o GriState.o chopword.o close.o command.o \
+convert.o debug.o delete.o differ.o doline.o draw.o endup.o \
+expect.o file.o filter.o flip.o gr.o gr_coll.o graxes.o grcntour.o \
+gri.o grimage.o grinterp.o grsmooth.o grstring.o heal.o \
+help.o if.o ignore.o image.o input.o insert.o interp.o mask.o math.o new.o \
+open.o popen.o query.o quit.o read.o regress.o reorder.o rescale.o \
+rewind.o rpn.o rpncalc.o scales.o set.o show.o skip.o smooth.o \
+startup.o state.o stats.o storage.o synonyms.o template.o timer.o \
+utility.o variable.o version.o while.o write.o
+
+
+all:  gri
+
+
+.SUFFIXES: .cc
+.cc.o:
+	$(CC) -c $(CFLAGS) $(CPPFLAGS) $(DEFS) -I$(srcdir) $(KELLEY_INCLUDE) $(NETCDF_INCLUDE) $<
+
+install: all
+	$(INSTALL_PROGRAM) gri.exe $(instdir)\gri.exe
+	$(INSTALL_PROGRAM) gri.cmd $(instdir)\gri.cmd
+
+gri: $(OBJS)
+	$(CXX) -o gri $(LDFLAGS) $(OBJS) $(LIBS)
+	del $@
+
+clean:
+	del gri.exe
+	del *.o
+	del core
+	del *.bak
+	del *~
+
+mostlyclean: clean
+
+distclean: clean
+	del Makefile
+	del config.status
+
+realclean: distclean
+	del TAGS
+

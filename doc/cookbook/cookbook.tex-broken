@@ -1,0 +1,247 @@
+\documentstyle[vrbinput,twoside,fancybox,makeidx]{article}
+% $Id: cookbook.tex-broken,v 1.1 2000/05/11 15:07:23 dankelley Exp $
+
+\oddsidemargin=0pt
+\evensidemargin=0pt
+\textwidth=15cm
+
+
+%
+%  Define environment for figures:
+%
+\newenvironment{fminipage}%
+ {\begin{Sbox}\begin{minipage}}%
+ {\end{minipage}\end{Sbox}\shadowbox{\TheSbox}}
+%
+% 21.6 * .69 = 14.9
+% 27.9 * .69 = 19.2
+%
+\newcommand{\cbInsertFig}[1]{
+    \begin{fminipage}{14.9cm}
+    \vspace*{19.2cm}
+    \hspace*{14.9cm}
+    \end{fminipage}
+%    \special{psfile=#1 hoffset=-433 voffset=-272 hscale=69 vscale=69}
+    \special{psfile=#1 hoffset=20 voffset=20 hscale=69 vscale=69}
+    \pagebreak[3]
+}
+
+\pagestyle{headings}
+
+\makeindex
+
+
+\begin{document}
+
+\title{A Cookbook of {\tt Gri}cipes
+}
+\author{
+Dan Kelley,
+Steve Matheson,
+Jinyu Shen,
+...
+} 
+\maketitle
+
+\pagenumbering{roman}
+\tableofcontents
+\pagenumbering{arabic}
+\newpage
+
+\section{Introduction}
+\index{Purpose of cookbook}
+This cookbook shows how people use Gri.  No explanations of the code
+are given here, beyond comments in the command files.  For detailed
+information on Gri see the manuals: on WWW at {\tt
+http://www.cs.dal.ca/users/kelley/gri/gri1.html}; on anonymous FTP in
+directory {\tt pub/receive/kelley/gri} on site {\tt ftp.cs.dal.ca}; at
+Dalhousie at {\tt info gri} (info version), {\tt
+$\sim$kelley/src/gri/doc/gri.ps} (postscript version), {\tt
+$\sim$kelley/src/gri/doc/examples/} (directory of examples from
+manual).
+
+
+
+
+\section{Accessing the Cookbook Online}
+\index{Dalhousie instructions}
+\index{Accessing cookbook at Dalhousie}
+\index{Accessing cookbook on the net}
+This cookbook is stored in PostScript at $\sim${\tt
+ftp/pub/receive/kelley/gri/cookbook/all\_pages.ps} (a PostScript
+version available to {\tt open,cs,atm,...} Dalhousie users) and at the
+anonymous FTP site {\tt ftp.cs.dal.ca} in the directory {\tt
+pub/receive/kelley/gri/cookbook}.  It contains files with names like
+\begin{verbatim}
+all_pages.ps.gz
+example1.gri
+example2.gri
+\end{verbatim}
+
+\noindent
+
+The file {\tt all\_pages.ps.gz} is the complete cookbook, in
+PostScript format, compressed with the {\tt gzip} command.  (If your
+machine lacks {\tt gzip}, ask your system manager to get it).  The
+other files are the command files from the cookbook.  Note that the
+commandfiles do not have the necessary datafiles present, since that
+is too cumbersome (for me and for the contributors, who would have to
+make substantial changes to their commandfiles).
+
+\bigskip
+{\em There are other interesting files in the directory above the
+cookbook directory, e.g. a full manual for Gri, two reference cards, a
+FAQ document, a diary of messages posted to the Gri mailgroup (see the
+FAQ for how to join the group), a suite of working examples, etc.
+Please browse.}
+
+
+
+\section{Submitting Recipes}
+\index{Submitting examples}
+To submit something for inclusion in the cookbook, follow these steps.
+\begin{enumerate}
+\item
+Make sure your program works on a recent version of Gri.
+
+\item
+Prepare 3 files, with names {\tt eg.gri} (the commandfile), {\tt
+eg.ps} (the output PostScript file) and {\tt README}.  In the last
+file, please supply information under the following headings:
+\begin{enumerate}
+\item
+{\bf Author(s)}
+\item
+{\bf Date}
+\item
+{\bf Version of Gri used}
+\item
+{\bf Uses color?}
+\item
+{\bf Comments} (optional)
+\item
+{\bf Index Entries} (optional)
+\end{enumerate}
+\noindent I'll collate this information into a terse paragraph
+introducing the example.
+
+\item
+Collect these files using the {\tt tar} program, and then compress
+them:
+
+\begin{verbatim}
+  tar -chof eg.tar eg.gri eg.ps README
+  gzip eg.tar
+\end{verbatim}
+
+\item
+Put the files in your anonymous FTP area, if you have one, or
+translate them into an ascii file by typing
+\begin{verbatim}
+  uuencode eg eg.tar.gz
+\end{verbatim}
+\noindent and storing this file so that you can email it to other
+users.
+
+\item
+Inform the Gri users of your contribution by mailing a message to {\tt
+gri@open.dal.ca} with subject line {\tt Cookbook contribution}.  (The
+subject line will thus let uninterested users know to delete the
+message without reading it.)  In your message, indicate the
+SITE:DIRECTORY of the file in your FTP area, or indicate your
+intention to mail the {\tt uuencoded} version to anybody who asks.
+
+\end{enumerate}
+
+I'll add examples to the cookbook only if another Gri user nominates
+the example for inclusion.  They may do so by mailing a nomination to
+{\tt gri@open.dal.ca} with subject line {\tt Cookbook contribution}.
+
+If other Gri users support your proposal to include the example, then
+I'll add it to the cookbook.  I will do only minimal editing of the
+commandfile: (1) I'll add a ``contributed by'' comment to the
+commandfile, (2) reformat it using Peter Galbraith's ({\tt
+rhogee@bathybius.meteo.mcgill.ca}) Emacs mode, and (3) email the
+result back to the author for final testing.
+
+\bigskip
+{\em As editor, I will be collating these files, not checking them or
+supporting them.  Similarly, contributers will not be expected to
+support their code; otherwise I doubt that anybody will contribute.}
+
+
+
+\newpage
+
+
+\section{The Recipes}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Start of examples               %%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Simple xy plot (Black/White)}
+\index{XY plot}
+\cbInsertFig{./example1.ps}
+\verbatiminput{./example1.gri}
+
+\newpage
+\subsection{Simple Contour Plot, Pre-gridded Data (Black/White)}
+\index{Contour, pre-gridded data}
+\cbInsertFig{./example2.ps}
+\verbatiminput{./example2.gri}
+
+
+\newpage
+\subsection{Simple Contour Plot, Un-gridded Data (Black/White)}
+\index{Contour plot, ungridded data}
+\index{Gridding f(x,y) data}
+\cbInsertFig{./example3.ps}
+\verbatiminput{./example3.gri}
+
+\newpage
+\subsection{Temperature-Salinity Diagram (Colour)}
+\index{Temperature-Salinity diagram}
+\index{Isopycnal}
+\index{Overhead transparency}
+\cbInsertFig{./example4.ps}
+\verbatiminput{./example4.gri}
+
+\newpage
+\subsection{Salinity Time-Depth Image Diagram (Colour)}
+\index{Image}
+\index{Grid to Image conversion}
+\index{Cross-section, as image}
+\cbInsertFig{./example5.ps}
+\verbatiminput{./example5.gri}
+
+
+\newpage
+\subsection{World Map}
+\index{World map}
+\index{Map}
+\cbInsertFig{./example6.ps}
+\verbatiminput{./example6.gri}
+
+\newpage
+\subsection{Image Bathymetry Map with Annotation(Colour)}
+\index{Image, bathymetry}
+\index{Bathymetry, image}
+\index{Map, bathymetry}
+\cbInsertFig{./example7.ps}
+\verbatiminput{./example7.gri}
+
+\newpage
+\subsection{Examples of Image Colorscales (Colour)}
+\index{Image, colorscale}
+\index{Colorscale, image}
+\cbInsertFig{./example8.ps}
+\verbatiminput{./example8.gri}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% End of examples               %%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\printindex
+
+\end{document}

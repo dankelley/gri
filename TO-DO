@@ -1,0 +1,7 @@
+* html indices broken (e.g. builtins)
+
+* In RPM, decide where to put emacs mode (xemacs or emacs or both)
+
+* grcntour.cpp:536 or so, from gre, copy: contours outside box
+
+* fix line-number of errors

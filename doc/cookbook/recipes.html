@@ -1,0 +1,136 @@
+<html>
+<head>
+<title>The Recipes</title>
+</head>
+<BODY bgcolor="#ffffff" link="#993333" vlink="#333399 alink="#cc3333">
+
+
+<h1>The Recipes</h1>
+
+<h2>1 Simple xy plot</h2>
+<img align=top alt="1/example-small.gif" src="1/example-small.gif" height=119>
+Also see <a href="1/example.gif">full-sized graph</a>
+and the Gri
+<a href="1/example.html">code</a>
+
+<p>
+<h2>2 Contour Plot, Pre-gridded Data</h2>
+<img align=top alt="2/example-small.gif" src="2/example-small.gif" height=109>
+Also see <a href="2/example.gif">full-sized graph</a>
+and the Gri
+<a href="2/example.html">code</a>
+
+<p>
+<h2>3 Contour Plot, Un-gridded Data</h2>
+<img align=top alt="3/example-small.gif" src="3/example-small.gif" height=119>
+Also see <a href="3/example.gif">full-sized graph</a>
+and the Gri
+<a href="3/example.html">code</a>
+
+<p>
+<h2>4 Salinity Diagram</h2>
+<img align=top alt="4/example-small.gif" src="4/example-small.gif" height=162>
+Also see <a href="4/example.gif">full-sized graph</a>
+and the Gri
+<a href="4/example.html">code</a>
+
+<p>
+<h2>5 Time-Depth Image Diagram</h2>
+<img align=top alt="5/example-small.gif" src="5/example-small.gif" height=4>
+Also see <a href="5/example.gif">full-sized graph</a>
+and the Gri
+<a href="5/example.html">code</a>
+
+<p>
+<h2>6 World map</h2>
+<img align=top alt="6/example-small.gif" src="6/example-small.gif" height=93>
+Also see <a href="6/example.gif">full-sized graph</a>
+and the Gri
+<a href="6/example.html">code</a>
+
+<p>
+<h2>7 Bathymetry Map with Annotation</h2>
+<img align=top alt="7/example-small.gif" src="7/example-small.gif" height=82>
+Also see <a href="7/example.gif">full-sized graph</a>
+and the Gri
+<a href="7/example.html">code</a>
+
+<p>
+<h2>8 Image Colorscales -- linear graduation</h2>
+<img align=top alt="8/example-small.gif" src="8/example-small.gif" height=228>
+Also see <a href="8/example.gif">full-sized graph</a>
+and the Gri
+<a href="8/example.html">code</a>
+
+<p>
+<h2>9 Image Colorscales -- nonlinear graduation</h2>
+<img align=top alt="9/example-small.gif" src="9/example-small.gif" height=17>
+Also see <a href="9/example.gif">full-sized graph</a>
+and the Gri
+<a href="9/example.html">code</a>
+
+<p>
+<h2>10 Image Colorscales -- GEBCO graduation for maps of ocean/land topography</h2>
+<img align=top alt="10/example-small.gif" src="10/example-small.gif" height=17>
+Also see <a href="10/example.gif">full-sized graph</a>
+and the Gri
+<a href="10/example.html">code</a>
+
+Note: since images are stored in an 8-bit value in Gri, GEBCO
+color-coding can match inappropriately to contours, in regions of
+steep topography.  The range of depths is 5500m (-5000m to 500m), and
+with 8 bits this yields a resolution limit of dz=21.5m.  Now consider
+the color transition near 100m depth.  The image colours are
+quantized, with 4*dz being 85.9375 and 5*dz being 107.4m, so that the
+100m contour cannot possibly run along the colour transition.  This is
+not a problem if the scale of the chart is large (e.g. the scale of
+the North Atlantic Ocean), but problems may arise in maps of the
+continental shelf break.  In that case, it's best to modify the image
+range appropriately, so that it matches the depths more precisely.
+Thus, you might realize that no depths above 50m were present, or
+below 2000m; therefore the image range would be 2500m, and the
+resolution drops to dz=12m, approximately.
+
+<p>
+<h2>11 Geographical map with fancy map projection</h2>
+<img align=top alt="11/example-small.gif" src="11/example-small.gif" height=136>
+Also see <a href="11/example.gif">full-sized graph</a>
+and the Gri
+<a href="11/example.html">code</a>
+
+This example uses the <tt>proj</tt> unix command.  <tt>proj</tt> is a
+general and very powerful standalone package, not a standard part of
+unix.  It is available from United States Geological Service via ftp
+at <a href=ftp://kai.er.usgs.gov/pub/PROJ.4/PROJ.4.3.3.tar.gz>
+<tt>ftp://kai.er.usgs.gov/pub/PROJ.4/PROJ.4.3.3.tar.gz</tt></a>. Other
+relevant materials in the PROJ directory <a
+href=ftp://kai.er.usgs.gov/pub/PROJ.4>
+<tt>ftp://kai.er.usgs.gov/pub/PROJ.4</tt></a> include several manuals
+on map projections, which detail the development of PROJ.  Unofficial
+mirror sites for PROJ exist at several locations; a web-search for
+PROJ4 will uncover these.  Also, the excellent USGS site is worth
+perusing, for its own sake.
+
+
+<p>
+<h2>12 Chlorophyll image with SEAWIFS (logarithmic) palette</h2>
+<img align=top alt="12/example-small.gif" src="12/example-small.gif" height=147>
+Also see <a href="12/example.gif">full-sized graph</a>,
+the Gri
+<a href="12/example.html">code</a>,
+and the palette 
+<a href="12/seawifs.palette">RGB file</a>.
+
+<p> To get a palette that runs vertically, as opposed to horizontally,
+do as in <a href="12/example-vertical.html">this snippet</a> of Gri code.
+
+<p>
+<h2>13 Oceanographic CTD display</h2>
+<img align=top alt="13/example-small.gif" src="13/example-small.gif" height=400>
+Also see <a href="13/example.pdf">full-sized graph in PDF format</a>,
+the Gri
+<a href="13/example.html">(BROKEN) code</a>,
+
+
+</body>
+</html>

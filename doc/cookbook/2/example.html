@@ -1,0 +1,42 @@
+<html>
+<head>
+<title>2/example.gri</title>
+</head>
+<body>
+<pre>
+<i>// Example 2 -- Contour Plot, Pre-gridded Data (Black/White)</i>
+<i>//</i>
+<i>// Contributed 13 Feb 1994 by Dan Kelley <Dan.Kelley@Dal.Ca>.</i>
+
+
+<i>// Draw contours for pre-gridded data.  Uses data read in from</i>
+<i>// commandfile, but extension to larger datasets stored in files</i>
+<i>// is trivial.</i>
+
+<i>// Read x-grid; blank-line means stop reading.</i>
+read grid x
+0
+.2
+1
+
+<i>// Note that the x-grid was irregular.  The y-grid</i>
+<i>// in this example is regular, so we can just set</i>
+<i>// it to range from 10 to 20, incrementing by 2.5.</i>
+set y grid 10 20 2.5
+<i>// Thus we now have a grid 3 wide and 5 high.  Let's</i>
+<i>// read the actual data now.</i>
+read grid data
+1 2 3
+2 3 4
+3 4 5
+4 5 6
+5 6 7
+<i>// Now draw contours (automatically set; we could</i>
+<i>// have done `draw contour 2' to draw contour fro</i>
+<i>// value 2 or `draw contour 1 10 2' to draw contours</i>
+<i>// ranging from 1 to 10 with an increment of 2.)</i>
+draw contour
+quit
+</pre>
+</body>
+</html>

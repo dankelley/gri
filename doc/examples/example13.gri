@@ -1,0 +1,49 @@
+# Example 13 -- TS diagram, with isopycnals
+
+# Draw Axes
+set line width axis 0.25
+set line width 0.75
+.tic_size. = 0.1		# cm
+set symbol size 0.03
+.isopycnal_fontsize. = 8	# for isopycnal labels
+.axes_fontsize. = 10		# for axes
+set font size .axes_fontsize.
+set x margin 2
+set x size 10
+set y margin 2
+set y size 10
+.Smin. = 33.4
+.Smax. = 35.0
+.Sinc. = 0.5
+.Sincinc. = 0.1
+.thetamin. = -2.0
+.thetamax. = 11.0
+.thetainc. = 1.0
+.thetaincinc. = 1.0
+set tic size .tic_size.
+set x name "Salinity / PSU"
+set y name "Potential Temperature / $\circ$C"
+set x axis .Smin. .Smax. .Sinc. .Sincinc.
+set y axis .thetamin. .thetamax. .thetainc. .thetaincinc.
+set axes style offset
+draw axes 1
+set clip on
+.old. = ..fontsize..
+set font size .isopycnal_fontsize.
+#draw isopycnal 26.00
+#draw isopycnal 26.50 unlabelled
+#draw isopycnal 27.00
+#draw isopycnal 27.50 unlabelled
+#draw isopycnal 28.00
+#draw isopycnal 28.50 unlabelled
+#draw isopycnal 29.00
+set clip off
+set font size .old.
+#
+# Draw the data.
+open example13.dat
+read columns x y
+draw symbol bullet
+set font size ..
+draw title "Example 13 -- TS diagram, with isopycnals"
+quit

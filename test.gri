@@ -1,0 +1,12 @@
+show "FILE TESTS."
+show {rpn "test.gri"   file_exists}     " EXPECT 1 since I have this file"
+show {rpn "./test.gri" file_exists}     " EXPECT 1 since I have this file"
+show {rpn "/usr/bin/head" file_exists}  " EXPECT 1 since I have this file"
+show {rpn "~/.xbuffy"  file_exists}     " EXPECT 1 since I have this file"
+show {rpn "/home/src/gri-2.5.x/NO_SUCH_FILE" file_exists}   " EXPECT 0 since don't have the file"
+show {rpn "NO_SUCH_FILE" file_exists}   " EXPECT 0 again"
+
+
+show "DIRECTORY TESTS."
+show {rpn "/usr/bin"   directory_exists}     " EXPECT 1 since I have this directory"
+show {rpn "/no/such/dir"   directory_exists}     " EXPECT 0"

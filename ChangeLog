@@ -1,0 +1,26 @@
+2000-05-07  Dan E. Kelley  <kelley@Intrusion.Phys.Ocean.Dal.Ca>
+
+	* VERSION 2.4.4
+	
+	* Make it report a warning, rather than an error, if mathematical
+	operations are tried on empty columns (e.g. 'y += 10').
+ 
+	* The Makefile doesn't automatically link to the math library;
+	instead it uses "./configure" to figure out whether a math
+	library exists.  This is because BeOS doesn't use the math
+	library.
+
+	* Some other changes to Makefile, which I think/hope affect
+	only "make install", not "make install_linux_debian" or
+	"make install_linux_redhat".
+
+	* I no longer use "popen()" subroutine, which BeOS does not
+	have, unless I REALLY need it.  (utility.cc)
+
+	* Clean up a few things in the configure script, mainly by
+	renaming variables to be more readible, and by removing tests for
+	architectures that never have any affect on the code.
+	
+
+	
+

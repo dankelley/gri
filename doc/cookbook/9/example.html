@@ -1,0 +1,57 @@
+<html>
+<head>
+<title>9/example.gri</title>
+</head>
+<body>
+<pre>
+<i>// Example 9 -- nonlinearly shaded image colorscale</i>
+<i>//</i>
+<i>// Contributed 31 July 1996 by Dan Kelley <Dan.Kelley@Dal.CA></i>
+
+<i>// Create a HSB palette file, using 'perl' system command.</i>
+<i>// You could do this with 'gawk' or other system commands,</i>
+<i>// or you could create the file in matlab or a text editor,</i>
+<i>// outside Gri.</i>
+
+<i>// Note: tan is RGB=(210,180,140) in /usr/lib/X11/rgb.txt, in the X11</i>
+<i>// 0 to 256 RGB coordinate system.  This is (0.820,0.703,0.547) in </i>
+<i>// the Gri's 0 to 1 rgb coordinate system.  This translates to</i>
+<i>// (0.095,0.333,0.820) in the Gri hsb coordinate system.  (Note:</i>
+<i>// a program to translate RGB to HSB is available from Dan </i>
+<i>// Kelley at Dan.Kelley@Dal.CA.)</i>
+
+\min = <u>"-0.20"</u>			<i>// min image value</i>
+\a   = <u>"-0.002"</u>			<i>// black if value is < \a</i>
+\b   = <u>" 0.002"</u>			<i>// tan if between this and \a</i>
+\max = <u>" 0.030"</u>			<i>// spectrum from \b up to this</i>
+
+set y axis 200    0 -25 -5
+set x axis   0 2340 180 60
+set image range \min \max
+
+<i>// NOTE: I have inserted comments into the example9.colorscale file,</i>
+<i>// particularly to track the value of '$value', etc.  This is highly</i>
+<i>// recommended procedure.</i>
+
+system perl <<<u>"EOF"</u>
+open(CS, <u>">example9.colorscale") || die "Cannot open 'example9.colorscale'\n"</u>;
+$value = \min;
+$increment = (\max - \min) / 255;
+for($i=0; $i<256; $i++) {
+    if ($value < \a) {
+        print CS <u>"0.000 0.000 0.000 <i>// value=$value is <\a so use black\n"</u>;</i>
+    } elsif ($value < \b) {
+        print CS <u>"0.095 0.333 0.820 <i>// value=$value is between \a and \b so use tan\n"</u>;</i>
+    } else {
+        print CS ($value - \b) / (\max - \b), <u>" 1.000 1.000 <i>// value=$value is > \b so use spectrum up to \max\n"</u>;</i>
+    }
+    $value += $increment;
+}
+EOF
+
+open example9.colorscale
+read image colorscale hsb
+draw image palette left -0.01 right 0.04 increment 0.01
+</pre>
+</body>
+</html>

@@ -1,0 +1,724 @@
+% $Id: cmdrefcard.tex,v 1.1 2000/05/11 15:07:21 dankelley Exp $
+
+\def\griversion{2.0.x}
+\def\date{1999 Jan 28}
+
+% Reference Card for Gri
+%**start of header
+\hbadness=10000
+\vbadness=10000
+\newcount\columnsperpage
+
+% This file can be printed with 1, 2, or 3 columns per page (see below).
+% Specify how many you want here.  Nothing else needs to be changed.
+
+\columnsperpage=3
+
+% This file is intended to be processed by plain TeX (TeX82).
+%
+% The final reference card has six columns, three on each side.
+% This file can be used to produce it in any of three ways:
+% 1 column per page
+%    produces six separate pages, each of which needs to be reduced to 80%.
+%    This gives the best resolution.
+% 2 columns per page
+%    produces three already-reduced pages.
+%    You will still need to cut and paste.
+% 3 columns per page
+%    produces two pages which must be printed sideways to make a
+%    ready-to-use 8.5 x 11 inch reference card.
+%    For this you need a dvi device driver that can print sideways, e.g.,
+%      lw -land griref.dvi
+% Which mode to use is controlled by setting \columnsperpage above.
+%
+% Author:
+%  Dan Kelley (copied from a Unix reference card written by Steven Matheson)
+%  Internet: matehson@open.dal.ca
+%
+
+\def\shortnotice{\vskip 1ex plus 2 fill
+  \centerline{\small Gri version \versionnumber}}
+
+\def\notice{
+\vskip 1ex plus 2 fill\begingroup\small
+\centerline{(c) 1999, Dan E. Kelley}
+
+This PostScript document is available on the World Wide Web at {\it
+ftp://ftp.phys.ocean.dal.ca/pub/receive/kelley/gri/cmdrefcard.ps}.
+See also {\it refcard.ps}, which is a companion reference card, as
+well as the full manual and source/binary code in this directory.
+Please inform me ({\tt Dan.Kelley@Dal.Ca}) of errors or deficiencies
+in this document or in Gri, so I can make improvements.
+\endgroup}
+
+% make \bye not \outer so that the \def\bye in the \else clause below
+% can be scanned without complaint.
+\def\bye{\par\vfill\supereject\end}
+
+\newdimen\intercolumnskip
+\newbox\columna
+\newbox\columnb
+
+\def\ncolumns{\the\columnsperpage}
+
+\message{[\ncolumns\space 
+V  column\if 1\ncolumns\else s\fi\space per page]}
+
+\def\scaledmag#1{ scaled \magstep #1}
+
+% This multi-way format was designed by Stephen Gildea
+% October 1986.
+\if 1\ncolumns
+  \hsize 4in
+  \vsize 10in
+  \voffset -.7in
+  \font\titlefont=\fontname\tenbf \scaledmag3
+  \font\headingfont=\fontname\tenbf \scaledmag2
+  \font\smallfont=\fontname\sevenrm
+  \font\smallsy=\fontname\sevensy
+
+  \footline{\hss\folio}
+  \def\makefootline{\baselineskip10pt\hsize6.5in\line{\the\footline}}
+\else
+  \hsize 3.2in
+  \vsize 7.95in
+  \hoffset -.75in
+  \voffset -.745in
+  \font\titlefont=cmbx10 \scaledmag2
+  \font\headingfont=cmbx10 \scaledmag1
+  \font\subheadingfont=cmbx10 \scaledmag0
+  \font\smallfont=cmr6
+  \font\smallsy=cmsy6
+  \font\eightrm=cmr8
+  \font\eightbf=cmbx8
+  \font\eightit=cmti8
+  \font\eighttt=cmtt8
+  \font\eightsy=cmsy8
+  \textfont0=\eightrm
+  \textfont2=\eightsy
+  \def\rm{\eightrm}
+  \def\bf{\eightbf}
+  \def\it{\eightit}
+  \def\tt{\eighttt}
+  \normalbaselineskip=.8\normalbaselineskip
+  \normallineskip=.8\normallineskip
+  \normallineskiplimit=.8\normallineskiplimit
+  \normalbaselines\rm           %make definitions take effect
+
+  \if 2\ncolumns
+    \let\maxcolumn=b
+    \footline{\hss\rm\folio\hss}
+    \def\makefootline{\vskip 2in \hsize=6.86in\line{\the\footline}}
+  \else \if 3\ncolumns
+    \let\maxcolumn=c
+    \nopagenumbers
+  \else
+    \errhelp{You must set \columnsperpage equal to 1, 2, or 3.}
+    \errmessage{Illegal number of columns per page}
+  \fi\fi
+
+  \intercolumnskip=.46in
+  \def\abc{a}
+  \output={%
+      % This next line is useful when designing the layout.
+      %\immediate\write16{Column \folio\abc\space starts with \firstmark}
+      \if \maxcolumn\abc \multicolumnformat \global\def\abc{a}
+      \else\if a\abc
+        \global\setbox\columna\columnbox \global\def\abc{b}
+        %% in case we never use \columnb (two-column mode)
+        \global\setbox\columnb\hbox to -\intercolumnskip{}
+      \else
+        \global\setbox\columnb\columnbox \global\def\abc{c}\fi\fi}
+  \def\multicolumnformat{\shipout\vbox{\makeheadline
+      \hbox{\box\columna\hskip\intercolumnskip
+        \box\columnb\hskip\intercolumnskip\columnbox}
+      \makefootline}\advancepageno}
+  \def\columnbox{\leftline{\pagebody}}
+
+  \def\bye{\par\vfill\supereject
+    \if a\abc \else\null\vfill\eject\fi
+    \if a\abc \else\null\vfill\eject\fi
+    \end}  
+\fi
+
+% we won't be using math mode much, so redefine some of the characters
+% we might want to talk about
+\catcode`\^=12
+\catcode`\_=12
+
+\chardef\\=`\\
+\chardef\{=`\{
+\chardef\}=`\}
+
+\hyphenation{mini-buf-fer}
+
+\parindent 0pt
+\parskip 1ex plus .5ex minus .5ex
+
+\def\small{\smallfont\textfont2=\smallsy\baselineskip=.8\baselineskip}
+
+\def\n{\hfil\break}
+
+\outer\def\newcolumn{\vfill\eject}
+
+\outer\def\title#1{{\titlefont\centerline{#1}}\vskip 1ex plus .5ex}
+
+\outer\def\section#1{\par\filbreak
+  \vskip 3ex plus 2ex minus 2ex {\headingfont #1}\mark{#1}%
+  \vskip 2ex plus 1ex minus 1.5ex}
+
+\outer\def\subsection#1{\par\filbreak
+  \vskip 3ex plus 2ex minus 2ex {\subheadingfont #1}\mark{#1}%
+  \vskip 2ex plus 1ex minus 1.5ex}
+
+\newdimen\keyindent
+
+\def\beginindentedkeys{\keyindent=1em}
+\def\endindentedkeys{\keyindent=0em}
+\endindentedkeys
+
+\def\paralign{\vskip\parskip\halign}
+
+\def\<#1>{$\langle${\rm #1}$\rangle$}
+
+\def\kbd#1{{\tt#1}\null}        %\null so not an abbrev even if period follows
+
+\def\beginexample{\par\leavevmode\begingroup
+%17feb93  \obeylines\obeyspaces\parskip0pt\tt}
+  \obeylines\obeyspaces\parskip0pt\vskip-12pt\tt}
+{\obeyspaces\global\let =\ }
+\def\endexample{\endgroup}
+
+\def\key#1#2{\leavevmode\hbox to \hsize{\vtop
+  {\hsize=.65\hsize\rightskip=1em
+  \hskip\keyindent\relax#1}\kbd{#2}\hfil}}
+
+\newbox\metaxbox
+\setbox\metaxbox\hbox{\kbd{M-x }}
+\newdimen\metaxwidth
+\metaxwidth=\wd\metaxbox
+
+\def\metax#1#2{\leavevmode\hbox to \hsize{\hbox to .75\hsize
+  {\hskip\keyindent\relax#1\hfil}%
+  \hskip -\metaxwidth minus 1fil
+  \kbd{#2}\hfil}}
+
+\def\threecol#1#2#3{\hskip\keyindent\relax#1\hfil&\kbd{#2}\quad
+  &\kbd{#3}\quad\cr}
+
+%**end of header
+
+\tolerance=10000
+\title{Overview of Gri \griversion$\,$Commands}
+\raggedright
+
+\section{1\quad Introduction}
+This reference card describes the commands in version \griversion\ of
+the Gri plotting language.  See also the companion ``Gri Reference
+Card'' and the online manuals.
+
+\section{2\quad Control Statements}
+
+\subsection{2.1\quad If Statements}
+The {\tt if} statement has ancillary {\tt else if} and {\tt else}
+statements, and is ended by the {\tt end if} statement, e.g.
+\beginexample
+if $\lbrace$rpn .x. 10 >$\rbrace$
+    show "The variable .x. is less than 10"
+else if $\lbrace$rpn .x. 20 >$\rbrace$
+    show "The variable .x. is between 10 and 20"
+else
+   show "The variable .x. is greater than 20"
+end if
+\endexample
+
+
+\subsection{2.2\quad Loops}
+{\tt while} loops are provided.  The statements between {\tt while}
+and {\tt end while} are repeated until the RPN expression on the {\tt
+while} commandline is false.
+
+Here is an infinite loop ended -- by a {\tt break} statement -- when
+the file contents are exhausted:
+\beginexample
+while 1
+    read .x. .y.
+    if ..eof..
+        break
+    end if
+    show ".x. is " .x.
+end while
+\endexample
+
+Here is a loop that will print the numbers 0, 1, ..., 9.
+\beginexample
+.i. = 0
+while $\lbrace$rpn .i. 10 >$\rbrace$
+    show .i.
+    .i. += 1
+end while
+\endexample
+
+
+
+\section{3\quad List of Gri Commands}
+
+What follows is a complete list of built-in Gri commands.  For more
+help on a given command, see the full manual, or use the Gri online
+help facitilty (e.g., type {\tt gri} to launch Gri, then type {\tt
+help}; exit by typing
+
+The notation is as follows.  
+
+$\bullet$ Items written within square brackets are optional.
+
+$\bullet$ Items written within dots are either raw numbers, RPN
+expressions, or variable names.
+
+$\bullet$ Items preceeded by backslashes are any given string.
+
+$\bullet$ Items separated by vertical bars are alternatives.
+
+$\bullet$ Curly brackets group words that must appear together.
+
+Thus, for example, the syntax
+\beginexample
+    set dash [.n.$\mid$$\lbrace$.dash. .blank.$\rbrace$$\mid$off]
+\endexample
+means that {\tt set dash} is a possible Gri command (meaning use the
+default dash style).  Several forms of optional items may be present
+also.  For example, {\tt set dash 2} is legal; it means use the dash
+style numbered 2.  Gri will check any single number presented in this
+place on this command against the list of acceptable {\tt .n.} values.
+If two numbers are present, Gri interprets the first as the length of
+dashes and the second as the length of blanks; notice the braces,
+indicating that these two parameters must appear together.  Finally,
+the keyword {\tt off} is allowed (it means go back to a solid line).
+
+
+\bigskip
+Here are the commands:
+\smallskip
+
+\parindent -1ex
+
+\beginexample
+
+% INSERT stuff from cmdrefcard.pl schellscript here (to line 'end of INSERT')
+
+cd [$\backslash$pathname]
+
+close [$\backslash$filename]
+
+convert columns to grid [neighbor $\mid$ $\lbrace$objective$\mid$boxcar .xr. .yr. [.n. .e.]$\rbrace$ $\mid$ $\lbrace$barnes [.xr. .yr. .gamma. .iter.]$\rbrace$]
+
+convert columns to spline [.gamma.] [.xmin. .xmax. .xinc.]
+
+convert columns from polar to rectangular
+
+convert columns from rectangular to polar
+
+convert grid to columns
+
+convert grid to image [size .width. .height.] [box .ll\_x. .ll\_y. .ur\_x. .ur\_y.]
+
+convert image to grid
+
+create columns from function
+
+create image grayscale banded .band.
+
+create image greyscale banded .band.
+
+debug [.n.] $\mid$ [clipped values in draw commands] $\mid$ off
+
+delete $\lbrace$.variable. $\mid$ $\backslash$synonym [...]$\rbrace$ $\mid$ columns [$\lbrace$randomly .fraction.$\rbrace$$\mid$$\lbrace$where missing$\rbrace$] $\mid$ grid $\mid$ $\lbrace$[x$\mid$y] scale$\rbrace$
+
+differentiate $\lbrace$x$\mid$y wrt index$\mid$y$\mid$x$\rbrace$ $\mid$ $\lbrace$grid wrt x$\mid$y$\rbrace$
+
+draw arrow from .x0. .y0. to .x1. .y1. [cm]
+
+draw arrows
+
+draw axes if needed
+
+draw axes [.style.$\mid$frame$\mid$none]
+
+draw border box [.ll\_x. .ll\_y. .ur\_x. .ur\_y. .width\_cm. .brightness.]
+
+draw box filled .ll\_x. .ll\_y. .ur\_x. .ur\_y. [cm]
+
+draw box .ll\_x. .ll\_y. .ur\_x. .ur\_y. [cm]
+
+draw circle with radius .r\_cm. at .x\_cm. .y\_cm.
+
+draw contour [$\lbrace$.value. [unlabelled$\mid$$\lbrace$labelled "$\backslash$label"$\rbrace$]$\rbrace$ $\mid$ $\lbrace$.min. .max. .inc. [.inc\_unlabelled.] [unlabelled]$\rbrace$]
+
+draw curve overlying
+
+draw curve filled [to $\lbrace$.y. y$\rbrace$ $\mid$ $\lbrace$.x. x$\rbrace$]
+
+draw curve
+
+draw essay "text"$\mid$reset
+
+draw gri logo [size .fontsize. at .xcm. .ycm.]
+
+draw gri logo2 size .fontsize. at .xcm. .ycm. $\backslash$topcolor $\backslash$bottomcolor
+
+draw grid
+
+draw image palette [axisleft$\mid$axisright$\mid$axistop$\mid$axisbottom] [left .left. right .right. [increment .inc.]] [box .ll\_x\_cm. .ll\_y\_cm. .ur\_x\_cm. .ur\_y\_cm.]
+
+draw image grayscale [left .left. right .right. [increment .inc.]] [box .ll\_x\_cm. .ll\_y\_cm. .ur\_x\_cm. .ur\_y\_cm.]
+
+draw image histogram [box .ll\_x\_cm. .ll\_y\_cm. .ur\_x\_cm. .ur\_y\_cm.]
+
+draw image
+
+draw isopycnal .density. [unlabelled]
+
+draw isopycnal1 .density. [unlabelled]
+
+draw isospice .spice. [unlabelled]
+
+draw label boxed "$\backslash$string" at .ll\_x. .ll\_y. [cm]
+
+draw label whiteunder "$\backslash$string" at .ll\_x. .ll\_y. [cm]
+
+draw label for last curve "label"
+
+draw label "$\backslash$string" [centered$\mid$rightjustified] at .x. .y. [cm] [rotated .deg.]
+
+draw line from .x0. .y0. to .x1. .y1. [cm]
+
+draw line legend "label" at .x. .y. [cm] [length .cm.]
+
+draw lines $\lbrace$vertically .left. .right. .inc.$\rbrace$ $\mid$ $\lbrace$horizontally .bottom. .top. .inc.$\rbrace$
+
+draw patches .width. .height. [cm]
+
+draw polygon [filled] .x0. .y0. .x1. .y1. .x2. .y2. [...]
+
+draw regression line
+
+draw symbol legend $\backslash$symbol\_name "label" at .x. .y. [cm]
+
+draw symbol .code.$\mid$$\backslash$name at .x. .y. [cm]
+
+draw symbol [[.code.$\mid$$\backslash$name] [color [hue z$\mid$.h.] [brightness z$\mid$.b.] [saturation z$\mid$.s.]]]
+
+draw time stamp [fontsize .points. [at .x\_cm. .y\_cm. cm [with angle .deg.]]]
+
+draw title "$\backslash$string"
+
+draw values [.dx. .dy.] [$\backslash$format] [separation .xcm. .ycm.]
+
+draw x axis [at bottom$\mid$top$\mid$$\lbrace$.y. [cm]$\rbrace$ [lower$\mid$upper]]
+
+draw x box plot at .y. [size .cm.]
+
+draw y axis [at left$\mid$right$\mid$$\lbrace$.x. cm$\rbrace$ [left$\mid$right]]
+
+draw y box plot at .x. [size .cm]
+
+draw zero line [horizontally$\mid$vertically]
+
+expecting version .n.
+
+filter column x$\mid$y$\mid$z$\mid$u$\mid$v$\mid$r$\mid$theta recursively .a0. .a1. ... .b0. .b1. ...
+
+filter grid rows$\mid$columns recursively .a0. .a1. ... .b0. .b1. ...
+
+filter image highpass$\mid$lowpass
+
+flip grid$\mid$image x$\mid$y
+
+get env $\backslash$result $\backslash$environment\_variable
+
+heal columns$\mid$$\lbrace$grid along x$\mid$y$\rbrace$
+
+help [*$\mid$command\_name$\mid$$\lbrace$- topic$\rbrace$]
+
+if $\lbrace$[!] .flag.$\rbrace$$\mid$$\backslash$flag$\mid$$\lbrace$$\lbrace$"string1" == "string2"$\rbrace$$\rbrace$
+
+ignore last .n.
+
+input $\backslash$ps\_filename [.xcm. .ycm. [.xmag. .ymag. [.rot\_deg.]]]
+
+insert $\backslash$filename
+
+interpolate x$\mid$y grid to ...
+
+list $\backslash$command-syntax
+
+ls [$\backslash$file\_specification]
+
+mask image [to $\lbrace$uservalue .u.$\rbrace$$\mid$$\lbrace$imagevalue .i.$\rbrace$]
+
+new page
+
+new .variable\_name.$\mid$$\backslash$synonym\_name [.variable\_name.$\mid$$\backslash$synonym\_name [...]]
+
+open $\lbrace$$\backslash$filename$\rbrace$$\mid$$\lbrace$"system command$\mid$"$\rbrace$ $\lbrace$[binary [uchar$\mid$int$\mid$float$\mid$double]]$\rbrace$$\mid$$\lbrace$netCDF$\rbrace$
+
+postscript $\backslash$string
+
+pwd
+
+query $\backslash$synonym$\mid$.variable ["$\backslash$prompt" [("$\backslash$default"$\mid$.default)]]
+
+quit [.exit\_status.]
+
+read colornames from RGB $\backslash$filename
+
+read columns ...
+
+read grid $\lbrace$x [.rows.$\mid$$\lbrace$="name"$\rbrace$]$\rbrace$$\mid$$\lbrace$y [.cols.]$\lbrace$="name"$\rbrace$$\rbrace$$\mid$$\lbrace$data $\lbrace$[spacers] [.rows. .cols.] [spacers] [bycolumns]$\rbrace$$\mid$$\lbrace$="name"$\rbrace$$\rbrace$
+
+read image colorscale [rgb$\mid$hsb]
+
+read image grayscale
+
+read image greyscale
+
+read image mask rasterfile
+
+read image mask .rows. .cols.
+
+read image pgm [box .ll\_x. .ll\_y. .ur\_x. .ur\_y.]
+
+read image rasterfile [box .ll\_x. .ll\_y. .ur\_x. .ur\_y.]
+
+read image .rows. .cols. [box .ll\_x. .ll\_y. .ur\_x. .ur\_y.] [bycolumns]
+
+read from $\backslash$filename
+
+read line $\backslash$synonym
+
+read [* [*...]] $\backslash$synonym$\mid$$\lbrace$.variable. [.variable. ...]$\rbrace$
+
+regress $\lbrace$y vs x [linear]$\rbrace$$\mid$$\lbrace$x vs y [linear]$\rbrace$
+
+reorder columns randomly$\mid$$\lbrace$ascending in x$\mid$y$\mid$z$\rbrace$$\mid$$\lbrace$descending in x$\mid$y$\mid$z$\rbrace$
+
+rpnfunction $\backslash$name "action"
+
+rescale
+
+resize x for maps
+
+resize y for maps
+
+return
+
+rewind
+
+set axes style .style. $\mid$ $\lbrace$offset [.dist\_cm.]$\rbrace$ $\mid$ rectangular $\mid$ polar $\mid$ none $\mid$ default
+
+set arrow size .size.$\mid$$\lbrace$as .num. percent of length$\rbrace$$\mid$default
+
+set arrow type .which.
+
+set beep on$\mid$off
+
+set clip [postscript] $\lbrace$on [.xleft. .xright. .ybottom. .ytop.]$\rbrace$$\mid$off
+
+set color $\backslash$name$\mid$$\lbrace$rgb .red. .green. .blue.$\rbrace$$\mid$$\lbrace$hsb .hue. .saturation. .brightness.$\rbrace$
+
+set colour $\backslash$name$\mid$$\lbrace$rgb .red. .green. .blue.$\rbrace$$\mid$$\lbrace$hsb .hue. .saturation. .brightness.$\rbrace$
+
+set contour format $\backslash$style$\mid$default
+
+set contour label for lines exceeding .x. cm
+
+set contour label position $\lbrace$.start\_cm. .between\_cm.$\rbrace$$\mid$default
+
+set contour labels rotated$\mid$horizontal$\mid$whiteunder$\mid$nowhiteunder
+
+set dash [.n.$\mid$$\lbrace$.dash\_cm. .blank\_cm. ...$\rbrace$$\mid$off]
+
+set environment
+
+set error action to core dump
+
+set flag $\backslash$name [off]
+
+set font color $\backslash$name$\mid$$\lbrace$rgb .red. .green. .blue.$\rbrace$$\mid$$\lbrace$hsb .hue. .saturation. .brightness.$\rbrace$
+
+set font colour $\backslash$name$\mid$$\lbrace$rgb .red. .green. .blue.$\rbrace$$\mid$$\lbrace$hsb .hue. .saturation. .brightness.$\rbrace$
+
+set font size $\lbrace$.size. [cm]$\rbrace$$\mid$default
+
+set font to $\backslash$fontname
+
+set graylevel .brightness.$\mid$white$\mid$black
+
+set greylevel .brightness.$\mid$white$\mid$black
+
+set grid missing $\lbrace$above$\mid$below .intercept. .slope.$\rbrace$$\mid$$\lbrace$inside curve$\rbrace$
+
+set ignore initial newline [off]
+
+set ignore error eof
+
+set image colorscale ...
+
+set image colourscale ...
+
+set image grayscale using histogram [black .bl. white .wh.]
+
+set image greyscale using histogram [black .bl. white .wh.]
+
+set image grayscale [black .bl. white .wh. [increment .inc.]]
+
+set image greyscale [black .bl. white .wh. [increment .inc.]]
+
+set image missing value color to white$\mid$black$\mid$$\lbrace$graylevel .brightness.$\rbrace$
+
+set image missing value colour to white$\mid$black$\mid$$\lbrace$graylevel .brightness.$\rbrace$
+
+set image range .min\_value. .max\_value.
+
+set input data window x$\mid$y $\lbrace$.min. .max.$\rbrace$$\mid$off
+
+set line width [axis$\mid$symbol$\mid$all] .width\_pt.$\mid$$\lbrace$rapidograph $\backslash$name$\rbrace$$\mid$default
+
+set missing value .value.
+
+set postscript filename "$\backslash$string"
+
+set page portrait$\mid$landscape$\mid$$\lbrace$factor .mag.$\rbrace$$\mid$$\lbrace$translate .xcm. .ycm.$\rbrace$
+
+set panel .row. .col.
+
+set panels .rows. .cols. [.dx\_cm. .dy\_cm.]
+
+set symbol size .size\_cm.$\mid$default
+
+set tic size .size.$\mid$default
+
+set tics in$\mid$out
+
+set trace [on$\mid$off]
+
+set u scale .cm\_per\_unit.$\mid$$\lbrace$as x$\rbrace$
+
+set u scale .cm\_per\_unit.
+
+set u scale as x
+
+set v scale .cm\_per\_unit.$\mid$$\lbrace$as y$\rbrace$
+
+set x axis top$\mid$bottom$\mid$increasing$\mid$decreasing$\mid$$\lbrace$.left. .right. [.incBig. [.incSml.]]$\rbrace$$\mid$unknown
+
+set x format $\backslash$format$\mid$off
+
+set x grid .left. .right. .inc.$\mid$$\lbrace$/.cols.$\rbrace$
+
+set x margin $\lbrace$[bigger$\mid$smaller] .size.$\rbrace$ $\mid$ default
+
+set x name "$\backslash$string"
+
+set x size .width\_cm.$\mid$default
+
+set x type linear$\mid$log$\mid$$\lbrace$map E$\mid$W$\mid$N$\mid$S$\rbrace$
+
+set y axis label horizontal$\mid$vertical
+
+set y axis left$\mid$right$\mid$increasing$\mid$decreasing$\mid$$\lbrace$.bottom. .top. [.incBig. [.incSml.]]$\rbrace$$\mid$unknown
+
+set y format $\backslash$format$\mid$off
+
+set y grid .bottom. .top. .inc.$\mid$$\lbrace$/.rows.$\rbrace$
+
+set y margin $\lbrace$[bigger$\mid$smaller] .size.$\rbrace$ $\mid$ default
+
+set y name "$\backslash$string"
+
+set y size .height\_cm.$\mid$default
+
+set y type linear$\mid$log$\mid$$\lbrace$map N$\mid$S$\mid$E$\mid$W$\rbrace$
+
+set z missing above$\mid$below .intercept. .slope.
+
+show all
+
+show axes
+
+show color
+
+show colornames
+
+show columns [statistics]
+
+show flags
+
+show grid [mask]
+
+show hint of the day
+
+show image
+
+show misc
+
+show next line
+
+show traceback
+
+show stopwatch
+
+show synonyms
+
+show time
+
+show variables
+
+show .value. $\mid$ $\lbrace$rpn ...$\rbrace$ $\mid$ "$\backslash$text" [.value.$\mid$$\lbrace$rpn ...$\rbrace$$\mid$text [...]]
+
+smooth $\lbrace$x [.n.]$\rbrace$ $\mid$ $\lbrace$y [.n.]$\rbrace$ $\mid$ $\lbrace$grid data [.f.$\mid$$\lbrace$along x$\mid$y$\rbrace$]$\rbrace$
+
+skip [forward$\mid$backward] [.n.]
+
+sprintf $\backslash$synonym "format" .variable. [.variable. [...]]
+
+state save$\mid$restore$\mid$display
+
+superuser
+
+system $\backslash$system-command
+
+while .test.$\mid$$\lbrace$rpn ...$\rbrace$
+
+write columns to $\backslash$filename
+
+write contour .value. to $\backslash$filename
+
+write grid to $\backslash$filename [bycolumns]
+
+write image colorscale to $\backslash$filename
+
+write image grayscale to $\backslash$filename
+
+write image greyscale to $\backslash$filename
+
+write image mask [pgm$\mid$rasterfile] to $\backslash$filename
+
+write image [pgm$\mid$rasterfile] to $\backslash$filename
+
+?draw axes exploded
+
+?contour xyz data
+
+?set axes
+
+?draw image BW raster
+
+
+\endexample
+% end of INSERT 
+\parindent 0ex
+
+\notice
+
+\bye

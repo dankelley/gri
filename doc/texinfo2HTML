@@ -1,0 +1,355 @@
+#!/usr/bin/perl -w
+
+#$example_indent = "    ";
+$example_indent = "";
+
+$usage = "
+texinfo2HTML [-h] [filename]
+
+Convert texinfo doc to HTML format, through processing of 
+texinfo comments as follows:
+
+\@c HTML some-stuff
+ 	Pass \"some-stuff\", or in other words all the text following
+ 	the HTML token on the same line, directly to the output file.
+\@c HTML <!-- newfile filename other_words_for_title -->
+ 	If it occurs on a line all by itself, causes 
+ 	this perlscript to chop files here.  The filename
+	will be as specified.  The other_words 
+	will be used as the title.  If neither the
+	filename nor the other_words are present, then
+	this script makes up filenames using numbers, e.g.,
+	gri1.html, gri2.html.  If the filename is \".\",
+	then this same naming scheme is used, but the titles
+	are used.
+\@c HTML <!-- latex: some-stuff -->
+ 	Plants a comment to be stripped out as a latex-only command.
+
+BUGS:
+	Does not search for closing braces properly, so that lines like
+		blah \@code{blah blah
+		the end is here} and more blah
+	will not get the \@code{} item converted correctly.
+";
+require "ctime.pl";
+require "getopts.pl";
+
+$debug = 0;
+
+die if !&Getopts('h');
+$print_help = 0;
+$print_help = $opt_h if $opt_h;
+if ($print_help) {
+    print "$usage";
+    exit 0;
+}
+$date = &ctime(time);
+chop($date);
+
+$CH   = 0;			# chapter 
+$SEC1 = 1;			# section
+$SEC2 = 1;			# subsection
+$SEC3 = 1;			# subsubsection
+
+$allow_P = 0;
+$in_example = 0;
+$last_was_node = 0;
+print "<!-- Created automatically from texinfo source -->\n";
+print "<!-- $date -->\n";
+while(<>) {
+    $line++ if $debug;
+    print STDERR "$0 at line: $line\n" if ($debug && ($line == 2000 * int($line / 2000)));
+    # Prevent unclosed braces
+    if (!$in_example) {
+	while (/{[^}]*$/o) {
+	    $a = $_;
+	    $a =~ s/\n/ /o;
+	    $_ = <>;
+	    $_ = $a . $_;
+	}
+    } else {
+	$_ = "$example_indent$_";
+    }
+    # Handle HTML inserts
+    if (/^\@c HTML (.*)/o) {
+	$_ = "$1 \n";
+	&sub_refs;
+	s,\@value\{(.*)\},$value{$1},g; # set/value pair
+	print;
+	next;
+    }
+    # Process image commands (NOT...it's there already) 
+    if (/\@image{(.*)}/) {
+	#print "<img src=\"$1.gif\" border=\"1\">\n";
+	next;
+    }
+    # Ignore all other comments
+    next if /^\@top\s/;
+    next if /^\@c\s/;
+    next if /^\@comment\s*/;
+    # Ignore unnumbered, since special case (see Makefile)
+    next if /\@unnumbered/;
+    # Ignore special-cases text
+    next if /^Copyright/;
+    # Ignore texinfo command to input files
+    next if /\\input/;
+    # Ignore some tex-type commands
+    next if /\@summarycontents/;
+    next if /\@contents/;
+    next if /\@bye/;
+    next if /\@message/;
+    next if /\@global/;
+    next if /\@setfilename/;
+    next if /\@setchapternewpage/;
+    next if /\@settitle/;
+    next if /\@page/;
+    next if /\@space/;
+    next if /\@sp/;
+    next if /\@defindex/;
+    next if /\@vskip/;
+    s/\@noindent//;
+    # Pass contents of ifinfo blocks
+    next if /\@ifinfo/;
+    next if /\@end ifinfo/;
+    # Ignore contents of tex and iftex blocks
+    if (/^\@tex/o) {
+	while(<>) {
+	    if (/^\@end tex/o) {
+		$_ = "";
+		last;
+	    }
+	}
+    }
+    if (/^\@iftex/o) {
+	while(<>) {
+	    if (/^\@end iftex/o) {
+		$_ = "";
+		last;
+	    }
+	}
+    }
+    # Ignore indices (for now)
+    next if /\@defindex/;
+    if (/\@[cfv]index\s*(.*)/o) {
+	print "<!-- latex: \\index{$1} -->\n";
+	next;
+    }
+    next if /\@EGindex/;
+    next if /\@printindex/;
+    #
+    # Save set/value pair.
+    if (/\@set\s*(\S*)\s*(\S*)/o) {
+	$value{$1} = $2;
+	next;
+    }
+    s,\@value\{([^}]*)\},$value{$1},g; # Substitute set/value pair
+    #
+    # Fix some texinfo escapes
+    s,&,&amp;,og;
+    s,>,&gt;,og;
+    s,<,&lt;,og;
+    # Special tweak to make 'Gri' look cooler.
+	#    s, Gri , G<FONT SIZE=-1>RI</FONT> ,og;
+    s,\@\@,TEXINFO2HTML-AT-AT,og;
+    s,\@},TEXINFO2HTML-CLOSE-BRACE,og; # retain inside e.g. @code{}
+    s,\@{,{,og;
+    s,\@TeX{},TeX,og;
+    s,\@dots{},...,og;
+    if (/^\@titlepage/o) {
+	while(<>) {
+	    s,\@value\{(.*)\},$value{$1},g; # set/value pair
+	    if (/\@title\s*(.*)/o) {
+		$title = $1;
+	    } elsif (/\@author\s*(.*)/o) {
+		$author = $1;
+	        $author =~ s/\@\@/\@/;
+	    } else {
+		if (/^\@end titlepage/o) {
+		    last;
+		}
+	    }
+	}
+	next;
+    }
+    #
+    # Convert cross-references
+    if (/^\@node\s*([^,]*), ([^,]*), ([^,]*), ([^\n]*)/o) {
+	$next_node = $2;
+	$previous_node = $3;
+	$parent_node = $4;
+        # Start anchor, and set flag so end put after next heading.
+	# Need this flag because xmosaic 1.0 doesn't accept
+	# <A NAME="foo"></a>; it requires <A NAME="foo"><h1>heading</h1></a>
+	# or it will not properly search the reference.  I think this
+	# is a bug, and reported it to the author in an email:
+	#   From kelley Wed Jun 30 16:31:13 1993
+	#   To: marca\@ncsa.uiuc.edu
+	chop;	print "<!-- $_ -->\n";
+	print "<a name=\"$1\" ></a>\n";
+	$last_was_node = 1;
+	next;
+    }
+    &sub_refs;
+    #
+    # Convert headings; put the end anchor if needed
+    if (/\@chapter/o
+	|| /\@section/o
+	|| /\@subsubsubsection/o
+	|| /\@subsubsection/o
+	|| /\@subsection/o
+	|| /\@appendixsubsec/o
+	|| /\@unnumbered/o
+	|| /\@appendixsubsec/o
+	|| /\@appendixsec/o
+	|| /\@appendix/o) {
+        &sub_headings;
+	&sub_emphasis;
+	print;
+	#
+	# Last was a node, so put the end anchor in
+	if ($last_was_node) {
+	    print "\n<b>Navigation</b>:\n<a href=\"#$next_node\">next</a>,\n<a href=\"#$previous_node\">previous</a>,\n<a href=\"#$parent_node\">parent</a>.\n";
+	    $last_was_node = 0;
+	}
+	# 
+	# Done with this line
+	next;
+    }
+    &sub_emphasis;
+    #
+    # Convert quotations
+    s,\@quotation,<BLOCKQUOTE>,;
+    s,\@end quotation,</BLOCKQUOTE>,;
+    &process_examples();
+    # Convert Menus to UL (was DL before)
+    if (/\@menu/o) {
+	print "<UL>\n";
+	while(<>) {
+	    if (/^\@end menu/o) {
+		$_ = "";
+		last;
+	    }
+	    if (/\*\s([^:]*)::\s*(.*)/o) {
+		&sub_headings;
+		&sub_emphasis;
+		print "<LI><a href=\"#$1\">$1</a>: $2\n";
+	    } 
+	}
+	print "</UL>\n";
+    }
+    if (/\@table/o) {
+	print "<dl>\n";
+	while(<>) {
+	    next if /\@sp/;
+	    &process_examples();
+	    if (/^\s*\@end\s*table/o) {
+		$_ = "";
+		last;
+	    }
+	    if (/\s*\@item\s*(.*)/o) {
+		print "<dt> $1\n<dd>";
+	    } else {
+		if (/^$/o) {
+		    print "<p>";
+		}
+	        &sub_refs;
+	        &sub_headings;
+		&sub_emphasis;
+		print;
+            }
+	}
+	print "</dl>\n";
+    }
+    #
+    # Convert lists
+    s,\@itemize.*,<ul>,;
+    s,\@end\s*itemize,</ul>,;
+    s,\@enumerate,<ol>,;
+    s,\@end\s*enumerate,</ol>,;
+    s,\@itemx,<li>,;
+    s,\@item,<li>,;
+    s,\@bullet,,;		# HTML does not use
+    #
+    # Multiple blanks lines are paragraph separators in texinfo
+    if (/^$/o) {
+	if ($allow_P) {
+	    ; # print "<p>"; --- was empty
+	}
+    	$allow_P = 0;
+    } elsif (/<H/o) {
+    	$allow_P = 0;
+    } else {
+    	$allow_P = 1;
+    }
+    #
+    # Finally, print modified line
+    print;
+} 
+print "____________________________________________________________________\n";
+print "<ADDRESS> $title / $author </ADDRESS>\n";
+
+print "</BODY>\n";
+print "</HTML>\n";
+
+
+sub process_examples() {
+    if (/\@example/o) {
+	s,\s*\@example,<TABLE SUMMARY="Example" BORDER="0" BGCOLOR="#efefef" WIDTH="100%">\n<TR>\n<TD>\n<PRE>,;
+	$in_example = 1;
+    } elsif (/^\s*\@end example/o) {
+	s,\s*\@end example,</PRE>\n</TD>\n</TR>\n</TABLE>,;
+	$in_example = 0;
+    }
+}
+
+
+sub sub_refs {
+    die "line $. of file: cannot have multiple refs on one line" if (/\@[px]*ref{(.*)}(.*)\@[px]*ref{(.*)}/);
+    # Change e.g. 
+    #     @xref{Viewing}
+    # into
+    #     <a href="#Viewing">see Viewing</a>
+    s|\@ref{([^}]*)}|<a href="#$1">see $1</a>|g;
+    s|\@xref{([^}]*)}|<a href="#$1">see $1</a>|g;
+    s|\@pxref{([^}]*)}|<a href="#$1">see $1.</a>|g;
+}
+
+sub sub_headings {
+    if (/\@chapter/) {
+	$CH++;
+	$SEC1 = 0;
+	s,\@chapter\s*(.*),<h1>$CH: $1</h1>,;
+    } elsif (/\@unnumbered/) {
+	$CH++;
+	$SEC1 = 0;
+	s,\@unnumbered\s*(.*),<h1>$CH: $1</h1>,;
+    } elsif (/\@section/) {
+	$SEC1++;
+	$SEC2 = 0;
+	s,\@section\s*(.*),<h2>$CH.$SEC1: $1</h2>,;
+    } elsif (/\@subsection/) {
+	$SEC2++;
+	$SEC3 = 0;
+	s,\@subsection\s*(.*),<h3>$CH.$SEC1.$SEC2: $1</h3>,;
+    } elsif (/\@subsubsection/) { 
+	$SEC3++;
+	s,\@subsubsection\s*(.*),<h4>$CH.$SEC1.$SEC2.$SEC3: $1</h4>,;
+    }
+}
+
+sub sub_emphasis {
+    s,<<,&lt&lt,g;
+    s,>>,&gt&gt,g;
+    s,\@emph{([^}]*)},<em>$1</em>,g;
+    s,\@strong{([^}]*)},<b>$1</b>,g;
+    s,\@footnote{([^}]*)}, [$1],g;
+    s,\@b{([^}]*)},<b>$1</b>,g;
+    s,\@code{([^}]*)},`<code>$1</code>',g;
+    s,\@samp{([^}]*)},`<samp>$1</samp>',g;
+    s,\@key{([^}]*)},`<kbd>$1</kbd>',g;
+    s,\@kbd{([^}]*)},`<kbd>$1</kbd>',g;
+    s,\@file{([^}]*)},`<samp>$1</samp>',g;
+    s,TEXINFO2HTML-CLOSE-BRACE,},g;
+    s,TEXINFO2HTML-AT-AT,\@,g;
+}
+

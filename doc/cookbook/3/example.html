@@ -1,0 +1,57 @@
+<html>
+<head>
+<title>3/example.gri</title>
+</head>
+<body>
+<pre>
+<i>// Example 3 - Contouring ungridded data (Black/White)</i>
+<i>//</i>
+<i>// Contributed 17 Feb 1994 by Dan Kelley <Dan.Kelley@Dal.Ca>.</i>
+
+
+<i>// Read columnar data (x,y,z), convert to a grid, then contour.</i>
+<i>// Data from figure 5 of Koch et al., 1983, J. Climate</i>
+<i>// Appl. Met., volume 22, pages 1487-1503.</i>
+open ~/src/gri/doc/examples/example5.dat
+read columns x y z
+close
+set x size 12
+set x axis 0 12 2
+set y size 10
+set y axis 0 10 2
+draw axes
+set line width symbol 0.2
+set symbol size 0.2
+draw symbol bullet
+set font size 8
+draw values
+set x grid 0 12 1
+set y grid 0 10 1
+
+<i>//***convert columns to grid</i>
+<i>// The following commented commands are some versions of</i>
+<i>// the above command that you might want to try:</i>
+<i>//</i>
+convert columns to grid         <i>// <u>"default"</u></i>
+<i>//convert columns to grid objective                // As default</i>
+<i>//convert columns to grid objective -1.4 -1.4      // As default</i>
+<i>//convert columns to grid objective -1.4 -1.4 5 1  // As default</i>
+<i>//convert columns to grid objective -1.4 -1.4 5 -1 // " + fill grid</i>
+<i>//convert columns to grid objective -2   -2        // Average</i>
+<i>//convert columns to grid objective  2    2        //</i>
+<i>//convert columns to grid boxcar                   // Ugly</i>
+<i>//convert columns to grid boxcar -2 -2             // Still ugly</i>
+
+<i>// You might also want to try uncommenting next</i>
+<i>// command to smooth the grid:</i>
+<i>//</i>
+<i>//smooth grid data</i>
+
+set font size 10
+draw contour 0 40 2
+set font size 12
+draw title <u>"N. Am. wind (Fig5 Koch et al, 1983)"</u>
+quit
+</pre>
+</body>
+</html>

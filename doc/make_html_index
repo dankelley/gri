@@ -1,0 +1,22 @@
+#!/usr/local/bin/perl
+# $Id: make_html_index,v 1.1 2000/05/11 15:07:23 dankelley Exp $
+# Create HTML index from index of pre-installed info page
+system("makeinfo TMP");
+system("info -d . -f gri --output ./tmp.1 'Concept Index'");
+system("cat tmp.1 | grep -v '^File' | grep -v '^\* Menu:\$' | gawk '/^\* .*\./'  |  sort -f >  tmp.2");
+open(IN, "./tmp.2") || die "Cannot get index\n";
+# Following is kludge, really
+print "\@c HTML <!-- newfile ConceptIndex.html \"Gri: Concept Index\" \"Concept Index\" -->\n";
+print "\@c HTML <h1>Concept index</h1>\n";
+print "\@itemize \@bullet\n\n";
+while(<IN>) {
+    next if (/\*\s*Menu:\s*$/);
+    s/\* //;
+    s/\.$//;
+    s/:\s*/\n \@xref{/;
+    s/$/}/;
+    print "\@item\n $_";
+}
+print "\n\@end itemize\n";
+print "\n\@c HTML Dan Kelley\n";
+system("rm -f tmp.1 tmp.2");

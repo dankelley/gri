@@ -1,0 +1,566 @@
+% $Id: refcard.tex,v 1.1 2000/05/11 15:07:23 dankelley Exp $
+\def\griversion{2.0.x}
+\def\date{1999 Jan 28}
+
+% Reference Card for Gri
+%**start of header
+\hbadness=10000
+\vbadness=10000
+\newcount\columnsperpage
+
+% This file can be printed with 1, 2, or 3 columns per page (see below).
+% Specify how many you want here.  Nothing else needs to be changed.
+
+\columnsperpage=3
+
+% This file is intended to be processed by plain TeX (TeX82).
+%
+% The final reference card has six columns, three on each side.
+% This file can be used to produce it in any of three ways:
+% 1 column per page
+%    produces six separate pages, each of which needs to be reduced to 80%.
+%    This gives the best resolution.
+% 2 columns per page
+%    produces three already-reduced pages.
+%    You will still need to cut and paste.
+% 3 columns per page
+%    produces two pages which must be printed sideways to make a
+%    ready-to-use 8.5 x 11 inch reference card.
+%    For this you need a dvi device driver that can print sideways, e.g.,
+%      lw -land griref.dvi
+% Which mode to use is controlled by setting \columnsperpage above.
+%
+% Author:
+%  Dan Kelley (copied from a Unix reference card written by Steven Matheson)
+%  Internet: matehson@open.dal.ca
+%
+
+\def\version{\date}
+
+\def\shortnotice{\vskip 1ex plus 2 fill
+  \centerline{\small Gri version \versionnumber}}
+
+\def\notice{
+\vskip 1ex plus 2 fill\begingroup\small
+\centerline{(c) Dan E. Kelley 1999}
+This PostScript document is available on the World Wide Web at {\it
+ftp://ftp.phys.ocean.dal.ca/pub/receive/kelley/gri/refcard.ps}.
+See also {\it cmdrefcard.ps}, which is a companion reference card, as
+well as the full manual and source/binary code in this directory.
+Please inform me ({\tt Dan.Kelley@Dal.Ca}) of errors or deficiencies
+in this document or in Gri, so I can make improvements.
+\endgroup}
+
+% make \bye not \outer so that the \def\bye in the \else clause below
+% can be scanned without complaint.
+\def\bye{\par\vfill\supereject\end}
+
+\newdimen\intercolumnskip
+\newbox\columna
+\newbox\columnb
+
+\def\ncolumns{\the\columnsperpage}
+
+\message{[\ncolumns\space 
+V  column\if 1\ncolumns\else s\fi\space per page]}
+
+\def\scaledmag#1{ scaled \magstep #1}
+
+% This multi-way format was designed by Stephen Gildea
+% October 1986.
+\if 1\ncolumns
+  \hsize 4in
+  \vsize 10in
+  \voffset -.7in
+  \font\titlefont=\fontname\tenbf \scaledmag3
+  \font\headingfont=\fontname\tenbf \scaledmag2
+  \font\smallfont=\fontname\sevenrm
+  \font\smallsy=\fontname\sevensy
+
+  \footline{\hss\folio}
+  \def\makefootline{\baselineskip10pt\hsize6.5in\line{\the\footline}}
+\else
+  \hsize 3.2in
+  \vsize 7.95in
+  \hoffset -.75in
+  \voffset -.745in
+  \font\titlefont=cmbx10 \scaledmag2
+  \font\headingfont=cmbx10 \scaledmag1
+  \font\subheadingfont=cmbx10 \scaledmag0
+  \font\smallfont=cmr6
+  \font\smallsy=cmsy6
+  \font\eightrm=cmr8
+  \font\eightbf=cmbx8
+  \font\eightit=cmti8
+  \font\eighttt=cmtt8
+  \font\eightsy=cmsy8
+  \textfont0=\eightrm
+  \textfont2=\eightsy
+  \def\rm{\eightrm}
+  \def\bf{\eightbf}
+  \def\it{\eightit}
+  \def\tt{\eighttt}
+  \normalbaselineskip=.8\normalbaselineskip
+  \normallineskip=.8\normallineskip
+  \normallineskiplimit=.8\normallineskiplimit
+  \normalbaselines\rm           %make definitions take effect
+
+  \if 2\ncolumns
+    \let\maxcolumn=b
+    \footline{\hss\rm\folio\hss}
+    \def\makefootline{\vskip 2in \hsize=6.86in\line{\the\footline}}
+  \else \if 3\ncolumns
+    \let\maxcolumn=c
+    \nopagenumbers
+  \else
+    \errhelp{You must set \columnsperpage equal to 1, 2, or 3.}
+    \errmessage{Illegal number of columns per page}
+  \fi\fi
+
+  \intercolumnskip=.46in
+  \def\abc{a}
+  \output={%
+      % This next line is useful when designing the layout.
+      %\immediate\write16{Column \folio\abc\space starts with \firstmark}
+      \if \maxcolumn\abc \multicolumnformat \global\def\abc{a}
+      \else\if a\abc
+        \global\setbox\columna\columnbox \global\def\abc{b}
+        %% in case we never use \columnb (two-column mode)
+        \global\setbox\columnb\hbox to -\intercolumnskip{}
+      \else
+        \global\setbox\columnb\columnbox \global\def\abc{c}\fi\fi}
+  \def\multicolumnformat{\shipout\vbox{\makeheadline
+      \hbox{\box\columna\hskip\intercolumnskip
+        \box\columnb\hskip\intercolumnskip\columnbox}
+      \makefootline}\advancepageno}
+  \def\columnbox{\leftline{\pagebody}}
+
+  \def\bye{\par\vfill\supereject
+    \if a\abc \else\null\vfill\eject\fi
+    \if a\abc \else\null\vfill\eject\fi
+    \end}  
+\fi
+
+% we won't be using math mode much, so redefine some of the characters
+% we might want to talk about
+\catcode`\^=12
+\catcode`\_=12
+
+\chardef\\=`\\
+\chardef\{=`\{
+\chardef\}=`\}
+
+\hyphenation{mini-buf-fer}
+
+\parindent 0pt
+\parskip 1ex plus .5ex minus .5ex
+
+\def\small{\smallfont\textfont2=\smallsy\baselineskip=.8\baselineskip}
+
+\def\n{\hfil\break}
+
+\outer\def\newcolumn{\vfill\eject}
+
+\outer\def\title#1{{\titlefont\centerline{#1}}\vskip 1ex plus .5ex}
+
+\outer\def\section#1{\par\filbreak
+  \vskip 3ex plus 2ex minus 2ex {\headingfont #1}\mark{#1}%
+  \vskip 2ex plus 1ex minus 1.5ex}
+
+\outer\def\subsection#1{\par\filbreak
+  \vskip 3ex plus 2ex minus 2ex {\subheadingfont #1}\mark{#1}%
+  \vskip 2ex plus 1ex minus 1.5ex}
+
+\newdimen\keyindent
+
+\def\beginindentedkeys{\keyindent=1em}
+\def\endindentedkeys{\keyindent=0em}
+\endindentedkeys
+
+\def\paralign{\vskip\parskip\halign}
+
+\def\<#1>{$\langle${\rm #1}$\rangle$}
+
+\def\kbd#1{{\tt#1}\null}        %\null so not an abbrev even if period follows
+
+\def\beginexample{\leavevmode\begingroup
+  \obeylines\obeyspaces\parskip0pt\tt}
+{\obeyspaces\global\let =\ }
+\def\endexample{\endgroup}
+
+\def\key#1#2{\leavevmode\hbox to \hsize{\vtop
+  {\hsize=.65\hsize\rightskip=1em
+  \hskip\keyindent\relax#1}\kbd{#2}\hfil}}
+
+\newbox\metaxbox
+\setbox\metaxbox\hbox{\kbd{M-x }}
+\newdimen\metaxwidth
+\metaxwidth=\wd\metaxbox
+
+\def\metax#1#2{\leavevmode\hbox to \hsize{\hbox to .75\hsize
+  {\hskip\keyindent\relax#1\hfil}%
+  \hskip -\metaxwidth minus 1fil
+  \kbd{#2}\hfil}}
+
+\def\threecol#1#2#3{\hskip\keyindent\relax#1\hfil&\kbd{#2}\quad
+  &\kbd{#3}\quad\cr}
+
+%**end of header
+
+
+\tolerance=10000
+\title{Gri \griversion$\,$Reference Card}
+
+
+
+\section{1\quad What Gri Is}
+Gri is a language for drawing scientific diagrams such as x-y graphs,
+contours, vector fields, and images.  The Gri language is extensible,
+well-tested and fully documented.  The output is in the PostScript
+page description language.
+
+\section{2\quad How to Run Gri}
+Normally Gri is run non-interactively.  At the system prompt, type
+{\tt gri foo.gri} to run Gri on the file {\tt foo.gri}, creating a
+PostScript file called {\tt foo.ps}.  Or you could type {\tt gri
+foo.gri bar.ps} to get a PostScript file called {\tt bar.ps}.  Several
+command-line options exist; type {\tt gri -help} to see them, or
+consult the manual.
+
+Gri can also be run interactively.  To do this, type {\tt gri} at the
+system prompt.  Then just type Gri commands at the Gri prompt.  This
+is almost always a waste of time, however; you are better off
+preparing a commandfile.
+
+
+
+\section{3\quad Overview of Gri Language}
+\subsection{3.1\quad Syntax}
+Commands normally appear one per line, although ending a line with
+back-slash causes Gri to scan the next line also.  Comments may be
+inserted at the end of non-continued lines by preceeding the comment
+by a hash-code ({\tt \#}).
+
+Gri allows the usual suite of programming structures, such as loops
+and if-statements; additionally, new commands may be added to Gri
+easily (see section 3.7).
+
+\subsection{3.2\quad Built-in Commands}
+
+Here are the first words of the built-in Gri commands:
+\beginexample
+cd      close         convert     create    debug
+delete  differentiate draw        expecting filter
+flip    get           help        if        ignore
+input   insert        interpolate list      ls
+mask    move          new         open      pwd
+query   quit          read        regress   reorder
+rescale resize        return      rewind    set
+show    skip          smooth      sprintf   superuser
+system  write
+\endexample
+To get more information on a given command, e.g. the {\tt open}
+command, type {\tt help open} in an interactive Gri session, or {\tt
+C-H i gri commands open} in an {\tt emacs} editing session, or {\tt
+info commands open} at the system level.
+
+
+\subsection{3.3\quad Mathematics}
+Wherever Gri expects to see a number in a command, one may substitute
+a mathematical expression written in reverse polish notation (RPN)
+notation.  RPN expressions are enclosed in braces and preceeded by the
+word {\tt rpn}, e.g.
+\beginexample
+set x size $\lbrace$ rpn 5 2.54 * $\rbrace$ \# Make width be 5 inches
+x += $\lbrace$ rpn 1 2 /$\rbrace$           \# Add 0.5 to x values
+y -= $\lbrace$ rpn y mean $\rbrace$         \# De-mean y column
+x -= $\lbrace$ rpn x 0 @ $\rbrace$          \# Subtract first value
+\endexample
+
+
+
+\subsection{3.4\quad Variables (for Storing Numbers)}
+User-defined variables have names that begin and end with periods
+(like {\tt .offset.}); variables defined by gri (which you may alter
+if you wish) have names that begin and end with two periods (like {\tt
+..xsize..}).  To list the variables use {\tt show variables}.  Each of
+the following commands accomplishes the same thing, making the plot 2
+cm wider.  (Gri uses {\tt ..xsize..} to store the width of the plot.)
+\beginexample
+..xsize.. = $\lbrace$ rpn ..xsize.. 2.0 + $\rbrace$
+..xsize.. += 2
+set x size $\lbrace$ rpn ..xsize.. 2.0 + $\rbrace$
+set x size bigger 2
+\endexample
+
+
+
+\subsection{3.5\quad Synonyms (for Storing Strings)}
+Synonyms have names which begin with backslash (like {\tt
+$\backslash$name}).  To list the synonyms use {\tt show synonyms}.
+Synonyms can be embedded within strings or used raw, e.g.
+\beginexample
+\\dir = "mydir"
+query \\filename "What's the data file?" ("file.dat")
+open \\mydir/\\filename
+read columns x y
+draw curve
+draw title "Data in \\filename in dir \\mydir"
+\endexample
+
+
+
+\subsection{3.6\quad Strings and Math Symbols}
+Strings are enclosed in double quotes.  As in \TeX, superscripts and
+subscripts are enclosed in dollar signs.  Subscripts are preceeded by
+underscore, superscripts by carat.  Superscripts or subscripts
+consisting of more than one character are enclosed in braces.
+
+Gri handles Greek letters and mathematical symbols as \TeX\ does: they
+are enclosed in dollar signs and have backslash as the first
+character.  Most Greek letters are available, along with several
+mathematical symbols, but complicated La\TeX\ macros (like {\tt
+$\backslash$frac$\lbrace\rbrace\lbrace\rbrace$}) are not available.
+Examples:
+\beginexample
+set x name "x/x\$_0\$"
+draw title "y\$_$\lbrace$dim$\rbrace$\$ as fcn of \$\\alpha\$"
+\endexample
+
+
+
+\subsection{3.7\quad Extending Gri}
+You can create new Gri commands in your commandfile or in your {\tt
+$\sim$/.grirc} file.  Commands in {\tt $\sim$/.grirc} can be used
+anywhere -- they are your personal extensions to gri.  New commands
+defined in your commandfile exist only within that file.  The example
+below defines a new command which is invoked by {\tt Landscape Big}.
+The command name (which should begin with upper case letters, to avoid
+clashing with future built-in commands in gri) is enclosed in angled
+single-quotes.  Optional help lines follow.  The body of the command
+starts after a line with an opening brace, and ends before a line with
+a closing brace.
+\beginexample
+`Landscape Big'
+Plot in landscape mode, big size
+$\lbrace$
+    set page landscape
+    set x margin 2
+    set x size 25
+    set y margin 2
+    set y size 15
+$\rbrace$
+open file.dat
+read columns x y
+close
+Landscape Big
+draw curve
+quit
+\endexample
+
+\section{4\quad Editing Gri in GNU Emacs}
+A {\tt gri-mode} is available for editing Gri commandfiles in {\tt
+emacs}.  It controls indentation, comment placement, etc, as well as
+providing command completion and access to the manual section
+referring to the command being edited.  In {\tt emacs19}, it has
+useful pulldown menus.  It highlights program structure with the {\tt
+hilit19} library.  To use {\tt gri-mode}, put lines like the following
+in your {\tt $\sim$/.emacs} file.
+\beginexample
+;;; Gri mode
+(autoload 'gri-mode "gri-mode" "Enter Gri-mode." t)
+(setq auto-mode-alist 
+    (cons '("\\.gri\$" . gri-mode) auto-mode-alist))
+(setq gri-mode-hook
+  '(lambda ()
+    (setq gri*view-after-run t)
+    (setq gri*mosaic-program "Mosaic")
+    (setq fill-column 74)
+    (setq gri*view-command "ghostview -magstep -2")))
+\endexample
+
+\section{5\quad Documentation and User Group}
+An {\tt info} manual is available at the system level and inside
+Emacs.  A PostScript manual is also online, along with a cookbook of
+Gri examples.  Since Unix has no standard place to store PostScript
+manuals, you must consult your system manager to find these files.  A
+World Wide Web manual is available at {\it
+  http://www.phys.ocean.dal.ca/}$\sim${\it kelley/gri/gri1.html}.
+There is also a Gri mailing list.  To join, send a message to {\tt
+  majordomo@phys.ocean.dal.ca}, containing a single line with the
+words {\tt subscribe gri}.
+
+
+
+\section{6.\quad Example -- Linegraph}
+Suppose the file {\tt example1.dat} contains data in two columns
+separated by white space.  The following shows how to plot data with
+lines connecting the points.  To get symbols without lines, substitute
+{\tt draw symbols} for {\tt draw curve}; to get both symbols and
+lines, use both {\tt draw} commands.  If you have several curves which
+cross, use {\tt draw curve overlying}, which whites out a border below
+each curve, yielding a visual cue that lets the eye trace the
+individual curves easily.
+\beginexample
+\# Example1.gri -- linegraph using data in a file
+open example1.dat      \# Open the data file
+read columns x y       \# Read (x,y)
+draw curve             \# Draw curve stored in (x,y)
+\endexample
+
+You'll notice that there was no need to ask that axes be drawn.  They
+will be automatically determined (based on the data that were read in)
+and drawn just after the {\tt draw curve} command.  (Gri likes to draw
+axes, and you've got to ask it not to do so, if you don't want them.)
+Also, note that Gri was not instructed to close the datafile.  This is
+done automatically at termination.  One could insert a {\tt close}
+command after the {\tt read} command, if desired; this is helpful when
+you wish to work with many data files sequentially.
+
+The axes are labelled {\tt x} and {\tt y}.  To change that, and to add
+a title, do as follows:
+\beginexample
+open example1.dat
+read columns x y
+set x name "Time, s"
+set y name "Distance, m"
+draw curve
+draw title "Trajectory of fluid motion"
+\endexample
+
+To get a thicker curve, say 2 points wide, you could do
+\beginexample
+open example1.dat
+read columns x y
+set line width 2
+draw curve
+\endexample
+
+\newcolumn
+To get a dashed line,
+\beginexample
+open example1.dat
+read columns x y
+set dash
+draw curve
+\endexample
+
+To get a red line,
+\beginexample
+open example1.dat
+read columns x y
+draw axes
+set color red
+draw curve
+\endexample
+
+Note in the above that the axes were drawn before the color was set to
+red, so they will come out black.  Otherwise both the curve and the
+axes would be red.
+
+
+\section{7.\quad Example -- Contour Graph}
+Gri can plot contour graphs of either gridded or ungridded data.
+Several methods are provided for gridding data.  The following example
+shows how to grid randomly distributed (x,y,z) data and plot contours.
+\beginexample
+\# Example 5 - Contouring ungridded data, from figure
+\# 5 of Koch et al., 1983, J. Climate Appl. Met.,
+\# volume 22, pages 1487-1503.
+open example5.dat
+read columns x y z
+close
+set x size 12
+set x axis 0 12 2
+set y size 10
+set y axis 0 10 2
+draw axes
+set line width symbol 0.2
+set symbol size 0.2
+draw symbol bullet
+set font size 8
+draw values
+set x grid 0 12 0.25
+set y grid 0 10 0.25
+
+convert columns to grid 
+
+\# Uncomment next line to smooth the grid:
+\#smooth grid data
+
+set font size 10
+draw contour 0 40 2
+set font size 12
+draw title "Data from Fig 5 Koch et al., 1983"
+quit
+\endexample
+
+Note that a {\tt quit} command has been included, although it is not
+required, since Gri quits when it reaches the end of the commandfile
+anyway.
+
+
+
+
+\section{8.\quad Example -- Image Graph} Gri can draw images in BW and color.
+The following example shows how to plot a satellite image.
+
+
+\beginexample
+\# Example 6 -- Plot IR image of Gulf of Maine
+\# define characteristics of norda images
+\\0val         = "5"             \# 0 in image
+\\255val       = "30.5"          \# 255 in image
+.r.           = 128             \# rows
+.c.           = 128             \# cols
+.pixel_width. = 2
+.km.          = $\lbrace$rpn .c. .pixel_width. *$\rbrace$
+
+\# get filenames
+query \\filename "Image file?" ("example6image.dat")
+query \\maskname "Mask  file?" ("example6mask.dat")
+
+\# get data
+open \\filename binary
+set image range \\0val \\255val
+read image .r. .c. box 0 0 .km. .km.
+close
+open \\maskname binary
+read image mask .r. .c.
+close
+
+\# find out what grayscale method to use
+query \\histo "Flatten histogram?"       ("no" "yes")
+query \\Tw    "T/deg for white on page?" ("10")
+query \\Tb    "T/deg for black on page?" ("15")
+
+\# set up scales. 
+set x size 12.8
+set y size 12.8
+set x name "km"
+set y name "km"
+set x axis 0 .km. 32
+set y axis 0 .km. 32
+
+\# plot image, grayscale, and histogram
+if $\lbrace$rpn \\histo "yes" ==$\rbrace$
+    set image grayscale using histogram \\
+        black \\Tb white \\Tw
+else
+    set image grayscale black \\Tb white \\Tw
+end if
+draw image
+draw image palette left \\Tw right \\Tb
+draw image histogram
+if $\lbrace$rpn \\histo "yes" == $\rbrace$
+    draw title "Grayscale histogram enhanced"
+else
+    draw title "Grayscale linear \\Tw to \\Tb"
+end if
+quit
+\endexample
+
+
+\notice
+
+\bye

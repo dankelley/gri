@@ -1,0 +1,88 @@
+// Example 10 -- Geographical map using fancy map projection
+// Note: the map projection is done with the 'proj' program,
+// not part of Gri.
+//
+// Contributed 6 May 1996 by J. Witte <jwitte@phys.ocean.dal.ca>.
+
+\head = "laea projection of 1990 NOx aircraft emissions at 9km"
+\world = "/users/dek/kelley/data/Coastline/world1.dat"
+\nox = "example.dat"
+
+// Convert world map by first transforming coordinates ...
+system proj +proj=laea \
+    +over \
+    +ellips=clrk66 \
+    +lon_0=250 \
+    +lat_0=90 \
+    -m 1:10000000 \
+    -f '%.4f' \
+    < \world > tmp
+// ... and then fixing the -999 values (used to indicate
+// missing data at the ends of isolated coastline segments,
+// for example around islands).
+system sed -e s/*/-999/g < tmp > tmp2
+
+// Convert coordinates of NOx emission trajectories, stored
+// in first two columns.  Note that other columns in the
+// file are retained by 'proj', as are comment lines.
+system proj +proj=laea \
+    +over \
+    +ellips=clrk66 \
+    +lon_0=250 \
+    +lat_0=90 \
+    -m 1:10000000 \
+    -f '%.4f' \
+    < \nox > airnox
+
+open "gawk  'NR>1 && $5<50 {print($1,$2,$5)}' airnox |"
+read columns x y z
+set clip on
+set x margin 3
+set x size 14
+set y margin 6
+set y size 14
+
+set x axis -0.6376 0.6326
+set y axis -0.6353 0.558
+
+set x name ""
+set y name ""
+draw axes frame
+
+z /=50				// scale
+set symbol size 0.15
+draw symbol filledbox color hue z
+
+draw label "\head" centered at \
+    {rpn ..xmargin.. ..xsize.. 2 / +} \
+    {rpn ..ymargin.. ..ysize.. + "M" ascent 2 . +} \
+    cm
+
+// Draw palette
+set image range 0 50
+set x format %g
+set image colorscale hsb 0 1 1 0.0 hsb 1 1 1 50.0
+draw image palette left 0 right 50 increment 5 \
+	box {rpn ..xmargin..} {rpn ..ymargin.. ..ysize.. + 2 +}\
+	{rpn ..xmargin.. ..xsize.. +} {rpn ..ymargin.. ..ysize.. + 2.5 +}
+
+close
+system rm -f airnox
+
+// Draw coastline
+open tmp2
+set missing value -999
+read columns x y
+set clip on
+set x margin 3
+set x size 14
+set y margin 6
+set y size 14
+
+set x axis -0.6376 0.6326
+set y axis -0.6353 0.558
+draw axes frame
+close
+set line width rapidograph 1	// fairly thick curve
+draw curve
+system rm -f tmp tmp2

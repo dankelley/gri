@@ -1,0 +1,191 @@
+<html>
+<head>
+<title>4/example.gri</title>
+</head>
+<body>
+<pre>
+<i>// Example 4 -- TS diagram (Colour)</i>
+<i>//</i>
+<i>// Contributed 17 Feb 1994 by Dan Kelley <Dan.Kelley@Dal.Ca>.</i>
+
+
+<i>//</i>
+<i>// On a light brown background, draw blue [T(t),S(t)] evolution</i>
+<i>// diagrams for various years, with data from Labrador Sea, and</i>
+<i>// a predicted slope in red.  Isopycnals are drawn in black. </i>
+<i>// (This is a color overhead for seminar, hence the fontsize etc)</i>
+
+<i>// Define colors to use</i>
+\TS_trace = <u>"blue"</u>
+\isopycnals = <u>"black"</u>
+\background = <u>"rgb 1.0000 0.9059 0.7294"</u>
+\axes = <u>"black"</u>
+\guiding_line = <u>"red"</u>
+
+`Set Up'
+{
+    \data = <u>"./bravo1.25db"</u>
+    .dSdT. = -0.011             <i>// Slope for reference line</i>
+    .start. = 8                 <i>// Start month (wrt Jan=0; need negative)</i>
+    .stop. = 12                 <i>// Stop  month</i>
+    .delta_t. = 1               <i>// Interpolation time interval (days)</i>
+    \filter = <u>"2_0.02"</u>          <i>// Butterworth filter file</i>
+    .first. = 1964              <i>// First year to plot</i>
+    .last. = 1967               <i>// Last year to plot</i>
+    set missing value -9
+    set x margin 3
+    set y margin 6
+    set x name <u>"Salinity, PSU"</u>
+    set y format %.0lf$\circ$
+    set y name <u>"Temperature, $\circ$C"</u>
+    set x axis 34.5 34.8 0.1
+    set y axis 3 9 2 1
+    set line width axis rapidograph 4x0
+    set color \background
+    draw polygon filled         \
+        ..xleft.. ..ybottom..   \
+        ..xright.. ..ybottom..  \
+        ..xright.. ..ytop..     \
+        ..xleft.. ..ytop..
+    set color \axes
+    set font size 16            <i>// For overhead projection</i>
+    draw axes
+    system rm -f tmp*[0-9]
+}
+
+`Draw Isopycnals'
+{
+    set clip on
+    set line width rapidograph 1
+    set color \isopycnals
+    draw isopycnal 26.75 unlabelled
+    draw isopycnal 27.00 unlabelled
+    draw isopycnal 27.25 unlabelled
+    draw isopycnal 27.50 unlabelled
+    <i>// Label manually, for nicer effect (laborious)</i>
+    set font size 14
+    draw label <u>"1027.00"</u> at 34.731690 8.522833 rotated 16
+    <i>//draw label <u>"1027.25"</u> at 34.731690 6.808333 rotated 17</i>
+    draw label <u>"1027.50"</u> at 34.731690 4.797500 rotated 19
+    set clip off
+}
+
+`Draw guiding line'
+{
+    set clip postscript on
+    set color \guiding_line
+    set line width rapidograph 1
+    .S. = 34.7
+    .T. = -1.8
+    draw line from .S. .T. to {rpn .S. ..ytop.. .T. - .dSdT. * +} ..ytop..
+    set dash off
+    set clip postscript off
+}
+
+`Interpolate to standard times .days. \outfile_raw \outfile_smoothed'
+/*
+.days.   = sampling interval
+*/
+{
+    <i>// Trim out the (alternate) header lines, bin in time intervals</i>
+    <i>// (0.0208333year = 1wk; 0.0416667yr=2week), then put </i>
+    <i>// into file </i>
+    new \time2 .days.
+    .days. = \.word4.
+    show <u>"Interpolating `\data' to " .days. " days"</u>
+    show <u>"Using butterworth filter ~/filters/butterworth/\filter"</u>
+    sprintf \time2 <u>"%.10lf"</u> {rpn 1964 .days. 365.25 / +}
+    system                                                      \
+        cat \data                                               \
+        | gawk ' {                                              \
+        if (NR % 2)                                             \
+        printf(<u>"%lf "</u>, $1 + $2 / 365.0);                        \
+        if (1 - NR % 2)                                         \
+        printf(<u>"%lf %lf\n"</u>,$3,$2)                               \
+        }'                                                      \
+        | interpolate3col 1964 \time2 1974                      \
+        | cat > \.word5.
+    if ..exit_status..
+        show <u>"System call failed"</u>
+        quit
+    end if
+    system                                                      \
+        cat \.word5.                                            \
+        | butterfilter -c 3 $HOME/filters/butterworth/\filter   \
+        | cat > \.word6.
+    if ..exit_status..
+        show <u>"System call failed"</u>
+        quit
+    end if
+    delete .days. \time2
+}
+
+`Select years .start. .stop. \input_file \output_file'
+{
+    system gawk '\.word2. <= $1 && $1 <= \.word3.' < \.word4. > \.word5.
+}
+
+`Draw year labels'
+{
+    <i>// Draw labels for curves manually, to avoid overwriting</i>
+    set color \TS_trace
+    set font size 14
+    draw label whiteunder <u>"1964"</u> at 34.643232 \
+        {rpn 8.332266 yusertocm <u>"M"</u> ascent 2 / - ycmtouser}
+    draw label whiteunder <u>"1965"</u> at 34.615939 \
+        {rpn 7.463851 yusertocm <u>"M"</u> ascent 2 / - ycmtouser}
+    draw label whiteunder <u>"1966"</u> at 34.653777 \
+        {rpn 6.930395 yusertocm <u>"M"</u> ascent 2 / - ycmtouser}
+    draw label whiteunder <u>"1967"</u> at                             \
+        {rpn 34.545845 xusertocm <u>"1967"</u> width 2 / - xcmtouser}  \
+        8.865722
+}
+
+<i>// Main program</i>
+
+set line width axis rapidograph 00
+Set Up
+#Draw Isopycnals
+Draw guiding line
+Interpolate to standard times .delta_t. tmp1.\.pid. tmp2.\.pid.
+
+<i>// Plot timeseries</i>
+set color \TS_trace
+set line width rapidograph 2
+.year. = .first.
+while {rpn .last. .year. <=}
+    .t0. = {rpn .year. .start. 12 / +} 
+    .t1. = {rpn .year.  .stop. 12 / +}
+    show <u>"Plotting " .t0. "-"</u> .t1.
+    Select years {rpn .t0.} {rpn .t1.} tmp2.\.pid. tmp3.\.pid.
+    open tmp3.\.pid.
+    read columns * x y
+    close
+    draw curve overlying
+    .year. += 1
+end while
+set color \TS_trace
+Draw year labels
+
+<i>// Draw label indicating months</i>
+set line width rapidograph 00
+\label = <u>"Aug-Dec"</u>
+set color \TS_trace
+draw label boxed <u>"\label"</u> at                                            \
+    {rpn ..xleft.. ..xright.. + 2 / xusertocm <u>"\label"</u> width 2 / -}     \
+    {rpn ..ytop.. yusertocm <u>"M"</u> ascent 2.5 * +}                         \
+    cm
+
+.offset. = 3                    <i>// distance of labels above plot</i>
+set color \axes
+draw label <u>"$OWS Bravo$,  Labrador Sea"</u>                 \
+    centered at                                         \
+    {rpn ..xleft.. ..xright.. + 2 / xusertocm}          \
+    {rpn ..ymargin.. ..ysize.. + .offset. + <u>"M"</u> ascent 6 * +} cm
+
+system rm -f tmp*.\.pid.
+
+quit
+</pre>
+</body>
+</html>

@@ -1,0 +1,272 @@
+            VERSION = 2.5.1
+
+#### Start of system configuration section. ####
+# Prototype Gri Makefile.  Developers - read first few lines for instructions.
+# <<<--- DEVELOPERS - YOU MAY NEED TO EDIT THIS SECTION ------------------->>>
+# <<< Uncomment next line on linux machines, to get debugging malloc lib. >>>
+#LINUX_DEBUG_LIB=-L/usr/debug_include
+# <<< Uncomment next 2 lines to get debugging malloc/string library.      >>>
+#DBMALLOC_LIBS=-ldbmalloc
+#DBMALLOC_DEFS=-DUSE_DBMALLOC=1
+# <<<   Here is documentation on dbmalloc, from 'man dbmalloc'            >>>
+# <<<   As an example, to set up the session to generate a core file      >>>
+# <<<   for  every malloc warning, to drop core and exit on a malloc      >>>
+# <<<   fatal, and to log all messages to the file  "malloc_log"  do      >>>
+# <<<   the following:                                                    >>>
+# <<<                                                                     >>>
+# <<<      export MALLOC_WARN=131                                         >>>
+# <<<      export MALLOC_FATAL=1                                          >>>
+# <<<      export MALLOC_ERRFILE=malloc_log                               >>>
+# <<<   then do                                                           >>>
+# <<<      gdb gri core                                                   >>>
+# <<<   to get into debugger.  A good gdb command to know is              >>>
+# <<<      where                                                          >>>
+# <<<   which gives location in gri where problem occured.                >>>
+# <<<--- DEVELOPERS - END OF SECTION YOU MIGHT NEED TO EDIT --------------->>>
+
+srcdir = .
+
+DESTDIR=
+AWK = gawk
+
+INSTALL = @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_DATA = @INSTALL_DATA@
+
+LIBS = $(DBMALLOC_LIBS) $(LINUX_DEBUG_LIB) @LIBS@
+
+DEFS = -DVERSION=\"$(VERSION)\" -DDEFAULT_GRI_DIR=\"$(libdir)\" -DAWK=\"gawk\" $(DBMALLOC_DEFS) $(HAVE_LINUX) @DEFS@
+
+CFLAGS = @CFLAGS@
+CPPFLAGS = @CPPFLAGS@
+CXXFLAGS = @CXXFLAGS@
+EXTRA_CFLAGS = @EXTRA_CFLAGS@ $(LINUX_EXTRA_CFLAGS)
+EXTRA_CFLAGS_TEMPLATE = @EXTRA_CFLAGS_TEMPLATE@ $(LINUX_EXTRA_CFLAGS)
+
+
+
+prefix = @prefix@
+bindir = $(prefix)/bin
+libdir = $(prefix)/share/gri
+
+#### End of system configuration section. ####
+
+OBJS = G_string.o GriColor.o GriPath.o GriState.o chopword.o close.o \
+command.o convert.o debug.o delete.o differ.o doline.o draw.o endup.o \
+expect.o file.o filter.o flip.o gr.o gr_coll.o graxes.o grcntour.o \
+gri.o grimage.o grinterp.o grsmooth.o grstring.o heal.o help.o \
+if.o ignore.o image.o input.o insert.o interp.o mask.o math.o \
+new.o open.o popen.o query.o quit.o read.o regress.o reorder.o \
+rescale.o rewind.o rpn.o rpncalc.o scales.o set.o show.o skip.o \
+smooth.o startup.o state.o stats.o storage.o synonyms.o template.o \
+timer.o utility.o variable.o version.o while.o write.o
+
+gri: $(OBJS)
+	$(CXX) -o gri $(LDFLAGS) $(OBJS) $(LIBS)
+
+# Here are a few explicit rules used by the author for debugging;
+# it is emphaticallyy *not* a complete list.  If you edit the
+# source files you must do
+#	make clean
+#	make
+# to compile using all the actual dependencies.
+GriColor.o:     GriColor.hh
+GriState.o:     GriState.hh
+gr.o:           GriState.hh
+gri.o:		GriState.hh
+set.o:          GriState.hh
+state.o:        GriState.hh
+template.o:     GriState.hh
+command.o:	tags.hh
+variable.o:     Variable.hh
+synonyms.o:     Synonym.hh
+convert.o:	GMatrix.hh
+grcntour.o: 	GMatrix.hh
+gri.o: 		GMatrix.hh
+grsmooth.o: 	GMatrix.hh
+smooth.o: 	GMatrix.hh
+G_string.o:     G_string.hh
+
+CXX = @CXX@
+
+# Special rule for templates, so as not to use
+# -fno-implicit-templates (g++ weirdness).  This special
+# case depends on whether -frepo exists ... and whether the installer
+# has temerity to try it!
+template.o: template.cc
+	$(CXX) -c -Wall $(CXXFLAGS) $(EXTRA_CFLAGS_TEMPLATE) $(DEFS) -I$(srcdir) $<
+
+
+
+.SUFFIXES: .cc
+.cc.o:
+	$(CXX) -c $(CXXFLAGS) $(EXTRA_CFLAGS) $(CPPFLAGS) $(DEFS) -I$(srcdir) $<
+
+
+# Handle startup in special way since it needs version number.
+startup.o: version.cc startup.cc
+	$(CXX) -c $(CXXFLAGS) $(EXTRA_CFLAGS) $(CPPFLAGS) $(DEFS) -I$(srcdir) startup.cc
+
+debian-lib = $(debian)/usr/share/gri/$(VERSION)
+install_linux_debian: gri
+	echo "Installing into '$(debian)' directory"
+	install -d $(debian-lib)
+	if test -f startup.debian; then sed -e s,VSN,${VERSION}, startup.debian > $(debian-lib)/startup.msg; else echo "WARNING: no startup.debian file!"; fi;
+	install -d         $(debian)/usr/bin
+	install -m 755 gri $(debian)/usr/bin/gri-$(VERSION)
+	(cd $(debian)/usr/bin; ln -fs gri-$(VERSION) gri)
+	install -m 644 gri.cmd $(debian-lib)/gri.cmd
+	if test -f gri_merge; then install -m 755 gri_merge $(debian)/usr/bin; else echo "WARNING: no gri_merge file!"; fi;	
+	if test -f gri_unpage; then install -m 755 gri_unpage $(debian)/usr/bin; else echo "WARNING: no gri_unpage file!";fi;
+	install -d $(debian)/usr/share/emacs/site-lisp
+	install -m 644 gri-mode.el $(debian)/usr/share/emacs/site-lisp/
+
+install_linux_debian_grionly: gri
+	echo "Installing into '$(debian)' directory"
+	install -d             $(debian-lib)
+	install -m 644 gri.cmd $(debian-lib)/gri.cmd
+	if test -f startup.debian; then sed -e s,VSN,${VERSION}, startup.debian > $(debian-lib)/startup.msg; else echo "WARNING: no startup.debian file!"; fi;
+	install -d         $(debian)/usr/bin
+	install -m 755 gri $(debian)/usr/bin/gri-$(VERSION)
+
+install_linux_redhat:
+	# create the needed dirs in the BuildRoot (this is what $(DESTDIR) is being
+	# used for)
+	mkdir -m 755 -p $(DESTDIR)$(prefix)/share/gri
+	mkdir -m 755 -p $(DESTDIR)$(prefix)/share/emacs/site-lisp
+	mkdir -m 755 -p $(DESTDIR)$(prefix)/bin
+	mkdir -m 755 -p $(DESTDIR)$(prefix)/man/man1
+	mkdir -m 755 -p $(DESTDIR)$(prefix)/info
+
+	if test -f startup.redhat; then cat startup.redhat | sed -e s,VSN,${VERSION}, > tmp; $(INSTALL_DATA) tmp $(DESTDIR)$(prefix)/share/gri/startup.msg; rm -f tmp; else echo "WARNING: no startup.redhat file!"; fi;
+
+	/usr/bin/install -m 755  gri                           $(DESTDIR)$(prefix)/bin/gri
+	/usr/bin/install -m 755  gri_merge                     $(DESTDIR)$(prefix)/bin/gri_merge
+	/usr/bin/install -m 755  gri_unpage                    $(DESTDIR)$(prefix)/bin/gri_unpage
+	/usr/bin/install -m 644  gri.cmd                       $(DESTDIR)$(prefix)/share/gri/gri.cmd
+	/usr/bin/install -m 644  license.txt                   $(DESTDIR)$(prefix)/share/gri/license.txt
+	#
+	# gri mode (tweaked a bit for redhat since debian goes to web to see manual)
+	cp -f gri-mode.el tmp
+	# Following sed conversion broken -- no idea why
+	sed -e 's,WWW-page "http://phys.ocean.dal.ca/~kelley/gri/gri1.html",WWW-page "file:$(prefix)/doc/gri-$(VERSION)/html/index.html",' tmp > gri-mode.el
+
+	/usr/bin/install -m 644  gri-mode.el                   $(DESTDIR)$(prefix)/share/emacs/site-lisp
+	mv tmp gri-mode.el
+	# lets install some man and info docs
+	/usr/bin/install -m 644  doc/gri-manpage-redhat.1      $(DESTDIR)$(prefix)/man/man1/gri.1
+	/usr/bin/install -m 644  doc/gri                       $(DESTDIR)$(prefix)/info
+	/usr/bin/install -m 644  doc/gri-[1-9]                 $(DESTDIR)$(prefix)/info
+	/usr/bin/install -m 644  doc/gri-[1-9][0-9]            $(DESTDIR)$(prefix)/info
+
+# Install all relevant files, creating directories, destroying old
+# links and creating new links as necessary.
+install: all
+	echo "Installing into '$(prefix)' directory"
+	cat startup.msg | sed -e s,VSN,${VERSION}, > tmp
+	if test ! -d $(prefix)/share/gri ; then mkdir -m 755 -p $(prefix)/share/gri ; fi
+	$(INSTALL_DATA) tmp $(prefix)/share/gri/startup.msg
+	rm -f tmp
+	$(INSTALL_PROGRAM)      gri             $(prefix)/bin/gri
+	$(INSTALL_DATA)         gri.cmd         $(prefix)/share/gri/gri.cmd
+	$(INSTALL_DATA)         license.txt     $(prefix)/share/gri/license.txt
+	$(INSTALL_PROGRAM)      gri_merge       $(prefix)/bin/gri_merge
+	$(INSTALL_PROGRAM)      gri_unpage      $(prefix)/bin/gri_unpage
+	cd doc; prefix=$(prefix) make html-install
+
+all: force
+	make gri
+	make doc
+
+force:
+
+doc: force
+	cd doc; make info html
+
+etags:
+	etags *.cc *.hh
+
+clean:
+	rm -f gri *.o *.rpo core *.bak *.BAK *~ config.cache \#*
+
+distclean:
+	make clean
+	cd doc ; make clean
+	rm -f config.log config.cache config.status Makefile
+
+# Source distribution
+        SOURCE_NAME = gri-$(VERSION)
+            SRC_DIR = .
+            DOC_DIR = ./doc
+           DEST_DIR = /home/kelley
+source:
+	# Clean directory, if existent.
+	-rm -rf $(SOURCE_NAME)
+	mkdir $(SOURCE_NAME)
+	#
+	# Copy source
+	-cp $(SRC_DIR)/ChangeLog \
+	    $(SRC_DIR)/*.cc $(SRC_DIR)/*.hh $(SRC_DIR)/gri.cmd \
+	    $(SRC_DIR)/license.txt \
+	    $(SRC_DIR)/Makefile.in $(SRC_DIR)/Makefile.dj2\
+	    $(SRC_DIR)/configure $(SRC_DIR)/configure.in \
+	    $(SRC_DIR)/install-sh \
+	    $(SRC_DIR)/copyright.txt $(SRC_DIR)/AUTHOR $(SRC_DIR)/README* \
+	    $(SRC_DIR)/gri-mode.el\
+	    $(SRC_DIR)/gri_merge\
+	    $(SRC_DIR)/gri_unpage\
+	    $(SRC_DIR)/startup.msg $(SRC_DIR)/startup.debian $(SRC_DIR)/startup.redhat \
+	    $(SRC_DIR)/gri-*.spec\
+	    $(SRC_DIR)/grilogo.gif\
+	$(SOURCE_NAME)
+	-chmod a+r $(SOURCE_NAME)/gri.cmd
+	-chmod a+r $(SOURCE_NAME)/license.txt
+	# 
+	# Copy documentation
+	mkdir $(SOURCE_NAME)/doc
+	-cp $(DOC_DIR)/gri.archive          $(SOURCE_NAME)/doc
+	-cp $(DOC_DIR)/archive-to-html.pl   $(SOURCE_NAME)/doc
+	-cp $(DOC_DIR)/cmdrefcard.tex       $(SOURCE_NAME)/doc
+	-cp $(DOC_DIR)/refcard.tex          $(SOURCE_NAME)/doc
+	-cp $(DOC_DIR)/Makefile             $(SOURCE_NAME)/doc
+	-cp $(DOC_DIR)/FAQ.html             $(SOURCE_NAME)/doc
+	-cp $(DOC_DIR)/gri-manpage.1        $(SOURCE_NAME)/doc
+	-cp $(DOC_DIR)/gri-manpage-debian.1 $(SOURCE_NAME)/doc
+	-cp $(DOC_DIR)/gri-manpage-redhat.1 $(SOURCE_NAME)/doc
+	-cp $(DOC_DIR)/gri.texi             $(SOURCE_NAME)/doc
+	-cp $(DOC_DIR)/texinfo2HTML         $(SOURCE_NAME)/doc
+	-cp $(DOC_DIR)/HTML_subdivide       $(SOURCE_NAME)/doc
+	-cp $(DOC_DIR)/make_html_index      $(SOURCE_NAME)/doc
+	mkdir $(SOURCE_NAME)/doc/resources
+	chmod a+x $(SOURCE_NAME)/doc/resources
+	-cp $(DOC_DIR)/resources/*.gri $(DOC_DIR)/resources/*.eps $(DOC_DIR)/resources/*.gif $(DOC_DIR)/resources/*txt   $(SOURCE_NAME)/doc/resources
+	chmod a+r $(SOURCE_NAME)/doc/resources/*
+	mkdir $(SOURCE_NAME)/doc/examples
+	chmod a+x $(SOURCE_NAME)/doc/examples
+	-cp $(DOC_DIR)/examples/*.gif          $(SOURCE_NAME)/doc/examples
+	-cp $(DOC_DIR)/examples/*.gri          $(SOURCE_NAME)/doc/examples
+	-cp $(DOC_DIR)/examples/*.txt          $(SOURCE_NAME)/doc/examples
+	-cp $(DOC_DIR)/examples/*.dat          $(SOURCE_NAME)/doc/examples
+	-cp $(DOC_DIR)/examples/*.ps           $(SOURCE_NAME)/doc/examples
+	-cp $(DOC_DIR)/examples/FEM.pl         $(SOURCE_NAME)/doc/examples
+	-cp $(DOC_DIR)/examples/model.elements $(SOURCE_NAME)/doc/examples
+	-cp $(DOC_DIR)/examples/model.nodes    $(SOURCE_NAME)/doc/examples
+	-cp $(DOC_DIR)/examples/Makefile       $(SOURCE_NAME)/doc/examples
+	chmod a+r $(SOURCE_NAME)/doc/examples/*
+	chmod a+r $(SOURCE_NAME)/*
+	# Tar package, compress it, install it.
+	tar -c -f $(SOURCE_NAME).tar $(SOURCE_NAME)
+	rm -rf $(SOURCE_NAME)
+	# GZIP method:
+	gzip --best $(SOURCE_NAME).tar
+	mv $(SOURCE_NAME).tar.gz $(DEST_DIR)/$(SOURCE_NAME).tgz
+	chmod a+r $(DEST_DIR)/$(SOURCE_NAME).tgz
+
+README-ftp:
+	lynx -dump README-ftp.html > README-ftp
+	chmod a+r README-ftp
+
+what_is_new:
+	@for f in *.spec gri.cmd *cc *hh Makefile.in configure.in doc/gri.texi doc/Makefile;\
+		do diff --brief $$f ../$$f;\
+	done

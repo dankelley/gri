@@ -1,0 +1,4142 @@
+;;; gri-mode.el - major mode for Gri files
+
+;; Copyright (C) 1994-2000 Peter S. Galbraith
+ 
+;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
+;;                               <psg@debian.org>
+;; Created:   14 Jan 1994
+;; Version:   2.17 (18 Apr 2000)
+;; Keywords:  gri, emacs, XEmacs, plotting graphics package.
+
+;; RCS $Id: gri-mode.el,v 1.1 2000/05/11 15:07:17 dankelley Exp $
+;; Note: RCS version number does not correspond to release number.
+
+;;; This file is not part of GNU Emacs.
+
+;; This package is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation; either version 2, or (at your option)
+;; any later version.
+
+;; This package is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with GNU Emacs; see the file COPYING.  If not, write to the
+;; Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+;; Boston, MA 02111-1307, USA.
+;; ----------------------------------------------------------------------------
+;;; Commentary:
+
+;; This major mode for GNU emacs provides support for editing Gri files.
+;; Gri is a graphics plotting package (language) that produces beautiful
+;; postscript output suitable for publications.  Gri is written by 
+;; Dan Kelley, Dalhousie University.  Info is available at
+;;       http://phys.ocean.dal.ca/~kelley/gri/gri1.html
+
+;; New versions of gri-mode may be obtained at:
+;;   ftp://ftp.phys.ocean.dal.ca/users/rhogee/elisp/gri-mode.el
+
+;; Features of gri-mode include:
+;;
+;;   Automatic indentation for block structures, line continuations, 
+;;     and comments.  
+;;   Parenthesis matching support.  
+;;   Gri command completion (using abbreviations in your gri buffer)
+;;   Displays help and info-manual about the gri command on the current line.  
+;;   Hide user commands at the beginning of gri buffers (similar to Outline 
+;;     mode)
+;;   Run gri from within emacs.
+;;   Display (possibly compressed) postscript file associated with gri file.
+ 
+;;; Installation  -- Follow these 3 steps:
+;;
+;; 1 - Configuring gri-mode to where gri lives on your system:
+;;
+;;  If gri is installed as /usr/local/bin/gri and /usr/local/share/gri/gri.cmd 
+;;  on your system, go to step 2.  If not, then you need to set the variable
+;;  gri*directory-tree.
+;;  
+;;  If you have only one version of gri installed on your system,
+;;  gri-mode expects to find gri.cmd and the gri executable like so:
+;;
+;;     `gri*directory-tree`/gri.cmd 
+;;      and the gri executable in the PATH
+;;  or
+;;     `gri*directory-tree`/lib/gri.cmd 
+;;      and the gri executable in the PATH
+;;  or
+;;     `gri*directory-tree`/bin/gri
+;;     `gri*directory-tree`/lib/gri.cmd
+;;
+;;  However, gri-mode was designed to support and ease the use of multiple
+;;  installed versions of gri.  To use this feature, you must use the gri
+;;  version number as a directory name under the `gri*directory-tree` path,
+;;  like this:
+;;
+;;     `gri*directory-tree`/VERSION/bin/gri
+;;     `gri*directory-tree`/VERSION/lib/gri.cmd
+;;
+;;      (e.g. /opt/gri/2.040/bin/gri and /opt/gri/2.040/lib/gri.cmd with 
+;;       gri*directory-tree set to "/opt/gri")
+;;
+;;  or without the `lib' and `bin' subdirectories if the executable is
+;;  found in the PATH named like `gri-VERSION'
+;;
+;;     `gri*directory-tree`/VERSION/gri.cmd
+;;     gri-VERSION executable in the PATH
+;;
+;;      (e.g. /usr/share/gri/2.1.17/gri.cmd and /usr/bin/gri-2.1.17 with
+;;       gri*directory-tree set to "/usr/share/gri")
+;;
+;;  Examples:
+;;  ~~~~~~~~
+;;  If you use an opt-style gri directory tree (as is the standard from gri
+;;  V2.040 to V2.4.2), set gri*directory-tree to the root of this tree.
+;;  For example, if your gri files reside in directories like:
+;;
+;;    /opt/gri/bin/gri       -> /opt/gri/2.041/bin/gri
+;;    /opt/gri/lib/gri.cmd   -> /opt/gri/2.041/lib/gri.cmd
+;;    /opt/gri/2.040/bin/gri
+;;    /opt/gri/2.040/lib/gri.cmd
+;;    /opt/gri/2.041/bin/gri
+;;    /opt/gri/2.041/lib/gri.cmd
+;;  then you'd use:
+;;    (setq gri*directory-tree "/opt/gri/")
+;;
+;;  If you use a Debian GNU/Linux installation like:
+;;    /usr/bin/gri -> /usr/bin/gri-2.1.17
+;;    /usr/share/gri/2.1.17/gri.cmd
+;;  then you'd use:
+;;    (setq gri*directory-tree "/usr/share/gri/")
+;;  Note that since there is no /usr/share/gri/bin/ directory (a similar 
+;;  structure to /opt/gri above), all gri binaries with version number 
+;;  suffixes must exist in the path (e.g. gri-2.1.17)
+;;
+;;  If you use a RedHat Powertool installation like:
+;;    /usr/bin/gri
+;;    /usr/share/gri/gri.cmd
+;;  then you'd also use:
+;;    (setq gri*directory-tree "/usr/share/gri/")
+;;  but gri-mode would know of only one installed version of gri.
+;;
+;;  You may have more than one tree and make a list of them:
+;;    (setq gri*directory-tree '("/opt/gri/" "/usr/share/gri/"))
+;;
+;; 2 - Telling emacs to load gri-mode:
+;;
+;;  To tell emacs to use this mode with .gri files, you can load gri-mode 
+;;  whenever a new emacs session is starting by adding the following line 
+;;  to your ~/.emacs file:
+;;
+;;   (require 'gri-mode)
+;;
+;;  This is a good thing specially when you only start emacs once a week and
+;;  use it for every file you edit (as you should).  
+;;  If you startup a fresh emacs every time you edit (bad scientist!)
+;;  then you probably only want to load gri-mode into emacs when you need it.
+;;  In that case, instead of the `require' statement above, add the following 
+;;  lines to your ~/.emacs file:
+;;
+;;   (autoload 'gri-mode "gri-mode" "Enter Gri-mode." t)
+;;   (setq auto-mode-alist (cons '("\\.gri$" . gri-mode) auto-mode-alist))
+;;
+;; 3 - Extra user configuration of gri-mode
+;;
+;;  At this point, gri-mode should start up when you edit a gri file.
+;;  You may optionally customize gri-mode by setting variables in your 
+;;  ~/.emacs file.  These are briefly described by typing `C-h m' while in 
+;;  gri-mode.  Then, for further infomation, use emacs' describe-variable
+;;  command, bound to `C-h v'.  For example, for more information about the
+;;  gri*WWW-program variable, you'd type `C-h v gri*WWW-program' (note that
+;;  emacs does [TAB] completion, so pressing the [TAB] key after typing-in
+;;  gri will display all gri related variables.)
+
+;; ----------------------------------------------------------------------------
+;;; Change log:
+;;
+;; V1.03 14jan94 by Peter Galbraith, rhogee@bathybius.meteo.mcgill.ca
+;;      Created (based on version 1.02 from Dan Kelley. See later in file.)
+;; V1.03a 18jan94 - fixed bug in gri-hide-all
+;;                  improved gri-hide-function to detect beginning of program
+;; V1.04 19jan94 - gri-perform renamed gri-run
+;;               - gri-run is now error-smart (puts cursor on proper line)
+;;               - add gri-view (C-c v)
+;;               - move gri-version to C-c C-v
+;;               - don't indent comment after system line (e.g. used in sed)
+;;       26jan94 - bug fix: `Unbalanced Parenthese' on gri-info and gri-help
+;;               - remove C-C c binding for gri-complete
+;;               - gri-apropos renamed gri-help-apropos
+;;               - bound M-q to gri-indent-region
+;;               - prefixed gri-indent-region indents entire buffer.
+;;       31jan94 - Added menus
+;;               - Added C-C ?
+;;               - gri-function-skeleton
+;;       08feb94 - Added support for hilit19.el
+;;       09feb94 - Added gri*hilit-declarations variable
+;;       10feb94 - Added gri*view-command and gri*view-landscape-arg variables
+;; V1.05 15feb94 - gri-view checks that postscript file exists. 
+;;               - Added gri-narrow-to-function, added to menu as well.
+;;       22feb94 - debugged gri-isolate-this-command for lines with comments
+;;               - Added ERROR message to gri-run.
+;;                 Don't show the shell-output-buffer window if only showing 
+;;                 the error message (no set trace on).
+;;                 ** still can't it shell-output-buffer to display ending **
+;;               - Added gri-comment-out-region (in menu)
+;;               - Added gri-uncomment-out-region (in menu)
+;;               - Added `Info Special Topics' menu
+;;       28feb94 - Changed key defs from `C-c letter' to `C-c C-letter'
+;;       07Mar94 - Added gri-help and gri-info w/ minibuffer completion.
+;; V1.06 23Mar94 - hilit19 for /* comments new for gri V1.069 */
+;;                 hilit19 enhanced highlighting for hidden commands 
+;; V1.07 28Mar94 - hilit optionally after carriage return
+;;       05Apr94 - Removed gri-system-syntax-file variable
+;;               - Replaced variable gri-cmd-file by gri*path
+;;       07Apr94 - hilit for system <<"EOF" 
+;;                 hilit further enhanced on hidden commands
+;;                 Added vars gri*hilit-variables and gri*hilit-rpn-contents
+;; V1.08 08Apr94 - Added gri-insert-file-as-comment.
+;;       13Apr94 - gri-indentation skips over foreign system code. 
+;;       14Apr94 - Fixed gri-help, extracting text fell short with numerics.
+;;       18Apr94 - Added gri-mosaic-manual
+;;       25Apr94 - expand-file-name instead of concat usage.
+;;       03May94 - gri*view-after-run added
+;;               - Improved hilit pattern for `\synonym = system'
+;; V1.09 15Jun94 - Deleted key-defs in menus (standard in emacs-19.24)
+;; V1.10 07Jul94 - Fixed indentation on continued system lines (else, //)
+;;               - gri-hide-all would hide second line if no program existed.
+;; V1.11 06Sep94 - Added gri-view for gzip'ed files.
+;; V1.12 05Oct94 - C-c C-k kills contents of string or variable under cursor 
+;;                 if not within an option.
+;;                 (still kills option, when within an option).
+;;               - Enhanced gri-next-option now bound to C-c C-n
+;;               - Moved gri-narrow-to-function to C-c M-n
+;;               - Bound gri-indent-buffer to M-C-v
+;; V1.13 03Nov94 - Better gri-view
+;;       20Dec94 - Changed WWW gri manual URL
+;;               - Changed gri-mosaic-manual to gri-WWW-manual
+;;                         gri*mosaic-program to gri*WWW-program
+;;                         -  default is now Mosaic.
+;; V1.14 17Feb95 - gri-close-statement added.
+;; V1.15 17Feb95 - gri-close-statement fixed.
+;; V1.16 23May95 - detect gri segmentation fault.
+;; V1.17 09Jun95 - new way of calling gri. See gri*directory-tree variable. 
+;; V1.18 21Jun95 - Added gri-print
+;; V1.19 28Jun95 - Added major artificial intelligence to detect bad 
+;;                 installation.  I had an evening to spare!
+;; V1.20 09Nov95 - emacs-19.29 bug on completion fixed.
+;; V1.21 01dec95 - gri-version more flexible about gri directory names
+;; V1.22 27dec95 - `M-;' still not generic emacs, but `kill-comment' and
+;;                 `M-x comment-region' work correctly.
+;;                 New syntax table -> font-lock won't crash!
+;;                 New functions gri-option-select-mouse gri-kill-option-mouse
+;; V1.23 22jan96 - Added gri-command-arguments and auto-mode-alist setup.
+;; V1.24 11jun96 - Added new gri-insertion-filter for set-process-filter
+;;                 Added shell-command-switch for Windows (uses "/c").
+;; V1.25 11jul96 RCS 1.1 
+;; - Added *single* menu for XEmacs. Now loads under XEmacs.
+;; V1.26 24jul96 RCS 1.2 
+;; - Fixed XEmacs special-topics info menu. 
+;; - set-buffer-menubar in XEmacs so that menu disappears after.
+;; V1.27 24Aug96 RCS 1.10
+;; - font-lock support.
+;; - Added gri*use-hilit19.
+;; - Adding gri-local-version (not finished yet).
+;; V1.28 25Oct96 RCS 1.11 - Bug in gri-kill-option
+;; V1.29 11Nov96 RCS 1.12 
+;; - gri-set-local-version added.
+;; - gri-version renamed to gri-set-version.
+;; V1.30 31Dec96 RCS 1.13 - Repeat single-line output from gri-run after view
+;; V1.31 11Feb97 RCS 1.14 - Better fontification of multi-line system commands.
+;; V1.32 03Jun97 RCS 1.15 - `Running gri done' message.
+;; V1.33 20Oct97 RCS 1.16 - Fixed font-lock for Emacs-20
+;; V1.34 21Oct97 RCS 1.17 - Fixed menu definition conditional for Emacs-20
+;; V1.35 01Dec97 RCS 1.18 - Emacs-20 outline-minor-mode invisibility.
+;; V2.00 10Jul98 RCS 1.21 - gri*path removed. Allow list in gri*directory-tree.
+;; V2.01 27Jul98 RCS 1.23 - skipped over a version in gri*directory-tree
+;; V2.02 21Aug98 RCS 1.24 - changed gri*WWW-manual 
+;; V2.03 15Oct98 RCS 1.27 - added # comments; better gri-local-version control.
+;; V2.04 10Jan98 RCS 1.29 - only # comments!
+;;                        - added gri-convert-comments 
+;;                        - added gri-convert-comments-with-prompt
+;; V2.05 27Jan98 RCS 1.30 - Fixed completion when case-different matches exist
+;; V2.06 14May99 RCS 1.31 - Fixed `\.var. = system' detected as system line 
+;; V2.07 30Nov99 RCS 1.32 - Fixed gri info special topics that have changed
+;; V2.08 30Nov99 RCS 1.33 - Default gri*view-command is now gv.
+;; V2.09 19Dec99 RCS 1.34 - Fixed gri-info-function for xemacs20
+;;                        - Switch to easy-menu and added gv scale selection
+;;                        - add gri-fontify-buffer
+;; V2.10 20Dec99 RCS 1.35 - Added first XEmacs toolbar button.
+;; V2.11 21Dec99          - XEmacs gv scale selection uses radio buttons
+;; V2.12 19Jan00 RCS 1.36 - XEmacs-21 doesn't have variable lpr-command
+;; V2.13 19Jan00 RCS 1.37 - XEmacs-21 fixes: no toolbar in -nw; no show-all
+;; V2.14 29Mar00 RCS 1.38 
+;; - Made gri*directory-tree default to new /usr/local/share/gri location
+;; - Made RedHat setup work (/usr/bin/gri & /usr/share/gri/gri.cmd)
+;; V2.15 09Apr00 RCS 1.39 - add `www' prefix to gri*WWW-page URL.
+;; V2.16 13Apr00 RCS 1.40 - gri-do-run won't move to gri.cmd on error.
+;; V2.17 18Apr00 RCS 1.41 - Made gri-expand-versions use -directory_default
+;;                          in case gri*directory-tree is not set correctly.
+;; ----------------------------------------------------------------------------
+;;; Code:
+;; The following variable may be edited to suit your site: 
+
+(defvar gri*directory-tree "/usr/local/share/gri"
+  "*Root of the gri directory tree.
+
+Root of the gri directory tree holding versions of gri library files.
+This is either a string, or a list of strings.
+
+In the following file layout, gri*directory-tree should be set to 
+\"/usr/lib/gri\"
+
+ /usr/bin/gri-2.1.17
+ /usr/lib/gri/2.1.17/gri.cmd
+
+In the following file layout, gri*directory-tree should be set to \"/opt/gri\"
+
+ /usr/bin/gri -> /opt/gri/2.1.17/bin/gri
+ /opt/gri/2.1.17/bin/gri
+ /opt/gri/2.1.17/lib/gri.cmd
+
+If you had both layouts, you'd use:
+
+ (setq gri*directory-tree '(\"/opt/gri/\" \"/usr/lib/gri\"))
+
+Notes:
+ 1 - The lib/ directory is optional.
+ 2 - The bin/ directory may exist to hold the gri binary.  If it doesn't
+     exist, gri-mode will assume that the gri command suffixed with the 
+     version number exists in the path (e.g. /usr/bin/gri-2.1.17).
+
+This variable must therefore be set correctly for gri-mode to function 
+properly, and for the `gri-set-version' command to switch between gri 
+versions.
+
+See the gri-mode.el file itself for more information.")
+
+;;----------------------
+;; The folowing are user-configurable variables which can be set in the 
+;; user's .emacs file to change the behaviour of gri-mode
+
+(defvar gri*WWW-program nil
+  "*Program name for World-Wide-Web browser, used by command gri-WWW-manual.
+If set to nil, gri-mode will use the Emacs' browse-url package to deal with
+the browser request.  If set to a string, gri-mode will start it as a
+sub-process.
+
+On your system, this could be `netscape'.  If so, set this variable in your
+.emacs file like so:
+
+  (setq gri*WWW-program \"netscape\")")
+
+(defvar gri*WWW-page "http://www.phys.ocean.dal.ca/~kelley/gri/gri1.html"
+  "*Web page or local html index file for the gri manual.
+This is used by the gri-WWW-manual command.
+On your system, this could be reset to a local html file, e.g.
+ (setq gri*WWW-page \"file:/usr/share/doc/gri-html-doc/html/index.html\")
+but it defaults to the gri web page: 
+ http://www.phys.ocean.dal.ca/~kelley/gri/gri1.html
+
+See also:  variable gri*WWW-program.")
+
+(defvar gri-indent-before-return nil
+  "*Set to `t' to indent current line before newline on carriage return.
+Reset this in your .emacs file like so:
+
+  (setq gri-indent-before-return t)")
+
+(defvar gri*view-after-run t
+  "*When set to true, gri-run will call gri-view after successful completion.
+If you do not wish this behaviour, reset it in your .emacs file like so:
+
+  (setq gri*view-after-run nil)")
+
+(defvar gri*view-command "gv"
+  "*command used by gri-view to preview postscript file.
+Reset this in your .emacs file (but not in your gri-mode-hook) like so:
+
+  (setq gri*view-command \"ghostview -magstep -1\") ;for small screens
+or
+  (setq gri*view-command \"gv -media letter -scale 2\")")
+
+(defvar gri*view-landscape-arg "-landscape" 
+  "*argument used to obtain landscape orientation in gri-view.
+This argument is passed to the shell along with the command stored 
+in the variable gri*view-command.
+Reset this in your .emacs file (but not in your gri-mode-hook) like so:
+
+  (setq gri*view-landscape-arg \"\")
+
+  where the empty string is used here (as an example) if no landscape
+  argument exists for the command used in gri*view-command.")
+
+(defvar gri*view-scale "0"
+  "Default scale arguument to use when using gv as gri-view command.
+Changed via menu-bar.")
+(make-variable-buffer-local 'gri*view-scale)
+
+(defvar gri*lpr-command (if (boundp 'lpr-command) 
+                            lpr-command
+                          "lpr")
+  "*Command used by gri-mode to print PostScript files produced by gri.
+Set only the command name here.  Options are set in gri*print-switches")
+
+(defvar gri*lpr-switches (if (boundp 'lpr-switches) lpr-switches)
+  "*Options used to print PostScript files produced by gri.
+This is usually entered as a list of strings:
+   (setq gri*lpr-switches '(\"-P las_imlsta\" \"-ps\"))
+but can also be entered simply as a single string:
+   (setq gri*lpr-switches \"-P las_imlsta -ps\")")
+
+(defvar gri*use-hilit19 (not (featurep 'font-lock))
+  "*Use the hilit19 package to highlight gri code.
+This does not *force* gri-mode to load hilit19.
+
+You may configure hilit19 to highlight only certain modes.  Unfortunately,
+gri-mode isn't smart enough to sort this out.  Therefore, gri-mode will
+only use hilit19 if (1) it is loaded and (2) this variable is set to t.
+To force gri-mode to never use hilit19 by itself, use:
+
+  (setq gri*use-hilit19 nil)")
+
+(defvar gri*hilit-declarations t 
+  "*highlight variable and synonym declarations when using hilit19 in gri-mode.
+Reset this in your .emacs file (but not in your gri-mode-hook) like so:
+
+  (setq gri*hilit-declarations nil)")
+
+(defvar gri*hilit-variables nil 
+  "*highlight all variables and synonyms when using hilit19 in gri-mode.
+Set this in your .emacs file (but not in your gri-mode-hook) like so:
+
+  (setq gri*hilit-variables t)")
+
+(defvar gri*hilit-rpn-contents nil 
+  "*highlight contents of rpn expressions when using hilit19 in gri-mode.
+Set this in your .emacs file (but not in your gri-mode-hook) like so:
+
+  (setq gri*hilit-rpn-contents t)")
+
+(defvar gri*hilit-before-return nil
+  "*If t, current line is highlighted before newline is inserted.
+This variable is ignored for when not using emacs-19 in its own X-window.
+Reset this in your .emacs file like so:
+
+  (setq gri*hilit-before-return t)")
+
+;; ----------------------------------------------------------------------------
+;; The syntax file looks like:     Used by:
+;; -------------------
+;; Syntax for gri version 1.063
+;; -                               gri-complete works from here (all commands)
+;; ?set_axes   (fragments)
+;; --                              gri-help-apropos
+;; Draw_Ctd    (user commands)
+;; ---                             gri-help (backward to see if user command) 
+;; cd cd [\pathname]
+;; close close [\filename]
+;; -------------------
+;;                                (gri-info doesn't look at this file)
+;;
+;;  System gri commands and fragments are inserted when .gri-syntax is created.
+;;  User commands and fragments are added when *gri-syntax* buffer is created
+;;   and when gri-mode is invoked (on a new gri buffer) if *gri-syntax* exists.
+;;   That way, we won't create *gri-syntax* for users who never use it.
+;;  User commands and fragments can overwrite older user commands AND any
+;;   fragments (whether gri or not).  This provides a mean for users to modify
+;;   official gri fragments. 
+
+(if (not (fboundp 'when))
+    (eval-when-compile
+      (require 'cl)))
+
+(defvar gri-mode-is-XEmacs
+  (not (null (save-match-data (string-match "XEmacs\\|Lucid" emacs-version)))))
+
+(defvar gri-mode-is-Emacs20
+  (and (not gri-mode-is-XEmacs) (= 20 emacs-major-version)))
+
+(defvar gri-bin-file "" "Command used to call gri binary.") 
+(defvar gri-cmd-file "" 
+  "gri.cmd file used when calling gri command (if gri-bin-cmd not \"gri\")
+and used for gri-mode syntax.") 
+
+(defvar gri-version-list nil
+  "Internal list of gri versions available from variable gri*directory-tree")
+
+(defvar gri-local-version nil
+  "Local variable for gri version to use on this file.
+To use this, you insert strings like this at the end of the file:
+
+# Local Variables:
+# gri-local-version: \"2.053\"
+# End:")
+(make-variable-buffer-local 'gri-local-version)
+
+(defvar gri-command-arguments ""
+  "gri command arguments to pass to gri when using gri-run, excluding -b -y
+which are always sent.")
+(make-variable-buffer-local 'gri-command-arguments) 
+
+(defun gri-set-local-version ()
+  "Set the version of gri to use on this file only.
+This adds an emacs local-variable at the end of your gri as file as a gri 
+comment, such that gri-mode will use the proper version of gri the next time
+you edit the gri file."
+  (interactive)
+  (let* ((table (gri-expand-versions))
+         (version (and table            ;Choose if we have possiblities (table)
+                       (completing-read "Gri version number to use: "
+                                        table nil t nil))))
+    (cond 
+     ((string-equal version "")
+      (error "No version specified.  Exiting."))
+     ((string-equal version "default")
+      (message 
+       "Unsetting local-buffer version and using default version of gri")
+      (gri-unset-local-version))
+     (t
+      (setq gri-local-version version)
+      (save-excursion
+        (goto-char (point-max))
+        (if (re-search-backward "\\(//\\|#\\) Local Variables:" nil t)
+            (if (re-search-forward "gri-local-version: \"\\(.*\\)\"" nil t)
+                (progn
+                  (goto-char (match-beginning 1))
+                  (delete-region (match-beginning 1)(match-end 1))
+                  (insert version))
+              (end-of-line)
+              (insert "\n# gri-local-version: \"" version "\""))
+          (goto-char (point-max))
+          (insert "# Local Variables:\n"
+                  "# gri-local-version: \"" version "\"\n"
+                  "# End:\n")))))
+      (gri-initialize-version t)))
+
+(defun gri-unset-local-version ()
+  "Unset this buffer's local version of gri and use default value instead"
+  (interactive)
+  (setq gri-local-version nil)
+  (save-excursion 
+    (save-restriction
+      (widen)
+      (goto-char (point-max))
+      (when (and (re-search-backward "# Local Variables:" nil t)
+                 (re-search-forward  "# gri-local-version:" nil t))
+        (delete-region (progn (beginning-of-line)(point))
+                       (progn (forward-line 1) (point)))
+        (forward-line -1)
+        (if (and (looking-at "# Local Variables:\n")
+                 (progn (forward-line 1)(looking-at "# End:")))
+            (delete-region (progn (end-of-line)(point))
+                           (progn (forward-line -1) (point))))))))
+
+(defun gri-initialize-version (verbose)
+  "Decide which version of gri to use based on ~/.gri-using-version
+unless local-variable gri-local-version is set, then use that version,
+and also use the variable gri*directory-tree.
+Sets variables gri-bin-file and gri-cmd-file."
+  (cond
+   (gri-local-version
+    ;; make gri-bin-file and gri-cmd-file local variables (for gri-run)
+    (make-local-variable 'gri-cmd-file)
+    (make-local-variable 'gri-bin-file)
+    (setq gri-cmd-file (gri-cmd-file-for-version gri-local-version))
+    (setq gri-bin-file (gri-bin-file-for-version gri-local-version))
+    (if verbose
+        (message "Using gri version %s for this file." gri-local-version)))
+   ((file-readable-p "~/.gri-using-version")
+    (let ((the-buffer (create-file-buffer "~/.gri-using-version"))
+          (version))
+      (save-excursion
+        (set-buffer the-buffer)
+        (insert-file-contents "~/.gri-using-version")
+        (goto-char (point-min))
+        (setq version
+              (buffer-substring (point) (progn (end-of-line)(point)))))
+      (kill-buffer the-buffer))
+    (setq gri-cmd-file (gri-cmd-file-for-version version))
+    (setq gri-bin-file (gri-bin-file-for-version version))
+    (message "Using gri version %s." version))    
+   (t
+    ;; Default setting, (~/.gri-using-version file not used)
+    (setq gri-cmd-file (gri-cmd-file-for-version "default"))
+    (setq gri-bin-file (gri-bin-file-for-version "default")))))
+
+(defun gri-inquire-default ()
+  "Ask gri which -default_directory to use to find gri.cmd. Sets gri-cmd-file."
+  (let ((gri-tmp-buffer (get-buffer-create "*gri-tmp-buffer*")))
+    (set-buffer gri-tmp-buffer)
+;;  (message "Inquiring to gri about location of gri.cmd file...") 
+    (shell-command-on-region 1 1 "gri -directory_default" t)
+  ;;(shell-command-on-region 1 1 "echo ERROR" t)
+  ;;(shell-command-on-region 1 1 "echo /opt/gri/2.017/lib/" t)
+;;  (message "Inquiring to gri about location of gri.cmd file... Done.") 
+    (setq gri-cmd-file 
+          (and (not (search-backward "ERROR" nil t))
+               (expand-file-name 
+                "gri.cmd" 
+                (buffer-substring 
+                 1 (progn (goto-char 1)(end-of-line)(point))))))
+    (kill-buffer gri-tmp-buffer))
+  gri-cmd-file)
+
+(defun gri-inquire-default-version ()
+  "Ask gri -v to find version number"
+  (save-excursion
+    (let ((gri-tmp-buffer (get-buffer-create "*gri-tmp-buffer*"))
+          answer)
+      (set-buffer gri-tmp-buffer)
+      (shell-command-on-region 1 1 "gri -v" t)
+      (goto-char (point-min))
+      (if (re-search-forward "gri version \\(.*\\)$" nil t)
+          (setq answer (match-string 1)))
+      (kill-buffer gri-tmp-buffer)
+      answer)))
+
+(defun gri-expand-versions-this-directory (directory-tree)
+  "Do gri-expand-versions on a single directory"
+;;; This is what needs to be supported:
+;;
+;;    Old style local install:
+;;    
+;;     /opt/gri/VERSION/bin/gri
+;;     /opt/gri/VERSION/lib/gri.cmd
+;;    
+;;    New style local install:
+;;    
+;;     /usr/local/bin/gri
+;;     /usr/local/share/gri/gri.cmd
+;;    
+;;    Red Hat:
+;;    
+;;     /usr/bin/gri
+;;     /usr/share/gri/gri.cmd
+;;    
+;;    Debian:
+;;    
+;;     /usr/bin/gri-VERSION
+;;     /usr/share/gri/VERSION/gri.cmd
+;;    
+;;    gri-mode will only let the user pick and switch gri versions for
+;;    a given buffer with `Old style local install' and `Debian'.
+;;
+  (if (or (not (file-readable-p directory-tree))
+          (not (file-directory-p directory-tree)))
+      nil
+    (let ((file-list (cdr (cdr (directory-files directory-tree))))
+          ;; The above trickery removes ./ and ../ from the list
+          (dir-list)(vsn-list)(the-file))
+      (while file-list                  
+        ;; find directories which have /bin/gri and /lib/gri.cmd files
+        (setq the-file (car file-list))
+        (setq file-list (cdr file-list))
+        (cond
+         ((string-match "^lib$" the-file)
+          (cond 
+           ;; gri*directory-tree/bin/gri and gri*directory-tree/lib/gri.cmd
+           ;; No version numbers!
+           ((and
+             (file-directory-p (expand-file-name "lib" directory-tree))
+             (file-exists-p (expand-file-name "bin/gri" directory-tree))
+             (file-exists-p (expand-file-name "lib/gri.cmd" directory-tree)))
+            (setq dir-list (cons "default" dir-list))
+            (setq vsn-list 
+                  (append vsn-list
+                          (list (list "default" 
+                                      (expand-file-name "bin/gri" 
+                                                        directory-tree)
+                                      (expand-file-name "lib/gri.cmd" 
+                                                        directory-tree))))))
+           ;; gri*directory-tree/lib/gri.cmd and gri in the PATH
+           ;; No version numbers!
+           ((and
+             (file-directory-p (expand-file-name "lib" directory-tree))
+             (file-exists-p (expand-file-name "lib/gri.cmd" 
+                                              directory-tree)))
+            (setq dir-list (cons "default" dir-list))
+            (setq vsn-list 
+                  (append vsn-list
+                          (list (list "default" 
+                                      "gri"
+                                      (expand-file-name "lib/gri.cmd" 
+                                                        directory-tree))))))))
+         ;; gri*directory-tree/gri.cmd and gri executable in the PATH
+         ;; No version numbers!
+         ((and
+           (string-match "^gri.cmd$" the-file)
+           (file-exists-p (expand-file-name "gri.cmd" directory-tree)))
+          (setq dir-list (cons "default" dir-list))
+          (setq vsn-list 
+                (append vsn-list
+                        (list (list "default" 
+                                    "gri"
+                                    (expand-file-name "gri.cmd" 
+                                                      directory-tree))))))
+         ;; gri*directory-tree/VERSION/bin/gri and 
+         ;; gri*directory-tree/VERSION/lib/gri.cmd
+         ((and
+           (file-directory-p (expand-file-name the-file directory-tree))
+           (file-exists-p (expand-file-name (concat the-file "/lib/gri.cmd") 
+                                            directory-tree))
+           (file-exists-p (expand-file-name (concat the-file "/bin/gri") 
+                                            directory-tree)))
+          (setq dir-list (cons the-file dir-list))
+          (setq vsn-list 
+                (append vsn-list
+                        (list (list the-file 
+                                    (expand-file-name (concat the-file 
+                                                              "/bin/gri") 
+                                                      directory-tree)
+                                    (expand-file-name (concat the-file 
+                                                              "/lib/gri.cmd") 
+                                                      directory-tree))))))
+         ;; gri*directory-tree/VERSION/gri.cmd
+         ;; gri-VERSION executable in the PATH
+         ((and
+           (file-directory-p (expand-file-name the-file directory-tree))
+           (file-exists-p (expand-file-name (concat the-file "/gri.cmd") 
+                                            directory-tree)))
+          (setq dir-list (cons the-file dir-list))
+          (setq vsn-list 
+                (append vsn-list
+                        (list (list the-file 
+                                    (concat "gri-" the-file)
+                                    (expand-file-name (concat the-file 
+                                                              "/gri.cmd") 
+                                                      directory-tree))))))))
+      (setq gri-version-list vsn-list)
+      (mapcar 'list (nreverse dir-list)))))
+  
+(defun gri-expand-versions ()
+  "Returns a list of gri versions in gri*directory-tree, 
+either a string or list of strings.
+Sets gri-version-list variable."
+  (let (versions)
+    (cond
+     ((listp gri*directory-tree)
+      (let ((the-list gri*directory-tree)
+            the-tree vsn-list)
+        (setq gri-version-list nil)
+        (while the-list
+          (setq the-tree (car the-list))
+          (setq the-list (cdr the-list))
+          (setq versions (append (gri-expand-versions-this-directory the-tree) 
+                                 versions))
+          (setq vsn-list (append vsn-list gri-version-list)))
+        (setq gri-version-list vsn-list)))
+     ((stringp gri*directory-tree)
+      (setq versions (gri-expand-versions-this-directory gri*directory-tree))))
+    ;; If list doesn't contain "default", chase gri link or -directory_default
+    ;; Can't chase gri link unless I do `which gri` or `whereis gri`
+    (if (member '("default") versions)
+        versions                        ;Okay, we're done...
+      (let ((the-list gri-version-list)
+            (default-version (gri-inquire-default-version)))
+        (while the-list
+          (if (string-equal (car (car the-list)) default-version)
+              (progn
+                (setq versions (cons '("default") versions))
+                (setq gri-version-list 
+                      (append gri-version-list 
+                              (list (cons "default" (cdr (car the-list))))))
+                (setq the-list nil)))
+          (setq the-list (cdr the-list)))
+        (if versions
+            versions
+          ;; Not done yet, ask  -directory_default
+          (let ((default-version (gri-inquire-default)))
+            (setq versions "default")
+            (setq gri-version-list 
+                  (append gri-version-list 
+                          (list (list "default" "gri" default-version))))
+            versions))))))
+
+(defun gri-bin-file-for-version (version)
+  (if (not gri-version-list)
+      (gri-expand-versions))
+  (let ((the-list gri-version-list)
+        answer)
+    (while the-list
+      (if (string-equal version (car (car the-list)))
+          (progn
+            (setq answer (elt (car the-list) 1))
+            (setq the-list nil)))
+      (setq the-list (cdr the-list)))
+    answer))
+
+(defun gri-cmd-file-for-version (version)
+  (if (not gri-version-list)
+      (gri-expand-versions))
+  (let ((the-list gri-version-list)
+        answer)
+    (while the-list
+      (if (string-equal version (car (car the-list)))
+          (progn
+            (setq answer (elt (car the-list) 2))
+            (setq the-list nil)))
+      (setq the-list (cdr the-list)))
+    answer))
+
+(defun gri-set-version ()
+  "Change the version of gri used in gri-mode.
+If you answer with an empty string, the default version of gri will always be 
+used (even after it gets upgraded on your system). If you choose another 
+version, gri-mode will remember between emacs session by writing it to the
+file ~/.gri-using-version.
+See also gri-set-local-version"
+;; Sets up variable gri-bin-file and gri-cmd-file
+;; Sets up (or deletes) ~/.gri-using-version
+;; Deletes syntax buffer if it existed (so that it will be rebuilt next time).
+  (interactive)
+  (if (and (boundp 'gri-local-version)
+           gri-local-version
+           (y-or-n-p "Unset locally-set Gri version and proceed? "))
+      (gri-unset-local-version))
+  (if (and (boundp 'gri-local-version)
+           gri-local-version)
+      ()                              ;Still local; We are done.
+    (let* ((table (gri-expand-versions))
+           (version (and table          ;Choose if we have possiblities (table)
+                         (completing-read 
+                          "Gri version number to use: [default] "
+                          table nil 0 nil))))
+      (cond 
+       ((and version                    ;If we have a version number
+             (not (string-equal version "")))
+        (setq gri-cmd-file (gri-cmd-file-for-version version))
+        (setq gri-bin-file (gri-bin-file-for-version version))
+        (if (local-variable-p 'gri-cmd-file)
+          (set-default 'gri-cmd-file gri-cmd-file))
+        (if (local-variable-p 'gri-bin-file)
+          (set-default 'gri-bin-file gri-bin-file))
+        ;; Write ~/.gri-using-version
+        (let ((the-buffer (create-file-buffer "~/.gri-using-version")))
+          (save-excursion
+            (set-buffer the-buffer)
+            (erase-buffer)
+            (insert version)
+            (write-file "~/.gri-using-version")
+            (kill-buffer the-buffer)))
+        (message "Using Gri version %s" version))
+       (t
+        ;;Else set to default value (with or without /lib appended)
+        (if (file-exists-p "~/.gri-using-version")
+            (delete-file "~/.gri-using-version"))
+        (setq gri-bin-file (gri-bin-file-for-version "default"))
+        (setq gri-cmd-file (gri-cmd-file-for-version "default"))
+        (message "Using Gri default version")))
+      ;; Now delete syntax buffer if it exists, and the syntax file.
+      (if (get-buffer "*gri-syntax*")
+          (kill-buffer "*gri-syntax*"))
+      (if (file-exists-p "~/.gri-syntax")
+          (delete-file "~/.gri-syntax")))))
+
+(defun gri-build-syntax (local-cmd-file)
+  "Called when gri-syntax-file is not found.  Creates ~/.gri-syntax
+which contains all commands found in gri.cmd, including some code fragments."
+;; assumes (possibly local) gri-cmd-file variable is passed as arg.
+  (if (not (file-readable-p local-cmd-file))
+      (error "%s not found. Check gri*directory-tree in gri-mode.el"
+             local-cmd-file))
+  (let ((cmd-buffer (get-buffer-create "*gri-cmd-file*"))
+        (syn-buffer (get-buffer-create "*gri-syntax-file*"))
+        (version "(unknown)"))
+    (save-excursion
+      (set-buffer cmd-buffer)
+      (insert-file-contents local-cmd-file)
+      (if (re-search-forward "(version \\([.0-9]*\\))" nil t)
+          (setq version (buffer-substring (match-beginning 1)(match-end 1))))
+      (message "Building gri version %s syntax..." version)
+      (save-excursion
+        (set-buffer syn-buffer)
+        (insert " Syntax for gri version " version 
+                "  (created by gri-mode.el)\n"
+                " Based on: " (file-chase-links local-cmd-file) "\n"
+                "-\n--\n---\n"))
+      (gri-add-commands-from-current-buffer t syn-buffer)
+      (set-buffer syn-buffer)
+      (write-file "~/.gri-syntax"))
+    (kill-buffer syn-buffer)
+    (kill-buffer cmd-buffer)))
+
+(defun gri-add-commands-from-current-buffer (system-flag syn-buffer)
+  "Add gri commands in current buffer to syntax file.
+If ARG1 is true, then this is the gri.cmd buffer for gri system commands.
+ARG2 is gri-syntax buffer."
+  (save-excursion
+    (let ((cmd-buffer (current-buffer)))
+      (set-buffer syn-buffer) (setq buffer-read-only nil) 
+      (set-buffer cmd-buffer)
+      (goto-char (point-min))
+      (while (re-search-forward "^`\\(.*\\)'$" nil t)
+        (makunbound 'gri-user-command-alist) ;force later update of commands
+        (let ((the-command (buffer-substring (match-beginning 1)
+                                             (match-end 1)))
+              (the-name))
+          (if (string-equal "?" (substring the-command 0 1))
+              ;; A fragment of gri code to extract
+              (progn
+                (re-search-forward "^{" nil t)
+                (let ((the-fragment 
+                       (buffer-substring (point) 
+                                         (progn 
+                                           (re-search-forward "^}" nil t)
+                                           (backward-char 2)(point)))))
+                  (set-buffer syn-buffer)
+                  (goto-char (point-min))
+                  (setq the-command
+                        (psg-replace-within-string the-command " " "_"))
+                  (if (and (not system-flag)  ;; do no checks for gri.cmd
+                           (re-search-forward
+                            (concat "^" the-command " ") nil t))
+                      (progn 
+                        (message "Overwriting syntax for %s" the-command)
+                        (delete-region (progn (beginning-of-line) (point))
+                                       (progn (forward-char 1)
+                                              (re-search-forward "^[^ ]" nil t)
+                                              (backward-char 2)(point))))
+                    (re-search-forward "^-$" nil t) 
+                    (insert "\n"))
+                  (insert the-command " " the-fragment)
+                  (goto-char (point-max))
+                  (set-buffer cmd-buffer)))
+            ;; An ordinary gri command
+            (set-buffer syn-buffer)
+            (goto-char (point-max))
+            (insert the-command)
+            (gri-create-cmd-name t)
+            (setq the-name (buffer-substring (progn (beginning-of-line)(point))
+                                             (progn (end-of-line)(point))))
+            (if system-flag
+                (insert " " the-command "\n") ;;Don't check if defined twice
+              ;; User command--check if command already exists
+              (delete-region (progn (beginning-of-line)(point))
+                             (progn (end-of-line)(point)))
+              (if (re-search-backward (concat "^" the-name " ") nil t)
+                  (if (not (re-search-forward "^---\n" nil t))
+                      (message "Cannot overwrite command: %s" the-name)
+                    ;; same named user command existed --- overwrite it.
+                    (message "Overwriting command: %s" the-name)    
+                    (re-search-backward (concat "^" the-name " ") nil t)
+                    (delete-region (progn (beginning-of-line)(point))
+                                   (progn (end-of-line)(point)))
+                    (insert the-name " " the-command))
+                ;; didn't previously exist -- write it.
+                  (re-search-backward "^---\n" nil t)
+                  (forward-line -1)(end-of-line)
+                  (insert "\n"  the-name " " the-command)))
+            (set-buffer cmd-buffer)
+            (re-search-forward "^}" nil t))))
+      (set-buffer syn-buffer)
+      (set-buffer-modified-p nil)
+      (setq buffer-read-only t) 
+      (set-buffer cmd-buffer))))
+
+(defun gri-create-cmd-name (underscore-flag)
+  "Edits full gri syntax line to leave gri command name.
+If ARG is true, then put underscores between command words.  
+Gri command name may be longer than that used by gri parser, because this
+will take words that follow variables (and the gri parser won't check these).
+Assumes line is last in buffer, and has no leading whitespace."
+  (beginning-of-line)
+  (while (search-forward "  " nil t)  ;; trim whitesppace
+    (delete-backward-char 1)
+    (beginning-of-line))
+  (while (re-search-forward "[{|\"\.\\[]" nil t)
+    (backward-char 1)                 ;; puts point on found character
+    (let ((the-match (buffer-substring (match-beginning 0)(match-end 0)))
+          (the-start (point))
+          (the-find  (point)))
+      (cond
+       ((or (string-equal the-match "{") (string-equal the-match "["))
+        (goto-char (scan-sexps (point) 1)))  ;; faster than forward-sexp 1?
+       ((string-equal the-match "|")
+        (skip-chars-backward " \t") ;; place start-deletion before prior option
+        (search-backward " " nil t) ;; skipping immediate spaces, find start
+        (forward-char 1)            ;; move over first character 
+        (setq the-start (point))    ;; set the start-deletion
+        (goto-char the-find)        ;; now go back to delete trailing option
+        (forward-char 1)            ;; move right after | character
+        (skip-chars-forward "\t ")  ;; and skip over spaces
+        (re-search-forward "[ {[]\\|$" nil t)
+        (if (or (string-equal "{" (buffer-substring (match-beginning 0)
+                                                    (match-end 0)))
+                (string-equal "[" (buffer-substring (match-beginning 0)
+                                                    (match-end 0))))
+            (backward-char 1)))     ;; don't delete the bracket
+       ((string-equal the-match "\"")
+        (forward-char 1)
+        (search-forward "\"" nil t))
+       (t  ;;case \.
+        (forward-char 1)
+        (re-search-forward "[ {[]\\|$" nil t)
+        (if (or (string-equal "{" (buffer-substring (match-beginning 0)
+                                                    (match-end 0)))
+                (string-equal "[" (buffer-substring (match-beginning 0)
+                                                    (match-end 0))))
+            (backward-char 1))))  ;; skip before a bracket
+      (skip-chars-forward " \t")
+      (delete-region the-start (point))
+      (if (looking-at "|") ;; add a dummy option, deleted next iteration 
+          (progn (save-excursion (insert "dum"))))))
+  (end-of-line)(insert " ")(backward-char 1)   ;; at least one space at end
+  (while (char-equal 32 (char-after (point)))  ;; delete all spaces at end
+    (delete-char 1) (backward-char 1))                 
+  (if underscore-flag
+      (progn
+        (beginning-of-line) ;;(perform-replace " " "_" nil nil nil)
+        (while (search-forward " " nil t)
+          (delete-backward-char 1)(insert "_")))))
+
+(defun gri-isolate-this-command (underscore-flag)
+  "(gri-mode) returns multi-line command as single string.
+The command is trimmed and edited to remove any variables, but is not verified.
+You can end up with:
+draw label at cm
+
+If ARG is true, then put underscores between command words."
+  (if (gri-empty-line)
+      (error "This is an empty line"))
+  (let ((tmp-buffer (get-buffer-create "*gri-tmp-command*"))
+        (the-string))
+    (save-excursion
+      (set-buffer tmp-buffer)
+      (erase-buffer))
+    (save-excursion
+      (beginning-of-line)
+      (while (progn (save-excursion (and (= 0 (forward-line -1)) 
+                                         (gri-continuation-line))))
+        (forward-line -1))
+      (while (and (gri-continuation-line) 
+                  (progn (save-excursion (= 0 (forward-line 1)))))
+        (setq the-string 
+              (buffer-substring 
+               (progn (skip-chars-forward " \t") (point))
+               (progn (end-of-line) (skip-chars-backward "\\ \t")(point))))
+        (save-excursion
+          (set-buffer tmp-buffer)
+          (insert the-string " "))
+        (forward-line 1))
+      (setq the-string 
+            (buffer-substring 
+             (progn (skip-chars-forward " \t") (point))
+             (progn (if (re-search-forward 
+                         "\\(#\\|//\\)" 
+                         (progn (save-excursion (end-of-line) (point)))
+                         t)
+                        (skip-chars-backward "#/ \t")
+                      (end-of-line)
+                      (skip-chars-backward "#/ \t"))
+                    (point))))
+      (set-buffer tmp-buffer)
+      (insert the-string)  ;; multi-line command now in single line
+      (beginning-of-line)
+      (gri-create-cmd-name underscore-flag)
+      (setq the-string (buffer-string)))
+    (kill-buffer tmp-buffer)
+    the-string))
+
+
+(defun gri-syntax-this-command ()
+  "Returns syntax for multi-line gri command on point.
+Returns error messages if they occur.
+Used for gri-help-this-command, to find what command to look for in gri.cmd.
+Used for gri-display-syntax."
+  (save-excursion
+    (let ((the-command (gri-isolate-this-command t)))
+      ;; the-command could be like draw_label_at_cm
+      ;; check in syntax if a command name
+      (gri-lookat-syntax-file 0)
+      (let ((the-start (point)))
+        (while (and (not(re-search-forward (concat "^" the-command " ") nil t))
+                    (progn (setq the-command 
+                                 (gri-shorten-guess-command the-command "_"))
+                           the-command)))
+        (if (= (point) the-start)
+            (error "Sorry, cannot find such a gri command")
+          (if (string-equal "?" (substring the-command 0 1))
+              (beginning-of-line)) ;; We'll return the whole line for fragments
+          (buffer-substring (point) (progn (end-of-line)(point))))))))
+
+(defun gri-prompt-for-command (user-flag)
+  "Prompt user for gri command name, providing minibuffer completion.
+Allow user commands if ARG is t."
+  (if (or (not (boundp 'gri-sys-command-alist)) ;Need to build both lists
+          (not gri-sys-command-alist))
+      (gri-build-command-alist t)
+    (if (not (boundp 'gri-user-command-alist))  ;Need only re-build user list
+        (gri-build-command-alist nil)))
+  ;;(completing-read "gri command: " gri-command-alist 'gri-sysp  0 nil 
+  ;; completion-ignore-case value to differentiate system from user commands?
+  (if user-flag
+      (if (string-equal "18" (substring emacs-version 0 2))
+          (completing-read "gri user or system command: " 
+                           (append gri-sys-command-alist 
+                                   gri-user-command-alist)
+                           nil 0 nil)
+        (completing-read "gri user or system command: " 
+                         (append gri-sys-command-alist gri-user-command-alist)
+                         nil 0 nil 'gri-hist-alist))
+    (if (string-equal "18" (substring emacs-version 0 2))
+        (completing-read "gri system command: " gri-sys-command-alist
+                         nil 0 nil)
+      (completing-read "gri system command: " gri-sys-command-alist
+                       nil 0 nil 'gri-hist-alist))))
+
+;;(defun gri-sysp (element)
+;;  "Test whether system command"
+;;  (not (cdr element))) 
+
+(defun gri-build-command-alist (system-flag)
+  "Build gri-user-command-alist (and gri-sys-command-alist if ARG is t).
+The lists are built from the gri syntax file.
+It should only be called when the alists are not bound (not existant)."
+  ; Could be done using an obarray and `intern' to create it, but you
+  ;  can't concatenate obarrays, so this is a problem for user commands.
+  ; elisp info doesn't say if completing-read is more efficient with alists
+  ;  or obarrays.
+  (gri-lookat-syntax-file 1)
+  (defvar gri-user-command-alist  "Alist of gri user commands")
+  (setq  gri-user-command-alist nil)    ;Making sure always starts empty
+  (while (not (looking-at "---"))
+    (setq gri-user-command-alist
+          (nconc gri-user-command-alist 
+                 (list (cons (psg-replace-within-string 
+                              (buffer-substring 
+                               (point)(progn (search-forward " ")
+                                             (backward-char 1)(point)))
+                              "_" " ")
+                             nil))))    ;Last could be true if we could use it.
+    (forward-line 1))
+  (if system-flag
+      (progn
+        (message "building list of gri commands...")
+        (defvar gri-sys-command-alist nil "Alist of gri system commands")
+        (setq gri-sys-command-alist nil)
+        (forward-line 1)
+        (while (< (point) (point-max))
+          (setq gri-sys-command-alist
+                (nconc gri-sys-command-alist 
+                       (list (cons (psg-replace-within-string 
+                                    (buffer-substring 
+                                     (point)(progn (search-forward " ")
+                                                   (backward-char 1)(point)))
+                                    "_" " ")
+                                   nil))))
+          (forward-line 1)))))
+
+(defun gri-help ()
+  "Displays help (in *help* buffer) about a prompted gri command.
+The help text is taken from gri.cmd (a gri system file) and may differ
+from the gri info file (displayed by gri-info).  Help is also displayed 
+about user commands from ~/.grirc or from the current gri file.
+
+BUGS:  Can't find help on hidden user commands."
+  (interactive)
+  (let ((the-command (regexp-quote (psg-replace-within-string
+                                    (gri-prompt-for-command t) " " "_"))))
+    (if (string-equal "" the-command)
+        (message "No command to look-up.")
+      (save-excursion                     ;lookup syntax in syntax file
+        (gri-lookat-syntax-file 1)
+        (if (re-search-forward (concat "^" the-command " ") nil t)
+            (gri-help-function (buffer-substring (point) 
+                                                 (progn (end-of-line)(point))))
+          (message "Sorry, can't seem to find help for %s" the-command))))))
+
+(defun gri-help-this-command ()
+  "Displays help (in *help* buffer) about gri command on point.
+The help text is taken from gri.cmd (a gri system file) and may differ
+from the gri info file (display by gri-info-this-command).  Help is also
+displayed about user commands from ~/.grirc or from the current gri file.
+
+The gri command may span many line, e.g.
+
+  draw x axis \
+     at ..ymargin.. \    <gri-help-this-command> 
+        {rpn ..xmargin.. .2 -} cm
+
+  will work.
+
+BUGS:  Can't find help on hidden user commands."
+  (interactive)
+  (gri-help-function (gri-syntax-this-command)))
+
+(defun gri-help-function (the-command)
+  "Actual work for gri-help and gri-help-this-command"
+  (if (not (file-readable-p gri-cmd-file))
+      (error "gri.cmd not found as %s" gri-cmd-file))
+  (save-excursion
+    (let ((gri-tmp-buffer (get-buffer-create "*gri-tmp-buffer*"))
+          (user-flag))
+      ;; We've gotten this far; valid command.  But gri or user command?
+      (save-excursion
+        (gri-lookat-syntax-file 2)
+        (if (search-backward (concat " " the-command "\n") nil t)
+            (setq user-flag t)))
+      (if user-flag
+          ;; user-command -- look in current buffer, else in .grirc
+          (save-excursion
+            (goto-char (point-min))
+            (if (search-forward (concat "`" the-command "'") nil t) ;;in buffer
+                (gri-extract-help-text the-command t)
+              (error "no")
+              (if (file-readable-p "~/.grirc")
+                  (progn
+                    (set-buffer gri-tmp-buffer)     ;; look in .grirc
+                    (insert-file-contents "~/.grirc")
+                    (if (search-forward (concat "`" the-command "'") nil t)
+                        (gri-extract-help-text the-command t)
+                      (kill-buffer gri-tmp-buffer)
+                      (error "Sorry, can't find user command: %s"
+                             the-command)))
+                (kill-buffer gri-tmp-buffer)
+                (error "Sorry, can't find user command: %s" the-command))))
+        ;; gri system command
+        (set-buffer gri-tmp-buffer)
+        (insert-file-contents gri-cmd-file)
+        (if (not (search-forward (concat "`" the-command "'") nil t))
+            (progn
+              (kill-buffer gri-tmp-buffer)
+              (error "Sorry, can't find help about: %s" the-command)))
+        (gri-extract-help-text the-command nil))
+      (kill-buffer gri-tmp-buffer))))
+
+(defun gri-extract-help-text (the-command user-flag)
+  "Extract help text after a command.  Expecting point on title line.
+Display message if no help text supplied."
+  (forward-line 1)
+  (if (= 123 (char-after (point)))  ;; on on opening bracket already
+      (if user-flag
+          (message "Sorry, no help text for user command: %s" the-command)
+        (message "Sorry, no help text about: %s" the-command))
+    (if (looking-at "[^a-zA-Z0-9]*$")   ;Skip header or C-like comment tring
+        (forward-line 1))
+    (let ((the-start (point))
+          (the-text))
+      (re-search-forward "^{" nil t)
+      (while (and (= 0 (forward-line -1))
+                  (looking-at "[^a-zA-Z0-9]*$")))
+      (forward-line 1)
+      (setq the-text (buffer-substring the-start (point)))
+      (with-output-to-temp-buffer "*Help*"
+        (princ (gri-format-display-command the-command))
+        (princ "\n--\n")
+        (princ the-text)))))
+
+(defun gri-format-display-command (the-command)
+  "return possible 2-line string for ARG, a gri command syntax string."
+  (if (> (screen-width) (length the-command))
+      the-command
+    (let ((the-string)
+          (tmp-buffer (get-buffer-create "*gri-format*")))
+      (save-excursion
+        (set-buffer tmp-buffer)
+        (insert the-command)
+        (backward-char 1)
+        (if (or (char-equal 93  (char-after (point)))   ;; []
+                (char-equal 125 (char-after (point))))  ;; {}
+            (progn
+              (forward-char 1)
+              (goto-char (scan-lists (point) -1 0))
+              (insert "\n    "))
+          ;; just split at previous whitespace
+          (if (search-backward " " nil t)
+              (insert "\n    ")))
+        (setq the-string (buffer-string))
+        (kill-buffer tmp-buffer))
+      the-string)))
+
+
+(defun gri-display-syntax ()
+  "Displays (in minibuffer) the full syntax of the gri command on point.
+The gri command may span many line, e.g.
+
+  draw x axis \
+     at ..ymargin.. \    <gri-display-syntax> 
+        {rpn ..xmargin.. .2 -} cm
+
+  will display
+    draw x axis [at bottom|top|{.y. [cm]} [lower|upper]]
+  in the minibuffer."
+  (interactive)
+  (message (gri-syntax-this-command)))
+
+
+(defun gri-build-expansion-regex ()
+  "Returns regular expression for abbreviated gri command on current line."
+  (save-excursion
+    (let ((expansion-regex nil) 
+          (word-count 0)
+          (end-point (progn (end-of-line)(skip-chars-backward " \t") (point))))
+      (beginning-of-line)
+      (skip-chars-forward " \t")
+      (while (< (point) end-point)               ;; Don't go beyond end of line
+        (if (looking-at "[^ \t\n]*")             ;; If it is a word...
+            (progn
+              (setq word-count (1+ word-count))
+              (if (= word-count 1)
+                  (setq expansion-regex
+                        (concat "^" (buffer-substring (match-beginning 0)
+                                                      (match-end 0))))
+                (setq expansion-regex 
+                      (concat expansion-regex "[^_ ]*_"
+                              (buffer-substring (match-beginning 0)
+                                                (match-end 0)))))
+              (forward-char (- (match-end 0) (match-beginning 0)))
+              (skip-chars-forward " \t"))))
+      expansion-regex)))
+
+(defun gri-info ()
+  "Runs info about a prompted gri system command."
+  (interactive)
+  (require 'info)
+  (let ((the-command (gri-prompt-for-command nil)))
+    (if (string-equal "" the-command)
+        (message "No command to look-up.")
+      (gri-info-function the-command))))
+    
+(defun gri-info-this-command ()
+  "Run info about gri system command at editing point.  
+This works when the edit point is on a valid gri command, but it may also
+work for uncompleted commands if an info entry exists for that topic.
+e.g. 
+
+  draw <gri-info-about-line>
+
+ will display info about gri `draw' commands.
+
+Note: The search for the command is case-insensitive.  Therefore, if
+you have a user command like `Draw X Axis', gri-info-this-command will
+display the info page for the gri command `draw x axis'."
+  (interactive)
+  (require 'info)
+  (gri-info-function (gri-isolate-this-command nil)))
+
+(defun gri-info-function (guess)
+  "Guts for gri-info and gri-info-this-command"
+  (if (not (gri-info-directory))
+      (error "Sorry, no gri info files!"))
+  (let ((flag t)(loopflag t)(tmp-buffer (get-buffer-create "*info-tmp*")))
+      (save-excursion
+        (set-buffer tmp-buffer)
+        (cond
+         ((fboundp 'info-insert-file-contents) ;Emacs20
+          (info-insert-file-contents (concat (gri-info-directory) "gri")))
+         ((and (fboundp 'Info-insert-file-contents) ;XEmacs20
+              (fboundp 'Info-suffixed-file))
+          (Info-insert-file-contents 
+           (Info-suffixed-file (concat (gri-info-directory) "gri")) nil))
+         (t                             ; old emacs?
+          (insert-file-contents (concat (gri-info-directory) "gri"))))
+        (goto-char (point-min))
+        (if (re-search-forward 
+             (concat "Node: " (regexp-quote guess) "\177") nil t)
+            (setq flag t)
+          (while loopflag  ;; flag true until can't shorten or found
+            (setq guess (gri-shorten-guess-command guess " "))
+            (if guess 
+                (if (re-search-forward (concat "Node: " (regexp-quote guess) 
+                                               "\177") nil t)
+                    (setq loopflag nil)) ;; found it!
+              (setq loopflag nil)  ;; can't shorten no more
+              (setq flag nil)))))  ;; failed to find a match
+      (kill-buffer "*info-tmp*")
+      (if flag
+          ;;??Replace with: (Info-find-node "gri" guess)
+          (Info-goto-node (concat "(gri)" guess))
+        (message "Sorry, can't find this topic in Info."))))
+
+(defun gri-shorten-guess-command (guess separator)
+  "Removes a word (separated by ARG2) from end of ARG1 
+as a new guess to a gri command"
+  (let ((lastindex nil) (index (string-match separator guess nil)))
+    (if (not index)
+        nil
+      (while index
+        (setq lastindex index)
+        (setq index (string-match separator guess (1+ index))))
+      (substring guess 0 lastindex))))
+        
+(defun gri-complete ()
+  "Complete a gri command as much as possible, then indents it.
+   Works one word at a time,
+    e.g.  
+        dr<complete>
+      (where <complete> is actually pressing M-Tab) becomes
+        draw
+    or with many words at a time
+     e.g. 
+        dr x a
+      becomes
+        draw x axis [at bottom|top|{.y. [cm]} [lower|upper]]
+_
+How gri-mode names gri commands:
+
+   The name of a gri command by determined by removing options.
+   This is different than what the gri parser does.  In this way,
+   the gri command
+
+     draw label \"\\string\" [centered|rightjustified] at .x. .y. [cm] \\
+        [rotated .deg.]
+
+    is named by gri-mode
+
+     draw label at
+
+   Note how the `at' stays in the name because it is not optional.
+_
+Possible Completions:
+
+   Possible completions are shown in the *completions* buffer,
+   but only if you insist by using gri-complete again.  In this
+   way you can use gri-complete word-by-word to abbreviate commands
+   without ever displaying completions, like you would for file 
+   completion in emacs or bash.
+
+   If a completion is ambiguous, but could be exact, invoke
+   gri-complete a second time to complete it.
+     e.g.
+        sh<complete>
+      becomes
+        show
+      and informs you that 12 possible completions exists;
+      then
+        show<complete>
+      will display these completions in the completions buffer;
+      then
+        show<complete>
+      forces completion to a complete but not unique possibility. 
+        show .value.|{rpn ...}|\"\\text\" [.value.|{rpn ...}|text [...]]
+
+   Completions are shown immediately (without invoking gri-complete 
+   again) if the completions window is already displayed or if there 
+   are 3 possbilities or less.  In this case they are displayed in 
+   the minibuffer. 
+  
+   The *completions* window is deleted after a command is fully completed.
+   gri-complete uses its own *completions* buffer, which is not displayed
+   in the buffer-list to avoid clutter.
+_
+User Commands:
+
+   User gri commands defined in ~/.grirc or at the beginning of a gri 
+   file can also be gri-complete'd.  Note that user commands are added
+   from the current buffer whenever `gri-mode' is invoked.  They may
+   override previous user commands, but not gri system commands.
+_
+Gri Code Fragments
+
+   Since gri version 1.063, gri has special commands that begin with
+   a question mark `?'.  These special commands have no options, and
+   are composed only of standard gri commands.  Their purpose is to
+   provide a short-cut for entering many lines of gri at once (e.g.
+   bits of sample code about contouring grids, or your own preamble
+   which you use at the time to set fonts and line widths).
+
+   gri-complete acts in a special way with these commands, by replacing
+   the abbreviated name which you are completing by all the lines 
+   contained within the gri command.
+
+   The user is allowed to define new fragments in ~/.grirc, and also
+   to override the gri system fragments.  You can therefore fine-tune
+   gri's fragments to your taste.  To see the names of all gri fragments,
+   type in a question mark at the beginning of a line in a gri buffer
+   and press M-Tab twice to gri-complete it and display possible choices.
+   The gri commands used to replace them is found in the *gri-syntax* 
+   buffer.
+-
+Bugs:
+   *completions* buffer lies; you can't use the mouse to make a selection.
+     (I'll have to replace mouse-insert-selection by a new routine).
+   Completions relies on entire line, not just up to the editing point."
+;;Sets gri-last-complete-point   to point after completion (if matches > 1)
+;;Sets gri-last-complete-command to current line (if matches > 1)
+  (interactive)
+  (let ((expansion-regex (gri-build-expansion-regex))
+        (the-line (buffer-substring (progn (beginning-of-line) (point))
+                                 (progn (end-of-line) (point)))))
+    (if (eq expansion-regex nil)
+        (progn
+          (message "No gri command no expand.")
+          (setq gri-last-complete-status 0))
+      (if (and (= 2 gri-last-complete-status) ; try to match exactly
+               (= (point) gri-last-complete-point)
+               (string-equal the-line gri-last-complete-command))
+          (gri-perform-completion (concat expansion-regex " ") t)
+        (if (and (= 1 gri-last-complete-status) ; show completions
+                 (string-equal the-line gri-last-complete-command))
+            (gri-perform-completion expansion-regex nil)
+          (setq gri-last-complete-status 0)
+          (gri-perform-completion expansion-regex nil)))
+      (if gri-last-complete-status
+          (progn
+            (setq gri-last-complete-point (point))
+            (setq gri-last-complete-command 
+                  (buffer-substring (progn (beginning-of-line) (point))
+                                 (progn (end-of-line)(point)))))))))
+
+(defun gri-perform-completion (expansion-regex exact-flag)
+  "Does the actual completion based on ARG1 regex. Returns number of matches.
+Second argument t if trying for exact match.  If we fail we will display
+a different message.
+Sets gri-last-complete-status to 1 if show completions next time
+                              to 2 if expand complete match next time
+                               (used by gri-complete only, not here)
+                              to 0 in other cases."
+  (let ((unique) (match-count 0) (expansion-list))
+    (save-excursion
+      (gri-lookat-syntax-file 0)
+      (let ((case-fold-search))
+        (while (re-search-forward expansion-regex nil t)
+          (setq expansion-list 
+                (cons 
+                 (buffer-substring (progn (beginning-of-line) (point)) 
+                                   (progn (search-forward " ") (point)))
+                 expansion-list))
+          (forward-line 1)
+          (setq match-count (1+ match-count)))))
+    (cond
+     ((= match-count 0)
+      (if exact-flag
+          (message "Sorry, this does not match *exactly* to any gri command.")
+        (message "Sorry, this does not match to any known gri command."))
+      (setq gri-last-complete-status 0))
+     ((= match-count 1)
+      (save-excursion
+        (if (string-equal "?" (substring (car expansion-list) 0 1))
+            (progn           
+              (gri-lookat-syntax-file 0)
+              (re-search-forward (concat "^" (car expansion-list)) nil t)
+              (forward-line 1)
+              (setq unique
+                    (buffer-substring (point)
+                                      (progn
+                                        (re-search-forward "^[^ \t]" nil t)
+                                        (backward-char 1)(point)))))
+          (gri-lookat-syntax-file 1)
+          (re-search-forward (concat "^" (car expansion-list)) nil t)
+          (setq unique (buffer-substring (point)
+                                         (progn (end-of-line)(point))))))
+      (delete-region (progn (end-of-line) (point)) 
+                     (progn (beginning-of-line) (point)))
+      (let ((the-start (point))         ; indent all inserted lines
+            (the-end (progn (insert unique) (gri-indent-line) 
+                            (point-marker))))
+        (goto-char the-start)
+        (gri-indent-line)
+        (while (and (= 0 (forward-line 1))
+                    (< (point) (marker-position the-end)))
+          (gri-indent-line))
+        (goto-char (marker-position the-end)))
+      (if (and (get-buffer " *Completions*")  ;;need this one line for emacs-18
+               (get-buffer-window (get-buffer " *Completions*")))
+          (delete-window (get-buffer-window (get-buffer " *Completions*"))))
+      (setq gri-last-complete-status 0))
+     ((or (= 1 gri-last-complete-status) ;display completions 
+          (and (get-buffer " *Completions*")
+               (get-buffer-window (get-buffer " *Completions*")))) 
+      (delete-region (progn (end-of-line) (point)) 
+                     (progn (beginning-of-line) (point)))
+      (insert (gri-common-in-list expansion-list t)) 
+      (gri-indent-line)
+      (message "%d possible completions" match-count) 
+      (with-output-to-temp-buffer " *Completions*"
+        (display-completion-list expansion-list))
+      (setq gri-last-complete-status 2)) ;Next time, try unique match
+     ((< match-count 4)                 ; 3 or fewer matches show in minibuffer
+      (delete-region (point) (progn (beginning-of-line) (point)))
+      (insert (gri-common-in-list expansion-list t)) 
+      (gri-indent-line)
+      (message "(%d) %s" match-count 
+               (gri-match-list-to-string expansion-list))
+      (setq gri-last-complete-status 2))
+     (t                                 ;complete as much as possible
+      (delete-region (progn (end-of-line) (point)) 
+                     (progn (beginning-of-line) (point)))
+      (insert (gri-common-in-list expansion-list t)) 
+      (gri-indent-line)
+      (message "%d possible completions" match-count) 
+      (setq gri-last-complete-status 1))) ;show completions next time
+    match-count))
+
+(defun gri-common-in-list (list remove-underscore-flag)
+  "returns STRING with same beginnings in all strings in LIST"
+  (let ((i 1)
+        (work-list list) 
+        (match-len (length (car list))) 
+        (first-string (car list))
+        (current-string nil)
+        (match-flag t))
+    (setq work-list (cdr work-list))
+    (while work-list
+      (setq current-string (car work-list))
+      (if current-string ;; nil last time around
+          (progn
+            (while (and (<= i match-len) match-flag)
+              (if (equal (substring first-string 0 i) 
+                         (substring current-string 0 i))
+                  (setq i (1+ i))
+                (setq match-flag nil)))
+            (setq match-len (1- i))
+            (setq match-flag t)
+            (setq i 1)))
+      (setq work-list (cdr work-list)))
+    (if (not remove-underscore-flag)
+        (substring first-string 0 match-len)
+      (psg-replace-within-string 
+       (substring first-string 0 match-len) "_" " "))))
+
+(defun psg-replace-within-string (in-string from to) 
+  "Replace ARG2 with ARG3 in ARG1.  emacs didn't do this!"
+  (save-excursion
+    (let ((newl "") (index 0) (do-more t) (len (length in-string)))
+      (while do-more
+        (setq do-more (string-match from in-string index))
+        (if (or (not do-more) (>= do-more len))            
+            ;; finish the line
+            (progn
+              (setq newl (concat newl (substring in-string index)))
+              (setq do-more nil))
+          ;; found another replacement
+          (setq newl (concat newl (substring in-string index do-more) to))
+          (setq index (1+ do-more))))
+      newl)))
+
+(defun gri-match-list-to-string (list)
+  "returns STRING with all gri commands in list (just the name part)"
+  (let ((work-list list) (the-command nil) (the-string nil))
+    (while work-list
+      (setq the-command (car work-list))
+      (if the-command    ;; the-command is nil last time around
+          (progn
+            (setq the-command 
+                  (substring the-command 0 (string-match " " the-command)))
+            (setq the-string (concat the-command " " the-string))))
+      (setq work-list (cdr work-list)))
+    the-string))
+
+(defun gri-debug-insert (string)
+  "Insert a string in a debug buffer."
+  (save-excursion
+    (let ((gri-test-buffer
+           (get-buffer-create "*gri-test-buffer*")))
+      (set-buffer gri-test-buffer)
+      (insert string "*\n"))))
+
+(defun gri-lookat-syntax-file (where)
+  "Place point in syntax-file buffer, creating it if necessary.
+If ARG is 0, go to `-'   to see all commands (gri-complete)
+If ARG is 1, go to `--'  to skip fragments   (gri-help-apropos) (gri-help 2)
+If ARG is 2, go to `---' to see only gri system commands   (gri-help 1)"
+  (let ((this-buffer (current-buffer))
+        (local-cmd-file gri-cmd-file)
+        (gri-syntax-buffer (get-buffer-create "*gri-syntax*"))
+        (gri-syntax-file   "~/.gri-syntax")
+        rebuilt)
+    (set-buffer gri-syntax-buffer)
+    (setq buffer-read-only nil)
+    (goto-char (point-min))
+    ;; Load in existing ~/.gri-syntax if haven't done so yet
+    (if (and (file-readable-p gri-syntax-file)
+             (= (point-min) (point-max)))
+        (progn
+          (insert-file-contents gri-syntax-file)
+          (setq rebuilt t)))
+    (if (or 
+         ;; Check if existing ~/.gri-syntax is up-to-date wrt gri-cmd-file
+         (not (file-readable-p gri-syntax-file))
+         (file-newer-than-file-p local-cmd-file gri-syntax-file)
+         (file-newer-than-file-p (file-chase-links local-cmd-file)
+                                 gri-syntax-file)
+         ;; Check that correct version in use.
+         (not (re-search-forward "Based on: \\(.*\\)" nil t))
+         (not (string-equal 
+               (file-chase-links local-cmd-file)
+               (buffer-substring (match-beginning 1)(match-end 1)))))
+        (progn
+          (erase-buffer)
+          (gri-build-syntax local-cmd-file) ;build ~/.gri-syntax
+          (insert-file-contents gri-syntax-file)
+          (setq rebuilt t)))
+    (goto-char (point-min))
+    (if rebuilt
+        (progn
+          (goto-char (point-min))
+          (if (re-search-forward "gri version \\([.0-9]+\\)" nil t)
+              (message "Using syntax for gri version %s" 
+                       (buffer-substring (match-beginning 1)(match-end 1)))
+            (message "Using syntax for unknown version of gri"))
+          (if (file-readable-p "~/.grirc")
+              (let ((tmp-buffer (get-buffer-create "*gri-tmp-command*")))
+                (set-buffer tmp-buffer)
+                (insert-file-contents "~/.grirc")
+                (gri-add-commands-from-current-buffer nil gri-syntax-buffer)
+                (set-buffer gri-syntax-buffer)
+                (kill-buffer tmp-buffer)))
+          (set-buffer this-buffer)
+          (gri-add-commands-from-current-buffer nil gri-syntax-buffer)
+          (set-buffer gri-syntax-buffer)
+          (setq mode-line-buffer-identification "*gri-syntax*")))
+    (set-buffer-modified-p nil)
+    (setq buffer-read-only t)
+    (goto-char (point-min))
+    (if (= 0 where)
+        (re-search-forward "^-\n" nil t)
+      (if (= 1 where)
+          (re-search-forward "^--\n" nil t)
+        (re-search-forward "^---\n" nil t)))))
+
+;;   {  {{ }}  }
+;;     ^^    ^
+;; (goto-char (scan-lists (point) 1 0))
+;;
+;;   {  {{ }}  }
+;;     ^^       ^
+;; (goto-char (scan-lists (point) 1 1))
+
+(defun gri-kill-option-mouse (EVENT)
+  "Kill (delete) a gri command option, variable or string.
+See  `C-h f gri-kill-option' for more help"
+  (interactive "e")
+  (mouse-set-point EVENT)
+  (gri-kill-option))
+
+(defun gri-kill-option ()
+  "Kill (delete) a gri command option, variable or string.
+An option is everything within brackets.  This has highest priority.
+e.g. after command completion, you get something like:
+
+  draw x axis [at bottom|top|{.y. [cm]} [lower|upper]]
+   put the cursor here and C-c C-k ^ yields:
+  draw x axis [at bottom|top|{.y. } [lower|upper]]
+       then here and press C-c C-k ^ and you get:
+  draw x axis
+       because it delete the innermost bracketed option.
+  
+If the cursor is not within a bracketed option, and is within
+a string or on the first character or a variable, then that string
+or variable is deleted."
+  (interactive)
+  (let ((beg-line   (progn (save-excursion (beginning-of-line) (point))))
+        (here-point (progn (save-excursion (forward-char 1)(point))))
+        (del-flag nil) (brk-point))
+    (save-excursion                     ;Start with bracket options
+      (while (and (not del-flag) (re-search-backward "[{[]" beg-line t))
+        (setq brk-point (point))
+        (save-excursion
+          (goto-char (scan-lists (point) 1 0))
+          (if (>= (point) here-point)
+              (progn 
+                (setq del-flag t)
+                (delete-region (point) brk-point)
+                (delete-horizontal-space)
+                (insert " "))))))
+    (if del-flag
+        (gri-next-option)               ; Visit next option
+      ;; Check if on first char of a variable, delete it.
+      (if (string-match "^\\.\\(\\.\\)?[A-z0-1]+\\(\\.\\)?\\." 
+                        (buffer-substring (point)
+                                          (progn (save-excursion
+                                                   (end-of-line)(point)))))
+          (progn
+            (delete-char (match-end 0)))
+        ;; Check if within a string, delete it
+        (save-excursion
+          (if (and (re-search-backward "\"" beg-line t) 
+                   (progn 
+                     (forward-char 1)
+                     (setq brk-point (point))
+                     (re-search-forward 
+                      "\"" (progn (save-excursion (end-of-line) (point))) t))
+                   (>= (point) here-point))
+              (delete-region (progn (forward-char -1)(point)) brk-point)))))))
+
+(defun gri-old-goto-option ()
+  "Go to first bracket on line, else first dot or slash, else don't move"
+  (let ((flag t) (here-point) (end-line (progn (end-of-line)(point))))
+    (save-excursion
+      (beginning-of-line)
+      (if (not (re-search-forward "[{[]" end-line t))
+          (if (not (re-search-forward "[\\.]" end-line t))
+              (setq flag nil)
+            (backward-char 1))) ;; move on dot or slash
+      (if flag
+          (setq here-point (point))))
+    (if flag
+        (forward-char (- here-point (point))))))
+
+(defun gri-next-option ()
+  "Go to next option on line (options first, variables and strings second)"
+  (interactive)
+  (let ((end-line (progn (save-excursion (end-of-line)(point))))
+        (the-point (point)))
+      ;; first do brackets, then variables or strings
+    (if (or (re-search-forward "[{[|]" end-line t)
+            (progn
+              (beginning-of-line)
+              (re-search-forward "[{[]" end-line t))
+            (progn
+              (goto-char the-point)
+              (re-search-forward " [\"\\.]" end-line t))
+            (progn
+              (beginning-of-line)
+              (re-search-forward " [\"\\.]" end-line t)))
+        (progn
+          ;;move backward if on a variable (with a dot)
+          (backward-char 1)
+          (if (not (string-equal (buffer-substring (point) (1+ (point))) "."))
+              (forward-char 1))))))
+
+(defun gri-option-select-mouse (EVENT)
+  "Select a gri option left by gri-complete. See gri-option-select for help."
+  (interactive "e")
+  (mouse-set-point EVENT)
+  (gri-option-select))
+
+(defun gri-option-select ()
+  "Select a gri option left by gri-complete.
+
+  Narrow in on a particular gri command, given a syntax description left
+on the line by gri-complete.  The cursor location is used to decide
+which gri command(s) to narrow to.
+
+EXAMPLE: If gri-complete is used on the line `dr x a', the result will
+be a line like
+  draw x axis [at bottom|top|{.y. [cm]} [lower|upper]]
+
+This is the Gri way of describing many commands at once.  All these
+commands are described by this syntax description:
+  draw x axis
+  draw x axis at bottom
+  draw x axis at bottom top
+  draw x axis at bottom bottom
+  draw x axis at top
+  draw x axis at top top
+  draw x axis at top bottom
+  draw x axis at .y. cm
+  draw x axis at .y. cm lower
+  draw x axis at .y. cm upper
+
+The gri-option-select command provides easy navigation to select one
+of these commands.  The narrowing process is governed by the cursor
+position.  For example, to get the command narrowed down to
+  draw x axis at bottom [lower|upper] place the cursor somewhere in
+the word `bottom' and invoke gri-option-select.  To complete the
+narrowing process, selecting
+  draw x axis at bottom lower
+move the cursor to some place in the word `lower' and invoke
+gri-option-select again.  On the other hand, to get
+  draw x axis at bottom
+you would put the cursor over either the word `lower' or `upper', and
+invoke gri-kill-option.
+
+NOTE: you might want to practice using this example to learn how to do
+it.  If you make a mistake, note that the normal Emacs undo works."
+  (interactive)
+;;Algorithm is  1) remove other options within brackets
+;;              2) while there are grouping brackets
+;;                   remove options on either side of brackets
+;;                   remove brackets
+  (let ((beg-line (progn (save-excursion (beginning-of-line) (point))))
+        (here-point (progn (save-excursion (forward-char 1)(point)))))
+    (save-excursion
+      (skip-chars-backward "^ |[]{}")
+      (gri-del-group-opt-backward))
+    (save-excursion
+      (skip-chars-forward "^ |[][}")
+      (gri-del-group-opt-forward))
+    (save-excursion
+      (while (< beg-line (gri-return-enclosing-group nil beg-line))
+        (goto-char (gri-return-enclosing-group nil beg-line))
+        ;; on a start bracket of a group
+        (save-excursion
+          (goto-char (scan-lists (progn (backward-char 1)(point)) 1 0))
+          (delete-backward-char 1)    ;; delete the closing bracket
+          (gri-del-group-opt-forward))
+        (delete-char 1)       ;; delete the opening bracket
+        (gri-del-group-opt-backward)
+        (setq here-point (point))))
+    (gri-next-option)))
+    
+(defun gri-del-group-opt-forward ()
+  "Called by gri-option-select to delete backward options within brackets
+     e.g.   [arg1|arg2]|[[ar3 arg4]|arg5|arg6]|arg8
+                        |               ^    |
+         becomes
+            [arg1|arg2]|[arg5|ar6]|arg8
+Always starts on first character to delete."
+  (save-excursion
+    (let ((end-point (gri-return-enclosing-group 
+                      t (progn (save-excursion (end-of-line) (point)))))
+          (here-point (point)))
+      ;; see if followed by |, if so select option after it for deletion
+      (while (and (progn (skip-chars-forward " \t")(looking-at "|"))
+                  (> end-point (point)))           ;; and still within group
+        (forward-char 1)(skip-chars-forward " \t")
+        (if (looking-at "[{[]")                    ;; on an opening bracket
+            (goto-char (scan-lists (point) 1 0))
+          ;; on a simple word--find end
+          (if (re-search-forward "[] |{}[]" end-point t)
+              (backward-char 1)                   ;; don't delete bracket or sp
+            (goto-char end-point))))
+      (skip-chars-backward " \t")
+      (if (< end-point (point))
+          (goto-char end-point))
+      (delete-region (point) here-point))))
+
+(defun gri-del-group-opt-backward ()
+  "Called by gri-option-select to delete backward options within brackets
+     e.g.   [arg1|arg2]|[[ar3 arg4]| arg5|arg6]|arg8
+                        |           ^        |
+         becomes
+            [arg1|arg2]|[arg5|ar6]|arg8
+Always starts on first character to keep."
+  (save-excursion
+    (let ((beg-point (gri-return-enclosing-group 
+                      nil (progn (save-excursion (beginning-of-line)(point)))))
+          (here-point (point)))
+      ;; see if preceeded by |, if so select option before it for deletion
+      (while (progn (save-excursion 
+                      (and (progn (skip-chars-backward " \t")(backward-char 1)
+                                  (looking-at "|"))   ;; preceeded by | 
+                           (< beg-point (point)))))   ;; and still within group
+        (skip-chars-backward " \t")(backward-char 1)  ;; on the |
+        (skip-chars-backward " \t")(backward-char 1)  ;; on the previous word
+        (if (looking-at "}\\|]")                      ;; on a closing bracket 
+            (progn (forward-char 1)(goto-char (scan-lists (point) -1 0)))
+          (if (re-search-backward "[] |{}[]" beg-point t)  ;; on a simple word
+              (forward-char 1)                             ;; on first char
+            (goto-char beg-point)(forward-char 1))))
+      (skip-chars-forward " \t")
+      (if (> beg-point (point))
+          (progn (goto-char beg-point) (forward-char 1)))
+      (delete-region (point) here-point))))
+    
+(defun gri-return-enclosing-group (end_flag boundary)
+  "Return as a point either the beginning (ARG1 nil) or end (ARG1 t)
+of the first enclosing group, either curly or square brakets.
+  [   ]
+  ^   ^ 
+The boundaries are the points not to be exceeded (e.g. end-of-line
+for ARG1 t, beginning-of-line for ARG1 nil).
+Return that boundary if no containing group within that boundary."
+  (save-excursion
+    (let ((the-point) (here-point (point)))
+      (if end_flag
+          (progn
+            (while (and (re-search-forward "[]}]" boundary t)
+                        (< here-point ;; while group doesn't enclose cursor
+                           (progn 
+                             (save-excursion 
+                               (goto-char (scan-lists (point) -1 0))
+                               (backward-char 1)
+                               (setq the-point (point))
+                               the-point)))))
+            ;; return either end of group or boundary
+            (if (and the-point                  ;; found at least one group
+                     (> here-point the-point))  ;; and it encloses us
+                (point)                         ;; then return end of group
+              boundary))                        ;; else return boundary  
+        ;; end_flag is nil
+        (while (and (re-search-backward "[{[]" boundary t)
+                    (> here-point ;; while group doesn't enclose cursor
+                       (progn 
+                         (save-excursion 
+                           (goto-char (scan-lists (point) 1 0))
+                           (setq the-point (point))
+                           the-point)))))
+        ;; return either beginning of group or boundary
+        (if (and the-point                  ;; found at least one group
+                 (< here-point the-point))  ;; and it encloses us
+            (point)                         ;; then return end of group
+          boundary)))))                     ;; else return boundary  
+
+
+(defun gri-old-del-group-opt-forward ()
+  "Called by gri-option-select to delete forward options within brackets
+     e.g.   [arg1|arg2|[ar3 arg4]|{arg5 arg6}]|arg8
+              ^
+         becomes
+            [arg1]|arg8
+
+   Assumes there is always a space between separate options, e.g.
+    [.word1. .word2.] [.word4.]
+                     ^ "
+  (let ((end-line (progn (save-excursion (end-of-line) (point))))
+        (brk-point nil))
+    (save-excursion
+      ;; see if followed by |, if so delete options after
+      (if (and (re-search-forward "[]}| ]" end-line t)
+               (char-equal 124 (char-after (progn (backward-char 1)(point)))))
+          (progn
+            (setq brk-point (point))  ;; then go to whitespace, skipping groups
+                                      ;; but don't go past group's closing br
+            (while (and (not (char-equal 93 (char-after (point))))  ;;close-sq
+                        (not (char-equal 125 (char-after (point)))) ;;close-cur
+                        (not (char-equal 32 (char-after (point))))  ;;space
+                        (re-search-forward "[]} {[]" end-line t))
+              (if (or (char-equal 123 (char-after (progn  ;;open-cur
+                                                    (backward-char 1)(point))))
+                      (char-equal  91 (char-after (point))))       ;;open-sq
+                  ;; following is why I need a space between options!
+                  (goto-char (scan-lists (point) 1 0))))
+            (if (or (not (char-after (point)))                ;;at eol
+                    (and (not (char-equal 32  (char-after (point)))) 
+                         (not (char-equal 125 (char-after (point))))  
+                         (not (char-equal 93  (char-after (point))))))
+                (delete-region (progn (end-of-line)(point)) brk-point)
+              (delete-region (point) brk-point)))))))
+
+(defun gri-what-version ()
+  "Displays versions of gri, info-manual for gri and gri syntax file
+to help you keep all files up to the same version.
+
+for example:
+gri version: 1.063  gri-mode syntax version: 1.063  info version: 1.061
+
+gri version is taken from the header in gri.cmd for version 1.063 and 
+above AND MAY BE WRONG (sometimes Dan Kelley may forget to change this).  
+Try `gri -version' from a shell if you are unsure about it.  For versions
+older than 1.063, the version number is obtained from `gri -version'.
+
+gri-mode syntax is what is used for `gri-complete' command completion.
+Its version number is only available for gri version 1.063 and above.
+It corresponds to the version number of gri.cmd.
+
+info version tells which version of gri the info database will display
+information about (when you type C-c C-i). When you upgrade to newer 
+versions of gri you should also get the corresponding info manual."
+  (interactive)
+  (save-excursion
+    (let ((gri-tmp-buffer (get-buffer-create "*gri-tmp-buffer*"))
+          (gri-version "N/A") (info-version "N/A") (syntax-version "N/A"))
+      (set-buffer gri-tmp-buffer)
+      ;; gri version
+      (if (not (file-readable-p gri-cmd-file))
+          (progn
+            (kill-buffer gri-tmp-buffer)
+            (error "gri.cmd not on your system as %s" gri-cmd-file)))
+      (insert-file-contents gri-cmd-file)
+      (if (re-search-forward 
+           "scientific graphic program (version \\([.0-9]+\\)" nil t)
+          (setq gri-version (buffer-substring(match-beginning 1)(match-end 1)))
+        ;; run gri -v for old version of gri.cmd w/o version numbers
+        (shell-command-on-region (point-min) (point-max) "gri -v" t)
+        (if (re-search-backward "gri version \\([.0-9]+\\)" nil t)
+            (setq gri-version 
+                  (buffer-substring (match-beginning 1)(match-end 1)))))
+      (erase-buffer)
+      ;; gri-info version
+      (if (not (gri-info-directory))
+          (setq info-version "Not installed")
+        (if (fboundp 'info-insert-file-contents)
+            (info-insert-file-contents (concat (gri-info-directory) "gri-1"))
+          (insert-file-contents (concat (gri-info-directory) "gri-1")))
+        (goto-char (point-min))
+        (if (re-search-forward 
+             "This manual describes Gri version \\([.0-9]+\\)" nil t)
+          (setq info-version 
+                (buffer-substring (match-beginning 1)(match-end 1))))
+        (erase-buffer))
+      (kill-buffer gri-tmp-buffer)
+      ;; gri-syntax version
+      (gri-lookat-syntax-file 0)
+      (goto-char (point-min))
+      (if (re-search-forward "Syntax for gri version \\([.0-9]+\\)" nil t)
+          (setq syntax-version 
+                (buffer-substring (match-beginning 1)(match-end 1))))
+      (message "gri version: %s  gri-mode syntax version: %s  info version: %s"
+               gri-version syntax-version info-version))))
+
+(defun gri-info-directory ()
+  "Returns nil or gri info file path 
+In emacs 19, path is from Info-default-directory-list and
+  gri info file may be compressed, with suffix .Z .z or .gz
+In emacs 18, path is Info-directory and cannot be compressed."
+  (require 'info)
+  (if (boundp 'Info-directory-list)
+      (progn
+        (let ((work-list Info-directory-list)
+              (notfound t)
+              (info-directory nil))
+          (while (and notfound (car work-list))
+	    (message (car work-list))
+            (if (or (file-readable-p (concat (car work-list) "gri"))
+                    (file-readable-p (concat (car work-list) "gri.Z"))
+                    (file-readable-p (concat (car work-list) "gri.z"))
+                    (file-readable-p (concat (car work-list) "gri.gz")))
+		(progn
+                  (setq info-directory (car work-list))
+                  (setq notfound nil))
+	      ;; In XEmacs, the directories don't have a trailing slash:
+	      (if (or (file-readable-p (concat (car work-list) "/gri"))
+		      (file-readable-p (concat (car work-list) "/gri.Z"))
+		      (file-readable-p (concat (car work-list) "/gri.z"))
+		      (file-readable-p (concat (car work-list) "/gri.gz")))
+		  (progn
+		    (setq info-directory (concat (car work-list) "/"))
+		    (setq notfound nil))
+		(setq work-list (cdr work-list)))))
+	  info-directory))
+    (if (file-readable-p (concat Info-directory "gri"))
+        Info-directory
+      nil)))
+        
+(defun gri-help-apropos (keyword)
+  "Displays all gri commands containing keyword argument in *help* buffer.
+Code fragment abbreviations (e.g. ?set axes) are not included at present time.
+The keyword is actually a regular expression;  while this could be a simple 
+string, you could also list *all* gri commands with
+
+ gri-help-apropos .
+
+which matches any character." 
+  (interactive "sgri apropos: ")
+  (save-excursion
+    (gri-lookat-syntax-file 1)
+    (if (re-search-forward keyword nil t)
+        (with-output-to-temp-buffer "*Help*"
+          (princ "List of gri commands containing: ")
+          (princ  keyword)
+          (princ "\n\n")
+          (beginning-of-line)
+          (princ (gri-format-display-command 
+                  (buffer-substring (progn (search-forward " ") (point))
+                                    (progn (end-of-line) (point)))))
+          (forward-line 1)
+          (while (re-search-forward keyword nil t)
+            (beginning-of-line)
+            (princ "\n")
+            (princ (gri-format-display-command
+                    (buffer-substring (progn (search-forward " ") (point))
+                                      (progn (end-of-line) (point)))))
+            (forward-line 1))
+          (print-help-return-message))
+      (message "Nothing suitable"))))
+
+(defun gri-show-function (&optional show-all)
+  "Uncover function on current line, hidden by gri-hide commands.
+If prefixed, show all functions in current buffer (this may easier than
+typing in C-c M-S)."
+  (interactive "P")
+  (let ((modified (buffer-modified-p)))
+    (if show-all 
+        (gri-show-all)
+      (show-entry)
+      (set-buffer-modified-p modified))))
+
+(defun gri-show-all ()
+  "Uncover all functions in current buffer, hidden by gri-hide commands."
+  (interactive)
+  (let ((modified (buffer-modified-p)))
+    (if (fboundp 'show-all)
+	(show-all))
+    (set-buffer-modified-p modified)))
+
+(defun gri-hide-function (&optional hide-all)
+  "Hide function under point, similarly to outline-mode.
+If prefixed, hide all functions in current buffer.
+
+BUGS:  Will get confused if you have a string which looks like a function
+       title in your function's help text (i.e. a line which begins with
+       a ` character and ends with a ' character." 
+  (interactive "P")
+  (if hide-all 
+      (gri-hide-all)
+    (let ((the-begin) (the-end) (modified (buffer-modified-p)))
+      (save-excursion
+        (if (not (re-search-forward "^}" nil t))
+            (error "Sorry, can't find the end of the function to hide.")
+          (setq the-end (point)))
+        (if (not (re-search-backward "^`.*'$" nil t))
+            (error "Sorry, can't find the beginning of the function to hide.")
+          (setq the-begin (point))))
+      (hide-region-body the-begin the-end)      
+      (set-buffer-modified-p modified))))
+
+(defun gri-hide-all (&optional quiet)
+  "Hide all functions in current buffer, similarly to outline-mode.
+Optional argument t (prefix) will make it quiet about error.  This should 
+be used if you call this function in your gri-mode-hook such that it won't
+complain when you load a gri file which contains no locally defined gri 
+functions.
+
+BUGS:  Will get confused if you have a string which looks like a function
+       title in your function's help text (i.e. a line which begins with
+       a ` character and ends with a ' character.)" 
+  (interactive "P")
+  (let ((the-end) (modified (buffer-modified-p)))
+    (save-excursion
+      (goto-char (point-min))
+      (while (and (re-search-forward "^`[^']*'$" nil t)
+                  (re-search-forward "^}$" nil t)))
+      (if (= (point) (point-min))
+          (if (not quiet)
+              (message "Sorry, can't find any functions to hide."))
+        (forward-line 1)
+        (setq the-end (point))
+        (hide-region-body (point-min) the-end)
+        (set-buffer-modified-p modified)))))
+
+(defvar gri-arg-hist nil)
+
+(defun gri-command-arguments (arg-string)
+  "Set the extra arguments sent to the gri process.
+Usually used to send debugging flags."
+  (interactive 
+   (list (completing-read "Gri arguments: " nil nil nil nil gri-arg-hist)))
+  (setq gri-command-arguments arg-string)
+  (message "gri-run will use arguments: -b -y %s" gri-command-arguments))
+
+(defun gri-do-run (the-command inhibit-gri-view)
+  "Do actual work for gri-run and gri-run-new."
+  (if (buffer-modified-p)
+      (save-buffer))
+  (cond 
+   ((string-equal "" gri-command-arguments)
+    (message "%s %s (on newly saved file)" 
+             the-command (file-name-nondirectory buffer-file-name))
+    (shell-command (concat the-command buffer-file-name)))
+   (t
+    (message "%s %s %s (on newly saved file)" 
+             the-command gri-command-arguments 
+             (file-name-nondirectory buffer-file-name))
+    (shell-command 
+     (concat the-command gri-command-arguments " " 
+             (file-name-nondirectory buffer-file-name)))))
+  (message "Running gri done.")
+  (if (not (get-buffer "*Shell Command Output*"))  ;;need this for emacs-18
+      (progn
+        (if (and gri*view-after-run
+                 (not inhibit-gri-view))
+            (gri-view))
+        (message "Gri command completed with no output."))
+    ;; There is a shell ouput buffer...
+    (let ((display-buffer-p)(msg)(eline)(efile))
+      (save-excursion
+        (set-buffer "*Shell Command Output*")
+        (goto-char (point-min))
+        (if (re-search-forward "^Segmentation fault" nil t)
+            (setq msg "Segmentation Fault while running gri!"))
+        ;;FATAL error: gr.m:2352: can't use negative y (0.00000) with LOG
+        (if (re-search-forward "^\\(ERROR:\\|FATAL error:\\).*$" nil t)
+            (setq msg (buffer-substring (match-beginning 0)(match-end 0))))
+        (if (re-search-forward "^PROPER USAGE:" nil t)
+            (setq display-buffer-p t))
+        ;;Error detected at /home/rhogee/new/paper/enlarged_map.gri:42
+        (if (re-search-forward 
+             "Error detected at \\([^:]+\\):\\([0-9]+\\)" nil t)
+            (setq efile (buffer-substring (match-beginning 1)(match-end 1))
+                  eline (string-to-int 
+                         (buffer-substring (match-beginning 2)(match-end 2)))))
+        (goto-char (point-min))
+        (set-window-point (get-buffer-window (current-buffer))
+                          (point-max))) ;This won't work !!!
+      (cond 
+       (efile                           ;Have both msg and line info
+        (cond ((not (string-match "gri.cmd$" efile))
+               (find-file efile)
+               (goto-line eline)))
+        (if display-buffer-p (display-buffer "*Shell Command Output*"))
+        (if msg (error msg)))
+       (msg
+        (if display-buffer-p (display-buffer "*Shell Command Output*"))
+        (error msg))
+       (display-buffer-p 
+        (display-buffer "*Shell Command Output*"))
+       (t                               ;Clean execution
+        (let ((lines
+               (save-excursion
+                 (if (not (get-buffer "*Shell Command Output*"))
+                     0
+                   (set-buffer "*Shell Command Output*")
+                   (if (= (buffer-size) 0)
+                       0
+                     (count-lines (point-min) (point-max)))))))
+          (if (and gri*view-after-run
+                   (not inhibit-gri-view))
+              (gri-view))
+          ;; If there was only one line of output from Gri, we should
+          ;; repeat it here.
+          (cond ((= lines 0)
+                 (message "Gri command completed with no output.")
+                 (kill-buffer "*Shell Command Output*"))
+                ((= lines 1)
+                 (message "%s"
+                          (save-excursion
+                            (set-buffer  "*Shell Command Output*")
+                            (goto-char (point-min))
+                            (buffer-substring 
+                             (point)
+                             (progn (end-of-line)(point)))))))))))))
+
+(defun gri-run (&optional inhibit-gri-view)
+  "Save buffer to a file, then run Gri on it, creating a PostScript file
+called *.ps where * is the basename of the gri command-file.  (If the 
+buffer/file name does not end in `.gri', the PostScript file name is
+the full buffer name, with suffix `.ps' added.
+
+After its successfull completion, gri-run will invoke gri-view if the
+variable gri*view-after-run is set to true.  If gri-run ends in error,
+it will try to place the edit point on the source line which contains 
+the error.  
+
+If an optional prefix argument is supplied to gri-run, gri-view will not 
+be run."
+  (interactive "P")
+  (if (string-equal gri-bin-file "gri") ; Use shell default version
+      (gri-do-run (concat "gri -b -y ") inhibit-gri-view)
+    (gri-do-run (concat gri-bin-file
+                        " -directory " (file-name-directory gri-cmd-file)
+                        " -y -b ")
+                inhibit-gri-view)))
+  
+(defun gri-view (&optional filename)
+  "Run X-windows viewer in lower shell on existing .ps file for the gri buffer
+using landscape mode if `set page lansdscape' is found in gri buffer.
+A gzip'ed postscript file can also be viewed without overwriting the file.  
+
+Reset variables gri*view-command and gri*view-landscape-arg in your .emacs
+file to control what commands are sent to the shell to display the
+postscript file.  Default values are: 
+
+  (setq gri*view-command \"ghostview\")
+  (setq gri*view-landscape-arg \"-landscape\") 
+
+See also the gri-run command, which calls gri-view automatically after
+successfully executing your gri buffer if the variable gri*view-after-run 
+is set to true.
+
+In emacs version 19, the process is run asynchronously such that you can 
+continue editing.  Unfortunately, emacs version 18 doesn't support this feature
+and you must quit out of ghostview before you can continue to edit in emacs."
+;;; Asynchronyous output goes to *shell-command* buffer.
+;;;  Return windows to original state because that buffer is usually empty
+;;;  (if no error occurred) and will probably be empty on error by the time
+;;;  the function finishes, because it's asynchronious.
+  (interactive)
+  (let ((psfile (or filename
+                    (concat (filename-sans-gri-suffix buffer-file-name) ".ps")))
+        (landscape "") (the-command) (scale ""))
+    (save-excursion
+      (goto-char (point-min))
+      (if (re-search-forward "^[ \t]*set[ ]+page[ ]+landscape" nil t)
+          (setq landscape (concat gri*view-landscape-arg " "))))
+    (if (equal gri*view-command "gv")
+        (setq scale (concat "-scale " gri*view-scale " ")))
+    (if (not (file-readable-p psfile))
+        (if (not (file-readable-p (concat psfile ".gz")))
+            (error "%s not found or not readable" psfile)
+          ;;Found gzipped version of file
+          (setq the-command 
+                (concat "gunzip -c " psfile ".gz | " gri*view-command
+                        " " landscape scale "-")))
+      ;;Found postscript file
+      (setq the-command (concat gri*view-command " " landscape scale psfile)))
+    (message the-command)
+    (if (string-match "^18" emacs-version)
+        (save-window-excursion
+          (shell-command the-command))
+      ;; Do it Asynchronyously for emacs-19...
+      (let ((buffer (get-buffer-create "*gri-view*"))
+            (shell-command-switch 
+             (or (and (boundp 'shell-command-switch) shell-command-switch)
+                 "-c"))
+            (directory default-directory)
+            proc)
+        (save-excursion
+          (set-buffer buffer)
+          ;;(display-buffer buffer)
+          (setq default-directory directory))
+        (setq proc (start-process 
+                    "Shell" buffer shell-file-name 
+                    shell-command-switch the-command))
+        (setq mode-line-process '(":%s"))
+        (set-process-sentinel proc 'shell-command-sentinel)
+        (set-process-filter proc 'gri-insertion-filter)))))
+
+;; From elisp Info manual as ordinary-insertion-filter
+(defun gri-insertion-filter (proc string)
+  (let ((old-buffer (current-buffer)))
+    (unwind-protect
+        (let (moving)
+          (set-buffer (process-buffer proc))
+          (setq moving (= (point) (process-mark proc)))
+          (save-excursion
+            ;; Insert the text, moving the process-marker.
+            (goto-char (process-mark proc))
+            (insert string)
+            (set-marker (process-mark proc) (point)))
+          (if moving (goto-char (process-mark proc))))
+      (set-buffer old-buffer))))
+
+;; From emacs-19.27:
+;;(defun shell-command-filter (proc string)
+;;;; Do save-excursion by hand so that we can leave point numerically unchanged
+;;;; despite an insertion immediately after it.
+;;  (let* ((obuf (current-buffer))
+;;         (buffer (process-buffer proc))
+;;         opoint
+;;         (window (get-buffer-window buffer))
+;;         (pos (window-start window)))
+;;    (unwind-protect
+;;        (progn
+;;          (set-buffer buffer)
+;;          (or (= (point) (point-max))
+;;              (setq opoint (point)))
+;;          (goto-char (point-max))
+;;          (insert-before-markers string))
+;;      ;; insert-before-markers moved this marker: set it back.
+;;      (set-window-start window pos)
+;;      ;; Finish our save-excursion.
+;;      (if opoint
+;;          (goto-char opoint))
+;;      (set-buffer obuf))))
+
+(defun gri-indent-buffer ()
+  "Indent the entire gri buffer. Won't indent hidden user commands."
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (skip-chars-forward "\n")
+    (gri-indent-line)
+    (while (= 0 (forward-line 1))
+      (gri-indent-line))))
+
+(defun gri-indent-region (from to &optional entire-buffer-flag)
+  "Indent the region.  Prefix arg means indent entire buffer.
+e.g. 
+      ESC 1 ESC q      will indent the entire buffer."
+  (interactive "r\nP")
+  (save-excursion
+    (if entire-buffer-flag
+        (gri-indent-buffer)
+      (save-restriction
+        (narrow-to-region from to)
+        (goto-char (point-min))
+        (skip-chars-forward "\n")
+        (narrow-to-region (point) (point-max))
+        (gri-indent-line)
+        (while (= 0 (forward-line 1))
+          (gri-indent-line)))))
+  (gri-indent-line))
+  
+(defun gri-convert-comments ()
+  "Convert Gri // and /* */ comments to # style in current buffer.
+You could add this function to an gri-mode-hook such that it runs 
+automatically to convert all your old gri files.  To do this add the 
+following to your ~/.emacs file:
+
+ (add-hook 'gri-mode-hook ' gri-convert-comments)
+
+See also gri-convert-comments-with-prompt."
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (while (search-forward "//" nil t)
+      (if (gri-system-line)
+	  (end-of-line)
+	(delete-backward-char 2)
+	(insert "#")))
+    (goto-char (point-min))
+    (while (search-forward "/*" nil t)
+      (if (gri-system-line)
+	  (end-of-line)
+	(delete-backward-char 2)
+	(insert "#")
+	(let ((start (point)))
+	  (if (re-search-forward "*/" nil t)
+	      (save-restriction
+		(delete-backward-char 2)
+		(narrow-to-region start (point))
+		(goto-char start)
+		(while (= 0 (forward-line 1))
+		  (insert "#")))))))))
+
+(defun gri-convert-comments-with-prompt ()
+  "A function to put in a gri-mode-hook to convert your files to # comments.
+You could add this function to an gri-mode-hook such that it runs 
+automatically to convert all your old gri files after prompting you to do 
+the conversion.  To do this add the following to your ~/.emacs file:
+
+ (add-hook 'gri-mode-hook ' gri-convert-comments-with-prompt)
+
+See also gri-convert-comments."
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (let ((found))
+      (while (and (not found)
+		  (re-search-forward "//\\|/\*" nil t))
+	(if (not (gri-system-line))
+	    (setq found t)))
+      (if (and found
+	       (y-or-n-p "Convert old comment lines? "))
+	  (gri-convert-comments)))))
+				 
+(defun gri-comment-out-region (from to)
+  "Comment out the region between point and mark.
+You can remove these comments using gri-uncomment-out-region."
+  (interactive "r")
+  (save-excursion
+    (save-restriction
+      (narrow-to-region from to)
+      (goto-char (point-min))
+      (let ((overwrite-mode nil))
+        (insert "#")
+        (while (and (= 0 (forward-line 1))
+                    (not (= (point) (point-max))))
+          (insert "#")))
+      (if (and gri*use-hilit19
+               (fboundp 'hilit-rehighlight-region))
+          ;;Wish hilit had a function to tell if current buffer uses hilit
+          (hilit-rehighlight-region (point-min) (point-max) t)))))
+ 
+(defun gri-uncomment-out-region (from to)
+  "Remove Comments at beginning of lines in the region between point and mark."
+  (interactive "r")
+  (save-excursion
+    (save-restriction
+      (narrow-to-region from to)
+      (goto-char (point-min))
+      (if (looking-at "//")
+          (delete-char 2))
+      (if (looking-at "#")
+          (delete-char 1))
+      (while (= 0 (forward-line 1))
+        (if (looking-at "//")
+            (delete-char 2))
+        (if (looking-at "#")
+            (delete-char 1)))
+      (if (and gri*use-hilit19 (fboundp 'hilit-rehighlight-region))
+          (hilit-rehighlight-region (point-min) (point-max) t)))))
+        
+(defun gri*date-function ()
+  "Adapted from objective-C-mode.  Add name, author and date on current line."
+  (let* ((u (- 63 (length (user-full-name)) (length (gri*date)))))
+    (insert "# ")
+    (if (not (string-equal (user-full-name) ""))
+        (progn
+          (setq u (- u 1))
+          (insert (user-full-name) " ")))
+    (insert-char 32 u)
+    (insert (gri*date))))
+    
+(defun gri*date ()
+  "Return the current date in an EB Signal standard form.
+Code from objective-C-mode."
+  (concat (substring (current-time-string) -4 nil)
+	  "-"
+	  (gri*month (substring (current-time-string) 4 7))
+	  "-"
+	  (gri*day (substring (current-time-string) 8 10))))
+
+(defun gri*day (aString)
+  (let ((a
+	 (car (cdr (assoc aString '((" 1"  "01")
+				    (" 2"  "02")
+				    (" 3"  "03")
+				    (" 4"  "04")
+				    (" 5"  "05")
+				    (" 6"  "06")
+				    (" 7"  "07")
+				    (" 8"  "08")
+				    (" 9"  "09")))))))
+    (if (null a) aString a)))
+
+(defun gri*month (aString)
+  (let ((a
+	 (car (cdr (assoc aString '(("JAN"  "01")
+				    ("FEB"  "02")
+				    ("MAR"  "03")
+				    ("APR"  "04")
+				    ("MAY"  "05")
+				    ("JUN"  "06")
+				    ("JUL"  "07")
+				    ("AUG"  "08")
+				    ("SEP"  "09")
+				    ("OCT"  "10")
+				    ("NOV"  "11")
+				    ("DEC"  "12")
+				    ))))))
+    (if (null a) aString a)))
+
+
+(defun gri-function-skeleton ()
+  "Build a routine skeleton prompting for name."
+  (interactive)
+  (let ((the-name (read-string "gri function name: "))
+        (the-user (user-full-name)))
+    (if (string-equal the-name "")
+        (error "No name given."))
+    (goto-char (point-min))
+    (insert "\n") (backward-char 1)
+    (insert "`" the-name "'\n")
+    (insert "------------------------------------")
+    (insert "----------------------------------\n\n")
+    (insert "------------------------------------")
+    (insert "----------------------------------\n")
+    (insert "{\n")
+    (gri*date-function) (gri-indent-line)
+    (insert "\n") (gri-indent-line)
+    (insert "\n}")
+    (previous-line 5)))
+
+(defun gri-fontify-buffer ()
+  "Fontify buffer with font-lock or else hilit19"
+  (interactive)
+  (cond
+   ((featurep 'font-lock)
+    (font-lock-fontify-buffer))
+   ((load "font-lock" t t)
+    (font-lock-fontify-buffer))
+   ((featurep 'hilit19)
+    (gri-highlight-buffer))
+   ((load "hilit19" t t)
+    (gri-highlight-buffer))
+   (t
+    (message "We neither have font-lock or hilit19 to use"))))
+    
+(defun gri-highlight-buffer ()
+  "Call hilit-highlight-buffer, loading hilit19 if required.
+
+Variables: 
+       gri*hilit-declarations (default is t)
+        If set to true, highlight variable and synonym declarations.
+        To turn this off, put the following in your .emacs file:
+          (setq gri*hilit-declarations nil)
+        This does not go in your gri-mode-hook! 
+       gri*hilit-variables (default is nil)
+        If set to true, highlight all variables and synonyms 
+       gri*hilit-rpn-contents (default is nil)
+        If set to true, highlight entire contents of rpn expressions
+        (everything within the curly braces)
+       gri*hilit-before-return (default is nil)
+        If set to true, auto-highlight current line on newline (<CR>)
+
+Note: If you find the faces used ugly, use hilit-translate to switch
+      them.  e.g.   
+                  (hilit-translate string 'bold)"
+  (interactive)
+  (if (string-equal "18" (substring emacs-version 0 2))
+      (error "Sorry, this is an emacs-19 feature."))
+  (if (not window-system)
+      (error "Sorry, this runs under a window system only."))
+  (if (not (fboundp 'hilit-highlight-buffer))
+      (progn
+        (require 'hilit19)
+        (gri-set-mode-patterns)))
+  (hilit-highlight-buffer))
+
+(defun gri-return ()
+  "Carriage return in Gri-mode with optional highlighting and indentation.
+If variable gri-indent-before-return is t, 
+  current line is indented before newline is created.
+If variable gri*hilit-before-return is t,
+  current line is highlighted (using hilit19) before newline is inserted."
+  (interactive)
+  (if gri-indent-before-return
+      (gri-indent-line))
+  ;; FIXME: I could also use font-lock on region to get continued system lines
+  ;;        fontified okay.
+  (if (and gri*hilit-before-return
+           (fboundp 'hilit-rehighlight-region))
+      (let ((the-start))
+        (save-excursion
+          (while (and (= 0 (forward-line -1)) (gri-continuation-line)))
+          (forward-line 1) 
+          (beginning-of-line)
+          (setq the-start (point)))
+        (newline)
+        (hilit-rehighlight-region the-start (point) t))
+    (newline))                          ;Not gri*hilit-before-return
+  (gri-indent-line))
+
+(defun gri-set-mode-patterns ()
+  "Calls hilit-set-mode-patterns to sets the gri-mode patterns"
+  (hilit-set-mode-patterns 
+   'gri-mode
+   (append
+    '(("/\\*" "\\*/" comment)           ; Comments override all other hilits
+      ("//" "[^\\]\\($\\|\C-m\\)" comment)   
+
+      ("^`.*'\\($\\|\C-m\\)" nil defun) ; User command declaration
+      ("\\(^\\|\C-m\\)\\({\\|}\\)\\($\\|\C-m\\)" nil defun) ;("^{$\\|^}$")
+      ;;("^`.*'$" "^{$" string)         ; User command help (below hidden code)
+      ("^`.*'\\($\\|\C-m\\)" "\\(^\\|\C-m\\){\\($\\|\C-m\\)" string)
+
+      ("\\(^\\|\C-m\\)[ \t]*\\(quit\\|return\\|if\\|else\\|else if\\|end if\\|break\\|while\\|end while\\|system\\)\\>"
+       nil keyword))
+
+    (and gri*hilit-declarations         ; Hilit after `\sysnonym = system' line
+         '(("\\\\[^ ]+[ ]+[\\+\\*/^-]?= " nil define)
+           ("\\.[^ .]+\\.[ ]+[\\+\\*/^-]?= " nil define)))
+
+    '(("\\(^\\|\C-m\\)[ \t]*\\(\\\\[^ ]+[ ]+=[ ]+\\)?system[^\C-m$]*<<\"EOF\"" 
+       ;;                   ^^^^^^^^^^^^^^^^^^^^^^^^optional synonym assignment
+       "\\(^\\|\C-m\\)[ \t]*EOF" msg-header)
+
+      ("\\(^\\|\C-m\\)[ \t]*\\(\\\\[^ ]+[ ]+=[ ]+\\)?system" 
+       ;;                   ^^^^^^^^^^^^^^^^^^^^^^^^optional synonym assignment
+       "[^\\]\\($\\|\C-m\\)" msg-header)
+
+      ;;("\"" ".*\"" string)            ; standard but fails with two on a line
+      ("\"[^\"]*\"" nil string))        ; this is a better string regexp
+
+    (and gri*hilit-variables
+         '((" \\.+[A-z][^ .$\C-m]*\\.+" nil struct) ; .variables.
+           (" \\\\[^ $\C-m]+" nil struct)))  ; \.synonyns.
+    (and gri*hilit-rpn-contents
+         '(("{[ ]*rpn" "}" formula)))   ; the contents of the {rpn expression}
+    (and (not gri*hilit-rpn-contents)
+         '(("{\\|}\\|rpn" nil include))))))
+
+;;; -- font-lock stuff
+(defvar gri-mode-system-face			'gri-mode-system-face
+  "Face to use for gri-mode system commands.")
+
+(defun gri-font-lock-setup ()
+  (if (featurep 'font-lock)
+      (cond
+       (gri-mode-is-XEmacs
+        ;; XEmacs:
+        (make-face 'gri-mode-system-face)
+        (set-face-foreground 
+         'gri-mode-system-face "red" 'global nil 'append))
+       (gri-mode-is-Emacs20
+	(copy-face 'font-lock-warning-face 'gri-mode-system-face))
+       (t
+        ;; emacs-19:
+        ;; Otherwise I overwrite fock-lock-face-attributes.
+        ;; font-lock.el needs a better way to add these faces!        
+        (if (not font-lock-face-attributes)
+            (font-lock-make-faces))
+        (if (not (assq 'gri-mode-system-face font-lock-face-attributes))
+            (setq font-lock-face-attributes
+                  (append 
+                   font-lock-face-attributes
+                   '((gri-mode-system-face "red" nil t nil nil))))))))
+  (make-local-variable 'font-lock-defaults)
+  (setq font-lock-defaults
+   '(gri-font-lock-keywords
+     nil           ;;; Keywords only? No, let it do syntax via table.
+     nil           ;;; case-fold?
+     nil           ;;; Local syntax table.
+     nil           ;;; Use `backward-paragraph' ? No
+     ;;;(font-lock-comment-start-regexp . "%")
+     ;;;(font-lock-mark-block-function . mark-paragraph)))
+     )))
+
+(defconst gri-font-lock-keywords nil
+  "Default expressions to fontify in gri-mode.")
+
+;; (make-regexp 
+;;  '("break" "else" "else if" "end if" "end while" "if" "quit" "return" "rpn" 
+;;    "while"))
+
+(setq
+ gri-font-lock-keywords
+ '((gri-font-lock-match-functions
+    (0 font-lock-function-name-face)
+    (1 font-lock-comment-face nil t)
+    (2 font-lock-function-name-face nil t)
+    (3 font-lock-function-name-face nil t))
+   (gri-font-lock-system-commands
+    (0 font-lock-function-name-face nil t)
+    (1 font-lock-keyword-face nil t)
+    (2 gri-mode-system-face prepend t))
+ ;;("\\(break\\|e\\(lse\\( if\\)?\\|nd \\(if\\|while\\)\\)\\|if\\|quit\\|r\\(eturn\\|pn\\)\\|while\\)\\b"
+   ("\\(quit\\|return\\|if\\|else\\( if\\)?\\|end \\(if\\|while\\)\\|break\\|while\\|rpn\\)\\b"
+    . font-lock-keyword-face)
+   ("\\\\[^ ]+[ ]+[\\+\\*/^-]?= " . font-lock-function-name-face)
+   ("\\.[^ .]+\\.[ ]+[\\+\\*/^-]?= " . font-lock-function-name-face)
+   (" \\(\\.\\.[A-z][^ .\n\C-m]*\\.\\.\\)" 
+    (1 font-lock-type-face))  ; system ..variables..
+   (" \\(\\.[A-z][^ .\n\C-m]*\\.\\)" 
+    (1 font-lock-variable-name-face))  ; user .variables.
+   (" \\(\\\\[^ \C-m\n]+\\)" (1 font-lock-variable-name-face)) ; \.synonyns.
+   ))
+
+;; V1.28 Stats on gsl-map.gri
+;; 0.0202 gri-font-lock-match-functions
+;; 0.0831 gri-font-lock-system-commands
+;; 0.1074 "\\(quit\\|return\\|if\\|else\\( if\\)?..."
+;; 0.0156 "\\\\[^ ]+[ ]+[\\+\\*/^-]?= "
+;; 0.0141 "\\.[^ .]+\\.[ ]+[\\+\\*/^-]?= "
+;; 0.0447 " \\(\\.\\.[A-z][^ .$]*\\.\\.\\)"
+;; 0.0535 " \\(\\.[A-z][^ .$]*\\.\\)"
+;; 0.2701 " \\(\\\\[^ $]+\\)"
+
+;; Surprising that optimized regexp is slower...
+;; 0.2695 "\\(break\\|e\\(lse\\(\\| if\\)\\|nd \\(if\\|while\\)
+
+(defun gri-font-lock-system-commands (limit)
+  "Match gri system commands.
+Return: match 0 as the declaration.
+        match 1 as the system keyword.
+        match 2 as the command text."
+  ;; Prior imcomplete multi-line system command?
+  (if (not (and gri-mode-is-XEmacs
+                (equal (point) (save-excursion (end-of-line)(point)))))
+      ;;XEmacs finished last continued system command on eol - don't redo it!
+      (let ((start-point (point))
+            (start-line (progn (beginning-of-line)(point)))
+            (last-step-ok))
+        (while (and (setq last-step-ok (= 0 (forward-line -1)))
+                    (progn (end-of-line)
+                           (eq (preceding-char) ?\\))))
+        (if last-step-ok (forward-line 1))
+        (if (or (= (point) start-line)
+                (not (looking-at
+                      "\\(^\\|\C-m\\)[ \t]*\\(\\\\[^ ]+[ ]+=[ ]+\\)?\\(system\\)"
+                      )))
+            (goto-char start-point))))
+;;;FIXME: XEmacs infinite loop:
+;;;        - Is it because of the move above?
+;;;        - Or because it's font-lock moves to end of match-data 0?
+  (if (re-search-forward "\\bsystem\\b" limit t)
+      (let ((sys-b  (match-beginning 0))
+            (sys-e  (match-end 0))
+            decl-b decl-e com-b com-e)
+        ;; goto bol to see if commented out
+        (re-search-backward "^\\|\C-m" (point-min) t)
+        (if (not (looking-at 
+                  "\\(^\\|\C-m\\)[ \t]*\\(\\\\[^ ]+[ ]+=[ ]+\\)?\\(system\\)"))
+            ;;                         ^^^^^^^^^^^^^^^^^^^^^^^^opt synonym
+            (progn                      ; It was commented out or otherwise
+              (goto-char sys-e)         ;  invalid
+              (store-match-data (list nil nil))
+              t)
+          (setq decl-b (match-beginning 2))
+          (setq decl-e (match-end 2))
+          ;; <<EOF form?
+          (if (re-search-forward 
+               "\\(<<\"?EOF\"?\\)?\\(\n\\|\C-m\\)" limit t)
+              (if (match-beginning 1)
+                  (progn
+                    (setq com-b (1+ sys-e))
+                    (setq com-e (match-end 0))
+                    (if (re-search-forward "\\(^\\|\C-m\\)EOF" limit t)
+                        (setq com-e (match-end 0))))
+                ;; Not an EOF form, skip all continuation lines
+                (backward-char 1)
+                (while (and (re-search-forward "$\\|\C-m" limit t)
+                            (eq (preceding-char) ?\\)
+                            (re-search-forward "^" limit t)))
+                (setq com-b (1+ sys-e))
+                (setq com-e (point))))
+          (goto-char sys-e)
+          (store-match-data
+           (list decl-b decl-e sys-b sys-e com-b com-e))
+          t))))
+
+(defun gri-font-lock-match-functions (limit)
+  "Match gri function declarations.
+Return: match 0 as the declaration.
+        match 1 as the comment description.
+        match 2 as the opening bracket.
+        match 3 as the closing bracket."
+  (if (re-search-forward "^`" limit t)
+      (let ((decl-b (match-beginning 0))
+            (decl-e (match-end 0))
+            com-b com-e open-b open-e close-b close-e)
+        (when (re-search-forward "\\('\\)\\|\C-m\\|\n" limit t)
+          (if (not (match-end 1))
+              (setq decl-e (match-end 0))
+            (setq decl-e (match-end 1))
+            (goto-char decl-e)
+            (when (re-search-forward "\\(^\\|\C-m\\){$" limit t)
+              (setq open-b (match-beginning 0))
+              (setq open-e (1+ open-b))
+              (when (< (1+ decl-e) open-b)
+                ;; Comments are present
+                (setq com-b (1+ decl-e))
+                (setq com-e (1- open-b)))
+              (goto-char open-b)
+              (when (condition-case nil
+                        (goto-char (or (scan-sexps (point) 1) (point-max)))
+                      (error))
+                (setq close-b (1- (point)))
+                (setq close-e (1+ close-b)))
+              (goto-char open-e))))
+        (store-match-data
+         (list decl-b decl-e com-b com-e open-b open-e close-b close-e))
+        t)))
+
+;;; -- End of font-lock stuff
+
+(defun gri-narrow-to-function ()
+  "Restrict editing in this buffer to the current gri function.
+The rest of the text becomes temporarily invisible and untouchable
+but is not deleted; if you save the buffer in a file, the invisible
+text is included in the file.  C-x n w makes all visible again."
+  (interactive)
+  (save-excursion
+    (let ((the-begin))
+      (if (not (re-search-backward "^`.*'$" nil t))
+          (message "Sorry, can't find the beginning of the function.")
+        (setq the-begin (point))
+        (if (or (not (re-search-forward "^{$" nil t))
+                (not (re-search-forward "^}$" nil t)))
+            (message "Sorry, can't find the end of the function to.")
+          (narrow-to-region the-begin (point)))))))
+
+(defun gri-insert-file-as-comment (&optional number-of-lines)
+  "Insert one line as a gri comment, taking filename from under point.
+Optional number of lines may be given as prefix argument.
+
+This is useful to comment an `open' statement, e.g. with editing point 
+on the filename, the following line:
+ open gps.dat
+gets the following comment:
+ open gps.dat
+ #  80 31.224'N  11 48.633'W 10:03:18.2 07/05/93"
+  (interactive "p")
+  (let ((name (gri-file-name-at-point))
+        (the-end))
+    (if (not name)
+        (message "Sorry, could not detect file name under editing point")
+      (save-excursion
+        (end-of-line)
+        (newline)
+        (shell-command (concat "head -"(int-to-string number-of-lines) 
+                               " " name) t)
+        (while (< 0 number-of-lines)
+          (gri-indent-line)
+          (insert "# ")
+          (forward-line 1)
+          (setq number-of-lines (1- number-of-lines)))
+        (setq the-end (point)))
+      (if (and gri*use-hilit19 (fboundp 'hilit-rehighlight-region))
+        (hilit-rehighlight-region (point) the-end t)))))
+
+(defun gri-string-at-point (chars &optional punct)
+  "Return maximal string around point, of chars specified by string CHARS.
+Chars from the optional PUNCT string are stripped from the end."
+  (buffer-substring 
+   (save-excursion (skip-chars-backward chars) (point))
+   (save-excursion 
+     (let ((pt (point)))
+       (skip-chars-forward chars)
+       ;; skip back over punctuation, but not beyond pt:
+       (and punct (skip-chars-backward punct pt))
+       (point)))))
+  
+(defun gri-file-name-at-point ()
+  "Return filename from around point if it exists, or nil.
+Based on ffap.el from: mic@cs.ucsd.edu (Michelangelo Grigni)"
+  (let* ((case-fold-search t)
+	 (name (gri-string-at-point "--:$+<>@-Z_a-z~" ";.,!?")))
+      (cond
+       ((zerop (length name)) nil)
+       ((file-exists-p name) name))))
+
+(defun gri-WWW-manual ()
+  "Start world-wide-web browser displaying gri manual.
+The page visited is set in the variable gri-WWW-page, which may be reset on 
+your site.  The main site (always up to date) is:
+
+ http://www.phys.ocean.dal.ca/~kelley/gri/gri1.html
+
+The browser used by determined by the variable gri*WWW-program.
+Any output (errors?) is put in the buffer `gri-WWW-manual'."
+  (interactive)
+  (cond 
+   (gri*WWW-program
+    (message "Starting process. See buffer gri-WWW-manual about errors.")
+    (setq gri*WWW-process
+          (start-process "gri-WWW" "gri-WWW-manual" gri*WWW-program
+                         gri*WWW-page)))
+   (t
+    (if (not (featurep 'browse-url))
+        (load "browse-url" t t))
+    (if (not (featurep 'browse-url))
+        (message "Sorry, you don't have browse-url on your system.  Set variable gri*WWW-program")
+      (funcall browse-url-browser-function gri*WWW-page)))))
+
+(setq completion-ignored-extensions
+      (cons ".ps" completion-ignored-extensions))
+
+
+(defun gri-close-statement ()
+  "Insert a matching closing statement for open, if or while"
+  (interactive)
+  (let* ((the-statement)(the-string)(depth 1)
+         (fullpattern 
+          "^[ \t]*\\(open \\|if \\|while \\|end if\\|end while\\|close \\)")
+         (pattern fullpattern))
+    (save-excursion
+      (while (and (not (equal depth 0))
+                  (re-search-backward pattern nil t))
+        (setq the-statement 
+              (buffer-substring (match-beginning 1)(match-end 1)))
+        (cond
+         ((equal the-statement "end if")
+          (setq depth (1+ depth))
+          (setq pattern "^[ \t]*\\(if \\)"))
+         ((equal the-statement "end while")
+          (setq depth (1+ depth))
+          (setq pattern "^[ \t]*\\(while \\)"))
+         ((equal the-statement "close ")
+          (setq depth (1+ depth))
+          (goto-char (match-end 1))
+          (re-search-forward "[^ \t\n]+" nil t)
+          (setq pattern 
+                (concat "^[ \t]*\\(open \\)" 
+                        (buffer-substring (match-beginning 0)(match-end 0)))))
+         ((equal the-statement "if ")
+          (setq depth (1- depth))
+          (setq pattern fullpattern)
+          (setq the-string "end if"))
+         ((equal the-statement "while ")
+          (setq depth (1- depth))
+          (setq pattern fullpattern)
+          (setq the-string "end while"))
+         ((equal the-statement "open ")
+          (setq depth (1- depth))
+          (setq pattern fullpattern)
+          (goto-char (match-end 1))
+          (re-search-forward "[^ \t\n]+" nil t)
+          (setq the-string 
+                (concat "close "
+                        (buffer-substring 
+                         (match-beginning 0)(match-end 0))))
+          (beginning-of-line)))))
+    (if (not (equal depth 0))
+        (error "Sorry.  Could not find an unbalanced statement to close.")
+      (if (not (string-match "[^ \t]"
+                             (buffer-substring (point)
+                                               (save-excursion 
+                                                 (beginning-of-line)(point)))))
+          (insert the-string)
+        (end-of-line)
+        (insert "\n" the-string))
+      (let ((gri-indent-before-return t))
+        (gri-return)))))
+
+(defun gri-print ()
+  "Print the postscript file associated with the current gri file."
+  (interactive)
+  (let ((the-option (or (and (stringp gri*lpr-switches)
+                             gri*lpr-switches)
+                        (car gri*lpr-switches)))
+        (rest (and (listp gri*lpr-switches)
+                   (cdr gri*lpr-switches))))
+    (while rest
+      (setq the-option (concat the-option " " (car rest)))
+      (setq rest (cdr rest)))
+    (let ((psfile (concat (filename-sans-gri-suffix buffer-file-name) ".ps"))
+          (the-command))
+      (if (not (file-readable-p psfile))
+          (if (not (file-readable-p (concat psfile ".gz")))
+              (error "%s not found or not readable" psfile)
+            ;;Found gzipped version of file
+            (setq the-command 
+                  (concat "gunzip -c " psfile ".gz | " gri*lpr-command
+                          " " the-option)))
+        ;;Found postscript file
+        (setq the-command 
+              (concat gri*lpr-command " " the-option " " psfile)))
+      (shell-command the-command)
+      (if (get-buffer "*Shell Command Output*");;need this for emacs-18
+          (save-excursion
+            (set-buffer "*Shell Command Output*")
+            (if (= (point-min)(point-max))
+                (message "Done: %s" the-command))))
+      (message "Done: %s" the-command))))
+
+;; ---The following by Dan E. Kelley (with modifications by Peter Galbraith)
+;; V1.01 24Jan91 by Dan Kelley, kelley@cs.dal.ca
+;;      Created.  Used matlab.el as a guide.
+;;
+;; V1.02 29jan93 by Dan Kelley, kelley@open.dal.ca
+;;	Change indent level to 2.
+;; 
+;; V1.03 11nov93 by Peter Galbraith, rhogee@bathybius.meteo.mcgill.ca
+;;      fixed: auto-mode on .gri extension
+;;      fixed: gri-comment didn't recognise existing comment after command
+;;      fixed: gri-indent-line didn't recognise existing comment after command 
+;;      fixed: gri-indent-line when previous line is a continued line:
+;;               - removed abbrev mode
+;;               - added fill mode with \ at end of lines
+;;               - increase indent if first continuation
+;;               - keep same indent as prev line if 2nd or more continuation
+;;               - then indent next un-continued line same as base line
+;;                 of continuated line, e.g.
+;;       draw label "\string" at {rpn ..xmargin.. .2 +} \
+;;                               {rpn ..ymargin.. .5 -}
+;;       draw ...                ^ user modified indentation 
+;;       ^ proper indentation regardless of continuated line
+;;         based on base line of continuated line (draw label ...)
+
+(if (fboundp 'hilit-set-mode-patterns) ;Do only if hilit19 in use
+    (gri-set-mode-patterns))
+
+(defconst gri-comment-column 32
+  "*The goal comment column in Gri-mode buffers.")
+
+(defconst gri-new-command-help-indent-level 0
+  "*The indentation in help lines for new commands.")
+
+(defvar gri-indent-level 4 "Number of spaces to indent in gri-mode.")
+
+(defvar gri-mode-syntax-table nil "Syntax table used in Gri-mode buffers.")
+
+(defvar gri-hist-alist nil "History list for gri-help and gri-info")
+
+(if gri-mode-syntax-table
+    ()
+  ;;; New syntax-table by PSG -- December 1995
+  (setq gri-mode-syntax-table (make-syntax-table))
+
+  ;; Support # style comments
+  (modify-syntax-entry ?#  "<"  gri-mode-syntax-table)
+  (modify-syntax-entry ?\n "> "    gri-mode-syntax-table)
+
+  ;; Give CR the same syntax as newline, for selective-display
+  (modify-syntax-entry ?\^m "> b"   gri-mode-syntax-table)
+
+  ;;(modify-syntax-entry ?_ "_" gri-mode-syntax-table)
+  (modify-syntax-entry ?_ "w" gri-mode-syntax-table)
+  (modify-syntax-entry ?. "w" gri-mode-syntax-table)
+  (modify-syntax-entry ?\\ "_" gri-mode-syntax-table)
+
+  (modify-syntax-entry ?+ "." gri-mode-syntax-table)
+  (modify-syntax-entry ?- "." gri-mode-syntax-table)
+  (modify-syntax-entry ?= "." gri-mode-syntax-table)
+  (modify-syntax-entry ?< "." gri-mode-syntax-table)
+  (modify-syntax-entry ?> "." gri-mode-syntax-table)
+  (modify-syntax-entry ?& "." gri-mode-syntax-table)
+  (modify-syntax-entry ?| "." gri-mode-syntax-table))
+
+;; Abbrev Table
+(defvar gri-mode-abbrev-table nil
+  "Abbrev table used in gri-mode buffers.")
+
+(define-abbrev-table 'gri-mode-abbrev-table ())
+
+;; Mode Map
+(defvar gri-mode-map ()
+  "Keymap used in gri-mode.")
+
+(if gri-mode-map
+    ()
+  (setq gri-mode-map (make-sparse-keymap))
+  (define-key gri-mode-map "\r" 'gri-return)
+  (define-key gri-mode-map "\M-\C-v" 'gri-indent-buffer)
+  (define-key gri-mode-map "\M-\C-\\" 'gri-indent-region)
+  (define-key gri-mode-map "\M-q" 'gri-indent-region)
+  (define-key gri-mode-map "\t" 'gri-indent-line)
+  (define-key gri-mode-map "\M-;" 'gri-comment)
+  (define-key gri-mode-map "\C-c\C-f" 'gri-function-skeleton)
+  (define-key gri-mode-map [?\C-\S-l] 'gri-fontify-buffer)
+  (define-key gri-mode-map "\M-\r" 'newline)
+  (define-key gri-mode-map "\C-c]" 'gri-close-statement)
+  (define-key gri-mode-map "\C-c\M-h" 'gri-hide-function)
+  (define-key gri-mode-map "\C-c\M-H" 'gri-hide-all)
+  (define-key gri-mode-map "\C-c\M-s" 'gri-show-function)
+  (define-key gri-mode-map "\C-c\M-S" 'gri-show-all)
+  (define-key gri-mode-map "\C-c\M-n" 'gri-narrow-to-function)
+  (define-key gri-mode-map "\C-c\C-x" 'gri-insert-file-as-comment)
+  (define-key gri-mode-map "\C-c\C-v" 'gri-view)
+  (define-key gri-mode-map "\C-c\C-r" 'gri-run)
+  (define-key gri-mode-map "\C-c\C-p" 'gri-print)
+  (define-key gri-mode-map "\C-c\M-v" 'gri-set-version)
+  (define-key gri-mode-map "\C-c\C-a" 'gri-help-apropos)
+  (define-key gri-mode-map "\C-c\C-n" 'gri-next-option)
+  (define-key gri-mode-map "\C-c\C-k" 'gri-kill-option)
+  (define-key gri-mode-map "\C-c\C-o" 'gri-option-select)
+  (define-key gri-mode-map "\C-c\C-d" 'gri-display-syntax)
+  (define-key gri-mode-map "\C-c\C-w" 'gri-WWW-manual)
+  (define-key gri-mode-map "\C-c\C-i" 'gri-info-this-command)
+  (define-key gri-mode-map "\C-c\C-h" 'gri-help-this-command)
+  (define-key gri-mode-map "\C-c\M-i" 'gri-info)
+  (define-key gri-mode-map "\C-c\M-h" 'gri-help)
+  (define-key gri-mode-map "\M-\t" 'gri-complete)
+  (define-key gri-mode-map "\C-c?" 'describe-mode)
+  (cond 
+   ((string-match "XEmacs\\|Lucid" emacs-version)
+    (define-key gri-mode-map [(shift button1)] 'gri-option-select-mouse)
+    (define-key gri-mode-map [(shift button2)] 'gri-kill-option-mouse))
+   (window-system
+    ;; Note [S-down-mouse-1] because of emacs-19.30 !!!
+    ;; It has a font-selection function there, so [S-mouse-1] won't work.
+    (define-key gri-mode-map [S-down-mouse-1] 'gri-option-select-mouse)
+    (define-key gri-mode-map [S-mouse-2] 'gri-kill-option-mouse))))
+
+;;; Menus - in emacs 19 only...
+
+;;; From XEmacs-19.14 NEWS:
+;;; Here is an example of a menubar definition:
+;;; 
+;;; (defvar default-menubar
+;;;   '(("File"     ["Open File..."         find-file               t]
+;;; 		    ["Save Buffer"          save-buffer             t]
+;;; 		    ["Save Buffer As..."    write-file              t]
+;;; 		    ["Revert Buffer"        revert-buffer           t]
+;;; 		    "-----"
+;;; 		    ["Print Buffer"         lpr-buffer              t]
+;;; 		    "-----"
+;;; 		    ["Delete Frame"         delete-frame            t]
+;;; 		    ["Kill Buffer..."       kill-buffer             t]
+;;; 		    ["Exit Emacs"           save-buffers-kill-emacs t]
+;;; 		    )
+;;; 	("Edit"     ["Undo"                 advertised-undo         t]
+;;; 		    ["Cut"                  kill-primary-selection  t]
+;;; 		    ["Copy"                 copy-primary-selection  t]
+;;; 		    ["Paste"                yank-clipboard-selection t]
+;;; 		    ["Clear"                delete-primary-selection t]
+;;; 		    )
+;;; 	...))
+
+(setq gri-specials-topics
+      '(("while" "(gri)While")
+        ("if" "(gri)If Statements")
+        ("localSynonyms" "(gri)Local Synonyms")
+        ("synonyms" "(gri)About Synonyms")
+        ("builtInVariables" "(gri)Built-in Variables")
+        ("variables" "(gri)About Variables")
+        ("rpn" "(gri)rpn Mathematics")
+        ("columns" "(gri)Manipulation of Columns etc")
+        ("conceptIndex" "(gri)Concept Index")))
+
+(let ((topics gri-specials-topics))
+  (while topics
+    (let* ((topic (car topics))
+	   value menu name)
+      (setq topics (cdr topics))
+      (setq value (nth 0 topic)
+            menu (nth 1 topic))
+      (setq name (intern (concat "gri-info-" value)))
+      (fset name (list 'lambda () 
+                       (list 'interactive)
+                       (list 'require ''info)
+                       (list 'Info-goto-node menu))))
+;; In latex.el, Per even builds the menu at this stage!
+    ))
+
+(cond 
+ ((fboundp 'easy-menu-define)
+  (easy-menu-define
+   gri-mode-menu4 gri-mode-map "Menu keymap for gri-mode."
+   '("Gri-Help"
+     ["Help about current command"          gri-help-this-command t]
+     ["Help about any command"              gri-help t]
+     ["Info about current command"          gri-info-this-command t]
+     ["Info about any command"              gri-info t]
+     ("InfoTopics"
+;;; Old way!
+;;;	["While Statements" (lambda () 
+;;;			      (interactive)(require 'info)
+;;;			      (Info-goto-node "(gri)While")) t]
+      ["Concept Index"                      gri-info-conceptIndex t]
+      ["Manipulating Columns"               gri-info-columns t]
+      ["Reverse Polish Math (rpn stuff)"    gri-info-rpn t]
+      ["About Variables"                    gri-info-variables t]
+      ["Built-in Variables"                 gri-info-builtInVariables t]
+      ["About Synonyms"                     gri-info-synonyms t]
+      ["Local Synonyms"                     gri-info-localSynonyms t]
+      ["If Statements"                      gri-info-if t]
+      ["While Statements"                   gri-info-while t]
+      )
+     ["Gri Manual on WWW"                   gri-WWW-manual t]
+     ["Display syntax for current command"  gri-display-syntax t]
+     ["List gri commands containing string" gri-help-apropos t]
+     ))
+  (easy-menu-define
+   gri-mode-menu3 gri-mode-map "Menu keymap for gri-mode."
+   '("Hide/Show"
+     ["Hide this gri function"        gri-hide-function t]
+     ["Hide all gri functions"        gri-hide-all t]
+     ["Show this gri function"        gri-show-function t]
+     ["Show all gri functions"        gri-show-all t]
+     ["Restrict editing to function"  gri-narrow-to-function t]
+     ["Remove function restriction"   widen t]
+     ))
+  (cond
+   (gri-mode-is-XEmacs
+    (easy-menu-define
+     gri-mode-menu2 gri-mode-map "Menu keymap for gri-mode."
+     '("Perform"
+       ["Save, Run and View gri"        gri-run t]
+       ["View existing PostScript"      gri-view  t]
+       ("gv scale selection"
+;;; this active switch doesn't work in XEmacs
+;;      :active (equal gri*view-command "gv")
+        ["0.1" 
+         (list 'lambda () (interactive)(setq gri*view-scale "-5"))
+         :style radio :selected (equal gri*view-scale "-5")]
+        ["0.125" 
+         (list 'lambda () (interactive)(setq gri*view-scale "-4"))
+         :style radio :selected (equal gri*view-scale "-4")]
+        ["0.25" 
+         (list 'lambda () (interactive)(setq gri*view-scale "-3"))
+         :style radio :selected (equal gri*view-scale "-3")]
+        ["0.5" 
+         (list 'lambda () (interactive)(setq gri*view-scale "-2"))
+         :style radio :selected (equal gri*view-scale "-2")]
+        ["0.707" 
+         (list 'lambda () (interactive)(setq gri*view-scale "-1"))
+         :style radio :selected (equal gri*view-scale "-1")]
+        ["1" 
+         (list 'lambda () (interactive)(setq gri*view-scale "0"))
+         :style radio :selected (equal gri*view-scale "0")]
+        ["1.414" 
+         (list 'lambda () (interactive)(setq gri*view-scale "1"))
+         :style radio :selected (equal gri*view-scale "1")]
+        ["2" 
+         (list 'lambda () (interactive)(setq gri*view-scale "2"))
+         :style radio :selected (equal gri*view-scale "2")]
+        ["4" 
+         (list 'lambda () (interactive)(setq gri*view-scale "3"))
+         :style radio :selected (equal gri*view-scale "3")]
+        ["8" 
+         (list 'lambda () (interactive)(setq gri*view-scale "4"))
+         :style radio :selected (equal gri*view-scale "4")]
+        ["10" 
+         (list 'lambda () (interactive)(setq gri*view-scale "5"))
+         :style radio :selected (equal gri*view-scale "5")]
+        )
+       ["Print existing PostScript"     gri-print t]
+       )))
+   (t
+    (easy-menu-define
+     gri-mode-menu2 gri-mode-map "Menu keymap for gri-mode."
+     '("Perform"
+       ["Save, Run and View gri"        gri-run t]
+       ["View existing PostScript"      gri-view  t]
+       ("gv scale selection"
+        :active (equal gri*view-command "gv")
+        ["0.1" 
+         (list 'lambda () (interactive)(setq gri*view-scale "-5"))
+         :active (not (equal gri*view-scale "-5"))]
+        ["0.125" 
+         (list 'lambda () (interactive)(setq gri*view-scale "-4"))
+         :active (not (equal gri*view-scale "-4"))]
+        ["0.25" 
+         (list 'lambda () (interactive)(setq gri*view-scale "-3"))
+         :active (not (equal gri*view-scale "-3"))]
+        ["0.5" 
+         (list 'lambda () (interactive)(setq gri*view-scale "-2"))
+         :active (not (equal gri*view-scale "-2"))]
+        ["0.707" 
+         (list 'lambda () (interactive)(setq gri*view-scale "-1"))
+         :active (not (equal gri*view-scale "-1"))]
+        ["1" 
+         (list 'lambda () (interactive)(setq gri*view-scale "0"))
+         :active (not (equal gri*view-scale "0"))]
+        ["1.414" 
+         (list 'lambda () (interactive)(setq gri*view-scale "1"))
+         :active (not (equal gri*view-scale "1"))]
+        ["2" 
+         (list 'lambda () (interactive)(setq gri*view-scale "2"))
+         :active (not (equal gri*view-scale "2"))]
+        ["4" 
+         (list 'lambda () (interactive)(setq gri*view-scale "3"))
+         :active (not (equal gri*view-scale "3"))]
+        ["8" 
+         (list 'lambda () (interactive)(setq gri*view-scale "4"))
+         :active (not (equal gri*view-scale "4"))]
+        ["10" 
+         (list 'lambda () (interactive)(setq gri*view-scale "5"))
+         :active (not (equal gri*view-scale "5"))]
+        )
+       ["Print existing PostScript"     gri-print t]
+       ))))
+  (easy-menu-define
+   gri-mode-menu1 gri-mode-map "Menu keymap for gri-mode."
+   '("Format/Syntax" 
+     ["Complete gri command"          gri-complete t]
+     ["Select option under point"     gri-option-select t]
+     ["Kill option under point"       gri-kill-option t]
+     ["Add Comment to current line"   gri-comment t]
+     ["Insert file head as a comment" gri-insert-file-as-comment t]
+     ["Indent current line"           gri-indent-line t]
+     ["Indent selected region"        gri-indent-region t]
+     ["Indent entire buffer"          gri-indent-buffer t]
+     ["Comment-out region"            gri-comment-out-region t]
+     ["Uncomment-out region"          gri-uncomment-out-region t]
+     ["Create function skeleton"      gri-function-skeleton t]
+     ["Fontify buffer"              gri-fontify-buffer t]
+     ["Display version of gri/info"   gri-what-version t]
+     ["Set gri version to use locally" gri-set-local-version t]
+     ["Set gri version to use"        gri-set-version t]
+     )))
+;;; Old code follows.
+;;; FIXME: Delete this old code when I'm happy the above works well.
+ ((string-match "XEmacs\\|Lucid" emacs-version)
+  ;;Insert XEmacs stuff here
+  ;;FIXME: See functions in XEmacs' outline.el to (de)install many menus
+  ;;FIXME:  from the top level.
+  (setq gri-menubar
+    '("Gri" ("Format/Syntax" 
+       ["Set gri version to use"        gri-set-version t]
+       ["Set gri version to use locally" gri-set-local-version t]
+       ["Display version of gri/info"   gri-what-version t]
+       ["Fontify buffer"                gri-fontify-buffer t]
+       ["Create function skeleton"      gri-function-skeleton t]
+       ["Uncomment-out region"          gri-uncomment-out-region t]
+       ["Comment-out region"            gri-comment-out-region t]
+       ["Indent entire buffer"          gri-indent-buffer t]
+       ["Indent selected region"        gri-indent-region t]
+       ["Indent current line"           gri-indent-line t]
+       ["Insert file head as a comment" gri-insert-file-as-comment t]
+       ["Add Comment to current line"   gri-comment t]
+       ["Kill option under point"       gri-kill-option t]
+       ["Select option under point"     gri-option-select t]
+       ["Complete gri command"          gri-complete t]
+       )
+      ("Perform"
+       ["Print existing PostScript"     gri-print t]
+       ["View existing PostScript"      gri-view  t]
+       ["Save, Run and View gri"        gri-run t]
+       )
+      ("Hide/Show"
+       ["Remove function restriction"   widen t]
+       ["Restrict editing to function"  gri-narrow-to-function t]
+       ["Show all gri functions"        gri-show-all t]
+       ["Show this gri function"        gri-show-function t]
+       ["Hide all gri functions"        gri-hide-all t]
+       ["Hide this gri function"        gri-hide-function t]
+       )
+      ("Gri-Help"
+       ["List gri commands containing string" gri-help-apropos t]
+       ["Display syntax for current command"  gri-display-syntax t]
+       ["Gri Manual on WWW"                   gri-WWW-manual t]
+       ("InfoTopics"
+;;; Old way!
+;;;	["While Statements" (lambda () 
+;;;			      (interactive)(require 'info)
+;;;			      (Info-goto-node "(gri)While")) t]
+        ["While Statements"                   gri-info-while t]
+        ["If Statements"                      gri-info-if t]
+        ["Local Synonyms"                     gri-info-localSynonyms t]
+        ["About Synonyms"                     gri-info-synonyms t]
+        ["Built-in Variables"                 gri-info-builtInVariables t]
+        ["About Variables"                    gri-info-variables t]
+        ["Reverse Polish Math (rpn stuff)"    gri-info-rpn t]
+        ["Manipulating Columns"               gri-info-columns t]
+        ["Concept Index"                      gri-info-conceptIndex t]
+        )
+       ["Info about any command"              gri-info t]
+       ["Info about current command"          gri-info-this-command t]
+       ["Help about any command"              gri-help t]
+       ["Help about current command"          gri-help-this-command t]
+       ))))
+ ((and (>= emacs-major-version 19)
+       window-system)
+  ;; GNU emacs code
+  (define-key gri-mode-map [menu-bar help gri-help-apropos]
+    '(" List gri commands containing string " . gri-help-apropos))
+  (define-key gri-mode-map [menu-bar help gri-display-syntax]
+    '(" Display syntax for current command " .gri-display-syntax))
+  (define-key gri-mode-map [menu-bar help gri-WWW-manual]
+    '(" Gri Manual on WWW " . gri-WWW-manual))
+  (setq InfoTopics (make-sparse-keymap "InfoTopics"))
+  (define-key gri-mode-map [menu-bar help InfoTopics]
+    (cons " Info Special Topics ... " InfoTopics))
+  ;; could also do:
+  ;;   (define-key gri-mode-map [menu-bar help InfoTopics While] ...)
+  ;; like above, but I won't since I use this keymap again.
+  (define-key InfoTopics [While]
+    '(" While Statements " . (lambda () 
+                               (interactive)(require 'info)
+                               (Info-goto-node "(gri)While"))))
+  (define-key InfoTopics [If]
+    '(" If Statements " . (lambda () 
+                            (interactive)(require 'info)
+                            (Info-goto-node "(gri)If Statements"))))
+  (define-key InfoTopics [LocalSYN]
+    '(" Local Synonyms " . (lambda () 
+                             (interactive)(require 'info)
+                             (Info-goto-node "(gri)Local Synonyms"))))
+  (define-key InfoTopics [SYN]
+    '(" About Synonyms " . (lambda () 
+                             (interactive)(require 'info)
+                             (Info-goto-node "(gri)About Synonyms"))))
+  (define-key InfoTopics [BuiltinVAR]
+    '(" Built-in Variables " . (lambda () 
+                                 (interactive)(require 'info)
+                                 (Info-goto-node "(gri)Built-in Variables"))))
+  (define-key InfoTopics [VAR]
+    '(" About Variables " . (lambda () 
+                              (interactive)(require 'info)
+                              (Info-goto-node "(gri)About Variables"))))
+  (define-key InfoTopics [RPN]
+    '(" Reverse Polish Math (rpn stuff) " . (lambda () 
+                                              (interactive) (require 'info)
+                                              (Info-goto-node 
+                                               "(gri)rpn Mathematics"))))
+  (define-key InfoTopics [COL]
+    '(" Manipulating Columns " . (lambda () 
+                                   (interactive)(require 'info)
+                                   (Info-goto-node 
+                                    "(gri)Manipulation of Columns etc"))))
+  (define-key InfoTopics [Concept]
+    '(" Concept Index " . (lambda () 
+                            (interactive)(require 'info)
+                            (Info-goto-node "(gri)Concept Index"))))
+  (define-key gri-mode-map [menu-bar help gri-info]
+    '(" Info about any command " . gri-info))
+  (define-key gri-mode-map [menu-bar help gri-info-this-command]
+    '(" Info about current command " . gri-info-this-command))
+  (define-key gri-mode-map [menu-bar help gri-help]
+    '(" Help about any command " . gri-help))
+  (define-key gri-mode-map [menu-bar help gri-help-this-command]
+    '(" Help about current command " . gri-help-this-command))
+
+  (define-key gri-mode-map [menu-bar gri-Help]
+    (cons "gri-Help" (make-sparse-keymap "gri-Help")))
+  (define-key gri-mode-map [menu-bar gri-Help gri-help-apropos]
+    '(" List gri commands containing string " . gri-help-apropos))
+  (define-key gri-mode-map [menu-bar gri-Help gri-display-syntax]
+    '(" Display syntax for current command " . gri-display-syntax))
+  (define-key gri-mode-map [menu-bar gri-Help gri-WWW-manual]
+    '(" Gri Manual on WWW " . gri-WWW-manual))
+  (define-key gri-mode-map [menu-bar gri-Help InfoTopics]
+    (cons " Info Special Topics ... " InfoTopics))
+  (define-key gri-mode-map [menu-bar gri-Help gri-info]
+    '(" Info about any command " . gri-info))
+  (define-key gri-mode-map [menu-bar gri-Help gri-info-this-command]
+    '(" Info about current command " . gri-info-this-command))
+  (define-key gri-mode-map [menu-bar gri-Help gri-help]
+    '(" Help about any command " . gri-help))
+  (define-key gri-mode-map [menu-bar gri-Help gri-help-this-command]
+    '(" Help about current command " . gri-help-this-command))
+
+  (define-key gri-mode-map [menu-bar Hide/Show]
+    (cons "Hide/Show" (make-sparse-keymap "Hide/Show")))
+  (define-key gri-mode-map [menu-bar Hide/Show widen]
+    '(" Remove function restriction " . widen))
+  (define-key gri-mode-map [menu-bar Hide/Show gri-narrow-to-function]
+    '(" Restrict editing to function " . gri-narrow-to-function))
+  (define-key gri-mode-map [menu-bar Hide/Show gri-show-all]
+    '(" Show all gri functions " . gri-show-all))
+  (define-key gri-mode-map [menu-bar Hide/Show gri-show-function]
+    '(" Show this gri function " . gri-show-function))
+  (define-key gri-mode-map [menu-bar Hide/Show gri-hide-all]
+    '(" Hide all gri functions " . gri-hide-all))
+  (define-key gri-mode-map [menu-bar Hide/Show gri-hide-function]
+    '(" Hide this gri function " . gri-hide-function))
+
+  (define-key gri-mode-map [menu-bar Perform]
+    (cons "Perform" (make-sparse-keymap "Perform")))
+  (define-key gri-mode-map [menu-bar Perform gri-print]
+    '(" Print existing PostScript " . gri-print))
+  (define-key gri-mode-map [menu-bar Perform gri-view]
+    '(" View existing PostScript " . gri-view))
+  (define-key gri-mode-map [menu-bar Perform gri-gv-scale-selection] 
+    '(cons "gv" (make-sparse-keymap "gv")))
+  (define-key gri-mode-map [menu-bar Perform gri-run]
+    '(" Save, Run and View gri " . gri-run))
+
+  (define-key gri-mode-map [menu-bar Format/Syntax]
+    (cons "Format/Syntax" (make-sparse-keymap "Format/Syntax")))
+  (define-key gri-mode-map [menu-bar Format/Syntax gri-set-local-version]
+    '(" Set gri version to use locally " . gri-set-local-version))
+  (define-key gri-mode-map [menu-bar Format/Syntax gri-set-version]
+    '(" Set gri version to use " . gri-set-version))
+  (define-key gri-mode-map [menu-bar Format/Syntax gri-what-version]
+    '(" Display versions of gri and info " . gri-what-version))
+  (define-key gri-mode-map [menu-bar Format/Syntax gri-fontify-buffer]
+    '(" Fontify the buffer " . gri-fontify-buffer))
+  (define-key gri-mode-map [menu-bar Format/Syntax gri-function-skeleton]
+    '(" Create a new function skeleton " . gri-function-skeleton))
+  (define-key gri-mode-map [menu-bar Format/Syntax gri-uncomment-out-region]
+    '(" Uncomment-out region " . gri-uncomment-out-region))
+  (define-key gri-mode-map [menu-bar Format/Syntax  gri-comment-out-region]
+    '(" Comment-out region " . gri-comment-out-region))
+  (define-key gri-mode-map [menu-bar Format/Syntax gri-indent-buffer]
+    '(" Indent entire buffer " . gri-indent-buffer))
+  (define-key gri-mode-map [menu-bar Format/Syntax gri-indent-region]
+    '(" Indent selected region " . gri-indent-region))
+  (define-key gri-mode-map [menu-bar Format/Syntax gri-indent-line]
+    '(" Indent current line " . gri-indent-line))
+  (define-key gri-mode-map [menu-bar Format/Syntax gri-insert-file]
+    '(" Insert file head as a comment " . gri-insert-file-as-comment))
+  (define-key gri-mode-map [menu-bar Format/Syntax gri-comment]
+    '(" Add Comment to current line " . gri-comment))
+  (define-key gri-mode-map [menu-bar Format/Syntax gri-kill-option]
+    '(" Kill option under point " . gri-kill-option))
+  (define-key gri-mode-map [menu-bar Format/Syntax gri-option-select]
+    '(" Select option under point " . gri-option-select))
+  (define-key gri-mode-map [menu-bar Format/Syntax gri-complete]
+    '(" Complete gri command " . gri-complete))))
+
+;;(defvar gri::toolbar-run-icon
+;;  (if (featurep 'toolbar)
+;;      (toolbar-make-button-list "/home/rhogee/gri.xpm" "Run Gri")))
+
+
+(cond 
+ ((featurep 'toolbar)
+  (defvar gri::toolbar-run-icon
+    (toolbar-make-button-list
+     "/* XPM */
+static char *magick[] = {
+/* columns rows colors chars-per-pixel */
+\"32 32 4 1\",
+\"  c #f9fbff\",
+\". c #d6dae4\",
+\"X c #97999e\",
+\"o c #343434\",
+/* pixels */
+\"                                \",
+\"                                \",
+\"                                \",
+\"   Xooooooooooooooooooooooooo.  \",
+\"    XX......................XX  \",
+\"    XX......................XX  \",
+\"    XX......................XX  \",
+\"    XX......................XX  \",
+\"    XX......................XX  \",
+\"   XoX......................XX  \",
+\"    oX......................XX  \",
+\"    XX......................XX  \",
+\"    XX......................XX  \",
+\"    XX.....ooooX........o...XX  \",
+\"   .oX .X X . oo........oX..XX  \",
+\"   .oX..o......o........X...XX  \",
+\"    XX.o....................XX  \",
+\"    XX.o....................XX  \",
+\"    XXXo.........XXX..X.XX..XX  \",
+\"    XXXo.........XXo..oXoo..XX  \",
+\"   .oX.o.....X.....o.....o..XX  \",
+\"   .oXXo.....ooo...o....Xo..XX  \",
+\"    XX.oX.....Xo...o....Xo..XX  \",
+\"    XX.Xo.... Xo...o....Xo..XX  \",
+\"    XX..oooXXXXX..XXXX..XXX.XX  \",
+\"    XX....XXXXXX..XXXX..XX..XX  \",
+\"   .ooXXXXXXXXXXXXXXXXXXXXXXoX  \",
+\"   .ooXXXXoXXXXXoXXXXXooXXXXoX  \",
+\"                                \",
+\"                                \",
+\"                                \",
+\"                                \"
+};")
+    "Run Gri")
+
+  (setq gri-mode-toolbar 
+	(append 
+	 initial-toolbar-spec 
+	 '([gri::toolbar-run-icon gri-run t "Run Gri"])))))
+
+;; Gri Mode
+(defun gri-mode ()
+  "Major mode for editing and running Gri files. 
+V2.16 (c) 16 Apr 2000 --  Peter Galbraith <GalbraithP@dfo-mpo.gc.ca>
+COMMANDS AND DEFAULT KEY BINDINGS:
+   gri-mode                           Enter Gri major mode.
+ Running Gri; viewing output:
+   gri-run               C-c C-r      Run gri on this file, and view result.
+   gri-view              C-c C-v      Run ghostview on the existing .ps file.
+   gri-print             C-c C-p      Print gri .ps file.
+ To insert and edit full syntax:
+   gri-complete          M-Tab        Complete abbreviated gri command.
+   gri-next-option       C-c C-n      Goto to next option, string or variable.
+   gri-kill-option       C-c C-k      Deletes gri syntax within brackets.
+   gri-option-select     C-c C-o      Selects gri optional syntax.
+   gri-close-statement   C-c ]        Closes a gri statement (if, while, open)
+ To obtain help or find commands:
+   gri-help-apropos      C-c C-a      Display commands containing keyword.
+   gri-display-syntax    C-c C-d      Display syntax for command on point.
+   gri-help-this-command C-c C-h      Help about user/system command on point.
+   gri-help              C-c M-h      Help about prompted-for command.
+   gri-info-this-command C-c C-i      Info about system command on point.
+   gri-info              C-c M-i      Info about prompted-for command.
+   gri-WWW-manual        C-c C-w      World Wide Web gri manual.
+   gri-set-version       C-c M-v      Displays version numbers of databases.
+   describe-mode         C-c ?        Displays help about gri mode.
+ Indenting/formatting gri code:
+   gri-function-skeleton C-c C-f      Add skeleton for a new function. 
+   gri-narrow-to-function 
+                         C-c M-n      Narrow editing region to function.
+                        (C-x n w      Widens editing region back to normal)
+   gri-comment           M-;          Add comment to current line.
+   gri-insert-file-as-comment 
+                         C-c C-x      Insert filename under point as a comment.
+   gri-indent-line       Tab          Indent line for structure.
+   gri-indent-region     M-q          Indent all lines between point and mark.
+   gri-indent-buffer     M-C-v        Indent all lines in buffer.
+   gri-comment-out-region             To avoid running a block of code.
+   gri-uncomment-out-region           To undo previous command
+   gri-fontify-buffer    S-C-l        Fontify the buffer with font-lock/hilit19
+   gri-return            RET          Handle return with indenting.
+ To use multiple versions of Gri installed on the system
+   gri-set-local-version              Set version of gri for this file only.
+   gri-unset-local-version            Unset and use default value instead.
+   gri-set-version                    Change version of gri used in gri-mode.
+ To convert comment styles
+   gri-convert-comments               Convert Gri // and /* */ comments to #
+   gri-convert-comments-with-prompt   A function to put in a gri-mode-hook.
+ To use outline-minor-mode to hide gri functions:
+   gri-hide-function     C-c M-h      Hides the gri function under point.
+   gri-hide-all          C-c M-H      Hides all gri functions in buffer.
+                   ESC 1 C-c M-h       (ESC 1 prefixes a true argument)
+   gri-show-function     C-c M-s      Shows the gri function on current line.
+   gri-show-all          C-c M-S      Shows all gri functions in buffer.
+                   ESC 1 C-c M-s       
+ Misc debugging commands:
+   gri-command-arguments              Tell gri-run about extra arguments to use
+--
+
+VARIABLES:
+  gri*directory-tree                New path to gri installation with versions.
+  gri*view-after-run                t or nil, view ps file after gri-run if t.
+  gri*view-command                  String for shell command used by gri-view.
+  gri*view-landscape-arg            String for landscape argument in gri-view. 
+  gri*lpr-command                   Command used to print PostScript files.
+  gri*lpr-switches                  print command switches to use
+  gri*WWW-program                   String for local WWW browser program.
+  gri*WWW-page                      Page to use by browser
+  fill-column                       Column used in auto-fill (default=70).
+  gri-comment-column                Goal column for on-line comments.
+  gri*hilit-before-return           If true, highlight current line on <CR>
+  gri-indent-before-return          If true, indent current line on <CR>
+  gri-indent-level                  Level to indent blocks.
+  gri-new-command-help-indent-level Level to indent help in new commands.
+
+  gri*use-hilit19                   t or nil, use hilit19 without warning.
+  gri*hilit-declarations            t or nil, highlight variable and synonym
+                                      declarations with hilit19.
+  gri*hilit-variables               t or nil, hilit all variables and synonyms
+  gri*hilit-rpn-contents            t or nil, hilit contents of rpn expressions
+
+ACCESSING:  
+To add automatic support put something like the following in your .emacs file:
+  (autoload 'gri-mode \"gri-mode\" \"Enter Gri-mode.\" t)
+  (setq auto-mode-alist (cons '(\"\\\\.gri$\" . gri-mode) auto-mode-alist))
+If gri is installed in a non-standard place, then you'll need something like:
+  (setq gri*directory-tree \"/home/opt/gri/\") ;Path to our gri installation
+ See C-h v gri*directory-tree to find out more.
+ 
+And optionally, customize the mode in your .emacs file:
+  (setq gri*lpr-switches \"-P laser\")    ; Select a printer
+  (setq gri*view-command \"ghostview -magstep -1\") ;for small screens
+  (setq gri*view-after-run nil)         ;Don't call gri-view after gri-run.
+  (setq gri*WWW-program \"xmosaic\")      ;Our local WWW browser program
+  (setq gri*hilit-declarations nil)     ;Don't highlight declarations
+  (setq gri*hilit-variables t)          ;hilit all variables and synonyms
+  (setq gri*hilit-rpn-contents t)       ;hilit contents of {rpn expressions}
+  (setq gri*hilit-before-return t)      ;auto-highlight current line on <CR>
+  (setq gri-indent-before-return t)     ;Indent current line on <CR>
+  (setq gri-mode-hook                   ;Hook gets invoked after gri-mode
+       '(lambda () 
+          (gri-hide-all t)              ;Hide gri functions on C-x C-f file.gri
+          (setq fill-column 74)))       ;Set fill column for gri buffers
+
+SEE ALSO: help about gri-complete (C-h f gri-complete)
+
+KNOWN BUGS:
+   gri-help-this-command
+     Can't find help on hidden user commands.
+   gri-complete
+     *completions* buffer lies: you can't use the mouse to make a selection.
+      Completions relies on entire line, not just up to the editing point.
+   gri-show-all, gri-hide-all
+      May get confused if you have a string which looks like a function
+      title in your function's help text (i.e. a line which begins with
+      a ` character and ends with a ' character.
+
+PLANNED ADDITIONS:
+   Fix bugs!
+   Make gri-complete able to complete to options.
+   Add mouse support to make selection in *completions* buffer.
+   Add mouse support to select and kill options."
+  (interactive)
+  (kill-all-local-variables)
+  (use-local-map gri-mode-map)
+  (setq major-mode 'gri-mode)
+  (setq mode-name "gri")
+  (set-syntax-table gri-mode-syntax-table)
+
+  ;; Paragraph definitions
+  (make-local-variable 'paragraph-start)
+  (setq paragraph-start (concat "^$\\|" page-delimiter))
+  (make-local-variable 'paragraph-separate)
+  (setq paragraph-separate paragraph-start)
+  (make-local-variable 'paragraph-ignore-fill-prefix)
+  (setq paragraph-ignore-fill-prefix t)
+
+  ;; Indentation
+  (make-local-variable 'indent-line-function)
+  (setq indent-line-function 'gri-indent-line)
+
+  ;; Comments
+  (make-local-variable 'comment-start-skip)  ;Need this for font-lock...
+  (setq comment-start-skip "\\(^\\|\\s-\\);?#+ *") ;;From perl-mode
+  ;(setq comment-start-skip "\\(#\\) *")
+  (make-local-variable 'comment-start)
+  (make-local-variable 'comment-end)
+  (setq comment-start "#"
+        comment-end "")
+  (make-local-variable 'comment-column)
+  (setq comment-column 'gri-comment-column)
+  (make-local-variable 'comment-indent-hook)
+  ;; See (Node: Options for Comments)  
+  (setq comment-indent-hook 'gri-comment-indent)
+  (make-local-variable 'fill-column)
+  (setq fill-column default-fill-column)
+  (make-local-variable 'auto-fill-hook)
+  (setq auto-fill-hook 
+        '(lambda () 
+           (insert "\\\n"))) 
+
+  (gri-font-lock-setup)
+
+  ;; Local version
+  (make-local-variable 'gri-local-version)
+
+  ;; Gri-mode's own completion mechanisms
+  (make-local-variable 'gri-last-complete-point)
+  (setq gri-last-complete-point -1)
+  (make-local-variable 'gri-last-complete-command)
+  (setq gri-last-complete-command "")
+  (make-local-variable 'gri-last-complete-status)
+  (setq gri-last-complete-status 0)
+
+  (make-local-variable 'require-final-newline)
+  (setq require-final-newline t)
+
+  ;; Outlininng
+  ;;(require 'outline)  this is not provided in emacs 18.59
+  (if (not (fboundp 'hide-body))
+      (load "outline" t t))
+  (make-local-variable 'outline-regexp)
+  (cond 
+   ((> emacs-major-version 19)
+    (make-local-variable 'line-move-ignore-invisible)
+    (setq line-move-ignore-invisible t)
+    (if (fboundp 'add-to-invisibility-spec)
+        (progn
+          (add-to-invisibility-spec '(hs . t)) ;;hs invisible
+          (add-to-invisibility-spec '(outline . t))))
+    (setq outline-regexp "^`.*'\n"))
+   (t
+    (setq selective-display t
+          selective-display-ellipses t)
+    (setq outline-regexp "^`.*'[\n\^M]")))
+  (gri-show-all)                        ; show all before adding commands
+  ;; Adds this buffer's local commands to gri-syntax
+  (if (get-buffer "*gri-syntax*")
+      (save-excursion
+        (goto-char (point-min))
+        (gri-add-commands-from-current-buffer nil 
+                                              (get-buffer "*gri-syntax*"))))
+  (and (boundp 'gri-menubar)
+       gri-menubar
+       (fboundp 'add-submenu)     ;Insurance for emacs
+       (set-buffer-menubar (copy-sequence current-menubar))
+       (add-submenu nil gri-menubar))
+  (and (boundp 'gri-mode-menu1)
+       gri-mode-menu1
+       (fboundp 'add-submenu)     ;Insurance for emacs
+       (set-buffer-menubar (copy-sequence current-menubar))
+       (add-submenu nil gri-mode-menu1)
+       (add-submenu nil gri-mode-menu2)
+       (add-submenu nil gri-mode-menu3)
+       (add-submenu nil gri-mode-menu4))
+  (if (and (featurep 'toolbar)
+	   (console-on-window-system-p))
+      (set-specifier default-toolbar (cons (current-buffer) gri-mode-toolbar)))
+  
+  ;; FIXME: See other FIXME comments above about installing multiple menus.
+
+  ;; Figure Out what version of gri to use, where to call it
+  (hack-local-variables)
+  (gri-initialize-version t)
+  (run-hooks 'gri-mode-hook))
+
+(defun gri-determine-local-version ()
+  (save-excursion
+    (goto-char (point-max))
+    (if (and (re-search-backward "\\(//\\|#\\) Local Variables:" nil t)
+             (re-search-forward  "\\(//\\|#\\) gri-local-version: \"\\(.*\\)\""
+                                nil t))
+        (buffer-substring (match-beginning 1) (match-end 1)))))
+
+(defun gri-comment ()
+  "Add a comment to the following line, or format if one already exists."
+  (interactive)
+  (cond
+   ((gri-empty-line)
+    (gri-indent-line)
+    (insert "# "))
+   ((gri-comment-line-only)
+    (save-excursion
+      (beginning-of-line)
+      (delete-horizontal-space)
+      (indent-to (gri-calc-indent))))
+   ((gri-comment-line-after-command)
+    (save-excursion
+      (beginning-of-line)
+      (if (re-search-forward "//" (save-excursion (end-of-line)(point)) t)
+          (backward-char 2))
+      (if (re-search-forward "#" (save-excursion (end-of-line)(point)) t)
+          (backward-char 1))
+      (re-search-backward "[^ \t]" (save-excursion (beginning-of-line)(point))
+                          t)
+      (forward-char)
+      (delete-horizontal-space)
+      (if (< (current-column) gri-comment-column)
+          (indent-to gri-comment-column)
+        (insert " "))))
+   (t
+    (end-of-line)
+    (re-search-backward "[^ \t^]" 0 t)
+    (forward-char)
+    (delete-horizontal-space)
+    (if (< (current-column) gri-comment-column)
+        (indent-to gri-comment-column)
+      (insert " "))
+    (insert "# "))))
+
+(defun gri-indent-line ()
+  "Indent a line and its comments in Gri-mode.
+
+gri `system' commands do not get their comments indented, since the // string
+ is legal within a system command. 
+ e.g. system sed -e \"s/'N//g;s/'W//g;\" gpsfile > gps.tmp
+  to remove 'N and 'W strings from a lat-lon file.
+
+`system any-command <<\"EOF\"' lines are treated specially.
+If the editing point is on the first column, then gri-indent-line will
+indent the line and skip over the text before the ending EOF.
+This means that gri-indent-buffer and gri-indent-region will skip
+over system scripts."
+  (interactive)
+  (save-excursion
+    (beginning-of-line)
+    (delete-horizontal-space)
+    (indent-to (gri-calc-indent))
+    (if (and (not (gri-system-line))
+             (gri-comment-line-after-command))
+        (gri-comment)))
+  (if (looking-at "^[ \t]*system[^$]*<<\"EOF\"")
+      (re-search-forward "^[ \t]*EOF" nil t))
+  (skip-chars-forward " \t"))
+
+(defun gri-system-line ()
+  "Returns t if current line is, or is continued from, a system command"
+  (save-excursion
+    (beginning-of-line)
+    (while (save-excursion (and (= 0 (forward-line -1)) 
+                                (gri-continuation-line)))
+      (forward-line -1))
+    (looking-at "[ \t]*\\(\\\\[^ ]+[ ]+=[ ]+\\)?system")))
+
+(defun gri-line-type ()
+  "Display type of current line.  Used in debugging."
+  (interactive)
+  (cond
+   ((gri-empty-line)
+    (message "gri-line-type: empty-line"))
+   ((gri-new-command-name-line)
+    (message "gri-line-type: new-command-name-line"))
+   ((gri-new-command-syntax-start-line)
+    (message "gri-line-type: new-command-syntax-start-line"))
+   ((gri-new-command-syntax-end-line)
+    (message "gri-line-type: new-command-syntax-end-line"))
+   ((gri-comment-line)
+    (message "gri-line-type: comment-line"))
+   ((gri-continuation-line)
+    (message "gri-line-type: continuation-line"))
+   ((gri-block-beg-end-line)
+    (message "gri-line-type: block-beg-end-line"))
+   ((gri-block-beg-line)
+    (message "gri-line-type: block-beg-line"))
+   ((gri-block-end-line)
+    (message "gri-line-type: block-end-line"))
+   (t
+    (message "gri-line-type: other"))))
+
+(defun gri-indent-type ()
+  "Display type of current or previous nonempty line.  Used in debugging."
+  (interactive)
+  (message (concat "gri-ident-type: " gri-last-indent-type)))
+
+(defun gri-fill-region (from to)
+  "Fill the region of comments."
+  (interactive "r")
+  (message "gri-fill-region not implemented yet."))
+
+(defvar gri-last-indent-type "unknown"
+  "String to tell line type.")
+
+(defun gri-calc-indent ()
+  "Return the appropriate indentation for this line as an int."
+  (let ((indent 0)(here-point (point)))
+    (save-excursion
+      (while (and (= 0 (forward-line -1)) (gri-empty-line)))
+      (cond
+       ((= here-point (point)))      ;; we din't move, so beginning of file. 
+       ((gri-continuation-line)      ;; has \ at the end of line
+        ;; PSG -- if first continued line then increase indentation,
+        ;;        if continued from yet another continued line, then don't.
+        (setq gri-last-indent-type "continuation")
+        (save-excursion
+          (if (or (= -1 (forward-line -1)) (not (gri-continuation-line)))
+              (setq indent (+ indent (* 1 gri-indent-level))))))
+       (t
+        ;; PSG -- not a continuation line, but could be the end of a 
+        ;;        continuation, so move up until it's previous line is not a
+        ;;        continuation line (start of command) to base indentation.
+        (while (and (save-excursion
+                     (and (= 0 (forward-line -1)) (gri-continuation-line)))
+                    (= 0 (forward-line -1))))
+        (cond
+         ((gri-new-command-name-line)
+          (setq gri-last-indent-type "new-command-name")
+          (setq indent gri-new-command-help-indent-level))
+         ((gri-new-command-syntax-start-line)
+          (setq gri-last-indent-type "new-command-syntax-start")
+          (setq indent gri-indent-level))
+         ((gri-new-command-syntax-end-line)
+          (setq gri-last-indent-type "new-command-syntax-end")
+          (setq indent (- indent gri-indent-level)))
+         ((gri-comment-line) 
+          (setq gri-last-indent-type "comment"))
+         ((gri-block-beg-end-line)
+          (setq gri-last-indent-type "block begin-end"))
+         ((gri-block-beg-line)
+          (setq gri-last-indent-type "block begin")
+          (setq indent gri-indent-level))
+         (t
+          (setq gri-last-indent-type "other")))))
+      (setq indent (+ indent (current-indentation))))
+    (if (and (gri-block-end-line) (not (gri-system-line)))
+	(setq indent (- indent gri-indent-level)))
+    (if (gri-new-command-syntax-start-line)
+	(setq indent 0))
+    (if (gri-new-command-syntax-end-line)
+	(setq indent 0))
+    (if (< indent 0) 
+        (setq indent 0))
+    indent))
+
+
+(defun gri-empty-line ()
+  "Returns t if current line is empty."
+  (save-excursion
+    (beginning-of-line)
+    (looking-at "^[ \t]*$")))
+
+(defun gri-new-command-name-line ()
+  "Returns t if current line is a Gri new-command-name line; that is,
+if it begins with ` and ends with '."
+    (and
+     (save-excursion
+       (beginning-of-line)
+       (skip-chars-forward " \t")
+       (looking-at "`"))
+     (save-excursion
+       (end-of-line)
+       (backward-char)
+       (looking-at "'"))))
+
+(defun gri-new-command-syntax-start-line ()
+  "Returns t if current line is a left brace, indicating the start of 
+syntax for a new Gri command."
+  (save-excursion
+    (beginning-of-line)
+    (skip-chars-forward " \t")
+    (looking-at "{\n")))
+
+(defun gri-new-command-syntax-end-line ()
+  "Returns t if current line is a right brace, indicating the end of 
+syntax for a new Gri command."
+  (save-excursion
+    (beginning-of-line)
+    (skip-chars-forward " \t")
+    (looking-at "}\n")))
+
+(defun gri-comment-line ()
+  "Returns t if current line is a Gri comment line."
+  (save-excursion
+    (beginning-of-line)
+    (skip-chars-forward " \t")
+    (looking-at "\\(//\\|#\\)")))
+
+(defun gri-comment-line-only ()
+  "Returns t if current line is only a Gri comment line"
+  (save-excursion
+    (beginning-of-line)
+    (looking-at "[ \t]*\\(//\\|#\\)")))
+
+(defun gri-comment-line-after-command ()
+  "Returns t if current line contains a Gri comment after a command line"
+  (save-excursion
+    (beginning-of-line)
+    (looking-at ".+\\(//\\|#\\).*$")))
+
+(defun gri-continuation-line ()
+  "Returns t if current line ends in \\."
+  (save-excursion
+    (beginning-of-line)
+    (re-search-forward "\\\\$" (gri-eoln-point) t)))
+
+(defun gri-eoln-point ()
+  "Returns point for end-of-line in Gri-mode."
+  (save-excursion
+    (end-of-line)
+    (point)))
+
+(defun gri-block-beg-line ()
+  "Returns t if line contains beginning of Gri block."
+  (save-excursion
+    (beginning-of-line)
+    (skip-chars-forward " \t")
+    (looking-at gri-block-beg-kw)))
+
+(defconst gri-block-beg-kw "\\(if\\|else\\|else if\\|while\\)"
+  "Regular expression for keywords which begin blocks in Gri-mode.")
+
+(defun gri-block-end-line ()
+  "Returns t if line contains end of Gri block."
+  (save-excursion
+    (beginning-of-line)
+    (skip-chars-forward " \t")
+    (looking-at gri-block-end-kw)))
+
+(defconst gri-block-end-kw "\\(\\end if\\|else\\|end while\\)"
+  "Regular expression for keywords which end blocks.")
+
+(defun gri-block-beg-end-line ()
+  "Returns t if line contains matching block begin-end in Gri-mode."
+  (save-excursion
+    (beginning-of-line)
+    (looking-at (concat
+                 "\\([^[//]\n]*[ \t]\\)?" gri-block-beg-kw 
+                 "." "\\([^[//]\n]*[ \t]\\)?" gri-block-end-kw))))
+
+(defun gri-comment-on-line ()
+  "Returns t if current line contains a comment."
+  (save-excursion
+    (beginning-of-line)
+    (looking-at "[^\n]*\\(//\\|#\\)")))
+
+(defun gri-in-comment ()
+  "Returns t if point is in a comment."
+  (save-excursion
+    (and (/= (point) (point-max)) (forward-char))
+    (re-search-backward "\\(//\\|#\\)" 
+                        (save-excursion (beginning-of-line) (point)) t)))
+
+(defun filename-sans-gri-suffix (name)
+  "Return FILENAME sans .gri suffix.  
+If FILENAME does not end in `.gri', return FILENAME."
+  (substring name 0
+	     (or (string-match ".gri\$" name)
+	 (length name))))
+
+;; Setup auto-mode-alist
+(if (not (assoc '"\\.gri$" auto-mode-alist))
+    (setq auto-mode-alist (cons '("\\.gri$" . gri-mode) auto-mode-alist)))
+
+(provide 'gri-mode)
+;;; gri-mode.el ends here

@@ -1,0 +1,55 @@
+<html>
+<head>
+<title>6/example.gri</title>
+</head>
+<body>
+<pre>
+<i>// Example 6 -- World Map (Black/White)</i>
+<i>//</i>
+<i>// Contributed 30 August 1994 by Dan Kelley <Dan.Kelley@Dal.Ca>.</i>
+
+.xleft.  = 0                    <i>// may also put -180</i>
+.xright. = 360                  <i>// may also put  180</i>
+
+set x name <u>""</u>
+set y name <u>""</u>
+set x axis .xleft. .xright. 45 5
+set y axis  -90  90 45 5
+.m. = 2				<i>// margin</i>
+set x format %g$\circ$
+set y format %g$\circ$
+set x margin .m.
+set y margin .m.
+set x size {rpn 8.5 2.54 * .m. 2 * -}
+resize y for maps
+draw axes
+
+set clip postscript on
+open /users/dek/kelley/data/Coastline/coast_rough2.nc netCDF
+read \{lat:_FillValue}
+set missing value \{lat:_FillValue}
+read columns x=<u>"lon" y="lat"</u>
+close
+draw curve
+quit
+open /users/dek/kelley/data/Coastline/rough/lakes.nc netCDF
+read columns x=<u>"lon" y="lat"</u>
+close
+set color white
+draw curve filled
+set graylevel black
+draw curve
+
+open /users/dek/kelley/data/Coastline/rough/land_in_lakes.nc netCDF
+read columns x=<u>"lon" y="lat"</u>
+close
+set graylevel 0.8
+draw curve filled
+set color black
+draw curve
+
+set clip postscript off
+draw axes frame
+</pre>
+</body>
+</html>
