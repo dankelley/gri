@@ -1,5 +1,5 @@
 Summary: A language for scientific illustration
-%define griversion 2.10.0
+%define griversion 2.10.1
 Name: gri
 Version: %{griversion}
 Release: 1
@@ -96,6 +96,12 @@ then
 fi
 
 %changelog
+* Wed May 30 2002  Dan Kelley <Dan.Kelley@Dal.Ca>
+- Version 2.10.1
+- Fix Sourceforge bug 562014 (won't build if popt library is unavailable)
+- Fix SourceForge bug 558463 (in HTML docs, the ``press'' margin tag was misdirected)
+- Fix SourceForge bug 562017 (parser fails with DOS end-of-line)
+
 * Tue May 07 2002  Dan Kelley <Dan.Kelley@Dal.Ca>
 - Version 2.10.0
 

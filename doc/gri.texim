@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.189 2002/05/18 14:30:30 dankelley Exp $
+@c $Id: gri.texim,v 1.190 2002/05/29 19:32:02 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -55,8 +55,8 @@
 @comment %**start of header
 @setfilename gri.info
 @settitle Gri
-@set GRI-VERSION 2.10.0
-@set GRI-PREVIOUS-VERSION 2.8.7
+@set GRI-VERSION 2.10.1
+@set GRI-PREVIOUS-VERSION 2.10.0
 @set AUTHOR-EMAIL Dan.Kelley@@Dal.CA
 @c %**end of header
 @iftex
@@ -16257,6 +16257,38 @@ only in the fixing of bugs.
 @comment  node-name,  next,  previous,  up
 @subsection Version 2.10
 @cindex version 2.10
+
+@subsubsection Version 2.10.1 [2002 May 30] 
+
+@strong{Bug Fixes}
+
+@itemize
+
+@item
+Fix SourceForge bug
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=562014&group_id=5511&atid=105511">
+#562014
+@c HTML </a>
+(won't build if @code{popt} library is unavailable)
+
+@item
+Fix SourceForge bug
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=558463&group_id=5511&atid=105511">
+#558463
+@c HTML </a>
+(in HTML docs, the ``press'' margin tag was misdirected)
+
+@item
+Fix SourceForge bug
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=562017&group_id=5511&atid=105511">
+#562017
+@c HTML </a>
+(parser fails with DOS end-of-line)
+
+
+@end itemize
+
+
 
 @subsubsection Version 2.10.0 [2002 May 20] 
 (Victoria Day Holiday, Canada.)
