@@ -1204,8 +1204,10 @@ Gri stores the commands in the PostScript file as specially-marked
 comments that can be retrieved and decoded later.
 
 Note that the commands are stored in the PostScript file at the time of
-parsing, not at the time of executation.  Also, @code{insert}
-(@ref{Insert}) threads are not traces.
+parsing, not at the time of execution.  Also, @code{insert}
+(@ref{Insert}) threads are not traced, at least in this version of Gri;
+if user demand for tracing continues, it will be added in a future
+version.
 
 
 @section Fixing a broken PostScript file
