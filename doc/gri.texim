@@ -10834,7 +10834,6 @@ it is easy to add new commands as extensions to Gri.
 * Debugging::                   Debugging Gri programs
 * Error Messages::              What to do about Gri error messages
 * Missing Values::              Missing value code
-* Interaction::                 Talking with user
 * Operating System::            Using Gri in OS and OS in Gri
 * Resource File::               Personalizing Gri
 @end menu
@@ -13298,6 +13297,7 @@ Gri provides so-called "newcommands" as a sort of subroutine syntax on steroids.
 * Changeable Command Arguments::  The &.var. and &\syn syntax
 @end menu
 
+@c HTML <!-- newfile PurposeOfSynonyms.html "Gri: Purpose of Synonyms" "Programming Gri" -->
 @node   Purpose, Parsing, Adding New Commands, Adding New Commands
 @comment  node-name,  next,  previous,  up
 @subsection Purpose of newcommands
@@ -13334,6 +13334,7 @@ a lot.  The following explains how you add new commands.  For advice on
 programming style, etc., (@ref{Resource File}).
 
 
+@c HTML <!-- newfile ParsingSynonyms.html "Gri: How synonyms are parsed" "Programming Gri" -->
 @node   Parsing, Simple New Command, Purpose, Adding New Commands
 @comment  node-name,  next,  previous,  up
 @subsection How Gri parses commands
@@ -13359,6 +13360,14 @@ An opening square bracket (e.g. @code{[option]})
 An opening brace (e.g.  @code{@{a|b@}})
 @item
 A choice between two items (e.g.  @code{first|second})
+@item
+A variable-name with a @code{&} character immediately to the left 
+(e.g. @code{&.var.}).  This is a signal that the variable may be 
+changed inside the newcommand (@ref{The Ampersand Syntax}).
+@item
+A synonym-name with a @code{&} character immediately to the left 
+(e.g. @code{&\syn}).  This is a signal that the synonym may be 
+changed inside the newcommand (@ref{The Ampersand Syntax}).
 @end itemize
 
 When Gri finds a command that matches your command line, it assumes that
@@ -13392,6 +13401,8 @@ to begin the words of your new command.  By convention, Gri never uses
 capital letters in this way, so a clash is impossible (except with any
 similar command you might have defined previously, such as in your
 @file{~/.grirc} file).
+
+@c HTML <!-- newfile SimpleNewCommand.html "Gri: creating a simple new command" "Programming Gri" -->
 
 @node   Simple New Command, Complicated New Command, Parsing, Adding New Commands
 @comment node-name,  next,  previous,  up
@@ -13448,6 +13459,8 @@ new command.
 The new command is invoked by @code{Show The Time}.  Help for the
 command is found by @code{help Show The Time} or @code{help Show}.
 
+
+@c HTML <!-- newfile ComplicatedNewCommand.html "Gri: creating a complicated new command" "Programming Gri" -->
 
 @node   Complicated New Command, Changeable Command Arguments, Simple New Command, Adding New Commands
 @comment node-name,  next,  previous,  up
@@ -13514,6 +13527,8 @@ super/subscripts.
 @end example
 
 
+@c HTML <!-- newfile ChangeableCommandArguments.html "Gri: making a newcommand change its arguments" "Programming Gri" -->
+
 @node   Changeable Command Arguments, The Ampersand Syntax, Complicated New Command, Adding New Commands
 @comment node-name,  next,  previous,  up
 @subsection Altering command arguments using pointers
@@ -13547,7 +13562,7 @@ Normally the arguments to a newcommand are parsed into either numerical
 values or strings, before execution is passed into the newcommand.  This
 is a akin to the scheme called "call by value" in some programming
 languages.  Gri also provides a syntax, borrowed from C++, that permits
-a newcommand to alter variable or synonym arguments.
+a newcommand to alter the contents of variable or synonym arguments.
 
 The technique is simple.  To permit a newcommand to modify an argument
 that is a variable or a synonym, just put a @code{&} to the left of the
@@ -13561,29 +13576,51 @@ the parser that the newcommand named @code{foo} may possibly alter the
 values of the variable @code{.var.} and the synonym @code{\syn}, as they
 exist in the calling context.
 
+It is important to note that Gri pays very little attention to the
+@code{&} in a syntax-declaration line.  All it does is to note that the
+item to the right of the @code{&} is not a fixed word in the newcommand
+being defined; this follows the usual rules for parsing newcommand syntax
+(@ref{Parsing}).
+
+
 @node   Doubling A Variable, Manipulating A Synonym, The Ampersand Syntax, Changeable Command Arguments
 @comment  node-name,  next,  previous,  up
 @subsubsection Example: doubling a variable
 
-For example, here is how to double the value of a variable and
-print its doubled value:
+Consider the task of adding a fixed amount to a variable.  If the
+variable we wish to double is @code{.x.}, we might write
 
 @example
-`double &.value.'                      # 1
-@{                                      # 2
-    \.word1. = @{rpn \.word1. 2 *@}      # 3
-@}                                      # 4
-.x. = 10                               # 5
-double &.x.                            # 6
-show .x.                               # 7
+`double x'
+@{ 
+    .x. = @{rpn .x. 2 *@}
+@}
+.x. = 10
+double x
 @end example
 
 @noindent
-(Note: the @code{&} in the syntax declaration of line 1 is provided as a
-signal to the reader that the argument is changeable; Gri does no
-checking of whether the actual argument in the call in line 7 uses the
-@code{&} as it should.)
+Code such as that presented above occurs in many applications.  (Turn
+the multiplication into an addition, and change @code{.x.} to
+@code{..ymargin..}, and you'll start to see the core of an application
+that draws multiple graph panels, one above another.)  However, the code
+is too specific to be of much general use!
 
+What if we want to double some other variable instead?  The code below
+shows how to do that.
+
+@example
+`double &.value.'
+@{
+    \.word1. = @{rpn \.word1. 2 *@}      # line 3
+@}
+.x. = 10                               # line 5
+double &.x.
+.y. = 3.14
+double &.y.
+@end example
+
+@noindent
 At line 3 Gri interprets the @code{\.word1.} to the @emph{left} of the
 equals sign as a reference to the variable that is set to the value 10
 in line 5.  Similarly, the @code{\.word1.} to the @emph{right} of the
@@ -13629,9 +13666,10 @@ A: it prints @code{test.dat}.
 @subsubsection Nesting
 
 One newcommand may call another, letting a deeply-nested newcommand
-alter global values, simply by using the @code{&} notation at each step.
-The following provides an example of passing a variable through two
-levels of newcommands.  
+alter values of synonyms and variables that may otherwise be hidden
+behind @code{new} items of the same name.  This is done by using the
+@code{&} notation at each step.  The following provides an example of
+passing a variable through two levels of newcommands.
 
 @noindent
 Q: what does the following print?
@@ -13644,7 +13682,7 @@ Q: what does the following print?
 @}                                  
 `yummy &foods'                      
 @{                                  
-    \.word1. = "\.word1.s are tasty" 
+    \.word1. = "\.word1. are tasty" 
 @}                                   
 \a = "apple"                         
 food critic &\a                      
@@ -13675,33 +13713,26 @@ For example, consider the following.
 Q: what does the following print?
 
 @example
-`poetry &\s'                           #  1
-@{                                      #  2
-    new \s                             #  3
-    \s = "rose"                        #  4
-    new \.word1.                       #  5
-    \.word1. = " is a \s"              #  6
-    delete \s                          #  7
-@}                                      #  8
-\s = "A rose "                         #  9
-poetry &\s                             # 10
-show "\s" ...                          # 11
-delete \s                              # 12
-show "\s" ...                          # 13
-delete \s                              # 14
-show "\s" ...                          # 15
-delete \s                              # 16
+`poetry &\s'
+@{
+    new \s                             # line 3
+    \s = "rose"
+    \.word1. = "\.word1. is a \s"      # line 5
+    delete \s                          # line 6
+@}
+\s = "A rose "                         # line 8
+poetry &\s
+show "\s"
 @end example
 
 @noindent
 A: it prints @code{A rose is a rose is a rose}.
 
-@noindent
-Note that line 3 and 4 create an instance of synonym internal to the
-newcommand, that shares the same name as the external synonym that was
-passed in as a changeable argument.  This internal synonym is entirely
-separate from the external synonym and may be safely considered as
-"scratch" storage space.
+The key point here is that the instance of the synonym named @code{\s}
+in the calling program, set in line 8, is modified by the @code{poetry}
+newcommand, in line 6.  This modification involves the use of a synonym,
+@emph{also named} @code{\s}, that "lives" wholly within the newcommand,
+being created in line 3 and destroyed in line 6.  
 
 
 @c HTML <!-- newfile Hints.html "Gri: Hints for Gri programming" "Programming Gri" -->
@@ -13816,6 +13847,10 @@ draw title "Atlantic water entering Arctic Ocean"
 draw title "\.command_file. \.time."
 @end example
 
+@item
+Use the @code{query} command to interact with the user (@ref{Query}).  The
+results can be stored in variables and synonyms.
+
 @end itemize
 
 
@@ -13928,7 +13963,7 @@ sure that a Gri bug must underly them.
 
 
 @c HTML <!-- newfile MissingValues.html "Gri: missing values" "Programming Gri" -->
-@node   Missing Values, Interaction, Error Messages, Programming
+@node   Missing Values, Operating System, Error Messages, Programming
 @comment  node-name,  next,  previous,  up
 @section Missing data
 @cindex data, missing values
@@ -13954,20 +13989,9 @@ since this would have the side-effect of making the datum no longer be
 considered missing.
 
 
-
-
-@c HTML <!-- newfile Interaction.html "Gri: interaction" "Programming Gri" -->
-
-@node   Interaction, Operating System, Missing Values, Programming
-@comment  node-name,  next,  previous,  up
-@section Interacting with the user
-Use the @code{query} command to interact with the user (@ref{Query}).  The
-results can be stored in variables and synonyms.
-
-
 @c HTML <!-- newfile OperatingSystem.html "Gri: operating system" "Programming Gri" -->
 
-@node   Operating System, Using OS Inside Gri, Interaction, Programming
+@node   Operating System, Using OS Inside Gri, Missing Values, Programming
 @comment  node-name,  next,  previous,  up
 @section Interaction Between Gri and Operating System
 @cindex awk, sample of use

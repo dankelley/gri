@@ -279,9 +279,9 @@ while(get_a_line()) {
 		$_ = "";
 		last;
 	    }
+	    &sub_headings;
+	    &sub_emphasis;
 	    if (/\*\s([^:]*)::\s*(.*)/o) {
-		&sub_headings;
-		&sub_emphasis;
 		print "<LI><a href=\"#$1\">$1</a>: $2\n";
 	    } 
 	}
