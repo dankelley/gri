@@ -109,13 +109,13 @@ assert {rpn "\\a"     defined ! }		" failed test 8.13"
 # Part 5. sprintf on normal and de-referenced synonyms (SF bug 117413)
 sprintf \a "%.1f" 10
 assert {rpn "\a" "10.0" == }			" failed test 8.14"
-\pointer_to_a = "\\a"
-sprintf \@pointer_to_a "%.1f" 20
+\alias_for_a = "\\a"
+sprintf \@alias_for_a "%.1f" 20
 assert {rpn "\a" "20.0" == }			" failed test 8.15"
 
 # Part 6. Environment variables (SF bug 117415)
-\point_to_a = "\\a"
-get env \@point_to_a "SHELL"
+\alias_for_a = "\\a"
+get env \@alias_for_a "SHELL"
 get env \b "SHELL"
 assert {rpn "\a" "\b" ==}			" failed test 8.16"
 
@@ -125,14 +125,14 @@ open "test.dat"
 read \a
 assert {rpn "\a" "Hello" ==}			" failed test 8.17"
 \a = "JUNK"
-\point_to_a = "\\a"
+\alias_for_a = "\\a"
 rewind
 read \\a
 assert {rpn "\a" "Hello" ==}			" failed test 8.18"
 \a = "JUNK"
-\point_to_a = "\\a"
+\alias_for_a = "\\a"
 rewind
-read \@point_to_a
+read \@alias_for_a
 assert {rpn "\a" "Hello" ==}			" failed test 8.19"
 system rm -f test.dat
 
@@ -158,5 +158,14 @@ assert {rpn .a. 10 ==} 			        " failed test 8.21"
 }
 NC \\fnl
 assert {rpn "\fnl" "Howdy" ==}                 " failed test 8.22"
+
+# Test pointing synonyms
+`postpend_dat *\filename'
+{
+    *\.word1. = {rpn "*\.word1." ".dat" strcat}
+}
+\filename = "test"
+postpend_dat &\filename
+assert {rpn "\filename" "test.dat" ==}         " failed test 9.1"
 
 show " passed"

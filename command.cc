@@ -534,6 +534,7 @@ testible(const char *s)
 	if (*s == '"')  return false;
 	if (*s == '{')  return false;
 	if (*s == '&')  return false;
+	if (*s == '*')  return false;
 	if (*s == '\n') return false;
 	if (*s == '\0') return false;
 	// May still be non-testible, if the next character after the next blank

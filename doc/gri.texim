@@ -3954,19 +3954,18 @@ doesn't parse this in any real way; it does no more than realize that
 the first word is fixed and further words are not fixed.  However, the
 use of the @code{&} is a good mnemonic to the programmer.
 
-Here is how to prepend a directory to a filename:
+Here is how you might postpend @code{.dat} onto a filename:
+
 @example
-`prepend_dat &\filename'
+`postpend_dat *\filename'
 @{
-    *\.word1. = "mydirectory/*\.word1."
+    *\.word1. = @{rpn "*\.word1." ".dat" strcat@}
 @}
-\filename = "test.dat"
-prepend_dat &\filename
-show "\filename ... should equal 'mydirectory/test.dat'"
-assert @{rpn "\filename" "mydirectory/test.dat" ==@} " Failed synonym test"
+\filename = "test"
+postpend_dat &\filename
+show "\filename ... should equal 'test.dat'"
+assert @{rpn "\filename" "test.dat" ==@} " Failed synonym test"
 @end example
-
-
 
 @c HTML <!-- newfile Hints.html "Gri: Hints for Gri programming" "Programming Gri" -->
 
