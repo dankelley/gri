@@ -175,12 +175,8 @@ cmdrefcard.ps:
 	tex cmdrefcard.tex
 	dvips -o cmdrefcard.ps -t landscape cmdrefcard.dvi
 
-# make debian prefix=../debian/tmp/usr/doc INFO_DIR=../debian/tmp/usr/info
+# make debian   (does not install; only makes the files)
 debian: refcard.ps cmdrefcard.ps debian-info
-	install -d $(prefix)/gri
-	install -m 644 refcard.ps cmdrefcard.ps $(prefix)/gri
-	install -d $(INFO_DIR)
-	install -m 644 gri.info* $(INFO_DIR)
 
 # make debian-info  (does not install; only makes the files)
 debian-info: gri.texi
