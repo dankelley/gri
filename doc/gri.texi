@@ -1,7 +1,7 @@
 \input texinfo 
 
 
-@c $Id: gri.texi,v 1.140 2003/06/27 15:05:53 dankelley Exp $
+@c $Id: gri.texi,v 1.141 2003/06/27 15:15:15 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -13039,7 +13039,7 @@ end if
 open file.dat
 @end example
 and for this reason, a non-existent file is assigned an ``infinite''
-age, i.e. it is reported to have been created
+age, i.e. it is reported to have been created on January 1, 1970.
 
 
 @item @{rpn 0.5 asin@}
