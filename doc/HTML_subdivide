@@ -189,13 +189,13 @@ Indices:</br>
 		print PASS3 "<area alt=\"$titleList{$file_list[$i-1]}\" shape=\"rect\" coords=\"557,2,573,24\" href=\"",
 		    $file_list[$i-1], "\">\n";
 		print PASS3 "<area alt=\"$titleList{$file_list[$i+1]}\" shape=\"rect\" coords=\"581,2,599,24\" href=\"",
-		    $file_list[$i+1], "\">\n";
+		$file_list[$i+1], "\">\n" if $file_list[$i+1] ne "";
 		print PASS3 "</map>\n";
 		print PASS3 "<map name=\"navigate_bottom\">\n";
 		print PASS3 "<area alt=\"$name_of_top_node\" shape=\"rect\" coords=\"5,2,218,24\" href=\"",
 	            $name_of_top_node, "\">\n";
 	        print PASS3 "<area alt=\"$titleList{$file_list[$i+1]}\" shape=\"rect\" coords=\"581,2,599,24\" href=\"",
-		    $file_list[$i+1], "\"></map>\n";
+		    $file_list[$i+1], "\">\n</map>\n" if $file_list[$i+1] ne "";
             }
         } else {
             print PASS3;
