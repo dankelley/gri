@@ -469,8 +469,7 @@ gr_drawyaxis(double x, double yb, double yinc, double yt, gr_axis_properties sid
 				gr_cmtouser(xcm + tic * cos(angle), ycm + tic * sin(angle), &tmpx, &tmpy);
 				axis_path.push_back(xcm + tic * cos(angle), ycm + tic * sin(angle), 'l');
 				labelx_cm = xcm + offset * cos(angle);
-				labely_cm = ycm + offset * sin(angle)
-					- 0.5 * CapHeight;
+				labely_cm = ycm + offset * sin(angle) - 0.5 * CapHeight;
 				if (gr_currentfontsize_pt() > SMALLFONTSIZE) {
 					if (_ytype_map != ' ') {
 						// It's a map, so figure the deg/min/seconds;
@@ -560,11 +559,12 @@ gr_drawyaxis(double x, double yb, double yinc, double yt, gr_axis_properties sid
 				label.fromSTR(_y_labels[i].c_str()); // BUG: should interpolate into this string
 				gr_usertocm(x, _y_label_positions[i], &xcm, &ycm);
 				xcm = labelx_cm;
-				//printf("'%s' at %f %f cm\n", _y_labels[i].c_str(),xcm,ycm);
+				labely_cm = ycm + offset * sin(angle) - 0.5 * CapHeight;
+				//printf("%f %f %f %f\n", ycm, offset*sin(angle),CapHeight, labely_cm);
 				if (side == gr_axis_LEFT)
-					label.draw(labelx_cm, ycm, TEXT_RJUST, DEG_PER_RAD * angle);
+					label.draw(labelx_cm, labely_cm, TEXT_RJUST, DEG_PER_RAD * angle);
 				else
-					label.draw(labelx_cm, ycm, TEXT_LJUST, DEG_PER_RAD * angle);
+					label.draw(labelx_cm, labely_cm, TEXT_LJUST, DEG_PER_RAD * angle);
 				gr_stringwidth(_y_labels[i].c_str(), &tmp0, &tmp1, &tmp2);
 				if (tmp0 > max_num_width_cm)
 					max_num_width_cm = tmp0;
