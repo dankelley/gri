@@ -1721,13 +1721,13 @@ read_image_rasterfileCmd()
 // 14/5/96: found http://cephag.observ-gv.fr/documentation/man_pbmplus.html
 // and am now moving to it.
 
-typedef enum {
+enum FILE_TYPE {
 	P2_type,	// ascii portable graymap: B values 14/5/96 working
-	P3_type,	// ascii portable pixmap: RGB triplets 14/5/96 not working
+	P3_type,	// ascii portable pixmap: RGB triplets
 	P4_type,	// cannot do
 	P5_type,	// binary portable graymap: B values 14/5/96 working
 	P6_type		// as P3 but binary 14/5/96 not working
-} FILE_TYPE;
+};
 
 static          bool
 read_pgm_image(FILE * fp, IMAGE * im)
@@ -1747,7 +1747,7 @@ read_pgm_image(FILE * fp, IMAGE * im)
 	if (!strcmp(type, "P2"))		
 		file_type = P2_type;	// can do
 	else if (!strcmp(type, "P3"))
-		file_type = P3_type;	// cannot do
+		file_type = P3_type;
 	else if (!strcmp(type, "P4"))
 		file_type = P4_type;	// cannot do
 	else if (!strcmp(type, "P5"))
@@ -1763,13 +1763,13 @@ This is not a PGM file, since the first 2 characters\n\
 		return false;
 	}
 	if (file_type == P3_type) {
-		err("Cannot read ascii portable-pixmap P3-type images");
+		err("Cannot read P3-type images");
 		return false;
-	}
+	} 
 	if (file_type == P4_type) {
 		err("Cannot read P4-type images");
 		return false;
-	}
+	} 
 	if (file_type == P6_type) {
 		err("Cannot read binary portable-pixmap P6-type images");
 		return false;
@@ -1779,11 +1779,13 @@ This is not a PGM file, since the first 2 characters\n\
 		err("Cannot read `width' of pgm file");
 		return false;
 	}
+	printf("WIDTH= %d\n",width);
 	skip_hash_headers(fp);
 	if (1 != fscanf(fp, "%d", &height)) {
 		err("Cannot read `height' of pgm file");
 		return false;
 	}
+	printf("image is %d by %d\n", width, height);
 	skip_hash_headers(fp);
 	if (file_type == P2_type || file_type == P5_type) {
 		if (1 != fscanf(fp, "%d", &max_gray)) {
@@ -1833,7 +1835,7 @@ This is not a PGM file, since the first 2 characters\n\
 	} else {
 		// It's ascii -- check for correct type
 		char            nextWord[50];
-		if (file_type == P2_type) {
+		if (file_type == P2_type /* || file_type == P3_type */) {
 			for (int j = im->ras_height - 1; j > -1; j--) {
 				for (int i = 0; i < int(im->ras_width); i++) {
 					// Get 1 ascii datum.
@@ -1864,19 +1866,20 @@ This is not a PGM file, since the first 2 characters\n\
 void
 skip_hash_headers(FILE * fp)
 {
-	int             c;
+	int c;
 	// Skip initial whitespace (left from previous read)
-	do {
-		c = getc(fp);
-	} while (c == ' ' || c == '\n' || c == '\t');
-	if (c == '#') {
-		while ('\n' != (c = getc(fp))) {
-			;
+	while (1) {
+		do {
+			c = getc(fp);
+		} while (c == ' ' || c == '\n' || c == '\t');
+		if (c == '#') {
+			while ('\n' != (c = getc(fp))) {
+				;
+			}
+		} else {
+			ungetc(c, fp);
+			return;
 		}
-		// Maybe next line is a comment too
-		skip_hash_headers(fp);
-	} else {
-		ungetc(c, fp);
 	}
 }
 
