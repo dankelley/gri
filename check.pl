@@ -37,7 +37,7 @@ print "Check 1: do the version numbers match?\n";
 sub version_mismatch() {
     print "\t... No!\n";
     print "    Version is $version_makefile in the Makefile file.\n";
-    print "    Version is $version_doc in the doc/gri.texim file.\n";
+    print "    Version is $version_doc in the doc/gri.texi file.\n";
     print "    Version is $version_spec in the gri.spec file.\n";
     print "    Version is $version_cmd in the gri.cmd file.\n";
     return "    ... this error was detected";
@@ -53,7 +53,7 @@ while(<MAKEFILE>) {
     }
 }
 
-open(DOC, "doc/gri.texim") or die "Cannot open doc/gri.texim";
+open(DOC, "doc/gri.texi") or die "Cannot open doc/gri.texi";
 $version_doc = "?.?.?";
 while(<DOC>) {
     if (/^\@set GRI-VERSION (.*)/) {
@@ -63,7 +63,7 @@ while(<DOC>) {
     }
 }
 die version_mismatch() if $version_makefile ne $version_doc;
-print "\t... Makefile and doc/gri.texim match\n";
+print "\t... Makefile and doc/gri.texi match\n";
 
 open(SPEC, "gri.spec") or die "Cannot open gri.spec";
 $version_spec = "?.?.?";
@@ -129,8 +129,8 @@ while(<DEBIAN_CHANGELOG>) {
 $date_debian_changelog = $latest;
 indicate_age($date_debian_changelog, "debian/changelog");
 
-# doc/gri.texim
-open (DOC, "doc/gri.texim") or die "Cannot open doc/gri.texim";
+# doc/gri.texi
+open (DOC, "doc/gri.texi") or die "Cannot open doc/gri.texi";
 $latest = &ParseDate("1971"); # pre-history, basically
 while(<DOC>) {
     if (/\@subsubsection\s*Version\s*(.*)\s*\[(.*)\]\s*$/) {
@@ -141,4 +141,4 @@ while(<DOC>) {
     }
 }
 $date_doc = $latest;
-indicate_age($date_doc, "   doc/gri.texim");
+indicate_age($date_doc, "   doc/gri.texi");

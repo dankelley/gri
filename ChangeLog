@@ -1,3 +1,7 @@
+2003-05-19  Dan E. Kelley  <kelley@Limit.Phys.Ocean.Dal.Ca>
+
+	* startup.cc (start_up): Fix SF bug 739761 ('draw time stamp' broken)
+
 2003-05-03  Dan E. Kelley  <kelley@Limit.Phys.Ocean.Dal.Ca>
 
 	* README-linux-redhat: had wrong directory for docs (patch provided by Kawamura Masao)

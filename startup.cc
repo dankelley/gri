@@ -205,8 +205,10 @@ start_up(int argc, char **argv)
 	if (argc_leftover == 0) {
 		_margin.assign("  ");
 		push_cmd_file("stdin", batch() ? false : true, true, "r");
+		Require(put_syn("\\.command_file.", "stdin", true), OUT_OF_MEMORY);
 	} else {
 		std::string fname(argv_leftover[0]);
+		Require(put_syn("\\.command_file.", fname.c_str(), true), OUT_OF_MEMORY);
 		//printf("FILENAME '%s'\n",fname.c_str());
 		// If filename shorter than 4 characters, cannot have .gri suffix,
 		// so append it.

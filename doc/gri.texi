@@ -1,6 +1,6 @@
 \input texinfo 
 
-@c $Id: gri.texi,v 1.125 2003/05/03 21:58:03 dankelley Exp $
+@c $Id: gri.texi,v 1.126 2003/05/19 12:13:09 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16368,7 +16368,7 @@ only in the fixing of bugs.
 
 @comment ADD-NEW-BUG-FIXES-HERE
 
-@subsubsection Version 2.12.5 [2003 ??? ??]
+@subsubsection Version 2.12.5 [2003 May 19]
 @strong{New Features}
 @itemize @bullet
 @item
@@ -16381,6 +16381,11 @@ behind an unset precompiler flag.
 
 @strong{Bug Fixes}
 @itemize
+@item
+Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=739761&group_id=5511&atid=105511,#739761}
+@dots{} @code{draw time stamp} named the command-file incorrectly
+
 @item
 Fix SourceForge bug
 @uref{http://sourceforge.net/tracker/index.php?func=detail&aid=720607&group_id=5511&atid=105511,#720607}

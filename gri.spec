@@ -72,10 +72,10 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/emacs/site-lisp/gri-mode.el
 
 %post
-# add a gri entry to /usr/share/info/dir
+# Add gri item to INFO file /usr/share/info/dir
 if [ "$1" = 1 ]
 then
-	if ! grep -i gri /usr/share/info/dir > /dev/null
+	if ! grep -i "(gri)" /usr/share/info/dir > /dev/null
 	then
 		/sbin/install-info --dir-file="/usr/share/info/dir" /usr/share/info/gri.info.gz
 #		chmod a+r /usr/share/info/dir
@@ -83,10 +83,10 @@ then
 fi
 
 %postun
-# remove instances of gri in /usr/share/info/dir
+# Remove gri item from INFO file /usr/share/info/dir
 if [ "$1" = 0 ];
 then
-	if grep -i "gri" /usr/share/info/dir > /dev/null
+	if grep -i "(gri)" /usr/share/info/dir > /dev/null
 	then
 		/sbin/install-info --dir-file="/usr/share/info/dir" --remove /usr/share/info/gri.info.gz
 #		grep -vi "gri" /usr/share/info/dir > /usr/info/share/dir.tmp
@@ -96,6 +96,8 @@ then
 fi
 
 %changelog
+* Mon May 19 2003 <Dan.Kelley@Dal.Ca>
+- fix Sourceforge bug 739761 ('draw time stamp' named command-file incorrectly)
 * Sat May 03 2003 <Dan.Kelley@Dal.Ca> (fix by Kawamura Masao)
 - fix several typos on filenames, plus a compilation error hidden behind a precompilation flag
 * Tue Apr 15 2003 <Dan.Kelley@Dal.Ca> (fix by Peter Galbraith)

@@ -1,10 +1,11 @@
 // NB: number string must agree with line 1 of gri.cmd
 char _gri_number[] = "2.12.5";
-char _gri_release_time[] = "2003-Apr-11";
+char _gri_release_time[] = "2003-May-19";
 char _gri_date[] = "2003";
 
 // OLDER VERSIONS:
 //
+//  2.12.5      2002-may-19 Victoria Day (Canada)
 //  2.12.4      2003-apr-06
 //  2.12.3      2003-mar-01
 //  2.12.2      2003-feb-07 Munro Day (Dalhousie University)
