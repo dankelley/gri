@@ -34,7 +34,11 @@ EXTRA_DIST = Makefile.dj2 \
  startup.msg startup.debian startup.redhat
 
 PACKAGE_VERSION = @PACKAGE_VERSION@
+if OS_IS_LINUX_DEBIAN
+DEFS = -DDEFAULT_GRI_DIR=\"$(prefix)/share/gri/$(PACKAGE_VERSION)/\" @DEFS@
+else
 DEFS = -DDEFAULT_GRI_DIR=\"$(prefix)/share/gri/\" @DEFS@
+endif
 
 EXTRA_CFLAGS_TEMPLATE = @EXTRA_CFLAGS_TEMPLATE@ $(LINUX_EXTRA_CFLAGS)
 

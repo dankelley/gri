@@ -31,6 +31,8 @@ EXTRA_DIST = \
  make_html_index make_html_commandindex make_html_builtinindex
 
 html: $(srcdir)/gri.texi texinfo2HTML HTML_subdivide
+	cd examples ; make
+	cd tst_suite ; make
 # 	Make the info page (even if rewritten later) to get indices
 	makeinfo $(srcdir)/gri.texi
 	cat $(srcdir)/gri.texi           	>  TMP
