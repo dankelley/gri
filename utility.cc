@@ -45,6 +45,21 @@ get_nth_word(const string& s, unsigned int which, string& result)
 	return true;
 }
 
+unsigned int
+get_number_of_words(const string& s)
+{
+	if (s.size() == 0)
+		return 0;
+	char *w[MAX_nword];	// BUG: wasteful
+	unsigned int nw;
+	char *cpy = strdup(s.c_str());
+	chop_into_words(cpy, w, &nw, MAX_nword);
+	free(cpy);
+	return nw;
+
+}
+
+
 bool
 is_assignment_op(const char *s)
 {

@@ -323,64 +323,83 @@ get_syn(const char *name, string& value)
 				break;
 			}
 		}
-		if (index_len == -1) {
-			value.assign(name);
-			return false;
-		}
-		string the_index_s = name;
-		double tmp;
-		if (!getdnum(the_index_s.substr(2, index_len).c_str(), &tmp)) {
-			value.assign(name);
-			return false;
-		}
-		int the_index = int(floor(0.5 + tmp));
-		if (the_index < 0) {
+		if (index_len == -1) { // malformed; no closing ']'
 			value.assign(name);
 			return false;
 		}
 		string name_unindexed = name;
 		name_unindexed.STRINGERASE(1, 2 + index_len);
-		//printf("DEBUG %s:%d will try to extract %d-th word in [%s]\n",__FILE__,__LINE__,int(the_index), name_unindexed.c_str());
+		//printf("name_unindexed [%s]\n", name_unindexed.c_str());
 		
+		int the_index = 0;
+		if (index_len) {
+			string the_index_s = name;
+			double tmp;
+			if (!getdnum(the_index_s.substr(2, index_len).c_str(), &tmp)) {
+				value.assign(name);
+				return false;
+			}
+			the_index = int(floor(0.5 + tmp));
+			if (the_index < 0) {
+				value.assign(name);
+				return false;
+			}
+		}
+
 		// Check for e.g. \[0].word1.
 		int which_word;
 		if (1 == sscanf(name_unindexed.c_str(), "\\.word%d.", &which_word)) {
 			//printf("DEBUG %s:%d which_word %d\n",__FILE__,__LINE__,which_word);
-			string buf;
-			if (!get_cmdword(which_word, buf)) {
+			string word_buf;
+			if (!get_cmdword(which_word, word_buf)) {
 				value.assign(name);
 				return false;
 			}
-			//printf("DEBUG %s:%d buf [%s]\n",__FILE__,__LINE__,buf.c_str());
-			if (buf[0] == '"') {
-				buf.STRINGERASE(0, 1);
-				if (buf[buf.size() - 1] == '"') {
-					buf.STRINGERASE(buf.size() - 1, 1);
+			//printf("DEBUG %s:%d word_buf [%s]\n",__FILE__,__LINE__,word_buf.c_str());
+			if (word_buf[0] == '"') {
+				word_buf.STRINGERASE(0, 1);
+				if (word_buf[word_buf.size() - 1] == '"') {
+					word_buf.STRINGERASE(word_buf.size() - 1, 1);
 				}
 			}
-			//printf("DEBUG %s:%d buf [%s] the_index= %d\n",__FILE__,__LINE__,buf.c_str(), the_index);
-			if (get_nth_word(buf, the_index, value))
+			//printf("DEBUG %s:%d word_buf [%s] the_index= %d\n",__FILE__,__LINE__,word_buf.c_str(), the_index);
+			if (index_len) {
+				if (get_nth_word(word_buf, the_index, value))
+					return true;
+			} else {
+				char num[30];
+				sprintf(num, "%d", get_number_of_words(word_buf));
+				value.assign(num);
 				return true;
-			return false;
+			}
 		}
 
-		// Figure out which synonym this is
+		// Now know it's not of the form "\[0].word#." or "\[].word#.", etc.
+		// It must be of the form "\[]syn" or "\[0]syn", etc.
 		unsigned int stackLen = synonymStack.size();
 		for (int i = stackLen - 1; i >= 0; i--) {
 			if (!strcmp(name_unindexed.c_str(), synonymStack[i].get_name())) {
-				if (get_nth_word(synonymStack[i].get_value(), the_index, value)) {
-					synonymStack[i].incrementCount();
-					return true;
+				if (index_len) {
+					if (get_nth_word(synonymStack[i].get_value(), the_index, value)) {
+						;
+					} else {
+						value.assign(name);
+						return true;
+					}
+				} else {
+					char num[30];
+					sprintf(num, "%d", get_number_of_words(synonymStack[i].get_value()));
+					value.assign(num);
 				}
-				return false;
+				synonymStack[i].incrementCount();
+				return true;
 			}
 		}
 	} else {
 		// It's an ordinary synonym.  Look it up in the stack
-		int i;
 		unsigned int stackLen = synonymStack.size();
 		if (stackLen > 0) {
-			for (i = stackLen - 1; i >= 0; i--) {
+			for (int i = stackLen - 1; i >= 0; i--) {
 				if (!strcmp(name, synonymStack[i].get_name())) {
 					value.assign(synonymStack[i].get_value());
 					synonymStack[i].incrementCount();

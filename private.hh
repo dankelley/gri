@@ -119,6 +119,7 @@ bool            getdnum(const char *string, double *number);
 bool            get_flag(const char *name);
 bool            getinum(const char *string, int *number);
 bool            get_nth_word(const string& s, unsigned int which, string& result);
+unsigned int    get_number_of_words(const string& s);
 bool            get_syn(const char *name, string& value);
 bool            get_var(const char *name, double *value);
 void            give_help(void);

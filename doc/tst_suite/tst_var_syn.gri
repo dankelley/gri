@@ -27,17 +27,20 @@ assert {rpn "\\v" defined !}            " failed test 2.5"
 
 # Multi-word synonyms
 \h = "Hi there buddy"
-assert {rpn "\[0]h" "Hi" ==}            " failed test 3.1"
-assert {rpn "\[1]h" "there" ==}         " failed test 3.2"
-assert {rpn "\[2]h" "buddy" ==}         " failed test 3.3"
+assert {rpn  \[]h    3      ==}         " falied test 3.1"
+.i. = \[]h
+assert {rpn  .i.     3      ==}         " falied test 3.2"
+assert {rpn "\[0]h" "Hi"    ==}         " failed test 3.3"
+assert {rpn "\[1]h" "there" ==}         " failed test 3.4"
+assert {rpn "\[2]h" "buddy" ==}         " failed test 3.5"
 \h = "Hi means \"hello\""
-assert {rpn "\[0]h" "Hi" ==}            " failed test 3.4"
-assert {rpn "\[1]h" "means" ==}         " failed test 3.5"
-assert {rpn "\[2]h" "\"hello\"" ==}     " failed test 3.6"
+assert {rpn "\[0]h" "Hi"        ==}     " failed test 3.6"
+assert {rpn "\[1]h" "means"     ==}     " failed test 3.7"
+assert {rpn "\[2]h" "\"hello\"" ==}     " failed test 3.8"
 .i. = 1
-assert {rpn "\[.i.]h" "means" ==}       " failed test 3.7"
+assert {rpn "\[.i.]h" "means"   ==}     " failed test 3.9"
 \i = "1"
-assert {rpn "\[\i]h"  "means" ==}       " failed test 3.8"
+assert {rpn "\[\i]h"  "means"   ==}     " failed test 3.10"
 
 # Setting by quoted name
 set ".var." to 10
@@ -221,5 +224,6 @@ assert {rpn "\fnl" "Howdy" ==}                  " failed test 20.1"
 \filename = "test"
 postpend_dat &\filename
 assert {rpn "\filename" "test.dat" ==}          " failed test 21.1"
+
 
 show " passed"
