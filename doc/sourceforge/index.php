@@ -83,16 +83,16 @@ scp index.php psg@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
 	    <!-- DOWNLOAD STABLE -->
             <tr>
               <TD align="center" bgcolor="#737b9c">
-                <span class="maintitlebar"><font color="#ffffff">Stable Release 2.10.0</font></span>
+                <span class="maintitlebar"><font color="#ffffff">Stable Release 2.10.1</font></span>
                 </td> </tr>
                 <tr>
                   <td class="menus" align="right">
 		    <b>Source</b><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.10.0.tgz">Tarball (unbuilt docs)</a><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.10.0-arch-indep.tar.gz">Tarball (built docs)</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.10.1.tgz">Tarball (unbuilt docs)</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.10.1-arch-indep.tar.gz">Tarball (built docs)</a><br>
 		    <b>RedHat Linux</b><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.10.0-1.src.rpm">Source RPM</a><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.10.0-1.i386.rpm">Intel RPM</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.10.1-1.src.rpm">Source RPM</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.10.1-1.i386.rpm">Intel RPM</a><br>
 		    <b>Debian GNU/Linux</b><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.8.6-0potato1_i386.deb">Old package for Potato</a><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.10.0-1_i386.deb">Package for Woody</a><br>
@@ -219,7 +219,7 @@ Search gri manual for (may be a regular expression):<p>
     <tr> 
       <td  class="menubox">
 	Version
-	<a href="http://sourceforge.net/project/showfiles.php?group_id=5511&release_id=90472">2.10.0</a>
+	<a href="http://sourceforge.net/project/showfiles.php?group_id=5511&release_id=92480">2.10.1</a>
 	released
 	<? 
 	# REF: mktime(hour,minute,second,month,day,year)
@@ -227,7 +227,9 @@ Search gri manual for (may be a regular expression):<p>
 	# Vsn 2.8.7:  2002-04-03 18:10 Halifax time, 14:10 SF time
 	#$diff = time() - mktime(14, 10, 0, 4, 3, 2002);
 	# Vsn 2.10.0: 2002-05-20 09:15 Halifax time, 5:15 SF time
-	$diff = time() - mktime(5, 15, 0, 5, 20, 2002);
+	#$diff = time() - mktime(5, 15, 0, 5, 20, 2002);
+	# Vsn 2.10.1: 2002-06-1 15:36 Halifax time, 11:36 SF time
+	$diff = time() - mktime(11, 36, 0, 6, 1, 2002);
 	$days = floor($diff / 24 / 60 / 60);
 	$weeks = floor($days / 7);
 	$months = floor($days / 7 / 4);
