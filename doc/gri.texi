@@ -16471,6 +16471,12 @@ only in the fixing of bugs.
 
 @item
 Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=997741&group_id=5511&atid=105511,#997741}
+@dots{} PostScript broken on images with y-axis decreasing, and enclosed by PostScript clipping
+
+
+@item
+Fix SourceForge bug
 @uref{http://sourceforge.net/tracker/index.php?func=detail&aid=978822&group_id=5511&atid=105511,#978822}
 @dots{} documentation wrong on @code{set path to}
 
