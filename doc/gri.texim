@@ -2218,13 +2218,16 @@ The syntax is simple: an ampersand following a backslash indicates that
 the synonym's value itself is not of interest, but rather the value of
 the variable or synonym that it @emph{names}.  Consider the following
 code snippet.
+
 @example
 \alias = ".a."
 \@@alias = 10
 @end example
+
 The first line names a variable and the second indicates that this
 variable should be set to equal 10.  These two lines are equivalent to
 the single line
+
 @example
 .a. = 10
 @end example
@@ -2234,6 +2237,7 @@ name exist (e.g. if a @code{new} command has been executed) then Gri
 uses the instance of the item that is "active" at the moment the
 @code{\@@} code is executed.  Thus, for example, the following prints
 200, not 100.
+
 @example
 .a. = 100
 \alias = ".a."
@@ -2241,14 +2245,16 @@ new .a.       # this "shadows" the previous instance
 .a. = 200
 show \@@alias # prints 200, not 100
 @end example
+
 For this reason, you should not use the aliasing syntax if you wish to
 create a newcommand that can modify its arguments.  This is because a 
 name collision could result.  Consider
+
 @example
 `Newcommand \a'
 @{
     new \a            # set up a local version
-    \@.word1. = "BYE" # try to modify argument
+    \@@.word1. = "BYE" # try to modify argument
     delete \a         # clean up local version
 @}
 
@@ -2262,14 +2268,17 @@ show "\a" # prints HI, not HI
 Newcommand "\\b"
 show "\b" # prints BYE since no name collision
 @end example
+
 Note that test 2 correctly prints "BYE" since there is no name collision
 between the local @code{\a} and the global @code{\b} that is passed as
 an argument.  However, test 1 incorrectly prints "HI" since there is a
 name collision, and the modification is done on the @emph{local} version
 of @code{\a}.  In other words, the result of the newcommand depends on
 the @emph{name} of the argument supplied to it!  This is a demonstration
-of why you should @emph{never} use syntax such as @code{\@@.word1.}  in
-your code.
+of why you should avoid using syntax such as @code{\@@.word1.} in your
+code, unless you really know what you're doing -- especially, unless
+there is a reason why pointing synonyms (next section) cannot do the
+task at hand.
 
 
 
