@@ -10434,7 +10434,7 @@ that file is not open, an error message will result.  Use
 @node   Read Synonym or Variable, Read Line, Read From, Read
 @comment  node-name,  next,  previous,  up
 @subsection The @code{read} @dots{} (synonym or variable) command
-@findex read ...
+@findex read
 @cindex @code{read ...} command
 @cindex variables, reading
 @cindex synonyms, reading
@@ -11752,7 +11752,7 @@ set input data window x \
 @node   Set Input Data Separator, Set Line Cap, Set Input Data Window, Set
 @comment  node-name,  next,  previous,  up
 @subsection The @code{set input data separator} Command
-@findex set input data window
+@findex set input data separator
 @cindex @code{set input data separator} command
 @example
 `set input data separator TAB|default'
