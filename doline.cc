@@ -75,7 +75,7 @@ do_command_line()
 // 
 // The 'note' is helpful in debugging.
 void
-insert_cmd_in_ps(const char *cmd, const char *note="")
+insert_cmd_in_ps(const char *cmd, const char *note)
 {
 	extern bool     _store_cmds_in_ps;	// DEFINED IN startup.c
 	if (!_store_cmds_in_ps)
