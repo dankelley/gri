@@ -119,27 +119,52 @@ FORCE:
 clean:
 	-rm -f *.lof *.dvi *.idx *.ilg *.ind *.log *.toc *.aux *.bbl *.blg cookbook.ps *~ */example-small.gif */example.gif */example.pdf */example.html 12/example-vertical.html
 
-TAR_DIR_NAME=gri-cookbook-$(VERSION)
-source:
-	rm -rf $(TAR_DIR_NAME)
-	mkdir $(TAR_DIR_NAME)
-	cp $(TAR_DIR_NAME).spec Makefile gri2html cookbook.html discussion.html index.html recipes.html submitting.html $(TAR_DIR_NAME)
-	mkdir $(TAR_DIR_NAME)/1  ; cp  1/*gri  1/*ps  1/*html $(TAR_DIR_NAME)/1
-	mkdir $(TAR_DIR_NAME)/2  ; cp  2/*gri  2/*ps  2/*html $(TAR_DIR_NAME)/2
-	mkdir $(TAR_DIR_NAME)/3  ; cp  3/*gri  3/*ps  3/*html $(TAR_DIR_NAME)/3
-	mkdir $(TAR_DIR_NAME)/4  ; cp  4/*gri  4/*ps  4/*html $(TAR_DIR_NAME)/4
-	mkdir $(TAR_DIR_NAME)/5  ; cp  5/*gri  5/*ps  5/*html $(TAR_DIR_NAME)/5
-	mkdir $(TAR_DIR_NAME)/6  ; cp  6/*gri  6/*ps  6/*html $(TAR_DIR_NAME)/6
-	mkdir $(TAR_DIR_NAME)/7  ; cp  7/*gri  7/*ps  7/*html $(TAR_DIR_NAME)/7
-	mkdir $(TAR_DIR_NAME)/8  ; cp  8/*gri  8/*ps  8/*html $(TAR_DIR_NAME)/8
-	mkdir $(TAR_DIR_NAME)/9  ; cp  9/*gri  9/*ps  9/*html $(TAR_DIR_NAME)/9
-	mkdir $(TAR_DIR_NAME)/10 ; cp 10/*gri 10/*ps 10/*html $(TAR_DIR_NAME)/10
-	mkdir $(TAR_DIR_NAME)/11 ; cp 11/*gri 11/*ps 11/*html $(TAR_DIR_NAME)/11
-	mkdir $(TAR_DIR_NAME)/12 ; cp 12/seawifs.palette 12/*gri 12/*ps 12/*html $(TAR_DIR_NAME)/12
-	mkdir $(TAR_DIR_NAME)/13 ; cp 13/*gri 13/*ps 13/*html $(TAR_DIR_NAME)/13
-	mkdir $(TAR_DIR_NAME)/14 ; cp 14/*gri 14/*ps 13/*html $(TAR_DIR_NAME)/13
-	tar -zchof gri-cookbook-$(VERSION).tgz $(TAR_DIR_NAME)
-	rm -rf $(TAR_DIR_NAME)
+HTMLDIR=gri-cookbook-$(VERSION)
+html-tar:
+	rm -rf $(HTMLDIR)
+	mkdir $(HTMLDIR)
+#	cp $(HTMLDIR).spec Makefile gri2html cookbook.html discussion.html index.html recipes.html submitting.html $(HTMLDIR)
+	cp *.html $(HTMLDIR)
+	mkdir $(HTMLDIR)/1;  cp  1/*gri  1/*gif  1/*html $(HTMLDIR)/1
+	mkdir $(HTMLDIR)/2;  cp  2/*gri  2/*gif  2/*html $(HTMLDIR)/2
+	mkdir $(HTMLDIR)/3;  cp  3/*gri  3/*gif  3/*html $(HTMLDIR)/3
+	mkdir $(HTMLDIR)/4;  cp  4/*gri  4/*gif  4/*html $(HTMLDIR)/4
+	mkdir $(HTMLDIR)/5;  cp  5/*gri  5/*gif  5/*html $(HTMLDIR)/5
+	mkdir $(HTMLDIR)/6;  cp  6/*gri  6/*gif  6/*html $(HTMLDIR)/6
+	mkdir $(HTMLDIR)/7;  cp  7/*gri  7/*gif  7/*html $(HTMLDIR)/7
+	mkdir $(HTMLDIR)/8;  cp  8/*gri  8/*gif  8/*html $(HTMLDIR)/8
+	mkdir $(HTMLDIR)/9;  cp  9/*gri  9/*gif  9/*html $(HTMLDIR)/9
+	mkdir $(HTMLDIR)/10; cp 10/*gri 10/*gif 10/*html $(HTMLDIR)/10
+	mkdir $(HTMLDIR)/11; cp 11/*gri 11/*gif 11/*html $(HTMLDIR)/11
+	mkdir $(HTMLDIR)/12; cp 12/seawifs.palette 12/*gri 12/*gif 12/*html $(HTMLDIR)/12
+	mkdir $(HTMLDIR)/13; cp 13/*gri 13/*gif 13/*pdf 13/*html $(HTMLDIR)/13
+	mkdir $(HTMLDIR)/14; cp 14/*gri 14/*gif 14/*html $(HTMLDIR)/14
+	tar -chf gri-cookbook-$(VERSION).tar $(HTMLDIR)
+	gzip --best gri-cookbook-$(VERSION).tar
+	rm -rf $(HTMLDIR)
+
+TARDIR=gri-cookbook-src-$(VERSION)
+source: clean
+	rm -rf $(TARDIR)
+	mkdir $(TARDIR)
+	cp *.spec Makefile gri2html cookbook.html discussion.html index.html recipes.html submitting.html $(TARDIR)
+	mkdir $(TARDIR)/1;  cp  1/example* $(TARDIR)/1
+	mkdir $(TARDIR)/2;  cp  2/example* $(TARDIR)/2
+	mkdir $(TARDIR)/3;  cp  3/example* $(TARDIR)/3
+	mkdir $(TARDIR)/4;  cp  4/example* 4/*db $(TARDIR)/4
+	mkdir $(TARDIR)/5;  cp  5/example* $(TARDIR)/5
+	mkdir $(TARDIR)/6;  cp  6/example* $(TARDIR)/6
+	mkdir $(TARDIR)/7;  cp  7/example* $(TARDIR)/7
+	mkdir $(TARDIR)/8;  cp  8/example* $(TARDIR)/8
+	mkdir $(TARDIR)/9;  cp  9/example* $(TARDIR)/9
+	mkdir $(TARDIR)/10; cp 10/example* $(TARDIR)/10
+	mkdir $(TARDIR)/11; cp 11/example* $(TARDIR)/11
+	mkdir $(TARDIR)/12; cp 12/example* 12/seawifs.palette $(TARDIR)/12
+	mkdir $(TARDIR)/13; cp 13/example* $(TARDIR)/13
+	mkdir $(TARDIR)/14; cp 14/example* $(TARDIR)/14
+	tar -chf gri-cookbook-src-$(VERSION).tar $(TARDIR)
+	gzip --best gri-cookbook-src-$(VERSION).tar
+	rm -rf $(TARDIR)
 
 help:
 	@echo "Various \"make\" commands can be used with this Makefile."
