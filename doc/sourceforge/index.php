@@ -91,7 +91,7 @@
             </tr>
             <tr>
               <td class="menus" align="right">
-                <A class="menus" HREF="http://sourceforge.net/project/showfiles.php?group_id=5511&release_id=28434">2.6.0 pre-releases</a><br>
+                <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.0-pre1.tgz">2.6.0-pre1.tgz</a><br>
               </td>
             </tr>
           </table>
