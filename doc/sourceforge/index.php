@@ -26,9 +26,9 @@ scp index.php psg@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
     A:active { text-decoration: none; color: #6666DD; }
     A:hover { text-decoration: underline; color: #6666DD; }
     A:mail { text-decoration: none; color: #6666DD; font-weight: bold }
-    OL,UL,P,BODY,TD,TR,TH,FORM,SPAN { font-family: arial,helvetica,sans-serif;color: #333333 }
-    H1,H2,H3,H4,H5,H6 { font-family: arial,helvetica,sans-serif }
-    PRE,TT { font-family: courier,sans-serif }
+    OL,UL,P,BODY,TD,TR,TH,FORM,SPAN { color: #333333 }
+    H1,H2,H3,H4,H5,H6 { }
+    PRE,TT { }
 
     SPAN.center { text-align: center }
     SPAN.boxspace { font-size: 2pt; }
