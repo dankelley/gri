@@ -12792,9 +12792,11 @@ which allows for more sophisticated filters.
 `source \filename'
 @end example
 @noindent
-Perform the commands in the indicated file.  If the file cannot be
-found, an error results.  Contrast this with @code{insert}, which will
-search for the file if it is not found (@ref{Insert}).
+Perform the commands in the indicated file.
+
+If the file cannot be found, an error results.  Contrast this with
+@code{insert}, which will search for the file if it is not found
+(@ref{Insert}).
 
 
 @c HTML <!-- newfile Sprintf.html "Gri: `sprintf' command" "Gri Commands" -->

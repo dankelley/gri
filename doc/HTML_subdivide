@@ -148,23 +148,25 @@ for ($i = 1; $i < $num_files; $i++) {
 <td width=\"150\" valign=\"top\">
 <font size=-1>
 <br>
-<a href=\"Introduction.html\">1: Introduction</a><br>
-<a href=\"SimpleExample.html\">2: Simple example</a><br>
-<a href=\"GettingMoreControl.html\">3: Finer Control</a><br>
-<a href=\"InvokingGri.html\">4: Invocation</a><br>
-<a href=\"Programming.html\">5: Programming</a><br>
-<a href=\"X-Y.html\">6: X-Y Plots</a><br>
-<a href=\"Contour.html\">7: Contour Plots</a><br>
-<a href=\"Image.html\">8: Image Plots</a><br>
-<a href=\"Examples.html\">9: Examples</a><br>
-<a href=\"Commands.html\">10: Gri Commands</a><br>
-<a href=\"Environment.html\">11: Environment</a><br>
-<a href=\"Emacs.html\">12: Emacs Mode</a><br>
-<a href=\"History.html\">13: History</a><br>
-<a href=\"Access.html\">14: Installation</a><br>
-<a href=\"Bugs.html\">15: Gri Bugs</a><br>
-<a href=\"Acknowledgments.html\">16: Acknowledgments</a><br>
-<a href=\"License.html\">17: License</a><br>
+Chapters:
+</br>
+&nbsp;&nbsp;<a href=\"Introduction.html\">1: Introduction</a><br>
+&nbsp;&nbsp;<a href=\"SimpleExample.html\">2: Simple example</a><br>
+&nbsp;&nbsp;<a href=\"GettingMoreControl.html\">3: Finer Control</a><br>
+&nbsp;&nbsp;<a href=\"InvokingGri.html\">4: Invocation</a><br>
+&nbsp;&nbsp;<a href=\"Programming.html\">5: Programming</a><br>
+&nbsp;&nbsp;<a href=\"X-Y.html\">6: X-Y Plots</a><br>
+&nbsp;&nbsp;<a href=\"Contour.html\">7: Contour Plots</a><br>
+&nbsp;&nbsp;<a href=\"Image.html\">8: Image Plots</a><br>
+&nbsp;&nbsp;<a href=\"Examples.html\">9: Examples</a><br>
+&nbsp;&nbsp;<a href=\"Commands.html\">10: Gri Commands</a><br>
+&nbsp;&nbsp;<a href=\"Environment.html\">11: Environment</a><br>
+&nbsp;&nbsp;<a href=\"Emacs.html\">12: Emacs Mode</a><br>
+&nbsp;&nbsp;<a href=\"History.html\">13: History</a><br>
+&nbsp;&nbsp;<a href=\"Access.html\">14: Installation</a><br>
+&nbsp;&nbsp;<a href=\"Bugs.html\">15: Gri Bugs</a><br>
+&nbsp;&nbsp;<a href=\"Acknowledgments.html\">16: Acknowledgments</a><br>
+&nbsp;&nbsp;<a href=\"License.html\">17: License</a><br>
 <br>
 Indices:</br>
 &nbsp;&nbsp;<a href=\"ConceptIndex.html\"><i>Concepts</i></a><br>
