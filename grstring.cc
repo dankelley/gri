@@ -377,7 +377,8 @@ gr_drawstring(const char *s)
 			} else if (*s == '}') {	// finished with super/sub in math
 				PopStack();
 			} else if (*s == '\\') {
-				// Substitute math symbol, unless it's an escape string
+				// Substitute math symbol, unless it's
+				// an escaped string
 				int             inc;
 				char *            insert;
 				if (*(s + 1) == '$') {
@@ -406,11 +407,13 @@ gr_drawstring(const char *s)
 						gr_setfont(oldfontID);
 						START_NEW_TEXT;
 						s += inc;
+					} else {
+						gr_DrawChar(s + 1);
 					}
 				}
 			} else {
-				// Draw single character in math mode.  If it's a digit, do
-				// not do in italics!
+				// Draw single character in math mode.
+				// If it's a digit, do not use italics.
 				if (isdigit(*s) || ispunct(*s)) {
 					if (*s == '/' && !isdigit(slast)) {
 						gr_DrawChar(s);
@@ -886,7 +889,7 @@ gr_DrawChar(const char *c)
 {
 	extern FILE    *_grPS;
 	extern bool     _grWritePS;
-	if (_grWritePS)
+	if (_grWritePS) {
 		switch (*c) {
 		case '(':
 			fprintf(_grPS, "\\(");
@@ -898,6 +901,7 @@ gr_DrawChar(const char *c)
 			fprintf(_grPS, "%c", *c);
 			break;
 		}
+	}
 	_drawingstarted = true;
 	check_psfile();
 }

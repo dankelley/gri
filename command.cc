@@ -245,7 +245,7 @@ perform_new_command(const char *s)
 void
 no_gri_cmd()
 {
-	string msg("ERROR: Gri can't locate the `gri.cmd' file\n\"");
+	string msg("ERROR: Gri can't locate the `gri.cmd' file\n");
 	msg.append("You need to tell Gri the directory containing this file.\n");
 	msg.append("  There are three ways in which you may do this:\n");
 	msg.append("    (1) Name the directory storing `gri.cmd' when you invoke Gri, e.g.\n");
