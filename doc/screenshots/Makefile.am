@@ -36,5 +36,6 @@ pdf: $(the_pdf_files)
 %-tiny.png : %.png
 	-convert -geometry 999x120 $< $@
 
-clean:
+# OLD STUFF, PROBABLY SHOULD BE REMOVED.
+old_clean:
 	rm -f *-tiny.png *.eps *.pgm *.pdf *~ 
