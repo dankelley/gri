@@ -23,7 +23,7 @@ extern "C" {
 
 #if defined(HAVE_GETHOSTNAME)
 #if defined(IS_SUN)
-extern "C" int gethostname(char *name, int namelen);
+extern "C" unsigned int gethostname(char *name, int namelen);
 #endif
 #endif
 
