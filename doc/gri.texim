@@ -11409,8 +11409,6 @@ following the @TeX{} convention.
 * About Synonyms::              Extensive overview
 * User Synonyms::               Defining your own synonyms
 * Built-in Synonyms::           Built-in synonyms pre-defined by Gri
-* Aliasing Synonyms::           Aliasing (@code{\@@alias})
-* Pointing Synonyms::           Pointing (@code{&\ptr} and @code{*\ptr})
 @end menu
 
 @node   About Synonyms, Synonym Names, Synonyms, Synonyms
@@ -11806,7 +11804,7 @@ check @file{gri.cmd} to see how a full
 command does checking of the calling syntax
 (@ref{Invoking Gri}).
 
-@node   Global Synonyms, Aliasing Synonyms, Local Synonyms, Built-in Synonyms
+@node   Global Synonyms, If Statements, Local Synonyms, Built-in Synonyms
 @comment  node-name,  next,  previous,  up
 @subsubsection Global synonyms
 @cindex synonyms, global
@@ -11868,143 +11866,9 @@ was run.  Some commands set @code{\.return_value.} to non-blank; the
 meaning of the return value varies from command to command.
 
 
-@node   Aliasing Synonyms, Pointing Synonyms, Global Synonyms, Synonyms
-@comment  node-name,  next,  previous,  up
-@subsection Aliasing Synonyms
-@cindex synonyms, aliasing with the @code{\@@} syntax
-@cindex aliasing synonyms with the @code{\@@} syntax
-@cindex @code{\@@} syntax for aliasing synonyms
-
-Sometimes it is helpful to be able to work with variables and synonyms
-whose names are not known in advance.  For example, you may wish to work
-with a variable or synonym that is named in a header line in a datafile,
-but which is not known at the time when you write your Gri commandfile.
-
-To help with such tasks, Gri provides so-called "aliasing" synonyms.
-The syntax is simple: an "at sign (@code{@@}) following a backslash
-indicates that the synonym's value itself is not of interest, but rather
-the value of the variable or synonym that it @emph{names}.  Consider the
-following code snippet.
-
-@example
-\alias = ".a."
-\@@alias = 10
-@end example
-
-The first line names a variable and the second indicates that this
-variable should be set to equal 10.  These two lines are equivalent to
-the single line
-
-@example
-.a. = 10
-@end example
-
-It is @emph{very important} to note that if multiple items of the same
-name exist (e.g. if a @code{new} command has been executed) then Gri
-uses the instance of the item that is "active" at the moment the
-@code{\@@} code is executed.  Thus, for example, the following prints
-200, not 100.
-
-@example
-.a. = 100
-\alias = ".a."
-new .a.       # this "shadows" the previous instance
-.a. = 200
-show \@@alias # prints 200, not 100
-@end example
-
-@cindex bugs, in clashing names within newcommands 
-@cindex name-clash bug, in newcommands 
-@cindex alias synonyms, name-clash bug within newcommands 
-@cindex @code{\@@} syntax, name-clash bug within newcommands 
-
-@b{An important bug}.  At the moment Gri has an important bug relating
-to aliasing of local synonyms, i.e. to syntax like @code{\@@.word1.} and
-so forth within new commands.  It results from what we might call a
-"name collision".  Consider the following code designed to double the
-value of a variable.
-
-@example
-`double .a_variable.'
-@{
-    new .a.           # set up a local version
-    \@@.word1. = @{rpn \@@.word1. 2 *@} # CAUTION!
-    delete \a         # clean up local version
-@}
-.b. = 1
-double .b.            # doubles .b., as desired
-.a. = 10
-double .a.            # does NOT double .a.
-@end example
-
-If @code{double} is called with any variable whose name is not
-@code{.a.}, it will double the variable as desired.  However, if it is
-called with a variable named @code{.a.}, a name clash will occur and the
-line labelled @code{CAUTION} will double the @emph{local} value, created
-in the @code{new} line immediately above.
-
-This unacceptably odd behavior is a known bug with the present version
-of Gri.  The plan is for future versions to be modified in such a way as
-to prevent this.  As it turns out, the internal coding changes to fix
-this bug are arduous, and therefore Gri is being released with this bug.
-
-In case you're now wary, please note that in many cases, you'll not want
-to use the alias syntax (@code{@@}) at all; you'll want to use the
-pointing syntax, described in the next section (@ref{Pointing Synonyms}).
-
-
-
-@node   Pointing Synonyms, If Statements, Aliasing Synonyms, Synonyms
-@comment  node-name,  next,  previous,  up
-@subsection Pointing Synonyms
-@cindex synonyms, pointers to with the @code{&} and @code{*} syntax,
-@cindex variables, pointers to with the @code{&} and @code{*} syntax,
-@cindex pointers to variables or synonyms
-@cindex @code{*} syntax, for receiving end of pointing synonyms
-@cindex @code{&} syntax, for sending end of pointing synonyms
-
-Sometimes it is necessary to make what in the C programming language are
-called "pointers" to variables and synonyms.  The main application is to
-permit newcommands to alter their arguments.  By analogy to the C
-programming language, Gri uses the symbols @code{&} and @code{*} for
-this work.
-
-When the @code{&} operator is placed to the left of the name of a
-variable or a synonym, it creates a "pointer" to the item.  This pointer
-may be stored in synonyms or passed to new commands @ref{Adding New Commands}.
-The pointed-to item may be retrieved by putting a @code{*} to the left
-of the synonym containing the pointer.
-
-A few examples should clarify this.  Here is how to store a pointer to a
-variable:
-
-@example
-.v. = 10
-\vptr = &.v.
-assert @{rpn 10 *\vptr ==@} " variable-pointer error 1"
-*\vptr = 20
-assert @{rpn 20 *\vptr ==@} " variable-pointer error 2"
-@end example
-
-@noindent
-and here is how to store a pointer to a synonym:
-
-@example
-\s = "HI"
-\sptr = &\s
-assert @{rpn "HI" "*\sptr" ==@} " synonym-pointer error 1"
-*\sptr = "BYE"
-assert @{rpn "BYE" "*\sptr" ==@} " synonym-pointer error 2"
-@end example
-
-In most cases this syntax is used with new commands, providing
-the ability to modify arguments @ref{Altering Command Arguments}.
-
-
-
 @c HTML <!-- newfile IfStatements.html "Gri: if statements" "Programming Gri" -->
 
-@node   If Statements, Loops, Pointing Synonyms, Programming
+@node   If Statements, Loops, Global Synonyms, Programming
 @comment  node-name,  next,  previous,  up
 @section If Statements
 @cindex programming, if statements
@@ -13427,11 +13291,11 @@ the letter ``M'').
 @cindex extending Gri by adding new commands
 Gri provides so-called "newcommands" as a sort of subroutine syntax on steroids.
 @menu
-* Purpose::                     What newcommands are for
-* Parsing::                     How Gri parses commands
-* Simple New Command::          Simple example of adding new command
-* Complicated New Command::     More complicated example
-* Altering Command Arguments::  Altering command arguments using pointers
+* Purpose::                       What newcommands are for
+* Parsing::                       How Gri parses commands
+* Simple New Command::            Simple example of adding new command
+* Complicated New Command::       More complicated example
+* Changeable Command Arguments::  The &.var. and &\syn syntax
 @end menu
 
 @node   Purpose, Parsing, Adding New Commands, Adding New Commands
@@ -13585,7 +13449,7 @@ The new command is invoked by @code{Show The Time}.  Help for the
 command is found by @code{help Show The Time} or @code{help Show}.
 
 
-@node   Complicated New Command, Altering Command Arguments, Simple New Command, Adding New Commands
+@node   Complicated New Command, Changeable Command Arguments, Simple New Command, Adding New Commands
 @comment node-name,  next,  previous,  up
 @subsection Complicated example of creating new command
 @cindex extending Gri by adding new commands, complicated example
@@ -13650,7 +13514,7 @@ super/subscripts.
 @end example
 
 
-@node   Altering Command Arguments, Hints, Complicated New Command, Adding New Commands
+@node   Changeable Command Arguments, The Ampersand Syntax, Complicated New Command, Adding New Commands
 @comment node-name,  next,  previous,  up
 @subsection Altering command arguments using pointers
 @cindex command arguments, how to alter
@@ -13658,56 +13522,191 @@ super/subscripts.
 @cindex arguments to new commands, how to alter
 @cindex the @code{&.variable.} notation
 @cindex the @code{&\synonym} notation
-@cindex the @code{*\synonym} notation
 @cindex variables, pointers to
 @cindex synonym, pointers to
 @cindex pointers to variables and synonyms
 
-Normally, the arguments to a newcommand are parsed into either numerical
+The Gri language permits a newcommand to change variables and synonyms
+passed as arguments, using a syntax that is quite similar to that
+employed by the C++ language.
+
+@menu
+* The Ampersand Syntax::        Denoting changeable arguments with @code{&}
+* Doubling A Variable::         Example using e.g. @code{&.variable.}
+* Manipulating A Synonym::      Example using e.g. @code{&\synonym}
+* Nesting::                     Newcommands called by newcommands
+* Using New And Delete::        Isolating local variables and synonyms
+@end menu
+
+
+@node   The Ampersand Syntax, Doubling A Variable, Changeable Command Arguments, Changeable Command Arguments
+@comment  node-name,  next,  previous,  up
+@subsubsection The @code{&} syntax for changeable arguments to newcommands
+
+Normally the arguments to a newcommand are parsed into either numerical
 values or strings, before execution is passed into the newcommand.  This
 is a akin to the scheme called "call by value" in some programming
-languages.  But how, then, can a newcommand alter its arguments?  The
-answer is to pass @emph{pointers} to items, not items themselves
-(@ref{Pointing Synonyms}).
+languages.  Gri also provides a syntax, borrowed from C++, that permits
+a newcommand to alter variable or synonym arguments.
 
-The technique is simple.  To permit a newcommadn to modify an argument
+The technique is simple.  To permit a newcommand to modify an argument
 that is a variable or a synonym, just put a @code{&} to the left of the
-item on the calling line, and put a @code{*} to the left of the
-associated local synonym inside the newcommand.
+item on the calling line.  Then, within the newcommand, the
+corresponding local synonym (i.e. @code{\.word1.}, etc.) will behave as
+though it were the instance of the original variable or synonym.
 
-For example, here is how to double the value of a variable: 
+The @code{&} is placed to the left of the variable-name or synonym-name
+without intervening space.  For example @code{foo &.var. &\syn} tells
+the parser that the newcommand named @code{foo} may possibly alter the
+values of the variable @code{.var.} and the synonym @code{\syn}, as they
+exist in the calling context.
+
+@node   Doubling A Variable, Manipulating A Synonym, The Ampersand Syntax, Changeable Command Arguments
+@comment  node-name,  next,  previous,  up
+@subsubsection Example: doubling a variable
+
+For example, here is how to double the value of a variable and
+print its doubled value:
 
 @example
-`double &.value.'
-@{
-    *\.word1. = @{rpn *\.word1. 2 *@}
-@}
-.x. = 10
-double &.x.
-assert @{rpn .x. 20 ==@} " Failed variable test"
+`double &.value.'                      # 1
+@{                                      # 2
+    \.word1. = @{rpn \.word1. 2 *@}      # 3
+@}                                      # 4
+.x. = 10                               # 5
+double &.x.                            # 6
+show .x.                               # 7
 @end example
 
-Note the use of the @code{&} in the syntax declaration.  As usual, Gri
-doesn't parse this in any real way; it does no more than realize that
-the first word is fixed and further words are not fixed.  However, the
-use of the @code{&} is a good mnemonic to the programmer.
+@noindent
+(Note: the @code{&} in the syntax declaration of line 1 is provided as a
+signal to the reader that the argument is changeable; Gri does no
+checking of whether the actual argument in the call in line 7 uses the
+@code{&} as it should.)
 
-Here is how you might postpend @code{.dat} onto a filename:
+At line 3 Gri interprets the @code{\.word1.} to the @emph{left} of the
+equals sign as a reference to the variable that is set to the value 10
+in line 5.  Similarly, the @code{\.word1.} to the @emph{right} of the
+equals sign evaluates to 10, the value in the calling program.
+
+Gri automatically determines whether an item is a variable or a synonym,
+and does the correct thing.  Thus, for example, if line 3 above were written as
 
 @example
-`postpend_dat *\filename'
+    \.word1. = "hello"                 # ERROR
+@end example
+
+@noindent
+an error would be reported, since @code{double} was called with a
+variable as an argument, and variables cannot hold strings.
+
+@node   Manipulating A Synonym, Nesting, Doubling A Variable, Changeable Command Arguments
+@comment  node-name,  next,  previous,  up
+@subsubsection Example: manipulating a synonym
+
+Synonyms are treated in the same way, as is illustrated in the following
+example.
+
+@noindent
+Q: what does the following print?
+
+@example
+`add_a_dat &\filename'
 @{
-    *\.word1. = @{rpn "*\.word1." ".dat" strcat@}
+    \.word1. = @{rpn "\.word1." ".dat" strcat@}
 @}
 \filename = "test"
-postpend_dat &\filename
-show "\filename ... should equal 'test.dat'"
-assert @{rpn "\filename" "test.dat" ==@} " Failed synonym test"
+add_a_dat &\filename
+show "\filename"
 @end example
+
+@noindent
+A: it prints @code{test.dat}.
+
+
+@node   Nesting, Using New And Delete, Manipulating A Synonym, Changeable Command Arguments
+@comment  node-name,  next,  previous,  up
+@subsubsection Nesting
+
+One newcommand may call another, letting a deeply-nested newcommand
+alter global values, simply by using the @code{&} notation at each step.
+The following provides an example of passing a variable through two
+levels of newcommands.  
+
+@noindent
+Q: what does the following print?
+
+@example
+`food critic &food'                 
+@{                                  
+    \.word2. = "\.word2.s"          
+    yummy &\.word2.                 
+@}                                  
+`yummy &foods'                      
+@{                                  
+    \.word1. = "\.word1.s are tasty" 
+@}                                   
+\a = "apple"                         
+food critic &\a                      
+show "\a"                            
+@end example
+
+@noindent
+A: it prints @code{apples are tasty}.
+
+
+
+@node   Using New And Delete, Hints, Nesting, Changeable Command Arguments
+@comment  node-name,  next,  previous,  up
+@subsubsection What @code{new} and @code{delete} do with changeable arguments
+
+@cindex @code{new}, used on changeable arguments
+@cindex @code{delete}, used on changeable arguments
+@cindex changeable arguments, using @code{new} on 
+@cindex changeable arguments, using @code{delete} on 
+
+If @code{new} and @code{delete} are executed on local synonyms inside
+newcommands (e.g.  @code{new \.word1.})  they create and destroy
+variables and synonyms in the context of the @emph{calling program}.
+
+For example, consider the following.
+
+@noindent
+Q: what does the following print?
+
+@example
+`poetry &\s'                           #  1
+@{                                      #  2
+    new \s                             #  3
+    \s = "rose"                        #  4
+    new \.word1.                       #  5
+    \.word1. = " is a \s"              #  6
+    delete \s                          #  7
+@}                                      #  8
+\s = "A rose "                         #  9
+poetry &\s                             # 10
+show "\s" ...                          # 11
+delete \s                              # 12
+show "\s" ...                          # 13
+delete \s                              # 14
+show "\s" ...                          # 15
+delete \s                              # 16
+@end example
+
+@noindent
+A: it prints @code{A rose is a rose is a rose}.
+
+@noindent
+Note that line 3 and 4 create an instance of synonym internal to the
+newcommand, that shares the same name as the external synonym that was
+passed in as a changeable argument.  This internal synonym is entirely
+separate from the external synonym and may be safely considered as
+"scratch" storage space.
+
 
 @c HTML <!-- newfile Hints.html "Gri: Hints for Gri programming" "Programming Gri" -->
 
-@node   Hints, Debugging, Altering Command Arguments, Programming
+@node   Hints, Debugging, Using New And Delete, Programming
 @comment  node-name,  next,  previous,  up
 @section Hints for Gri Programming
 @cindex hints
@@ -15477,9 +15476,6 @@ as well as variables and simple numbers.
 Add @code{strlen} RPN operator (@ref{Unary Operators}).
 
 @sp 1
-Add pointers, as in the C language (@ref{Pointing Synonyms}).
-
-@sp 1
 Add @code{default} option to @code{set x format} and 
 @code{set y format} commands.
 
@@ -15503,7 +15499,7 @@ as C.)
 Add chapter on test suite (@ref{Test Suite}).
 
 @sp 1
-Add aliasing synonyms (@ref{Aliasing Synonyms}).
+Let newcommands have changeable arguments (@ref{Changeable Command Arguments}).
 
 @sp 1
 Remove @code{-s} as an abbreviation for the commandline option @code{-superuser}.
@@ -16222,8 +16218,6 @@ the instructions for unix.
 @cindex bugs in Gri
 List of known bugs:
 @itemize @bullet
-@item
-Newcommands can suffer the "name clash" bug (@ref{Aliasing Synonyms}).
 
 @item
 The PDF version of the manual, created by @code{make gri.pdf},
