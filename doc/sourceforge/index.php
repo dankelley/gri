@@ -72,6 +72,7 @@
                 </td> </tr>
                 <tr>
                   <td class="menus" align="right">
+		    <A class="menus" HREF="http://gri.sourceforge.net/gridoc/html/Version_2_6.html#Version2.6">Recent changes</a><br>
 		    <b>General tarball</b><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.2.tgz">gri-2.6.2.tgz</a><br>
 		    <b>Linux Pre-packaged</b><br>
