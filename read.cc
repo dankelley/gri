@@ -1586,6 +1586,9 @@ read_image_mask_rasterfileCmd()
 bool
 read_image_pgmCmd()
 {
+#ifdef DEBUG_READ 
+	printf("in read image pgm\n");
+#endif
 	chars_read = 0;
 	// get scale and box specifications if they exist
 	if (!image_range_exists()) {
@@ -1729,9 +1732,13 @@ enum FILE_TYPE {
 	P6_type		// as P3 but binary 14/5/96 not working
 };
 
-static          bool
+// WARNING: this code is pretty tangled ... if bugs crop up, it would make sense to clean it.
+static bool
 read_pgm_image(FILE * fp, IMAGE * im)
 {
+#ifdef DEBUG_READ
+	printf("in read_pgm_image\n");
+#endif
 	chars_read = 0;
 	FILE_TYPE file_type;
 	//int             i, j;
@@ -1762,6 +1769,9 @@ This is not a PGM file, since the first 2 characters\n\
 		err(_grTempString);
 		return false;
 	}
+	// Next few tests are for later ... I'll fill in the code
+	// as I add support.
+	// Presently, support P2 and P5.
 	if (file_type == P3_type) {
 		err("Cannot read P3-type images");
 		return false;
@@ -1810,7 +1820,37 @@ This is not a PGM file, since the first 2 characters\n\
 		return false;
 	}
 	GET_STORAGE(im->image, unsigned char, (im->ras_width * im->ras_height));
-	if (_dataFILE.back().get_type() != DataFile::from_cmdfile
+#if 1 // fixing SF bug 664388 
+	if (_dataFILE.back().get_type() == DataFile::from_cmdfile) {
+		err("Cannot 'read image' from a commandfile; use a data file instead");
+		return false;
+	}
+#ifdef DEBUG_READ
+	printf("DEBUG: %s:%d image_width=%d  image_height=%d\n",__FILE__,__LINE__,im->ras_width,im->ras_height);
+#endif
+	if (file_type == P2_type) {
+		err("*** SORRY, 'read image pgm' cannot read type 'P2' at this time.  Please email to author at Dan.Kelley@Dan.Ca, supplying him with a sample 'P2' file, since he doesn't know how to make one ***");
+		return false;
+	}  else if (file_type == P5_type) {
+		for (int j = int(im->ras_height - 1); j > -1; j--) {
+			for (int i = 0; i < int(im->ras_width); i++) {
+				if (1 != fread((char *) & tmpB, sizeof(tmpB), 1, fp)) {
+					sprintf(_grTempString, "Could not read all PGM image data.  Ran out after reading %d bytes", (im->ras_height - 1 - j) * im->ras_width + i);
+					err(_grTempString);
+					return false;
+				}
+				*(im->image + i * im->ras_height + j) = tmpB;
+#ifdef DEBUG_READ
+				printf("i=%d j=%d ... value %x_hex = %d_dec\n",i,j,tmpB,tmpB);
+#endif
+			}
+		}
+	} else {
+		err("Sorry, only 'P2' and 'P5' types of PGM image are handled by gri.");
+		return false;
+	}
+#else 
+        if (_dataFILE.back().get_type() != DataFile::from_cmdfile
 	    &&_dataFILE.back().get_type() != DataFile::ascii) {
 		// It's binary -- check for correct type
 		if (file_type != P5_type) {
@@ -1857,6 +1897,7 @@ This is not a PGM file, since the first 2 characters\n\
 			return false;
 		}
 	}
+#endif
 	return true;
 }
 

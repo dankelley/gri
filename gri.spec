@@ -96,6 +96,8 @@ then
 fi
 
 %changelog
+* Wed Jan 8 2003  Dan Kelley <Dan.Kelley@Dal.Ca>
+- fix SourceForge bug 664388 ('read image P5' broken)
 * Sun Dec 15 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
 - fix SourceForge bug 654129 (ignores ~/.grirc file)
 - fix SourceForge bug 654127 (configure scripts are broken)

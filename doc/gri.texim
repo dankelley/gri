@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.226 2002/12/15 17:50:19 dankelley Exp $
+@c $Id: gri.texim,v 1.227 2003/01/08 14:08:19 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -72,11 +72,11 @@
 
 @subtitle A Program to Make Science Graphs
 @subtitle Version @value{GRI-VERSION}
-@subtitle 2002
+@subtitle 2003
 @author Dan E. Kelley (@value{AUTHOR-EMAIL})
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 1991-2002 Dan Kelley
+Copyright @copyright{} 1991-2003 Dan Kelley
 @sp 2
 @end titlepage
 
@@ -89,7 +89,7 @@ Copyright @copyright{} 1991-2002 Dan Kelley
 @comment node-name, next, previous, up
 @top Gri
 @c HTML <!--
-This manual describes Gri version @value{GRI-VERSION}, (c) 1991-2002, 
+This manual describes Gri version @value{GRI-VERSION}, (c) 1991-2003, 
 Dan Kelley at email address 
 @c HTML <A HREF="mailto:Dan.Kelley@Dal.CA"> 
 @value{AUTHOR-EMAIL}
@@ -122,7 +122,7 @@ considerable power, at the price of a moderate learning curve.
 @c HTML <A HREF="Images.html">image plots</A>.
 @c HTML <p>
 @c HTML This document describes Gri @value{GRI-VERSION},
-@c HTML <br>(c) 1991-2002 <A HREF="http://www.phys.ocean.dal.ca/~kelley"> Dan Kelley.</A>
+@c HTML <br>(c) 1991-2003 <A HREF="http://www.phys.ocean.dal.ca/~kelley"> Dan Kelley.</A>
 @comment HTML Gri is distributed
 @comment HTML with a <A HREF="License.html">license</A> that permits 
 @comment HTML sharing in an OpenSource way.
@@ -295,7 +295,7 @@ just typing @code{gri} at the unix prompt), you'll see something like
 
 @example
 gri - scientific graphic program (version @value{GRI-VERSION})
- GPL Copyright 2002 by Dan E. Kelley.
+ GPL Copyright 2003 by Dan E. Kelley.
 
  Type `help' to view list of commands, or
  type `show license' to view license.  
@@ -16343,15 +16343,21 @@ only in the fixing of bugs.
 @subsection Version 2.12
 @cindex version 2.12
 
-@subsubsection Version 2.12.2 [2002 Dec 15]
+@subsubsection Version 2.12.2 [2003 Jan 8]
 @strong{Bug Fixes}
 
 @itemize
 
 @item
 Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=664388&group_id=5511&atid=105511,#664388}
+@dots{} @code{read image P5} was broken
+
+
+@item
+Fix SourceForge bug
 @uref{http://sourceforge.net/tracker/index.php?func=detail&aid=654129&group_id=5511&atid=105511,#654129}
-@dots{} ignoring ~/.grirc file
+@dots{} ignoring @file{~/.grirc} file
 
 @item
 Fix SourceForge bug

@@ -1,3 +1,7 @@
+2003-01-08  Dan E. Kelley  <kelley@Limit.Phys.Ocean.Dal.Ca>
+
+	* read.cc (read_pgm_image): fix SF bug 664388 ('read image P5' broken)
+
 2002-11-23  Dan E. Kelley  <kelley@Limit.Phys.Ocean.Dal.Ca>
 
 	* rpncalc.cc (do_operation): fix SF bug 641406 (RPN too aggressive on missing values)
