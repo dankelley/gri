@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.77 2001/04/22 19:41:43 dankelley Exp $
+@c $Id: gri.texim,v 1.78 2001/04/22 21:16:48 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -1993,7 +1993,7 @@ having been installed with Gri; if not, ask your system manager to check
 the FTP site.
 
 Additionally, I've collected a few real life examples here.  Other
-sources are the Gri cookbook, available separately
+sources are the Gri cookbook, available at
 @url{http://gri.sourceforge.net/gri-cookbook/index.html}.
 
 
@@ -15568,12 +15568,6 @@ and adjust the "status" menu to read "closed".
 
 @subsection Version 2.6.1 [NOT RELEASED YET]
 @itemize @bullet
-@item
-Fix SourceForge bug 
-@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=418065&group_id=5511&atid=105511">
-#418065
-@c HTML </a>
-(a back-tic notation was in the documentation even though it is not available)
 @item
 Fix SourceForge bug 
 @c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=417333&group_id=5511&atid=105511">
