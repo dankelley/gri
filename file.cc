@@ -117,7 +117,7 @@ push_data_file(const char* name, DataFile::type the_type, const char* status, bo
 				string sname(name);
 				sname.append(".gz");
 				if (0 != access(sname.c_str(), R_OK)) {
-					warning("Cannot locate file `\\", name, "'",
+					warning("Cannot access file `\\", name, "'",
 						" or a compressed version `", sname.c_str(), "'",
 						"\\");
 					

@@ -86,8 +86,6 @@ bool            create_synonym(const char *name, const char *value);
 bool            create_variable(const char *name, double value);
 bool            create_x_scale(void);
 bool            create_y_scale(void);
-char           *cshell_name(const char *s);
-
 int             data_file_index(const char *name);
 bool            define_image_scales(double llx, double lly, double urx, double ury);
 bool            delete_file(const char *filename);

@@ -5,6 +5,8 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdarg.h>
+#include <pwd.h>
+#include <sys/types.h>
 
 #if defined(MSDOS)		// need all these?
 #include <stdlib.h>
@@ -319,50 +321,6 @@ delete_file(const char *filename)
 	return true;
 }
 
-// Convert full filename to tilde name
-char *
-cshell_name(char *s)
-{
-	char *            new_name;
-#if defined(HAVE_GETENV)
-#if defined(MSDOS)		// for MSDOS, return input
-	new_name = new char [1 + strlen(s)];
-	if (!new_name) OUT_OF_MEMORY;
-	strcpy(new_name, s);
-	return new_name;
-#else				// not MSDOS
-	char *            user = (char *) getenv("USER");
-	char *            home = (char *) getenv("HOME");
-	if (user && home) {
-		// The environment variables were recovered ok.
-		if (!strncmp(s, home, strlen(home))) {
-			// Below asks for 1 extra space; what the heck.
-			new_name = new char [3 + strlen(user) + strlen(s) - strlen(home)];
-			if (!new_name) OUT_OF_MEMORY;
-			strcpy(new_name, "~");
-			strcat(new_name, user);
-			strcat(new_name, s + strlen(home));
-		} else {
-			new_name = new char[1 + strlen(s)];
-			if (!new_name) OUT_OF_MEMORY;
-			strcpy(new_name, s);
-		}
-	} else {
-		// Could not recover environment variables
-		new_name = new char[1 + strlen(s)];
-		if (!new_name) OUT_OF_MEMORY;
-		strcpy(new_name, s);
-	}
-	return new_name;
-#endif				// not MSDOS
-#else				// No environment variables
-	new_name = new char[1 + strlen(s)];
-	if (!new_name) OUT_OF_MEMORY;
-	strcpy(new_name, s);
-	return new_name;
-#endif
-}
-
 /*
  * skip_space () -- return number of spaces at start of string. (A space may
  * be SPC, TAB, etc.)
@@ -486,9 +444,21 @@ resolve_filename(string& f, bool trace_path, char c_or_d)
 		}
 	}
 	if (f[0] == '~') {
-		f.STRINGERASE(0, 1);
-		f.insert(0, egetenv("HOME"));
-		return true;
+		if (f[1] == '/') {
+			f.STRINGERASE(0, 1);
+			f.insert(0, egetenv("HOME"));
+			return true;
+		} else {
+			size_t name_end = f.find("/");
+			if (name_end == STRING_NPOS)
+				name_end = f.size();
+			string username = f.substr(1, name_end - 1);
+			struct passwd *pw_entry;
+			pw_entry = getpwnam(username.c_str());
+			f.STRINGERASE(0, username.size() + 1);
+			f.insert(0, pw_entry->pw_dir);
+			return true;
+		}
 	}
 
 	// BUG: probably should substitute any env-vars here, e.g. $HOME
