@@ -653,6 +653,14 @@ but can also be entered simply as a single string:
   "gri.cmd file used when calling gri command (if gri-bin-cmd not \"gri\")
 and used for gri-mode syntax.") 
 
+(defvar gri-sys-command-alist nil
+  "Alist of gri system commands.
+This list is filled automatically when needed.")
+
+(defvar gri-user-command-alist nil
+  "Alist of gri user commands
+This list is filled automatically when needed.")
+
 (defvar gri-version-list nil
   "Internal list of gri versions available from variable gri*directory-tree")
 
@@ -1552,8 +1560,7 @@ It should only be called when the alists are not bound (not existant)."
   ; elisp info doesn't say if completing-read is more efficient with alists
   ;  or obarrays.
   (gri-lookat-syntax-file 1)
-  (defvar gri-user-command-alist  "Alist of gri user commands")
-  (setq  gri-user-command-alist nil)    ;Making sure always starts empty
+  (setq gri-user-command-alist nil)    ;Making sure always starts empty
   (while (not (looking-at "---"))
     (setq gri-user-command-alist
           (nconc gri-user-command-alist 
@@ -1567,7 +1574,6 @@ It should only be called when the alists are not bound (not existant)."
   (if system-flag
       (progn
         (message "building list of gri commands...")
-        (defvar gri-sys-command-alist nil "Alist of gri system commands")
         (setq gri-sys-command-alist nil)
         (forward-line 1)
         (when (looking-at "^\\(\.\\|\\\)") ; skip over variables
@@ -1712,7 +1718,7 @@ Display message if no help text supplied."
 
 (defun gri-format-display-command (the-command)
   "return possible 2-line string for ARG, a gri command syntax string."
-  (if (> (screen-width) (length the-command))
+  (if (> (frame-width) (length the-command))
       the-command
     (let ((the-string)
           (tmp-buffer (get-buffer-create "*gri-format*")))
@@ -1753,6 +1759,13 @@ Note that only a small subset of commands have such defaults.  These are
 usually command with the keyword \"default\" in their syntax."
   (interactive)
   (message "%s" (gri-syntax-default-this-command)))
+
+(defvar gri-last-complete-point -1)
+(defvar gri-last-complete-command "")
+(defvar gri-last-complete-status 0)
+(defvar gri-complete-begin-point nil
+  "Gri internal variable to remember point of beginning of completion
+across multiple invocations.")
 
 (defun gri-build-expansion-regex ()
   "Returns regular expression for abbreviated gri command on current line."
@@ -2028,7 +2041,6 @@ Sets gri-last-complete-status to 1 if show completions next time
                  expansion-list))
           (forward-line 1)
           (setq match-count (1+ match-count)))))
-    (setq the-list expansion-list)
     (cond
      ((= match-count 0)
       (if exact-flag
@@ -3706,18 +3718,15 @@ Any output (errors?) is put in the buffer `gri-WWW-manual'."
 ;;; 		    )
 ;;; 	...))
 
-(setq gri-specials-topics
-      '(("while" "(gri)While")
-        ("if" "(gri)If Statements")
-        ("localSynonyms" "(gri)Local Synonyms")
-        ("synonyms" "(gri)About Synonyms")
-        ("builtInVariables" "(gri)Built-in Variables")
-        ("variables" "(gri)About Variables")
-        ("rpn" "(gri)rpn Mathematics")
-        ("columns" "(gri)Manipulation of Columns etc")
-        ("conceptIndex" "(gri)Concept Index")))
-
-(let ((topics gri-specials-topics))
+(let ((topics '(("while" "(gri)While")
+                ("if" "(gri)If Statements")
+                ("localSynonyms" "(gri)Local Synonyms")
+                ("synonyms" "(gri)About Synonyms")
+                ("builtInVariables" "(gri)Built-in Variables")
+                ("variables" "(gri)About Variables")
+                ("rpn" "(gri)rpn Mathematics")
+                ("columns" "(gri)Manipulation of Columns etc")
+                ("conceptIndex" "(gri)Concept Index"))))      
   (while topics
     (let* ((topic (car topics))
 	   value menu name)
@@ -3882,206 +3891,7 @@ Any output (errors?) is put in the buffer `gri-WWW-manual'."
      ["Uncomment-out region"          gri-uncomment-out-region t]
      ["Create function skeleton"      gri-function-skeleton t]
      ["Fontify buffer"                gri-fontify-buffer t]
-     )))
-;;; Old code follows.
-;;; FIXME: Delete this old code when I'm happy the above works well.
- ((string-match "XEmacs\\|Lucid" emacs-version)
-  ;;Insert XEmacs stuff here
-  ;;FIXME: See functions in XEmacs' outline.el to (de)install many menus
-  ;;FIXME:  from the top level.
-  (setq gri-menubar
-    '("Gri" 
-      ("Syntax" 
-       ["Fontify buffer"                gri-fontify-buffer t]
-       ["Create function skeleton"      gri-function-skeleton t]
-       ["Uncomment-out region"          gri-uncomment-out-region t]
-       ["Comment-out region"            gri-comment-out-region t]
-       ["Indent entire buffer"          gri-indent-buffer t]
-       ["Indent selected region"        gri-indent-region t]
-       ["Indent current line"           gri-indent-line t]
-       ["Insert file head as a comment" gri-insert-file-as-comment t]
-       ["Add Comment to current line"   gri-comment t]
-       ["Kill option under point"       gri-kill-option t]
-       ["Select option under point"     gri-option-select t]
-       ["Complete gri command"          gri-complete t]
-       )
-      ("Perform"
-       ["Set gri version to use"        gri-set-version t]
-       ["Set gri version to use locally" gri-set-local-version t]
-       ["Print existing PostScript"     gri-print t]
-       ["View existing PostScript"      gri-view  t]
-       ["Save, Run and View gri"        gri-run t]
-       )
-      ("Hide/Show"
-       ["Remove function restriction"   widen t]
-       ["Restrict editing to function"  gri-narrow-to-function t]
-       ["Show all gri functions"        gri-show-all t]
-       ["Show this gri function"        gri-show-function t]
-       ["Hide all gri functions"        gri-hide-all t]
-       ["Hide this gri function"        gri-hide-function t]
-       )
-      ("Gri-Help"
-       ["List gri commands containing string" gri-help-apropos t]
-       ["Display syntax for current command"  gri-display-syntax t]
-       ["Gri Manual on WWW"                   gri-WWW-manual t]
-       ("InfoTopics"
-;;; Old way!
-;;;	["While Statements" (lambda () 
-;;;			      (interactive)(require 'info)
-;;;			      (Info-goto-node "(gri)While")) t]
-        ["While Statements"                   gri-info-while t]
-        ["If Statements"                      gri-info-if t]
-        ["Local Synonyms"                     gri-info-localSynonyms t]
-        ["About Synonyms"                     gri-info-synonyms t]
-        ["Built-in Variables"                 gri-info-builtInVariables t]
-        ["About Variables"                    gri-info-variables t]
-        ["Reverse Polish Math (rpn stuff)"    gri-info-rpn t]
-        ["Manipulating Columns"               gri-info-columns t]
-        ["Concept Index"                      gri-info-conceptIndex t]
-        )
-       ["Info about any command"              gri-info t]
-       ["Info about current command"          gri-info-this-command t]
-       ["Help about any command"              gri-help t]
-       ["Help about current command"          gri-help-this-command t]
-       ["Customize Gri" (lambda () (interactive)(customize-group "gri"))]
-       ))))
- ((and (>= emacs-major-version 19)
-       window-system)
-  ;; GNU emacs code
-  (define-key gri-mode-map [menu-bar help gri-help-apropos]
-    '(" List gri commands containing string " . gri-help-apropos))
-  (define-key gri-mode-map [menu-bar help gri-display-syntax]
-    '(" Display syntax for current command " .gri-display-syntax))
-  (define-key gri-mode-map [menu-bar help gri-WWW-manual]
-    '(" Gri Manual on WWW " . gri-WWW-manual))
-  (setq InfoTopics (make-sparse-keymap "InfoTopics"))
-  (define-key gri-mode-map [menu-bar help InfoTopics]
-    (cons " Info Special Topics ... " InfoTopics))
-  ;; could also do:
-  ;;   (define-key gri-mode-map [menu-bar help InfoTopics While] ...)
-  ;; like above, but I won't since I use this keymap again.
-  (define-key InfoTopics [While]
-    '(" While Statements " . (lambda () 
-                               (interactive)(require 'info)
-                               (Info-goto-node "(gri)While"))))
-  (define-key InfoTopics [If]
-    '(" If Statements " . (lambda () 
-                            (interactive)(require 'info)
-                            (Info-goto-node "(gri)If Statements"))))
-  (define-key InfoTopics [LocalSYN]
-    '(" Local Synonyms " . (lambda () 
-                             (interactive)(require 'info)
-                             (Info-goto-node "(gri)Local Synonyms"))))
-  (define-key InfoTopics [SYN]
-    '(" About Synonyms " . (lambda () 
-                             (interactive)(require 'info)
-                             (Info-goto-node "(gri)About Synonyms"))))
-  (define-key InfoTopics [BuiltinVAR]
-    '(" Built-in Variables " . (lambda () 
-                                 (interactive)(require 'info)
-                                 (Info-goto-node "(gri)Built-in Variables"))))
-  (define-key InfoTopics [VAR]
-    '(" About Variables " . (lambda () 
-                              (interactive)(require 'info)
-                              (Info-goto-node "(gri)About Variables"))))
-  (define-key InfoTopics [RPN]
-    '(" Reverse Polish Math (rpn stuff) " . (lambda () 
-                                              (interactive) (require 'info)
-                                              (Info-goto-node 
-                                               "(gri)rpn Mathematics"))))
-  (define-key InfoTopics [COL]
-    '(" Manipulating Columns " . (lambda () 
-                                   (interactive)(require 'info)
-                                   (Info-goto-node 
-                                    "(gri)Manipulation of Columns etc"))))
-  (define-key InfoTopics [Concept]
-    '(" Concept Index " . (lambda () 
-                            (interactive)(require 'info)
-                            (Info-goto-node "(gri)Concept Index"))))
-  (define-key gri-mode-map [menu-bar help gri-info]
-    '(" Info about any command " . gri-info))
-  (define-key gri-mode-map [menu-bar help gri-info-this-command]
-    '(" Info about current command " . gri-info-this-command))
-  (define-key gri-mode-map [menu-bar help gri-help]
-    '(" Help about any command " . gri-help))
-  (define-key gri-mode-map [menu-bar help gri-help-this-command]
-    '(" Help about current command " . gri-help-this-command))
-
-  (define-key gri-mode-map [menu-bar gri-Help]
-    (cons "gri-Help" (make-sparse-keymap "gri-Help")))
-  (define-key gri-mode-map [menu-bar gri-Help gri-help-apropos]
-    '(" List gri commands containing string " . gri-help-apropos))
-  (define-key gri-mode-map [menu-bar gri-Help gri-display-syntax]
-    '(" Display syntax for current command " . gri-display-syntax))
-  (define-key gri-mode-map [menu-bar gri-Help gri-WWW-manual]
-    '(" Gri Manual on WWW " . gri-WWW-manual))
-  (define-key gri-mode-map [menu-bar gri-Help InfoTopics]
-    (cons " Info Special Topics ... " InfoTopics))
-  (define-key gri-mode-map [menu-bar gri-Help gri-info]
-    '(" Info about any command " . gri-info))
-  (define-key gri-mode-map [menu-bar gri-Help gri-info-this-command]
-    '(" Info about current command " . gri-info-this-command))
-  (define-key gri-mode-map [menu-bar gri-Help gri-help]
-    '(" Help about any command " . gri-help))
-  (define-key gri-mode-map [menu-bar gri-Help gri-help-this-command]
-    '(" Help about current command " . gri-help-this-command))
-
-  (define-key gri-mode-map [menu-bar Hide/Show]
-    (cons "Hide/Show" (make-sparse-keymap "Hide/Show")))
-  (define-key gri-mode-map [menu-bar Hide/Show widen]
-    '(" Remove function restriction " . widen))
-  (define-key gri-mode-map [menu-bar Hide/Show gri-narrow-to-function]
-    '(" Restrict editing to function " . gri-narrow-to-function))
-  (define-key gri-mode-map [menu-bar Hide/Show gri-show-all]
-    '(" Show all gri functions " . gri-show-all))
-  (define-key gri-mode-map [menu-bar Hide/Show gri-show-function]
-    '(" Show this gri function " . gri-show-function))
-  (define-key gri-mode-map [menu-bar Hide/Show gri-hide-all]
-    '(" Hide all gri functions " . gri-hide-all))
-  (define-key gri-mode-map [menu-bar Hide/Show gri-hide-function]
-    '(" Hide this gri function " . gri-hide-function))
-
-  (define-key gri-mode-map [menu-bar Perform]
-    (cons "Perform" (make-sparse-keymap "Perform")))
-  (define-key gri-mode-map [menu-bar Perform gri-set-local-version]
-    '(" Set gri version to use locally " . gri-set-local-version))
-  (define-key gri-mode-map [menu-bar Perform gri-set-version]
-    '(" Set gri version to use " . gri-set-version))
-  (define-key gri-mode-map [menu-bar Perform gri-print]
-    '(" Print existing PostScript " . gri-print))
-  (define-key gri-mode-map [menu-bar Perform gri-view]
-    '(" View existing PostScript " . gri-view))
-  (define-key gri-mode-map [menu-bar Perform gri-gv-scale-selection] 
-    '(cons "gv" (make-sparse-keymap "gv")))
-  (define-key gri-mode-map [menu-bar Perform gri-run]
-    '(" Save, Run and View gri " . gri-run))
-
-  (define-key gri-mode-map [menu-bar Syntax]
-    (cons "Syntax" (make-sparse-keymap "Syntax")))
-  (define-key gri-mode-map [menu-bar Syntax gri-fontify-buffer]
-    '(" Fontify the buffer " . gri-fontify-buffer))
-  (define-key gri-mode-map [menu-bar Syntax gri-function-skeleton]
-    '(" Create a new function skeleton " . gri-function-skeleton))
-  (define-key gri-mode-map [menu-bar Syntax gri-uncomment-out-region]
-    '(" Uncomment-out region " . gri-uncomment-out-region))
-  (define-key gri-mode-map [menu-bar Syntax  gri-comment-out-region]
-    '(" Comment-out region " . gri-comment-out-region))
-  (define-key gri-mode-map [menu-bar Syntax gri-indent-buffer]
-    '(" Indent entire buffer " . gri-indent-buffer))
-  (define-key gri-mode-map [menu-bar Syntax gri-indent-region]
-    '(" Indent selected region " . gri-indent-region))
-  (define-key gri-mode-map [menu-bar Syntax gri-indent-line]
-    '(" Indent current line " . gri-indent-line))
-  (define-key gri-mode-map [menu-bar Syntax gri-insert-file]
-    '(" Insert file head as a comment " . gri-insert-file-as-comment))
-  (define-key gri-mode-map [menu-bar Syntax gri-comment]
-    '(" Add Comment to current line " . gri-comment))
-  (define-key gri-mode-map [menu-bar Syntax gri-kill-option]
-    '(" Kill option under point " . gri-kill-option))
-  (define-key gri-mode-map [menu-bar Syntax gri-option-select]
-    '(" Select option under point " . gri-option-select))
-  (define-key gri-mode-map [menu-bar Syntax gri-complete]
-    '(" Complete gri command " . gri-complete))))
+     ))))
 
 
 (defun gri-run-setting-toggle (item)
@@ -4458,10 +4268,11 @@ static char *magick[] = {
 };")
     "Run Gri")
 
-  (setq gri-mode-toolbar 
-	(append 
-	 initial-toolbar-spec 
-	 '([gri::toolbar-run-icon gri-run t "Run Gri"])))))
+  (defvar gri-mode-toolbar 
+    (append 
+     initial-toolbar-spec 
+     '([gri::toolbar-run-icon gri-run t "Run Gri"]))
+     "XEmacs toolbar for gri")))
 
 ;; Emacs-21 tool-bar
 (cond 
@@ -4752,15 +4563,12 @@ PLANNED ADDITIONS:
         comment-end "")
   (make-local-variable 'comment-column)
   (setq comment-column 'gri-comment-column)
-  (make-local-variable 'comment-indent-hook)
-  ;; See (Node: Options for Comments)  
-  (setq comment-indent-hook 'gri-comment-indent)
   (make-local-variable 'fill-column)
   (setq fill-column default-fill-column)
-  (make-local-variable 'auto-fill-hook)
-  (setq auto-fill-hook 
-        '(lambda () 
-           (insert "\\\n"))) 
+;;  (make-local-variable 'auto-fill-hook)
+;;  (setq auto-fill-hook 
+;;        '(lambda () 
+;;           (insert "\\\n")))
 
   (cond
    (gri*use-imenu
