@@ -534,6 +534,7 @@ gr_draw_arc_cm(bool filled, double xc, double yc, double r, double angle1, doubl
 {
 	extern FILE *_grPS;
 	set_environment();
+	set_ps_color('p');
 	set_line_width_curve();
 	if (filled) { 		// this block corrected by Wolfgang Voegeli, fixing SF bug 930259 
 		fprintf(_grPS, "%.1f %.1f m %.1f %.1f %.1f %.1f %.1f arc fill\n",
