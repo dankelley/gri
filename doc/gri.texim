@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.239 2003/02/26 15:22:48 dankelley Exp $
+@c $Id: gri.texim,v 1.240 2003/03/01 20:11:08 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16345,13 +16345,13 @@ only in the fixing of bugs.
 
 @comment ADD-NEW-BUG-FIXES-HERE
 
-@subsubsection Version 2.12.3 [2003 Feb 13]
+@subsubsection Version 2.12.3 [2003 Mar 1]
 @strong{Bug Fixes}
 @itemize
 @item
 Fix SourceForge bug
 @uref{http://sourceforge.net/tracker/index.php?func=detail&aid=685919&group_id=5511&atid=105511,#685919}
-@dots{} Cannot understand @file{.eps} file extension on startup.
+@dots{} @code{-output} commandline argument failed on @file{.eps} file extension.
 
 @end itemize
 

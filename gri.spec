@@ -96,7 +96,8 @@ then
 fi
 
 %changelog
-* Thu Feb 13 2003 Dan Kelley <Dan.KelleyDal.Ca>
+* Thu Mar 01 2003 Dan Kelley <Dan.KelleyDal.Ca>
+- +++ VERSION 2.12.3 +++
 - fix SourceForge bug 685919 (cannot understand '.eps' file extension)
 * Fri Feb  7 2003 Dan Kelley <Dan.KelleyDal.Ca>
 - +++ VERSION 2.12.2 +++

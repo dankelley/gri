@@ -1,10 +1,11 @@
 // NB: number string must agree with line 1 of gri.cmd
 char _gri_number[] = "2.12.3";
-char _gri_release_time[] = "2003-Feb-13";
+char _gri_release_time[] = "2003-Mar-01";
 char _gri_date[] = "2003";
 
 // OLDER VERSIONS:
 //
+//  2.12.3      2003-mar-01
 //  2.12.2      2003-feb-07 Munro Day (Dalhousie University)
 //  2.12.1      2002-sep-25
 //  2.12.0      2002-sep-15 Terry Fox Day (Canada)
