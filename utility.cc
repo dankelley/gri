@@ -996,10 +996,17 @@ getinum(const char *s, int *i)
 	// whether the user is interested in errors.
 	*i = (int) _grMissingValue;
 	if (!_ignore_error) {
-		err("Cannot interpret `\\",
-		    s,
-		    "' as a number.",
-		    "\\");
+		if (isalpha(s[1])) {
+			err("Cannot interpret `\\",
+			    s,
+			    "' as a number.\n       Did you forget the final \".\" in a variable name?",
+			    "\\");
+		} else {
+			err("Cannot interpret `\\",
+			    s,
+			    "' as a number.",
+			    "\\");
+		}
 	}
 	return false;
 }
@@ -1075,11 +1082,19 @@ getdnum(const char *s, double *d)
 	}
 	// It's a mystery.  report error, fatal or nonfatal depending on
 	// whether the user is interested in errors.
+	*d = (double) _grMissingValue;
 	if (!_ignore_error) {
-		err("Cannot interpret `\\",
-		    s,
-		    "' as a number.",
-		    "\\");
+		if (isalpha(s[1])) {
+			err("Cannot interpret `\\",
+			    s,
+			    "' as a number.\n       Did you forget the final \".\" in a variable name?",
+			    "\\");
+		} else {
+			err("Cannot interpret `\\",
+			    s,
+			    "' as a number.",
+			    "\\");
+		}
 	}
 	return false;
 }
