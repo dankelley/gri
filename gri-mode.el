@@ -5,7 +5,7 @@
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.40 (20 Feb 2001)
+;; Version:   2.41 (20 Feb 2001)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -359,6 +359,7 @@
 ;; V2.38 20Feb01 RCS 1.63 - add display of defaults after completion (>= 2.6.0)
 ;; V2.39 20Feb01 RCS 1.64 - add imenu support.
 ;; V2.40 20Feb01 RCS 1.65 - add gri-idle-display-defaults.
+;; V2.41 20Feb01 RCS 1.66 - gri-idle-display-defaults set outside of X too.
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -542,7 +543,7 @@ See the gri-mode.el file itself for more information."
     :type '(choice (directory) (repeat directory)))
 
   (defcustom gri-idle-display-defaults
-    (and (fboundp 'run-with-idle-timer) window-system)
+    (fboundp 'run-with-idle-timer)
     "*t means to display function defaults under point when Emacs is idle."
     :group 'gri
     :type 'boolean)
@@ -4470,7 +4471,7 @@ static char *magick[] = {
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.40 (c) 20 Feb 2001 --  Peter Galbraith <psg@debian.org>
+V2.41 (c) 20 Feb 2001 --  Peter Galbraith <psg@debian.org>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
