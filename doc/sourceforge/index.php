@@ -176,9 +176,6 @@ HREF="http://gri.sourceforge.net/gridoc/html/Version_2_6.html#Version2.6">here</
       <td  class="menubox">
         <font size="-1">
         Vsn 2.6.4: 2001-jul-04</br>
-        Vsn 2.6.3: broken</br>
-        Vsn 2.6.2: 2001-may-20</br>
-        Vsn 2.6.1: 2001-may-11</br>
         </font>
       </td>
     </tr>
