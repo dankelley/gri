@@ -34,7 +34,9 @@ new_postscript_fileCmd()
 	}
 	//printf("DEBUG.  Should now start a new ps file named '%s'\n",_word[3]);
 	gr_end("!");
-	gr_setup_ps_filename(_word[3]);
+	string unquoted(_word[3]);
+	un_double_quote(unquoted);
+	gr_setup_ps_filename(unquoted.c_str());
 #if 0
 	// BUG: don't know argc/argv from here!
 	insert_creator_name_in_PS(argc, argv, psname);

@@ -141,7 +141,7 @@ open_file(DataFile::type type)
 					filename.STRINGERASE(filename.size() - 1, filename.size());
 				// Determine actual filename (substituting for ~ etc).
 				string completefilename(filename);
-				resolve_filename(completefilename, true);
+				resolve_filename(completefilename, true, 'd');
 				if (!push_data_file(completefilename.c_str(), type, "r", false)) {
 					err("`open' can't find file `\\", completefilename.c_str(), "'", "\\");
 					return false;
@@ -156,7 +156,7 @@ open_file(DataFile::type type)
 			return false;
 		}
 		string completefilename(_word[1]);
-		resolve_filename(completefilename, true);
+		resolve_filename(completefilename, true, 'd');
 		if (!push_data_file(completefilename.c_str(), type, "r", false)) {
 			err("`open' can't find (or successfully open) file `\\", completefilename.c_str(), "' due to system error `", strerror(errno), "'.", "\\");
 			return false;

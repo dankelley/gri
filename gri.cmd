@@ -3593,6 +3593,14 @@ SEE ALSO `set panel .row. .col.'
     delete .rows. .cols.
 }
 
+#* @param \path for data or command files @default "."
+`set path to "\path"|default for data|commands'
+Set directory path for finding data files or command files.
+The default is ".", the current directory.
+{
+    extern "C" bool set_pathCmd(void);
+}
+
 #* @param .diameter_cm. diameter size of symbols @unit cm @default 0.1
 `set symbol size .diameter_cm.|default'
 Control the size (diameter) of symbols drawn by `draw symbol' command.
@@ -4664,4 +4672,5 @@ rpnfunction pi 3.14159265358979323846
 # The following assume stack containing four numbers, 'x0 y0 x1 y',
 # and return the slope and intercept of the line joining the points.
 rpnfunction linear_slope     exch roll_right - roll_right exch - /
+
 rpnfunction linear_intercept exch dup roll_left roll_left roll_left dup roll_right - roll_right exch - / roll_left * -

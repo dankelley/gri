@@ -14,7 +14,7 @@ inputCmd()
 	string fname(_word[1]);
 	un_double_quote(fname);
 	string completefilename(fname);
-	resolve_filename(completefilename, true);
+	resolve_filename(completefilename, true, 'c'); // BUG do I want 'c' or 'd' here??
 	switch (_nword) {
 	case 7:
 		getdnum(_word[6], &angle);
@@ -40,8 +40,10 @@ inputCmd()
 	}
 	/* Search directory only if not specified as local/fullpath */
 	string longfilename(completefilename);
-	if (completefilename[0] != '/' && completefilename[0] != '.')
-		longfilename.assign(file_in_list(completefilename.c_str(), false, false));
+
+//OLD	if (completefilename[0] != '/' && completefilename[0] != '.')
+//OLD		longfilename.assign(file_in_list(completefilename.c_str(), false, false));
+
 	FILE *fp;
 	if (NULL == (fp = fopen(longfilename.c_str(), "r"))) {
 		fatal_err("Cannot open `input' file named `\\",

@@ -2324,6 +2324,49 @@ set_pageCmd()
 	return true;
 }
 
+//`set path to "\path"|default for data|commands'
+bool
+set_pathCmd()
+{
+	if (_nword != 6) {
+		demonstrate_command_usage();
+		NUMBER_WORDS_ERROR;
+		return false;
+	}
+	if (strNE(_word[4], "for")) {
+		err("Fourth word must be `for', not `\\", _word[4], "' as given.", "\\");
+		return false;
+	}
+	char *which_path;
+	if (strEQ(_word[5], "data")) 
+		which_path = "\\.path_data.";
+	else if (strEQ(_word[5], "commands")) 
+		which_path = "\\.path_commands.";
+	else {
+		err("Sixth word must be `data' or `commands', not `\\", _word[5], "' as given.", "\\");
+		return false;
+	}
+	if (strEQ(_word[3], "default")) {
+		if (!put_syn(which_path, ".", true)) {
+			err("Internal error in setting path to default.");
+			return false;
+		}
+	} else {
+		string unquoted;
+		int ok = ExtractQuote(_word[3], unquoted);
+		if (ok) {
+			if (!put_syn(which_path, unquoted.c_str(), true)) {	
+				err("`set path' cannot save `\\", _word[2], "' in synonym", which_path, "\\");
+				return false;
+			} 
+		} else {
+			err("`set path' cannot understand path `\\", _word[2], "'.", "\\");
+			return false;
+		}
+	}
+	return true;
+}
+
 bool
 set_postscript_filenameCmd()
 {

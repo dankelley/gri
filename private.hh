@@ -198,7 +198,7 @@ bool            re_compare(const char *string, const char *pattern);
 bool            remove_comment(char *cmdline);
 void            remove_esc_quotes(char *w);
 void            remove_trailing_blanks(char *s);
-bool            resolve_filename(string& fn, bool trace_path);  
+bool            resolve_filename(string& fn, bool trace_path, char d_or_c);
 bool            rpn_create_function(char *name, char **w, unsigned int nw);
 bool            same_syntax(const char *cmdline, const char *syntax, int flag);
 bool            same_word(const char *cp, const char *sp);

@@ -1,5 +1,5 @@
 @c -*-mode: texinfo; -*-
-@c $Id: gri.texim,v 1.59 2001/03/16 14:54:47 dankelley Exp $
+@c $Id: gri.texim,v 1.60 2001/03/18 16:00:26 dankelley Exp $
 \input texinfo @c -*-texinfo-*-
 @c
 @comment *** Start of HTML stuff ***
@@ -662,8 +662,8 @@ typed a carriage-return (thus giving the default) for each @code{query}.
 Prints explanation of options.
 
 @item @code{CommandFile}
-@cindex unix environment variable GRIINPUTS
-@cindex GRIINPUTS unix environment variable
+@cindex @code{\\.path_commands.} builtin synonym
+@cindex builtin synonym @code{\\.path_commands.}
 @cindex @code{CommandFile} command-line option
 @cindex command files
 @cindex files, Command-file
@@ -675,37 +675,6 @@ startup time.  It is conventional but not necessary that the filename
 ends in @code{.gri}.  If the filename does end in @code{.gri}, you may
 delete this suffix; Gri will assume it as implied. 
 
-Gri looks for commandfiles in the local directory.  
-
-@c OLD if they are not found there, the unix Gri will then search the directory
-@c OLD @code{/usr/local/lib/gri} (this library directory is defined at compile
-@c OLD time, in the @file{defaults.h} file).  This search path can be altered
-@c OLD through the @code{GRIINPUTS} unix environment variable, which is a normal
-@c OLD unix colon-separated directory list.  To force gri to look only in 
-@c OLD the local directory, define @code{GRIINPUTS} as
-@c OLD @example
-@c OLD export GRIINPUTS="."
-@c OLD @end example
-@c OLD @noindent
-@c OLD and to make Gri look first in your local directory @file{~/lib/gri},
-@c OLD do this
-@c OLD @example
-@c OLD export GRIINPUTS=".:$HOME/lib/gri:/usr/local/lib/gri"
-@c OLD @end example
-@c OLD @item @code{PostScriptFile}
-@c OLD @cindex command-line, specifying PostScript file
-@c OLD @cindex @code{PostScriptFile} command-line option
-@c OLD @cindex postscript file
-@c OLD @cindex files, PostScript-file
-@c OLD If a command file is specified, then an additional file,
-@c OLD @code{PostScriptFile}, can be specified as the file in which to store
-@c OLD the PostScript description of the plot.  If no PostScript filename is
-@c OLD given, Gri will make up a filename from the CommandFile name, by first
-@c OLD removing a trailing @code{".gri"} if it exists, and then appending
-@c OLD @code{".ps"}; thus @code{gri foo.gri} creates a PostScript file named
-@c OLD @code{foo.ps}.  If there are multiple commandfiles separated by commas,
-@c OLD Gri forms the name of the PostScript file based on the last commandfile;
-@c OLD thus @code{gri foo,bar} creates @file{bar.ps}.
 @end itemize
 
 @strong{NOTE}:  If you don't need to supply commandline options, you can
@@ -6470,13 +6439,13 @@ If the file name is absolute (i.e. starts with @code{.}, or with
 present (or cannot be read by this user).
 
 However, if the file name starts with a normal letter, Gri will try
-harder to locate the file.  If it is not in the local directory, then
-Gri will search the colon-separated directories indicated in the
-@code{GRIINPUTS} environment variable, if that is defined, or in the
-list @file{.:/usr/local/lib/gri} if @code{GRIINPUTS} is not defined.
+harder to locate the file.  If it is not in the local directory, and if
+a @code{set path to "PATH" for commands} has been done, then Gri will
+search the colon-separated directories for the file (@ref{Set Path}).
 
-Contrast this with the @code{source} command, which does not search the
-@code{GRIINPUTS} path (@ref{Source}).
+If you don't want path-searching done, use the @code{source} command
+instead (@ref{Source}).
+
 
 
 @c HTML <!-- newfile Interpolate.html "Gri: `interpolate' command" "Gri Commands" -->
@@ -8018,6 +7987,7 @@ Set various flags and parameters which Gri will use in later commands.
 * Set Page::                    Set page style to portrait or landscape
 * Set Panel::                   Establish geometry for a panel of multipanel plot
 * Set Panels::                  Prepare for multipanel plot
+* Set Path::                    Set search-path for data or command files
 * Set Postscript Filename::     Set name of PostScript file
 * Set Symbol Size::             Set size of symbols
 * Set Tic Size::                Set size of tics on axes
@@ -9308,7 +9278,7 @@ bottom row has @code{.row.} = 1, and the leftmost column has
 layout using @code{Panels .row. .col. .dx_cm. .dy_cm.}.
 
 
-@node   Set Panels, Set Postscript Filename, Set Panel, Set
+@node   Set Panels, Set Path, Set Panel, Set
 @comment  node-name,  next,  previous,  up
 @subsubsection @code{set panels}
 @findex set panels
@@ -9367,8 +9337,43 @@ draw axes
 @strong{See also} @code{set panel .row. .col.}
 
 
+@node   Set Path, Set Postscript Filename, Set Panels, Set
+@comment  node-name,  next,  previous,  up
+@subsubsection @code{set path}
+@findex set path
+@cindex @code{set path} command
+@cindex path, for command files
+@cindex path, for data files
+@cindex command files, path to search for
+@cindex data files, path to search for
+@cindex @code{\\.path_data.} builtin synonym
+@cindex @code{\\.path_commands.} builtin synonym
+@cindex builtin synonym @code{\\.path_data.}
+@cindex builtin synonym @code{\\.path_commands.}
 
-@node   Set Postscript Filename, Set Symbol Size, Set Panels, Set
+@example
+set path to "\path"|default for data|commands
+@end example
+
+@noindent
+Set the directory path that @code{open} will search for data files, or
+that @code{insert} will search for command files.  This search will
+@emph{not} be done if the filename starts with a @code{/}, @code{~}, or
+@code{.} character.
+
+The path is formatted in a colon-separated manner, following the normal
+Unix convention, and searching is from left to right.  For example, the
+path @code{".:/usr/lib/gri"} tells Gri to search for the file first in
+the local directory (named @file{.}), and if it is not found there, to
+look next in the directory named @file{/usr/lib/gri}.
+
+The indicated path is stored in either @code{\.path_data.} or
+@code{\.path_commands.}, as appropriate.  At startup time, each of these
+paths is set to @file{"."}, the current directory, and this value is
+reset if the @code{default} keyword is provided to this command.
+
+
+@node   Set Postscript Filename, Set Symbol Size, Set Path, Set
 @comment  node-name,  next,  previous,  up
 @subsubsection @code{set postscript filename}
 @findex set postscript filename
@@ -10087,7 +10092,8 @@ this makes the next @code{show} statement print on the same line.
 
 @cindex @code{\<<}, for newline in @code{show} commands
 @cindex @code{\>>}, for horizontal tab in @code{show} commands
-
+@cindex newline, using @code{\<<} in @code{show}
+@cindex tab, using @code{\>>} in @code{show}
 @cindex @code{show} command, using @code{\<<} for newline
 @cindex @code{show} command, @code{\>>} for horizontal tab
 
@@ -10269,9 +10275,9 @@ which allows for more sophisticated filters.
 @noindent
 Perform the commands in the indicated file.
 
-If the file cannot be found, an error results.  Contrast this with
-@code{insert}, which will search for the file if it is not found
-(@ref{Insert}).
+If the file cannot be found, an error results.  Contrast this with the
+@code{insert} command (@ref{Insert}), which has the ability to search
+for the file through a user-specified path (@ref{Set Path}).
 
 
 @c HTML <!-- newfile Sprintf.html "Gri: `sprintf' command" "Gri Commands" -->
@@ -11666,21 +11672,23 @@ synonyms (@ref{Index of Builtins}) use @code{show synonyms}, which
 produces output that looks something like the following.
 
 @example
-gri: Synonyms...
-\.missingvalue.="10000000000000000000000.000000"
-\.return_value.=""
-\.version.="2.2.6"
-\.pid.="13644"
-\.wd.="/autofs/users/dek/kelley/src/gri/src"
-\.time.="Thu Jan 14 15:30:51 AST 1999"
-\.user.="kelley"
-\.host.="Kelley"
-\.system.="unix"
-\.home.="/users/dek/kelley"
-\.lib_dir.="/users/dek/kelley/src/gri/src"
-\.command_file.="stdin"
-\.readfrom_file.="stdin"
-\.ps_file.="gri-??.ps"
+Synonyms...
+    \.missingvalue.  = "10000000000000000000000.000000"
+    \.return_value.  = ""
+    \.version.       = "2.6.0"
+    \.pid.           = "30926"
+    \.wd.            = "/home/kelley/src/gri"
+    \.time.          = "Sat Mar 17 10:21:59 2001"
+    \.user.          = "kelley"
+    \.host.          = "Intrusion.phys.ocean.dal.ca"
+    \.system.        = "unix"
+    \.home.          = "/home/kelley"
+    \.lib_dir.       = "/usr/local/share/gri/2.6.0"
+    \.command_file.  = "t1.gri"
+    \.readfrom_file. = "t1.gri"
+    \.ps_file.       = "t1.ps"
+    \.path_data.     = "."
+    \.path_commands. = "."
 @end example
 
 @cindex time
@@ -13278,7 +13286,7 @@ and it will draw the accent on the axis label.
 @cindex thin-space in text
 Micro-positioning is available within math-mode, via the
 symbols @code{\!} (which means go left one thin-space) and @code{\,}
-(which means go right on thin-space).  (A thin-space is 1/6 the width of
+(which means go right one thin-space).  (A thin-space is 1/6 the width of
 the letter ``M'').
 
 
@@ -15530,6 +15538,14 @@ like so in the file @file{~/.emacs}
 @section Version 2.6
 @table @emph
 @item 2.6.0 [2001-month-day] (Not released yet.)
+
+@sp 1
+Add @code{set path} command (@ref{Set Path}).
+
+@sp 1
+Remove functioning of @code{GRIINPUTS} environment variable, since this
+is more cleanly handled with the newly added @code{set path to} command
+(@ref{Set Path}).
 
 @sp 1
 Remove @code{\.awk.} synonym, which was deemed to be unhelpful.  Users

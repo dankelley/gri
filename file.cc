@@ -151,7 +151,7 @@ int
 data_file_index(const char* name)
 {
 	string completefilename(name);
-	resolve_filename(completefilename, true);
+	resolve_filename(completefilename, true, 'd');
 	for (unsigned int i = 0; i < _dataFILE.size(); i++)
 		if (_dataFILE[i].get_name() == completefilename)
 			return i;

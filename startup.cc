@@ -255,6 +255,17 @@ first argument looks like a PostScript filename.  Older versions\n\
 	if (superuser() & FLAG_AUT2)
 		printf(" done\n");
 	create_builtin_colors();
+
+	// Define default paths
+	char* griinputs = egetenv("GRIINPUTS");
+	if (griinputs != NULL && strlen(griinputs) > 0) {
+		warning("Your GRIINPUTS environment variable has been IGNORED.\n         In this version of gri, you must put the line\n             set path \"\\",
+			griinputs, "\" for commands\n         in your ~/.grirc file to get the same effect.\n", "\\");
+	}
+
+	put_syn("\\.path_data.", ".", true);
+	put_syn("\\.path_commands.", ".", true);
+
 	// Do user's ~/.grirc file.
 	_store_cmds_in_ps = tmp;
 	dogrirc();
@@ -324,9 +335,8 @@ display_colors()
 	return true;
 }
 
-// get full filename, searching through directory list in the environment
-// variable GRIINPUTS, or, if that environment variable doesn't exist, in the
-// symbol GRIINPUTS, defined in defaults.h
+#if 0
+// get full filename, searching through directory list
 char *
 file_in_list(const char *name, bool show_nonlocal_files, bool show_local_files)
 {
@@ -398,6 +408,7 @@ file_in_list(const char *name, bool show_nonlocal_files, bool show_local_files)
 	}
 #endif
 }
+#endif
 
 static void
 get_input_simulation(int argc, char *argv[], int separator)

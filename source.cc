@@ -6,8 +6,6 @@
 #include	"private.hh"
 #include        "superus.hh"
 
-
-
 
 bool
 sourceCmd()
@@ -18,7 +16,7 @@ sourceCmd()
 		return false;
 	}
 	string fname(_word[1]);
-	if (!resolve_filename(fname, false)) {
+	if (!resolve_filename(fname, false, 'c')) {
 		err("`source' cannot handle file named `\\", _word[1], "'", "\\");
 		return false;
 	}

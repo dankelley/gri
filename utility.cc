@@ -462,7 +462,7 @@ is_punctuation(int c)
 }
 
 bool
-resolve_filename(string& f, bool trace_path)
+resolve_filename(string& f, bool trace_path, char c_or_d)
 {
 	unsigned int len;
 	if (f[0] == '"') {
@@ -502,9 +502,24 @@ resolve_filename(string& f, bool trace_path)
 		return true;
 
 	// ... ok, now we know we should trace!
-	string path(egetenv("GRIINPUTS"));
+	string path;
+	if (c_or_d == 'c') {
+		if (!get_syn("\\.path_commands.", path)) {
+			err("Internal error in utility.cc:resolve_filename() -- cannot determine value of \\.path_commands\n");
+			return false;
+		}
+	} else if (c_or_d == 'd') {
+		if (!get_syn("\\.path_data.", path)) {
+			err("Internal error in utility.cc:resolve_filename() -- cannot determine value of \\.path_data\n");
+			return false;
+		}
+	} else {
+		err("Internal error in utility.cc:resolve_filename() -- c_or_d has unacceptable value\n");
+		return false;
+	}
 	if (path.size() < 1)
-		path.assign(GRIINPUTS); // in defaults.hh ".:/usr/local/lib/gri"
+		return true;	// BUG: is this what I want for empty path?
+	// HAD: path.assign(GRIINPUTS); // in defaults.hh ".:/usr/local/lib/gri"
 	string::size_type start = 0;
 	string::size_type colon;
 	do {
@@ -569,7 +584,7 @@ pwd()
 #endif
 }
 
-char *
+char*
 egetenv(const char *s)
 {
 	char *rval = "";
@@ -2078,6 +2093,7 @@ un_double_slash(string& word)	// change leading double-backslash to single-backs
 }
 
 void
+
 un_double_quote(string& word)
 {
 	if (word[0] == '"') 
