@@ -1,6 +1,6 @@
 #### Start of system configuration section. ####
 
-VERSION = 2.12.3
+VERSION = 2.12.4
 srcdir = .
 DESTDIR=
 INSTALL = @INSTALL@

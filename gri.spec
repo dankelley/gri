@@ -1,5 +1,5 @@
 Summary: A language for scientific illustration
-%define griversion 2.12.3
+%define griversion 2.12.4
 Name: gri
 Version: %{griversion}
 Release: 1
@@ -96,6 +96,8 @@ then
 fi
 
 %changelog
+* Sat Mar 29 2003 Dan Kelley <Dan.KelleyDal.Ca>
+- fix SourceForge bug 706202 (Page orientation hint missing in Postscript)
 * Thu Mar 01 2003 Dan Kelley <Dan.KelleyDal.Ca>
 - +++ VERSION 2.12.3 +++
 - fix SourceForge bug 685919 (cannot understand '.eps' file extension)
