@@ -11,9 +11,18 @@ command was used) into separate PostScript files, one for each page.
 .IP
 Creates files name-1.ps, name-2.ps, etc, one for each page of name.ps.
 .TP
+.SH OPTIONS:
+The OPTIONS, available if your 'perl' has 'getopts' library, are:
+.HP
+\fB\-l\fR \fB\-\-\fR sets the bounding box to letter page size.
+.IP
+By default, the bounding box size is extracted from the original file, and
+is used for all newly created files.
+.HP
+.TP
 .SH BUGS:
 .PP
-1. Bounding box is always 8.5x11 inches.
+1. Bounding box is always the same size (grabbed from the original).
 
 2. Assumes that all Gri fonts are used even if they aren't.
 
