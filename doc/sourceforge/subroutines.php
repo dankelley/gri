@@ -7,6 +7,8 @@ $gri_stable_version = "2.10.1";
 $gri_group_id = "5511";
 $sf_url = "http://sourceforge.net";
 $sf_ftp = "http://ftp1.sourceforge.net";
+$width_lhs = "125pt";
+$width_divider = "2pt";
 
 function age() {
 # REF: mktime(hour,minute,second,month,day,year)
@@ -42,11 +44,13 @@ function age() {
 
 function set_up_lhs() {
 	print "<tr>\n";
-	print "<td valign=\"center\"; width=\"125pt\"; align=\"top\"; bgcolor=\"#FFFFFF\">\n";
+	global $width_lhs;
+	print "<td valign=\"center\"; width=\"$width_lhs\"; align=\"top\"; bgcolor=\"#FFFFFF\">\n";
 }
 function set_up_rhs() {
 	print "</td>\n";
-	print "<td width=\"2pt\" valign=\"top\" color=\"#FFd000\" bgcolor=\"#FFD000\" fgcolor=\"#FFD000\"></td>\n";
+	global $width_divider;
+	print "<td width=\"$width_divider\" valign=\"top\" color=\"#FFd000\" bgcolor=\"#FFD000\" fgcolor=\"#FFD000\"></td>\n";
 	print "<td valign=\"top\" bgcolor=\"#FFFFFF\">\n";
 }
 
@@ -100,6 +104,14 @@ function footer()
 	print "</tr>\n";
 	print "</table>\n";
         print "<hr color=\"#FFD000\">\n";
+        print "<table>\n";
+	print "<tr>\n";
+	global $width_lhs, $width_divider;
+	print "<td valign=\"center\"; width=\"$width_lhs\">\n";
+	print "<A href=\"http://sourceforge.net/\"> <IMG src=\"http://sourceforge.net/sflogo.php?group_id=5511&type=1\" width=\"88\" height=\"31\" border=\"0\" alt=\"SourceForge Logo\"></A>\n";
+	print "</td>\n";
+	print "<td width=\"$width_divider\" valign=\"top\" color=\"#FFd000\" bgcolor=\"#FFD000\" fgcolor=\"#FFD000\"></td>\n";
+	print "<td valign=\"top\" bgcolor=\"#FFFFFF\">\n";
 	print "<center>\n";
 	print "<small>\n";
 	print "Copyright &copy; 2002 by\n";
@@ -108,9 +120,11 @@ function footer()
 	print " and ";
 	print "<a href=\"$sf_url/users/psg\">Peter Galbraith</a><br>\n";
 	print "This material may be distributed only subject to the terms and conditions\n";
-	print "set forth in the GNU Publication License\n";
-	print "</small>\n";
+	print "set forth in the GNU Publication License.\n";
+	print "</small><br>\n";
 	print "</center>\n";
+	print "</td>\n";
+	print "</tr>\n";
 	print "</body>\n";
 	print "</html>\n";
 }
