@@ -6,7 +6,7 @@
 #include	"extern.hh"
 #include	"gr.hh"
 bool            whileCmd(void);
-static bool     test_is_true(const string& t);
+static bool     test_is_true(const std::string& t);
 
 
 bool
@@ -69,7 +69,7 @@ perform_while_block(const char *buffer, const char *test, int lines)
 	std::string     filename;
 	int             fileline;
 	int             passes = 0;
-	string t(test);
+	std::string t(test);
 	while (test_is_true(t)) {
 		// Check to see if test is now false
 		if (block_level() > 0) {
@@ -111,7 +111,7 @@ perform_while_block(const char *buffer, const char *test, int lines)
 }
 
 static bool
-test_is_true(const string& t)
+test_is_true(const std::string& t)
 {
 	std::string tt;
 	substitute_synonyms(t.c_str(), tt, true);

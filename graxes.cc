@@ -117,7 +117,7 @@ void
 gr_drawxaxis(double y, double xl, double xinc, double xr, gr_axis_properties side)
 {
 	GriString label;
-	string slabel;
+	std::string slabel;
 	extern char     _xtype_map;
 	double          CapHeight = gr_currentCapHeight_cm();
 	double          angle = 0.0;	// angle of axis tics, labels, etc
@@ -365,7 +365,7 @@ void
 gr_drawyaxis(double x, double yb, double yinc, double yt, gr_axis_properties side)
 {
 	GriString label;
-	string slabel;
+	std::string slabel;
 	extern char     _ytype_map;
 	double          CapHeight = gr_currentCapHeight_cm();
 	double          angle = 0.0; // angle of axis tics, labels, etc

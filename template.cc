@@ -1,6 +1,5 @@
 // Instantiate templates.
-// BUG: this code may well need changing as compilers evolve
-// BUG: in how they handle templates.  :=(
+// NB. This code may need changing as compilers evolve :-(
 
 #define _PUT_STATIC_DATA_MEMBERS_HERE
 #include <string>
@@ -21,7 +20,7 @@
 #if defined(USING_CXX_REPO)
 template void  sort(vector<double>::iterator, vector<double>::iterator);
 #else
-// Instantiate on DEC c++ compiler
+// DEC c++ compiler
 #if defined(__DECCXX)
 //#pragma define_template void reverse(vector<double>::iterator, vector<double>::iterator);
 //#pragma define_template void sort(vector<double>::iterator, vector<double>::iterator);
@@ -42,14 +41,11 @@ template void  sort(vector<double>::iterator, vector<double>::iterator);
 #pragma define_template GriMatrix<double>
 #endif // DEC compiler
 
-
-// Instantiate on GNU c++ compiler
+
+// GNU c++ compiler
 #if defined(__GNUC__)
 
-#if __GNUC__ == 3
-void std::reverse(std::vector<double>::iterator, std::vector<double>::iterator);
-void std::sort(std::vector<double>::iterator, std::vector<double>::iterator);
-#else
+#if __GNUC__ < 3		// avoid deficiency in old compilers
 template void std::reverse(std::vector<double>::iterator, std::vector<double>::iterator);
 template void std::sort(std::vector<double>::iterator, std::vector<double>::iterator);
 #endif

@@ -56,7 +56,7 @@ bool
 get_number_with_underscores(const char *s, double *value)
 {
 	const char *si = s;
-	static string ss;	// keep in storage 
+	static std::string ss;	// keep in storage 
 	ss.assign("");
 	unsigned int slen = strlen(s);
 	if (!isdigit(*si) && *si != '.' && *si != '+' && *si != '-')
@@ -84,7 +84,7 @@ bool
 get_number_with_underscores(const char *s, double *value)
 {
 	const char *si = s;
-	static string ss;	// keep in storage 
+	static std::string ss;	// keep in storage 
 	ss.assign("");
 	unsigned int slen = strlen(s);
 	unsigned int last_underline = 0;
