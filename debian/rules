@@ -102,7 +102,7 @@ binary-arch: build-arch install
 #	dh_installmenu -a
 	dh_installemacsen -a
 	dh_installinfo doc/gri.info*
-	dh_installmanpages -a doc/gri-manpage*.1
+	dh_installmanpages -a doc/gri-manpage*.1 doc/*.1-skel
 	dh_installchangelogs -a 
         ifdef STRIPIT
 		dh_strip -a
