@@ -38,7 +38,7 @@ manual</a><br>
 
 <h1>Pre-compiled Packages</h1>
 <p>
-For <b>RedHat Linux</b>,
+Packages are provided for <b>RedHat Linux</b>, in 
 both
 <A HREF="<?php print "$ftp_site/gri-$gri_stable_version-1.i386.rpm";?>">
 binary
@@ -47,64 +47,56 @@ and
 <A HREF="<?php print "$ftp_site/gri-$gri_stable_version-1.src.rpm";?>">
 source
 </a>
-RPM packages are available.
+forms.
 
-<p> For <b>GNU/Debian linux</b>, three packages are available:
-a somewhat <A HREF="<?php print "$ftp_site/gri_2.8.6-0potato1_i386.deb";?>">
+
+<p> Packages are available for
+<b>
+<a href="http://packages.debian.org/unstable/science/gri.html">
+GNU/Debian linux</a></b>, in three forms:
+(a) an <A HREF="<?php print "$ftp_site/gri_2.8.6-0potato1_i386.deb";?>">
 old package</a>
 suitable for the Potato distribution,
-along with two up-to-date packages:
+(b) an
 <A HREF="<?php print "$ftp_site/gri_$gri_stable_version-0woody1_i386.deb";?>">
-the
-<?php print "${gri_stable_version}";?>
- package compiled for woody
+up-to-date package
 </a>
-, and
+for the woody distribution, and (c) an up-to-date
 <A HREF="<?php print "$ftp_site/gri-${gri_stable_version}static_${gri_stable_version}-1_i386.deb";?>">
-an unofficial statically linked package of
-<?php print "${gri_stable_version}";?>
-</a>.  The statically linked package is
-for installation alongside other Gri releases, yielding
-backwards compatibility, and therefore it lacks Info files.
-<font color="green">
-To distinguish this package from the regular gri package, it is named 
-<i>
-<?php print "gri-${gri_stable_version}static";?>
-
-</i>, which contains the version number (and allows you to install such a
-package for multiple versions) as opposed to simply <i>gri</i> (which does not
-contain the version number and will be upgraded with new gri releases).
-</font><br>
-The Emacs gri-mode has recently been split off into it's own package
+unofficial statically-linked package</a>.  (The latter is set up for
+	installation alongside other Gri releases, and it
+	therefore lacks Info files.)
+Under GNU/Debian
+the gri-mode has a package of its own, 
 called
 <a href="http://packages.debian.org/unstable/science/gri-el.html">gri-el</a>.<br>
-Consult the
-<a href="http://packages.debian.org/unstable/science/gri.html">
-Gri page at Debian</a> for packages available for each Debian release as well
-as documentation packages.
 </p>
 
-<p>For <b>Solaris OS5</b>,
-a <?php print "<A HREF=\"$ftp_site/gri-$gri_stable_version-SunOS5.tar.gz\">pre-compiled tarball</a>\n"; ?>
-is available.
-
-<p>Pre-compiled packages are also available for
-<A HREF="http://gnuwin32.sourceforge.net/packages/gri.htm">windows</a>
-and for 
-<A HREF="http://fink.sourceforge.net/pdb/package.php/gri">Macintosh OS-X</a>.
-
+<p>For <b>other platforms</b>, not used by the main developers, versions are provided as well, but on a slower timetable.  These include 
+versions for 
+<?php print "<A HREF=\"$ftp_site/gri-$gri_stable_version-SunOS5.tar.gz\">
+Solaris/OS5</a>\n"; ?>,
+for <A HREF="http://gnuwin32.sourceforge.net/packages/gri.htm">Microsoft Windows</a>,
+and for
+<A HREF="http://fink.sourceforge.net/pdb/package.php/gri">Macintosh OS-X</a>.  
+NOTE: The windows/mac versions are built by developers outside the Gri project;
+if you have
+a new platform you'd like to support, please contact one of the developers and
+we will put a link here.
+</p>
 
 <p>
-Visit the
+The
 <?php print $development_site_name;?> site for full list of
 <a href="<?php print "$sf_url/project/showfiles.php?group_id=$gri_group_id";?>">
-downloadable files</a>.
+downloadable files</a>, for the present version and for older versions.
 
 <h1>Source Code</h1>
 <p>
 The Gri source code is provided in two tarballs: a 
 <A HREF="<?php print "$ftp_site/gri-$gri_stable_version.tgz";?>">smaller package</a>
-for which documentation files are created during the building process, and a
+for which documentation files are created during the building process (but which
+requires more software on the build machine), and a
 <A HREF="<?php print "$ftp_site/gri-$gri_stable_version-arch-indep.tgz";?>">larger package</a>
 which has pre-built documentation files.
 </p>
@@ -112,7 +104,8 @@ which has pre-built documentation files.
 <p> If you're adventurous and/or interested in helping with Gri developement,
 you might want to try building the
 <A HREF="<?php print "$sf_url/cvs/?group_id=$gri_group_id";?>">CVS version</a>,
-which is the very latest version, and which may not even compile.
+   which is the very latest version.  Please note, however, that this may not even compile; 
+the developer's sandbox can be messy!
 </p>
 
 <?php
