@@ -1,5 +1,5 @@
 @c -*-mode: texinfo; -*-
-@c $Id: gri.texim,v 1.58 2001/03/15 23:21:20 dankelley Exp $
+@c $Id: gri.texim,v 1.59 2001/03/16 14:54:47 dankelley Exp $
 \input texinfo @c -*-texinfo-*-
 @c
 @comment *** Start of HTML stuff ***
@@ -194,7 +194,7 @@ Three indices
 @comment  node-name,  next,  previous,  up
 @chapter Introduction
 
-@emph{Gri is a programming language for drawing science-style graphs}.
+@strong{Gri is a programming language for drawing science-style graphs}.
 It is not mouse-driven, and it does not draw business-style graphs
 (e.g. pie charts, three-dimensional graphs).  Gri has substantial power
 in advanced applications.  It has been proven to be easy to learn; for
@@ -202,13 +202,13 @@ simple applications, the learning curve is less than an hour.  Many
 users regard Gri as the plotting equivalent of the La@TeX{} document
 preparation system.
 
-@emph{Computers Gri works on:} unix computers of many types, for example
+@strong{Computers Gri works on:} unix computers of many types, for example
 linux, sunOS/solaris, HP, IBM, DEC alpha, and Macintosh machten.  It was
 developed on a solaris platform and linux platforms, so these are best
 tested.  It also works, after a fashion, on windows-style computers.
 Running Gri is straightforward; just type its name (@ref{Invoking Gri}).
 
-@emph{Capabilities of Gri} are those scientists commonly want, since Gri
+@strong{Capabilities of Gri} are those scientists commonly want, since Gri
 was written by a scientist.  It is not so useful for business people --
 e.g., Gri draws xy graphs (@ref{X-y Plots}), contour plots
 (@ref{Contour Plots}), and image plots
@@ -219,7 +219,7 @@ packages, Gri gives you control over line widths, fonts, grayscales,
 etc.  (@ref{Getting More Control}), and it is a programming language
 of moderate power.
 
-@emph{The Gri drawing metaphor} is that of pen on paper.  The ink in the
+@strong{The Gri drawing metaphor} is that of pen on paper.  The ink in the
 pen is opaque.  An item drawn in white ink will erase a previously drawn
 underlying object drawn in black ink.  For example, to draw a timeseries
 curve in which the region between positive data values and the y=0 axis
@@ -232,28 +232,28 @@ line and the lower axis.  Then you'd load black ink back into the pen
 (@code{set graylevel 0}) and draw the curve again, so that the negative
 part would appear again.
 
-@emph{Input/output} in Gri may be interactive or non-interactive.  For
+@strong{Input/output} in Gri may be interactive or non-interactive.  For
 interactive use, type @code{gri} at the system commandline prompt.  For
 non-interactive use, with Gri commands in a command-file called
 @file{cmd.gri}, type @code{gri cmd.gri}.  
 
-@emph{Gri output} is in the PostScript page description language.  The
+@strong{Gri output} is in the PostScript page description language.  The
 output is therefore of high quality, device-independent, capable of
 being inserted into popular text processors (e.g. LaTeX), and easily
 displayed.
 
-@emph{Online help:} the Gri command @code{help} makes Gri
+@strong{Online help:} the Gri command @code{help} makes Gri
 list the first words of all known commands, along with a hint for
 getting further help.  To get more information, type @code{help}
 followed by a command-name (e.g. @code{help read}).  There is also a
 tiny bit of information stored online and categorized by topic.  Get
 this by typing for example @code{help - strings} (@ref{Online Help}).
 
-@emph{Data analysis} in Gri is limited.  It has rudimentary data
+@strong{Data analysis} in Gri is limited.  It has rudimentary data
 analysis functions, such as regression, column manipulation, smoothing,
 etc, but it is not intended as an integrated analysis/graphics package.
 
-@emph{System calls} are an easy and important facet of Gri.  It is easy
+@strong{System calls} are an easy and important facet of Gri.  It is easy
 to use operating system commands within Gri (@ref{System};
 @ref{Operating System};
 @ref{Get Env}).  This
@@ -261,7 +261,7 @@ allows you to use familiar, powerful tools, and keeps Gri simple.
 Particularly useful is the ability to read files through operating
 system filters (@ref{Open}).
 
-@emph{Programming Gri} is quite straightforward, and users familiar with
+@strong{Programming Gri} is quite straightforward, and users familiar with
 other programming languages find it easy.  If Gri lacks a drawing
 method, you can add it fairly easily, since Gri has programming elements
 such as @code{if} statements (@ref{If Statements}), @code{while} loops
@@ -275,7 +275,7 @@ creating personalized versions of Gri.
 
 @cindex cookbook FTP site
 @cindex FTP site, cookbook
-@emph{Manuals:} Gri has an online texinfo manual, a PostScript manual, a
+@strong{Manuals:} Gri has an online texinfo manual, a PostScript manual, a
 WWW manual, a
 @c HTML <A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri/cookbook/index.html"> 
 cookbook 
@@ -286,7 +286,7 @@ and several reference cards.  It also has several discussion groups
 (@ref{Discussion Group}).
 
 
-@emph{Version Numbering Scheme}
+@strong{Version Numbering Scheme}
 @cindex gri version
 @cindex version numbers
 
@@ -500,7 +500,7 @@ For usage within the Emacs gri-mode, see
 @ref{Filename arguments when running gri}.
 
 
-@emph{Details of command-line options}
+@strong{Details of command-line options}
 @cindex options on Gri command-line
 @cindex command-line options
 
@@ -520,10 +520,10 @@ data for contouring.  Higher values make Gri tell you more:
 Information printed at various chatty levels:
 @itemize @bullet
 
-@item @emph{0}
+@item @strong{0}
 The bare minimum is printed.  Thus invoking Gri as @code{gri -c0}@dots{}
 will make it as quiet as can be.
-@item @emph{1 or higher} (the default)
+@item @strong{1 or higher} (the default)
 The full filenames of the commandfiles are displayed at startup time.
 
 @code{convert columns to grid} prints percentage of grid filled, as well
@@ -539,7 +539,7 @@ including amount of image clipped.
 
 @code{draw symbol} reports number of data points not drawn because they
 were missing or outside clip region (if one exists).
-@item @emph{2 or higher}
+@item @strong{2 or higher}
 @code{draw contour} prints value of contour being drawn.
 
 @code{open "...|"} prints the command to be passed to the operating
@@ -708,7 +708,7 @@ Gri looks for commandfiles in the local directory.
 @c OLD thus @code{gri foo,bar} creates @file{bar.ps}.
 @end itemize
 
-@emph{NOTE}:  If you don't need to supply commandline options, you can
+@strong{NOTE}:  If you don't need to supply commandline options, you can
 put the following line as the first line in your Gri program
 
 @example
@@ -731,7 +731,7 @@ typing of a few characters, but some folks like this.
 gri -creator PostScriptFile
 @end example
 
-@noindent @emph{See also} @code{-no_cmd_in_ps}.
+@noindent @strong{See also} @code{-no_cmd_in_ps}.
 
 The @code{-creator} flag makes gri examine the indicate PostScript file,
 and produce a facsimile of the command file (or interactively-typed
@@ -953,9 +953,9 @@ them on the left and bottom sides of the box, without completing the
 axis frame.
 
 For your general use, Gri stores the minimum and maximum x and y values
-of the @emph{axes} in the variables @code{..xleft..}, @code{..xright..},
+of the @strong{axes} in the variables @code{..xleft..}, @code{..xright..},
 @code{..ybottom..}, and @code{..ytop..}; for the minimum and maximum
-values of the @emph{data}, use the built-in rpnfunctions @code{min},
+values of the @strong{data}, use the built-in rpnfunctions @code{min},
 @code{max}, and @code{mean} (@ref{Rpnfunction}).  It stores the last
 (x,y) pair on a curve (whether data or axis) as
 (@code{..xlast..},@code{..ylast..}).  Also, Gri stores the axis sizes in
@@ -963,7 +963,7 @@ values of the @emph{data}, use the built-in rpnfunctions @code{min},
 of the plot in @code{..xmargin..} and the space below the plot in
 @code{..ymargin..}.
 
-The axis scales are @emph{not} changed by mathematical operations on the
+The axis scales are @strong{not} changed by mathematical operations on the
 columns, regardless of whether the scales were set manually (by a
 @code{set x|y axis} command), or by Gri (during a @code{read columns}
 command).  In the former case, this is what you probably want, but in
@@ -1121,7 +1121,7 @@ even text.
 @noindent @b{The} @code{set color \name} @b{command}
 
 Set the pen color to the indicated name.  By default, only a handful of
-colors are known.  You @emph{MUST} give color names as written here,
+colors are known.  You @strong{MUST} give color names as written here,
 obeying the capitilization shown.  The color mixes are identical to
 those used in X11.  The following lists some of the colors Gri knows by
 default.
@@ -1306,7 +1306,7 @@ easily, as you'll see later.)
 @cindex drawing data lines
 @item
 @code{draw title} tells Gri to write the indicated string
-centered above the plot. The title @emph{must} be enclosed in quotes.
+centered above the plot. The title @strong{must} be enclosed in quotes.
 @cindex titles, drawing above plot
 @cindex drawing titles
 @item
@@ -1426,7 +1426,7 @@ through green at 1/3 and blue at 2/3.
 There are two methods for formula graphs.
 
 @enumerate
-@item @emph{Use the system yourself.}
+@item @strong{Use the system yourself.}
 Do as in this example:
 
 @example
@@ -1440,7 +1440,7 @@ quit
 
 @noindent
 
-@item @emph{Let Gri calculate things for you}
+@item @strong{Let Gri calculate things for you}
 
 The simplest is to let Gri
 calculate things for you with the @code{create columns from function}
@@ -1630,7 +1630,7 @@ x-grid and y-grid both increase.
 Sometimes you want to read in the transpose of a matrix.  Gri lets you
 do that.  If the @code{bycolumns} keyword is present at the end of the
 @code{read grid} command, the first dataline will contain the first
-@emph{column}, of the data.
+@strong{column}, of the data.
 
 If you have an extraneous column of data to the left of your data
 matrix, do @code{read grid data * 2 3}
@@ -1821,9 +1821,9 @@ All other things being equal, it would be preferable to use the smallest
 range consistent with the range of your data.  If your grid data ranged
 from 0 to 1, say, you might @code{set image range 0 1}.  This would give
 a resolution in the image of 1/255 in the user units.  But, when Gri
-converts the grid into an image, it will @emph{clip} all data outside
+converts the grid into an image, it will @strong{clip} all data outside
 the indicated range.  In this case, any data greater than 1 in the grid
-would translate to @emph{exactly} 1 in the image.  Naturally there is a
+would translate to @strong{exactly} 1 in the image.  Naturally there is a
 tradeoff between having a range large enough to encompass any data in
 the grid, and a range small enough to yield adequate resolution.  In
 most cases, 8-bit resolution will be adequate, but it is good to be
@@ -3425,7 +3425,7 @@ For more on the @code{|} mechanism, see @ref{Open}.  The Grep command
 prints lines which do not match the indicated string
 (because of the @code{-v} switch), and the @code{^} character stands for
 the start of the line (@ref{Grep}).  Thus all lines with the key word at the
-@emph{start} of the line are skiped.
+@strong{start} of the line are skiped.
 
 @cindex reading information from header lines
 @cindex header lines, reading information from
@@ -3671,47 +3671,46 @@ draw curves time y1 y2 y3
 @node   Overview Of Gri Commands, Command Syntax, Commands, Commands
 @comment  node-name,  next,  previous,  up
 @section Overview of Gri Commands
-The first word of a command hints at the meaning, but apart from that,
-here is a rough guide:
+@cindex types of gri commands
+@cindex overview of gri commands
+@cindex gri commands, categories of
+
+The Gri commands may be divided roughly into a few categories, as indicated in the following list.
 
 @itemize @bullet
-@item @emph{File manipulation}
+@item @strong{Working with files}:
 Commands are @code{open}, @code{close}, @code{skip}, @code{read}, and
 @code{rewind}.
-@item @emph{Control parameters}
+@item @strong{Controlling parameters of the drawn material}:
 Various @code{set} commands control values of parameters, like size of plot,
 linewidth, font, etc.
-@item @emph{Drawing things}
+@item @strong{Drawing things}:
 Various @code{draw} commands let you draw data, axes, etc.
-@item @emph{Interaction with user}
+@item @strong{Interacting with the user}:
 The @code{query} command gets instructions from the user.  The
 @code{show} command displays messages to user.
-@item @emph{Control program flow}
+@item @strong{Controlling program flow}:
 The @code{if} statement controls optional execution of commands
 (@ref{If Statements}).  The @code{while} statement allows loops.
-@item @emph{Directory control}
+@item @strong{Moving around in directories}:
 The @code{pwd}, @code{cd} and @code{ls} commands do the usual unix
 things.
-@item @emph{Interaction with operating system}
+@item @strong{Using the operating system}
 The @code{system} command passes instructions to the operating system;
 the output may be saved into a synonym by using 
 @code{\syn = system ...}.  The @code{get env} command determines the value of any
 unix environment variables the system has defined.  For more discussion
 (@ref{Operating System}).
-@item @emph{Statistics}
+@item @strong{Statistical operations}:
 Some very limited capabilities exist; for example, @code{regress} does
 linear regression.
-@item @emph{Mathematics}
+@item @strong{Mathematical operations}:
 Simple mathematical manipulation of column, grid, and image data is
 provided.  Also, wherever Gri expects a number, it will accept a
 reverse-polish expression; for example, @code{set x size 10} could also
 be written @code{set x size @{rpn 20 2 /@}}.  For details
 (@ref{Mathematics}).
 @end itemize
-
-The data types in Gri are columns, grids, images, scalar variables
-and ``synonyms'' that is, strings (@ref{Synonyms};
-@ref{Variables}).
 
 
 @c HTML <!-- newfile CommandSyntax.html "Gri: Command Syntax" "Gri Commands" -->
@@ -4020,7 +4019,7 @@ times (dx,dy).
 And now, the details @dots{}
 
 @itemize @bullet
-@item @emph{``Neighbor'' method}
+@item @strong{``Neighbor'' method}
 The @code{convert columns to grid neighbor} method is useful for (x,y,z)
 data which are already gridded (i.e., for which x and y take only values
 which lie on the grid), or nearly gridded.  The (x,y,z) data are scanned
@@ -4042,13 +4041,13 @@ is independent of the order of the data within the columns.
 
 The @code{neighbor} method is useful when the data are already
 pre-gridded, meaning that the (x,y,z) triplets have x and y values which
-are already aligned with the grid.  @emph{Computational cost:} For
+are already aligned with the grid.  @strong{Computational cost:} For
 @code{P} data points, @code{X} x-grid points, and @code{Y} y-grid
 points, the method calculation cost is proportional to
 @code{P*[log2(X)+log2(Y)]} where @code{log2} is logarithm base 2.
 As discussed below, this is often several orders of magnitude lower than
 the other methods of gridding.
-@item @emph{``Objective'' method}
+@item @strong{``Objective'' method}
 In the @code{objective} method, a smoothing technique known as objective
 mapping is applied.  It is essentially a variable-size smoothing filter
 of approximately Gaussian shape (it is method ``two'' of Levy and Brown
@@ -4063,10 +4062,10 @@ heightening by root(2) up to @code{.e.} times.  (The enlargement is only
 done if fewer than @code{.n.} points are found.)  If these parameters
 are not specified in the command, then values @code{.n.}=5 and
 @code{.e.}=1 are assumed.  The special case where @code{.e.} is negative
-tells Gri to @emph{always} fill in each grid point, by extending the
+tells Gri to @strong{always} fill in each grid point, by extending the
 neighborhood to enclose the entire dataset if necessary.
 
-@emph{Computational cost:} For @code{P} data points, @code{X} x-grid
+@strong{Computational cost:} For @code{P} data points, @code{X} x-grid
 points, and @code{Y} y-grid points, the method calculation cost is
 proportional to @code{P*X*Y}.  Given that @code{X} and @code{Y} are
 determined by the requirement for smoothness of contours and the size of
@@ -4077,15 +4076,15 @@ contours.  Therefore, the computational cost scales linearly with the
 number of data points.  Compared to the ``neighborhood'' method, this is
 more costly by a factor of @code{X*Y/log_2(X)/log_2(Y)} which is
 normally in the range from 20 to 50.
-@item @emph{``Boxcar'' method}
+@item @strong{``Boxcar'' method}
 In the @code{boxcar} method, the grid points are derived from simple
 averages calculated in rectangles @code{.xr.} wide and @code{.yr.} tall,
 centred on the gridpoints.  The @code{.n.} and @code{.e.} parameters
 have similar meanings as in the ``objective'' method.
 
-@emph{Computational cost:} Roughly same as @code{objective} method
+@strong{Computational cost:} Roughly same as @code{objective} method
 described above.
-@item @emph{``Barnes'' method}
+@item @strong{``Barnes'' method}
 This is the default scheme.
 
 The Barnes algorithm is applied.  If no parameters are specified,
@@ -4322,7 +4321,7 @@ knots between interior x pairs.  The value 2.5 is used commonly.  If
 @code{.gamma.} lies in the range 3 to 6, extra knots are permitted in
 the x pairs at the ends of the domain.  A value of 5.5 is used commonly.
 
-@emph{Reference} Chapter 16 of Carl de Boar, 1987. ``A Practical Guide
+@strong{Reference} Chapter 16 of Carl de Boar, 1987. ``A Practical Guide
 to Splines'' Springer-Verlag.
 
 @example
@@ -4685,7 +4684,7 @@ second derivative is zero at the edges of the grid).
 Draw commands do actual drawing on the page.  You can draw axes,
 lineplots, symbols, contours, images, and text.  
 
-@emph{NOTE} Gri likes drawings to have axes, so if a @code{draw} command
+@strong{NOTE} Gri likes drawings to have axes, so if a @code{draw} command
 is executed before any axes have been drawn, Gri will draw axes after it
 draws the item.  (You can get drawings without axes by preceding any
 other @code{draw} commands with the command @code{draw axes none}.)
@@ -4765,7 +4764,7 @@ page.  NOTE: This will not cause auto-drawing of axes.
 Draw a vector field consisting of arrows emanating from the coordinates
 stored in the (x, y) columns.  The lengths and orientations of the
 arrows are stored in the (u, v) columns, and the scale for the (u,v)
-columns is set by @code{set u scale} and @code{set v scale}.  @emph{See also}
+columns is set by @code{set u scale} and @code{set v scale}.  @strong{See also}
 (1) To set arrow size, use @code{set arrow size}.  (2) To get a single
 arrow, use @code{draw arrow}.
 
@@ -4947,7 +4946,7 @@ With the optional parameter @code{unlabelled} at the end of any form
 of this command (except the @code{labelled "\label"} variation, of
 course), Gri will not label the contour(s).
 
-@emph{Hint:} It can be effective to draw contours at a certain interval
+@strong{Hint:} It can be effective to draw contours at a certain interval
 with labels, and a thicker pen, e.g.
 
 @example
@@ -4960,7 +4959,7 @@ draw contour -2 5 1
 @b{Interpolation method:} The interpolation scheme is the same used for
 converting grid-values to image values (@ref{Convert Grid To Image}).
 
-@emph{See also} @code{set contour labels}
+@strong{See also} @code{set contour labels}
 
 
 @node   Draw Curve, Draw Essay, Draw Contour, Draw
@@ -4986,7 +4985,7 @@ command like @code{read columns x y}.  Line segments are drawn between
 all (x,y) points, except: (1) no line segments are drawn to any missing
 data (see @code{set missing value}), and (2) if clipping is turned on
 (see @code{set clip on}), no line segments are drawn outside the
-clipping region.  @emph{See also} @code{draw curve overlying}
+clipping region.  @strong{See also} @code{draw curve overlying}
 
 @example
 `draw curve overlying'
@@ -4996,7 +4995,7 @@ clipping region.  @emph{See also} @code{draw curve overlying}
 Like @code{draw curve}, except that before drawing, the area underneath
 the curve (+/- one linewidth) is whited out.  This clarifies graphs
 where curves overlie other curves or the axes.  
-@emph{See also} @code{draw curve}.
+@strong{See also} @code{draw curve}.
 
 @example
 `draw curve filled [to @{.y. y@}|@{.x. x@}]'
@@ -5157,7 +5156,7 @@ page.  If these parameters are not present, the box will be drawn above
 the image plot.
 
 @cindex hint, palette range
-@emph{Hint} It is a good idea to make the palette range @code{.left.} to
+@strong{Hint} It is a good idea to make the palette range @code{.left.} to
 @code{.right.} extend a little beyond the range of full white and full
 black, since otherwise neither pure white nor pure black will appear in
 the colorbar.  For example
@@ -5168,7 +5167,7 @@ draw image palette left -0.1 right 1.1 increment 0.1
 @end example
 
 @cindex hint, contour lines on image palette
-@emph{Hint} Continuous-tone images with superimposed contours are often
+@strong{Hint} Continuous-tone images with superimposed contours are often
 effective.  To get the contour lines drawn on the image palette, do
 something like this
 
@@ -5492,7 +5491,7 @@ user coordinates.  The line length is normally 1 cm, but this length can
 be set by the last option.  The indicated label string is drawn 0.25 cm
 to the right of the line.
      
-@emph{See also} @code{draw symbol legend ...}.
+@strong{See also} @code{draw symbol legend ...}.
      
 EXAMPLE (of keeping track of the desired location for the legend)
 
@@ -6110,7 +6109,7 @@ Remove high-wavenumber components from image (ie, smooth shapes).  Do
 this by Laplacian smoothing.
 @end itemize
 
-@emph{See also} @ref{Smooth}.
+@strong{See also} @ref{Smooth}.
 
 
 @c HTML <!-- newfile Flip.html "Gri: `flip' command" "Gri Commands" -->
@@ -6242,7 +6241,7 @@ replace by
 @end example
 
 @noindent
-Notes: (1) This is done @emph{independently} for all existing columns.
+Notes: (1) This is done @strong{independently} for all existing columns.
 (2) Gaps at the start and end of the columns are not filled in.
 @item @code{heal grid along x}
 @noindent
@@ -6296,7 +6295,7 @@ request.
 @cindex if statements
 @findex if
 @cindex @code{if} command
-(@emph{See also} @ref{If Statements}.)
+(@strong{See also} @ref{If Statements}.)
 
 @example
 `if @{[!] .flag.@}|\flag|@{@{"string1" == "string2"@}@}'
@@ -6398,7 +6397,7 @@ end if
 @end example
 
 @noindent
-As above, but do the indicated code if @code{\item} is @emph{not} equal
+As above, but do the indicated code if @code{\item} is @strong{not} equal
 to @code{Temperature}.
 
 
@@ -6597,7 +6596,7 @@ new .variable_name. | \synonym_name \
 and/or synonym(s).  Any number of variables and synonyms may be
 specified.  If a given variable/synonym already exists, this will create
 a new version of it, and future assignments will be stored in this new
-version @emph{without} affecting the pre-existing version.  If the
+version @strong{without} affecting the pre-existing version.  If the
 variable/synonym is @code{delete}ed, the new version is deleted, making
 the old, unaltered, version accessible again.
 
@@ -6624,7 +6623,7 @@ end if
 draw label "This is 10 font" at 10 8 cm
 @end example
 
-@emph{Special case}: for local synonyms (e.g. @code{\.word1.}, etc.),
+@strong{Special case}: for local synonyms (e.g. @code{\.word1.}, etc.),
 the @code{new} operator checks to see whether the synonym is standing
 for an "ampersand" argument, signalling a changeable argument that is a
 variable or a synonym.  In such a case, @code{new} creates a new
@@ -6873,7 +6872,7 @@ open "head foo.dat |"
 @noindent
 as in the example above.
 
-@emph{Aside}: When pipe-open commands are used, Gri creates a temporary
+@strong{Aside}: When pipe-open commands are used, Gri creates a temporary
 file (often located in @file{/usr/tmp}, but that varies with machine).
 This is automatically cleaned up when Gri completes executation, but if
 Gri dies (or is interrupted) before it finishes, you'll be left with an
@@ -6893,7 +6892,7 @@ Some common examples of pipe-open commands are given below.
 @cindex data, spreadsheet
 @cindex comma-separated values
 @cindex spreadsheet data
-@emph{Comma-separated values} are common in files created by, or
+@strong{Comma-separated values} are common in files created by, or
 intended for, spreadsheets.  Since Gri expects data elements to be
 separated by blanks (or tabs), you'll have to convert the commas into
 blanks.  There are many ways to do that using pipes, e.g.
@@ -6913,7 +6912,7 @@ open "sed -e 's/,/ /g' foo.dat | tail +2 |"
 @end example
 
 @item
-@emph{Manipulating column data} is done by e.g.
+@strong{Manipulating column data} is done by e.g.
 
 @example
 open "cat foo.dat | awk '@{$1, $2 * 22@}' |"
@@ -6928,7 +6927,7 @@ named @file{foo.dat} by 22.
 @cindex files, opening remote WWW files
 @cindex WWW data files, opening
 @cindex world-wide web data files, opening
-@emph{Web-based files} may be opened by using lynx or other tools, e.g.
+@strong{Web-based files} may be opened by using lynx or other tools, e.g.
 
 @example
 open "lynx -dump \
@@ -6939,7 +6938,7 @@ draw curve
 @end example
 
 @item
-@emph{Time-based and geographical data} are sometimes encountered.  For
+@strong{Time-based and geographical data} are sometimes encountered.  For
 an example, suppose that longitude/latitude (i.e. x/y) data are stored
 in Hour.minutesecond format, e.g. 12.2133 means hour 12, minute 21,
 second 33.  Gri doesn't read HMS format, but gawk can be told to:
@@ -6970,7 +6969,7 @@ open "cat datafile.HMS |        \
 @end example
 
 @item
-@emph{Timeseries data} are often stored in formats that blend letters
+@strong{Timeseries data} are often stored in formats that blend letters
 and numbers.  For one thing, using letters (e.g. @code{aug}) removes an
 ambiguity in numerically-based data.  (Example: 02/03/2000 means one
 thing to an American and another thing in the rest of the world.
@@ -7039,7 +7038,7 @@ draw image palette box 0 0 10 1
 postscript grestore
 @end example
 
-NOTE: the @code{postscript} command is @emph{very} dangerous, and should
+NOTE: the @code{postscript} command is @strong{very} dangerous, and should
 normally only be used by developers.  Most of the code concerning this
 is in the file @file{doline.cc}; look for the string
 @code{postscriptCmd} to find the relevant code.
@@ -7240,7 +7239,7 @@ read columns x="longitude" y="latitude"
 @end example
 
 @noindent
-Note: the data @emph{must} be stored as the @code{netCDF} ``float''
+Note: the data @strong{must} be stored as the @code{netCDF} ``float''
 type.
 
 For more information on netCDF format, see
@@ -7347,7 +7346,7 @@ If @code{.cols.} is supplied, then that many values will be read;
 otherwise, reading will stop at end-of-file or blank-line.
 @item @code{read grid y [.rows.]}
 As above, but for y grid;  @code{.rows.} is the number of rows.  The
-first number to be read corresponds to the location of the @emph{top}
+first number to be read corresponds to the location of the @strong{top}
 edge of the grid.  Thus, if you were to view the column of numbers with
 a text editor, they would be oriented the same way as the corresponding
 elements will appear on the page.
@@ -7399,7 +7398,7 @@ on each line are skipped.  As usual, trailing extraneous numbers are
 also skipped.
 @end itemize
 
-@emph{See also} @code{set x grid}, @code{set y grid}
+@strong{See also} @code{set x grid}, @code{set y grid}
 
 
 @noindent
@@ -7559,7 +7558,7 @@ things like the width and height, then we need to specify everything, as
 in the first format given below.  The other formats make use of the
 header information in, e.g. PGM files.
 
-@emph{Headerless images}
+@strong{Headerless images}
 
 @example
 `read image .rows. .cols. \
@@ -7585,7 +7584,7 @@ With the @code{bycolumns} keyword present, the image is read sweeping
 from top-to-bottom, then left-to-right, instead of the usual order.
 
 
-@emph{Sun rasterfile images}
+@strong{Sun rasterfile images}
 
 @example
 `read image rasterfile [box .ll_x. .ll_y. .ur_x. .ur_y.]'
@@ -7595,7 +7594,7 @@ from top-to-bottom, then left-to-right, instead of the usual order.
 Read image in Sun rasterfile format.  Image geometry is inferred from
 the header, so @code{.rows.} and @code{.cols} parameters are not given.
 
-@emph{PGM images}
+@strong{PGM images}
 
 @example
 `read image pgm [box .ll_x. .ll_y. .ur_x. .ur_y.]'
@@ -7607,7 +7606,7 @@ inferred from the header, so @code{.rows.} and @code{.cols} parameters
 are not given.  Both ascii and binary PGM formats are supported (that
 is, files with magic characters of P2 and P5).
 
-@emph{NOTE} that there are many image formats and Gri doesn't try to
+@strong{NOTE} that there are many image formats and Gri doesn't try to
 deal with them all.  The idea is to use another program to convert
 images to a file format that Gri understands.  In the future Gri may
 support PNG and other popular formats, especially in the Linux versions,
@@ -7679,7 +7678,7 @@ This command ignores any trailing items on the line.  That is, the next
 @code{read} command will start on the next line of the file.  In a
 sense then, you get just one shot at analysing the input line in your
 datafile.  If you need flexibility, you may wish to read the
-@emph{whole} contents of the line into a synonym, which may be done
+@strong{whole} contents of the line into a synonym, which may be done
 using the @code{read line} command instead, to read it in as a string.
 (@ref{Read Line}).
 
@@ -7769,7 +7768,7 @@ and @code{..coeff1_sig..}
 
 The squared correlation coefficient is stored in @code{..R2..}.
 
-@emph{Historical note} prior to version 2.1.15, a different meaning was
+@strong{Historical note} prior to version 2.1.15, a different meaning was
 attached to @code{..coeff0_sig..} and @code{..coeff1_sig..}; they used
 be defined as standard errors, without having been multiplied by the
 appropriate student-t coefficient.
@@ -7880,7 +7879,7 @@ result is that, at the central latitude (y), a centimetre on the page
 will correspond to an equal distance on the earth, in both the
 north-south and east-west directions.  
 
-@emph{See also} @code{resize x for maps}.
+@strong{See also} @code{resize x for maps}.
 @end itemize
 
 
@@ -8079,7 +8078,7 @@ location is not explicitly given.
 Set axes to be rectangular, with an x-y axes frame labelled at the left
 and bottom.
 @item @code{set axes style polar}
-Set axes to be polar.  @emph{See also} @code{convert columns to polar}
+Set axes to be polar.  @strong{See also} @code{convert columns to polar}
 and @code{read columns r theta} commands.
 @item @code{set axes style none}
 Tell gri not to bother drawing axes before drawing curves, etc.
@@ -8182,7 +8181,7 @@ used instead.  Use this if Gri makes mistakes in its automatic selection
 of bounding box.
 
 The coordinates of the bounding box may be specified in (1) user
-coordinates, as defined @emph{at the moment} the command is executed, or
+coordinates, as defined @strong{at the moment} the command is executed, or
 (2) in points on the page, measured from an origin at the lower-left
 (72 point per inch), or (3) in centimeters on the page.  Which coordinate
 system is used depends on the last keyword -- use @code{pt} for points,
@@ -8192,7 +8191,7 @@ The most common use is in points, since that is how many other
 application packages, e.g. La@TeX{} and dvips, specify the bounding box.
 
 If the box is specified in the user units, the user units in effect
-@emph{at the moment} of executing the @code{set bounding box} command
+@strong{at the moment} of executing the @code{set bounding box} command
 are used.  This must be born in mind if the coordinate system is
 changing during the execution of the program, e.g.  if margins are
 changing or the x and y axes are changing.  For this reason it often
@@ -8221,7 +8220,7 @@ Don't plot data outside indicated box.
 @item @code{set clip off}
 Plot all data, whether inside the axes or not.
 @item @code{set clip postscript on .xleft. .xright. .ybottom. .ytop.}
-Turn PostScript clipping on.  This will prevent @emph{any} drawing
+Turn PostScript clipping on.  This will prevent @strong{any} drawing
 outside the named box.  Note that it will also prevent axis drawing, so
 the recommended procedure is something like
 
@@ -8234,7 +8233,7 @@ set postscript clip off
 
 @item @code{set clip postscript off}
 Turn PostScript clipping off.
-@emph{See also} @code{set input data window}.
+@strong{See also} @code{set input data window}.
 @cindex data, clipping using @code{set input clip}
 @cindex clipping data using @code{set input clip}
 @end itemize
@@ -8497,7 +8496,7 @@ Turn dashing off, setting to a solid line.
 Set environment (graylevel, axis length, etc) so that following plotting
 commands will make use of anything set by either a @code{set} command or
 by direct manipulation of builtin variables like @code{..xsize..}, etc.
-NOTE: this should @emph{only} be done by developers.
+NOTE: this should @strong{only} be done by developers.
 
 
 @node   Set Error Action, Set Flag, Set Environment, Set
@@ -8532,7 +8531,7 @@ flags may change with time and is undocumented.  This command is
 provided to enable selected users (e.g., the developer himself) to use
 test features of Gri before they are frozen into a fixed syntax and
 action.  The keyword @code{off} turns the indicated flag off.  NOTE:
-this should @emph{only} be done by developers.
+this should @strong{only} be done by developers.
 
 @example
 FLAG         DATE     ACTION
@@ -8654,7 +8653,7 @@ figure not exceed 2.
 @end example
 
 @noindent
-Set font to named style.  Note that the backslash is @emph{not} to be
+Set font to named style.  Note that the backslash is @strong{not} to be
 written, but here merely means that this word has several alternatives.
 For example, one might say @code{set font to Courier}.  The allowed
 fontnames are: 
@@ -8748,7 +8747,7 @@ considered missing.  If the first point in an island doesn't
 match the last, then an imaginary line is assumed which connects
 them.  Multiple islands may be separated by missing-value codes.
 
-@emph{See also} @code{Set Z Missing}.
+@strong{See also} @code{Set Z Missing}.
 
 @node   Set Ignore Initial Newline, Set Ignore Error Eof, Set Grid Missing, Set
 @comment  node-name,  next,  previous,  up
@@ -8978,7 +8977,7 @@ programs, Gri encourages (forces) the user to specify things in terms of
 user-units, not image-units.  This has the advantage of working
 regardless of the number of bits per pixel.  Thus, for example,
 @code{set image grayscale}, @code{set image colorscale}, 
-@code{draw image grayscale}, etc, all use @emph{user} units.
+@code{draw image grayscale}, etc, all use @strong{user} units.
 
 When an image is created by @code{convert grid to image}, values outside
 the range spanned by @code{.0value.} and @code{.255value.} are clipped.
@@ -8996,7 +8995,7 @@ representation of the user values would be (25.5-0)/255 or 0.1 degrees
 Celsius; temperature variations from pixel to pixel which were less than
 0.1 degrees would be lost.
 
-All other image commands @emph{require} that the range has been set.
+All other image commands @strong{require} that the range has been set.
 Thus, all these commands fail unless @code{set image range} has been
 done: @code{draw image}, @code{draw image palette}, @code{read image},
 @code{convert grid to image}, @code{set image grayscale}, and 
@@ -9047,7 +9046,7 @@ set input data window x \
   @{rpn ..xright.. xusertocm 5 + xcmtouser@}
 @end example
 
-@emph{See also} @code{set clip}
+@strong{See also} @code{set clip}
 @cindex input data window
 @cindex data, clipping using @code{set input data window}
 @cindex clipping data using @code{set input data window}
@@ -9261,13 +9260,13 @@ Print graph normally (default).
 Print graph sideways.
 @item @code{set page factor .mag.}
 Scale everything to be drawn on the paper by the indicated magnification
-factor.  This @emph{must} be called before any drawing commands.
+factor.  This @strong{must} be called before any drawing commands.
 @item @code{set page translate .xcm. .ycm.}
 Translate everything to be drawn on the paper by the indicated x/y
-distances.  This @emph{must} be called before any drawing commands.
+distances.  This @strong{must} be called before any drawing commands.
 @end itemize     
 
-@emph{Note}: The order of the factor/translate commands matters, so you
+@strong{Note}: The order of the factor/translate commands matters, so you
 may need to experiment.  For example,
 
 @example
@@ -9365,7 +9364,7 @@ set panel 2 3
 draw axes
 @end example
 
-@emph{See also} @code{set panel .row. .col.}
+@strong{See also} @code{set panel .row. .col.}
 
 
 
@@ -10171,7 +10170,7 @@ Beware: it is tricky to kill a sleeping job!
 @cindex smoothing column data
 @findex smooth
 @cindex @code{smooth} command
-All these smoothing commands ignore the @emph{location} of the data.  For
+All these smoothing commands ignore the @strong{location} of the data.  For
 equispaced data these algorithms have the standard interpretation in
 terms of digital filters.  For non-equispaced data, the interpretation
 is up to the user.
@@ -10249,7 +10248,7 @@ The @code{smooth grid data along y} command does the same thing as
 @code{smooth grid data along x}, but the smoothing is along @code{y}.
 
 
-@emph{See also} @ref{Filter}, a generalization of @code{smooth x|y}
+@strong{See also} @ref{Filter}, a generalization of @code{smooth x|y}
 which allows for more sophisticated filters.
 
 
@@ -10309,9 +10308,9 @@ Formatting codes are as in the C programming language, eg:
 @end example
 
 @noindent
-@emph{CAUTION}: Variables are stored in the @emph{floating point} in
+@strong{CAUTION}: Variables are stored in the @strong{floating point} in
 Gri, so you must use a format like @code{"%f"},
-@emph{not} an integer code like @code{"%d"}.
+@strong{not} an integer code like @code{"%d"}.
 If you want an integer, use @code{"%.0f"}.
 @cindex format, for sprintf command
 
@@ -10366,13 +10365,13 @@ by programmers altering the Gri source.
 
 These are the flags and their meanings:
 @itemize @bullet
-@item @emph{1} Print cmdline before/after substituting synonyms.
-@item @emph{2} Print cmdline before/after substituting rpn expressions.
-@item @emph{4} Print all new commands as they are being defined
-@item @emph{8} Print the system commands that are used with
+@item @strong{1} Print cmdline before/after substituting synonyms.
+@item @strong{2} Print cmdline before/after substituting rpn expressions.
+@item @strong{4} Print all new commands as they are being defined
+@item @strong{8} Print the system commands that are used with
 @code{open "...|"} and in other instances.
-@item @emph{128} Changeable; only author should use this.
-@item @emph{256} Changeable; only author should use this.
+@item @strong{128} Changeable; only author should use this.
+@item @strong{256} Changeable; only author should use this.
 @end itemize
 Note that all flags are equal to 2 raised to an integer power.  Since
 the flag values are detected by a bitwise OR, you can combine flags by
@@ -10400,7 +10399,7 @@ specifying 15 yields flags 1, 2, 4 and 8.
 @noindent
 Tell the operating system to perform the indicated action.  Whatever
 string follows the word @code{system} is passed directly to the
-operating system, @emph{after} substitution of synonyms if any exist.
+operating system, @strong{after} substitution of synonyms if any exist.
 
 @cindex comments, and system commands
 @cindex quoting in system commands
@@ -10418,22 +10417,22 @@ The exit status is stored in the builtin variable
 There are two ways to use the system:
 @itemize @bullet
 @item
-@emph{Assign output to synonym}: The form @code{\synonym = system ...}
+@strong{Assign output to synonym}: The form @code{\synonym = system ...}
 does the system command and then inserts the output from that command
 into the indicated synonym.)
-@item @emph{Just run a command}: The command @code{system ls} will list
+@item @strong{Just run a command}: The command @code{system ls} will list
 the files in the current directory.
 @end itemize
 
 For long commands, there are two approaches, the second preferred:
 @itemize @bullet
 @item
-@emph{Use continuation lines}: String a lot of information onto one
+@strong{Use continuation lines}: String a lot of information onto one
 effective system line, using the @code{\} line-continuation character
 at the ends of lines.  The problem is that it is very easy to lose one of
 these backslashes.  The next method is better.
 @item
-@emph{Here-is syntax} The here-is syntax of many unix shells is also
+@strong{Here-is syntax} The here-is syntax of many unix shells is also
 provided.  If the system command contains the characters @code{<<}
 followed by a word (with no space between!) then Gri will issue a system
 command which includes not only this line but also all succeeding lines,
@@ -10442,16 +10441,16 @@ no leading space allowed).  The @code{<< "WORD"} syntax is also
 supported, meaning that the operating system is being told not to mess
 with the dollar-signs -- needed in perl.
 
-@emph{Note:} Be careful using this inside a new-command.  Gri
+@strong{Note:} Be careful using this inside a new-command.  Gri
 Recognizes the end of the body of a new-command by a line with @code{@}}
-in the @emph{first column}, and no non-white characters thereafter.  
+in the @strong{first column}, and no non-white characters thereafter.  
 If you system command happens to use a line with a curly brace (as in a
 loop in perl, for example), you must put whitespace before the brace.
 This won't affect the system command, but it will let Gri correctly
-realize that this is @emph{not} the end of the new-command.  For more
+realize that this is @strong{not} the end of the new-command.  For more
 information on new-commands (@ref{Parsing}).
 
-@emph{Caution:} Before sending the string to the system, Gri first
+@strong{Caution:} Before sending the string to the system, Gri first
 translates any synonyms present.  Be careful with this, since system
 commands calling awk, etc, very often use backslashes for the newline
 character @code{\n} within strings.  If you have a synonym whose name
@@ -10478,7 +10477,7 @@ EOF
 @end itemize
 
 
-@emph{Some more examples}:
+@strong{Some more examples}:
 @itemize @bullet
 @item
 To get the first 15 lines of a file called @file{foo.dat} inserted into
@@ -10534,7 +10533,7 @@ draw curve
 quit
 @end example
 
-@emph{Note}: in unix, this command calls the Bourne shell, not the C-shell
+@strong{Note}: in unix, this command calls the Bourne shell, not the C-shell
 that is often used interactively.  For many simple uses, the only
 difference from normal interactive use will be that @code{~} is not
 expanded to the home directory.  For example, you should write
@@ -10584,7 +10583,7 @@ nonzero, a notification is printed every 1000 passes through the loop,
 as a debugging measure to catch unintended infinite loops.
 
 @noindent
-@emph{Examples}:
+@strong{Examples}:
 
 @itemize @bullet
 @item
@@ -10614,7 +10613,7 @@ end while
 @item
 Loop 10 times, printing the values of @code{.i.} as they range 0, 1,
 @dots{}, 9.  After exiting from the loop, @code{.i.} will equal 10.  Be
-@emph{careful} to use the correct rpn greater-than test to avoid an
+@strong{careful} to use the correct rpn greater-than test to avoid an
 infinite loop.
 
 @example
@@ -10643,7 +10642,7 @@ If the filename is @file{stdout}, the information is written to the
 standard output device (ie, the screen); if it is @file{stderr}, the
 information is written to the standard error device (ie, the screen).
 
-@emph{IMPORTANT NOTE}: The @code{write} commands @emph{append} to the
+@strong{IMPORTANT NOTE}: The @code{write} commands @strong{append} to the
 output file, as opposed to overwriting the contents of the file.
 Therefore if you've run the Gri script before, and want fresh output,
 make sure to do something like the following
@@ -10950,7 +10949,7 @@ additional 2 spaces.
 @cindex commands extending over several lines
 
 To extend a command across several lines, use a backslash @code{\} at
-the @emph{very} end of all lines but the last:
+the @strong{very} end of all lines but the last:
 
 @example
 draw line from \
@@ -11123,7 +11122,7 @@ end if
 @cindex variables, built-in
 @cindex built-in variables
 Built-in variables (@ref{Index of Builtins}) have names which begin and
-end with @emph{two} periods.  For example, @code{..xsize..} is the width
+end with @strong{two} periods.  For example, @code{..xsize..} is the width
 of the x-axis in centimetres.  You may use these variables as you wish
 (example: @code{..xsize.. = 4} is an alternative to 
 @code{set x size 4}), but you must be aware that these are not ``free''
@@ -11133,11 +11132,11 @@ the built-in variables are by the command @code{show variables}.
 There are two types of variables
 @itemize @bullet
 @item
-@emph{Startup} variables, which are created by Gri at startup time.
+@strong{Startup} variables, which are created by Gri at startup time.
 These variables can be relied upon to exist (barring changes in Gri
 itself), unless you @code{delete} them.
 @item
-@emph{Spontaneous} variables (which are created by certain Gri commands,
+@strong{Spontaneous} variables (which are created by certain Gri commands,
 and only exist if these commands have been executed).  For example, the
 @code{regress} command defines @code{..coeff0..} (the intercept of the
 fitted line), @code{..coeff1..} (the slope of the fitted line),
@@ -11216,7 +11215,7 @@ centimetres, are often useful in labelling data curves
 @cindex gray level
 @vindex @code{..graylevel..}, graylevel (0=black)
 Graylevel to use in drawing lines, text, etc.  Black ink is 0; white
-paper is 1.  @emph{See also} @code{..red..} etc.
+paper is 1.  @strong{See also} @code{..red..} etc.
 @item @code{..image_height..}
 @vindex @code{..image_height..}, height of image
 Height of image, or 0 if no image defined yet.
@@ -11265,7 +11264,7 @@ end if
 @vindex @code{..blue..}
 Description of present color.  The values are between 0 and 1, with
 (0,0,0) being black and (1,1,1) being white.  If color is gray, all
-these will be equal.  You may assign to these, but it will @emph{not}
+these will be equal.  You may assign to these, but it will @strong{not}
 change the color.
 @item @code{..symbolsize..}
 @cindex symbol size, stored in @code{..symbolsize..}
@@ -11615,7 +11614,7 @@ floating-point number, it is first rounded to the nearest integer.  If
 the index value is negative or exceeds the number of words minus 1, then
 an empty string is retrieved.
 
-If @emph{no number} appears in the square brackets, the result is the
+If @strong{no number} appears in the square brackets, the result is the
 number of words in a synonym.
 
 @example
@@ -11716,7 +11715,7 @@ Gri handles this by so-called "alias" synonyms, which store the names of
 other items.
 
 The syntax is simple.  Suppose that a synonym, called @code{\pointer}
-say, contains the @emph{name of} another synonym, or a variable.  Then
+say, contains the @strong{name of} another synonym, or a variable.  Then
 you may use @code{\@@pointer} anyplace you would normally use the item
 named.
 
@@ -11783,7 +11782,7 @@ the command is available in @code{\.words.}.  The RPN operator @code{wordc}
 also yields the same value (@ref{Solitary Operators}).
 @item
 The first word in the calling line is @code{\.word0.}, the second
-@code{\.word1.}, etc.  (Note that this is the C convention, @emph{not} the
+@code{\.word1.}, etc.  (Note that this is the C convention, @strong{not} the
 FORTRAN convention.  If @code{\.words.} is 2, then @code{\.word0.} and
 @code{\.word1.} are defined, but @code{\.word2.}, which FORTRAN programmers
 expect, will not be defined.)  If you don't know the place of the synonym
@@ -11822,7 +11821,7 @@ will be @code{"Thing"}.  On the other hand, if you call it with
 @code{\.word0.} will be @code{"New"}, @code{\.word1.} will be
 @code{"Thing"} as before, and @code{\.word2.} will be @code{"22.3"}.
 
-@emph{EXAMPLE}  Here is a new command to label lines drawn by 
+@strong{EXAMPLE}  Here is a new command to label lines drawn by 
 @code{draw curve}: 
 
 @example
@@ -12020,7 +12019,7 @@ must be spaces before and after the operators, but no space between the
 to be contoured or written as symbols), and @code{u} and @code{v} (used
 to store vector fields).
 
-The axis scales are @emph{not} changed by mathematical operations on the
+The axis scales are @strong{not} changed by mathematical operations on the
 columns, regardless of whether the scales were set manually or by Gri
 command (@ref{Axis Scaling}).
 
@@ -12129,7 +12128,7 @@ notation (@code{rpn}), which is used in some calculators.  Most users
 can learn rpn in a few minutes, so don't worry if you don't know RPN
 yet.
 
-@emph{Syntax}: rpn expressions can be used anywhere Gri expects a number.
+@strong{Syntax}: rpn expressions can be used anywhere Gri expects a number.
 RPN expressions start with a opening curly brace (@code{@{}) which is
 immediately followed by the word @code{rpn}.  rpn expressions end with a
 closing curly brace (@code{@}}).  Instead of @code{set x size 10} you
@@ -12236,7 +12235,7 @@ or even other legal @code{rpnfunction} constructs.  For details,
 @cindex @code{sup} rpn operator, finds larger of pair
 @cindex @code{inf} rpn operator, finds smaller of pair
 
-Binary operators act on the @emph{top two} items on the stack.  Most
+Binary operators act on the @strong{top two} items on the stack.  Most
 binary operators replace two items on the stack with one item, e.g.
 @code{@{rpn 1 2 /@}} yields 0.5.  However, a few binary operators
 replace one pair of items with a new pair of items, e.g. the
@@ -12954,7 +12953,7 @@ LaTeX-style syntax.
 @subsection Embedding synonyms in quoted text strings
 @cindex synonyms, embedding in quoted text strings
 @cindex text strings, embedding synonyms within
-@emph{Outside} math strings, you can embed your synonyms at will.  For
+@strong{Outside} math strings, you can embed your synonyms at will.  For
 example, you can include the name of a data file in the title of your
 plot as follows
 @cindex interaction with user, @code{query} command
@@ -13378,7 +13377,7 @@ When Gri finds a command that matches your command line, it assumes that
 this is the intended command, and searches no further.  This means that
 you must be careful not to have your command hidden by other commands.
 For example, if your resource file contained these lines, Gri would
-@emph{never} execute the second new command, because calls to it match
+@strong{never} execute the second new command, because calls to it match
 the first command.  To avoid this, you may either reverse the order of
 the definitions, so that Gri will find the proper routine, or rename one
 of the routines.
@@ -13431,7 +13430,7 @@ EXPLANATION:
 The name of the new command is enclosed in angled single-quote marks.
 The words of the new command should begin with upper-case letters to
 prevent a name clash with a present or future built-in Gri command.
-@emph{Formatting convention:} Make sure that the entire definition
+@strong{Formatting convention:} Make sure that the entire definition
 string, from the opening angled quote to the ending angled quote,
 appears on one line.  Otherwise Gri will give an error like
 
@@ -13449,13 +13448,13 @@ escape the brace with a backslash, e.g. (@code{\@{}).
 @item
 Following the help lines, if they exist, the body of the new command is
 given, sandwiched between a starting line containing an opening brace
-(@code{@{}) as the @emph{only} nonwhite character, and an ending line
+(@code{@{}) as the @strong{only} nonwhite character, and an ending line
 containing a closing brace (@code{@}}) as the only nonwhite character.
 Any valid Gri commands may be used in the body of the new command.  It
 is acceptable to use other new commands in the body. Recursion is also
 allowed -- a new command is allowed to call itself (although there is a
 limit on nesting, of perhaps a thousand or so; this varies with the
-version of Gri).  @emph{Formatting convention:} It is usual, but not
+version of Gri).  @strong{Formatting convention:} It is usual, but not
 necessary, to use an indentation level of 2 spaces in the body of the
 new command.
 @end itemize
@@ -13626,9 +13625,9 @@ double &.y.
 @end example
 
 @noindent
-At line 3 Gri interprets the @code{\.word1.} to the @emph{left} of the
+At line 3 Gri interprets the @code{\.word1.} to the @strong{left} of the
 equals sign as a reference to the variable that is set to the value 10
-in line 5.  Similarly, the @code{\.word1.} to the @emph{right} of the
+in line 5.  Similarly, the @code{\.word1.} to the @strong{right} of the
 equals sign evaluates to 10, the value in the calling program.
 
 Gri automatically determines whether an item is a variable or a synonym,
@@ -13710,7 +13709,7 @@ A: it prints @code{apples are tasty}.
 
 If @code{new} and @code{delete} are executed on local synonyms inside
 newcommands (e.g.  @code{new \.word1.})  they create and destroy
-variables and synonyms in the context of the @emph{calling program}.
+variables and synonyms in the context of the @strong{calling program}.
 
 For example, consider the following.
 
@@ -13736,7 +13735,7 @@ A: it prints @code{A rose is a rose}.
 The key point here is that the instance of the synonym named @code{\s}
 in the calling program, set in line 8, is modified by the @code{poetry}
 newcommand, in line 6.  This modification involves the use of a synonym,
-@emph{also named} @code{\s}, that "lives" wholly within the newcommand,
+@strong{also named} @code{\s}, that "lives" wholly within the newcommand,
 being created in line 3 and destroyed in line 6.  
 
 
@@ -13762,7 +13761,7 @@ for main program, etc.) put two ampersands after the backslash.
 NC &.a.
 @end example
 
-@emph{Note}: neither of these items may be used an lvalue.  That is,
+@strong{Note}: neither of these items may be used an lvalue.  That is,
 they may not be used to the left of an equals sign.  But you can always
 get around that by clever use of alias synonyms (@ref{Alias Synonyms}).
 
@@ -13778,8 +13777,8 @@ get around that by clever use of alias synonyms (@ref{Alias Synonyms}).
 When the parser encounters an unquoted @code{&} followed immediately by
 the name of a variable or a synonym, it converts the whole token
 (@code{&} plus name) into a specially-encoded string that can be
-recognized inside newcommands.  (This is @emph{only} done if the
-@code{&} and the variable name are @emph{not} enclosed in double
+recognized inside newcommands.  (This is @strong{only} done if the
+@code{&} and the variable name are @strong{not} enclosed in double
 quotes.)
 
 This specially-encoded string contains not just the name of the variable
@@ -14093,7 +14092,7 @@ help information.
 
 It also gives access to the operating system from within a gri program,
 with the @code{system} and @code{open} commands, and with the back-tic
-unix notation.  (@emph{Note} On unix systems, @code{sh} is normally
+unix notation.  (@strong{Note} On unix systems, @code{sh} is normally
 used; to get the C shell, write @code{system csh ...}, etc.)
 
 @cindex system calls, using dollar-parenthesis shell syntax
@@ -14102,7 +14101,7 @@ used; to get the C shell, write @code{system csh ...}, etc.)
 @cindex unix, dollar-parenthesis notation within Gri commands
 @cindex @code{\$()} syntax for system commands
 @cindex dollar-parenthesis syntax for system commands
-The operating system may be called @emph{within} Gri commands, using a
+The operating system may be called @strong{within} Gri commands, using a
 syntax borrowed from the @code{Bash} unix shell.  After substituting
 synonyms in the commandline, Gri scans for dollar-parenthesis blocks
 (e.g. @code{\$(system-command)}, replacing them with the textual result
@@ -14128,12 +14127,12 @@ not at all on the first line; to see this, run it as @code{gri -s8 -t}.
 show "\$(head -1 \dir/MY_FILE)"
 @end example
 
-@emph{Syntax Note} Dollar-parenthesis blocks must be prefixed with
+@strong{Syntax Note} Dollar-parenthesis blocks must be prefixed with
 backslash to avoid confusion with math expressions within strings, for
 example to avoid breaking @code{draw label "$(x,y)$" at 3 3 cm}.  This
 is an example of how @TeX{} notation and unix shell notation collide.
 
-@emph{Example} It is a good idea to employ unix environment variables to name
+@strong{Example} It is a good idea to employ unix environment variables to name
 directories containing data, so that Gri scripts will work unchanged
 even if the data are moved (so long as the environment variables are
 altered), e.g.
@@ -14254,7 +14253,7 @@ system rm -f \file
 @comment  node-name,  next,  previous,  up
 @subsection Using Gri from within the OS
 
-@emph{This section only applies to unix systems.}
+@strong{This section only applies to unix systems.}
 
 Save the following into a file called @file{p} and then make it
 executable using @code{chmod}.  It runs Gri on a named file, with the 
@@ -14642,7 +14641,7 @@ open "awk NR<=10 @{print ($1, $8)@} MyFile |"
 @cindex perl system tool
 @cindex overview of perl system tool
 
-Perl can do almost @emph{anything} with your data, since it is a full
+Perl can do almost @strong{anything} with your data, since it is a full
 programming language designed to also emulate several Unix utilities.
 
 In perl, as in other commands, the commandline switch @code{-e}
@@ -14732,7 +14731,7 @@ Gri mode has all the wonderful things you've come to expect from Emacs modes.
 Here's a brief overview of the features:
 @itemize @bullet
 @item
-It can @emph{complete} partially typed commands (@code{gri-complete},
+It can @strong{complete} partially typed commands (@code{gri-complete},
 @key{M-Tab}) and help you edit the syntax that was thus inserted for you
 (@code{gri-option-select}, @kbd{C-c C-o}; @code{gri-option-kill}, 
 @kbd{C-c C-k}).
@@ -14754,7 +14753,7 @@ containing a given word (@code{gri-apropos}, @kbd{C-c C-a}).
 @item
 It fontifies your Gri code using colour coding.
 @item
-It @emph{indents} if statements, loops, and so on
+It @strong{indents} if statements, loops, and so on
 (@code{gri-indent-line}, @key{Tab}).
 @item
 It can let you run Gri and view its output without leaving the editor 
@@ -14916,7 +14915,7 @@ you already have it.  If not, you will find it at gri's ftp home
 ftp://ftp.phys.ocean.dal.ca/users/kelley/gri
 @c HTML </A>
 
-The following installation steps appear a @emph{bit} complicated.
+The following installation steps appear a @strong{bit} complicated.
 That's only because gri has changed how it gets installed a few times,
 and gri-mode.el works with all of these various methods.  If you use gri
 from a Linux package (Debian or Red Hat) or if you compiled it yourself using 
@@ -14941,14 +14940,14 @@ system will assume that you want gri-mode if you're editing a Gri file.)
 @subsection Placing gri-mode.el where Emacs can find it.
 @cindex gri-mode, Placing gri-mode.el where Emacs can find it.
 
-(Those using gri from gri's @emph{RPM} package, a @emph{Debian} package
-or a @emph{Red Hat} package users can skip this, as it is done
+(Those using gri from gri's @strong{RPM} package, a @strong{Debian} package
+or a @strong{Red Hat} package users can skip this, as it is done
 for them)
 
 Extra @file{.el} files like @file{gri-mode.el} that are not part of Emacs
 should be stored in a directory where Emacs will find them when you ask
 it to load them.  The files should therefore be found in Emacs'
-@emph{load-path}.  To see the directory list currently in the load-path,
+@strong{load-path}.  To see the directory list currently in the load-path,
 do this in Emacs:
 
 @example
@@ -14956,7 +14955,7 @@ C-h v load-path
 @end example
 
 If you have access to system directories, put gri-mode.el in a
-@emph{site-lisp} directory, such as
+@strong{site-lisp} directory, such as
 @file{/usr/local/share/emacs/site-lisp/} That way all users will have
 access to the files.
 
@@ -14975,8 +14974,8 @@ then put this near the top of your @file{~/.emacs} file:
 @subsection Telling gri-mode where gri resides
 @cindex gri-mode, Configuring gri-mode to where gri lives on your system
 
-(Those using gri from gri's @emph{RPM} package, a @emph{Debian} package
-or a @emph{Red Hat} package users can skip this, as it is done
+(Those using gri from gri's @strong{RPM} package, a @strong{Debian} package
+or a @strong{Red Hat} package users can skip this, as it is done
 for them)
 
 You may skip this section if gri is installed on your system as
@@ -15023,7 +15022,7 @@ gri*directory-tree/VERSION/lib/gri.cmd
 @file{/opt/gri/2.040/lib/gri.cmd} with @code{gri*directory-tree} set to
 @code{"/opt/gri"})
 
-or without the @emph{lib} and @emph{bin} subdirectories if the executable is
+or without the @strong{lib} and @strong{bin} subdirectories if the executable is
 found in the PATH named like @file{gri-VERSION} (This is the way Debian
 packages are set up):
 the file @file{gri*directory-tree/VERSION/gri.cmd}
@@ -15105,7 +15104,7 @@ then you'd use:
 @subsection Telling emacs to load gri-mode
 @cindex gri-mode, Telling emacs to load gri-mode
 
-(Those using a @emph{Debian} package can skip this, as it is done
+(Those using a @strong{Debian} package can skip this, as it is done
 for them)
 
 To tell emacs to use this mode with @file{.gri} files, you can load
@@ -15407,20 +15406,20 @@ they are not all listed, that means that the Emacs variable
 @code{gri*directory-tree} is not correctly set  
 (@ref{Installing gri-mode.el}).  Your selection is stored in the file
 @file{~/.gri-using-version} and is remembered across editing
-sessions. If you select @emph{default} as your answer, gri-mode reverts
+sessions. If you select @strong{default} as your answer, gri-mode reverts
 to using the default version of gri as installed on your system (which
 may change after you update it) and deletes the
 @file{~/.gri-using-version} file.
 
 @item
 @code{gri-set-local-version}: 
-Tells gri-mode to use a given version of gri this @emph{this} gri file
+Tells gri-mode to use a given version of gri this @strong{this} gri file
 (the one currently being edited when you invoke the command).  Tab
 completion is again available to list all available versions.  Your
 selection overrides the default version selected by
 @code{gri-set-version} for this file, and is stored as an Emacs variable
 at the bottom of the gri file.  It is remembered across editing
-sessions. If you select @emph{default} as your answer, gri-mode reverts
+sessions. If you select @strong{default} as your answer, gri-mode reverts
 to using the default version of gri as selected by
 @code{gri-set-version} and deletes the Emacs variable setting at the
 bottom of the gri file.
@@ -15685,7 +15684,7 @@ Add several new features to @code{gri-mode.el}:
 2) Add a menubar pull-down entry to @code{Perform} to set
       @code{gri-run} settings such as flag options passed to gri. 
 
-3) Gri info file can have @emph{.info} extension now.
+3) Gri info file can have @strong{.info} extension now.
 
 4) Made @code{gri-apropos} an alias for @code{gri-help-apropos}.
 
@@ -15695,7 +15694,7 @@ Add several new features to @code{gri-mode.el}:
 6) The @code{~/.gri-syntax} file has changed format.  As a
       side-effect, spaces are used instead of hyphens to display Gri commands,
       and one can now select a command with the mouse in the
-      @emph{Completions} buffer.
+      @strong{Completions} buffer.
 
 @end table
 
@@ -15792,7 +15791,7 @@ First debian release.  Versions exist for intel, alpha, 68K and powerpc.
 @cindex command-line interface
 @cindex image formats, other than 8-bit
 
-Some @emph{plans} for future versions are given below.  The list below
+Some @strong{plans} for future versions are given below.  The list below
 is in no particular order.  Please contact me at
 @c HTML <A HREF="mailto:Dan.Kelley@Dal.CA"> 
 @value{AUTHOR-EMAIL}
@@ -16410,7 +16409,7 @@ Go to the bug-tracking part of the Source Forge Gri development site, at
 to see whether your bug has already been reported.  You may find that it
 has been reported and fixed already in a new version, in which case you
 should archive your existing Gri version and upgrade.  If the bug has
-been reported and @emph{not} fixed, then you may still wish to add a
+been reported and @strong{not} fixed, then you may still wish to add a
 supplemental bug report, so the author knows that this bug is of concern
 to you as well as the others.  (Plus, reporting it this way ensures that
 you'll receive an email when the bug is fixed.)
@@ -16681,7 +16680,7 @@ strangely.
 
 @item To see how the conversion is done, clear the breakpoints by typing
 @kbd{delete} in the @code{gdb} buffer, then insert a breakpoint
-@emph{before} @code{gr_hsv2rgb} is called.  Then, run Gri again (@kbd{r}
+@strong{before} @code{gr_hsv2rgb} is called.  Then, run Gri again (@kbd{r}
 in the @code{gdb} buffer).  When it stops just before this subroutine,
 type @kbd{s} to "step into" the subroutine.  Then you'll see a
 conversion code from the (wonderful) textbook of Foley and Van Dam.
@@ -16740,11 +16739,11 @@ will be as small as it can be.
 
 The following test files are invoked by typing @code{make test}, after
 compiling Gri.  They are provided here because they are examples of
-scripts that are @emph{known to work} for the version of Gri described
+scripts that are @strong{known to work} for the version of Gri described
 in this manual.
 
 Heavy use is made of the @code{assert} command (@ref{Assert}) in these
-test files.  Thus the @emph{code itself} demonstrates the features,
+test files.  Thus the @strong{code itself} demonstrates the features,
 instead of comments in the code.  This is advantageous since comments
 tend to be incorrect!
 
@@ -16811,58 +16810,58 @@ email I sent Saturday (don't Gri users take a break?) is below.
 
 @b{Journals in Oceanography, Atmospheric Science, Earth Science, etc.}
 @itemize @bullet
-@item @emph{Bulletin on Coastal Oceanography} (in Japanese with English
+@item @strong{Bulletin on Coastal Oceanography} (in Japanese with English
 abstract)
-@item @emph{Fisheries Oceanography}
-@item @emph{Deep-Sea Research}
-@item @emph{EOS, Transactions of the American Geophysical Union}
-@item @emph{Estuarine, Coastal and Shelf Science}
-@item @emph{Geophysical Research Letters}
-@item @emph{Journal of Atmospheric and Oceanic Technology}
-@item @emph{Journal of Geophysical Research}
-@item @emph{Journal of Marine Research}
-@item @emph{Journal of Plankton Research}
-@item @emph{Journal of Physical Oceanography}
-@item @emph{Journal of the Japan Scoiety for Marine Surveys and Technology}
+@item @strong{Fisheries Oceanography}
+@item @strong{Deep-Sea Research}
+@item @strong{EOS, Transactions of the American Geophysical Union}
+@item @strong{Estuarine, Coastal and Shelf Science}
+@item @strong{Geophysical Research Letters}
+@item @strong{Journal of Atmospheric and Oceanic Technology}
+@item @strong{Journal of Geophysical Research}
+@item @strong{Journal of Marine Research}
+@item @strong{Journal of Plankton Research}
+@item @strong{Journal of Physical Oceanography}
+@item @strong{Journal of the Japan Scoiety for Marine Surveys and Technology}
 (in Japanese with English abstract)
-@item @emph{Limnology and Oceanography}
-@item @emph{Marine Biology}
-@item @emph{Marine Ecology Progress Series}
-@item @emph{Oceanography}
-@item @emph{Paleoceanography}
-@item @emph{Progress in Oceanography}
-@item @emph{Quaternary Research}
-@item @emph{Scientia Marina}
-@item @emph{South African Journal of Marine Science}
-@item @emph{Umi no Kenkyu} (Japanese version for Journal of Oceanography, in
+@item @strong{Limnology and Oceanography}
+@item @strong{Marine Biology}
+@item @strong{Marine Ecology Progress Series}
+@item @strong{Oceanography}
+@item @strong{Paleoceanography}
+@item @strong{Progress in Oceanography}
+@item @strong{Quaternary Research}
+@item @strong{Scientia Marina}
+@item @strong{South African Journal of Marine Science}
+@item @strong{Umi no Kenkyu} (Japanese version for Journal of Oceanography, in
 Japanese with English abstract)
 @end itemize
 
 @b{Journals in Physics, Chemistry, etc.}
 @itemize @bullet
-@item @emph{Applied Physics A}
-@item @emph{Journal of Fluid Mechanics}
-@item @emph{Journal of Physical Chemistry B}
-@item @emph{Physica D}
-@item @emph{Physics of Fluids}
-@item @emph{Physics A}
-@item @emph{Physics Letters B}
-@item @emph{Physical Review C}
-@item @emph{Physical Review Letters}
-@item @emph{Research on Chemical Intermediates}
-@item @emph{Theoretical Computational Fluid Dynamics}
+@item @strong{Applied Physics A}
+@item @strong{Journal of Fluid Mechanics}
+@item @strong{Journal of Physical Chemistry B}
+@item @strong{Physica D}
+@item @strong{Physics of Fluids}
+@item @strong{Physics A}
+@item @strong{Physics Letters B}
+@item @strong{Physical Review C}
+@item @strong{Physical Review Letters}
+@item @strong{Research on Chemical Intermediates}
+@item @strong{Theoretical Computational Fluid Dynamics}
 @end itemize
 
 @b{Other Journals}
 @itemize @bullet
-@item @emph{Nature}
+@item @strong{Nature}
 @end itemize
 
 @b{Books, Monographs, etc.}
 @itemize @bullet
-@item @emph{The Atlas of Hawai'i} (University of Hawai'i Press)
-@item @emph{Differential Equations with Applications to Biology} (American Mathematical Society)
-@item @emph{Ocean Drilling Program} publications
+@item @strong{The Atlas of Hawai'i} (University of Hawai'i Press)
+@item @strong{Differential Equations with Applications to Biology} (American Mathematical Society)
+@item @strong{Ocean Drilling Program} publications
 @end itemize
 
 
