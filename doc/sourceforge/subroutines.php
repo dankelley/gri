@@ -122,7 +122,7 @@ function footer()
 	print "<td valign=\"top\" bgcolor=\"#FFFFFF\">\n";
 	print "<center>\n";
 	print "<small>\n";
-	print "Copyright &copy; 2002-2003 by\n";
+	print "Copyright &copy; 2002 by\n";
         global $sf_url;
 	print "<a href=\"$sf_url/users/dankelley\">Dan Kelley</a>\n";
 	print " and ";
