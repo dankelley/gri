@@ -40,12 +40,13 @@ for ($i = 0; $i < $n; $i++) {
 # Ullman (2001) p33 
 $search_for = trim($search_for); # remove start/end whitespace
 print("Return to <a href=\"http://gri.sourceforge.net\">Gri homepage</a>.<p>\n");
-print("The following items from the Gri index match your search for <font color=#6666DD>`$search_for'</font>:<p>\n");
+print("The following items from the Gri index match your search for <font color=#6666DD>`$search_for'</font>:\n");
 $first = 1;
 for ($i = $start + 2; $i < $n; $i++) {
-    if (eregi($search_for, $items[$i]) and !eregi("\"href=\"", $items[$i])) {
+    if (eregi($search_for, $items[$i]) 
+	and !eregi("href=\"", $items[$i])) {
 	if ($first) {
-	    print("<ul>\n");
+	    print("<ul>\n<li>");
 	    $first = 0;
 	}
 	print($items[$i-1]);
