@@ -52,6 +52,11 @@ html: gri.texi
 	perl archive-to-html.pl > Newsgroup.html
 	touch html
 
+card-install: card
+	install -m 644 refcard.ps    $(CARD_DIR)
+	install -m 644 cmdrefcard.ps $(CARD_DIR)
+	touch card
+
 html-install:	html
 	install -d $(HTML_DIR)/examples
 	install -d $(HTML_DIR)/resources
@@ -64,6 +69,11 @@ html-install:	html
 	install -m 755 examples/FEM.pl    $(HTML_DIR)/examples
 	install -m 644 screenshots/*.jpg  $(HTML_DIR)/screenshots
 	install -m 644 *.html             $(HTML_DIR)
+
+card-clean:
+	-rm -f refcard.dvi refcard.log refcard.ps
+	-rm -f cmdrefcard.dvi cmdrefcard.log cmdrefcard.ps
+	-rm -f card
 
 html-clean:
 	-cp FAQ.html save
@@ -109,7 +119,7 @@ refcard2:
 pdf: gri.ps
 	ps2pdf gri.ps
 
-clean:	info-clean html-clean debian-clean
+clean:	info-clean html-clean debian-clean card-clean
 	$(RM)				\
 		gri.pdf gri.dvi gri.ps	\
 		gri gri.1 gri-[0-9]*	\
@@ -136,12 +146,6 @@ linux_redhat:
 	make html
 	make refcard.ps
 	make cmdrefcard.ps
-
-linux_redhat_clean:
-	rm -f gri.info*
-	cp FAQ.html save
-	rm -f *.html gri.dvi gri.ps
-	mv save FAQ.html
 
 gri.ps: gri.texi
 ###LATER#### example Makefile is missing, and probably requires Gri installed.
