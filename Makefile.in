@@ -287,8 +287,6 @@ source-copy:
 	install -m 644 doc/tst_suite/tst_var_syn.gri $(SOURCE_NAME)/doc/tst_suite
 
 source: source-copy
-#
-#	Tar package, compress it, install it.
 	tar -c -f $(SOURCE_NAME).tar $(SOURCE_NAME)
 	rm -rf $(SOURCE_NAME)
 	gzip -f --best $(SOURCE_NAME).tar
@@ -300,8 +298,8 @@ source-arch-indep: source-copy
 	tar -c -f $(SOURCE_NAME)-arch-indep.tar $(SOURCE_NAME)
 	rm -rf $(SOURCE_NAME)
 	gzip -f --best $(SOURCE_NAME)-arch-indep.tar
-	-mv $(SOURCE_NAME)-arch-indep.tar.gz $(DEST_DIR)/
-	chmod a+r $(DEST_DIR)/$(SOURCE_NAME)-arch-indep.tar.gz
+	-mv $(SOURCE_NAME)-arch-indep.tar.gz $(DEST_DIR)/$(SOURCE_NAME)-arch-indep.tgz
+	chmod a+r $(DEST_DIR)/$(SOURCE_NAME)-arch-indep.tgz
 
 
 README-ftp:
