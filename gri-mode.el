@@ -5,7 +5,7 @@
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.25 (19 May 2000)
+;; Version:   2.26 (19 May 2000)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -328,6 +328,9 @@
 ;; - tweaks for XEmacs (easymenu entries need `t' at end; 
 ;;   call add-submenu in gri-mode)
 ;; V2.25 19May00 RCS 1.49 - Removed RCS Id line to avoid confusion.
+;; V2.26 19May00 RCS 1.50 
+;; - gri-info-function changed to lookup `Index of Commands' instead of raw
+;;   list of nodes.
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -1525,39 +1528,73 @@ display the info page for the gri command `draw x axis'."
   (require 'info)
   (gri-info-function (gri-isolate-this-command nil)))
 
+;; Delete this when I'm happy with new method.
+;;  gri-info-function used to read in gri info files and look at all nodes
+;;  I changed this in RCS 1.50 to get the proper Index of Commands instead.
+;;  This way, we can get to nodes for alternate spelling.
+;;(defun gri-info-function (guess)
+;;  "Guts for gri-info and gri-info-this-command"
+;;  (if (not (gri-info-directory))
+;;      (error "Sorry, no gri info files!"))
+;;  (let ((flag t)(loopflag t)(tmp-buffer (get-buffer-create "*info-tmp*")))
+;;      (save-excursion
+;;        (set-buffer tmp-buffer)
+;;        (cond
+;;         ((fboundp 'info-insert-file-contents) ;Emacs20
+;;          (info-insert-file-contents (concat (gri-info-directory) "gri")))
+;;         ((and (fboundp 'Info-insert-file-contents) ;XEmacs20
+;;              (fboundp 'Info-suffixed-file))
+;;          (Info-insert-file-contents 
+;;           (Info-suffixed-file (concat (gri-info-directory) "gri")) nil))
+;;         (t                             ; old emacs?
+;;          (insert-file-contents (concat (gri-info-directory) "gri"))))
+;;        (goto-char (point-min))
+;;        (if (re-search-forward 
+;;             (concat "Node: " (regexp-quote guess) "\177") nil t)
+;;            (setq flag t)
+;;          (while loopflag  ;; flag true until can't shorten or found
+;;            (setq guess (gri-shorten-guess-command guess " "))
+;;            (if guess 
+;;                (if (re-search-forward (concat "Node: " (regexp-quote guess) 
+;;                                               "\177") nil t)
+;;                    (setq loopflag nil)) ;; found it!
+;;              (setq loopflag nil)  ;; can't shorten no more
+;;              (setq flag nil)))))  ;; failed to find a match
+;;      (kill-buffer "*info-tmp*")
+;;      (if flag
+;;          ;;??Replace with: (Info-find-node "gri" guess)
+;;          (Info-goto-node (concat "(gri)" guess))
+;;        (message "Sorry, can't find this topic in Info."))))
+
 (defun gri-info-function (guess)
   "Guts for gri-info and gri-info-this-command"
-  (if (not (gri-info-directory))
-      (error "Sorry, no gri info files!"))
-  (let ((flag t)(loopflag t)(tmp-buffer (get-buffer-create "*info-tmp*")))
-      (save-excursion
-        (set-buffer tmp-buffer)
-        (cond
-         ((fboundp 'info-insert-file-contents) ;Emacs20
-          (info-insert-file-contents (concat (gri-info-directory) "gri")))
-         ((and (fboundp 'Info-insert-file-contents) ;XEmacs20
-              (fboundp 'Info-suffixed-file))
-          (Info-insert-file-contents 
-           (Info-suffixed-file (concat (gri-info-directory) "gri")) nil))
-         (t                             ; old emacs?
-          (insert-file-contents (concat (gri-info-directory) "gri"))))
-        (goto-char (point-min))
-        (if (re-search-forward 
-             (concat "Node: " (regexp-quote guess) "\177") nil t)
-            (setq flag t)
-          (while loopflag  ;; flag true until can't shorten or found
-            (setq guess (gri-shorten-guess-command guess " "))
-            (if guess 
-                (if (re-search-forward (concat "Node: " (regexp-quote guess) 
-                                               "\177") nil t)
-                    (setq loopflag nil)) ;; found it!
-              (setq loopflag nil)  ;; can't shorten no more
-              (setq flag nil)))))  ;; failed to find a match
-      (kill-buffer "*info-tmp*")
-      (if flag
-          ;;??Replace with: (Info-find-node "gri" guess)
-          (Info-goto-node (concat "(gri)" guess))
-        (message "Sorry, can't find this topic in Info."))))
+;;  (if (not (gri-info-directory))
+;;      (error "Sorry, no gri info files!"))
+  (let ((flag)(loopflag t)(node))
+    (save-excursion
+      (save-window-excursion
+        (let ((Info-history nil))     ;Don't save this move!
+;;        (Info-find-node "gri" "Index of Commands")
+          (Info-goto-node "(gri)Index of Commands")
+          (goto-char (point-min))
+          (search-forward "* Menu:" nil t)
+          ;; Search for `guess'
+          ;; and if Didn't find it, shorten the command and try again.
+          (while (and guess loopflag) ; flag true until can't shorten or found
+            (message "check for: %s" guess)
+            (cond 
+             ((re-search-forward (concat "^\* " (regexp-quote guess) ":")nil t)
+              ;; Found it this time!
+              (skip-chars-forward " ")
+              (setq node (buffer-substring
+                          (point)
+                          (progn (end-of-line)(forward-char -1)(point))))
+              (setq flag t)
+              (setq loopflag nil))) ;; exit the loop - found it!
+            (setq guess (gri-shorten-guess-command guess " "))))))
+    (if flag
+        (Info-goto-node (concat "(gri)" node))
+      (message "Sorry, can't find this topic in Info."))))
 
 (defun gri-shorten-guess-command (guess separator)
   "Removes a word (separated by ARG2) from end of ARG1 
@@ -2272,7 +2309,6 @@ In emacs 18, path is Info-directory and cannot be compressed."
               (notfound t)
               (info-directory nil))
           (while (and notfound (car work-list))
-	    (message (car work-list))
             (if (or (file-readable-p (concat (car work-list) "gri"))
                     (file-readable-p (concat (car work-list) "gri.Z"))
                     (file-readable-p (concat (car work-list) "gri.z"))
@@ -3997,7 +4033,7 @@ static char *magick[] = {
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.25 (c) 19 May 2000 --  Peter Galbraith <GalbraithP@dfo-mpo.gc.ca>
+V2.26 (c) 19 May 2000 --  Peter Galbraith <GalbraithP@dfo-mpo.gc.ca>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
