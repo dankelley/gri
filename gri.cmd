@@ -3448,7 +3448,7 @@ PostScript file:
 `set panel .row. .col.'
 Establish geometry for the panel in the indicated row and column.  The
 bottom row has .row. = 1, and the leftmost column has .col. = 1.  This
-must be used only after using `Panels .row. .col. .dx_cm. .dy_cm.'
+must be used only after using `set panels .row. .col. .dx_cm. .dy_cm.'
 {
     if {rpn \.words. 4 !=}
 	show "ERROR: `\.proper_usage.' needs 3 words"

@@ -11776,7 +11776,7 @@ set panel .row. .col.
 Establish geometry for the panel in the indicated row and column.  The
 bottom row has @code{.row.} = 1, and the leftmost column has
 @code{.col.} = 1.  This must be used only after using 
-@code{Panels .row. .col. .dx_cm. .dy_cm.}.
+@code{set panels .row. .col. .dx_cm. .dy_cm.}.
 
 
 @node   Set Panels, Set Postscript Filename, Set Panel, Set
