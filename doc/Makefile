@@ -34,6 +34,11 @@ test:
 	cat test.texi | texinfo2HTML > test.html
 
 html: gri.texi
+	cd examples ; make jpg
+	cp examples/*.jpg ./
+	cd examples ; make html
+	cp examples/*.html ./
+	cd screenshots; make jpg
 	cat gri.texi     		>  TMP
 	perl make_html_index		>> TMP
 	cat TMP | perl texinfo2HTML	>  $(HTML_LONG_NAME)
@@ -43,28 +48,27 @@ html: gri.texi
 	perl HTML_subdivide  $(HTML_LONG_NAME) "The Gri graphing language"
 	rm -f $(HTML_LONG_NAME)
 	rm -f *.pass2
-	if test ! -f index.html ; then ln -s gri1.html index.html ; fi
+#	if test ! -f index.html ; then ln -s gri1.html index.html ; fi
 	perl archive-to-html.pl > Newsgroup.html
 	touch html
 
 html-install:	html
-	install -d $(HTML_DIR)
 	install -d $(HTML_DIR)/examples
 	install -d $(HTML_DIR)/resources
-	install -m 644 ./resources/logo.eps $(HTML_DIR)/resources
-	install -m 644 ./resources/logo.gif $(HTML_DIR)/resources
-	install -m 644 ./resources/logo.gri $(HTML_DIR)/resources
-	install -m 644 ./resources/*.gif    $(HTML_DIR)/resources
-	install -m 644 ./examples/*         $(HTML_DIR)/examples
-	install -m 644 ./*.html             $(HTML_DIR)
+	install -d $(HTML_DIR)/screenshots
+	install -m 644 resources/logo.eps $(HTML_DIR)/resources
+	install -m 644 resources/logo.gri $(HTML_DIR)/resources
+	install -m 644 resources/*.gif    $(HTML_DIR)/resources
+	install -m 644 examples/*.jpg     $(HTML_DIR)/
+	install -m 644 examples/{model*,*.dat,*.gri,*.ps} $(HTML_DIR)/examples
+	install -m 755 examples/FEM.pl    $(HTML_DIR)/examples
+	install -m 644 screenshots/*.jpg  $(HTML_DIR)/screenshots
+	install -m 644 *.html             $(HTML_DIR)
 
 html-clean:
 	-cp FAQ.html save
-	-rm -f [A-Z]*.html gri1.html index.html html
+	-rm -f [A-Z]*.html *.jpg example*.html gri1.html index.html html
 	-mv save FAQ.html
-
-#
-#
 
 info:	gri.texi
 	makeinfo gri.texi
@@ -101,13 +105,10 @@ refcard2:
 	dvips -o cmdrefcard.ps -t landscape cmdrefcard.dvi
 	chmod a+r cmdrefcard.*
 	ghostview -land cmdrefcard.ps
-#
-#
+
 pdf: gri.ps
 	ps2pdf gri.ps
 
-#
-#
 clean:	info-clean html-clean debian-clean
 	$(RM)				\
 		gri.pdf gri.dvi gri.ps	\
@@ -124,6 +125,7 @@ clean:	info-clean html-clean debian-clean
 		gri.vr gri.vrs 		\
 		cmdrefcard.ps refcard.ps
 	(cd examples; make clean)
+	(cd screenshots; make clean)
 
 help:
 	@echo "Options:"
@@ -145,6 +147,7 @@ gri.ps: gri.texi
 ###LATER#### example13 also needs GRI_EOS_DIR 
 ###LATER####	cd ./examples; make clean; make examples
 	cd examples ; make eps
+	cd screenshots; make eps
 	tex gri.texi
 	texindex gri.cp
 	texindex gri.fn
@@ -155,7 +158,7 @@ gri.ps: gri.texi
 	tex gri.texi
 	dvips -o gri.ps gri.dvi
 
-gri1.html: gri.texi
+index.html: gri.texi
 	make html
 	rm -f index.html
 
@@ -192,18 +195,19 @@ debian-info: gri.texi
 	touch debian-info
 
 # make debian-html PREFIX=../debian/gri-html-doc/usr/doc
-debian-html: gri1.html
+debian-html: index.html
 	install -d $(prefix)/gri-html-doc/html
 	install -m 644 *.html $(prefix)/gri-html-doc/html
 	rm -f $(prefix)/gri-html-doc/html/index.html
-	(cd $(prefix)/gri-html-doc/html; ln -sf gri1.html index.html)
+#	(cd $(prefix)/gri-html-doc/html; ln -sf gri1.html index.html)
 	install -d $(prefix)/gri-html-doc/html/resources
-	-cp ./resources/*.gif $(prefix)/gri-html-doc/html/resources
-	-cp ./resources/logo.gri $(prefix)/gri-html-doc/html/resources
-	-cp ./resources/logo.eps $(prefix)/gri-html-doc/html/resources
+	install -m 644 resources/*.gif $(prefix)/gri-html-doc/html/resources
+	install -m 644 resources/logo.gri $(prefix)/gri-html-doc/html/resources
+	install -m 644 resources/logo.eps $(prefix)/gri-html-doc/html/resources
 	install -d $(prefix)/gri-html-doc/examples
-	install -m 644 ./examples/* $(prefix)/gri-html-doc/examples
-	chmod +x $(prefix)/gri-html-doc/examples/FEM.pl
+	install -m 644 ./examples/*.jpg     $(prefix)/gri-html-doc/html
+	install -m 644 ./examples/{model*,*.dat,*.gri,*.ps} $(prefix)/gri-html-doc/examples
+	install -m 755 ./examples/FEM.pl $(prefix)/gri-html-doc/examples
 	(cd $(prefix)/gri-html-doc/html; ln -sf ../examples)
 
 # make debian-ps PREFIX=../debian/gri-ps-doc/usr/doc
