@@ -34,6 +34,7 @@ test:
 	cat test.texi | texinfo2HTML > test.html
 
 html: gri.texi gri.info
+	perl gri2html resources/logo
 	cd examples ; make jpg
 	cp examples/*.jpg ./
 	cd examples ; make html
