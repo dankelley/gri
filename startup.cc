@@ -125,7 +125,6 @@ start_up(int argc, char **argv)
 		for (int i = 0; i < argc; i++) printf("\t'%s'\n", argv[i]);
 	}
 #endif
-
 	// Record version number
 	int major_version, minor_version, minor_minor_version;
 	extern char _input_data_separator; // defined in gri.cc
@@ -222,6 +221,17 @@ first argument looks like a PostScript filename.  Older versions\n\
 	insert_creator_name_in_PS(argc, argv, psname);
 	// Finally, ready to begin plot.
 	gr_begin(1);
+#if 1
+	extern FILE *_grPS;
+	SECOND_TYPE sec;
+	time(&sec);
+	sprintf(_grTempString, "%s", asctime(localtime(&sec)));
+	_grTempString[-1 + strlen(_grTempString)] = '\0'; // trim newline
+	fprintf(_grPS, "%%gri:# Gri was invoked by user `%s' on %s by the command\n%%gri:#    ", egetenv("USER"), _grTempString);
+	for (int i = 0; i < argc; i++)
+		fprintf(_grPS, " %s ", argv[i]);
+	fprintf(_grPS, "\n%%gri:# in directory %s.\n", pwd());
+#endif
 	put_syn("\\.ps_file.", gr_currentPSfilename(), true);
 	// Disable tracing during startup phase, unless in superuser mode.
 	double          trace_old;
