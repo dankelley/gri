@@ -349,8 +349,8 @@ perform_command_line(FILE *fp, bool is_which)
 		}
 #if 1				// TRIAL CODE [2000-oct-14]
 		// Process e.g.
-		//     &\\j = "hello"
-		if (*_word[0] == '&' && *(_word[0]+1) == '\\') {
+		//     @\\j = "hello"
+		if (*_word[0] == '@' && *(_word[0]+1) == '\\') {
 			if (_nword >= 3 && !strcmp(_word[1], "=")) {
 				assign_synonym();
 				return true;
@@ -374,7 +374,7 @@ perform_command_line(FILE *fp, bool is_which)
 		    || word_is(0, "grid")
 		    || is_var(_word[0])
 #if 1				// TRIAL CODE [2000-oct-14]
-		    || (*_word[0] == '&' && is_var(1 + _word[0]))
+		    || (*_word[0] == '@' && is_var(1 + _word[0]))
 #endif
 			    ) {
 			if (_nword == 3) {

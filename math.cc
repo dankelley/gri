@@ -19,8 +19,8 @@ mathCmd()
 	}
 #if 1				// TRIAL CODE [2000-oct-14]
 	// Process e.g.
-	//     &.a. = 10
-	if (*_word[0] == '&') {
+	//     @.a. = 10
+	if (*_word[0] == '@') {
 		_word[0]++;
 	}
 #endif
