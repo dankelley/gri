@@ -132,7 +132,9 @@ bool            _grNeedBegin = true;	/* Need to call gr_begin()? */
 bool            _grPathExists = false;	/* does a postscript 'path' exist? */
 bool            _grWritePS = true;	/* ==1 if postscript to be written */
 
-FILE           *_grPS;		// file of postscript output
+// The output may be in PostScript or SVG 
+FILE           *_grPS;
+FILE           *_grSVG;
 
 // Local prototypes.
 static void     set_page_characteristics();
@@ -790,103 +792,108 @@ gr_end(const char *filename)
 		delete_ps_file();
 		return;
 	}
-	extern bool     _grNeedBegin;
-	extern bool     _grPathExists;
-	extern FILE    *_grPS;
-	if (_grNeedBegin)
-		return;
-	fprintf(_grPS, PS_showpage);
-	fprintf(_grPS, "%%%%Trailer\n");
-	extern rectangle _bounding_box;
-	extern rectangle _page_size;
-	if (_no_bounding_box) {	// use fullpage
-		if (_page_size.llx() != _page_size.urx()) {
-			fprintf(_grPS, "%%%%BoundingBox: %d %d %d %d\n",
-				int(_page_size.llx()),
-				int(_page_size.lly()),
-				int(_page_size.urx()),
-				int(_page_size.ury()));
-		} else {
-			fprintf(_grPS, "%%%%BoundingBox: %d %d %d %d\n",
-				0,
-				0,
-				int( 8.5 * PT_PER_IN),
-				int(11.0 * PT_PER_IN));
-		}
-	} else {
-		extern bool _user_gave_bounding_box;
-		rectangle bbox;
-		if (_user_gave_bounding_box) {
-			extern rectangle _bounding_box_user;
-			bbox.set(_bounding_box_user.llx(),
-				 _bounding_box_user.lly(),
-				 _bounding_box_user.urx(),
-				 _bounding_box_user.ury());
-		} else {
-			if (_page_size.llx() == _page_size.urx()) { 
-				bbox.set(_bounding_box.llx(),
-					 _bounding_box.lly(),
-					 _bounding_box.urx(),
-					 _bounding_box.ury());
-			}  else {
-				bbox.set(LARGER_ONE(_bounding_box.llx(), _page_size.llx()),
-					 LARGER_ONE(_bounding_box.lly(), _page_size.lly()),
-					 SMALLER_ONE(_bounding_box.urx(), _page_size.urx()),
-					 SMALLER_ONE(_bounding_box.ury(), _page_size.ury()));
-			}
-		}
-		double ll_x, ll_y, ur_x, ur_y;
-		if (_grPS_Landscape) {
-			gr_rotate_xy(bbox.llx(), bbox.lly(), 90, &ll_x, &ll_y);
-			gr_rotate_xy(bbox.urx(), bbox.ury(), 90, &ur_x, &ur_y);
-			ll_x += 2.54 * 8.5;
-			ur_x += 2.54 * 8.5;
-			double tmp = ll_x;
-			ll_x = ur_x;
-			ur_x = tmp;
-		} else {
-			ll_x = bbox.llx();
-			ll_y = bbox.lly();
-			ur_x = bbox.urx();
-			ur_y = bbox.ury();
-		}
-#define POS(x) ((x) > 0 ? int(x) : 0)
-		if (_user_gave_bounding_box) {
-			fprintf(_grPS, "%%%%BoundingBox: %d %d %d %d\n",
-				POS(ll_x * PT_PER_CM),
-				POS(ll_y * PT_PER_CM),
-				POS(ur_x * PT_PER_CM),
-				POS(ur_y * PT_PER_CM));
-		} else {
-			fprintf(_grPS, "%%%%BoundingBox: %d %d %d %d\n",
-				POS(floor(-1.5 + ll_x * PT_PER_CM)),
-				POS(floor(-1.5 + ll_y * PT_PER_CM)),
-				POS(floor( 2.5 + ur_x * PT_PER_CM)),
-				POS(floor( 2.5 + ur_y * PT_PER_CM)));
-		}
-#undef POS
-	}
-	fprintf(_grPS, "%%%%DocumentFonts: Courier Helvetica Palatino-Roman Palatino-Italic Symbol Times-Roman\n");
-	fprintf(_grPS, "%%%%Pages: %d\n", which_page);
-	_grPathExists = false;
-	user_gave_ps_filename = false;
-	// See if filename was specified
-	if ((strlen(filename) > 0)) {
-		if (filename[0] == '!') {
-			if (strlen(filename) > 1 && filename[1] != ' ') {
-				// save to named file
-				gr_save_postscript(filename + 1, 1);
-				close_ps_file(_grPS);
-				return;
+	extern output_file_type _output_file_type;
+	if (_output_file_type == postscript || _output_file_type == gif) {
+		extern bool     _grNeedBegin;
+		extern bool     _grPathExists;
+		extern FILE    *_grPS;
+		if (_grNeedBegin)
+			return;
+		fprintf(_grPS, PS_showpage);
+		fprintf(_grPS, "%%%%Trailer\n");
+		extern rectangle _bounding_box;
+		extern rectangle _page_size;
+		if (_no_bounding_box) {	// use fullpage
+			if (_page_size.llx() != _page_size.urx()) {
+				fprintf(_grPS, "%%%%BoundingBox: %d %d %d %d\n",
+					int(_page_size.llx()),
+					int(_page_size.lly()),
+					int(_page_size.urx()),
+					int(_page_size.ury()));
 			} else {
-				// close without renaming
-				close_ps_file(_grPS);
-				return;
+				fprintf(_grPS, "%%%%BoundingBox: %d %d %d %d\n",
+					0,
+					0,
+					int( 8.5 * PT_PER_IN),
+					int(11.0 * PT_PER_IN));
 			}
-		} else if (filename[0] != ' ') {
-			gr_save_postscript(filename, 1);
-			close_ps_file(_grPS);
+		} else {
+			extern bool _user_gave_bounding_box;
+			rectangle bbox;
+			if (_user_gave_bounding_box) {
+				extern rectangle _bounding_box_user;
+				bbox.set(_bounding_box_user.llx(),
+					 _bounding_box_user.lly(),
+					 _bounding_box_user.urx(),
+					 _bounding_box_user.ury());
+			} else {
+				if (_page_size.llx() == _page_size.urx()) { 
+					bbox.set(_bounding_box.llx(),
+						 _bounding_box.lly(),
+						 _bounding_box.urx(),
+						 _bounding_box.ury());
+				}  else {
+					bbox.set(LARGER_ONE(_bounding_box.llx(), _page_size.llx()),
+						 LARGER_ONE(_bounding_box.lly(), _page_size.lly()),
+						 SMALLER_ONE(_bounding_box.urx(), _page_size.urx()),
+						 SMALLER_ONE(_bounding_box.ury(), _page_size.ury()));
+				}
+			}
+			double ll_x, ll_y, ur_x, ur_y;
+			if (_grPS_Landscape) {
+				gr_rotate_xy(bbox.llx(), bbox.lly(), 90, &ll_x, &ll_y);
+				gr_rotate_xy(bbox.urx(), bbox.ury(), 90, &ur_x, &ur_y);
+				ll_x += 2.54 * 8.5;
+				ur_x += 2.54 * 8.5;
+				double tmp = ll_x;
+				ll_x = ur_x;
+				ur_x = tmp;
+			} else {
+				ll_x = bbox.llx();
+				ll_y = bbox.lly();
+				ur_x = bbox.urx();
+				ur_y = bbox.ury();
+			}
+#define POS(x) ((x) > 0 ? int(x) : 0)
+			if (_user_gave_bounding_box) {
+				fprintf(_grPS, "%%%%BoundingBox: %d %d %d %d\n",
+					POS(ll_x * PT_PER_CM),
+					POS(ll_y * PT_PER_CM),
+					POS(ur_x * PT_PER_CM),
+					POS(ur_y * PT_PER_CM));
+			} else {
+				fprintf(_grPS, "%%%%BoundingBox: %d %d %d %d\n",
+					POS(floor(-1.5 + ll_x * PT_PER_CM)),
+					POS(floor(-1.5 + ll_y * PT_PER_CM)),
+					POS(floor( 2.5 + ur_x * PT_PER_CM)),
+					POS(floor( 2.5 + ur_y * PT_PER_CM)));
+			}
+#undef POS
 		}
+		fprintf(_grPS, "%%%%DocumentFonts: Courier Helvetica Palatino-Roman Palatino-Italic Symbol Times-Roman\n");
+		fprintf(_grPS, "%%%%Pages: %d\n", which_page);
+		_grPathExists = false;
+		user_gave_ps_filename = false;
+		// See if filename was specified
+		if ((strlen(filename) > 0)) {
+			if (filename[0] == '!') {
+				if (strlen(filename) > 1 && filename[1] != ' ') {
+					// save to named file
+					gr_save_postscript(filename + 1, 1);
+					close_ps_file(_grPS);
+					return;
+				} else {
+					// close without renaming
+					close_ps_file(_grPS);
+					return;
+				}
+			} else if (filename[0] != ' ') {
+				gr_save_postscript(filename, 1);
+				close_ps_file(_grPS);
+			}
+		}
+	} else if (_output_file_type == svg) {
+		fprintf(_grSVG, "</svg>\n");
 	}
 }				// gr_end()
 

@@ -55,6 +55,12 @@ extern "C" {
 #define	_grTempStringLEN	32768 // = 2^15  (was 4096 until 2001-feb-17)
 #define PASTE_CHAR    char(255)
 
+// output file type
+enum output_file_type {
+	postscript = 0,
+	svg = 1,
+	gif = 2
+};
 // Postscript things.
 #define GR_POINTS_IN_PS_PATH 1499 // really 1500, but be safe
 #define PT_PER_IN 72.27		// points per inch
@@ -65,13 +71,14 @@ extern "C" {
 // An io buffer that resorts to file i/o only if a buffer is exhausted. Used
 // by gr_textget() and gr_textsave().
 typedef struct {
-	FILE           *fp;		// file to read if buffer exhausted
+	FILE           *fp;	// file to read if buffer exhausted
 	char           *buf;	// the buffer
-	int             buf_capacity;	// chars in buffer
-	int             buf_position;	// next char to read in buffer
+	int             buf_capacity; // chars in buffer
+	int             buf_position; // next char to read in buffer
 }               FBUFFER;
 
 
+
 // Axis properties
 typedef enum {
 	gr_axis_BOTTOM = 1,
@@ -80,11 +87,11 @@ typedef enum {
 	gr_axis_RIGHT = 0,
 	gr_axis_LOG = 0,
 	gr_axis_LINEAR = 1
-}               gr_axis_properties;
+} gr_axis_properties;
 
 typedef struct {
-	double          width_pt;	/* width of pen */
-}               gr_pen;
+	double width_pt;	// width of pen
+} gr_pen;
 
 // Font numbers.  To add new fonts, use 'extract_font_widths' perlscript to
 // get size info, then incorporate into grstring.c, in a list before the
@@ -95,23 +102,22 @@ typedef enum {
 	gr_font_Courier = 0,	// Courier
 	gr_font_CourierOblique,	// Courier-Oblique
 	gr_font_CourierBold,	// Courier-Bold
-	gr_font_CourierBoldOblique,	// Courier-BoldOblique
-	gr_font_Helvetica,		// Helvetica
-	gr_font_HelveticaOblique,	// Helvetica-Oblique
+	gr_font_CourierBoldOblique, // Courier-BoldOblique
+	gr_font_Helvetica,	// Helvetica
+	gr_font_HelveticaOblique, // Helvetica-Oblique
 	gr_font_HelveticaBold,	// Helvetica-Bold
 	gr_font_HelveticaBoldOblique,	// Helvetica-BoldOblique
 	gr_font_PalatinoRoman,	// Palatino-Roman
 	gr_font_PalatinoItalic,	// Palatino-Italic
 	gr_font_PalatinoBold,	// Palatino-Bold
-	gr_font_PalatinoBoldItalic,	// Palatino-BoldItalic
+	gr_font_PalatinoBoldItalic, // Palatino-BoldItalic
 	gr_font_Symbol,		// Symbol
-	gr_font_TimesRoman,		// Times-Roman
+	gr_font_TimesRoman,	// Times-Roman
 	gr_font_TimesItalic,	// Times-Italic
-	gr_font_TimesBold,		// Times-Bold
-	gr_font_TimesBoldItalic,	// Times-BoldItalic
+	gr_font_TimesBold,	// Times-Bold
+	gr_font_TimesBoldItalic, // Times-BoldItalic
 	gr_font_end_of_list
-}               gr_fontID;
-
+} gr_fontID;
 
 
 typedef struct {

@@ -12,6 +12,7 @@
 #include "defaults.hh"
 
 extern FILE *_grPS;
+extern FILE *_grSVG;
 static const int CAPACITY_DEFAULT = 32;
 double missing_value = -999.0;	// in case not gri
 static void ps_begin_path(double width);
@@ -99,23 +100,41 @@ unsigned GriPath::size()
 }
 
 static void
-ps_begin_path(double width)
+ps_begin_path(double width)	// Q: what's with this width=-1 condition??
 {
-	set_ps_color('p');
-	if (width != -1) {
-		fprintf(_grPS, "1.0 i %d J %d j %.3f w 10.0 M [",
-			_griState.line_cap(),
-			_griState.line_join(),
-			width);
-	} else {
-		fprintf(_grPS, "1.0 i %d J %d j %.3f w 10.0 M [",
-			_griState.line_cap(),
-			_griState.line_join(),
-			_griState.linewidth_line());
+	switch (_output_file_type) {
+	case postscript:
+	case gif:
+		set_ps_color('p');
+		if (width != -1) {
+			fprintf(_grPS, "1.0 i %d J %d j %.3f w 10.0 M [",
+				_griState.line_cap(),
+				_griState.line_join(),
+				width);
+		} else {
+			fprintf(_grPS, "1.0 i %d J %d j %.3f w 10.0 M [",
+				_griState.line_cap(),
+				_griState.line_join(),
+				_griState.linewidth_line());
+		}
+		for (unsigned int i = 0; i < _dash.size(); i++)
+			fprintf(_grPS, "%.3f ", _dash[i] * PT_PER_CM);
+		fprintf(_grPS, "] %d d\n", int(_dash.size()));
+		break;
+	case svg:
+		fprintf(stderr, "%s:%d:gr_begin_path() is ignoring line color on SVG output\n", __FILE__,__LINE__);
+		fprintf(stderr, "%s:%d:gr_begin_path() is ignoring line_cap   on SVG output\n", __FILE__,__LINE__);
+		fprintf(stderr, "%s:%d:gr_begin_path() is ignoring line_join  on SVG output\n", __FILE__,__LINE__);
+		if (width != -1) {
+			fprintf(_grSVG, "<g>\n<path style=\"stroke:#000000; stroke-width:%.3f; fill:none\"\nd=\"\n", width);
+		} else {
+			fprintf(_grSVG, "<g>\n<path style=\"stroke:#000000; stroke-width:%.3f; fill:none\"\nd=\"\n", _griState.linewidth_line());
+		}
+		if (_dash.size() > 0) {
+			fprintf(stderr, "%s:%d:gr_begin_path() is ignoring dash type for SVG output\n", __FILE__,__LINE__);			
+		}
+		break;
 	}
-	for (unsigned int i = 0; i < _dash.size(); i++)
-		fprintf(_grPS, "%.3f ", _dash[i] * PT_PER_CM);
-	fprintf(_grPS, "] %d d\n", int(_dash.size()));
 }
 
 void GriPath::stroke(units the_units, double width, bool closepath)
@@ -142,6 +161,9 @@ void GriPath::stroke_or_fill(char s_or_f, units the_units, double width, bool cl
 			break;
 	if (i == depth)
 		return;
+	if (_output_file_type != postscript) {
+		fprintf(stderr, "%s:%d:stroke_or_file() is broken on non-postscript file output\n", __FILE__,__LINE__);
+	}
 	// must be some data.  Process island by island
 	double        *xc = new double[depth];	if (!xc) OUT_OF_MEMORY;
 	double        *yc = new double[depth];	if (!yc) OUT_OF_MEMORY;
@@ -225,28 +247,53 @@ void GriPath::stroke_or_fill(char s_or_f, units the_units, double width, bool cl
 				}
 				switch (ac[i]) {
 				case GriPath::moveto:		// moveto (skip multiple)
-//		if (i < length - 1 && ac[i + 1] == GriPath::moveto)
-//		    continue;	
-					fprintf(_grPS, "%.2f %.2f m\n", xc[i] * PT_PER_CM, yc[i] * PT_PER_CM);
+#if 0
+					if (i < length - 1 && ac[i + 1] == GriPath::moveto)
+						continue;	
+#endif
+					switch (_output_file_type) {
+					case postscript:
+						fprintf(_grPS, "%.2f %.2f m\n", xc[i] * PT_PER_CM, yc[i] * PT_PER_CM);
+						break;
+					case svg:
+						fprintf(_grSVG, "M%.2f %.2f\n", xc[i] * PT_PER_CM, yc[i] * PT_PER_CM);
+						break;
+					}
 					break;
 				case GriPath::lineto:		// lineto (skip identical)
-//		if (i < length - 1 && ac[i + 1] == GriPath::lineto
-//		    && xc[i] == xc[i + 1] && yc[i] == yc[i + 1])
-//		    continue;	
-					fprintf(_grPS, "%.2f %.2f l\n", xc[i] * PT_PER_CM, yc[i] * PT_PER_CM);
+#if 0
+					if (i < length - 1 && ac[i + 1] == GriPath::lineto
+					    && xc[i] == xc[i + 1] && yc[i] == yc[i + 1])
+						continue;	
+#endif
+					switch (_output_file_type) {
+					case postscript:
+						fprintf(_grPS, "%.2f %.2f l\n", xc[i] * PT_PER_CM, yc[i] * PT_PER_CM);
+						break;
+					case svg:
+						fprintf(_grSVG, "L%.2f %.2f\n", xc[i] * PT_PER_CM, yc[i] * PT_PER_CM);
+						break;
+					}
 					break;
 				}
 			}
-
-			if (s_or_f == 'f') {
-				fprintf(_grPS, "h\n");
-				fprintf(_grPS, "F\n");
-			} else {
-				if (closepath)
+			switch(_output_file_type) {
+			case postscript:
+				if (s_or_f == 'f') {
 					fprintf(_grPS, "h\n");
-				fprintf(_grPS, "S\n");
+					fprintf(_grPS, "F\n");
+				} else {
+					if (closepath)
+						fprintf(_grPS, "h\n");
+					fprintf(_grPS, "S\n");
+				}
+				fprintf(_grPS, "%% END GriPath stroke/fill\n");
+				break;
+			case svg:
+				fprintf(stderr, "%s:%d:GriPath.cc is ignoring the _type_ of path (filled/stroked, etc)\n", __FILE__,__LINE__);
+				fprintf(_grSVG, "\"/>\n</g>\n");
+				break;
 			}
-			fprintf(_grPS, "%% END GriPath stroke/fill\n");
 		}
 		start = stop /*+ 1*/;	// point at last, which is 'm'
 	} while (stop < depth);

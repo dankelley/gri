@@ -32,6 +32,7 @@ extern GriState _griState;	// <-> gri.cc
 // frequently, and hence have no parallel C storage as the following do. Thus
 // they are safe against breakage.
 
+extern output_file_type _output_file_type;
 extern bool      _user_gave_bounding_box;
 extern rectangle _page_box;
 extern rectangle _bounding_box_user;

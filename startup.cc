@@ -139,6 +139,7 @@ start_up(int argc, char **argv)
 	for (int i = 0; i < argc; i++) printf("DEBUG:                     '%s'\n", argv[i]);
 #endif
 */
+	_output_file_type = postscript;
 	// Record version number
 	int major_version, minor_version, minor_minor_version;
 	extern char _input_data_separator; // defined in gri.cc
@@ -729,9 +730,19 @@ interpret_optional_arguments(int argc, char *argv[])
 					psname.assign(optArg);
 					gr_setup_ps_filename(psname.c_str());
 				} else if (strEQ(o.c_str() + suffix_index, ".gif")) {
-					warning("Sorry, GIF output not permitted yet; using default postscript filename instead");
+					fprintf(stderr, "%s:%d: GIF output does not work yet\n", __FILE__,__LINE__);
+					_output_file_type = gif;
 				} else if (strEQ(o.c_str() + suffix_index, ".svg")) {
-					warning("Sorry, SVG output not permitted yet; using default postscript filename instead");
+					extern FILE *_grSVG;
+					fprintf(stderr, "%s:%d: SVG output to file '%s' does not work yet\n", __FILE__,__LINE__, o.c_str());
+					_output_file_type = svg;
+					_grSVG = fopen(o.c_str(), "w");
+					if (!_grSVG) {
+						fatal_err("Cannot open SVG file named `\\", o.c_str(), "'", "\\");
+					}
+					fprintf(_grSVG, "<?xml version=\"1.0\" standalone=\"yes\"?>\n");
+					fprintf(stderr, "%s:%d: SVG error: assuming height and width both 500 pixels, for now\n", __FILE__,__LINE__);
+					fprintf(_grSVG, "<svg width=\"500\" height=\"500\">\n");
 				} else {
 					warning("Sorry, cannot determine type of output file; using default postscript filename instead");
 				}
@@ -888,9 +899,20 @@ interpret_optional_arguments(int argc, char *argv[])
 								psname.assign(argv[i]);
 								gr_setup_ps_filename(psname.c_str());
 							} else if (strEQ(o.c_str() + suffix_index, ".gif")) {
-								warning("Sorry, GIF output not permitted yet; using default postscript filename instead");
+								fprintf(stderr, "%s:%d: GIF output does not work yet\n", __FILE__,__LINE__);
+								_output_file_type = gif;
 							} else if (strEQ(o.c_str() + suffix_index, ".svg")) {
-								warning("Sorry, SVG output not permitted yet; using default postscript filename instead");
+								extern FILE *_grSVG;
+								fprintf(stderr, "%s:%d: SVG output to file '%s' does not work yet\n", __FILE__,__LINE__, o.c_str());
+								_output_file_type = svg;
+								_grSVG = fopen(o.c_str(), "w");
+								if (!_grSVG) {
+									fatal_err("Cannot open SVG file named `\\", o.c_str(), "'", "\\");
+								}
+								fprintf(_grSVG, "<?xml version=\"1.0\" standalone=\"yes\"?>\n");
+								fprintf(stderr, "%s:%d: SVG error: assuming height and width both 500 pixels, for now\n", __FILE__,__LINE__);
+								fprintf(_grSVG, "<svg width=\"500\" height=\"500\">\n");
+
 							} else {
 								warning("Sorry, cannot determine type of output file; using default postscript filename instead");
 							}
@@ -1032,11 +1054,12 @@ give_help()
         gr_textput("             command is missing.\n");
         gr_textput("     -no_startup_message\n");
         gr_textput("             Stops printing of startup message.\n");
-        gr_textput("     -output PS_file_name\n");
-        gr_textput("             Specify the PostScript filename.  If this\n");
-        gr_textput("             is not specified, the PostScript filename is derived\n");
-        gr_textput("             from the name of the commandfile (e.g. `mygraph.gri'\n");
-        gr_textput("              produces `mygraph.ps'), or, for interactive use,\n");
+        gr_textput("     -output file_name\n");
+        gr_textput("             Specify the name of the file to hold the graphical output.  If\n");
+        gr_textput("             this flag is not specified, the file will be PostScript,\n");
+	gr_textput("             and its name will be derived from the name of the\n");
+	gr_textput("             commandfile, e.g. `mygraph.gri'\n");
+        gr_textput("             will produce `mygraph.ps'), or, for interactive use,\n");
         gr_textput("             it will have a name like `gri-00.ps', or\n");
         gr_textput("             `gri-01.ps' if the former file exists, etc.\n");
         gr_textput("     -publication or -p\n");

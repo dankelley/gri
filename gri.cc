@@ -24,6 +24,7 @@ extern char     _grTempString[]; /* String available to all code. */
  * example) are not accessed frequently, and hence have no parallel C
  * storage as the following do.  Thus they are safe against breakage.
  */
+output_file_type _output_file_type;
 GriState        _griState;	// present state
 bool            _user_set_x_axis = false;
 bool            _user_set_y_axis = false;
