@@ -1,0 +1,52 @@
+#!/usr/bin/perl -w
+# Convert macros into texi format.  Macros are:
+# 
+# @c EQUIVALENCE .* .*      -> translate 1st string (one word) to 2nd (possibly several words)
+# @c SYNTAX .*              -> make pretty list, establish link to 'how to read syntax'
+# @c EXAMPLE .*             -> example with a title
+# @c QUIETEXAMPLE .*        -> as EXAMPLE but no title
+# @c TESTFILE .*            -> establish link to testfile
+# @c STYLE .*               -> formatting for examples
+# @c CLICKABLE_SAMPLE .* .* -> for html, graph+code.  First is gif, second code (normally as html).
+while(<>) {
+    foreach $target (keys (%equivalence)) {
+	s/$target/$equivalence{$target}/g;
+    }
+    if (/\@c\s*EQUIVALENCE\s([^ ]*)\s*([^\n]*)/) {
+	$equivalence{$1} = $2;
+	print STDERR "Established Equivalance '$1' -> '$2'\n";
+    } elsif (/\@c\s*STYLE\s*(.*)/) {
+	$item = $1;
+	s,\@c\s*STYLE.*,\@noindent\n\@emph{Style $item} ---,;
+    } elsif (/\@c\s*SYNTAX\s*(.*)/) {
+	$item = $1;
+	$item =~ s/\\N/\n/g;
+	s,\@c\s*SYNTAX.*,\n\n\@c HTML <A HREF=\"\#CautionaryNotesOnSyntax\">\n\@emph{Syntax:}\n\@c HTML </A>\n\@example\n$item\n\@end example,;
+    } elsif (/\@c\s*EXAMPLE\s*(.*)/) {
+	$item = $1;
+	$item =~ s/\\N/\n/g;
+	s,\@c\s*EXAMPLE.*,\n\@emph{Example:}\n\@example\n$item\n\@end example,;
+    } elsif (/\@c\s*QUIETEXAMPLE\s*(.*)/) {
+	$item = $1;
+	$item =~ s/\\N/\n/g;
+	#print STDERR;
+	s,\@c\s*QUIETEXAMPLE.*,\@example\n$item\n\@end example,;
+	#print STDERR;
+    } elsif (/\@c\s*CLICKABLE_SAMPLE\s*([^\s]*)\s*([^\s]*)/) {
+	print "\@c HTML (Click figure below to see the code that generated it.)\n";
+	print "\@c HTML <br><a href=\"$2\"><img src=\"$1\"></a>\n";
+	next;			# skip the command itself
+    } elsif (/\@c\s*TESTFILE/) {
+	s,\@c\s*TESTFILE\s(.*),\n\
+\@c HTML <a href="tst_suite/$1.html">Test file `<tt>$1.gri</tt>'.</a><p>\
+\@iftex\
+\@sp 1\
+\@noindent Test file \@file{$1.gri}:\
+\
+\@cartouche\
+\@include tst_suite/$1.texi\
+\@end cartouche\
+\@end iftex,;
+    }
+    print;
+}

@@ -1,0 +1,39 @@
+#!/usr/bin/perl
+# Convert Gre file to texi file.  Supply without suffix
+# $Id: gri2texi,v 1.1 2000/10/18 15:31:42 dankelley Exp $
+die "Usage: gre2texi file (no suffix on filename)" if ($#ARGV !=0);
+open(IN,  "$ARGV[0].gre")   || die "Can't open `$ARGV[0].gre'  for input\n";
+open(OUT, ">$ARGV[0].texi") || die "Can't open `$ARGV[0].html' for output\n";
+
+$now = localtime;
+print OUT "\@c Created $now by $0 from $ARGV[0].gre\n" ;
+print OUT "\@example\n";
+while(<IN>) {
+    s:\@:\@\@:g; 
+    s:\{:\@{:g; 
+    s:\}:\@}:g; 
+    s:([^\$])\#(.*):$1\@emph{\# $2}:g;
+    # s:"(.*)":\@emph{"$1"}:g;
+    s:^if(\b):$1\@strong{if}$2:g;
+    s:(\b)if(\b):$1\@strong{if}$2:g;
+    s:^else(\b):$1\@strong{else}$2:g;
+    s:(\b)else(\b):$1\@strong{else}$2:g;
+    s:^for(\b):$1\@strong{for}$2:g;
+    s:(\b)for(\b):$1\@strong{for}$2:g;
+    s:^foreach(\b):$1\@strong{foreach}$2:g;
+    s:(\b)foreach(\b):$1\@strong{foreach}$2:g;
+    s:^while(\b):$1\@strong{while}$2:g;
+    s:(\b)while(\b):$1\@strong{while}$2:g;
+    s:^do(\b):$1\@strong{do}$2:g;
+    s:(\b)do(\b):$1\@strong{do}$2:g;
+    s:^return(\b):$1\@strong{return}$2:g;
+    s:(\b)return(\b):$1\@strong{return}$2:g;
+    s:^sub(\b):$1\@strong{sub}$2:g;
+    s:(\b)sub(\b):$1\@strong{sub}$2:g;
+    # s:(\b)eq(\b):$1\@strong{eq}$2:g;
+    # s:(\b)ne(\b):$1\@strong{ne}$2:g;
+    s:^break(\b):$1\@strong{break}$2:g;
+    s:(\b)break(\b):$1\@strong{break}$2:g;
+    print OUT "$_";
+}
+print OUT "\@end example\n";

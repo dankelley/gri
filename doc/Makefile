@@ -40,6 +40,7 @@ html: gri.texi gri.info
 	cp examples/*.png ./
 	cd examples ; make html
 	cp examples/*.html ./
+	cd tst_suite ; make html
 	cd screenshots; make png
 	cat gri.texi     		>  TMP
 	perl make_html_commandindex	>> TMP
@@ -108,6 +109,9 @@ html-clean:
 	-rm -f *.html *.png html
 	mv HIDE_FILE/FAQ.html .
 	rm -rf HIDE_FILE
+
+gri.texi: gri.texim
+	perl texim2texi <gri.texim >gri.texi
 
 info:	gri.texi
 	makeinfo gri.texi
@@ -181,6 +185,7 @@ linux_redhat:
 gri.ps: gri.texi
 	cd examples    ; make eps
 	cd screenshots ; make eps
+	cd tst_suite   ; make texi
 	tex gri.texi
 	texindex gri.cp
 	texindex gri.fn
@@ -194,6 +199,7 @@ gri.ps: gri.texi
 gri.pdf: gri.ps
 	cd examples    ; make pdf
 	cd screenshots ; make pdf
+	cd tst_suite   ; make texi
 	pdftex gri.texi
 	texindex gri.cp
 	texindex gri.fn

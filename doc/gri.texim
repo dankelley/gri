@@ -14658,7 +14658,7 @@ The next sections outline the changes made in Gri.
 @comment  node-name,  next,  previous,  up
 @subsection Version 2.6
 @table @emph
-@item 2.6.0 [2000-Oct-18]
+@item 2.6.0 [2000-Oct-18] (Not released yet.)
 @sp 1
 Add chapter on test suite (@ref{Test Suite}).
 
@@ -15685,50 +15685,10 @@ test files.  Thus the @emph{code itself} demonstrates the features,
 instead of comments in the code.  This is advantageous since comments
 tend to be incorrect!
 
-
-
-@c HTML <a href="tst_suite/tst_IO.html">Test file `<tt>tst_IO.gri</tt>'.</a><p>
-@iftex
-@sp 1
-@noindent Test file @file{tst_IO.gri}:
-
-@cartouche
-@include tst_suite/tst_IO.texi
-@end cartouche
-@end iftex
-
-
-@c HTML <a href="tst_suite/tst_control.html">Test file `<tt>tst_control.gri</tt>'.</a><p>
-@iftex
-@sp 1
-@noindent Test file @file{tst_control.gri}:
-
-@cartouche
-@include tst_suite/tst_control.texi
-@end cartouche
-@end iftex
-
-
-@c HTML <a href="tst_suite/tst_rpn.html">Test file `<tt>tst_rpn.gri</tt>'.</a><p>
-@iftex
-@sp 1
-@noindent Test file @file{tst_rpn.gri}:
-
-@cartouche
-@include tst_suite/tst_rpn.texi
-@end cartouche
-@end iftex
-
-
-@c HTML <a href="tst_suite/tst_var_syn.html">Test file `<tt>tst_var_syn.gri</tt>'.</a><p>
-@iftex
-@sp 1
-@noindent Test file @file{tst_var_syn.gri}:
-
-@cartouche
-@include tst_suite/tst_var_syn.texi
-@end cartouche
-@end iftex
+@c TESTFILE tst_IO
+@c TESTFILE tst_control
+@c TESTFILE tst_rpn
+@c TESTFILE tst_var_syn
 
 
 @c HTML <!-- newfile Acknowledgments.html "Gri: Acknowledgments" "Acknowledgments" -->
