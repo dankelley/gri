@@ -61,7 +61,7 @@
                 <span class="maintitlebar"><font color="#ffffff">Download stable release</font></span>
                 </td> </tr>
                 <tr><td class="menus" align="right">
-                <b>2001-???-??</b><br><font color="red">gri-2.6.0 coming soon</font><br>
+                <b>2001-Apr-01</b><br><font color="red">gri-2.6.0 to be released</font><br>
                 <b>2000-May-22</b><br><A  class="menus" HREF="http://download.sourceforge.net/gri/gri-2.4.4.tgz">gri-2.4.4.tgz</A><br>
                 <A  class="menus" HREF="http://download.sourceforge.net/gri/gri-2.4.4-1.i386.rpm">gri-2.4.4-1.i386.rpm</A><br>
                 <A  class="menus" HREF="http://www.debian.org/Packages/stable/math/gri.html">gri-2.4.2-1.deb</A><br>
@@ -91,6 +91,7 @@
             </tr>
             <tr>
               <td class="menus" align="right">
+                <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.0-pre2.tgz">2.6.0-pre2.tgz</a><br>
                 <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.0-pre1.tgz">2.6.0-pre1.tgz</a><br>
               </td>
             </tr>
@@ -161,7 +162,6 @@ as simple as the following.
       <td  class="menubox">
         <font size="-1">
         Debugging vsn <font color="red">2.6.0</font><br>
-        for release in March or April 2001.
         </font>
       </td>
     </tr>
