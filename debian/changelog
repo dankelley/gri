@@ -5,7 +5,16 @@ gri (2.9.0-0) unstable; urgency=low
   * Updated to Standards-Version 3.5.6 (debian/rules uses build-arch and
     build-indep targets).
   
- -- Peter S Galbraith <psg@debian.org>  Tue, 21 Aug 2001 15:53:05 -0400
+ -- Peter S Galbraith <psg@debian.org>  Thu,  6 Sep 2001 22:32:12 -0400
+
+gri (2.8.1-1) unstable; urgency=low
+
+  * New upstream bug-fix release:
+   - Fix SourceForge bug #450465 (`create columns from function' was broken).
+   - Fix SourceForge bug #454557 (wouldn't compile with the pre-release 
+     version 3.0.1 of the GNU c++ compiler; closes: #111093)
+  
+ -- Peter S Galbraith <psg@debian.org>  Thu,  6 Sep 2001 22:26:10 -0400
 
 gri (2.8.0-1) unstable; urgency=low
 
