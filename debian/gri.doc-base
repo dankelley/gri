@@ -1,0 +1,9 @@
+Document: gri
+Title: Gri language for scientific graphics manual
+Author: Dan E. Kelley
+Abstract: Manual (info format) for Gri, a language for scientific graphics
+Section: Apps/Math
+
+Format: info
+Index: /usr/share/info/gri.info.gz
+Files: /usr/share/info/gri.info*
