@@ -64,11 +64,4 @@ assert {rpn "\string" "Hello" ==}       " failed test 21"
 } 
 Newcommand "A B" 
 
-
-
-
-
-
-
 show " passed"
-
