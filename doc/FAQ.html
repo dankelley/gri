@@ -502,18 +502,18 @@ draw label "My Label" at {rpn 2 xusertocm 0.4 +} \
 <A NAME="A3.5"></A>
 <A HREF="#Q3.5"><h3>A3.5 Can Gri read compressed data files?</h3></A>
 
-<P> Gri has no specific way to read compressed data files, but it is
-trivial to trick it to do so, by using the unix-style piped open
-command, as in this example:
-
+<P> Yes, as of version 2.6 Gri can read compressed files, e.g.
 <pre>
-open "zcat compressed_file.Z |"
-// do any normal 'read' commands 
+    open myfile.gz
+    read columns x y
 </pre>
+will work.  You may also, of course, do
+<pre>
+    open "zcat myfile.gz |"
+    read columns x y
+</pre>
+if you like.
 
-Naturally, this works for files that have been compressed with the GNU
-compressor also, so long as you have the uncompressing software
-installed on your system.
 
 <p>
 <A NAME="A3.6"></A>
@@ -735,15 +735,14 @@ the web are theirs, not mine.
 <A HREF="#Q4.4"><h3>A4.4 Is there an Emacs mode for Gri?</h3></A>
 
 <p> Yes.  Peter Galbraith has written a very powerful mode for Gri
-commandfiles.  Available on anonymous FTP at the site 
-<A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri">
-<code>ftp://ftp.phys.ocean.dal.ca/users/rhogee</code>
-See the files <code>gri-mode.el</code> and <code>gri-mode.readme</code>.
-The capabilities include: <UL>
+commandfiles which is supplied with Gri and which is fully documented
+in the manual.  The capabilities of the mode include the following.
 
-<LI> Indents the loops, if statements, newcommands, etc.
+<UL>
 
-<LI> Uses builtin knowledge of Gri commands to 'complete' your
+<LI> Indents loops, if statements, newcommands, etc.
+
+<LI> Uses built-in knowledge of Gri commands to 'complete' your
 commands. For example, typing 'drM-TAB' (where M-TAB is the completion
 keystroke) causes the mode to write 'draw' in place of the
 'dr'. Pressing M-TAB again gives a list of all Gri commands starting
