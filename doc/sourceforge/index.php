@@ -274,8 +274,8 @@ Search gri manual for (may be a regular expression):<p>
      </tr>
      <tr>
        <td align="left">
-       <A class="menus" HREF="http://gri.sourceforge.net/Development_Version.html">Completed Changes</a><br>
-       <A class="menus" HREF="http://gri.sourceforge.net/Plans.html">Planned Changes</a>
+       <A class="menus" HREF="http://gri.sourceforge.net/Development_Version.html">Changes</a><br>
+       <A class="menus" HREF="http://gri.sourceforge.net/Plans.html">Plans</a>
        </td>
      </tr>
    </table>
