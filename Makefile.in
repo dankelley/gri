@@ -247,6 +247,10 @@ source:
 	install -d $(SOURCE_NAME)/doc/screenshots
 	(cd doc/screenshots/; \
 	    install -m 644 Makefile *.png ../../$(SOURCE_NAME)/doc/screenshots)
+	install -d $(SOURCE_NAME)/doc/tst_suite
+	install -m 644 doc/tst_suite/tst_control.gri $(SOURCE_NAME)/doc/tst_suite
+	install -m 644 doc/tst_suite/tst_rpn.gri     $(SOURCE_NAME)/doc/tst_suite
+	install -m 644 doc/tst_suite/tst_var_syn.gri $(SOURCE_NAME)/doc/tst_suite
 #
 #	Tar package, compress it, install it.
 	tar -c -f $(SOURCE_NAME).tar $(SOURCE_NAME)
@@ -258,6 +262,17 @@ source:
 README-ftp:
 	lynx -dump README-ftp.html > README-ftp
 	chmod a+r README-ftp
+
+test:
+	@./gri -directory . doc/tst_suite/tst_var_syn.gri 
+	@./gri -directory . doc/tst_suite/tst_control.gri
+	@./gri -directory . doc/tst_suite/tst_rpn.gri
+#	Next to be removed when gri is changed to only save ps if drawing done
+	@rm -f doc/tst_suite/tst_var_syn.ps
+	@rm -f doc/tst_suite/tst_control.ps
+	@rm -f doc/tst_suite/tst_rpn.ps
+
+
 
 what_is_new:
 	@for f in *.spec gri.cmd logo.dat *cc *hh Makefile.in configure.in doc/gri.texi doc/Makefile;\
