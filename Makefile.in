@@ -209,7 +209,7 @@ source:
 	    Makefile.in Makefile.dj2 configure configure.in install-sh \
 	    copyright.txt AUTHOR README* gri-mode.el gri_merge gri_unpage \
 	    startup.msg startup.debian startup.redhat gri-*.spec grilogo.gif \
-	    install-solaris readme-solaris \
+	    install-solaris README-solaris \
 	        $(SOURCE_NAME)
 	install -m 755 configure install-sh $(SOURCE_NAME)
 	install -d $(SOURCE_NAME)/debian

@@ -1,8 +1,53 @@
 #!/usr/bin/sh
-echo "** Ed, can you help by writing this script? **"
 
-# ASK USER WHERE TO PUT STUFF.
-# cp gri SOMEPLACE
-# cp gri.cmd SOMEPLACE
+# Set defaults for file locations.
+#bindir_default="/opt/gri/bin"
+#libdir_default="/opt/gri/lib"
+bindir_default="/home/kelley/src/gri/TEST/bin"
+libdir_default="/home/kelley/src/gri/TEST/lib"
+docdir_default="/home/kelley/src/gri/TEST/doc"
+#docdir_default="/opt/gri/doc"
 
+echo "Please enter the name the directory in which the Gri executable"
+echo "is to be stored. [Press ENTER to get the default of $bindir_default]"
+read BINDIR
+if [ -z "$BINDIR" ]
+then
+    bindir="$bindir_default"
+else
+    bindir="$BINDIR"
+fi
 
+echo "Please enter the name the directory in which the Gri library"
+echo "files are to be stored. [Press ENTER to get the default of $libdir_default]"
+read LIBDIR
+if [ -z "$LIBDIR" ]
+then
+    libdir="$libdir_default"
+else
+    libdir="$LIBDIR"
+fi
+
+echo "Please enter the name the directory in which the Gri documenation"
+echo "files are to be stored. [Press ENTER to get the default of $docdir_default]"
+read DOCDIR
+if [ -z "$DOCDIR" ]
+then
+    docdir="$docdir_default"
+else
+    docdir="$DOCDIR"
+fi
+
+# Install the files, creating directories if needed.
+echo "Installing Gri executable in $bindir"
+mkdir -m 755 -p $bindir
+cp -f gri      $bindir
+chmod a+rx  $bindir/gri
+echo "Installing Gri library files in $libdir"
+mkdir -m 755 -p $libdir
+cp -f gri.cmd logo.dat copyright.txt license.txt $libdir
+chmod a+r   $libdir/*
+echo "Installing Gri documentation files in $docdir"
+mkdir -m 755 -p $docdir
+cp -f README $docdir
+chmod a+r   $docdir/*
