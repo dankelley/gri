@@ -96,6 +96,9 @@ then
 fi
 
 %changelog
+* Sat Jan 26 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
+- Fix SourceForge bug #508570 (map axes give wrong minutes in negative regions).
+
 * Fri Jan 25 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
 - Make RPM install/uninstall run silently.
 

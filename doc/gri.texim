@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.144 2002/01/22 22:14:47 dankelley Exp $
+@c $Id: gri.texim,v 1.145 2002/01/26 14:57:27 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -15838,8 +15838,14 @@ only in the fixing of bugs.
 @comment  node-name,  next,  previous,  up
 @subsection Version 2.8
 
-@subsection Version 2.8.6 [2002 Jan 23]
+@subsection Version 2.8.6 [2002 Jan 26]
 @itemize @bullet
+@item
+Fix SourceForge bug
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=508570&group_id=5511&atid=105511">
+#508570
+@c HTML </a>
+(map axes give wrong minutes in negative regions).  Thanks, Brian, for the patch on this!
 @item
 Fix SourceForge bug
 @c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=506490&group_id=5511&atid=105511">
@@ -17488,8 +17494,8 @@ Carl Osterwisch,
 Richard Andrew Miles Outerbridge,
 @cindex Richard Andrew Miles Outerbridge (contributer)
 @cindex contributer, Richard Andrew Miles Outerbridge
-Brian May,
-@cindex Brian May (contributer)
+Brian May (contributer, including patch for SF bug 508570),
+@cindex Brian May, contributer
 @cindex contributer, Brian May
 Jinyu Sheng,
 @cindex Jinyu Sheng (contributer)
