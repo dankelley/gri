@@ -1,3 +1,15 @@
+<html>
+  <head>
+    <title>Gri Index Search</title>
+    <meta name="Copyright" content="2001 Dan Kelley, Dalhousie University, Halifax, Nova Scotia, Canada">
+    <meta name="Author" content="Dan Kelley, Dan.Kelley@Dal.Ca">
+    <meta name="keywords" content="Gri, graphics, Scientific Computing">
+    <LINK rel="stylesheet" href="./gri.css" type="text/css">
+  </head>
+  
+  <body bgcolor=#FFFFFF topmargin="0" bottommargin="0" leftmargin="0" rightmargin="0" marginheight="0" marginwidth="0">
+
+
 <?php
 
 $index_name = "http://gri.sourceforge.net/gridoc/html/ConceptIndex.html";
@@ -50,4 +62,9 @@ if (!$first) {
     print("</ul>\n");
 }
 
+
 ?>
+
+</body>
+
+</html>
