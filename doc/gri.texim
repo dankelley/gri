@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.230 2003/01/18 15:37:31 dankelley Exp $
+@c $Id: gri.texim,v 1.231 2003/01/19 15:32:37 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16343,11 +16343,13 @@ only in the fixing of bugs.
 @subsection Version 2.12
 @cindex version 2.12
 
+@comment ADD-NEW-BUG-FIXES-HERE
+
 @subsubsection Version 2.12.2 [2003 Jan 18]
 @strong{Bug Fixes}
 
 @itemize
-
+ 
 @item
 Fix SourceForge bug
 @uref{http://sourceforge.net/tracker/index.php?func=detail&aid=669603&group_id=5511&atid=105511,#669603}

@@ -6,7 +6,7 @@ $snippet_separator_top = "+++ +++ +++ +++ +++ +++ +++ +++ +++ +++ +++ +++\n";
 $snippet_separator_bot = "--- --- --- --- --- --- --- --- --- --- --- ---\n";
 sub document_bug_fix()
 {
-    print "Give version number (ENTER for $version):\n$prompt";
+    print "Give version number (ENTER for $gri_version):\n$prompt";
     $_ = <>;
     chop;
     $gri_version = $_ if (!/^$/);
