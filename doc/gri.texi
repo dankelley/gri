@@ -53,8 +53,8 @@
 @comment %**start of header
 @setfilename gri.info
 @settitle Gri
-@set GRI-VERSION 2.12.8
-@set GRI-PREVIOUS-VERSION 2.12.7
+@set GRI-VERSION 2.12.9
+@set GRI-PREVIOUS-VERSION 2.12.8
 @set AUTHOR-EMAIL dankelley@@users.sourceforge.net
 @include version.texi
 @c %**end of header
@@ -16464,6 +16464,18 @@ only in the fixing of bugs.
 @cindex version 2.12
 
 @comment ADD-NEW-BUG-FIXES-HERE
+
+@subsubsection Version 2.12.9 [2004]
+@strong{Bug Fixes}
+@itemize @bullet
+
+@item
+Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=1084123&group_id=5511&atid=105511,#1084123}
+@dots{} does not compile in fink
+
+@end itemize
+
 
 @subsubsection Version 2.12.8 [2004]
 @strong{Bug Fixes}
