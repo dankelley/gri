@@ -60,6 +60,11 @@ card-install-redhat: FORCE
 	install -m 644 refcard.ps    $(CARD_DIR)
 	install -m 644 cmdrefcard.ps $(CARD_DIR)
 
+html-tar: html
+	make html-install DOC_DIR=./gridoc
+	tar -c -f gridoc.tar ./gridoc
+	gzip -f --best gridoc.tar
+
 html-install:	html
 	install -d             $(HTML_DIR)
 	chmod a+rx             $(HTML_DIR)
