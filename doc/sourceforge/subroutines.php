@@ -85,8 +85,8 @@ function set_up_navigation_tabs($title,$png_name) {
 	print "OL,UL,P,BODY,TD,TR,TH,FORM { }\n";
 	print "H1 { text-decoration: underline; margin-top: 1em; margin-bottom: 0.5em;}\n";
 	print "H2,H3,H4,H5,H6 { text-decoration: none; }\n";
-	print "PRE {font-family: courier,sans-serif; color: #82140F; margin: 15pt; margin-top: 0.5em; margin-bottom: 0.5em;}\n";
-	print "TT {font-family: courier,sans-serif; color: #B22222;}\n";
+	print "PRE {font-family: courier,sans-serif; background-color: #ffffff; color: #82140F; margin: 15pt; margin-top: 0.5em; margin-bottom: 0.5em;}\n";
+	print "TT {font-family: courier,sans-serif;  background-color: #ffffff; color: #B22222;}\n";
 	print "P {margin: 10pt;}\n";
 	print "-->\n";
 	print "</style>\n";
