@@ -1,25 +1,30 @@
 BUILDING A LOCAL GRI FOR FINK
 -----------------------------
 
-1. Adjust gri.info if the version number has been increased.  Run
-	fink validate gri.info
-to find errors, and fix these before proceeding to step 2.
+1. Ensure that Gri compiles without errors and without warnings:
+  cd ~/src/gri
+  make
+  cd doc
+  make
 
-2. Create the tarball
-	cd ~/src/gri
-	make dist
-	mv gri-2.12.9.tar.gz gri-2.12.9.tgz 
+2. Create the tarball, install it, and note the md5sum.
+  cd ~/src/gri
+  make dist
+  sudo mv gri-2.12.10.tar.gz /sw/src/gri-2.12.10.tgz 
+  md5sum /sw/src/gri-2.12.10.tgz 
 
 3. Deposit files in correct places for build
-	cd ~/src/gri/fink
-	sudo cp gri.info           /sw/fink/dists/local/main/finkinfo/
-	sudo cp ../gri-2.12.9.tgz  /sw/src
+  cd ~/src/gri/fink
+  emacs gri.fink # adjust the md5sum to match that from step 2
+  fink validate gri.info
+  sudo cp gri.info            /sw/fink/dists/local/main/finkinfo/
 
 4. Build it, install it, test it
-	cd /sw/fink/dists/local/main/finkinfo
-	fink rebuild gri
-	fink install gri
-	fink validate /sw/fink/debs/gri_2.12.8-1_darwin-powerpc.deb 
+  cd /sw/fink/dists/local/main/finkinfo
+  fink erase gri
+  fink rebuild gri
+  fink install gri
+  fink validate /sw/fink/debs/gri_2.12.10-1_darwin-powerpc.deb 
 
 REFERENCES
 * http://fink.sourceforge.net/doc/quick-start-pkg/example.php?phpLang=en
