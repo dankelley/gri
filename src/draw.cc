@@ -3193,7 +3193,7 @@ draw_gri_logoCmd()
 	//
 	// Read data
 	char fname[256];
-	sprintf(fname, "%s/%s", _lib_directory.c_str(), "logo.dat");
+	sprintf(fname, "%s%s", _lib_directory.c_str(), "logo.dat");
 	FILE *fp = fopen(fname, "r");
 	if (!fp) {
 		warning("Could not open logo data file `\\", fname,
