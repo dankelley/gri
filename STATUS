@@ -3,5 +3,5 @@ QUESTION: does this CVS package currently build OK on ...
 ANSWER:
 	GENERAL?  yes
 	REDHAT?   yes
-	DEBIAN?   unknown
+	DEBIAN?   yes
 	SOLARIS?  unknown
