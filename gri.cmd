@@ -3750,7 +3750,7 @@ at the left to `.right.' at the right.
     extern "C" bool set_x_gridCmd(void);
 }
 
-#* @param .size. of x margin @unit cm @default 6  @variable ..xmargin..
+#* @param .size. of x margin @unit cm @default 6 @variable ..xmargin..
 `set x margin {[bigger|smaller] .size.} | default'
 Control x margin, that is, the space between the left-hand side of the
 page and the left-hand side of the plotting area.  (Note that axis
@@ -3780,7 +3780,7 @@ Set name of x-axis to indicated string.  The empty string (`set x name
     extern "C" bool set_x_nameCmd(void);
 }
 
-#* @param .width_cm. of axis @unit cm @default 10  @variable ..xsize..
+#* @param .width_cm. of axis @unit cm @default 10 @variable ..xsize..
 `set x size .width_cm.|default'
 Set the width of the plotting area.  This does not include axis labels,
 only the interior part of the plot.
@@ -3908,7 +3908,7 @@ Create y-grid with `.rows.' points, ranging from the value
     extern "C" bool set_y_gridCmd(void);
 }
 
-#* @param .size. of y margin @unit cm @default 6  @variable ..ymargin..
+#* @param .size. of y margin @unit cm @default 6 @variable ..ymargin..
 `set y margin {[bigger|smaller] .size.} | default'
 Control y margin, that is, the space between the bottom side of the
 page and the bottom of the plotting area.  (Note that axis labels are
