@@ -56,4 +56,19 @@ assert {rpn .p.  3.14 ==}		" failed test 20"
 \ret
 assert {rpn "\string" "Hello" ==}       " failed test 21"
 
+# Parsing of individual words in synonyms (tests SourceForge bug 114983)
+`Newcommand "\pat"''
+{
+    \t = "A B" 
+    assert {rpn "\[0].word1." "\[0]t" ==} "Failed"
+} 
+Newcommand "A B" 
+
+
+
+
+
+
+
 show " passed"
+
