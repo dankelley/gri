@@ -14304,10 +14304,12 @@ need to keep a copy of @file{/usr/bin/gri} and
 copy both to the directory
 @file{/usr/local/share/gri/@value{GRI-VERSION}/} and create a wrapper
 script called @file{/usr/local/bin/gri-@value{GRI-VERSION}} to invoke
-this version of gri.  The script would look like:
+this version of gri.  The script might look something like
 @example
 #!/usr/bin/sh
-/usr/local/share/gri/@value{GRI-VERSION}/gri -directory /usr/local/share/gri/@value{GRI-VERSION}
+/usr/local/share/gri/@value{GRI-VERSION}/gri \
+    -directory /usr/local/share/gri/@value{GRI-VERSION} \
+    "$@"
 @end example
 
 To be able to acces this old version of gri from within the Emacs
@@ -14316,7 +14318,8 @@ like so in the file @file{~/.emacs}
 (@ref{Step 2} in 
 @ref{Installing gri-mode.el})
 @example
-  (setq gri*directory-tree '("/usr/local/share/gri/" "/usr/share/gri/"))
+(setq gri*directory-tree
+    '("/usr/local/share/gri/" "/usr/share/gri/"))
 @end example
 
 The next sections outline the changes made in Gri.
@@ -14339,17 +14342,18 @@ The next sections outline the changes made in Gri.
 @comment  node-name,  next,  previous,  up
 @subsection Version 2.6
 @table @emph
-@item 2.6.0 [2000-Jun-23]
+@item 2.6.0 [2000-Jul-15]
 
 @sp 1
 Put source on the
+Source Forge open-source development website, at
 @c HTML <a href="gri.sourceforge.net">
-Source Forge 
+@file{http://gri.sourceforge.net}.
 @c HTML </a>
-open-source development website.  Most Gri users can benefit from this
-site.  For one thing, it's the best way to keep track of new versions.
-By a couple of mouse-clicks, you can cause the system to email you when
-Gri has been updated.  For another, it has 
+Gri users can benefit from this site in may ways.  First, it's a great
+way to keep track of new versions.  With a mouse-click you can cause
+SourceForge to email you whenever a new version of Gri is released.
+Second, SourceForge has
 @c HTML <a href="http://sourceforge.net/forum/?group_id=5511">
 newsgroups
 @c HTML </a>
@@ -14357,15 +14361,15 @@ and
 @c HTML <a href="http://sourceforge.net/mail/?group_id=5511">
 email lists
 @c HTML </a>
-which are archived so that you can stop monitoring them for a while and
-then go back and see what you've missed.  But perhaps the most important
-feature is the
+devoted to Gri.  These are archived, so that you can stop monitoring
+them for a while and then go back and see what you've missed.  Third,
+Source Forge has a powerful
 @c HTML <a href="http://sourceforge.net/bugs/?group_id=5511">
-bug-tracking facility,
+bug-tracking facility.
 @c HTML </a>
-which lets you submit bugs, track the process of their removal
-(e.g. optionally receiving emails when the bug is removed), see what
-known bugs are still alive, etc.
+With this you may check for existing bugs reported by users, submit new
+bug reports, and also track the process of bug removal (e.g. optionally
+receiving emails when the bug is removed).
 
 @sp 1
 Add @code{set colorname} command (@ref{Set Colorname}).
