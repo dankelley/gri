@@ -263,7 +263,7 @@ Search gri manual for (may be a regular expression):<p>
         }
         echo ";";
 	?>
-      pre-release #4 of 2.8.6 is <a href="./pre4/">here</a>.
+      pre-release #5 of 2.8.6 is <a href="./pre5/">here</a>.
       </td>
     </tr>
   </table>
