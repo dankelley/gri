@@ -238,7 +238,7 @@ non-interactive use, with Gri commands in a command-file called
 @emph{Gri output} is in the PostScript page description language.  The
 output is therefore of high quality, device-independent, capable of
 being inserted into popular text processors (e.g. LaTeX), and easily
-displayed (@ref{Viewing}).
+displayed.
 
 @emph{Online help} is got with the Gri command @code{help} makes Gri
 list the first words of all known commands, along with a hint for
@@ -411,8 +411,7 @@ The output PostScript file is called @file{example1.ps}.
 @image{./examples/example1, 300pt}
 @cindex example 01, linegraph using data in a separate file
 
-To view Gri output, use your favorite PostScript previewer
-(@ref{Viewing}).
+To view Gri output, use your favorite PostScript previewer.
 
 Note that in the above example, Gri automatically chose reasonable
 scales for the axes, based on the range of the data.  The next chapter
@@ -894,71 +893,39 @@ set color hsb .333 1   1  # pure, bright green
 
 @c HTML <!-- newfile InvokingGri.html "Gri: running" "Invoking Gri" -->
 
-@node   Invoking Gri, Launching, Colorlevel, Top
+@node   Invoking Gri, Programming, Colorlevel, Top
 @comment  node-name,  next,  previous,  up
-@chapter Invoking and Using Gri
-This chapter tells how to run Gri, and how to view and print Gri output. 
-
-@menu
-* Launching::                   Running Gri (short)
-* Options On Command Line::     Various options
-* Viewing::                     Viewing the PostScript output
-* Printing::                    Printing the PostScript output
-@end menu
-
-@c HTML <!-- newfile Launching.html "Gri: launching" "Invoking Gri" -->
-
-@node   Launching, Options On Command Line, Invoking Gri, Invoking Gri
-@comment  node-name,  next,  previous,  up
-@section Launching Gri
-@cindex running gri
-@cindex interactive/noninteractive Usage
-
-If you specify a commandfile when you launch Gri, you will be
-using it noninteractively, and errors will cause Gri to exit.
-
-@cindex interactive use, getting help
-@cindex help, interactive use
-Gri may be used interactively by launching it without naming a
-commandfile.  When you strike carriage-return after a command, Gri will
-interpret your command and do the appropriate thing.  Errors will give a
-message but leave you in Gri.  Mostly, Gri is used interactively to get
-help on commands.  For example, a user might type the following to learn
-about drawing labels (the boldface string @b{gri:} is a prompt typed by
-gri):
+@chapter Invoking Gri
+@section Invoking Gri in a nutshell
+First, the short story.  In 90 percent of cases, Gri is run as
 @example
-gri - scientific graphic program (version @value{GRI-VERSION})
- GPL Copyright 2000 by Dan E. Kelley.
+gri myscript
+@end example
+where the file @file{myscript.gri} holds a script (list of Gri
+commands), and Gri will create a PostScript file called
+@file{myscript.ps} with the output.  
 
- Type `help' to view list of commands, or
- type `show license' to view license.  View
- /usr/doc/gri-@value{GRI-VERSION}/html/gri1.html or access `gri'
- INFO node for the online manual.
+Some folks like to give the @file{.gri} suffix explicitly, so they
+would invoke Gri as
+@example
+gri myscript.gri
+@end example
+instead.  
 
-@b{gri: } help             # get help in general
-@b{gri: } help draw        # get help on draw commands
-@b{gri: } help draw label  # focus on relevant command
-@b{gri: } quit             # get out of Gri
+If you'd rather not have @file{myscript.ps} as the PostScript output file
+name (let's say you prefer @file{graph1.ps}) you'd do
+@example
+gri myscript.gri graph1.ps
 @end example
 
+Few readers will need to know more than this.  But, for the rest, the
+table below details all the optional arguments that may be used when Gri
+is invoked.
 
-@c HTML <!-- newfile OptionsOnCommandLine.html "Gri: options on command line" "Invoking Gri" -->
+@section The gory details of invoking Gri
 
-@node	Options On Command Line, Viewing, Launching, Invoking Gri
-@comment  node-name,  next,  previous,  up
-@section Options on command line
-@cindex commandline options
-@cindex options on command line
-
-Gri is normally used to draw things, but it may also be used to extract
-the commands which were used to create a given postscript file, or
-to repair a damaged postscript file.  These forms of usage
-are explained below.
-
-
-@itemize @bullet
-@item
-To make Gri plot things:
+@subsection Using Gri to draw things
+To draw things, invoke Gri as
 @example
 gri [OPTIONS] [CmdFiles [PSFile] [: optional_arguments]]
 @end example
@@ -1005,53 +972,6 @@ the tokens are available with the RPN operators @code{argc}, a solitary
 operator which yields the number of tokens (@ref{Solitary Operators}), and
 @code{argv}, a unary operator which yields a numbered token from the
 list (@ref{Unary Operators}).
-
-@item
-To make Gri extract the commands that created a PostScript file:
-@cindex recovering commands from a PostScript file
-@cindex command-line option @code{-creator}
-@cindex @code{-creator} command-line option
-@example
-`gri -creator PostScriptFile'
-@end example
-@noindent @emph{See also} @code{-no_cmd_in_ps}.
-@item
-To make Gri repair (make printable) a PostScript file created by a
-Gri job that failed midway through:
-@example
-`gri -repair bad.ps good.ps'
-@end example
-@end itemize
-
-
-@noindent
-NOTES:
-@itemize @bullet
-@item
-Typically Gri is run with a command-line like the following (in which
-Gri is told to do the commands in the file @file{timeseries.gri} and put
-the PostScript output in a file named @file{timeseries.ps}):
-@example
-gri timeseries.gri
-@end example
-@item
-Gri returns an exit code of 0 if everything is OK.  Here is a unix
-shellscript which uses Gri to create a PostScript file, and preview it
-using the ghostview postscript viewing command.
-@example
-#!/usr/bin/sh
-# Run gri, then plot in X window
-case $# in
-1)
-  gri -yes `basename $1 .gri`.gri
-  ghostview `basename $1 .gri`.ps
- ;;
-*)
-  echo "Proper usage: $0 cmdfile.gri"
-  ;;
-esac
-@end example
-@end itemize
 
 @emph{Details of command-line options}
 @cindex options on Gri command-line
@@ -1247,63 +1167,36 @@ typing of a few characters, but some folks like this.
 
 
 
-
-
-
-@c HTML <!-- newfile Viewing.html "Gri: Viewing Gri output" "Invoking Gri" -->
-
-@node   Viewing, Printing, Options On Command Line, Invoking Gri
-@comment  node-name,  next,  previous,  up
-@section Viewing Gri Output
-@cindex viewing Gri output
-@cindex output
-@cindex previewing Gri plots
-@cindex postscript previewer
-@cindex ghostscript previewer
-Gri does not draw directly on your screen.  Instead, it creates a
-PostScript file, assuming that you know how to view or print such a
-file.  If you don't have a PostScript previewer, you might want to get
-the Free Software Foundation's @code{Ghostscript} (or ``@code{gs}'')
-program, which works very well.
-
-On a unix system, you may invoke both Gri and the previewer on the same
-commandline, e.g.
+@subsection Extracting commandfile from a PostScript file
+@cindex recovering commands from a PostScript file
+@cindex command-line option @code{-creator}
+@cindex @code{-creator} command-line option
 @example
-gri foo.gri && gs foo.ps
+gri -creator PostScriptFile
 @end example
-(many users create a shellscript that does this).
+@noindent @emph{See also} @code{-no_cmd_in_ps}.
 
-Gri PostScript output is standard, and can be viewed with standard
-viewers such as @code{ghostview} or @code{gv}.
-
-
-@c HTML <!-- newfile Printing.html "Gri: Printing Gri output" "Invoking Gri" -->
-
-@node   Printing, Programming, Viewing, Invoking Gri
-@comment  node-name,  next,  previous,  up
-@section Printing Gri Output
-@cindex printing, PostScript devices
-@cindex postscript printing
-
-Gri output files are in the PostScript page description language, so
-print them in whatever way you normally print PostScript files, e.g. in
-linux one might do
+@subsection Fixing a broken PostScript file
+To make Gri repair a PostScript file created by a Gri job that failed
+midway through:
 @example
-lpr file.ps
+gri -repair bad.ps good.ps
 @end example
-(since @code{lpr} will recognize the file type) and on other unix
-systems you may do
-@example
-lpr -ps file.ps
-@end example
-to let @code{lpr} know that it is a PostScript file.
+This may very well not work, and the author only provides it in case it
+may help you.  Essentially all it does it try to complete a so-called
+PostScript "path", if Gri died in the middle of drawing a path.  Please
+don't expect too much from this command, and don't expect bug fixes to
+it.
+
+
+
 
 
 
 
 @c HTML <!-- newfile Programming.html "Gri: programming" "Programming Gri" -->
 
-@node   Programming, Defaults, Printing, Top
+@node   Programming, Defaults, Invoking Gri, Top
 @comment  node-name,  next,  previous,  up
 @chapter Programming in the Gri Language
 @cindex programming in Gri
@@ -1672,7 +1565,7 @@ Flag used for batch mode.
 @cindex debug command-line option
 @cindex debugging, using @code{..debug..}
 Equal to 1 if the @code{-debug} command-line flag was set.  Flag used
-for debugging (@ref{Options On Command Line}).  The @code{..debug..}
+for debugging (@ref{Invoking Gri}).  The @code{..debug..}
 built-in variable is useful in isolating code to use only in test runs.
 For example, you might use
 @example
@@ -2232,7 +2125,7 @@ there is no need for you to enter
 this new command into your @file{.grirc} file.  But you might want to
 check @file{gri.cmd} to see how a full
 command does checking of the calling syntax
-(@ref{Options On Command Line}).
+(@ref{Invoking Gri}).
 
 @node   Global Synonyms, If Statements, Local Synonyms, Built-in Synonyms
 @comment  node-name,  next,  previous,  up
@@ -2831,7 +2724,7 @@ Calculate inverse hyperbolic tangent of 0.5, yielding 0.549306
 @cindex arguments on command line, accessing with @code{argv} rpn operator
 @cindex commandline arguments, accessing with @code{argv} rpn operator
 Returns the first optional argument following a @code{:} on the command
-line that invoked Gri (@ref{Options On Command Line}).  (The 0 indicates
+line that invoked Gri (@ref{Invoking Gri}).  (The 0 indicates
 the number of arguments to skip, so that e.g. the second option is
 accessed by @code{rpn 1 argv}.)  A string consisting of a single blank
 character results if one tries to access beyond the list of arguments
@@ -3686,7 +3579,7 @@ programming style, etc, (@ref{Resource File}).
 @cindex new commands, how they are parsed
 Whenever Gri reads a command line, it compares it with its list of
 commands.  This list is searched in this order: (1) the universal
-@file{gri.cmd} file (@ref{Options On Command Line}), (2) your resource
+@file{gri.cmd} file (@ref{Invoking Gri}), (2) your resource
 file (@ref{Resource File}), if it exists, and then (3) your command
 file itself.  Gri stops searching when it finds a Gri command that
 matches the command line.  "Matching" means that the command line is
@@ -3730,7 +3623,7 @@ Draw a foo bar.
 
 Gri searches the @file{gri.cmd} file first, so any new command that you
 create that clash with built-in commands will be ignored by Gri
-(@ref{Options On Command Line}).  Gri will warn you of this, and proceed,
+(@ref{Invoking Gri}).  Gri will warn you of this, and proceed,
 ignoring your newer definition.  To get around this, use capital letters
 to begin the words of your new command.  By convention, Gri never uses
 capital letters in this way, so a clash is impossible (except with any
@@ -3768,7 +3661,7 @@ ERROR: Can't extract syntax for new command
 Following the name line, you may optionally insert any number of lines
 which will become the @code{help} information for the new command.  See
 the file @file{gri.cmd} for the recommended stylistic conventions in
-writing help information (@ref{Options On Command Line}).
+writing help information (@ref{Invoking Gri}).
 @item
 Following the help lines, if they exist, the body of the new command is
 given, sandwiched between a starting line containing an opening brace
@@ -4467,8 +4360,7 @@ centered above the plot. The title @emph{must} be enclosed in quotes.
 @cindex titles, drawing above plot
 @cindex drawing titles
 @item
-@code{quit} tells Gri to exit.  See @ref{Viewing} to find out how
-to see the plot.
+@code{quit} tells Gri to exit.
 @end itemize
 
 Gri will draw axes automatically, and pick its own scales.
@@ -6985,7 +6877,7 @@ draw curves time y1 y2 y3
 @cindex colour vs Color spelling
 
 Commands are listed below in the order in which they are defined in the
-@file{gri.cmd} file (@ref{Options On Command Line}).  What you see here
+@file{gri.cmd} file (@ref{Invoking Gri}).  What you see here
 is similar to, but not identical to, the text of the online help.  Gri
 usually accepts both American and English spellings
 (As an example of spelling latitude, Gri accepts @code{grey} anywhere the
@@ -10957,7 +10849,7 @@ bounding box to decide how to position figures in documents.
 
 Normally, the bounding box is computed automatically unless the
 @code{-no_bounding_box} commandline option has been specified;
-(@ref{Options On Command Line}).  But if @code{set bounding box} is
+(@ref{Invoking Gri}).  But if @code{set bounding box} is
 done, the automatically computed value is ignored and the given box is
 used instead.  Use this if Gri makes mistakes in its automatic selection
 of bounding box.
@@ -14450,6 +14342,32 @@ The next sections outline the changes made in Gri.
 @item 2.6.0 [2000-Jun-23]
 
 @sp 1
+Put source on the
+@c HTML <a href="gri.sourceforge.net">
+Source Forge 
+@c HTML </a>
+open-source development website.  Most Gri users can benefit from this
+site.  For one thing, it's the best way to keep track of new versions.
+By a couple of mouse-clicks, you can cause the system to email you when
+Gri has been updated.  For another, it has 
+@c HTML <a href="http://sourceforge.net/forum/?group_id=5511">
+newsgroups
+@c HTML </a>
+and 
+@c HTML <a href="http://sourceforge.net/mail/?group_id=5511">
+email lists
+@c HTML </a>
+which are archived so that you can stop monitoring them for a while and
+then go back and see what you've missed.  But perhaps the most important
+feature is the
+@c HTML <a href="http://sourceforge.net/bugs/?group_id=5511">
+bug-tracking facility,
+@c HTML </a>
+which lets you submit bugs, track the process of their removal
+(e.g. optionally receiving emails when the bug is removed), see what
+known bugs are still alive, etc.
+
+@sp 1
 Add @code{set colorname} command (@ref{Set Colorname}).
 
 @sp 1
@@ -15038,7 +14956,7 @@ Polar (r-theta) graphs do not work.
 @item
 The EPSF bounding-box defaults to an 8.5 by 11 inch page, if
 @code{-no_bounding_box} is specified on the commandline 
-(@ref{Options On Command Line}).  It should probably know about more
+(@ref{Invoking Gri}).  It should probably know about more
 paper sizes.
 @item
 @code{draw contour labels nowhiteunder} does not break the line under
@@ -15086,31 +15004,50 @@ uniform in all labels.  Workaround: Set the format yourself (example:
 @comment  node-name,  next,  previous,  up
 @cindex bugs, how to report
 @section Reporting Bugs
+
 Please report any bugs you find in Gri.  Bug reports help make Gri more
-reliable and useful for all users.  Here is how to report bugs:
+reliable and useful for all users.
+
+
+Here is how to report bugs:
 
 @enumerate
 
 @item
-Archive your present version of Gri and
-then acquire the most recent version, to see if your bug has already
-been solved.  Bugs in the current version are likely to be repaired,
-while the probability of my repairing bugs in previous versions is low.
-I invest in the future, not the past.
+Go to the bug-tracking part of the Source Forge Gri development site, at
+@c HTML <a href="http://sourceforge.net/bugs/?group_id=5511">
+@code{http://sourceforge.net/bugs/?group_id=5511}
+@c HTML </a>
+to see whether your bug has already been reported.  You may find that it
+has been reported and fixed already in a new version, in which case you
+should archive your existing Gri version and upgrade.  If the bug has
+been reported and @emph{not} fixed, then you may still wish to add a
+supplemental bug report, so the author knows that this bug is of concern
+to you as well as the others.  (Plus, reporting it this way ensures that
+you'll receive an email when the bug is fixed.)
 
 @item
-Prepare a command-file to illustrate the bug.  It is very important that
-you remove @emph{anything} not related to the bug.  Since you are
-familiar with the problem and I am not, you can do this easier than I
-can.  Please make the command-file end after the line illustrating the
-bug and remove preceding commands that do not affect the bug.  One can
-usually reduce the length of the file by a factor of about 2 in this
-way.  Clean bug reports lead to early corrections, so your time is well
-spent.
+It is crucial that you report the version of Gri that you are using.
+You may discover this by running Gri as @code{gri -version}.
 
-If Gri produces an error, it might help to produce an error traceback
-stack by inserting the @code{set error action to core dump} command at
-the top of the commandfile.
+@item
+When reporting bugs, it often helps a lot to include some sample code
+that demonstrates the bug.  If the code is long, or if datafile are
+required, please send a separate email to the author at
+@c HTML <A HREF="mailto:Dan.Kelley@Dal.CA"> 
+@value{AUTHOR-EMAIL}
+@c HTML </A>
+in which you provide a command file demonstrating the bug, together with
+any data files that are required.  Please reduce these files down to the
+bare minimum.  (Example: if the name of the x axis is not relevant to
+your bug, remove any @code{set x name} commands.)  This lets the author
+fix the bug more quickly.  Bugs are found by inserting "print"
+statements in the Gri source-code and re-running Gri.  If this produces
+a hundred pages of output, as your script runs through long datafiles
+before producing an error, then the author will have to look through
+hundreds of pages before finding what may be wrong.  You can see how
+this is a waste of time, since you probably already know what conditions
+cause the error.
 
 @item
 @cindex bug, resulting in bus error
@@ -15118,77 +15055,11 @@ the top of the commandfile.
 @cindex bus error, what to do
 @cindex segmentation fault, what to do
 @cindex debugger used with Gri
-If Gri dies with a system-level error (e.g., @code{segmentation fault}
-or @code{bus error}), you should re-run gri inside the debugger.  I
-prefer the @code{gdb} debugger, but if you don't have that, @code{dbx}
-will do.  Use the @code{where} command to determine where the system
-error occurred.  Put all the debugging output in a file.  The
-@code{script/exit} commands provide a convenient way to do this in unix,
-e.g.
-@example
-script
-gdb gri
-run cmdfile.gri
-... answer any query questions that might get asked ...
-...
-... at this point, Gri has died, so type:
-where
-quit
-exit
-@end example
-@noindent
-which creates a file called @file{typescript}.
+If you have the ability to do so, please try to find the bug yourself.
+After all, Gri is open-source for a reason!  The procedure is described
+in the next section (@ref{Killing Bugs}).
 
-@item
-If Gri runs to completion, then save the resultant PostScript file.
-
-@item
-Write a description of your problem in a file called @file{README}, by
-filling in this form:
-@example
-(1) GRI-VERSION (GET WITH 'gri -v')
-
-(2) TYPE OF COMPUTER AND VERSION OF OPERATING
-    SYSTEM.  ON MANY UNIX SYSTEMS THIS
-    INFORMATION IS GIVEN BY THE COMMAND
-        uname -a
-
-(3) IF THIS WAS NOT A PRECOMPILED VERSION,
-   NAME AND VERSION NUMBER OF COMPILER.
-
-(4) SHORT DESCRIPTION OF BUG (10-20 WORDS)
-
-(5) DID THE BUG CAUSE A SYSTEM ERROR
-   (E.G., ``segmentation fault'' OR 
-   ``bus error'')?
-
-(6) DETAILS OF BUG, EMPHASIZING DIFFERENCE
-    BETWEEN EXPECTED BEHAVIOUR AND WHAT
-    ACTUALLY HAPPENED.  IF YOU REFER TO
-    THE PROGRAM INSERT TAGS IN THE
-    PROGRAM, OF THE FORM
-        # Tag 1 
-@end example
-
-@item
-Send the author 
-@c HTML <A HREF="mailto:Dan.Kelley@Dal.CA"> 
-@value{AUTHOR-EMAIL}
-@c HTML </A>
-an email containing the @file{README} file, the commandfile, the
-debugger output or the PostScript file, and any necessary data files
-into one package.  Usually the easiest way to prepare a tarfile with
-these things, and send as one attachment, e.g. in unix one might do
-@example
-tar -cvhf bug.tar README bug.gri bug.dat
-@end example
-@noindent
-and then email the @file{bug.tar} file.  If the file is big, you'll
-probably want to compress it first.
 @end enumerate
-
-Of course, I can't guarantee that I'll fix the bug for you.  However,
-I'm usually happy to try to fix bugs, so that they won't bite me later!
 
 
 @c HTML <!-- newfile KillingBugs.html "Gri: bugs" "Gri Bugs" -->

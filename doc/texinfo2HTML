@@ -295,6 +295,14 @@ while(get_a_line()) {
 	    next if /\@sp/;
 	    next if /\@cindex/;
 	    &process_examples();
+	    # Handle HTML inserts
+	    if (/^\@c HTML (.*)/o) {
+		$_ = "$1 \n";
+		&sub_refs;
+		s,\@value\{(.*)\},$value{$1},g; # set/value pair
+		print;
+		next;
+	    }
 	    if (/^\s*\@end\s*table/o) {
 		$_ = "";
 		last;
