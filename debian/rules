@@ -25,7 +25,7 @@ build: build-arch build-indep
 
 # Build architecture-dependent files here (no need to be root).
 build-arch: debian/copyright gri
-	(cd doc; make debian)
+	cd doc; make refcard.ps cmdrefcard.ps info
 
 gri:    Makefile
 	dh_testdir
@@ -65,8 +65,7 @@ Makefile:
 
 # Build architecture-independent files here (no need to be root).
 build-indep: debian/copyright Makefile
-	(cd doc; make gri.ps)
-	(cd doc; make html)
+	cd doc; make gri.ps html
 
 # Install (as root) architecture-independent files here.
 binary-indep: build-indep
@@ -74,8 +73,7 @@ binary-indep: build-indep
 	dh_testroot -i
 	install -d debian/gri-el/usr/share/emacs/site-lisp
 	install -m 644 src/gri-mode.el debian/gri-el/usr/share/emacs/site-lisp/
-	(cd doc; make debian-ps DOC_DIR=../debian/gri-ps-doc/usr/share/doc/gri)
-	(cd doc; make debian-html DOC_DIR=../debian/gri-html-doc/usr/share/doc/gri)
+	cd doc; make ps-install html-install
 	rm -f debian/*debhelper
 	dh_installdocs -i -A README debian/README.Debian
 	dh_installexamples -i

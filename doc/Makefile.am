@@ -9,9 +9,15 @@ if OS_IS_LINUX_REDHAT
            HTML_DIR = $(DOC_DIR)/html
        EXAMPLES_DIR = $(DOC_DIR)/examples
 else
+if OS_IS_LINUX_DEBIAN
+            DOC_DIR = $(DESTDIR)$(prefix)/share/doc/gri
+           HTML_DIR = $(DOC_DIR)/html
+       EXAMPLES_DIR = $(DOC_DIR)/examples
+else
             DOC_DIR = $(DESTDIR)$(prefix)/share/gri/doc
            HTML_DIR = $(DOC_DIR)/html
        EXAMPLES_DIR = $(DOC_DIR)/examples
+endif
 endif
                  RM = rm -f
             REFCARD = refcard
@@ -75,6 +81,7 @@ html-install:
 	$(INSTALL_DATA) $(srcdir)/examples/model*     $(EXAMPLES_DIR)
 	$(INSTALL_DATA) $(srcdir)/examples/*.dat      $(EXAMPLES_DIR)
 	$(INSTALL_DATA) $(srcdir)/examples/*.gri      $(EXAMPLES_DIR)
+	$(INSTALL_DATA) $(srcdir)/examples/e*.ps      $(EXAMPLES_DIR)
 	$(INSTALL_PROGRAM) $(srcdir)/examples/FEM.pl  $(EXAMPLES_DIR)
 	(cd $(HTML_DIR); rm -rf examples ; ln -sf ../examples)
 
@@ -109,7 +116,6 @@ help:
 	@echo "Options:"
 	@grep '^[^ ]*:' Makefile | sed -e "s/^/  make /" -e "s/:.*//"
 
-
 gri.ps: gri.texi
 	cd examples    ; make eps
 	cd screenshots ; make eps
@@ -124,6 +130,11 @@ gri.ps: gri.texi
 	tex gri.texi
 	dvips -o gri.ps -t letter gri.dvi
 
+ps-install: gri.ps
+	$(INSTALL) -d $(DOC_DIR)
+	chmod 755     $(DOC_DIR)
+	$(INSTALL) -m 644 gri.ps $(DOC_DIR)
+
 gri.pdf: gri.texi
 	cd examples    ; make pdf
 	cd screenshots ; make pdf
@@ -137,23 +148,6 @@ gri.pdf: gri.texi
 	texindex gri.vr
 	pdftex gri.texi
 
-### Debian stuff follows
-
-# make debian   (does not install; only makes the files)
-debian: refcard.ps cmdrefcard.ps info
-
-# make debian-html DOC_DIR=../debian/gri-html-doc/usr/share/doc/gri
-# builds and installs under $(DOC_DIR)
-debian-html:
-	make html-install
-
-# make debian-ps DOC_DIR=../debian/gri-ps-doc/usr/share/doc/gri
-# builds and installs under $(DOC_DIR)
-debian-ps: gri.ps
-	$(INSTALL) -d $(DOC_DIR)
-	chmod 755     $(DOC_DIR)
-	$(INSTALL) -m 644 gri.ps $(DOC_DIR)
-
 # Add to some of the automake-created targets.
 all-local: refcard.ps cmdrefcard.ps
 	make html
@@ -162,6 +156,7 @@ manpage_name = gri-manpage-redhat.1
 else
 manpage_name = gri-manpage.1
 endif
+
 install-data-local:
 	make html-install
 	$(INSTALL) -m 644 $(srcdir)/../license.txt         $(DOC_DIR)
