@@ -705,6 +705,7 @@ do_operation(operator_name oper)
 		return true;
 	} 
 	if (oper == LESS_THAN) {
+		NEED_ON_STACK(2); NEED_IS_TYPE(1, NUMBER); NEED_IS_TYPE(2, NUMBER);
 		res = (gr_missing(VALUE(1)) || gr_missing(VALUE(2))) ?
 			gr_currentmissingvalue() : (VALUE(1) < VALUE(2) ? 1 : 0);
 		SET(2, "", res, NUMBER);
@@ -712,6 +713,7 @@ do_operation(operator_name oper)
 		return true;
 	} 
 	if (oper == LESS_THAN_EQUAL) {
+		NEED_ON_STACK(2); NEED_IS_TYPE(1, NUMBER); NEED_IS_TYPE(2, NUMBER);
 		res = (gr_missing(VALUE(1)) || gr_missing(VALUE(2))) ?
 			gr_currentmissingvalue() : (VALUE(1) <= VALUE(2) ? 1 : 0);
 		SET(2, "", res, NUMBER);
@@ -719,6 +721,7 @@ do_operation(operator_name oper)
 		return true;
 	} 
 	if (oper == MULTIPLY) {
+		NEED_ON_STACK(2); NEED_IS_TYPE(1, NUMBER); NEED_IS_TYPE(2, NUMBER);
 		res = (gr_missing(VALUE(1)) || gr_missing(VALUE(2))) ?
 			gr_currentmissingvalue() : VALUE(1) * VALUE(2);
 		SET(2, "", res, NUMBER);
@@ -779,7 +782,7 @@ do_operation(operator_name oper)
 		return true;
 	}
 	if (oper == ACOSINE) {
-		NEED_IS_TYPE(1, NUMBER);
+		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
 		if (VALUE(1) > 1.0 || VALUE(1) < -1.0) {
 			RpnError = RANGE_1;
 			return false;
@@ -790,7 +793,7 @@ do_operation(operator_name oper)
 		return true;
 	}
 	if (oper == ASINE) {
-		NEED_IS_TYPE(1, NUMBER);
+		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
 		if (VALUE(1) > 1.0 || VALUE(1) < -1.0 || gr_missing(VALUE(1))) {
 			RpnError = RANGE_1;
 			return false;
@@ -801,7 +804,7 @@ do_operation(operator_name oper)
 		return true;
 	} 
 	if (oper == ATANGENT) {
-		NEED_IS_TYPE(1, NUMBER);
+		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
 		res = gr_missing(VALUE(1)) ?
 			gr_currentmissingvalue() 
 			: atan(VALUE(1)) * deg_per_rad;
@@ -809,35 +812,35 @@ do_operation(operator_name oper)
 		return true;
 	} 
 	if (oper == SINE) {
-		NEED_IS_TYPE(1, NUMBER);
+		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
 		res = gr_missing(VALUE(1)) ?
 			gr_currentmissingvalue() : sin(VALUE(1) / deg_per_rad);
 		SET(1, "", res, NUMBER);
 		return true;
 	} 
 	if (oper == COSINE) {
-		NEED_IS_TYPE(1, NUMBER);
+		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
 		res = gr_missing(VALUE(1)) ?
 			gr_currentmissingvalue() : cos(VALUE(1) / deg_per_rad);
 		SET(1, "", res, NUMBER);
 		return true;
 	} 
 	if (oper == TANGENT) {
-		NEED_IS_TYPE(1, NUMBER);
+		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
 		res = gr_missing(VALUE(1)) ?
 			gr_currentmissingvalue() : tan(VALUE(1) / deg_per_rad);
 		SET(1, "", res, NUMBER);
 		return true;
 	} 
 	if (oper == SINH) {
-		NEED_IS_TYPE(1, NUMBER);
+		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
 		res = gr_missing(VALUE(1)) ?
 			gr_currentmissingvalue() : sinh(VALUE(1));
 		SET(1, "", res, NUMBER);
 		return true;
 	} 
 	if (oper == ACOSH) {
-		NEED_IS_TYPE(1, NUMBER);
+		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
 		if (VALUE(1) < 1.0) {
 			RpnError = NEED_GT_1;
 			return false;
@@ -853,7 +856,7 @@ do_operation(operator_name oper)
 #endif
 	} 
 	if (oper == ATANH) {
-		NEED_IS_TYPE(1, NUMBER);
+		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
 		if (VALUE(1) > 1.0 || VALUE(1) < -1.0) {
 			RpnError = RANGE_1;
 			return false;
@@ -869,7 +872,7 @@ do_operation(operator_name oper)
 #endif
 	} 
 	if (oper == ASINH) {
-		NEED_IS_TYPE(1, NUMBER);
+		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
 #if defined(HAVE_ACOSH)
 		res = gr_missing(VALUE(1)) ?
 			gr_currentmissingvalue() : asinh(VALUE(1));
@@ -881,21 +884,21 @@ do_operation(operator_name oper)
 #endif
 	} 
 	if (oper == COSH) {
-		NEED_IS_TYPE(1, NUMBER);
+		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
 		res = gr_missing(VALUE(1)) ?
 			gr_currentmissingvalue() : cosh(VALUE(1));
 		SET(1, "", res, NUMBER);
 		return true;
 	} 
 	if (oper == TANH) {
-		NEED_IS_TYPE(1, NUMBER);
+		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
 		res = gr_missing(VALUE(1)) ?
 			gr_currentmissingvalue() : tanh(VALUE(1));
 		SET(1, "", res, NUMBER);
 		return true;
 	}
 	if (oper == SQRT) {
-		NEED_IS_TYPE(1, NUMBER);
+		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
 		if (gr_missing(VALUE(1))) {
 			SET(1, "", gr_currentmissingvalue(), NUMBER);
 			return true;
@@ -909,7 +912,7 @@ do_operation(operator_name oper)
 		return true;
 	}
 	if (oper == LOG) {
-		NEED_IS_TYPE(1, NUMBER);
+		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
 		if (gr_missing(VALUE(1))) {
 			SET(1, "", gr_currentmissingvalue(), NUMBER);
 			return true;
@@ -924,7 +927,7 @@ do_operation(operator_name oper)
 		return true;
 	}
 	if (oper == LN) {
-		NEED_IS_TYPE(1, NUMBER);
+		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
 		if (gr_missing(VALUE(1))) {
 			SET(1, "", gr_currentmissingvalue(), NUMBER);
 			return true;
@@ -939,21 +942,21 @@ do_operation(operator_name oper)
 		return true;
 	} 
 	if (oper == EXP) {
-		NEED_IS_TYPE(1, NUMBER);
+		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
 		res = gr_missing(VALUE(1)) ?
 			gr_currentmissingvalue() : pow(Ee, VALUE(1));
 		SET(1, "", res, NUMBER);
 		return true;
 	} 
 	if (oper == EXP10) {
-		NEED_IS_TYPE(1, NUMBER);
+		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
 		res = gr_missing(VALUE(1)) ?
 			gr_currentmissingvalue() : pow(10.0, VALUE(1));
 		SET(1, "", res, NUMBER);
 		return true;
 	} 
 	if (oper == HEX2DEC) {
-		NEED_IS_TYPE(1, STRING);
+		NEED_ON_STACK(1); NEED_IS_TYPE(1, STRING);
 		std::string hex = NAME(1);
 		un_double_quote(hex);
 		unsigned int r;
@@ -969,7 +972,7 @@ do_operation(operator_name oper)
 		return true;
 	} 
 	if (oper == DEC2HEX) {
-		NEED_IS_TYPE(1, NUMBER);
+		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
 		if (VALUE(1) < -0.5) {
 			SET(1, "", 0.0, STRING);
 			RpnError = NEED_GE_0;
@@ -994,14 +997,14 @@ do_operation(operator_name oper)
 		return true;
 	} 
 	if (oper == FLOOR) {
-		NEED_IS_TYPE(1, NUMBER);
+		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
 		res = gr_missing(VALUE(1)) ?
 			gr_currentmissingvalue() : floor(VALUE(1));
 		SET(1, "", res, NUMBER);
 		return true;
 	} 
 	if (oper == REMAINDER) {
-		NEED_IS_TYPE(2, NUMBER);
+		NEED_ON_STACK(2); NEED_IS_TYPE(1, NUMBER); NEED_IS_TYPE(2, NUMBER);
 		res = (gr_missing(VALUE(1)) || gr_missing(VALUE(2))) ?
 			gr_currentmissingvalue() : fmod(VALUE(2), VALUE(1));
 		SET(2, "", res, NUMBER);
@@ -1009,34 +1012,35 @@ do_operation(operator_name oper)
 		return true;
 	} 
 	if (oper == CEIL) {
-		NEED_IS_TYPE(1, NUMBER);
+		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
 		res = gr_missing(VALUE(1)) ?
 			gr_currentmissingvalue() : ceil(VALUE(1));
 		SET(1, "", res, NUMBER);
 		return true;
 	} 
 	if (oper == ABS) {
-		NEED_IS_TYPE(1, NUMBER);
+		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
 		res = gr_missing(VALUE(1)) ?
 			gr_currentmissingvalue() : fabs(VALUE(1));
 		SET(1, "", res, NUMBER);
 		return true;
 	} 
 	if (oper == CMTOPT) {
-		NEED_IS_TYPE(1, NUMBER);
+		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
 		res = gr_missing(VALUE(1)) ?
 			gr_currentmissingvalue() : VALUE(1) * PT_PER_CM;
 		SET(1, "", res, NUMBER);
 		return true;
 	} 
 	if (oper == PTTOCM) {
-		NEED_IS_TYPE(1, NUMBER);
+		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
 		res = gr_missing(VALUE(1)) ?
 			gr_currentmissingvalue() : VALUE(1) / PT_PER_CM;
 		SET(1, "", res, NUMBER);
 		return true;
 	} 
 	if (oper == DUP) {
+		NEED_ON_STACK(1); 
 		RpnItem item;
 		item.set(NAME(1), VALUE(1), TYPE(1));
 		rS.push_back(item);
@@ -1319,43 +1323,41 @@ do_operation(operator_name oper)
 	if (oper == SED) {
 		NEED_IS_TYPE(1, STRING);
 		NEED_IS_TYPE(2, STRING);
-		{
-			string cmd;
-			cmd.assign("echo \"");
-			cmd.append(NAME(2));
-			cmd.append("\" | sed -e \"");
-			cmd.append(NAME(1));
-			cmd.append("\"");
-			FILE *pipefile = (FILE *) popen(cmd.c_str(), "r");
-			if (!pipefile) {
-				err("cannot do `sed' in RPN; failed popen() call");
-				return false;
-			}
-			GriString res;
-			res.line_from_FILE(pipefile);
-			pclose(pipefile);
-			if (0 == strlen(res.getValue())) {
-				err("cannot read output from 'sed' system command");
-				return false;
-			}
-			std::string quoted_res("\"");
-			quoted_res.append(res.getValue());
-			if (quoted_res[-1 + quoted_res.size()] == '\n')
-				quoted_res.STRINGERASE(-1 + quoted_res.size());
-			quoted_res.append("\"");
-			SET(2, quoted_res.c_str(), 0.0, STRING);
-			rS.pop_back();
+		string cmd;
+		cmd.assign("echo \"");
+		cmd.append(NAME(2));
+		cmd.append("\" | sed -e \"");
+		cmd.append(NAME(1));
+		cmd.append("\"");
+		FILE *pipefile = (FILE *) popen(cmd.c_str(), "r");
+		if (!pipefile) {
+			err("cannot do `sed' in RPN; failed popen() call");
+			return false;
 		}
+		GriString res;
+		res.line_from_FILE(pipefile);
+		pclose(pipefile);
+		if (0 == strlen(res.getValue())) {
+			err("cannot read output from 'sed' system command");
+			return false;
+		}
+		std::string quoted_res("\"");
+		quoted_res.append(res.getValue());
+		if (quoted_res[-1 + quoted_res.size()] == '\n')
+			quoted_res.STRINGERASE(-1 + quoted_res.size());
+		quoted_res.append("\"");
+		SET(2, quoted_res.c_str(), 0.0, STRING);
+		rS.pop_back();
 		return true;
 	}
 	if (oper == STRINGWIDTH) {
-		double          width, ascent, descent;	// in cm 
 		NEED_ON_STACK(1);
 		if (TYPE(1) != STRING) {
 			err("RPN string operator `width' needs a string to be top item on stack.");
 			RpnError = ILLEGAL_TYPE;
 			return false;
 		} else {
+			double          width, ascent, descent;	// in cm 
 			double          fontsize;
 			gr_fontID       old_font;
 			old_font = gr_currentfont();
@@ -1371,7 +1373,6 @@ do_operation(operator_name oper)
 		return true;
 	}
 	if (oper == STRINGASCENT) {
-		double          width, ascent, descent;	// in cm 
 		NEED_ON_STACK(1);
 		if (TYPE(1) != STRING) {
 			err("RPN string operator `ascent' needs a string to be top item on stack.");
@@ -1379,6 +1380,7 @@ do_operation(operator_name oper)
 			return false;
 		} else {
 			double          fontsize;
+			double          width, ascent, descent;	// in cm 
 			gr_fontID       old_font;
 			old_font = gr_currentfont();
 			if (!get_var("..fontsize..", &fontsize))
@@ -1393,13 +1395,13 @@ do_operation(operator_name oper)
 		return true;
 	}
 	if (oper == STRINGDESCENT) {
-		double          width, ascent, descent;	// in cm 
 		NEED_ON_STACK(1);
 		if (TYPE(1) != STRING) {
 			err("RPN string operator `descent' needs a string to be top item on stack.");
 			RpnError = ILLEGAL_TYPE;
 			return false;
 		} else {
+			double          width, ascent, descent;	// in cm 
 			double          fontsize;
 			gr_fontID       old_font;
 			old_font = gr_currentfont();
