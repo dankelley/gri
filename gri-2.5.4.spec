@@ -47,7 +47,7 @@ strip gri
 # remove docinst if it is there from a previous build
 rm -rf docinst
 (cd doc ; make linux_redhat)
-(cd doc ; make card-install CARD_DIR=../docinst/)
+(cd doc ; make card-install-redhat CARD_DIR=..)
 (cd doc ; make html-install HTML_DIR=../docinst/html)
 (cd docinst/html; ln -sf index.html gri1.html)
 cp -f README-linux-redhat README || :
@@ -58,7 +58,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%doc README copyright.txt
+%doc README copyright.txt refcard.ps cmdrefcard.ps
 %doc docinst/html
 /usr/bin/gri
 /usr/share/gri
