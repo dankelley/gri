@@ -13074,7 +13074,7 @@ the original grid data.
 The variants of this command write various things about the image to the
 named file, as illustrated in the following table.
 
-@itemize
+@itemize @bullet
 @item @code{write image to image.dat}
 @cindex image data, write to file
 Append image to the end of the named file.  Storage is by unsigned-char,
