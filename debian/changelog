@@ -25,7 +25,6 @@ gri (2.10.0-1) unstable; urgency=low
     - Fix SourceForge bug #514495 in which 'set clip to curve' failed to
       handle missing values in the curve.
     - Fix SourceForge bug #450465 ('create columns from function' was broken).
-  * Added build dependency on libpopt-dev (gri now uses it).
 
  -- Peter S Galbraith <psg@debian.org>  Tue,  7 May 2002 16:11:54 -0400
 
