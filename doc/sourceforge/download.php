@@ -31,7 +31,7 @@ manual</a><br>
 <b>Source Code</b>
 <br>
 - <A HREF="<?php print "$ftp_site/gri-$gri_stable_version.tgz";				?>">tarball		</a><br>
-- <A HREF="<?php print "$ftp_site/gri-$gri_stable_version-arch-indep.tar.gz";		?>">w/ docs prebuilt	</a><br>
+- <A HREF="<?php print "$ftp_site/gri-$gri_stable_version-arch-indep.tgz";		?>">w/ docs prebuilt	</a><br>
 - <A HREF="<?php print "$sf_url/cvs/?group_id=$gri_group_id";				?>">CVS  		</a><br>
 <br>
 <?php set_up_rhs(); ?>
@@ -102,7 +102,7 @@ downloadable files</a>.
 The Gri source code is provided in two tarballs: a 
 <A HREF="<?php print "$ftp_site/gri-$gri_stable_version.tgz";?>">smaller package</a>
 for which documentation files are created during the building process, and a
-<A HREF="<?php print "$ftp_site/gri-$gri_stable_version-arch-indep.tar.gz";?>">larger package</a>
+<A HREF="<?php print "$ftp_site/gri-$gri_stable_version-arch-indep.tgz";?>">larger package</a>
 which has pre-built documentation files.
 </p>
 
