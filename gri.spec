@@ -96,6 +96,8 @@ then
 fi
 
 %changelog
+* Thu Apr 15  2004 <Dan.Kelley@Dal.Ca>
+- fix SF bug 932203 (misplaced labels caused by 'set x axis labels')
 * Tue Apr 6  2004 <Dan.Kelley@Dal.Ca>
 - fix SF bug 930259 ('draw arc' had an extra line [thanks for fix by Wolfgang Voegeli])
 * Fri Apr 2  2004 <Dan.Kelley@Dal.Ca>

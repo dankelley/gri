@@ -294,14 +294,12 @@ gr_drawxaxis(double y, double xl, double xinc, double xr, gr_axis_properties sid
 			present = next;
 		}
 		if (user_gave_labels) {
-			double this_offset = offset - (side==gr_axis_BOTTOM ? 1.75 * CapHeight : -1.75 * CapHeight);
-			//printf("offset= %f    this_offset=%f\n",offset,this_offset); 
 			for (unsigned int i = 0; i < _x_labels.size(); i++) {
 				label.fromSTR(_x_labels[i].c_str()); // BUG: should interpolate into this string
 				gr_usertocm(_x_label_positions[i], y, &xcm, &ycm);
-				//printf("'%s' xcm=%f   ycm=%f  thisoffset=%f  y=%f\n", _x_labels[i].c_str(),xcm,ycm,this_offset,y);
-				label.draw(xcm - this_offset * sin(angle),
-					   ycm + this_offset * cos(angle),
+				//printf("'%s' xcm=%f   ycm=%f  offset=%f  y=%f\n", _x_labels[i].c_str(),xcm,ycm,offset,y);
+				label.draw(xcm - offset * sin(angle),
+					   ycm + offset * cos(angle),
 					   TEXT_CENTERED,
 					   DEG_PER_RAD * angle);
 			}
