@@ -10,7 +10,7 @@ set_up_lhs();
 <br>
 <b>Other</b><br>
 - <A HREF="<?php print "$sf_url/survey/survey.php?group_id=$gri_group_id&amp;survey_id=10761";	?>"> survey		</a><br>
-- <A HREF="<?php print "$sf_url/tracker/?func=add&amp;group_id=$gri_group_id&amp;atid=355511";		?>"> feature request	</a><br>
+- <A HREF="<?php print "$sf_url/tracker/?group_id=$gri_group_id&amp;atid=355511";		?>"> feature request	</a><br>
 - <A HREF="<?php print "$sf_url/tracker/?atid=30$gri_group_id&amp;group_id=$gri_group_id&amp;func=browse"; ?>">Patch submissions</A><br>
 <?php set_up_rhs(); ?>
 
@@ -42,14 +42,16 @@ survey</a> so the author will have a better idea of how Gri should evolve.
 
 <p>
 You may request a new Gri feature 
-<A HREF="<?php print "$sf_url/tracker/?func=add&amp;group_id=$gri_group_id&amp;atid=355511";?>">
-here</A>.  If it's really important, you may also want to email
-the <a href="developers.php">developers</a>.
-You may also request 
+<A HREF="<?php print "$sf_url/tracker/?group_id=$gri_group_id&amp;atid=355511";?>">
+here</A>.  (Assign it to 'dankelley' if it relates to gri itself, or to
+'psg' if it relates to the Emacs mode.)
+If it is really important, you may also want to email
+the <a href="developers.php">developers</a>, in case we are not monitoring
+the site.  You may request 
 Gri
 <A HREF="<?php print "$sf_url/tracker/?group_id=$gri_group_id&amp;atid=20$gri_group_id";?>">
 support</a>,
-although it's better to report a bug, or to post on the help forum.
+although it is better to report a bug, or to post on the help forum.
 </p>
 
 <p>
