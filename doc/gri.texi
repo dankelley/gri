@@ -2435,6 +2435,17 @@ that were actually supplied.  See also the @code{argc} solitary operator
 @xref{Solitary Operators}, which returns the number of optional
 arguments.
 
+For example, the following gri code would display all filename
+arguments following the @code{:} character on the command line:
+@example
+.n. = @{rpn argc@}
+.i. = 0
+while @{rpn .n. .i. <@}
+    show "argument " .i. " of " .n. " is " @{rpn .i. argv@}
+    .i. += 1
+end while
+@end example
+
 @item @{rpn "hi" ascent@}
 @cindex @code{ascent} rpn operator
 @cindex rpn operator @code{ascent}

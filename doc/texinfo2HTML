@@ -321,6 +321,9 @@ sub process_examples() {
     } elsif (/^\s*\@end example/o) {
 	s,\s*\@end example,</PRE>\n</TD>\n</TR>\n</TABLE>,;
 	$in_example = 0;
+    } else {
+        s,\@},},og;
+        s,\@{,{,og;
     }
 }
 
