@@ -5,7 +5,7 @@
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.61 (09 May 2002)
+;; Version:   2.62 (21 Jun 2002)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -399,6 +399,7 @@
 ;;   from 'stop, even though the process did start up again.  I need to do:
 ;;   (continue-process PROCESS) to change the status.  Bug in emacs20?
 ;; V2.61 09May02 RCS 1.88 - Add support for 'gv -noantialias' option.
+;; V2.62 21Jun02 RCS 1.89 - Make gri*view-command more customizible, with menu.
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -482,7 +483,7 @@ If you do not wish this behaviour, reset it in your .emacs file like so:
   :group 'gri
   :type 'boolean)
 
-(defcustom gri*view-command "gv"
+(defcustom gri*view-command 'gv
   "Command used by gri-view to display postscript file.
 Reset this in your .emacs file (but not in your gri-mode-hook) like so:
 
@@ -493,7 +494,12 @@ or
 Note: If you use gv as a viewer, use the gri*view-scale variable to set 
 the default scale; don't use the gv -scale option in this variable."
   :group 'gri
-  :type 'string)
+  :type '(choice (const :tag "gv" gv)
+                 (const :tag "gnome-gv" gnome-gv)
+                 (const :tag "ggv" ggv)
+                 (const :tag "ghostview" ghostview)
+                 (const :tag "kghostview" kghostview)
+                 (string :tag "User specified command")))
 
 (defcustom gri*view-landscape-arg "-landscape" 
   "Argument used to obtain landscape orientation in gri-view.
@@ -504,7 +510,11 @@ Reset this in your .emacs file (but not in your gri-mode-hook) like so:
   (setq gri*view-landscape-arg \"\")
 
   where the empty string is used here (as an example) if no landscape
-  argument exists for the command used in gri*view-command."
+  argument exists for the command used in gri*view-command.
+
+This is only used when gri*view-command is set to a user-specified string.
+ghostview or gv use -lanscape, and kghostview and gnome-gv don't support
+the option."
   :group 'gri
   :type 'string)
 
@@ -2909,27 +2919,47 @@ up a new gv process)."
     (save-excursion
       (goto-char (point-min))
       (if (re-search-forward "^[ \t]*set[ ]+page[ ]+landscape" nil t)
-          (setq landscape gri*view-landscape-arg)))
-    (if (equal gri*view-command "gv")
+          (setq landscape (cond
+                           ((and (symbolp gri*view-command)
+                                 (or (equal 'gv gri*view-command)
+                                     (equal 'ghostview gri*view-command)))
+                            "-landscape")
+                           ((stringp gri*view-command)
+                            gri*view-landscape-arg)
+                           (t
+                            "")))))
+    (if (and (symbolp gri*view-command)(equal gri*view-command 'gv))
         (setq scale "-scale"
               scalearg (int-to-string gri*view-scale)))
-    (if (and (equal gri*view-command "gv") gri*view-watch)
+    (if (and (symbolp gri*view-command)(equal gri*view-command 'gv)
+             gri*view-watch)
         (setq watch "-watch"))
-    (if (and (equal gri*view-command "gv") gri*view-noantialias)
+    (if (and (symbolp gri*view-command)(equal gri*view-command 'gv)
+             gri*view-noantialias)
         (setq noantialias "-noantialias"))
     (if (not (file-readable-p psfile))
         (if (not (file-readable-p (concat psfile ".gz")))
             (error "%s not found or not readable" psfile)
           ;;Found gzipped version of file
           (setq psfile (concat psfile ".gz"))))
-    (message "%s %s %s %s %s %s %s" gri*view-command 
-             psfile landscape scale scalearg watch noantialias)
     (let ((shell-command-switch
            (or (and (boundp 'shell-command-switch) shell-command-switch) "-c"))
-          (directory default-directory))
-      (setq gri-view-process (start-process "gri-view" nil gri*view-command
-                                            psfile landscape watch scale 
-                                            scalearg noantialias))
+          (directory default-directory)
+          (command (or (and (symbolp gri*view-command)
+                            (symbol-name gri*view-command))
+                       gri*view-command)))
+      (message "%s %s %s %s %s %s %s" command
+               psfile landscape scale scalearg watch noantialias)
+      (cond
+       ((equal command "gv")
+        (setq gri-view-process
+              (start-process "gri-view" nil command psfile landscape watch
+                             scale scalearg noantialias)))
+       ((not (equal landscape ""))
+        (setq gri-view-process 
+              (start-process "gri-view" nil command psfile landscape)))
+       (t
+        (setq gri-view-process (start-process "gri-view" nil command psfile))))
     ;;(setq mode-line-process '(":%s"))
     ;;(set-process-sentinel gri-view-process 'shell-command-sentinel)
       (set-process-filter   gri-view-process 'gri-insertion-filter))))
@@ -3880,6 +3910,7 @@ Any output (errors?) is put in the buffer `gri-WWW-manual'."
      ["Restrict editing to function"  gri-narrow-to-function t]
      ["Remove function restriction"   widen t]
      ))
+  (load "executable" t t)       ; executable-find not autoloaded in emacs20
   (easy-menu-define
    gri-mode-menu2 gri-mode-map "Menu keymap for gri-mode."
    '("Perform"
@@ -3909,6 +3940,23 @@ Any output (errors?) is put in the buffer `gri-WWW-manual'."
        :visible gri-command-postarguments]
       )
      ["View existing PostScript"      gri-view  t]
+     ("Postscript viewer"
+      ["gv" (setq gri*view-command 'gv)
+       :style radio :selected (equal gri*view-command 'gv)
+       :active (and (fboundp 'executable-find)(executable-find "gv"))]
+      ["ggv" (setq gri*view-command 'ggv)
+       :style radio :selected (equal gri*view-command 'ggv)
+       :active (and (fboundp 'executable-find)(executable-find "ggv"))]
+      ["gnome-gv" (setq gri*view-command 'gnome-gv)
+       :style radio :selected (equal gri*view-command 'gnome-gv)
+       :active (and (fboundp 'executable-find)(executable-find "gnome-gv"))]
+      ["ghostview" (setq gri*view-command 'ghostview)
+       :style radio :selected (equal gri*view-command 'ghostview)
+       :active (and (fboundp 'executable-find)(executable-find "ghostview"))]
+      ["kghostview" (setq gri*view-command 'kghostview)
+       :style radio :selected (equal gri*view-command 'kghostview)
+       :active (and (fboundp 'executable-find)(executable-find "kghostview"))]
+      )
      ("gv settings"
       "Run-Time Options"
       ["-watch" (if gri*view-watch 
@@ -3954,8 +4002,7 @@ Any output (errors?) is put in the buffer `gri-WWW-manual'."
        :style radio :selected (equal gri*view-scale 4)]
       ["10" 
        (list 'lambda () (interactive)(setq gri*view-scale 5))
-       :style radio :selected (equal gri*view-scale 5)]
-      )
+       :style radio :selected (equal gri*view-scale 5)])
      ["Print existing PostScript"     gri-print t]
      ))
   (easy-menu-define
@@ -4710,7 +4757,7 @@ static char * gri_info24x24_xpm[] = {
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.61 (c) 09 May 2002 --  Peter Galbraith <psg@debian.org>
+V2.62 (c) 21 Jun 2002 --  Peter Galbraith <psg@debian.org>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
