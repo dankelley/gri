@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.116 2001/07/20 16:42:12 psg Exp $
+@c $Id: gri.texim,v 1.117 2001/07/21 17:56:20 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16207,6 +16207,8 @@ The following list applies to the version on CVS, but is subject to
 change:
 
 @itemize @bullet
+@item
+Port to IBM's compiler for their AIX operating system.
 @item
 Enhancements to @code{gri-mode}: meta-tab completion of builtin variables
 and synonyms, idle timer help displays defaults for builtin variables under
