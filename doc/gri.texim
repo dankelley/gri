@@ -1,5 +1,7 @@
+@c -*- mode: texinfo -*-
 \input texinfo 
-@c $Id: gri.texim,v 1.174 2002/05/06 22:50:50 dankelley Exp $
+
+@c $Id: gri.texim,v 1.175 2002/05/07 13:04:28 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16849,12 +16851,14 @@ enter the next stable stream of Gri, but it is important to note that
 main exception is bug fixes, which will enter the stable stream unless
 they are found to create new bugs.
 
-@b{New Features}
+@subsubsection New Features
+
 @itemize @bullet
 
 @item
-Add new boolean RPN operators @code{and}, @code{or}, and @code{not}. 
-
+Add RPN binary operators @code{and}, @code{or} for logical operations
+@ref{Binary Operators}, along with negation operator @code{not}
+@ref{Unary Operators}.
 
 @item
 Add @code{draw arc} command @ref{Draw Arc}
@@ -16876,8 +16880,10 @@ have a bug if called twice in succession [but is this with an intervening
 @code{set clip off}]
 
 @item
-Add @code{group} and @code{end group} commands ... or, at least, tags for 
-them!  The actual code will come later, probably by mid-2002 
+Add @code{group} and @code{end group} commands, in preparation for SVG
+output.  So far these commands do nothing, and are basically just a
+signal that users should not create commands with these names since Gri
+will need them soon.
 
 @item
 Add @code{..xinc..} and @code{..yinc..} builtin variables (@ref{Axis Scaling}).
@@ -16888,7 +16894,7 @@ Make the @code{open} command accept URLs as filenames (@ref{Open}).
 @end itemize
 
 
-@b{Removed Features}
+@subsubsection Removed Features
 
 @itemize
 
@@ -16904,7 +16910,7 @@ Make the @code{-chatty} commandline option require a value (@ref{Invoking Gri}).
 @end itemize
 
 
-@b{Bug Fixes}
+@subsubsection Bug Fixes
 
 
 @itemize
@@ -16977,13 +16983,18 @@ if you have suggestions for other changes to Gri.
 @cindex little-endian vs big-endian data, plans
 @cindex big-endian vs little-endian data, plans
 
-@b{High priority}
+@subsubsection High Priority
 
 @enumerate
 
+@item Add ability to generate SVG (scalable vector graphics) output.  This
+file type can be edited with GUI-based tools, making it easy for users
+to put the final touches on graphs "manually."  This feature will
+require a great deal of work, mainly to do with grouping of graphical
+elements, and so I'll need to rely on advice from users.
+
 @item Switch to @code{popt} library for the processing of command-line 
-options.
-(Docs on this are at
+options.  (Docs on this are at
 @url{http://cvs.gnome.org/lxr/source/popt}.)
 
 @item Change @code{set axes style} from number-based selection to
@@ -17000,7 +17011,7 @@ for interactive usage
 @end enumerate
 
 
-@b{Medium priority}
+@subsubsection Medium priority
 
 @enumerate
 
@@ -17013,7 +17024,7 @@ data (@ref{Convert Columns To Grid}).
 @end enumerate
 
 
-@b{Low priority}
+@subsubsection Low priority
 
 @enumerate
 
