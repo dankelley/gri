@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.92 2001/05/22 14:39:30 dankelley Exp $
+@c $Id: gri.texim,v 1.93 2001/05/24 15:33:22 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -807,7 +807,7 @@ long, instead of the default of 10 centimeters.  Indeed, you can control
 anything you want in gri, e.g. graph size, line width, fonts, etc etc.
 Speaking of fonts, the @code{$\alpha$} type of latex formatting of Greek
 letters is supported in a limited way.  
-Also, Gri handles iso-latin-1 encodings as well as the U.S. style.
+Also, Gri handles ISO-Latin-1 encodings as well as the U.S. style.
 
 
 The example below illustrates a few more @code{set} commands.  This
@@ -13316,21 +13316,34 @@ draw label "$\rho\!\!\!\!^-$" at 3 3 cm
 @comment  node-name,  next,  previous,  up
 @subsection Non-English characters
 
+@cindex iso-latin-1 font encoding
 @cindex text, ISO characters
 @cindex accented characters in text
 @cindex non-English language text
 @cindex French accents in text
-Gri supports both English and other European-derived languages.  In
-particular, it permits text with accents on letters.  (It does not
-support Oriental or other languages at this time.)  Gri uses the
-ISO-Latin-1 font-encodings by default, although the so-called `standard'
-font-encoding may also be selected with the @code{Set Font Encoding}
-command (@ref{Set Font Encoding}).  For more on font encodings see any
-book on PostScript fonts ... although the bottom line is that if you are
-using accented characters in your work, then you probably already know
-about encodings, and if you don't use accents then you needn't learn
-about this topic except for the pleasure of learning about other
-languages.
+
+Gri relies on the ``standard'' PostScript fonts, however, and it
+suffers all limitations of these fonts.
+
+Gri supports both English and some other European-derived languages,
+permitting text with accents on letters.  (It does not support
+Oriental or other languages at this time.)  The accents are supported
+by using the so-called ISO-Latin-1 font-encoding scheme (also called
+the ISO-8859-1 scheme), and so, from what the author can gather from
+his reading, Gri should support various languages from western
+European, e.g. English, French, Spanish, Catalan, Basque, Portuguese,
+Italian, Albanian, Rhaeto-Romanic, Dutch, German, Danish, Swedish,
+Norwegian, Finnish, Faroese, Icelandic, Irish, Scottish, and as well
+as Afrikaans and Swahili.
+
+Gri uses the ISO-Latin-1 font encodings by default, although the
+so-called `standard' font-encoding may also be selected with the
+@code{Set Font Encoding} command (@ref{Set Font Encoding}).  For more
+on font encodings see any book on PostScript fonts ... although the
+bottom line is that if you are using accented characters in your work,
+then you probably already know about encodings, and if you don't use
+accents then you needn't learn about this topic except for the
+pleasure of learning about other languages.
 
 The method of handling accented characters is very simple.  If you can
 type it, Gri can draw it!  It is up to you to determine how to enter the
