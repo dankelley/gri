@@ -1,7 +1,7 @@
 \input texinfo 
 
 
-@c $Id: gri.texi,v 1.137 2003/06/15 12:34:11 dankelley Exp $
+@c $Id: gri.texi,v 1.138 2003/06/24 22:32:46 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16403,6 +16403,11 @@ only in the fixing of bugs.
 
 @strong{Bug Fixes}
 @itemize
+@item
+Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=760130&group_id=5511&atid=105511,#760130}
+@dots{} Solaris cannot compile with @key{C-l} in Makefile.
+
 @item
 Fix SourceForge bug
 @uref{http://sourceforge.net/tracker/index.php?func=detail&aid=743134&group_id=5511&atid=105511,#743134}

@@ -96,6 +96,8 @@ then
 fi
 
 %changelog
+* Tue Jun 24 2003 <Dan.Kelley@Dal.Ca>
+- fix Sourceforge bug 760130 (solaris cannot compile with Ctl-l in Makefile)
 * Sat Jun 14 2003 <Dan.Kelley@Dal.Ca>
 - fix Sourceforge bug 750561 (make rebuilt HTML docs even if up-to-date)
 * Sun Jun 7 2003 <Dan.Kelley@Dal.Ca>
