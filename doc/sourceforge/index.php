@@ -272,7 +272,7 @@ Search gri manual for (may be a regular expression):<p>
      </tr>
      <tr> 
        <td  class="menus" align="left">
-	 <a class="menus" href="http://www.sourceforge.net/forum/forum.php?forum_id=134278">Announcements</a></b>
+<!--	 <a class="menus" href="http://www.sourceforge.net/forum/forum.php?forum_id=134278">Announcements</a></b>-->
 	 <a class="menus" href="http://www.sourceforge.net/news/?group_id=5511">News forum</a></b>
        </td>
      </tr>
