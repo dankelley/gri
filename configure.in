@@ -77,12 +77,14 @@ AC_MSG_CHECKING(for C++ compiler with new headers as of August 2002)
 ], Cplusplusnew=yes, Cplusplusnew=no)
 if test $Cplusplusnew = yes; then
   EXTRA_CFLAGS="$EXTRA_CFLAGS -DCPLUSPLUSNEW"
+  EXTRA_CFLAGS="$EXTRA_CFLAGS -fno-strength-reduce"
   AC_SUBST(EXTRA_CFLAGS)
 fi
 AC_MSG_RESULT($Cplusplusnew)
 ])dnl
 dnl
 GCC_TWEAK2
+
 
 
 dnl Note: prior to 2.9.x, we used to have
