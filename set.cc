@@ -3020,17 +3020,21 @@ bool
 set_x_nameCmd()
 {
 	Require(_nword > 3, err("Must specify a name"));
-	std::string unquoted;
-	int status = ExtractQuote(_cmdLine, unquoted);
-	if (status == 0) {
-		err("`set x name' needs a double-quoted string");
-		return false;
+	if (word_is(3, "default")) {
+		_colX.setName("x");
+	} else {
+		std::string unquoted;
+		int status = ExtractQuote(_cmdLine, unquoted);
+		if (status == 0) {
+			err("`set x name' needs a double-quoted string");
+			return false;
+		}
+		if (status < 0) {
+			err("`set x name' found starting double-quote but no ending double-quote");
+			return false;
+		}
+		_colX.setName(unquoted.c_str());
 	}
-	if (status < 0) {
-		err("`set x name' found starting double-quote but no ending double-quote");
-		return false;
-	}
-	_colX.setName(unquoted.c_str());
 	return true;
 }
 
@@ -3292,17 +3296,21 @@ bool
 set_y_nameCmd()
 {
 	Require(_nword > 3, err("Must specify a name"));
-	std::string unquoted;
-	int status = ExtractQuote(_cmdLine, unquoted);
-	if (status == 0) {
-		err("`set y name' needs a double-quoted string");
-		return false;
+	if (word_is(3, "default")) {
+		_colY.setName("y");
+	} else {
+		std::string unquoted;
+		int status = ExtractQuote(_cmdLine, unquoted);
+		if (status == 0) {
+			err("`set y name' needs a double-quoted string");
+			return false;
+		}
+		if (status < 0) {
+			err("`set y name' found starting double-quote but no ending double-quote");
+			return false;
+		}
+		_colY.setName(unquoted.c_str());
 	}
-	if (status < 0) {
-		err("`set y name' found starting double-quote but no ending double-quote");
-		return false;
-	}
-	_colY.setName(unquoted.c_str());
 	return true;
 }
 

@@ -2713,6 +2713,7 @@ file is rewound.
     extern "C" bool rewindCmd(void);
 }
 
+#* @param .style. = style of axes @default 0
 `set axes style .style. | {offset [.dist_cm.]} | rectangular | none | default'
 Tell Gri how you want axes to look.
 
@@ -3771,9 +3772,11 @@ Set left margin to default = 6 cm.
     extern "C" bool set_x_marginCmd(void);
 }
 
-`set x name "\string"'
-Set name of x-axis to indicated string.  The empty string (`set x name
-""') can be used to make the x axis be unlabelled.
+#* @param \name of x axis @default ""
+`set x name "\name"|default'
+Set name of x-axis to the indicated string.  An empty string
+(`set x name ""') causes the x axis to be unlabelled.  
+The `default' is `"x"'.
 {
     extern "C" bool set_x_nameCmd(void);
 }
@@ -3929,10 +3932,11 @@ Set bottom margin to default = 6 cm.
     extern "C" bool set_y_marginCmd(void);
 }
 
-#* @param \name of y axis @default y
-`set y name "\name"'
-Set name of y-axis to indicated string.  The empty string (`set y name
-""') can be used to make the y axis be unlabelled.
+#* @param \name of y axis @default "y"
+`set y name "\name"|default'
+Set name of y-axis to the indicated string.  An empty string
+(`set y name ""') causes the y axis to be unlabelled.  
+The `default' is `"y"'.
 {
     extern "C" bool set_y_nameCmd(void);
 }

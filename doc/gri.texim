@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.103 2001/07/04 15:15:57 uid26772 Exp $
+@c $Id: gri.texim,v 1.104 2001/07/06 18:11:16 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -9728,12 +9728,13 @@ Set left margin to default = 6 cm.
 @cindex @code{set x name} command
 
 @example
-set x name "\string"
+set x name "\name"|default
 @end example
 
 @noindent
-Set name of x-axis to indicated string.  The empty string 
-(@code{set x name ""}) can be used to make the x axis be unlabelled.
+Set name of x-axis to the indicated string.  An empty string
+(@code{set x name ""}) causes the x axis to be unlabelled.  The
+@code{default} is @code{"x"}.
 
 
 
@@ -9943,12 +9944,13 @@ Set bottom margin to default = 6 cm.
 @cindex @code{set y name} command
 
 @example
-set y name "\string"
+set y name "\name"
 @end example
 
 @noindent
-Set name of y-axis to indicated string.  The empty string 
-(@code{set y name ""}) can be used to make the y axis be unlabelled.
+Set name of y-axis to the indicated string.  An empty string
+(@code{set y name ""}) causes the x axis to be unlabelled.  The
+@code{default} is @code{"y"}.
 
 
 
@@ -12370,7 +12372,14 @@ Divide 3 by 2.
 @item @{rpn 3 2 <@}
 @cindex @code{<} rpn operator
 @cindex rpn operator @code{<}
-Test whether 2 is less than 3, yielding 1.
+@cindex HP calculators, RPN notation different from
+@cindex RPN notation, difference from old-series HP calculators
+
+Test whether 2 is less than 3, yielding 1.  Note: this convention may
+be confusing to users who are familiar with HP calculators from
+decades past.  Present-day calculators use this convention, but
+possibly older calculators used the reverse convention, using @code{>}
+where Gri uses @code{<}.
 
 @item @{rpn 3 2 <=@}
 @cindex @code{<=} rpn operator
@@ -12429,7 +12438,14 @@ Pick the smaller of two values, yielding 3.  (Opposite to @code{sup}.)
 @item @{rpn 2 3 power@}
 @cindex @code{power} rpn operator
 @cindex rpn operator @code{power}
-Take 2 to the 3rd power, yielding 8.
+@cindex HP calculators, RPN notation different from
+@cindex RPN notation, difference from old-series HP calculators
+Take 2 to the 3rd power, yielding 8.  Note: This convention may be
+confusing to users who are familiar with HP calculators from decades
+past.  Present-day calculators use this convention, which they write as
+@code{y^x}, but older calculators used the reverse convention, labelling
+the key @code{x^y}.
+
 
 @item @{rpn 2 3 remainder@}
 @cindex @code{remainder} rpn operator
@@ -16049,7 +16065,9 @@ change:
 
 @itemize @bullet
 @item
-
+Add @code{default} possibility for the @code{set x name} and the
+@code{set y name} commands.
+@item
 Add Perl-like ability to put underscores in numerical constants, to
 guide your eye and mode code easier to read.  These underscores are
 ignored, so that for example @code{.v. = 1_000} and @code{.v. = 1000}
