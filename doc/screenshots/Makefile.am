@@ -12,12 +12,8 @@ the_pdf_files = gri-screenshot-1.pdf gri-screenshot-2.pdf gri-screenshot-3.pdf g
 
 DISTCLEANFILES = $(the_eps_files)
 
-all:
-	make eps
-	make png
-
+all: eps png
 png: $(the_png_files)
-
 eps: $(the_eps_files)
 
 pdf: $(the_pdf_files)
