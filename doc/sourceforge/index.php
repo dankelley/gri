@@ -328,7 +328,7 @@ Search gri manual for (may be a regular expression):<p>
         <br>
 
 
-	<A CLASS="menus" HREF="./gri-2.8.3-pre1.tgz">2.8.3 pre-release #1</a>
+	<A CLASS="menus" HREF="./gri-2.8.3-pre2.tgz">2.8.3 pre-release #2</a>
 
       </TD>
     </TR>
