@@ -615,18 +615,28 @@ double ppvalu(double *break_,
 }
 
 // Use iflag to indicate if call was ok
-int tautsp(double *tau,		// input data, x, of length ntau
-	   double *gtau,		// input data, y, of length ntau
-	   unsigned int *ntau,		// number data
-	   double *gamma,	// tension parameter
-	   double *s,		// length 6*ntau
-	   double *break_,	// knot locations, length=l
-	   double *coef,		// coefficients, length=4l
-	   int *l,		// returned # knots, max maybe 2*ntau
-	   int *k,		// always returned as 4
-	   int *iflag)		// 0 indicates call was ok
+
+#define SAVE    double *sORIG = s; double *break_ORIG = break_; double *coefORIG = coef; double *gtauORIG = gtau; double *tauORIG = tau;
+#define RESTORE s = sORIG; break_ = break_ORIG; coef = coefORIG; gtau = gtauORIG; tau = tauORIG;
+
+int
+tautsp(double *tau,		// input data, x, of length ntau
+       double *gtau,		// input data, y, of length ntau
+       unsigned int *ntau,		// number data
+       double *gamma,	// tension parameter
+       double *s,		// length 6*ntau
+       double *break_,	// knot locations, length=l
+       double *coef,		// coefficients, length=4l
+       int *l,		// returned # knots, max maybe 2*ntau
+       int *k,		// always returned as 4
+       int *iflag)		// 0 indicates call was ok
 {
+        // Kelley: save the original pointers because these will be FREEd in the 
+        // calling subroutine -- this is NOT included in the NR code!
+        SAVE;
+	
 	int s_dim1, s_offset;
+
 	double r_1, r_2, r_3;
 
 	// Local variables
@@ -639,13 +649,13 @@ int tautsp(double *tau,		// input data, x, of length ntau
 	static double onemzt, zt2, del, gam;
 
 	// Parameter adjustments
-	--tau;
-	--gtau;
+	--tau;			// NEED TO PROTECT (see above)
+	--gtau;			// NEED TO PROTECT (see above)
 	s_dim1 = *ntau;
 	s_offset = s_dim1 + 1;
-	s -= s_offset;
-	--break_;
-	coef -= 5;
+	s -= s_offset;		// NEED TO PROTECT (see above)
+	--break_;		// NEED TO PROTECT (see above)
+	coef -= 5;		// NEED TO PROTECT (see above)
 
 	// From  A PRACTICAL GUIDE TO SPLINES by C. de Boor
 	//  Constructs cubic spline interpolant to given data
@@ -731,6 +741,7 @@ int tautsp(double *tau,		// input data, x, of length ntau
 	if (*ntau < 4) {
 		err("Need more than 3 data points");
 		*iflag = 2;
+		RESTORE;
 		return 0;
 	}
 	// construct delta tau and first and second (divided) differences of data
@@ -743,6 +754,7 @@ X data must be ordered and distinct.\n\
        Problem at x[%d]=%f and x[%d]=%f\n", i, tau[i], i+1, tau[i+1]);
 			err(_grTempString);
 			*iflag = 2;
+			RESTORE;
 			return 0;
 		}
 		s[i + 1 + (s_dim1 << 2)] = (gtau[i + 1] - gtau[i]) / s[i + s_dim1];
@@ -1079,16 +1091,19 @@ X data must be ordered and distinct.\n\
 		break_[*l] = tau[i + 1];
 		if (*l > 1 + 2 * int(*ntau)) {
 			gr_error("Too many knots.  Kelley thought max was 2*n\n");
+			RESTORE;
 			return 0;		// not reached
 		}
 	}
 	--(*l);
 	*k = 4;
 	*iflag = 1;
+	RESTORE;
 	return 0;
 } // tautsp
-
-
+#undef SAVE
+#undef RESTORE
+
 // `convert columns to spline \[.gamma.\] \[.xmin. .xmax. .xinc.\]\'
 bool
 convert_col_to_splineCmd()
@@ -1134,10 +1149,15 @@ convert_col_to_splineCmd()
 	double *xs, *ys, *coef, *break_point, *scrtch;
 	xs = ys = coef = break_point = scrtch = (double*)NULL;
 	GET_STORAGE(xs, double, (size_t)steps);
+	printf("DEBUG %s:%d: got xs     storage at %x\n",__FILE__,__LINE__,int(xs));
 	GET_STORAGE(ys, double, (size_t)steps);
+	printf("DEBUG %s:%d: got ys     storage at %x\n",__FILE__,__LINE__,int(ys));
 	GET_STORAGE(coef, double, (size_t)(4 * 2 * steps));
+	printf("DEBUG %s:%d: got coef   storage at %x\n",__FILE__,__LINE__,int(coef));
 	GET_STORAGE(break_point, double, (size_t)(2 * steps));
-	GET_STORAGE(scrtch, double, (size_t)(6 * steps));
+	printf("DEBUG %s:%d: got break_point storage at %x\n",__FILE__,__LINE__,int(break_point));
+	GET_STORAGE(scrtch, double, (size_t)(6 * steps)); // BUG: is this enough storage??
+	printf("DEBUG %s:%d: got scrtch storage at %x\n",__FILE__,__LINE__,int(scrtch));
 	//std::vector<double> xs((size_t)steps, 0.0);
 	//std::vector<double> ys((size_t)steps, 0.0);
 	//std::vector<double> coef((size_t)(4 * 2 * steps), 0.0);
@@ -1167,11 +1187,17 @@ convert_col_to_splineCmd()
 		_colX[i] = xs[i];
 		_colY[i] = ys[i];
 	}
+	printf("DEBUG %s:%d: about to free xs at %x\n",__FILE__,__LINE__,int(xs));
 	free(xs);
+	printf("DEBUG %s:%d: about to free ys at %x\n",__FILE__,__LINE__,int(ys));
 	free(ys);
+	printf("DEBUG %s:%d: about to free coef at %x\n",__FILE__,__LINE__,int(coef));
 	free(coef);
+	printf("DEBUG %s:%d: about to free break_point at %x\n",__FILE__,__LINE__,int(break_point));
 	free(break_point);
+	printf("DEBUG %s:%d: about to free scrtch at %x\n",__FILE__,__LINE__,int(scrtch));
 	free(scrtch);
+	printf("DEBUG %s:%d ... after the free of scrtch\n",__FILE__,__LINE__);
 	return true;
 }
 
