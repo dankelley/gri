@@ -13464,8 +13464,24 @@ First debian release.  Versions exist for intel, alpha, 68K and powerpc.
 
 @table @emph
 @item 2.5.2 [2000-May-18]
-Add new features to @code{gri-mode.el}, bringing it up to version 2.24.
+Add new features to @code{gri-mode.el}, bringing it up to version 2.25:
+@end table
 
+@enumerate
+@item Add a menubar pull-down menu listing all Gri commands,
+      allowing the user to get @code{Help} or @code{Info} on any command or
+      @code{Insert} it in the current Gri file.
+@item Gri info file can have @emph{.info} extension now.
+@item Made @code{gri-apropos} an alias for @code{gri-help-apropos}.
+@item gri-mode now uses the customize interface (See
+      @code{gri-customize}).
+@item The @code{~/.gri-syntax} file has changed format.  As a
+      side-effect, spaces are used instead of hyphens to display Gri commands,
+      and one can now select a command with the mouse in the
+      @emph{Completions} buffer.
+@end enumerate
+
+@table @emph
 @item 2.5.1 [2000-May-10]
 Add two new RPN operators, @code{file_exists} and
 @code{directory_exists} @xref{Unary Operators}.
