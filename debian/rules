@@ -22,7 +22,7 @@ endif
 
 ARCH := $(shell dpkg --print-architecture | perl -pe chop)
 
-build: build-arch build-indep
+build: build-indep build-arch
 
 # Build architecture-dependent files here (no need to be root).
 build-arch: debian/copyright gri
