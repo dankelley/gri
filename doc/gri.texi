@@ -1,6 +1,6 @@
 \input texinfo 
 
-@c $Id: gri.texi,v 1.144 2003/07/05 14:53:39 dankelley Exp $
+@c $Id: gri.texi,v 1.145 2003/07/05 15:49:46 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16366,7 +16366,7 @@ stored in the locally-defined (aka buffer-local) variable
 comment at the bottom of the file such that Emacs remembers it across
 editing sessions.
 
-@c HTML <!-- newfile History.html "Gri: History Gri" "History of Gri Versions" -->
+@c HTML <!-- newfile History.html "Gri: History of Gri" "History of Gri Versions" -->
 @node   History, Stable Stream, Filename arguments when running gri, Top
 @comment  node-name,  next,  previous,  up
 @chapter History of Gri Versions
@@ -16386,10 +16386,7 @@ same features; new releases are made only to fix bugs.  Thus, version
 @code{2.6.1} fixed bugs in version @code{2.6.0}.
 
 To learn more about the bugs, and their resolution, visit the bugs page at
-
 @uref{http://sourceforge.net/tracker/?func=browse&group_id=5511&atid=105511,gri.sourceforge.net}
-
-@noindent
 and adjust the "status" menu to read "closed".
 
 @menu
