@@ -1283,14 +1283,19 @@ do_operation(operator_name oper)
 				err("cannot do `sed' in RPN; failed popen() call");
 				return false;
 			}
-			char *thisline = new char[LineLength + 1];
-			thisline[0] = '"';
-			if (NULL == fgets(thisline + 1, LineLength_1, pipefile)) {
+			GriString res;
+			res.line_from_FILE(pipefile);
+			pclose(pipefile);
+			if (0 == strlen(res.getValue())) {
 				err("cannot read output from 'sed' system command");
 				return false;
 			}
-			thisline[-1 + strlen(thisline)] = '"';
-			SET(2, thisline, 0.0, STRING);
+			std::string quoted_res("\"");
+			quoted_res.append(res.getValue());
+			if (quoted_res[-1 + quoted_res.size()] == '\n')
+				quoted_res.STRINGERASE(-1 + quoted_res.size());
+			quoted_res.append("\"");
+			SET(2, quoted_res.c_str(), 0.0, STRING);
 			rS.pop_back();
 		}
 		return true;

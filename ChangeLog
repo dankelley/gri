@@ -1,6 +1,8 @@
 2002-06-05  Dan Kelley  <kelley@limit.phys.ocean.dal.ca>
 
 	* rpncalc.cc (do_operation): Add 'sed' binary operator
+	(do_operation): use GriString and string objects, instead of C
+	character array, for safety
 
 2002-06-01  Dan Kelley  <kelley@limit.phys.ocean.dal.ca>
 
