@@ -13437,6 +13437,17 @@ only documented below if the bug was important.  The visible changes
 listed below are grouped into changes which do not affect old code and
 those which do affect old code.
 
+@emph{IMPORTANT NOTE} this section is under development.  Eventually,
+the material will be separated into subsections on the "release" and
+"development" versions of Gri.
+
+
+Also, an important new item is that Gri
+on 
+@c HTML <a href="http://gri.sourceforge.net">
+gri.sourceforge.net
+@c HTML </a>
+
 @menu
 * Compatible Changes::          Changes which don't hurt old programs
 * Incompatible Changes::        Changes which might hurt old programs
@@ -13465,6 +13476,7 @@ Stable-release stream based on version 2.3.7.
 @c
 @c 4) Fix bugs in the HTML version of the manual, as reported
 @c    by the 'tidy' checking programme.
+@c *  add to gri.sourceforge.net
 
 @table @emph
 @item 2.5.1 [2000-May-10]
