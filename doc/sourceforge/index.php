@@ -102,7 +102,7 @@
             <tr>
               <td class="menus" align="right">
 		<b>General tarball</b><br>
-                N/A<br>
+                 <A class="menus" HREF="http://people.debian.org/~psg/gri-cvs/gri_2.7.0.orig.tar.gz">Recent CVS sources</A><br>
                 <b>Linux Pre-packaged</b><br>
                  <A class="menus" HREF="http://people.debian.org/~psg/gri-cvs.html">CVS Debian Packages</A><br>
               </td>
