@@ -93,14 +93,18 @@
             <tr> 
               <TD align="center" bgcolor="#737b9c">
                 <IMG src="./images/blank.gif" height="1" width="1" border=0 alt=""><BR>
-                <span class="maintitlebar"><font color="#ffffff">Download prerelease</font></span>
+                <span class="maintitlebar"><font color="#ffffff">Download trial prerelease of version 2.6.0</font></span>
               </td>
             </tr>
             <tr>
               <td class="menus" align="right">
+	        <b>General tarball</b><br>
                 <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.0-pre6.tgz">gri-2.6.0-pre6.tgz</a><br>
-                <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.0-1.src.rpm">gri-2.6.0-1.src.rpm</a> PRE6<br>
-                <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.0-1.i386.rpm">gri-2.6.0-1.i386.rpm</a> PRE6<br>
+	        <b>Linux (RedHat)</b><br>
+                <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.0-1.src.rpm">gri-2.6.0-1.src.rpm</a><br>
+                <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.0-1.i386.rpm">gri-2.6.0-1.i386.rpm</a><br>
+	        <b>Linux (Debian)</b><br>
+                <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.6.0-0potato1_i386.deb">gri_2.6.0-0potato1_i386.deb</a><br>
               </td>
             </tr>
           </table>
@@ -169,7 +173,7 @@ as simple as the following.
     <tr> 
       <td  class="menubox">
         <font size="-1">
-        Packaging <font color="red">2.6.0</font> for release<br>
+        Packaging <font color="red">2.6.0</font><br>
         </font>
       </td>
     </tr>
