@@ -96,6 +96,9 @@ then
 fi
 
 %changelog
+* Mon Jan 28 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
+- Fix Sourceforge bug #509592 (doc HTML indices misordered).
+
 * Sat Jan 26 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
 - Fix SourceForge bug #506523 (map axes give wrong minutes in negative regions).
 

@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.146 2002/01/26 15:27:40 dankelley Exp $
+@c $Id: gri.texim,v 1.147 2002/01/28 19:40:20 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -15838,8 +15838,14 @@ only in the fixing of bugs.
 @comment  node-name,  next,  previous,  up
 @subsection Version 2.8
 
-@subsection Version 2.8.6 [2002 Jan 26]
+@subsection Version 2.8.6 [2002 Jan 28]
 @itemize @bullet
+@item
+Fix SourceForge bug
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=509592&group_id=5511&atid=105511">
+#509592
+@c HTML </a>
+(HTML docs had midordered indices)
 @item
 Fix SourceForge bug
 @c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=506534&group_id=5511&atid=105511">
