@@ -228,6 +228,8 @@ source:
 	install -m 755 doc/gri2html             $(SOURCE_NAME)/doc
 	install -m 755 doc/HTML_subdivide       $(SOURCE_NAME)/doc
 	install -m 644 doc/make_html_index      $(SOURCE_NAME)/doc
+	install -m 644 doc/make_html_commandindex $(SOURCE_NAME)/doc
+	install -m 644 doc/make_html_builtinindex $(SOURCE_NAME)/doc
 	install -d $(SOURCE_NAME)/doc/resources
 	install -m 644 doc/resources/*.gri doc/resources/*.html doc/resources/*.eps doc/resources/*.gif \
 		$(SOURCE_NAME)/doc/resources
