@@ -4,46 +4,46 @@ rpnfunction same - abs 1e-10 >		# Are numbers virtually same?
 
 # Arithmetic
 .a. = 0
-assert {rpn .a. !}			" failed test 1"
+assert {rpn .a. !}			  " failed test 1.1"
 .a. += 1
-assert .a.				" failed test 2"
+assert .a.				  " failed test 1.2"
 .a. += 1
-assert {rpn .a. 2 same}			" failed test 3"
+assert {rpn .a. 2 same}			  " failed test 1.3"
 .a. *= 2
-assert {rpn .a. 4 same}			" failed test 4"
+assert {rpn .a. 4 same}			  " failed test 1.4"
 .a. /= 4
-assert {rpn .a. 1 same}			" failed test 5"
+assert {rpn .a. 1 same}			  " failed test 1.5"
 
 # Logs, powers
 .a. _= 10
-assert {rpn .a. 0 same}			" failed test 6"
+assert {rpn .a. 0 same}			  " failed test 2.1"
 .a. = 2
 .a. ^= 8
-assert {rpn .a. 256 same}		" failed test 7"
-assert {rpn -2 4 power 16 ==}           " failed test 8"
-assert {rpn -2 3 power -8 ==}           " failed test 9"
-assert {rpn -2 2 power  4 ==}           " failed test 10"
-assert {rpn  2 3 power  8 ==}           " failed test 11"
+assert {rpn .a. 256 same}		  " failed test 2.2"
+assert {rpn -2 4 power 16 ==}             " failed test 2.3"
+assert {rpn -2 3 power -8 ==}             " failed test 2.4"
+assert {rpn -2 2 power  4 ==}             " failed test 2.5"
+assert {rpn  2 3 power  8 ==}             " failed test 2.6"
 
 
 # String operations
 \a = {rpn "file" ".dat" strcat}
-assert {rpn "\a" "file.dat" ==}		" failed test 12"
+assert {rpn "\a" "file.dat" ==}		  " failed test 3.1"
 \sentence = "This sentence has five words"
 \w1 = word 0 of "\sentence "
-assert {rpn "\w1" "This" ==}		" failed test 13"
+assert {rpn "\w1" "This" ==}		  " failed test 3.2"
 \w2 = word 1 of "\sentence "
-assert {rpn "\w2" "sentence" ==}	" failed test 14"
+assert {rpn "\w2" "sentence" ==}	  " failed test 3.3"
+assert {rpn 0 4 "hello" substr "hell" ==} " failed test 3.4"
+
 
 # Q: will the below work on all OS?????
 # NB. better to switch with something more universal
 \six = system "date | wc | awk '{print $2}'"
-assert {rpn \six 6 ==}			" failed test 15"
+assert {rpn \six 6 ==}			  " failed test 4.1"
 
-# Sine, etc.
 # ----------- FILL IN LATER -----------------
-
-# Stack operations (push, pop, exch)
-# ----------- FILL IN LATER -----------------
+# Math functions (e.g. sin, ...)
+# Stack operations  push, pop, and exch.
 
 show " passed"

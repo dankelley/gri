@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.85 2001/05/11 14:44:39 psg Exp $
+@c $Id: gri.texim,v 1.86 2001/05/15 14:56:58 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -12228,6 +12228,7 @@ RPN operations can be divided roughly into the following groups.
 @menu
 * Stack Operators::             Operate on the rpn stack
 * Rpn Function::                Define a new rpn operator
+* Tertiary Operators::          Act on top three items on stack
 * Binary Operators::            Act on top two items on stack
 * Unary Operators::             Act on top item on stack
 * Solitary Operators::          Act alone, inserting something on stack
@@ -12281,7 +12282,7 @@ show @{rpn 1 2 roll_right -@} " ... yields  1"
 
 @c HTML <!-- newfile RpnFunction.html "Gri: RPN function" "Programming Gri" -->
 
-@node   Rpn Function, Binary Operators, Stack Operators, rpn Mathematics
+@node   Rpn Function, Tertiary Operators, Stack Operators, rpn Mathematics
 @comment  node-name,  next,  previous,  up
 @subsection Rpn function Operators
 @code{rpnfunction} operators are user-defined operators.  The parser
@@ -12292,9 +12293,26 @@ or even other legal @code{rpnfunction} constructs.  For details,
 (@ref{Rpnfunction}).
 
 
+@c HTML <!-- newfile TertiaryOperators.html "Gri: tertiary operators" "Programming Gri" -->
+
+@node   Tertiary Operators, Binary Operators, Rpn Function, rpn Mathematics
+@comment  node-name,  next,  previous,  up
+@subsection Tertiary Rpn Operators
+
+
+@table @code
+@item @{rpn 0 4 "hello" @}
+@cindex RPN operator @code{substr}
+@cindex substrings, getting with RPN operator @code{substr}
+@cindex @code{substr} RPN operator
+Extract 4 characters from the indicated string, starting at character
+number 0 (i.e. the start of the string).
+@end table
+
+
 @c HTML <!-- newfile BinaryOperators.html "Gri: RPN binary operators" "Programming Gri" -->
 
-@node   Binary Operators, Unary Operators, Rpn Function, rpn Mathematics
+@node   Binary Operators, Unary Operators, Tertiary Operators, rpn Mathematics
 @comment  node-name,  next,  previous,  up
 @subsection Binary Operators
 
@@ -15556,7 +15574,8 @@ and adjust the "status" menu to read "closed".
 * Version 2.6::
 * Version 2.4::
 * Version 2.2::
-* Plans::                          Plans, and the development version
+* Development Version::
+* Plans::
 @end menu
 
 
@@ -15861,7 +15880,7 @@ input separators.
 
 
 @c HTML <!-- newfile Version_2_2.html "Gri: Version 2.2" "Gri: Version 2.2" -->
-@node   Version 2.2, Plans, Version 2.4, History
+@node   Version 2.2, Development Version, Version 2.4, History
 @comment  node-name,  next,  previous,  up
 @section Version 2.2
 
@@ -15909,9 +15928,25 @@ First debian release.  Versions exist for intel, alpha, 68K and powerpc.
 
 
 
+@c HTML <!-- newfile Development_Version.html "Gri: Development Version" "Gri: Developement Version" -->
+@node   Development Version, Plans, Version 2.2, History
+@comment  node-name,  next,  previous,  up
+@section Development Version
+
+@emph{Anything} listed below may be changed without notice.  Some of
+these features will appear in a future stable release, others won't.
+Use at your own risk!
+
+@itemize @bullet
+@item
+Add @code{substr} RPN operator (@ref{Tertiary Operators}).
+@end itemize
+
+
+
 @c HTML <!-- newfile Plans.html "Gri: plans for future versions" "Gri: plans for future versions" -->
 
-@node   Plans, Installation, Version 2.2, History
+@node   Plans, Installation, Development Version, History
 @comment  node-name,  next,  previous,  up
 @section Plans
 @c FOR NEXT RELEASE:

@@ -309,8 +309,8 @@ create_commands(const char *filename, bool user_gave_directory)
 		warning("Cannot find version info in gri.cmd");
 	} else {
 		int major2 = int(floor(1e-10+_version));
-		int minor2 = int(floor(100*(_version - major2)));
-		int minor_minor2 = int(floor(1e-10+10000*(_version - major2 - 0.01*minor2)));
+		int minor2 = int(floor(1e-10 + 100.0*(_version - major2)));
+		int minor_minor2 = int(floor(1e-10+10000.0*(_version - major2 - 0.01*minor2)));
 		if (major2 != major_version
 		    || minor2 != minor_version
 		    || minor_minor2 != minor_minor_version) {

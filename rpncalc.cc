@@ -86,7 +86,7 @@ typedef enum {
 	AND, OR, NOT,
 	CMTOPT, PTTOCM,
 	DUP, POP, EXCH, ROLL_LEFT, ROLL_RIGHT, PSTACK, CLEAR,
-	STRCAT, STRLEN,
+	STRCAT, STRLEN, SUBSTR,
 	ATOF,
 	SYSTEM,
 	SUP,
@@ -182,6 +182,7 @@ RPN_DICT        rpn_dict[] =
 	{"pstack", 6, PSTACK},
 	{"strcat", 6, STRCAT},
 	{"strlen", 6, STRLEN},
+	{"substr", 6, SUBSTR},
 	{"atof", 4, ATOF},
 	{"system", 6, SYSTEM},
 	{"sup", 3, SUP},
@@ -1024,6 +1025,35 @@ do_operation(operator_name oper)
 		SET(1, "", double(strlen(NAME(1))), NUMBER);
 		return true;
 	}
+	if (oper == SUBSTR) {
+		NEED_ON_STACK(3);
+		NEED_IS_TYPE(1, STRING);
+		NEED_IS_TYPE(2, NUMBER);
+		NEED_IS_TYPE(3, NUMBER);
+		std::string s(NAME(1)), ss;
+		un_double_quote(s);
+		int stop  = int(VALUE(2));
+		int start = int(VALUE(3));
+		if (stop < start) {
+			err("'substr' needs stop>start, e.g. '{rpn 0 4 \"hello\" substr}' yields \"hell\"");
+			RpnError = GENERAL_ERROR;
+			return false;
+		}
+		if (stop < 0 || start < 0) {
+			RpnError = NEED_GE_0;
+			return false;
+		}
+		rS.pop_back();
+		rS.pop_back();
+		rS.pop_back();
+		RpnItem item;
+		ss = "\"";
+		ss.append(s.substr(start, stop));
+		ss.append("\"");
+		item.set(ss.c_str(), 0.0, STRING);
+		rS.push_back(item);
+		return true;
+ 	}
 	if (oper == STRCAT) {
 		// Need to remove the last quote (") of first and first quote of second.
 		NEED_ON_STACK(2); NEED_IS_TYPE(1, STRING); NEED_IS_TYPE(2, STRING);
