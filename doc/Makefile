@@ -1,17 +1,13 @@
 # Makefile for Gri documentation files.
 
             DOC_DIR = $(prefix)/share/doc/gri
-    DOC_DIR_SOLARIS = $(prefix)/share/gri/doc
            HTML_DIR = $(DOC_DIR)/html
-   HTML_DIR_SOLARIS = $(DOC_DIR_SOLARIS)/html
-        EXAMPLE_DIR = $(DOC_DIR)/examples
-EXAMPLE_DIR_SOLARIS = $(DOC_DIR_SOLARIS)/examples
+       EXAMPLES_DIR = $(DOC_DIR)/examples
                  RM = rm -f
             REFCARD = refcard
         CMD_REFCARD = cmdrefcard
      HTML_LONG_NAME = gri-long
            INFO_DIR = $(prefix)/info
-   INFO_DIR_SOLARIS = $(prefix)/info
 
 FORCE:
 
@@ -22,10 +18,6 @@ all:
 install:
 	make info-install
 	make html-install
-
-install-solaris:
-	make info-install-solaris
-	make html-install-solaris
 
 read:
 	chmod a+r Makefile
@@ -69,45 +61,35 @@ card-install-redhat: FORCE
 	install -m 644 cmdrefcard.ps $(CARD_DIR)
 
 html-install:	html
-	install -d $(EXAMPLE_DIR)
-	install -d $(HTML_DIR)/resources
-	install -d $(HTML_DIR)/screenshots
-	chmod 644 resources/* examples/* screenshots/*
+	install -d             $(HTML_DIR)
+	chmod a+rx             $(HTML_DIR)
+	install -d             $(HTML_DIR)/resources
+	chmod a+rx             $(HTML_DIR)/resources
 	cp resources/*.gif     $(HTML_DIR)/resources
-	chmod 644              $(HTML_DIR)/resources/*
+	chmod 644              $(HTML_DIR)/resources/*.gif
 	cp examples/*.jpg      $(HTML_DIR)/
 	chmod 644              $(HTML_DIR)/*.jpg
-	cp examples/model*     $(EXAMPLE_DIR)
-	chmod 644              $(EXAMPLE_DIR)/model*
-	cp examples/*.dat      $(EXAMPLE_DIR)
-	chmod 644              $(EXAMPLE_DIR)/*.dat
-	cp examples/*.gri      $(EXAMPLE_DIR)
-	chmod 644              $(EXAMPLE_DIR)/*.gri
-	cp examples/*.ps       $(EXAMPLE_DIR)
-	chmod 644              $(EXAMPLE_DIR)/*.ps
-	cp examples/FEM.pl     $(EXAMPLE_DIR)
-	chmod 755              $(EXAMPLE_DIR)/FEM.pl
+	install -d             $(HTML_DIR)/screenshots
+	chmod a+rx             $(HTML_DIR)/screenshots
 	cp screenshots/*.jpg   $(HTML_DIR)/screenshots
+	chmod a+rx             $(HTML_DIR)/screenshots
 	chmod 644              $(HTML_DIR)/screenshots/*.jpg
 	cp *.html              $(HTML_DIR)
 	chmod 644              $(HTML_DIR)/*.html
+#       Now install the examples
+	install -d             $(EXAMPLES_DIR)
+	chmod a+rx             $(EXAMPLES_DIR)
+	cp examples/model*     $(EXAMPLES_DIR)
+	chmod 644              $(EXAMPLES_DIR)/model*
+	cp examples/*.dat      $(EXAMPLES_DIR)
+	chmod 644              $(EXAMPLES_DIR)/*.dat
+	cp examples/*.gri      $(EXAMPLES_DIR)
+	chmod 644              $(EXAMPLES_DIR)/*.gri
+	cp examples/*.ps       $(EXAMPLES_DIR)
+	chmod 644              $(EXAMPLES_DIR)/*.ps
+	cp examples/FEM.pl     $(EXAMPLES_DIR)
+	chmod 755              $(EXAMPLES_DIR)/FEM.pl
 	(cd $(HTML_DIR); ln -sf ../examples)
-
-html-install-solaris:	html
-	$(INSTALL) -d $(EXAMPLE_DIR_SOLARIS)
-	$(INSTALL) -d $(HTML_DIR_SOLARIS)/resources
-	$(INSTALL) -d $(HTML_DIR_SOLARIS)/screenshots
-	chmod 644 resources/* examples/* screenshots/*
-	cp resources/*.gif     $(HTML_DIR_SOLARIS)/resources
-	cp examples/*.jpg      $(HTML_DIR_SOLARIS)/
-	cp examples/model*     $(EXAMPLE_DIR_SOLARIS)
-	cp examples/*.dat      $(EXAMPLE_DIR_SOLARIS)
-	cp examples/*.gri      $(EXAMPLE_DIR_SOLARIS)
-	cp examples/*.ps       $(EXAMPLE_DIR_SOLARIS)
-	cp examples/FEM.pl     $(EXAMPLE_DIR_SOLARIS)
-	cp screenshots/*.jpg   $(HTML_DIR_SOLARIS)/screenshots
-	cp *.html              $(HTML_DIR_SOLARIS)
-	(cd $(HTML_DIR_SOLARIS); ln -sf ../examples)
 
 card-clean:
 	-rm -f refcard.dvi refcard.log refcard.ps
@@ -133,7 +115,7 @@ info-install:
 	install -d $(INFO_DIR)
 	cp gri.info* $(INFO_DIR)
 	(cd $(INFO_DIR) ; gzip -f --best gri.info gri.info-[0-9] gri.info-[0-9][0-9])
-	chmod 644 $(INFO_DIR)/gri.info.*
+	chmod 644 $(INFO_DIR)/gri.info*
 
 info-install-solaris:
 	$(INSTALL) -d $(INFO_DIR_SOLARIS)

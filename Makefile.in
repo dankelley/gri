@@ -116,22 +116,6 @@ install-bin:
 	$(INSTALL_PROGRAM)      gri_merge       $(prefix)/bin/gri_merge
 	$(INSTALL_PROGRAM)      gri_unpage      $(prefix)/bin/gri_unpage
 
-install-solaris: all
-	cat startup.solaris | sed -e s,VSN,${VERSION}, -e s,PREFIX,$(prefix), > tmp
-	$(INSTALL_PROGRAM) -d $(libdir)
-	$(INSTALL_DATA) tmp $(libdir)/startup.msg
-	rm -f tmp
-	$(INSTALL_DATA)         gri.cmd         $(libdir)/gri.cmd
-	$(INSTALL_DATA)         logo.dat        $(libdir)/logo.dat
-	$(INSTALL_DATA)         license.txt     $(libdir)/license.txt
-	$(INSTALL_PROGRAM) -d                   $(prefix)/bin
-	$(INSTALL_PROGRAM)      gri             $(prefix)/bin/gri-$(VERSION)
-	(cd $(prefix)/bin/ ; ln -sf gri-$(VERSION) gri)
-	$(INSTALL_PROGRAM)      gri_merge       $(prefix)/bin/gri_merge
-	$(INSTALL_PROGRAM)      gri_unpage      $(prefix)/bin/gri_unpage
-	cd doc; prefix=$(prefix) INSTALL="$(INSTALL)" make info-install-solaris
-	cd doc; prefix=$(prefix) INSTALL="$(INSTALL)" make html-install-solaris
-
 debian-lib = $(debian)/usr/share/gri/$(VERSION)
 install_linux_debian: gri
 	echo "Installing into '$(debian)' directory"
