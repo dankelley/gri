@@ -122,7 +122,7 @@ scp index.php psg@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
                 <b>None available yet</b>
  -->
 		<b>General tarball</b><br>
-                  <A class="menus" HREF="http://people.debian.org/~psg/gri-cvs/gri_2.9.0.orig.tar.gz">CVS tar 2002-04-09</A><br>
+                  <A class="menus" HREF="http://people.debian.org/~psg/gri-cvs/gri_2.11.0.orig.tar.gz">CVS tar 2002-06-05</A><br>
                 <b>Linux Pre-packaged</b><br>
                   <A class="menus" HREF="http://people.debian.org/~psg/gri-cvs.html">CVS Debian packages</A><br>
               </td>
