@@ -5,7 +5,7 @@
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.56 (18 July 2001)
+;; Version:   2.57 (18 July 2001)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -390,6 +390,7 @@
 ;; V2.55 18Jul01 RCS 1.80 - Add gri-syntax-default-this-builtin used by idle
 ;;   timer.
 ;; V2.56 18Jul01 RCS 1.81 - Fontify defined builtins distinctively
+;; V2.57 18Jul01 RCS 1.82 - Tweak the new local .variable. regexp for font-lock
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -3490,9 +3491,9 @@ If variable gri*hilit-before-return is t,
     (0 font-lock-type-face))            ; builtin ..variables..
    ("\\\\\\.\\(\\(command_file\\|ho\\(me\\|st\\)\\|lib_dir\\|missingvalue\\|p\\(ath_\\(commands\\|data\\)\\|id\\|s_file\\)\\|re\\(\\(adfrom_fil\\|turn_valu\\)e\\)\\|system\\|time\\|user\\|version\\|wd\\)\\.\\)"
     (0 font-lock-type-face))            ; builtin \.synonyms.
-   ("\\(\\\\[^ \C-m\n]+\\)" 
+   ("\\(\\\\[^ }\C-m\n]+\\)" 
     (1 font-lock-variable-name-face))   ; \.synonyns.
-   ("\\(\\.[A-z][^ .\n\C-m]*\\.\\)"
+   ("\\(\\b\\.[A-z][^ .\n\C-m]*\\.\\b\\)"
     (1 font-lock-variable-name-face))   ; user .variables.
    ))
 
@@ -4823,7 +4824,7 @@ static char * gri_info24x24_xpm[] = {
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.56 (c) 18 July 2001 --  Peter Galbraith <psg@debian.org>
+V2.57 (c) 18 July 2001 --  Peter Galbraith <psg@debian.org>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
