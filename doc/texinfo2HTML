@@ -78,7 +78,7 @@ sub get_a_line() {
     $_ = <>;
     if (/^\@c\s*HTML\s*<!--\s*$/) {
 	while(<>) {
-	    print STDERR "SKIPPING $_";
+	    #print STDERR "SKIPPING $_";
 	    if (/^\@c\s*HTML\s*-->\s*$/) {
 		$_ = <>;
 		return $_;

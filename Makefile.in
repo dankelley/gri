@@ -1,6 +1,6 @@
 #### Start of system configuration section. ####
 
-VERSION = 2.5.5
+VERSION = 2.6.0
 srcdir = .
 DESTDIR=
 AWK = gawk
@@ -121,6 +121,7 @@ install_linux_debian_grionly: gri
 	install -m 755 gri $(debian)/usr/bin/gri-$(VERSION)
 
 
+
 install_linux_redhat:
 #	Create the needed dirs in the BuildRoot (this is what $(DESTDIR) is being
 #	used for)
@@ -228,8 +229,8 @@ source:
 	install -m 755 doc/HTML_subdivide       $(SOURCE_NAME)/doc
 	install -m 644 doc/make_html_index      $(SOURCE_NAME)/doc
 	install -d $(SOURCE_NAME)/doc/resources
-	install -m 644 doc/resources/*.gri doc/resources/*.eps \
-		doc/resources/*.gif $(SOURCE_NAME)/doc/resources
+	install -m 644 doc/resources/*.gri doc/resources/*.html doc/resources/*.eps doc/resources/*.gif \
+		$(SOURCE_NAME)/doc/resources
 	install -d $(SOURCE_NAME)/doc/examples
 	install -m 644 doc/examples/*.gri          $(SOURCE_NAME)/doc/examples
 	install -m 644 doc/examples/*.txt          $(SOURCE_NAME)/doc/examples
@@ -242,8 +243,8 @@ source:
 	install -d $(SOURCE_NAME)/doc/screenshots
 	install -m 644 doc/screenshots/{Makefile,*.png} \
 		$(SOURCE_NAME)/doc/screenshots
-	#
-	# Tar package, compress it, install it.
+#
+#	Tar package, compress it, install it.
 	tar -c -f $(SOURCE_NAME).tar $(SOURCE_NAME)
 	rm -rf $(SOURCE_NAME)
 	gzip -f --best $(SOURCE_NAME).tar

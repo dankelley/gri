@@ -107,17 +107,16 @@ Licensing follows the GNU Public License; @xref{License}.
 
 Gri is an extensible plotting language designed for scientists.  It can
 draw x-y plots, contour plots, and image plots, and has rudimentary
-programming capabilities.  It is not mouse driven, nor gui-based; it is
-a language.  Users regard it as an analogue to the latex document
-formatting language: users gain considerable power, at the price of a
-moderate learning curve.
+programming capabilities.  It is not mouse driven, nor gui-based;
+rather, it is an interpreted scriping language.  Users regard it as an
+analogue to the latex document formatting language: users gain
+considerable power, at the price of a moderate learning curve.
 
 The Gri web homepage is at
 @url{http://www.phys.ocean.dal.ca/~kelley/gri}.
 
 @c HTML -->
 
-@c HTML <H1>Gri: a language for scientific graphics</H1>
 @c HTML <map name="navigate_top">
 @c HTML <area alt="Introduction" shape="rect" coords="581,2,599,24" href="Introduction.html">
 @c HTML </map>
@@ -125,18 +124,18 @@ The Gri web homepage is at
 @c HTML <area alt="Introduction" shape="rect" coords="581,2,599,24" href="Introduction.html">
 @c HTML </map>
 @c HTML
-@c HTML <A HREF="./resources/logo.gri">
-@c HTML <IMG ALT="Gri Logo" SRC="./resources/logo.gif"></A>
-@c HTML This describes Gri @value{GRI-VERSION}, (c) 1991-2000,
-@c HTML <A HREF="http://www.phys.ocean.dal.ca/~kelley"> Dan Kelley.</A>  Gri is distributed with
-@c HTML a <A HREF="License.html">license</A> that permits 
-@c HTML sharing in an OpenSource way.
-@c HTML <P>
+@c HTML <A HREF="./resources/logo.html">
+@c HTML <IMG align=left ALT="Gri Logo" SRC="./resources/logo.gif"></A>
 @c HTML Gri is an extensible
 @c HTML plotting language for producing scientific graphs, such as
 @c HTML <A HREF="#X-yPlots">x-y plots</A>, 
 @c HTML <A HREF="#ContourPlots">contour plots</A>, and
 @c HTML <A HREF="#Images">image plots</A>.
+@c HTML This document describes Gri @value{GRI-VERSION}, (c) 1991-2000,
+@c HTML <A HREF="http://www.phys.ocean.dal.ca/~kelley"> Dan Kelley.</A>
+@comment HTML Gri is distributed
+@comment HTML with a <A HREF="License.html">license</A> that permits 
+@comment HTML sharing in an OpenSource way.
 @c HTML <P>
 @c HTML <font size=+1><b>New users:</b></font>
 @c HTML To see if Gri might be useful to you, spend a few minutes
@@ -152,29 +151,23 @@ The Gri web homepage is at
 @c HTML Then you should return here to scan the table of contents.  
 @c HTML <P>
 @c HTML <font size=+1><b>Experienced users:</b></font>
-@c HTML <UL>
-@c HTML <LI>To check the syntax of a command, consult
+@c HTML To check the syntax of a command, consult
 @c HTML the <A HREF="#Commands"> list
 @c HTML of Gri commands</A>.  You should also
 @c HTML check the list of <A HREF="#History">new features</A>
 @c HTML occasionally.
-@c HTML <LI>Become familiar with the
-@c HTML <A HREF="ConceptIndex.html">index</A>.
-@c brokenHTML <LI>You can also see a randomly selected
-@c brokenHTML <A HREF="http://www.phys.ocean.dal.ca/cgi-bin/ocean/gri_hints">
-@c brokenHTML Gri hint</A>.
-@c HTML <LI>If you'd rather not navigate this web-site, you might like to go
-@c HTML straight to the 
-@c HTML <A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri">FTP site
-@c HTML </A> to get the manual, in PostScript format, GNU texinfo
-@c HTML format, or HTML format.
-@c HTML </UL>
-@c HTML <P>
-@c HTML <i>Advanced</i> gri users might want to check out a child
-@c HTML of the Gri language, called
-@c HTML <a href="http://www.phys.ocean.dal.ca/~kelley/gre"> Gre.</a>
+@c HTML <p>
+@c HTML <font size=+1><b>License:</b></font>
+@c HTML Gri is distributed under an OpenSource licence (GPL).
+@c HTML To monitor (or contribute to) the development
+@c HTML process, visit
+@c HTML <a href="http://sourceforge.net/project/?group_id=5511">
+@c HTML <tt>sourceforge.net</tt></a>.
+@c HTML (You might also like to check out the
+@c HTML <a href="http://www.phys.ocean.dal.ca/~kelley/gre"> Gre
+@c HTML language</a>, but be warned that it is still in active development
+@c HTML and may be buggy.)
 @c HTML <br>
-
 @c HTML <!--
 @menu
 * Introduction::                What Gri is for
@@ -182,7 +175,6 @@ The Gri web homepage is at
 * Fancy Example::               More complicated example
 * Invoking Gri::                Running/viewing/printing Gri
 * Programming::                 How to program in the Gri language
-* General Issues::              Miscellaneous but important issues
 * X-y Plots::                   Drawing x-y linegraphs/scattergraphs
 * Contour Plots::               Drawing contour plots
 * Images::                      Drawing black+white or color images
@@ -1004,6 +996,13 @@ it is easy to add new commands as extensions to Gri.
 * Hints::                       Hints for good Gri programming
 * Debugging::                   Debugging Gri programs
 * Error Messages::              What to do about Gri error messages
+* Missing Values::              Missing value code
+* Axes::                        How to control them
+* Color::                       Controlling the pen color
+* Interaction::                 Talking with user
+* Operating System::            Using Gri in OS and OS in Gri
+* Resource File::               Personalizing Gri
+* Defaults::                    How Gri normally acts
 @end menu
 
 
@@ -3551,7 +3550,7 @@ report the bug, so that other users will not have the same hassle;
 
 
 @c HTML <!-- newfile ErrorMessages.html "Gri: error messages" "Programming Gri" -->
-@node   Error Messages, General Issues, Debugging, Programming
+@node   Error Messages, Missing Values, Debugging, Programming
 @comment  node-name,  next,  previous,  up
 @section Error Messages
 @cindex error messages
@@ -3597,25 +3596,8 @@ sure that a Gri bug must underly them.
 
 
 
-@c HTML <!-- newfile GeneralIssues.html "Gri: general issues" "General Issues" -->
-
-@node   General Issues, Missing Values, Error Messages, Top
-@comment  node-name,  next,  previous,  up
-@chapter General Issues
-@menu
-* Missing Values::              Missing value code
-* Axes::                        How to control them
-* Color::                       Controlling the pen color
-* Interaction::                 Talking with user
-* Operating System::            Using Gri in OS and OS in Gri
-* Resource File::               Personalizing Gri
-* Defaults::                    How Gri normally acts
-@end menu
-
-
-
-
-@node   Missing Values, Axes, General Issues, General Issues
+@c HTML <!-- newfile MissingValues.html "Gri: missing values" "Programming Gri" -->
+@node   Missing Values, Axes, Error Messages, Programming
 @comment  node-name,  next,  previous,  up
 @section Missing data
 @cindex data, missing values
@@ -3641,7 +3623,8 @@ since this would have the side-effect of making the data no longer be
 considered missing.
 
 
-@node   Axes, Autoscaling, Missing Values, General Issues
+@c HTML <!-- newfile Axes.html "Gri: axes" "Programming Gri" -->
+@node   Axes, Autoscaling, Missing Values, Programming
 @comment  node-name,  next,  previous,  up
 @section Axes and How to Control Them
 @menu
@@ -3786,13 +3769,13 @@ locations.  (See example 3, @pxref{Fancy Example}, for an
 example.)  To get this effect, you may either position the axes
 yourself, or simply use the @code{set axes style offset} command
 (@pxref{Set}).  If you want this axis style for all their plots, put the
-line @code{set axes style offset} in your @file{~/.emacs} startup file
+line @code{set axes style offset} in your @file{~/.grirc} startup file
 (@pxref{Resource File}).
 
 
-@c HTML <!-- newfile Color.html "Gri: color" "General Issues" -->
+@c HTML <!-- newfile Color.html "Gri: color" "Programming Gri" -->
 
-@node   Color, Graylevel, Position, General Issues
+@node   Color, Graylevel, Position, Programming
 @comment  node-name,  next,  previous,  up
 @section Color
 @cindex color
@@ -3934,16 +3917,18 @@ set color hsb .333 1   1  # pure, bright green
 
 
 
-@node   Interaction, Operating System, Colorlevel, General Issues
+@c HTML <!-- newfile Interaction.html "Gri: interaction" "Programming Gri" -->
+
+@node   Interaction, Operating System, Colorlevel, Programming
 @comment  node-name,  next,  previous,  up
 @section Interacting with the user
 Use the @code{query} command to interact with the user @xref{Query}.  The
 results can be stored in variables and synonyms.
 
 
-@c HTML <!-- newfile OperatingSystem.html "Gri: operating system" "General Issues" -->
+@c HTML <!-- newfile OperatingSystem.html "Gri: operating system" "Programming Gri" -->
 
-@node   Operating System, Using OS Inside Gri, Interaction, General Issues
+@node   Operating System, Using OS Inside Gri, Interaction, Programming
 @comment  node-name,  next,  previous,  up
 @section Interaction Between Gri and Operating System
 @cindex awk, sample of use
@@ -4147,9 +4132,9 @@ esac
 @end example
 
 
-@c HTML <!-- newfile ResourceFile.html "Gri: The Gri resource file" "General Issues" -->
+@c HTML <!-- newfile ResourceFile.html "Gri: The Gri resource file" "Programming Gri" -->
 
-@node   Resource File, Defaults, Using Gri Inside OS, General Issues
+@node   Resource File, Defaults, Using Gri Inside OS, Programming
 @comment  node-name,  next,  previous,  up
 @section Sample Resource File
 @cindex files, @file{~/.grirc} initialization file
@@ -4202,9 +4187,9 @@ Plot in portrait mode, big size.
 
 
 
-@c HTML <!-- newfile Defaults.html "Gri: defaults" "General Issues" -->
+@c HTML <!-- newfile Defaults.html "Gri: defaults" "Programming Gri" -->
 
-@node   Defaults, X-y Plots, Resource File, General Issues
+@node   Defaults, X-y Plots, Resource File, Programming
 @comment  node-name,  next,  previous,  up
 @section Defaults
 @cindex default values
@@ -4259,10 +4244,6 @@ set y type linear
 @file{defaults.h} and then recompile Gri, if they feel the need to
 change these things.  Also, see the file @file{startup.c} and the
 function @code{gr_begin()} in @file{gr.c}.)
-
-
-
-
 
 
 

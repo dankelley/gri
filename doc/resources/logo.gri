@@ -1,20 +1,26 @@
-#set x size   13.95
-#set y size    6.55
-set x size   {rpn 13.95 3 /}
-set y size   {rpn  6.55 3 / 1.4 *}
+# Draw gri logo, with the 'draw polygon' command.
 
+# Set geometry to reflect the funny numbers
+# that define the letter boundaries.  Why are the numbers
+# so odd?  Well, because I designed this with a pencil,
+# and then scanned in the drawing and extracted (x,y)
+# pairs along the curves, using a centimeter-based
+# coordinate system.
+.size. = 0.333
+set x size   {rpn 13.95 .size. *}
+set y size   {rpn  6.55 .size. * 1.4 *}
 set x axis 0 13.95
 set y axis 0  6.55
 
-draw axes none
+draw axes none			# don't want axes
 
+# Draw a light-green underlay
 set color rgb .77 .82 .76
 draw box filled -.2 0 6.4 3.6
 
-set line width rapidograph 00
+set line width rapidograph 00	# quite thin line
 
-\gold = "rgb .82 .65 .14"
-#\gold = "red"
+\gold = "rgb .82 .65 .14"	# a warm gold
 set color \gold
 draw polygon filled \
 1.771573 1.5843 \
@@ -374,5 +380,3 @@ draw polygon  \
 5.236384 3.01509 \
 5.091766 3.05347 \
 5.844986 3.05347
-
-
