@@ -96,8 +96,8 @@ then
 fi
 
 %changelog
-* Thu Jun 26 2003 <Dan.Kelley@Dal.Ca>
-- add @code{age} RPN operator
+* Thu Jun 27 2003 <Dan.Kelley@Dal.Ca>
+- add 'age' RPN operator
 * Tue Jun 24 2003 <Dan.Kelley@Dal.Ca>
 - fix Sourceforge bug 760130 (solaris cannot compile with Ctl-l in Makefile)
 * Sat Jun 14 2003 <Dan.Kelley@Dal.Ca>

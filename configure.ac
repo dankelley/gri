@@ -1,27 +1,11 @@
-dnl HINT: to figure out machine name, compile a program (even a dummy
-dnl program) with options as
-dnl             gcc -E -dM dummy.c
-dnl and note defines that look like the machine name.  For example,
-dnl on a Silicon Graphics (SGI) machine, you'll see, among other
-dnl things, a line like 
-dnl         #define sgi 1
-dnl To see how this is used, see the "DEK_IS_SGI" code below, in the
-dnl present file.
-
-dnl For intro on how to code in this 'configure' (really, 'm4')
-dnl language, see the file
-dnl     /opt/gnu/share/autoconf/acspecific.m4
-
 AC_PREREQ(2.50)
 AC_INIT(gri, 2.12.6)
 AC_CONFIG_SRCDIR(src/gri.cc)
 AM_INIT_AUTOMAKE
-dnl AM_CONFIG_HEADER(gr.h)
-dnl AC_PROG_INTLTOOL(0.22)
 AC_CANONICAL_HOST
-AC_PROG_RANLIB   # since making a library in popt
-AC_PROG_INSTALL  # creates e.g. INSTALL_PROGRAM
-AC_PROG_MAKE_SET # not in sodipodi
+AC_PROG_RANLIB
+AC_PROG_INSTALL
+AC_PROG_MAKE_SET
 PROGS="gri"
 
 AC_SUBST(PROGS)
@@ -89,13 +73,10 @@ AC_MSG_RESULT($Cplusplusnew)
 dnl
 GCC_TWEAK2
 
-
-
 dnl Note: prior to 2.9.x, we used to have
 dnl   EXTRA_CFLAGS="$EXTRA_CFLAGS -Wall -fno-implicit-templates"
 dnl above.  But now, this seems not to be needed, at least
 dnl on intel (linux), with g++-2.96 and g++-3.0
-
 
 dnl On DEC computers, with cxx compiler, need something special
 AC_DEFUN(DEK_IS_DECCXX,
@@ -373,9 +354,7 @@ dnl	Check whether system has libpopt online.  For
 dnl	now, this check value is not used; later on 
 dnl	I should skip the compilation of my local
 dnl	popt if there is a version online.
-AC_CHECK_LIB(popt, poptReadConfigFile,
-AM_CONDITIONAL(OS_HAS_POPT, test 1=1),
-AM_CONDITIONAL(OS_HAS_POPT, test 0=1))
+AC_CHECK_LIB(popt, poptReadConfigFile, AM_CONDITIONAL(OS_HAS_POPT, test 1=1), AM_CONDITIONAL(OS_HAS_POPT, test 0=1))
 
 dnl     checks for typedefs
 AC_TYPE_PID_T
@@ -457,7 +436,7 @@ AM_CONDITIONAL(OS_IS_LINUX_DEBIAN, test x$linux_debian = xtrue)
 
 dnl See if the user did   "configure --enable-solaris"
 AC_ARG_ENABLE(solaris,
-[  --enable-solaris    Build for Linux/debian OS],
+[  --enable-solaris    Build for Solaris OS],
 [case "${enableval}" in
   yes) solaris=true ;;
   no)  solaris=false ;;
