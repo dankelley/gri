@@ -3,7 +3,6 @@
 // BUG: in how they handle templates.  :=(
 
 #define _PUT_STATIC_DATA_MEMBERS_HERE
-#include <string>
 #include <stdio.h>
 
 #include <algorithm>		// part of STL
@@ -39,7 +38,6 @@ template void  sort(vector<double>::iterator, vector<double>::iterator);
 #pragma define_template vector<int>
 #pragma define_template vector<unsigned char>
 #pragma define_template vector<char*>
-#pragma define_template vector<string>
 #pragma define_template GriMatrix<bool>
 #pragma define_template GriMatrix<double>
 #endif // DEC compiler
@@ -63,7 +61,6 @@ template class vector<float>;
 template class vector<int>;
 template class vector<unsigned char>;
 template class vector<char*>;
-template class vector<string>;
 template class GriMatrix<bool>;
 template class GriMatrix<double>;
 
