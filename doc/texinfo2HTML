@@ -175,9 +175,7 @@ while(<>) {
     if (/^\@titlepage/o) {
 	while(<>) {
 	    s,\@value\{(.*)\},$value{$1},g; # set/value pair
-	    if (/\@title\s*(.*)/o) {
-		$title = $1;
-	    } elsif (/\@author\s*(.*)/o) {
+	    if (/\@author\s*(.*)/o) {
 		$author = $1;
 	        $author =~ s/\@\@/\@/;
 	    } else {
