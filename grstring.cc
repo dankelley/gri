@@ -22,7 +22,7 @@ static gr_font  CurrentFont = {
 };
 
 #define START_NEW_TEXT {if (_grWritePS) { fprintf(_grPS, "("); check_psfile(); }}
-#define STOP_OLD_TEXT {if (_grWritePS) { fprintf(_grPS, ") sh\n"); check_psfile(); }}
+#define STOP_OLD_TEXT  {if (_grWritePS) { fprintf(_grPS, ") sh\n"); check_psfile(); }}
 
 
 enum position {Superscript, Subscript};	// Indicator
@@ -379,8 +379,8 @@ gr_drawstring(const char *s)
 			} else if (*s == '\\') {
 				// Substitute math symbol, unless it's
 				// an escaped string
-				int             inc;
-				char *            insert;
+				int inc;
+				char *insert;
 				if (*(s + 1) == '$') {
 					slast = *s++;
 				} else if (*(s + 1) == ',') {
@@ -393,11 +393,20 @@ gr_drawstring(const char *s)
 					slast = *s++;
 				} else if (*(s + 1) == '\\') {
 					slast = *s++;
+				} else if (*(s + 1) == '{' || *(s + 1) == '}') {
+					STOP_OLD_TEXT;
+					gr_setfont(original_font);
+					START_NEW_TEXT;
+					gr_DrawChar(s + 1);
+					STOP_OLD_TEXT;
+					gr_setfont(slant_font);
+					START_NEW_TEXT;
+					slast = *s++;
 				} else {
 					insert = symbol_in_math(s, &inc);
 					if (inc) {
 						// math symbol in symbol font
-						gr_fontID       oldfontID = gr_currentfont();
+						gr_fontID oldfontID = gr_currentfont();
 						STOP_OLD_TEXT;
 						gr_setfont(gr_font_Symbol);
 						if (_grWritePS) {
@@ -408,6 +417,8 @@ gr_drawstring(const char *s)
 						START_NEW_TEXT;
 						s += inc;
 					} else {
+						// Not a known math-mode symbol, so just 
+						// draw it.  Is this the right thing to do?
 						gr_DrawChar(s + 1);
 					}
 				}
@@ -901,9 +912,9 @@ gr_DrawChar(const char *c)
 			fprintf(_grPS, "%c", *c);
 			break;
 		}
+		check_psfile();
 	}
 	_drawingstarted = true;
-	check_psfile();
 }
 
 // Draw indicated text in a "whiteout" box of indicated color, left-right
