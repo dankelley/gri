@@ -4,6 +4,8 @@
 #include	<unistd.h>
 #include	<stdio.h>
 #include	<time.h>
+
+#ifdef TEST_POPT
 #if defined(HAVE_OLD_POPT)
 extern "C" {
 #include        <popt.h>
@@ -11,6 +13,8 @@ extern "C" {
 #else
 #include        <popt.h>
 #endif
+#endif
+
 #include	"gr.hh"
 #include	"extern.hh"
 #include        "private.hh"
