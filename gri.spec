@@ -96,6 +96,8 @@ then
 fi
 
 %changelog
+* Mon Jan 20 2003 Dan Kelley <Dan.KelleyDal.Ca>
+- fix SourceForge bug 671022 (error on 'flip image x|y')
 * Sat Jan 18 2003 Dan Kelley <Dan.Kelley@Dal.Ca>
 - fix SourceForge bug 669603 ('skip backward .n.' did not work)
 * Tue Jan 14 2003 Dan Kelley <Dan.Kelley@Dal.Ca>

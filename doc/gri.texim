@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.231 2003/01/19 15:32:37 dankelley Exp $
+@c $Id: gri.texim,v 1.232 2003/01/20 15:59:05 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16345,11 +16345,16 @@ only in the fixing of bugs.
 
 @comment ADD-NEW-BUG-FIXES-HERE
 
-@subsubsection Version 2.12.2 [2003 Jan 18]
+@subsubsection Version 2.12.2 [2003 Jan 20]
 @strong{Bug Fixes}
 
 @itemize
  
+@item
+Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=671022&group_id=5511&atid=105511,#671022}
+@dots{} Did not flip images correctly, except in special circumstances.
+
 @item
 Fix SourceForge bug
 @uref{http://sourceforge.net/tracker/index.php?func=detail&aid=669603&group_id=5511&atid=105511,#669603}

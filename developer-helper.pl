@@ -43,7 +43,7 @@ sub document_bug_fix()
     #
     print "\nSNIPPET for gri.spec, after the line '%changelog':\n";
     print "$snippet_separator_top";
-    $d = `date '+%a %b %d %y'`;
+    $d = `date '+%a %b %d %Y'`;
     chop($d);
     print "* $d Dan Kelley <Dan.KelleyDal.Ca>\n";
     print "- fix SourceForge bug $bug_number ($description_short)\n";
