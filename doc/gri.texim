@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.178 2002/05/07 19:51:47 dankelley Exp $
+@c $Id: gri.texim,v 1.179 2002/05/08 14:11:04 psg Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16271,24 +16271,24 @@ Add RPN binary operators @code{and}, @code{or} for logical operations
 @ref{Unary Operators}.
 
 @item
-Add @code{draw arc} command @ref{Draw Arc}
+Add @code{draw arc} command (@ref{Draw Arc}).
 
 @item
-Add @code{set x axis labels} @ref{Set X Axis} and
-@code{set y axis labels} @ref{Set X Axis} commands.
+Add @code{set x axis labels} (@ref{Set X Axis}) and
+@code{set y axis labels} (@ref{Set Y Axis}) commands.
 
 @item
 Permit specification of @code{pt} units for 
-@code{draw label} @ref{Draw Label}, 
-@code{draw box} @ref{Draw Box},
-@code{draw symbol at} @ref{Draw Symbol At},
+@code{draw label} (@ref{Draw Label}), 
+@code{draw box} (@ref{Draw Box}),
+@code{draw symbol at} (@ref{Draw Symbol At}),
 and
-@code{draw line from}  @ref{Draw Line From}.
+@code{draw line from} (@ref{Draw Line From}).
 
 @item
-Add @code{set clip to curve} command. Caution: this needs extension, and may
-have a bug if called twice in succession [but is this with an intervening
-@code{set clip off}]
+Add @code{set clip to curve} (@ref{Set Clip}) command. Caution: this
+needs extension, and may have a bug if called twice in succession [but
+is this with an intervening @code{set clip off}]
 
 @item
 Add @code{group} and @code{end group} commands, in preparation for SVG
