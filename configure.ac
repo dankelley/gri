@@ -12,12 +12,16 @@ dnl For intro on how to code in this 'configure' (really, 'm4')
 dnl language, see the file
 dnl     /opt/gnu/share/autoconf/acspecific.m4
 
-AC_PREREQ(2.1)
-
-AC_INIT(gr.hh)
-
-AC_PROG_INSTALL
-
+AC_PREREQ(2.50)
+AC_INIT(gri, 2.12.5)
+AC_CONFIG_SRCDIR(src/gri.cc)
+AM_INIT_AUTOMAKE
+dnl AM_CONFIG_HEADER(gr.h)
+dnl AC_PROG_INTLTOOL(0.22)
+AC_CANONICAL_HOST
+AC_PROG_RANLIB   # since making a library in popt
+AC_PROG_INSTALL  # creates e.g. INSTALL_PROGRAM
+AC_PROG_MAKE_SET # not in sodipodi
 PROGS="gri"
 
 AC_SUBST(PROGS)
@@ -56,9 +60,9 @@ AC_MSG_CHECKING(for gcc compiler)
 #endif
 ], GCC=yes, GCC=no)
 if test $GCC = yes; then
-  EXTRA_CFLAGS_TEMPLATE="$EXTRA_CFLAGS -Wall"
-  EXTRA_CFLAGS="$EXTRA_CFLAGS -Wall"
-  AC_SUBST(EXTRA_CFLAGS)
+  EXTRA_CFLAGS_TEMPLATE="$AM_CFLAGS -Wall"
+  AM_CXXFLAGS="$AM_CXXFLAGS -Wall"
+  AC_SUBST(AM_CXXFLAGS)
   AC_SUBST(EXTRA_CFLAGS_TEMPLATE)
 fi
 AC_MSG_RESULT($GCC)
@@ -76,9 +80,9 @@ AC_MSG_CHECKING(for C++ compiler with new headers as of August 2002)
 #endif
 ], Cplusplusnew=yes, Cplusplusnew=no)
 if test $Cplusplusnew = yes; then
-  EXTRA_CFLAGS="$EXTRA_CFLAGS -DCPLUSPLUSNEW"
-  EXTRA_CFLAGS="$EXTRA_CFLAGS -fno-strength-reduce"
-  AC_SUBST(EXTRA_CFLAGS)
+  AM_CXXFLAGS="$AM_CXXFLAGS -DCPLUSPLUSNEW"
+  AM_CXXFLAGS="$AM_CXXFLAGS -fno-strength-reduce"
+  AC_SUBST(AM_CXXFLAGS)
 fi
 AC_MSG_RESULT($Cplusplusnew)
 ])dnl
@@ -104,8 +108,8 @@ AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([
 ], gri_cv_is_deccxx=yes, gri_cv_is_deccxx=no)])
     AC_MSG_RESULT($gri_cv_is_deccxx)
     if test $gri_cv_is_deccxx = yes; then
-        CXXFLAGS="$CXXFLAGS -D_ANSI_C_SOURCE"
-        AC_SUBST(CXXFLAGS)
+        AM_CXXFLAGS="$AM_CXXFLAGS -D_ANSI_C_SOURCE"
+        AC_SUBST(AM_CXXFLAGS)
     fi
 )dnl
 dnl
@@ -122,7 +126,7 @@ AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([
 ], gri_cv_is_apple=yes, gri_cv_is_apple=no)])
     AC_MSG_RESULT($gri_cv_is_apple)
     if test $gri_cv_is_apple = yes; then
-        CXXFLAGS="$CXXFLAGS -O0"
+        AM_CXXFLAGS="$AM_CXXFLAGS -O0"
         AC_DEFINE(IS_APPLE)
     fi
 )dnl
@@ -279,7 +283,10 @@ define(CHECK_FOR_NETCDF, [
     if test -d /opt/netcdf/include ; then
 	#
 	# Solaris often has it here
-	CXXFLAGS="$CXXFLAGS -I/opt/netcdf/include"
+	AM_CXXFLAGS="$AM_CXXFLAGS -I/opt/netcdf/include"
+        EXTRA_CFLAGS_TEMPLATE="$EXTRA_CFLAGS_TEMPLATE -I/opt/netcdf/include"
+        DEFS="$DEFS -I/opt/netcdf/include"
+dnl BUG: FIX THIS BY DUPLICATING BELOW; ALSO REMOVE EXTRA_CFLAGS
         LIBS="$LIBS -L/opt/netcdf/lib -lnetcdf"
 	if test $gri_cv_is_sun = yes ; then
 	    LIBS="$LIBS -lnsl"
@@ -288,7 +295,8 @@ define(CHECK_FOR_NETCDF, [
         echo "yes (in /opt/netcdf/include/netcdf.h and /opt/netcdf/lib/libnetcdf.a)"
     else
 	if test -f /usr/local/include/netcdf.h ; then
-	    CXXFLAGS="$CPPFLAGS -I/usr/local/include"
+	    AM_CXXFLAGS="$AM_CXXFLAGS -I/usr/local/include"
+            EXTRA_CFLAGS_TEMPLATE="$EXTRA_CFLAGS_TEMPLATE -I/opt/netcdf/include"
 	    LIBS="$LIBS -L/usr/local/lib -lnetcdf"
             if test $gri_cv_is_sun = yes ; then
 		LIBS="$LIBS -lnsl"
@@ -299,7 +307,8 @@ define(CHECK_FOR_NETCDF, [
 	    #
 	    # Linux/debian often has it here.
 	    if test -f /usr/include/netcdf.h ; then
-                CXXFLAGS="$CPPFLAGS -I/usr/include/netcdf"
+                AM_CXXFLAGS="$AM_CXXFLAGS -I/usr/include/netcdf"
+                EXTRA_CFLAGS_TEMPLATE="$EXTRA_CFLAGS_TEMPLATE -I/opt/netcdf/include"
                 LIBS="$LIBS -L/usr/lib/netcdf -lnetcdf"
                 if test $gri_cv_is_sun = yes ; then
                     LIBS="$LIBS -lnsl"
@@ -308,7 +317,8 @@ define(CHECK_FOR_NETCDF, [
                 echo "yes (in /usr/include/netcdf.h and /usr/lib/libnetcdf.a)"
             else
 		if test -f /boot/home/lib/netcdf ; then
-		    CXXFLAGS="$CPPFLAGS -I/boot/home/include/netcdf"
+		    AM_CXXFLAGS="$AM_CXXFLAGS -I/boot/home/include/netcdf"
+                    EXTRA_CFLAGS_TEMPLATE="$EXTRA_CFLAGS_TEMPLATE -I/opt/netcdf/include"
 		    LIBS="$LIBS -L/boot/home/lib/netcdf -lnetcdf"
                     if test $gri_cv_is_sun = yes ; then
 			LIBS="$LIBS -lnsl"
@@ -325,18 +335,10 @@ define(CHECK_FOR_NETCDF, [
 dnl
 CHECK_FOR_NETCDF
 
-dnl gri3 AC_CHECK_LIB(m,sin)
-dnl gri3 AC_CHECK_LIB(popt,poptGetNextOpt,[
-dnl gri3 		EXTRA_LIBS="$EXTRA_LIBS -lpopt"
-dnl gri3 	],[
-dnl gri3 		EXTRA_OBJS="$EXTRA_OBJS popt/findme.o popt/popt.o popt/poptconfig.o popt/popthelp.o popt/poptparse.o"
-dnl gri3 		CXXFLAGS="$CXXFLAGS -I./popt"
-dnl gri3 		AC_DEFINE(HAVE_OLD_POPT)
-dnl gri3 	])
-
-AC_SUBST(EXTRA_CXXFLAGS)
-AC_SUBST(EXTRA_OBJS)
-AC_SUBST(EXTRA_LIBS)
+dnl use this??
+dnl AC_SUBST(EXTRA_CXXFLAGS)
+#AC_SUBST(EXTRA_OBJS)
+dnl AC_SUBST(EXTRA_LIBS)
 
 
 dnl	Check for Imgemagick's convert, needed to make PNG files in HTML manual
@@ -415,4 +417,44 @@ dnl     checks for operating system services
 
 dnl     other checks for UNIX variants
 
-AC_OUTPUT(Makefile)
+dnl See if the user did   "configure --enable-linux_redhat"
+AC_ARG_ENABLE(linux_redhat,
+[  --enable-linux_redhat    Build for Linux/redhat OS],
+[case "${enableval}" in
+  yes) linux_redhat=true ;;
+  no)  linux_redhat=false ;;
+  *) AC_MSG_ERROR(bad value ${enableval} for --enable-linux_redhat) ;;
+esac],[debug=false])
+AM_CONDITIONAL(OS_IS_LINUX_REDHAT, test x$linux_redhat = xtrue)
+dnl use as e.g.
+dnl if OS_IS_LINUX_REDHAT
+dnl NAME = Dan
+dnl else
+dnl NAME = nad
+dnl endif
+dnl myname = $(NAME)
+dnl 
+dnl dan:
+dnl 	@echo "myname is $(myname)"
+
+dnl See if the user did   "configure --enable-linux_debian"
+AC_ARG_ENABLE(linux_debian,
+[  --enable-linux_debian    Build for Linux/debian OS],
+[case "${enableval}" in
+  yes) linux_debian=true ;;
+  no)  linux_debian=false ;;
+  *) AC_MSG_ERROR(bad value ${enableval} for --enable-linux_debian) ;;
+esac],[debug=false])
+AM_CONDITIONAL(OS_IS_LINUX_DEBIAN, test x$linux_debian = xtrue)
+
+dnl See if the user did   "configure --enable-solaris"
+AC_ARG_ENABLE(solaris,
+[  --enable-solaris    Build for Linux/debian OS],
+[case "${enableval}" in
+  yes) solaris=true ;;
+  no)  solaris=false ;;
+  *) AC_MSG_ERROR(bad value ${enableval} for --enable-solaris) ;;
+esac],[debug=false])
+AM_CONDITIONAL(OS_IS_SOLARIS, test x$solaris = xtrue)
+
+AC_OUTPUT([Makefile debian/Makefile doc/Makefile doc/examples/Makefile doc/tst_suite/Makefile doc/resources/Makefile doc/screenshots/Makefile src/Makefile src/popt/Makefile])
