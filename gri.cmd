@@ -4717,6 +4717,11 @@ rpnfunction linear_intercept exch dup roll_left roll_left roll_left dup roll_rig
 # |The following material is for the benefit of the Emacs gri mode |
 # \----------------------------------------------------------------/
 #
+# @variable ..R2..                    squared correlation coefficient (defined if regression has been done)
+# @variable ..coeff0..                intercept in linear regression (defined if regression has been done)
+# @variable ..coeff0_sig..            95% C.I. on intercept in linear regression (only defined if regression has been done)
+# @variable ..coeff1..                slope in linear regression (only defined if regression has been done)
+# @variable ..coeff1_sig..            95% C.I. on slope in linear regression (only defined if regression has been done)
 # @variable ..num_col_data..          number of column data
 # @variable ..num_col_data_missing..  number of missing column data
 # @variable ..arrowsize..             size of arrow heads @unit cm @default 0.2
