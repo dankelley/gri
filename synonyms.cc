@@ -485,8 +485,14 @@ substitute_synonyms_cmdline(const char *s, string& sout, bool allow_math)
 			sout.append(" "); 
 			offset = 1 + strlen(_Words2[0]);
 		} else {
+#if 0
 			err("The purported alias `\\", _Words2[0], "' doesn't name a synonym or a variable.", "\\");
 			return false;
+#else
+			sout.append(_Words2[0]);
+			sout.append(" ");
+			offset = 1 + strlen(_Words2[0]);
+#endif
 		}
 	} else if (*_Words2[0] == '\\') {
 

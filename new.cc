@@ -32,7 +32,7 @@ new_postscript_fileCmd()
 		demonstrate_command_usage();
 		return false;
 	}
-	printf("DEBUG.  Should now start a new ps file named '%s'\n",_word[3]);
+	//printf("DEBUG.  Should now start a new ps file named '%s'\n",_word[3]);
 	gr_end("!");
 	gr_setup_ps_filename(_word[3]);
 #if 0
@@ -58,11 +58,16 @@ newCmd()
 	}
 	for (int i = 1; i < _nword; i++) {
                 string w(_word[i]);
+		//printf("DEBUG 1 <%s>\n",w.c_str());
 		un_double_quote(w);
+		//printf("DEBUG 2 <%s>\n",w.c_str());
 		de_reference(w);
+		//printf("DEBUG 3 <%s>\n",w.c_str());
 		if (is_syn(w)) {
+			//printf("DEBUG 4-a SYN <%s>\n", w.c_str());
 			create_synonym(w.c_str(), "");
 		} else if (is_var(w)) {
+			//printf("DEBUG 4-b VAR <%s>\n", w.c_str());
 			create_variable(w.c_str(), 0.0);
 		} else {
 			demonstrate_command_usage();
