@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.132 2001/09/14 11:28:21 dankelley Exp $
+@c $Id: gri.texim,v 1.133 2001/09/29 18:39:29 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16881,8 +16881,9 @@ the instructions for unix.
 @node   Bugs, Known Bugs, Beos-install, Top
 @comment  node-name,  next,  previous,  up
 @chapter Bugs
+
 @menu
-* Known Bugs::                  Known bugs in current version 
+* Known Bugs::                  Bugs in the current version 
 * Reporting Bugs::              How to report bugs
 * Killing Bugs::                How to (try to) kill bugs
 @end menu
@@ -16893,7 +16894,17 @@ the instructions for unix.
 @comment  node-name,  next,  previous,  up
 @section Known bugs
 @cindex bugs in Gri
-List of known bugs:
+
+The ultimate reference for Gri bugs is the development website
+@url{http://gri.sourceforge.net}, which has a powerful bug-tracking
+facility at
+@url{http://sourceforge.net/tracker/?atid=105511&group_id=5511&func=browse}
+that permits you to view bugs that have been fixed and bugs that still
+exist, and that also lets you report bugs.
+
+A summary of some known bugs, some reported on the development site
+and some not, follows.
+
 @itemize @bullet
 
 @item
