@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.111 2001/07/17 15:45:45 dankelley Exp $
+@c $Id: gri.texim,v 1.112 2001/07/17 17:48:45 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -14400,16 +14400,20 @@ draw curve
 @item Sometimes you need just a single output item from the operating
 system.  In this case, you can store the results from the operating
 system in a synonym by using the @code{\synonym = system ...}
-assignment command.  @item @cindex temporary file allocation @cindex
-file, temporary @cindex filename, temporary @cindex @code{tmpname}
+assignment command.  
+@item
+@cindex temporary file allocation
+@cindex file, temporary
+@cindex filename, temporary
+@cindex @code{tmpname}
 subroutine A related command is @code{\synonym = tmpname}, which
 stores in the synonym the name of a temporary file created by the
 system.  The file is created with the @code{tmpname} system call, so
 it is guaranteed not to clash with any existing files.  Typically, the
 filename is something like @file{/usr/tmp/griAAAa1233}.  In many cases
 you'll want to remove the file within Gri, once you're done, and that
-can be done with @code{unlink} (@ref{Unlink}) or with a @code{system
-rm -f} command.  A useful bit of code is as follows
+can be done with @code{unlink} (@ref{Unlink}) or with a
+@code{system rm -f} command.  A useful bit of code is as follows
 @example
 \file = tmpname
 system ... SOME_SYSTEM_COMMANDS ... > \file
