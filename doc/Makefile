@@ -123,7 +123,8 @@ info-install:
 
 info-install-solaris:
 	$(INSTALL) -d $(INFO_DIR_SOLARIS)
-	$(INSTALL) -m 644 gri.info* $(INFO_DIR_SOLARIS)
+	chmod a+r gri.info*
+	cp gri.info* $(INFO_DIR_SOLARIS)
 
 info-clean:
 	rm -f gri.info* info debian-info
