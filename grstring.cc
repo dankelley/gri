@@ -10,7 +10,6 @@
 double gr_current_descender(void);
 
 
-
 #define	default_fontID		gr_font_Helvetica
 #define default_encoding        font_encoding_isolatin1
 #define	default_fontsize_pt	12.0
@@ -21,8 +20,20 @@ static gr_font  CurrentFont = {
 	default_fontsize_pt
 };
 
-#define START_NEW_TEXT {if (_grWritePS) { fprintf(_grPS, "("); check_psfile(); }}
-#define STOP_OLD_TEXT  {if (_grWritePS) { fprintf(_grPS, ") sh\n"); check_psfile(); }}
+// Q: should this be done in Moveup() routine? [then what about $N$N though]
+#define START_NEW_TEXT {\
+    if (_grWritePS) { \
+	fprintf(_grPS, "(");\
+	check_psfile();\
+    }\
+}
+
+#define STOP_OLD_TEXT {\
+    if (_grWritePS) {\
+        fprintf(_grPS, ") sh\n");\
+        check_psfile();\
+    }\
+}
 
 
 enum position {Superscript, Subscript};	// Indicator
@@ -163,8 +174,8 @@ static int      istack = 0;
 static void
 gr_drawstring(const char *s)
 {
+        char slast = '\0';
 	int             slen = strlen(s);
-	char            slast = '\0';
 	bool            inmath = false;
 	gr_fontID       original_font = gr_currentfont();
 	gr_fontID       current_font = original_font;
@@ -898,9 +909,9 @@ MoveDown()
 static void
 gr_DrawChar(const char *c)
 {
-	extern FILE    *_grPS;
 	extern bool     _grWritePS;
 	if (_grWritePS) {
+		extern FILE *_grPS;
 		switch (*c) {
 		case '(':
 			fprintf(_grPS, "\\(");
