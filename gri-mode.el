@@ -5,7 +5,7 @@
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.44 (01 May 2001)
+;; Version:   2.47 (10 May 2001)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -368,6 +368,10 @@
 ;;   imenu-progress-message macro definition (can't rely on variable
 ;;   defined here for loading of imenu during byte-compilation).
 ;;   (Closes SF Bug #421076)
+;; V2.46 10May01 RCS 1.71 - gri-initialize-version: wrong scope for version var
+;;   imenu--create-gri-index: fix for few variables and synonym cases.
+;; V2.47 10May01 RCS 1.72 - locally set resize-mini-windows to nil when
+;;   running shell--command to run gri.
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -926,10 +930,10 @@ Sets variables gri-bin-file and gri-cmd-file."
         (goto-char (point-min))
         (setq version
               (buffer-substring (point) (progn (end-of-line)(point)))))
-      (kill-buffer the-buffer))
-    (setq gri-cmd-file (gri-cmd-file-for-version version))
-    (setq gri-bin-file (gri-bin-file-for-version version))
-    (message "Using gri version %s." version))    
+      (kill-buffer the-buffer)
+      (setq gri-cmd-file (gri-cmd-file-for-version version))
+      (setq gri-bin-file (gri-bin-file-for-version version))
+      (message "Using gri version %s." version)))
    (t
     ;; Default setting, (~/.gri-using-version file not used)
     (setq gri-cmd-file (gri-cmd-file-for-version "default"))
@@ -2739,25 +2743,26 @@ Usually used to send debugging flags."
   "Do actual work for gri-run and gri-run-new."
   (if (buffer-modified-p)
       (save-buffer))
-  (cond
-   ((string-equal "" gri-command-arguments)
-    (message "%s %s %s %s (on newly saved file)" 
-             the-command (gri-run-setting-string) 
-             (file-name-nondirectory buffer-file-name)
-             gri-command-postarguments)
-    (shell-command (concat the-command (gri-run-setting-string) 
-                           buffer-file-name " " gri-command-postarguments)))
-   (t
-    (message "%s %s %s %s %s (on newly saved file)" 
-             the-command gri-command-arguments
-             (gri-run-setting-string) 
-             (file-name-nondirectory buffer-file-name)
-             gri-command-postarguments)
-    (shell-command 
-     (concat the-command gri-command-arguments " " 
-             (gri-run-setting-string)
-             (file-name-nondirectory buffer-file-name)
-             " " gri-command-postarguments))))
+  (let ((resize-mini-windows nil))
+    (cond
+     ((string-equal "" gri-command-arguments)
+      (message "%s %s %s %s (on newly saved file)" 
+               the-command (gri-run-setting-string) 
+               (file-name-nondirectory buffer-file-name)
+               gri-command-postarguments)
+      (shell-command (concat the-command (gri-run-setting-string) 
+                             buffer-file-name " " gri-command-postarguments)))
+     (t
+      (message "%s %s %s %s %s (on newly saved file)" 
+               the-command gri-command-arguments
+               (gri-run-setting-string) 
+               (file-name-nondirectory buffer-file-name)
+               gri-command-postarguments)
+      (shell-command
+       (concat the-command gri-command-arguments " " 
+               (gri-run-setting-string)
+               (file-name-nondirectory buffer-file-name)
+               " " gri-command-postarguments)))))
   (message "Running gri done.")
   (if (not (get-buffer "*Shell Command Output*"))  ;;need this for emacs-18
       (progn
@@ -2776,6 +2781,8 @@ Usually used to send debugging flags."
         (if (re-search-forward "^\\(ERROR:\\|FATAL error:\\).*$" nil t)
             (setq msg (buffer-substring (match-beginning 0)(match-end 0))))
         (if (re-search-forward "^PROPER USAGE:" nil t)
+            (setq display-buffer-p t))
+        (if (re-search-forward "^ Bad command:" nil t)
             (setq display-buffer-p t))
         ;;Error detected at /home/rhogee/new/paper/enlarged_map.gri:42
         (if (re-search-forward 
@@ -4389,11 +4396,14 @@ See the command `imenu' for more information."
               (set-marker marker (point))
               (cond
                ((match-beginning 2)     ;function
-                (push (cons (match-string 2) marker) index-alist))
+                (push (cons (match-string-no-properties 2) marker)
+                      index-alist))
                ((match-beginning 4)     ;synonym
-                (push (cons (match-string 4) marker) index-syn-alist))
+                (push (cons (match-string-no-properties 4) marker)
+                      index-syn-alist))
                (t                       ;variable
-                (push (cons (match-string 5) marker) index-var-alist)))))
+                (push (cons (match-string-no-properties 5) marker)
+                      index-var-alist)))))
           (imenu-progress-message prev-pos 100 t)
           (cond
            ((and index-var-alist
@@ -4403,7 +4413,7 @@ See the command `imenu' for more information."
                         index-var-alist) 
                   index-alist))
            (index-var-alist
-            (push index-var-alist index-alist)))
+            (setq index-alist (append index-var-alist index-alist))))
           (cond
            ((and index-syn-alist
                  (elt index-syn-alist 5))
@@ -4411,7 +4421,7 @@ See the command `imenu' for more information."
                         index-syn-alist) 
                   index-alist))
            (index-syn-alist
-            (push index-syn-alist index-alist)))
+            (setq index-alist (append index-syn-alist index-alist))))
           index-alist))))
 
 (defun gri-imenu-label-cmp (el1 el2)
@@ -4425,7 +4435,7 @@ See the command `imenu' for more information."
 ;;  (if (featurep 'toolbar)
 ;;      (toolbar-make-button-list "/home/rhogee/gri.xpm" "Run Gri")))
 
-
+;; XEmacs toolbar
 (cond 
  ((featurep 'toolbar)
   (defvar gri::toolbar-run-icon
@@ -4479,10 +4489,118 @@ static char *magick[] = {
 	 initial-toolbar-spec 
 	 '([gri::toolbar-run-icon gri-run t "Run Gri"])))))
 
+;; Emacs-21 tool-bar
+(cond 
+ ((featurep 'tool-bar)
+
+  (defun gri-mode-toolbar-make-button (image)
+    "From idlw-toolbar.el"
+    (list 'image :type 'xpm :data image))
+
+  (defvar gri::toolbar-run-icon
+    (gri-mode-toolbar-make-button
+;;;      "/* XPM */
+;;; static char * saveas_xpm[] = {
+;;; /* columns rows colors chars-per-pixel */
+;;; \"24 24 5 1\",
+;;; \"       c None\",
+;;; \".      c #01be01be01be\",
+;;; \"X      c white\",
+;;; \"o      c #e625e625e625\",
+;;; \"O      c Gray62\",
+;;; /* pixels */
+;;; \"                        \",
+;;; \"                        \",
+;;; \"                        \",
+;;; \"                        \",
+;;; \"   ..................   \",
+;;; \"    .XXXXXXXXXXXXXXX.   \",
+;;; \"    .XXXXXXXXXXXXXXX.   \",
+;;; \"    .oXXXXXXXXXXXXXo.   \",
+;;; \"   ..XoXooooXXXXXXoX.   \",
+;;; \"    .XXoXXXXooXXXoXX.   \",
+;;; \"    .XXXXXXXXXoXoXXX.   \",
+;;; \"    .XXoOOoXXXXoXXXX.   \",
+;;; \"   ..XOOOOOOXXXXXXXX.   \",
+;;; \"    .XOXXXXOXXXXOOXX.   \",
+;;; \"    .oOXXXXXXXXXOOXX.   \",
+;;; \"    .OOXXXXXXXXXooXX.   \",
+;;; \"   ..oOXXOOOXOOXOOXX.   \",
+;;; \"    .XOXXooOXOoXXOXX.   \",
+;;; \"    .XOOXoOOXOXXXOXX.   \",
+;;; \"    .XXOOOOXXOXXXOXX.   \",
+;;; \"   ..................   \",
+;;; \"    .   .   .   .   .   \",
+;;; \"                        \",
+;;; \"                        \"
+;;; };"
+"/* XPM */
+static char * gri24x24_xpm[] = {
+/* columns rows colors chars-per-pixel */
+\"24 24 5 1\",
+\" 	c None\",
+\".	c #01be01be01be\",
+\"X	c white\",
+\"o	c Gray62\",
+\"O	c #e625e625e625\",
+/* pixels */
+\"                        \",
+\"....................... \",
+\"  .XXXXXXXXXXXXXXXXXXX. \",
+\"  .XXXXXXXXXXXXXXXXXXX. \",
+\"  .XXXXXXXXXXXXXXXXXXo. \",
+\"  .XXXXXXXXXXXXXXXXXoX. \",
+\"...ooXXXXXXXXXXXXXXoXX. \",
+\"  .XXoXXXXXXXXXXXXoXXX. \",
+\"  .XXXoooooooXXXXoXXXX. \",
+\"  .XXXXXXXXXooXXoXXXXX. \",
+\"  .XXXXXXXXXXooooXXXXX. \",
+\"...XXXXOooOXXXXoXXXXXX. \",
+\"  .XXXooooooXXXXXXXXXX. \",
+\"  .XXXoXXXXoXXXXooXXXX. \",
+\"  .XXOoXXXXXXXXXooXXXX. \",
+\"  .XXooXXXXXXXXXOOXXXX. \",
+\"...XXOoXXoooXooXooXXXX. \",
+\"  .XXXoXXOOoXoOXXoXXXX. \",
+\"  .XXXooXOooXoXXXoXXXX. \",
+\"  .XXXXooooXXoXXXoXXXX. \",
+\"  .XXXXXXXXXXXXXXXXXXX. \",
+\"....................... \",
+\"  .    .    .    .    . \",
+\"  .    .    .    .    . \"
+};"
+)
+  "The run gri icon.")
+
+;;  (define-key global-map [tool-bar gri-run]
+;;    '(menu-item "Run Gri" gri-run
+;;                :image gri::toolbar-run-icon))))
+ 
+  (defvar gri::toolbar
+    '([gri::toolbar-run-icon
+       gri-run
+       t
+       "Run gri on this file"]))
+
+  (mapcar (lambda (x)            
+            (let* ((icon (aref x 0))
+                   (func (aref x 1))
+                   ;;(show (aref x 2))
+                   (help (aref x 3))
+                   (key (vector 'tool-bar func))
+                   (def (list 'menu-item
+                              "a"
+                              func
+                              :image (symbol-value icon)
+                              :help help)))
+              (define-key gri-mode-map key def)))
+          (reverse gri::toolbar))
+  ))
+
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.43 (c) 01 May 2001 --  Peter Galbraith <psg@debian.org>
+V2.47 (c) 10 May 2001 --  Peter Galbraith <psg@debian.org>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
