@@ -11869,6 +11869,7 @@ will be @code{"Thing"}.  On the other hand, if you call it with
 Draw a label for the last curve drawn, using
 ..xlast.. and ..ylast.. built-in variables.
 @{
+  new .draw_label_for_last_curve_graylevel.
   .draw_label_for_last_curve_graylevel. = ..graylevel..
   set graylevel 0
   draw label "\.word5." at \
@@ -13591,7 +13592,7 @@ employed by the C++ language.
 * Manipulating A Synonym::              Synonyms (e.g. @code{&\synonym})
 * Nesting::                             Newcommands called by newcommands
 * Using New And Delete::                Isolating local variables and synonyms
-* Determining Calling Information::     The @code{\&.word?.} and@code{\&&.word?.} syntax
+* Determining Calling Information::     The @code{\&.word?.} and @code{\&&.word?.} syntax
 * Implementation of Ampersand Syntax::  Algorithm Gri uses
 @end menu
 
@@ -13965,8 +13966,7 @@ draw title "\.command_file. \.time."
 @end example
 
 @item
-Use the @code{query} command to interact with the user (@ref{Query}).  The
-results can be stored in variables and synonyms.
+Use the @code{query} command to interact with the user (@ref{Query}).  The results can be stored in variables and synonyms.
 
 @end itemize
 
