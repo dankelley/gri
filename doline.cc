@@ -574,7 +574,7 @@ systemCmd()
 		string::size_type loc = 0;
 		//printf("system command BEFORE [%s]\n",cmd.c_str());
 		while (STRING_NPOS != (loc = cmd.find("\\\\", loc))) {
-			cmd.erase(loc, 2);
+			cmd.STRINGERASE(loc, 2);
 			cmd.insert(loc, "\\");
 		}
 		//printf("AFTER [%s]\n",cmd.c_str());
