@@ -13768,7 +13768,7 @@ show "\s"
 @end example
 
 @noindent
-A: it prints @code{A rose is a rose is a rose}.
+A: it prints @code{A rose is a rose}.
 
 The key point here is that the instance of the synonym named @code{\s}
 in the calling program, set in line 8, is modified by the @code{poetry}
