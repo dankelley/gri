@@ -96,6 +96,8 @@ then
 fi
 
 %changelog
+* Fri Apr 2  2004 <Dan.Kelley@Dal.Ca>
+- fix SF bug 928277 ('draw polygon' should take 'cm' and 'pt' units)
 * Mon Mar 29 2004 <Dan.Kelley@Dal.Ca>
 - fix SF bug 923719 ('draw curve overlying' ignored effect of 'set dash')
 * Thu Mar 11 2004 <Dan.Kelley@Dal.Ca>

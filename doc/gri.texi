@@ -5609,15 +5609,15 @@ specified in centimetres.
 @cindex drawing polygons
 
 @example
-`draw polygon [filled] .x0. .y0. .x1. .y1. [...]'
+`draw polygon [filled] .x0. .y0. .x1. .y1. [other pairs] [user|cm|pt]'
 @end example
 
 @noindent
-Draw a polygon connecting the indicated points, specified in user units.
-The last point is joined to the first by a line segment.  At least two
-points must be specified.  If the @code{filled} keyword is present, the
-polygon is filled with the current pen color.
-
+Draw a polygon connecting the indicated points, specified in user
+units.  The last point is joined to the first by a line segment.  At
+least two points must be specified.  If the @code{filled} keyword is
+present, the polygon is filled with the current pen color.  If no unit
+is given, user units are used.
 
 
 @node   Draw Regression Line, Draw Symbol At, Draw Polygon, Draw
@@ -16433,6 +16433,11 @@ only in the fixing of bugs.
 @subsubsection Version 2.12.8 [2004]
 @strong{Bug Fixes}
 @itemize @bullet
+
+@item
+Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=928277&group_id=5511&atid=105511,#928277}
+@dots{} @code{draw polygon} should take @code{cm} and @code{pt} units
 
 @item
 Fix SourceForge bug

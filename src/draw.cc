@@ -5,6 +5,7 @@
 #include "gr.hh"
 #include "extern.hh"
 #include "defaults.hh"
+#include "types.hh"
 #include "image_ex.hh"
 #include "GriPath.hh"
 #include "GriTimer.hh"
@@ -2459,23 +2460,35 @@ draw_patchesCmd()
 	return true;
 }
 
-// `draw polygon [filled] .x0. .y0. .x1. .y1. .x2. .y2. [...]'
+// `draw polygon [filled] .x0. .y0. .x1. .y1. .x2. .y2. [...] [cm|pt|user]'
 bool
 draw_polygonCmd(void)
 {
 	int             i, start = 0, num;
 	bool            filled = false;
-	if (_nword < 4) {
+	units the_unit = units_user;
+	int nword = _nword;
+	if (nword < 4) {
 		NUMBER_WORDS_ERROR;
 		return false;
+	}
+	if (word_is(nword - 1, "cm")) {
+		the_unit = units_cm;
+		nword--;	// trim this last word
+	} else if (word_is(nword - 1, "pt")) {
+		the_unit = units_pt;
+		nword--;	// trim this last word
+	} else if (word_is(nword - 1, "user")) {
+		the_unit = units_user;
+		nword--;	// trim this last word
 	}
 	if (word_is(2, "filled")) {
 		start = 3;
 		filled = true;
-		num = _nword - 3;
+		num = nword - 3;
 	} else {
 		start = 2;
-		num = _nword - 2;
+		num = nword - 2;
 	}
 	if (2 * (num / 2) != num) {
 		err("Need matched (x,y) pairs");
@@ -2498,9 +2511,9 @@ draw_polygonCmd(void)
 		p.push_back(x, y, i == 0 ? 'm' : 'l');
 	}
 	if (filled)
-		p.fill(units_user);
+		p.fill(the_unit);
 	else
-		p.stroke(units_user);
+		p.stroke(the_unit);
 	return true;
 }
 
