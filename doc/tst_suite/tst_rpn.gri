@@ -20,20 +20,25 @@ assert {rpn .a. 0 same}			" failed test 6"
 .a. = 2
 .a. ^= 8
 assert {rpn .a. 256 same}		" failed test 7"
+assert {rpn -2 4 power 16 ==}           " failed test 8"
+assert {rpn -2 3 power -8 ==}           " failed test 9"
+assert {rpn -2 2 power  4 ==}           " failed test 10"
+assert {rpn  2 3 power  8 ==}           " failed test 11"
+
 
 # String operations
 \a = {rpn "file" ".dat" strcat}
-assert {rpn "\a" "file.dat" ==}		" failed test 8"
+assert {rpn "\a" "file.dat" ==}		" failed test 12"
 \sentence = "This sentence has five words"
 \w1 = word 0 of "\sentence "
-assert {rpn "\w1" "This" ==}		" failed test 9"
+assert {rpn "\w1" "This" ==}		" failed test 13"
 \w2 = word 1 of "\sentence "
-assert {rpn "\w2" "sentence" ==}	" failed test 10"
+assert {rpn "\w2" "sentence" ==}	" failed test 14"
 
 # Q: will the below work on all OS?????
 # NB. better to switch with something more universal
 \six = system "date | wc | gawk '{print $2}'"
-assert {rpn \six 6 ==}			" failed test 11"
+assert {rpn \six 6 ==}			" failed test 15"
 
 # Sine, etc.
 # ----------- FILL IN LATER -----------------
