@@ -966,9 +966,15 @@ set_font_toCmd()
 bool
 set_dashCmd()
 {
+	// Start by clearing existing dash list
 	_dash.erase(_dash.begin(), _dash.end()); // go to solid
-	if (word_is(_nword - 1, "off"))
+	extern FILE *_grPS;
+
+	// Solid line
+	if (word_is(_nword - 1, "off")) { // solid line
+		fprintf(_grPS, "[] 0 d\n");
 		return true;		// solid line
+	}
 	if (_nword == 2) {
 		// `set dash'
 		_dash.push_back(0.2);
@@ -1034,17 +1040,21 @@ set_dashCmd()
 			_dash.push_back(0.1);
 			return true;
 		}
-	}
-	// Long list of values
-	for (unsigned int i = 0; i < _nword - 2; i++) {
-		double tmp;
-		if (!getdnum(_word[2 + i], &tmp)) {
-			demonstrate_command_usage();
-			err("Cannot read all dash/blank values");
-			return false;
+	} else {
+		// Long list of values
+		for (unsigned int i = 0; i < _nword - 2; i++) {
+			double tmp;
+			if (!getdnum(_word[2 + i], &tmp)) {
+				demonstrate_command_usage();
+				err("Cannot read all dash/blank values");
+				return false;
+			}
+			_dash.push_back(tmp);
 		}
-		_dash.push_back(tmp);
 	}
+	for (unsigned int i = 0; i < _dash.size(); i++)
+		fprintf(_grPS, "%.3f ", _dash[i] * PT_PER_CM);
+	fprintf(_grPS, "] %d d\n", int(_dash.size()));
 	return true;
 }
 
