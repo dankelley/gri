@@ -1,12 +1,9 @@
 #!/usr/bin/sh
 
 # Set defaults for file locations.
-#bindir_default="/opt/gri/bin"
-#libdir_default="/opt/gri/lib"
-bindir_default="/home/kelley/src/gri/TEST/bin"
-libdir_default="/home/kelley/src/gri/TEST/lib"
-docdir_default="/home/kelley/src/gri/TEST/doc"
-#docdir_default="/opt/gri/doc"
+bindir_default="/opt/gri/bin"
+libdir_default="/opt/gri/lib"
+docdir_default="/opt/gri/doc"
 
 echo "Please enter the name the directory in which the Gri executable"
 echo "is to be stored. [Press ENTER to get the default of $bindir_default]"
@@ -39,15 +36,42 @@ else
 fi
 
 # Install the files, creating directories if needed.
+
 echo "Installing Gri executable in $bindir"
 mkdir -m 755 -p $bindir
-cp -f gri      $bindir
-chmod a+rx  $bindir/gri
+cp -f bin/gri   $bindir/gri
+
+# BUG: next line broken
+#echo -e "#!/usr/bin/sh\n$bindir/gri -directory $libdir \"\$@\" > $bindir/Gri
+
+chmod a+rx      $bindir/gri $bindir/Gri
+
 echo "Installing Gri library files in $libdir"
 mkdir -m 755 -p $libdir
-cp -f gri.cmd logo.dat copyright.txt license.txt $libdir
-chmod a+r   $libdir/*
-echo "Installing Gri documentation files in $docdir"
-mkdir -m 755 -p $docdir
-cp -f README $docdir
-chmod a+r   $docdir/*
+cp -f lib/*     $libdir
+chmod a+r       $libdir/*
+
+echo "Installing Gri documentation files in $docdir ... may be slow"
+mkdir -m 755 -p                $docdir
+mkdir -m 755 -p                $docdir/html
+mkdir -m 755 -p                $docdir/html/examples
+mkdir -m 755 -p                $docdir/html/resources
+mkdir -m 755 -p                $docdir/html/tst_suite
+cp -f doc/gri.1                $docdir
+cp -f doc/html/*html           $docdir/html
+cp -f doc/html/*png            $docdir/html
+cp -f doc/html/examples/*dat   $docdir/html/examples
+cp -f doc/html/examples/*gri   $docdir/html/examples
+cp -f doc/html/examples/*html  $docdir/html/examples
+cp -f doc/html/resources/*gif  $docdir/html/resources
+cp -f doc/html/tst_suite/*dat  $docdir/html/tst_suite
+cp -f doc/html/tst_suite/*gri  $docdir/html/tst_suite
+cp -f doc/html/tst_suite/*html $docdir/html/tst_suite
+chmod a+r       $docdir/*
+chmod a+r       $docdir/html/*
+chmod a+rx      $docdir/html/examples
+chmod a+rx      $docdir/html/resources
+chmod a+rx      $docdir/html/tst_suite
+chmod a+r       $docdir/html/examples/*
+chmod a+r       $docdir/html/resources/*
+chmod a+r       $docdir/html/tst_suite/*
