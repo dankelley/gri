@@ -1,3 +1,16 @@
+2000-05-30  Peter S. Galbraith <psg@debian.org>
+
+	* doc/gri.texi: Added Emacs gri-mode chapter.
+	* doc/gri.texi: Example images are not in example directory anymore.
+	* doc/screenshots: new directory.
+	* doc/gri2html: Colorize .gri file in HTML manual.
+	* index.html: Now first page instead of gri1.html
+	* doc/HTML_subdivide: Now has better navigation tags.
+	* doc/examples: All examples are jpg instead of Gif.
+	* doc/texinfo2HTML: skips a few more @if constructs.
+	* doc/Makefile: Updated for above things.
+	* Makefile.in: Updated source target
+	
 2000-05-11  Peter S. Galbraith <psg@debian.org>
 
 	* Patch texinfo2HTML to skip over the @dircategory line and
