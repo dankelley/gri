@@ -1997,7 +1997,7 @@ grid to image' command.
 List the source of a gri command.  Often this is just the name of a C
 function internal to gri (try `list list' for an example), but when
 the command is written in the gri programming language the source will
-be more understandable (try `list create function').
+be more understandable (try `list set panel').
 {
     extern "C" bool listCmd(void);
 }

@@ -9384,7 +9384,7 @@ the @code{convert grid to image} command.
 List the source of a gri command.  Often this is just the name of a C
 function internal to gri (try @code{list list} for an example), but when
 the command is written in the gri programming language the source will
-be more understandable (try @code{list create function}).
+be more understandable (try @code{list set panel}).
 
 
 @c HTML <!-- newfile Ls.html "Gri: `ls' command" "Gri Commands" -->
