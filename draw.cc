@@ -82,7 +82,7 @@ no_scales_error()
 	err("Either x or y scale not defined.  Try using `set x axis' or `set y axis'.");
 }
 
-// `draw box .ll_x. .ll_y. .ur_x. .ur_y. [cm]'
+// `draw box .ll_x. .ll_y. .ur_x. .ur_y. [cm|pt]'
 bool
 draw_boxCmd()
 {
@@ -112,10 +112,10 @@ draw_boxCmd()
 		p.stroke(units_user);
 		return true;
 	} else if (_nword == 7) {
-		// Require `cm' keyword to be present
-		if (!word_is(6, "cm")) {
+		// Require `cm' or 'pt' keyword to be present
+		if (!word_is(6, "cm") && !word_is(6, "pt")) {
 			demonstrate_command_usage();
-			MISSING_WORD_ERROR("cm");
+			MISSING_WORD_ERROR("cm or pt");
 			return false;
 		}
 		set_environment();
@@ -124,7 +124,15 @@ draw_boxCmd()
 		p.push_back(urx, ury, 'l');
 		p.push_back(llx, ury, 'l');
 		p.push_back(llx, lly, 'l');
-		p.stroke(units_cm);
+		if (word_is(6, "pt")) {
+			p.stroke(units_pt);			
+		} else if (word_is(6, "cm")) {
+			p.stroke(units_cm);
+		} else {
+			demonstrate_command_usage();
+			MISSING_WORD_ERROR("cm or pt");
+			return false;
+		}
 		return true;
 	} else {
 		demonstrate_command_usage();
@@ -133,7 +141,7 @@ draw_boxCmd()
 	}
 }
 
-// `draw box filled .ll_x. .ll_y. .ur_x. .ur_y. [cm]'
+// `draw box filled .ll_x. .ll_y. .ur_x. .ur_y. [cm|pt]'
 bool
 draw_box_filledCmd()
 {
@@ -162,10 +170,10 @@ draw_box_filledCmd()
 		p.push_back(llx, lly, 'l');
 		p.fill(units_user);
 	} else if (_nword == 8) {
-		// `cm' keyword maybe present; better check
-		if (!word_is(7, "cm")) {
+		// Require `cm' or 'pt' keyword to be present
+		if (!word_is(7, "cm") && !word_is(7, "pt")) {
 			demonstrate_command_usage();
-			MISSING_WORD_ERROR("cm");
+			MISSING_WORD_ERROR("cm or pt");
 			return false;
 		}
 		set_environment();
@@ -174,12 +182,20 @@ draw_box_filledCmd()
 		p.push_back(urx, ury, 'l');
 		p.push_back(llx, ury, 'l');
 		p.push_back(llx, lly, 'l');
-		p.fill(units_cm);
+		if (word_is(7, "pt")) {
+			p.fill(units_pt);			
+		} else if (word_is(7, "cm")) {
+			p.fill(units_cm);
+		} else {
+			demonstrate_command_usage();
+			MISSING_WORD_ERROR("cm or pt");
+			return false;
+		}
 	}
 	return true;
 }
 
-// `draw symbol .code.|\name at .x. .y. [cm]'
+// `draw symbol .code.|\name at .x. .y. [cm|pt]'
 // `draw symbol [[.code.|\name] [color hue z|.h. [brightness z|.b.] [saturation
 // z|.s.]]]'
 // `draw symbol [[.code.|\name] [graylevel z]'
@@ -213,8 +229,8 @@ draw_symbolCmd()
 			return false;
 		}
 	}
-	// Scales must be defined unless symbol location given in cm
-	if (!word_is(_nword - 1, "cm")) {
+	// Scales must be defined unless symbol location given in cm or pt
+	if (!word_is(_nword - 1, "cm") && !word_is(_nword - 1, "pt")) {
 		if (!scales_defined()) {
 #if 0				// Fix SF bug #129856 (I hope!)
 			no_scales_error();
@@ -368,9 +384,9 @@ draw_symbolCmd()
 					MISSING_WORD_ERROR("at");
 					return false;
 				}
-				if (strcmp(_word[6], "cm")) {
+				if (!word_is(6, "cm") && !word_is(6, "pt")) {
 					demonstrate_command_usage();
-					MISSING_WORD_ERROR("cm");
+					MISSING_WORD_ERROR("cm or pt");
 					return false;
 				}
 				_ignore_error = true;
@@ -390,13 +406,24 @@ draw_symbolCmd()
 				} else
 					_ignore_error = old;
 				double xuser, yuser;
-				gr_cmtouser(x, y, &xuser, &yuser);
+				if (word_is(6, "cm")) {
+					gr_cmtouser(x, y, &xuser, &yuser); 
+				} else if (word_is(6, "pt")) {
+					gr_cmtouser(x / PT_PER_CM, y / PT_PER_CM, &xuser, &yuser); 
+				} else { // duplicate check
+					demonstrate_command_usage();
+					MISSING_WORD_ERROR("cm or pt");
+					return false;
+				}
 				if (inside_box(xuser, yuser)) { // ignore if clipped
 					set_environment();
 					set_line_width_symbol();
 					set_ps_color('p');
 					set_line_width_symbol();
-					gr_drawsymbol(x, y, symbolCode);
+					if (word_is(6, "pt")) 
+						gr_drawsymbol(x / PT_PER_CM, y / PT_PER_CM, symbolCode);
+					else
+						gr_drawsymbol(x, y, symbolCode);
 					PUT_VAR("..xlast..", x);
 					PUT_VAR("..ylast..", y);
 				}
@@ -2120,6 +2147,12 @@ draw_line_from_toCmd()
 		p.push_back(x0, y0, 'm');
 		p.push_back(x1, y1, 'l');
 		p.stroke(units_cm);
+		_drawingstarted = true;
+		return true;
+	} else if (!strcmp(_word[_nword - 1], "pt")) {
+		p.push_back(x0, y0, 'm');
+		p.push_back(x1, y1, 'l');
+		p.stroke(units_pt);
 		_drawingstarted = true;
 		return true;
 	} else {

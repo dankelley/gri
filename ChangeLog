@@ -1,8 +1,21 @@
-2002-02-27  Dan Kelley  <kelley@Limit.Phys.Ocean.Dal.Ca>
+2002-03-12  Dan E. Kelley  <Dan.Kelley@Dal.Ca>
+
+	* draw.cc (draw_box_filledCmd): permit 'draw box' coordinates in pt
+	(draw_symbolCmd): permit 'draw symbol' coordinates in pt
+	(draw_line_from_toCmd): permit 'draw line' coordinates in pt
+
+	* GriPath.cc (stroke_or_fill): permit coordinates in pt
+	(bounding_box): permit coordinates in pt
+
+	* gri.cmd: permit 'draw box' and 'draw symbol' to have coordinates in pt
+	
+	* draw.cc (draw_boxCmd): allow 'draw box' to specify coordinates in pt
+
+2002-02-27  Dan E. Kelley  <Dan.Kelley@Dal.Ca>
 
 	* set.cc: Fix Sourceforge bug #523450 (log axes detect non-positive values too late)
 
-2002-02-21  Dan Kelley  <kelley@Limit.Phys.Ocean.Dal.Ca>
+2002-02-21  Dan E. Kelley  <Dan.Kelley@Dal.Ca>
 
 	* Fix Sourceforge bug #513002 (minor error in documentation of
 	'set clip').
@@ -26,7 +39,7 @@
 	* Add `set clip to curve'.  (Not reliable yet, for long curves, and also I've not finalized the winding convention yet.)
 	
 	
-2001-12-13  Dan Kelley  <kelley@localhost.localdomain>
+2001-12-13  Dan E. Kelley  <Dan.Kelley@Dal.Ca>
 
 	* rpncalc.cc: insert a missing 'return' statement, to fix
 	gri.sf.net bug number 492472 (i.e. that the "inf" RPN operator was
@@ -75,7 +88,7 @@
 	the various files, and will (I hope) eventually check other
 	aspects of a release.
 
-2001-10-01 Dan Kelley <Dan.Kelley@Dal.Ca>
+2001-10-01 Dan E. Kelley <Dan.Kelley@Dal.Ca>
 	
 	* Release as gri-2.8.4 on SourceForge.Net site.  
 	
@@ -85,14 +98,14 @@
 	* Fix SourceForge bug #468401 (`draw grid' disobeys pencolor)
 	
 	
-2001-10-01 Dan Kelley <Dan.Kelley@Dal.Ca>
+2001-10-01 Dan E. Kelley <Dan.Kelley@Dal.Ca>
 	
 	* Release as gri-2.8.3 on SourceForge.Net site.  
 	
 	* Fix SourceForge bug #462243 (endian problem in Rasterfile
 	images, plus a reading problem in PGM images).
 
-2001-09-10 Dan Kelley <Dan.Kelley@Dal.Ca>
+2001-09-10 Dan E. Kelley <Dan.Kelley@Dal.Ca>
 	
 	* Release as gri-2.8.2 on SourceForge.Net site.
 	
@@ -100,7 +113,7 @@
 	pre-release version 3.0.1 of the GNU c++ compiler).  This closes
 	SourceForge Bug #111093.
 
-2001-09-06 Dan Kelley <Dan.Kelley@Dal.Ca>
+2001-09-06 Dan E. Kelley <Dan.Kelley@Dal.Ca>
 
 	* Release as gri-2.8.1 on SourceForge.Net site.
 	
@@ -111,11 +124,11 @@
 	pre-release version 3.0.1 of the GNU c++ compiler). Closes
 	Sourceforge bug #111093)
 	
-2001-07-24 Dan Kelley <dan.kelley@dal.ca>
+2001-07-24 Dan E. Kelley <dan.kelley@dal.ca>
 
 	* Bump up version number to 2.8.0
 
-2001-07-23 Dan Kelley <Dan.Kelley@Dal.Ca>
+2001-07-23 Dan E. Kelley <Dan.Kelley@Dal.Ca>
 
 	* Release as gri-2.8.0 on SourceForge.Net site.
 
@@ -153,14 +166,14 @@
 	* Ensure that package compiles with Standards-Version: 3.5.5
 	without changes.
 
-2001-04-19 Dan Kelley <dan.kelley@dal.ca>
+2001-04-19 Dan E. Kelley <Dan.Kelley@Dal.Ca>
 
 	* Rename the RPM spec file as gri.spec, without the version number
 	embedded in the filename.  Upgrade to version number 2.6.1.
 	Change url to point to sourceforge site (but leave ftp as it is,
 	for now anyway).
 
-2000-06-1 Dan Kelley <dan.kelley@dal.ca>
+2000-06-1 Dan E. Kelley <Dan.Kelley@Dal.Ca>
 
 	* Triv changes here; code changes are to read compressed files,
 	and manual improvements.
@@ -188,7 +201,7 @@
 
 	* Makefile.in: Updated source target
 	
-2000-05-12 Dan Kelley <dan.kelley@dal.ca>
+2000-05-12 Dan E. Kelley <dan.kelley@dal.ca>
 	
 	* Compress info files for linux-redhat.
 
@@ -208,7 +221,7 @@
 	* Patch gri-2.5.1.spec, Makefile.in and doc/Makefile targets to
 	  use .info extension.
 
-2000-05-07  Dan E. Kelley  <kelley@Intrusion.Phys.Ocean.Dal.Ca>
+2000-05-07  Dan E. Kelley  <Dan.Kelley@Dal.Ca>
 
 	* VERSION 2.4.4
 	
@@ -231,7 +244,7 @@
 	renaming variables to be more readible, and by removing tests for
 	architectures that never have any affect on the code.
 
-2000-04-01 Dan Kelley <dan.kelley@dal.ca>
+2000-04-01 Dan E. Kelley <dan.kelley@dal.ca>
 
 	* Fix spec-file error in the install-info command.  However, to my
 	great frustration, this is still broken or install-info is broken)
@@ -248,7 +261,7 @@
 	* Call this release 3 to match Tim Powers' convention (although I
 	think it should be called release 1, when it works!)
 
-2000-03-31 Dan Kelley <dan.kelley@dal.ca>
+2000-03-31 Dan E. Kelley <dan.kelley@dal.ca>
 
 	* applied Tim Powers' patches directly to the sources, updating
 	them so that the patches Tim had made in this spec file are no
@@ -260,7 +273,7 @@
 	* renamed Tim's spec file from gri.spec to gri-2.4.3.spec since
 	otherwise I'd get too confused as versions develop.
 
-2000-01-30  Dan Kelley <dan.kelley@dal.ca>
+2000-01-30  Dan E. Kelley <dan.kelley@dal.ca>
 
 	* Changing to e.g. /usr/share/info instead of /usr/info.  Same for
 	manpages.  I know, I should be using the fancy macros that are

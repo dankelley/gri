@@ -721,32 +721,33 @@ used.
     delete .ur_y.
 }
 
-`draw box filled .ll_x. .ll_y. .ur_x. .ur_y. [cm]'
+`draw box filled .ll_x. .ll_y. .ur_x. .ur_y. [cm|pt]'
 Draw filled box spanning indicated range, with lower-left corner at
-(`.ll_x.', `.ll_y.') and upper-right corner at (`.ur_x.', `.ur_y.'). 
+(`.ll_x.', `.ll_y.') and upper-right corner at (`.ur_x.', `.ur_y.').
 The corners are specified in user coordinates, unless the optional
-`cm' keyword is present, in which case they are in centimetres on the
-page.  An error will result if you specify user coordinates but they
-aren't defined yet.
+`cm' or 'pt' keyword is present, in which case they are in centimetres
+or points on the page.  An error will result if you specify user
+coordinates but they aren't defined yet.
 
    No checking is done on the rectangle; for example, there is no
 requirement that `.ll_x.' be to the left of `.ur_x.' in your
 coordinate system.
 
    NOTE: if the box is specified in user units, this command will cause
-auto-drawing of axes, but not if the box is specified in cm units.
+auto-drawing of axes, but not if the box is specified in cm or
+pt units.
 {
     extern "C" bool draw_box_filledCmd(void);
 }
 
-`draw box .ll_x. .ll_y. .ur_x. .ur_y. [cm]'
+`draw box .ll_x. .ll_y. .ur_x. .ur_y. [cm|pt]'
 Draw box spanning indicated range, with lower-left corner at
 (`.ll_x.', `.ll_y.)' and upper-right corner at (`.ur_x.', `.ur_y.').
 
    The corners are specified in user coordinates, unless the optional
-`cm' keyword is present, in which case they are in centimetres on the
-page.  An error will result if you specify user coordinates but they
-aren't defined yet.
+`cm' or `pt' keyword is present, in which case they are in centimetres
+or points on the page.  An error will result if you specify user
+coordinates but they aren't defined yet.
 
    No checking is done on the rectangle; for example, there is no
 requirement that `.ll_x.' be to the left of `.ur_x.' in your
@@ -1245,10 +1246,11 @@ end at the given location.
     extern "C" bool draw_labelCmd(void);
 }
 
-`draw line from .x0. .y0. to .x1. .y1. [cm]'
+`draw line from .x0. .y0. to .x1. .y1. [cm|pt]'
 With no optional parameters, draw a line from (`.x0.', `.y0.') to
 (`.x1.', `.y1'.), where coordinates are in user units.  With the `cm'
-keyword present, the coordinates are in centimetres on the page. 
+or 'pt' keyword present, the coordinates are in centimetres or
+points on the page. 
 NOTE: This will not cause auto-drawing of axes.
 {
     extern "C" bool draw_line_from_toCmd(void);
@@ -1451,8 +1453,8 @@ vertically centered on the indicated `.y.' location.
     end if
 }
 
-`draw symbol [.code.|\name [at .x. .y. [cm]] [graylevel z]|[color [hue z|.h.] [brightness z|.b.] [saturation z|.s.]]]'
-The "at" form `draw symbol .code.|\name at .x. .y. [cm]' draws a
+`draw symbol [.code.|\name [at .x. .y. [cm|pt]] [graylevel z]|[color [hue z|.h.] [brightness z|.b.] [saturation z|.s.]]]'
+The "at" form `draw symbol .code.|\name at .x. .y. [cm|pt]' draws a
 single symbol at the named location.
 
 The non-"at" form draws symbols at the (x,y) data.  If a z-column has

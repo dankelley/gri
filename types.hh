@@ -12,6 +12,7 @@ enum gr_textStyle {		// Text writing options
 
 enum units {			// Units for GriPath
 	units_cm,
+	units_pt,
 	units_user
 };
 

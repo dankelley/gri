@@ -96,6 +96,11 @@ then
 fi
 
 %changelog
+* Tue Mar 12 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
+- Permit 'draw box' to have coordinates in pt, as well as cm.
+- Permit 'draw symbol' to have coordinates in pt, as well as cm.
+- Permit 'draw line from' to have coordinates in pt, as well as cm.
+
 * Wed Feb 27 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
 - Fix Sourceforge bug #523450 (log axes detect non-positive values too late)
 

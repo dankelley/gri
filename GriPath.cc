@@ -201,12 +201,17 @@ void GriPath::stroke_or_fill(char s_or_f, units the_units, double width, bool cl
 		}
 		if (length > 1) {
 			ps_begin_path(width);
-			if (the_units == units_user) { // convert to cm
+			if (the_units == units_user) { // convert user -> cm
 				for (i = 0; i < length; i++) {
 					double xcm, ycm;
 					gr_usertocm(xc[i], yc[i], &xcm, &ycm);
 					xc[i] = xcm;
 					yc[i] = ycm;
+				}
+			} else if (the_units == units_pt) { // convert pt -> cm
+				for (i = 0; i < length; i++) {
+					xc[i] /= PT_PER_CM;
+					yc[i] /= PT_PER_CM;
 				}
 			}
 			ac[0] = GriPath::moveto;
@@ -411,6 +416,9 @@ GriPath::bounding_box(units u)
 		double xx, yy;
 		if (u == units_user) {
 			gr_usertocm(x[i], y[i], &xx, &yy);
+		} else if (u == units_pt) {
+			xx = x[i] / PT_PER_CM;
+			yy = y[i] / PT_PER_CM;
 		} else {
 			xx = x[i];
 			yy = y[i];
