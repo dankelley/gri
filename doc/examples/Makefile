@@ -39,12 +39,13 @@ all:
 html:	FEM.html example1.html example2.html example3.html example4.html \
 	example5.html example6.html example6color.html example6histogram.html \
 	example7.html example8.html example9.html example10.html \
-	example10color.html example11.html example12.html example13.html 
+	example10color.html example11.html example12.html example13.html \
+	logo.html
 
 eps:	FEM.eps example1.eps example2.eps example3.eps example4.eps \
 	example5.eps example6.eps example6color.eps example6histogram.eps \
 	example7.eps example8.eps example9.eps example10.eps \
-	example10color.eps example11.eps example12.eps example13.eps 
+	example10color.eps example11.eps example12.eps example13.eps logo.eps
 
 jpg:	FEM.jpg example1.jpg example2.jpg example3.jpg example4.jpg \
 	example5.jpg example6.jpg example6color.jpg example6histogram.jpg \
@@ -55,12 +56,12 @@ jpg:	FEM.jpg example1.jpg example2.jpg example3.jpg example4.jpg \
 	example6color-tiny.jpg example6histogram-tiny.jpg example7-tiny.jpg \
 	example8-tiny.jpg example9-tiny.jpg example10-tiny.jpg \
 	example10color-tiny.jpg example11-tiny.jpg example12-tiny.jpg \
-	example13-tiny.jpg 
+	example13-tiny.jpg logo.jpg
 
 ps:	FEM.ps example1.ps example2.ps example3.ps example4.ps \
 	example5.ps example6.ps example6color.ps example6histogram.ps \
 	example7.ps example8.ps example9.ps example10.ps \
-	example10color.ps example11.ps example12.ps example13.ps 
+	example10color.ps example11.ps example12.ps example13.ps logo.ps
 
 testps:
 	$(GRITEST) FEM.gri
