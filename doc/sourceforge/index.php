@@ -76,6 +76,9 @@
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.0-1.i386.rpm">gri-2.6.0-1.i386.rpm</a><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.6.0-0potato1_i386.deb">gri_2.6.0-0potato1_i386.deb</a><br>
                     <A  class="menus" HREF="http://packages.debian.org/unstable/science/gri.html">gri-2.6.0 for Debian woody</A><br>
+		    <b>Solaris Pre-packaged</b><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.0-SunOS5.tar.gz">gri-2.6.0-SunOS6.tar.gz</a><br>
+
                   </td>
                 </tr>
             </tr>
@@ -178,7 +181,7 @@ as simple as the following.
     <tr> 
       <td  class="menubox">
         <font size="-1">
-        Version 2.6.0 released 2001-apr-01</br>
+        Vsn 2.6.0: 2001-apr-01</br>
         </font>
       </td>
     </tr>
