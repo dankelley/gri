@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.218 2002/09/25 15:03:11 dankelley Exp $
+@c $Id: gri.texim,v 1.219 2002/10/06 14:03:14 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -17160,8 +17160,13 @@ n/a
 @subsubsection Bug Fixes
 
 @itemize @bullet
+
 @item
-n/a
+Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=618041&group_id=5511&atid=105511,#618041}
+@dots{} solaris compile error, relating to the subroutine @code{gethostname()} in the @file{startup.cc} source code file.
+
+
 @end itemize
 
 
