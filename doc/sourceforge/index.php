@@ -273,10 +273,10 @@ Search gri manual for (may be a regular expression):<p>
         <A class="menus" HREF="./gridoc/html/index.html">HTML manual</A><br>
         <A class="menus" HREF="./gri.pdf">PDF manual</A><br>
         <A class="menus" HREF="./gridoc/html/FAQ.html">FAQ</A><br>
-        <A class="menus" HREF="./gri-cookbook/index.html">Cookbook of examples</A><br>
+        <A class="menus" HREF="./gri-cookbook/index.html">Cookbook</A><br>
         <A class="menus" HREF="./refcard.ps">Reference card</A><br>
         <A class="menus" HREF="./cmdrefcard.ps">Command refcard</A><br>
-        <A  class="menus" HREF="http://www2.linuxjournal.com/lj-issues/issue75/3743.html">Article in <i>Linux Journal</i></A><br>
+        <A class="menus" HREF="http://www2.linuxjournal.com/lj-issues/issue75/3743.html"><i>Linux Journal</i> article</A><br>
       </td>
     </tr>
   </table>
@@ -310,7 +310,7 @@ Search gri manual for (may be a regular expression):<p>
     </TR>
     <TR>
       <td class="menus" align="left">
-        <A class="menus" HREF="http://www.sourceforge.net/project/?group_id=5511">SourceForge Gri page</A><br>
+        <A class="menus" HREF="http://www.sourceforge.net/project/?group_id=5511">Visit SourceForge</A><br>
         <A class="menus" HREF="http://www.sourceforge.net/cvs/?group_id=5511">Get CVS source</a><br>
         <A class="menus" HREF="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/gri">View CVS history</a><br>
 <!--	<a class="menus" href="http://sourceforge.net/project/showfiles.php?group_id=5511">File download area</a><br> -->
