@@ -81,4 +81,13 @@ assert {rpn 45 cos 0.7071 same}           " failed test 8.1"
 assert {rpn 45 sin 0.7071 same}           " failed test 8.2"
 assert {rpn 45 tan 1      same}           " failed test 8.3"
 
+# Missing-values
+set missing value -99
+read .x. .y.
+1 -99
+
+assert {rpn .y. ismissing}                " failed test 9.1"
+assert {rpn .y. -99 ==   }                " failed test 9.2"
+assert {rpn .y.   0 !=   }                " failed test 9.3"
+
 show " passed"

@@ -690,10 +690,14 @@ do_operation(operator_name oper)
 			SET(2, "", !strcmp(NAME(2), NAME(1)) ? 1.0 : 0.0, NUMBER, true);
 			rS.pop_back();
 		} else if (TYPE(1) == NUMBER && TYPE(2) == NUMBER) {
+#if 0				// fix SF bug 641406
 			if (VALID(1) && VALID(2))
 				SET(2, "", (VALUE(1)==VALUE(2)?1.0:0.0), NUMBER, true);
 			else 
 				SET(2, "", missing, NUMBER, false);
+#else
+			SET(2, "", missing, NUMBER, false);
+#endif
 			rS.pop_back();
 		} else {
 			err("RPN operator `==' cannot handle the items currently on stack.");
@@ -708,10 +712,14 @@ do_operation(operator_name oper)
 			SET(2, "", !strcmp(NAME(2), NAME(1)) ? 0.0 : 1.0, NUMBER, true);
 			rS.pop_back();
 		} else if (TYPE(1) == NUMBER && TYPE(2) == NUMBER) {
+#if 0				// fix SF bug 641406
 			if (VALID(1) && VALID(2))
 				SET(2, "", (VALUE(1)!=VALUE(2)?1.0:0.0), NUMBER, true);
 			else 
 				SET(2, "", missing, NUMBER, false);
+#else
+			SET(2, "", missing, NUMBER, false);
+#endif
 			rS.pop_back();
 		} else {
 			err("Rpn operator `!=' cannot handle items on stack.");
