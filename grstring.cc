@@ -286,15 +286,14 @@ gr_drawstring(const char *s)
 					MoveUp();
 					// Draw single character in math mode.  If it's a digit,
 					// do not do in italics!
-#if 0
-					if (*s == '-') {
-						// Use 'endash' for minus sign.  This is more similar
-						// to tex than either 'minus' or 'emdash'.
+#if 1
+					if (*s == '-' && CurrentFont.encoding == font_encoding_isolatin1) {
+						// Use a different character to avoid looking like underscore.
 						extern FILE    *_grPS;
 						extern bool     _grWritePS;
 						if (_grWritePS) {
 							STOP_OLD_TEXT;
-							fprintf(_grPS, "(\\055) sh\n");	// endash
+							fprintf(_grPS, "(\\255) sh\n");	// endash
 							check_psfile();
 							START_NEW_TEXT;
 						}
@@ -417,15 +416,14 @@ gr_drawstring(const char *s)
 			} else {
 				// Draw single character in math mode.  If it's a digit, do
 				// not do in italics!
-#if 0
-				if (*s == '-') {
-					// Use 'endash' for minus sign.  This is more similar to
-					// tex than either 'minus' or 'emdash'.
+#if 1
+				if (*s == '-' && CurrentFont.encoding == font_encoding_isolatin1) {
+					// Use a different character to avoid looking like underscore.
 					extern FILE    *_grPS;
 					extern bool     _grWritePS;
 					if (_grWritePS) {
 						STOP_OLD_TEXT;
-						fprintf(_grPS, "(\\055) sh\n");	// endash 
+						fprintf(_grPS, "(\\255) sh\n");	// endash 
 						START_NEW_TEXT;
 						check_psfile();
 					}
