@@ -3,10 +3,14 @@
 # Bug: the @code{} items get lost, too bad.
 open(IN, "info -f ./gri.info 'Concept Index' |  sort -f |") 
     ||  die "Cannot get index\n";
-# Following is kludge, really
-print "\@c HTML <!-- newfile ConceptIndex.html \"Gri: Concept Index\" \"Concept Index\" -->\n";
-print "\@c HTML <h1>Concept index</h1>\n";
-print "\@itemize \@bullet\n\n";
+
+print "
+\@c HTML <!-- newfile ConceptIndex.html \"Gri: Concept Index\" \"Concept Index\" -->
+\@c HTML <h1>Concept index</h1>
+\@node   Concept Index, Index of Builtins, Index of Builtins, Top
+\@itemize \@bullet
+";
+
 while(<IN>) {
     next if (/\*\s*Menu:\s*$/);
     if (/\* .*\./) {
@@ -17,5 +21,7 @@ while(<IN>) {
         print "\@item\n $_";
     }
 }
-print "\n\@end itemize\n";
-#print "\n\@c HTML Dan Kelley\n";
+print "
+\@end itemize
+\@c HTML <!-- newfile End.html \"Gri: End\" \"Top\" -->
+";
