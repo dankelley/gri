@@ -4,7 +4,10 @@
  * To get combination flags, simply add them; thus a flag of 5 gives
  * flags 1 and 4 together.
  * 
+ * NOTE: for flag meanings, see startup.cc, where strings are defined; 
+ * just search for e.g. FLAG_SYN in that file.
  */
+
 
 #define FLAG_SYN  0x0001	// 1 print cmdline before/after sub synonyms
 #define FLAG_RPN  0x0002	// 2 print cmdline before/after sub rpn
