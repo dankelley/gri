@@ -17,7 +17,7 @@
 #if defined(OS_IS_BEOS)
 #include <netdb.h>
 #endif
-static vector <GriNamedColor> colorStack;
+static vector<GriNamedColor> colorStack;
 
 
 extern char     _grTempString[];
