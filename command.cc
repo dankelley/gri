@@ -260,6 +260,7 @@ no_gri_cmd()
 	gr_textput(msg.c_str());
 	gri_exit(1);
 }
+
 bool
 create_commands(const char *filename, bool user_gave_directory)
 {
