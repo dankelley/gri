@@ -134,7 +134,7 @@ The Gri web homepage is at
 @c HTML <A HREF="#Introduction">introduction</A>, the
 @c HTML <A HREF="#SimpleExample">simple example</A> tutorial, the
 @c HTML <A HREF="./FAQ.html">FAQ</A> and the 
-@c HTML <A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri/cookbook/index.html"> 
+@c HTML <A HREF="http://gri.sourceforge.net/gri-cookbook/index.html"> 
 @c HTML cookbook.</A>
 
 @c HTML It is also a good idea to check out the real-world
@@ -280,12 +280,20 @@ cookbook
 @c HTML </A> 
 @cindex Gri newsgroup
 @cindex newsgroup
-and several reference cards.  It also has a
+and several reference cards.  It also has several discussion groups
+(@ref{Discussion Group}).
+
 mail-in newsgroup, which you can join by sending an email to
 @c HTML <A HREF="mailto:majordomo@phys.ocean.dal.ca">
 @code{majordomo@@phys.ocean.dal.ca}
 @c HTML </A>
-with contents @code{subscribe gri}.
+with contents @code{subscribe gri}.  But, this newsgroup is rapidly
+showing signs of age, and you should really be using the groups maintained at
+the Source Forge site 
+@c HTML <a href="http://gri.sourceforge.net">
+@code{http://gri.sourceforge.net}
+@c HTML </a>
+instead.
 
 
 
@@ -5082,7 +5090,7 @@ the FTP site.
 
 Additionally, I've collected a few real life examples here.  Other
 sources are the Gri cookbook, available separately
-@c HTML <A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri/cookbook/index.html"> 
+@c HTML <A HREF="http://gri.sourceforge.net/gri-cookbook/index.html"> 
 @c HTML (click here)</A>
 
 
@@ -12534,8 +12542,8 @@ region.
 @cindex hint of the day, displaying
 Show a Gri hint for today, picked at random from hints stored on the web
 at 
-@c HTML <A HREF="http://www.phys.ocean.dal.ca/~kelley/gri/HINTS.html">
-@file{www.phys.ocean.dal.ca/~kelley/gri/HINTS.html}
+@c HTML <A HREF="http://gri.sourceforge.net/gridoc/html/HINTS.html">
+@file{http://gri.sourceforge.net/gridoc/html/HINTS.html}
 @c HTML </A>
 These will be downloaded at most once per day.  Since the download might
 take a couple of seconds, the hint is only downloaded once per day,
@@ -13541,8 +13549,19 @@ Before emailing to the Gri newsgroup, it's a good idea to consult the
 @c HTML </A>
 (list of answers to Frequently Asked Questions)
 
-@emph{Subscribing to Gri newsgroup} is done by 
-emailing to 
+There are two general classes of Gri discussion groups.  
+
+As of summer 2000, Gri traffic has been moved to the web-based
+discussion groups at the SourceForge site, i.e.
+@c HTML <a href="http://gri.sourceforge.net">
+@code{http://gri.sourceforge.net}
+@c HTML </a>
+about which little need be said here, because the website is very
+easy to use.
+
+An older newsgroup, which will still be maintained for a while at least,
+is handled by a so-called Majordomo server.  You may subscribe by
+emailing to
 @c HTML <a href="mailto:majordomo@phys.ocean.dal.ca">
 @code{majordomo@@phys.ocean.dal.ca}
 @c HTML </a>
@@ -13550,25 +13569,16 @@ with contents consisting of the single line
 @example
 subscribe gri
 @end example
-
-@emph{Submitting a message to Gri newsgroup} is done by 
-emailing to
+and you may submit a message by emailing to
 @c HTML <a href="mailto:gri@phys.ocean.dal.ca">
 @code{gri@@phys.ocean.dal.ca}
 @c HTML </a>
 with contents consisting of the message you'd like to send.  Please
 respect the fact that folks on this group are busy people, and won't be
 able to respond to very open-ended questions such as "How do I plot
-things with gri".
-To find out more about this newsgroup, send email to
-@c HTML <a href="mailto:gri@phys.ocean.dal.ca">
-@code{gri@@phys.ocean.dal.ca}
-@c HTML </a>
-with contents
-@example
-info gri
-@end example
-and the program will respond by sending the FAQ.
+things with gri".  A @emph{real} advantage of the SourceForge group is,
+in fact, that old messages are archived and threaded, and trivial to
+peruse on the web.
 
 
 @c HTML <!-- newfile Emacs.html "Gri: Emacs editing mode" "Emacs editing mode" -->
@@ -13656,7 +13666,11 @@ of all commands and key definitions.
 @ifinfo
 Screenshots are not available in this Info version of the gri manual,
 however the HTML and PostScript versions have them.  You might want to
-look up @file{http://www.phys.ocean.dal.ca/~kelley/gri/Emacs.html} on the
+look up 
+@c HTML <a href="http://gri.sourceforge.net/gridoc/html/Emacs.html">
+@file{http://gri.sourceforge.net/gridoc/html/Emacs.html}
+@c HTML </a>
+on the
 web and check it out.
 @end ifinfo
 @c HTML -->
