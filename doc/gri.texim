@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.195 2002/06/01 14:36:42 psg Exp $
+@c $Id: gri.texim,v 1.196 2002/06/01 15:06:36 psg Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16292,7 +16292,8 @@ Fix SourceForge bug
 the Debian ia64 builder as Debian bug
 @c HTML <a href="http://bugs.debian.org/148493">
 #148493
-@c HTML </a>)
+@c HTML </a>
+)
 
 @item
 Fix SourceForge bug
