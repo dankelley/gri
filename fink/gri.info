@@ -1,6 +1,7 @@
 Package: gri
 Version: 2.12.10
 Revision: 1
+BuildDepends: imagemagick
 Depends:
 Source: mirror:sourceforge:%n/%n-%v.tgz
 Source-MD5: b4f49c6c942c7cb524415f5ac02716c7
