@@ -15,6 +15,7 @@ LIBS = @LIBS@
 # *  at the end of the LIBS line above                       *
 # ************************************************************
 
+EXTRA_OBJS = @EXTRA_OBJS@
 DEFS = -DVERSION=\"$(VERSION)\" -DDEFAULT_GRI_DIR=\"$(libdir)\" $(HAVE_LINUX) @DEFS@
 CFLAGS = @CFLAGS@
 CPPFLAGS = @CPPFLAGS@
@@ -35,10 +36,12 @@ new.o open.o popen.o query.o quit.o read.o regress.o reorder.o \
 rescale.o rewind.o rpn.o rpncalc.o scales.o set.o show.o skip.o \
 sleep.o smooth.o source.o startup.o state.o stats.o storage.o \
 synonyms.o template.o timer.o unlink.o utility.o variable.o version.o \
-while.o write.o
+while.o write.o $(EXTRA_OBJS)
 
 gri: $(OBJS)
 	$(CXX) -o gri $(LDFLAGS) $(OBJS) $(LIBS)
+popt.o: popt/popt.cc
+	$(CXX) -c $(CXXFLAGS) $(EXTRA_CFLAGS) $(CPPFLAGS) $(DEFS) -I$(srcdir) -Ipopt $<
 
 # Here are a few explicit rules used by the author for debugging;
 # it is emphaticallyy *not* a complete list.  It is only as

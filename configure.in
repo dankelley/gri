@@ -233,6 +233,10 @@ CHECK_FOR_NETCDF
 
 AC_CHECK_LIB(m,sin)
 AC_CHECK_LIB(popt,poptGetNextOpt)
+AC_CHECK_LIB(popt,poptGetNextOpt,EXTRA_OBJS="",EXTRA_OBJS="$EXTRA_OBJS popt.o")
+AC_SUBST(EXTRA_OBJS)
+
+
 
 dnl	Check for Imgemagick's convert, needed to make PNG files in HTML manual
 AC_CHECK_PROG(HAVE_CONVERT, convert, "yes", "no")
