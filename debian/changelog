@@ -1,6 +1,9 @@
 gri (2.10.0-1) unstable; urgency=low
 
   * New upstream version
+    New Features:
+    - In the documentation, change the names of some variables to be
+      clearer: `ll_x' is now written `xleft', etc.
     - Add RPN binary operators 'and', 'or' for logical operations, along
       with negation operator 'not'
     - Add 'draw arc' command.
@@ -26,7 +29,7 @@ gri (2.10.0-1) unstable; urgency=low
       handle missing values in the curve.
     - Fix SourceForge bug #450465 ('create columns from function' was broken).
 
- -- Peter S Galbraith <psg@debian.org>  Tue,  7 May 2002 16:11:54 -0400
+ -- Peter S Galbraith <psg@debian.org>  Thu, 16 May 2002 11:24:12 -0400
 
 gri (2.8.6-2) unstable; urgency=high
 
