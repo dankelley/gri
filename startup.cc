@@ -159,11 +159,17 @@ start_up(int argc, char **argv)
 		if (fname.size() < 4 || p != -4 + fname.size())
 			fname.append(".gri");
 
-		// If user didn't give psname, create it
+		// If user didn't give psname, create it.  First, must trim the
+		// ".gri" suffix (which is sure to be there).  Then, must remove
+		// any filename path, since we want the .ps file to be created
+		// in this local directory .
 		if (psname.empty()) {
 			psname = fname;
 			int l = psname.size();
 			psname.STRINGERASE(l - 4, l - 1);
+			string::size_type last_slash = psname.rfind("/");
+			if (last_slash != STRING_NPOS)
+				psname.STRINGERASE(0, last_slash + 1);
 			psname.append(".ps");
 		}
 		if (!push_cmd_file(fname.c_str(), false, false, "r")) {
