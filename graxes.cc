@@ -4,7 +4,7 @@
 #if !defined(IS_MINGW32)
 #include <strings.h>
 #else
-#define index strrch
+#define index strrchr
 #endif
 
 #include <math.h>

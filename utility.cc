@@ -564,7 +564,7 @@ resolve_filename(std::string& f, bool trace_path, char c_or_d)
 			f.insert(0, egetenv("HOME"));
 			return true;
 		} else {
-#if !defined(HAVE_MINGW32)
+#if !defined(IS_MINGW32)
 			size_t name_end = f.find("/");
 			if (name_end == STRING_NPOS)
 				name_end = f.size();
