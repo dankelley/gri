@@ -215,10 +215,7 @@ gr_drawxaxis(double y, double xl, double xinc, double xr, gr_axis_properties sid
 						} else
 							sprintf(_grTempString, "%f$\\circ$%c", next, _xtype_map);
 					} else if (strlen(_grNumFormat_x)) {
-						if (fabs(next / xinc) > 1.0e-5)
-							sprintf(_grTempString, _grNumFormat_x, next);
-						else
-							sprintf(_grTempString, "0");
+						sprintf(_grTempString, _grNumFormat_x, next);
 						if (get_flag("emulate_gre")) {
 							char *e = index(_grTempString, int('E'));
 							if (e != NULL) {
@@ -445,14 +442,7 @@ gr_drawyaxis(double x, double yb, double yinc, double yt, gr_axis_properties sid
 						}
 					} else if (strlen(_grNumFormat_y)) {
 						if (get_flag("emulate_gre")) {
-#if 0
-							if (fabs(next / yinc) > 1.0e-5)
-								sprintf(_grTempString, _grNumFormat_y, next);
-							else
-								sprintf(_grTempString, "0         ");
-#else
 							sprintf(_grTempString, _grNumFormat_y, next);
-#endif
 							char *e = index(_grTempString, int('E'));
 							if (e != NULL) {
 								string gs(_grTempString);
@@ -476,14 +466,7 @@ gr_drawyaxis(double x, double yb, double yinc, double yt, gr_axis_properties sid
 								strcpy(_grTempString, gs.c_str());
 							}
 						} else {
-#if 0
-							if (fabs(next / yinc) > 1.0e-5)
-								sprintf(_grTempString, _grNumFormat_y, next);
-							else
-								sprintf(_grTempString, "0");
-#else
 							sprintf(_grTempString, _grNumFormat_y, next);
-#endif
 						}
 					} else {
 						*_grTempString = '\0';
