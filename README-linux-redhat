@@ -10,40 +10,44 @@ customization.
 Gri is not point-click.  In some ways it is analogous to TeX.
 Extensive power rewards tolerance of a modest learning curve.
 
+For the rest of this document, the symbol "N.N.N" will be taken to
+stand for the Gri version number, e.g. N.N.N might represent the
+version numbered 2.6.0, say.
+
 
 Obtaining Gri for RedHat
 ========================
 
 Normally, you'll want to download the redhat package
 
-    ftp://ftp.phys.ocean.dal.ca/users/kelley/gri/gri-2.1.18-1.i386.rpm
+    ftp://ftp.phys.ocean.dal.ca/users/kelley/gri/gri-N.N.N-1.i386.rpm
 
-and install it with RPM, e.g. by the command
+(where N.N.N stands for the version number), and then install it with
+the standard RPM command, e.g.
 
-    rpm -U gri-2.1.18-1.i386.rpm
+    rpm -U gri-N.N.N-1.i386.rpm
 
-At present no rpm package is available for the source.  The source is
-only available as a gzipped tarfile, as
-
-    ftp://ftp.phys.ocean.dal.ca/users/kelley/gri/gri-2.1.18.tgz
+The source is also available as a gzipped tarfile and as an RPN source
+file.
 
 The package provides a cursory manpage, available by typing
 
     man gri
 
-at the unix prompt.  The manpage is very cursory.  More useful
-information is available in INFO format, available by typing
+at the unix prompt; the main documentation is available in "info"
+format, by typing
 
     info gri
 
-at the unix prompt, or through access by emacs.  More useful still is
-the HTML version of the documentation, available at the local URL
+at the unix prompt (or through access by emacs or other facilities).
+Many users will find it easier to study the HTML version of the
+documentation, available at the local URL
 
-    /opt/gri/doc/html/gri1.html
-
+    /usr/doc/gri-N.N.N/html/index.html
 
 Copyright restrictions
 ======================
 
 The Gri programming languages, and all manuals and online help-files,
-are (c) 1991-1998 Dan E. Kelley <Dan.Kelley@Dal.CA>.
+are (c) 1991-2000 Dan E. Kelley <Dan.Kelley@Dal.CA>, and covered by
+the GNU copyleft license.
