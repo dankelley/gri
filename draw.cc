@@ -2028,7 +2028,7 @@ draw_labelCmd()
 		coord_word += 2;
 	} else {
 		demonstrate_command_usage();
-		err("Where do you want this label drawn?");
+		err("Where do you want this label drawn?  (missing `at' word)");
 		return false;
 	}
 	user_units = strcmp(_word[_nword - 1], "cm") ? true : false;
@@ -2081,7 +2081,7 @@ draw_labelCmd()
 	} else if (centered) {
 		label.draw(xcm, ycm, TEXT_CENTERED, textangle_deg);
 	} else {
-		err("Where do you want this label drawn?");
+		err("Where do you want this label drawn?"); // never reached, I think
 		return false;
 	}
 	return true;
