@@ -157,7 +157,7 @@ The Gri web homepage is at
 @c HTML <LI>To check the syntax of a command, consult
 @c HTML the <A HREF="#Commands"> list
 @c HTML of Gri commands</A>.  You should also
-@c HTML check the list of <A HREF="#Evolution">new features</A>
+@c HTML check the list of <A HREF="#History">new features</A>
 @c HTML occasionally.
 @c HTML <LI>Become familiar with the
 @c HTML <A HREF="ConceptIndex.html">index</A>.
@@ -192,7 +192,7 @@ The Gri web homepage is at
 * Commands::                    COMPLETE list of Gri commands
 * Extras::                      Extra things that come with Gri
 * Emacs Mode::                  Editing Gri code inside Emacs
-* Evolution::                   How Gri has changed over time
+* History::                     How Gri has changed over time
 * Accessing::                   How to access/install Gri
 * Bugs::                        List of bugs, and how to report more
 * Overview of System Tools::    Useful tools in Unix and other OS
@@ -14072,7 +14072,7 @@ list Info about.  There's also a menu-bar pull-down menu which lists all
 gri commands, and you can get to Info from that too.
 
 @c HTML <!-- newfile Emacs4.html "Gri: Dealing with many Gri versions" "Emacs Mode: Dealing with many Gri versions" -->
-@node   Dealing with many Gri versions, Evolution, Info interface, Emacs Mode
+@node   Dealing with many Gri versions, History, Info interface, Emacs Mode
 @comment  node-name,  next,  previous,  up
 @section Dealing with many Gri versions, gri-mode handles it.
 @cindex gri-mode, handling multiple Gri versions
@@ -14109,11 +14109,11 @@ to using the default version of gri as selected by
 bottom of the gri file.
 @end itemize
 
-@c HTML <!-- newfile Evolution.html "Gri: Evolution of Gri" "Evolution of Gri" -->
+@c HTML <!-- newfile History.html "Gri: History Gri" "History of Gri Versions" -->
 
-@node   Evolution, Distribution versions, Dealing with many Gri versions, Top
+@node   History, Distribution versions, Dealing with many Gri versions, Top
 @comment  node-name,  next,  previous,  up
-@chapter Evolution of Gri
+@chapter History of Gri Versions
 
 Gri, like other complex programs, sometimes changes in such a way as to
 break old scripts.  This is less so of changes since about 1998 or so,
@@ -14124,11 +14124,12 @@ backup version of Gri, whenever you update.  This is pretty simple.  You
 need to copy the executable (normally called @file{/usr/bin/gri}) and
 the startup file (normally called @file{/usr/share/gri/gri.cmd}) to some
 location.  Let's say, for convenience, that this location is the
-directory @file{/usr/OLD_GRI/@value{GRI-VERSION}}.  Then, just
+directory @file{/usr/share/gri/@value{GRI-VERSION}}.  Then, just
 create a shellscript named @code{/usr/bin/gri-@value{GRI-VERSION}} that
 reads
 @example
-/usr/OLD_GRI/@value{GRI-VERSION}/gri -directory /usr/OLD_GRI/@value{GRI-VERSION}
+#!/usr/bin/sh
+/usr/share/gri/@value{GRI-VERSION}/gri -directory /usr/share/gri/@value{GRI-VERSION}
 @end example
 
 The next sections outline the changes made in Gri.
@@ -14138,7 +14139,7 @@ The next sections outline the changes made in Gri.
 * Plans::                          Plans, and the development version
 @end menu
 
-@node   Distribution versions, Version 2.4, Evolution, Evolution
+@node   Distribution versions, Version 2.4, History, History
 @comment  node-name,  next,  previous,  up
 @section Distribution versions
 @menu
@@ -14217,7 +14218,7 @@ there were errors on the commandline.
 First debian release.  Versions exist for intel, alpha, 68K and powerpc.
 @end table
 
-@node   Plans, Accessing, Version 2.2, Evolution
+@node   Plans, Accessing, Version 2.2, History
 @comment  node-name,  next,  previous,  up
 @section Development versions
 @c FOR NEXT RELEASE:
