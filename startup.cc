@@ -855,12 +855,20 @@ interpret_optional_arguments(int argc, const char *argv[])
 				} else if (!strncmp(argv[i], "-c", 2)) {
 					if (1 == sscanf(argv[i], "-c%d", &val)) {
 						_chatty = val;
+					} else if (1 == sscanf(argv[i + 1], "%d", &val)) {
+						_chatty = val;
+						number_optional_arg++;
+						i++;
 					} else {
 						_chatty = 1;
 					}
 				} else if (!strcmp(argv[i], "-chatty")) {
 					if (1 == sscanf(argv[i], "-chatty%d", &val)) {
 						_chatty = val;
+					} else if (1 == sscanf(argv[i + 1], "%d", &val)) {
+						_chatty = val;
+						number_optional_arg++;
+						i++;
 					} else {
 						_chatty = 1;
 					}
