@@ -115,7 +115,7 @@ gri.info: gri.texi
 info-install:
 	install -d $(INFO_DIR)
 	install -m 644 gri.info* $(INFO_DIR)
-	(cd $(INFO_DIR) ; gzip -f --best gri.info*)
+	(cd $(INFO_DIR) ; gzip -f --best gri.info gri.info-[0-9] gri.info-[0-9][0-9])
 
 info-install-solaris:
 	install -d $(INFO_DIR_SOLARIS)
