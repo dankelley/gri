@@ -5,7 +5,7 @@
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.66 (17 Aug 2004)
+;; Version:   2.67 (16 Dec 2004)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -38,8 +38,6 @@
 ;; file, in Info and HTML form in binary packages, and on-line at
 ;;
 ;;       http://gri.sourceforge.net/gridoc/html/Emacs.html
-;;  or
-;;       http://www.phys.ocean.dal.ca/~kelley/gri/Emacs.html
 
 ;; Features of gri-mode include:
 ;;
@@ -173,17 +171,8 @@
 ;;    (all users should do this at some point)
 ;;
 ;;  At this point, gri-mode should start up when you edit a gri file.  You
-;;  may optionally customize gri-mode by:
-;;
-;;  (1) using the Custom interface (see the Help or Gri-Help menu) or 
-;;
-;;  (2) manually setting variables in your ~/.emacs file.  These are
-;;   briefly described by typing `C-h m' while in gri-mode.  Then, for
-;;   further infomation, use emacs' describe-variable command, bound to
-;;   `C-h v'.  For example, for more information about the gri*WWW-program
-;;   variable, you'd type `C-h v gri*WWW-program' (note that emacs does
-;;   [TAB] completion, so pressing the [TAB] key after typing-in gri will
-;;   display all gri related variables.)
+;;  may optionally customize gri-mode by using the Custom interface (see
+;;  the Help or Gri-Help menu).
 ;;
 ;; ----------------------------------------------------------------------------
 ;;; Change log:
@@ -408,6 +397,9 @@
 ;; V2.65 09Jun2003 - Added Help menu entry to gri History.
 ;; V2.66 17Aug2004 - Eric Nodwell <nodwell@physics.ubc.ca>
 ;;  keybindings similar to phyton-mode to (un)comment regions.
+;; V2.67 16Dec2004
+;;  Adapt to new texinfo's "Index of Commands" which includes a line offset
+;;   number.
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -1887,14 +1879,18 @@ display the info page for the gri command `draw x axis'."
           ;; Search for `guess'
           ;; and if Didn't find it, shorten the command and try again.
           (while (and guess loopflag) ; flag true until can't shorten or found
-            (message "check for: %s" guess)
             (cond 
              ((re-search-forward (concat "^\* " (regexp-quote guess) ":")nil t)
               ;; Found it this time!
               (skip-chars-forward " ")
               (setq node (buffer-substring
                           (point)
-                          (progn (end-of-line)(forward-char -1)(point))))
+                          (progn
+                            (search-forward
+                             "."
+                             (save-excursion (end-of-line)(point)))
+                            (forward-char -1)
+                            (point))))
               (setq flag t)
               (setq loopflag nil))) ;; exit the loop - found it!
             (setq guess (gri-shorten-guess-command guess " "))))))
@@ -4430,7 +4426,7 @@ static char * gri_info24x24_xpm[] = {
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.66 (c) 17 August 2004 --  Peter Galbraith <psg@debian.org>
+V2.67 (c) 16 December 2004 --  Peter Galbraith <psg@debian.org>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
