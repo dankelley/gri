@@ -97,7 +97,7 @@ $_ = <CHANGELOG>;
 close(CHANGELOG);
 @_ = split;
 $date_changelog = &ParseDate($_[0]);
-indicate_age($date_changelog, "       changelog");
+indicate_age($date_changelog, "       ChangeLog");
 
 # gri.spec
 open(SPEC, "gri.spec") or die "Can't open gri.spec";
