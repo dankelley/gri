@@ -2,12 +2,22 @@ gri (2.12.9-1) unstable; urgency=low
 
   * New upstream release
     Bug Fixes:
+    - Fix SourceForge bug #1094087 (`set path to' incorrectly parsed
+      colon-separated paths)
     - Fix SourceForge bug #1085788 (`image *=', `image /=', `image ^=', and
       `image _=' all gave incorrect results)
     - Fix SourceForge bug #1084123 (does not compile in fink)
     - Fix SourceForge bug #676767 (on fink systems, `help' does not work)
 
- -- Peter S Galbraith <psg@debian.org>  Mon, 13 Dec 2004 22:01:00 -0500
+ -- Peter S Galbraith <psg@debian.org>  Tue,  4 Jan 2005 20:08:02 -0500
+
+gri (2.12.8-3) unstable; urgency=low
+
+  * Bug fix: "gri: FTBFS (amd64/gcc-4.0): cast from 'FILE*' to 'int' loses
+    precision", thanks to Andreas Jochens (Closes: #286921).
+  * Remove another DEBUG printout.
+
+ -- Peter S Galbraith <psg@debian.org>  Wed, 22 Dec 2004 19:11:47 -0500
 
 gri (2.12.8-2) unstable; urgency=low
 
