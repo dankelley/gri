@@ -37,11 +37,20 @@ CHECKLIST.
   6B+ PSG builds an official Debian package based on the official
       tarball.  If any problems, back to step 1.
 
-  7+  DEK uploads the official redhat package to SF and creates a new 
-      file release.
+  7   PSG uploads unofficial Debian package to SF for Dan to pick up.
+      DEK uploads the official redhat package to SF and creates a new 
+      file release, picking up the Debian uploads at the same time.
 
-  8+  PSG uploads unofficial Debian package to SF and _EDITS_ the existing
-      file release (Don't do a `quick release'!)
+   1. FTP to upload.sourceforge.net
+   2. Login as "anonymous"
+   3. Use your e-mail address as the password for this login
+   4. Set your client to binary mode ("bin" on command-line clients)
+   5. Change your current directory to /incoming ("cd /incoming")
+   6. Upload the desired files for the release ("put filename")
+
+
+   or if DEK uploads first, PSG uploads unofficial Debian package to SF and
+      _EDITS_ the existing file release (Don't do a `quick release'!)
 
   9+  PSG uploads official Debian packages (built for `unstable`) to Debian.
 
