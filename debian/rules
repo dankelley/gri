@@ -73,7 +73,8 @@ binary-indep: build-indep
 	dh_testroot -i
 	install -d debian/gri-el/usr/share/emacs/site-lisp
 	install -m 644 src/gri-mode.el debian/gri-el/usr/share/emacs/site-lisp/
-	cd doc; make ps-install html-install
+	cd doc; make   ps-install DESTDIR=`pwd`/../debian/gri-ps-doc/
+	cd doc; make html-install DESTDIR=`pwd`/../debian/gri-html-doc/
 	rm -f debian/*debhelper
 	dh_installdocs -i -A README debian/README.Debian
 	dh_installexamples -i
