@@ -1,3 +1,7 @@
+2003-07-19  Dan E. Kelley  <kelley@Limit.Phys.Ocean.Dal.Ca>
+
+	* src/gr.cc (gr_drawsymbol): Fix SF 773850 bug (bbox increased by 'draw symbol' even if ps clip)
+
 2003-05-19  Dan E. Kelley  <kelley@Limit.Phys.Ocean.Dal.Ca>
 
 	* startup.cc (start_up): Fix SF bug 739761 ('draw time stamp' broken)

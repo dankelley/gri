@@ -1,6 +1,6 @@
 \input texinfo 
 
-@c $Id: gri.texi,v 1.145 2003/07/05 15:49:46 dankelley Exp $
+@c $Id: gri.texi,v 1.146 2003/07/19 12:45:49 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16424,7 +16424,7 @@ only in the fixing of bugs.
 
 @comment ADD-NEW-BUG-FIXES-HERE
 
-@subsubsection Version 2.12.6 [2003 Jun 26]
+@subsubsection Version 2.12.6 [2003 Jul 19]
 
 @strong{New Features}
 @itemize @bullet
@@ -16435,6 +16435,12 @@ Add @code{age} RPN function, for testing file ages (@ref{age-rpn-operator}).
 
 @strong{Bug Fixes}
 @itemize
+
+@item
+Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=773850&group_id=5511&atid=105511,#773850}
+@dots{} bounding-box is increased by @code{draw symbol} even if (rectangular) postscript clipping is active.
+
 @item
 Fix SourceForge bug
 @uref{http://sourceforge.net/tracker/index.php?func=detail&aid=760130&group_id=5511&atid=105511,#760130}

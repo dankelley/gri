@@ -44,7 +44,7 @@ bool            _no_bounding_box = false;
 
 extern GriState _griState;	// <-> gri.cc
 extern bool     _drawingstarted;
-
+extern int      _debugFlag;
 //
 // Utilities.
 //
@@ -693,7 +693,19 @@ gr_drawerrorbars(double x, double xmin, double xmax, double y, double ymin, doub
 void
 gr_drawsymbol(double xcm, double ycm, gr_symbol_type symbol_name)
 {
-	double          old_grSymbolSize_pt;
+	double xpt = xcm * PT_PER_CM;
+	double ypt = ycm * PT_PER_CM;
+	if (_clipping_postscript && _clipping_is_postscript_rect) {
+		if (xpt > _clip_ps_xright ||
+		    xpt < _clip_ps_xleft ||
+		    ypt > _clip_ps_ytop ||
+		    ypt < _clip_ps_ybottom) {
+			//printf("clip xrange (%f %f) pt\n",_clip_ps_xleft,_clip_ps_xright);
+			//printf("clip yrange (%f %f) pt\n",_clip_ps_ybottom,_clip_ps_ytop);
+			//printf("clipping (%.0f , %.0f)\n",xpt,ypt);
+			return;
+		}
+	}
 	extern bool _warn_offpage;
 	if (_warn_offpage 
 	    && ( xcm < OFFPAGE_LEFT 
@@ -702,8 +714,6 @@ gr_drawsymbol(double xcm, double ycm, gr_symbol_type symbol_name)
 		 || ycm > OFFPAGE_TOP)) {
 		warning("Drawing a symbol at a location which is offpage.");
 	}
-	double xpt = xcm * PT_PER_CM;
-	double ypt = ycm * PT_PER_CM;
 	switch (symbol_name) {
 	case gr_plus_symbol:
 		fprintf(_grPS, "n %.1f %.1f m %.1f _plus S\n", xpt, ypt, _grSymbolSize_pt);
@@ -768,10 +778,12 @@ gr_drawsymbol(double xcm, double ycm, gr_symbol_type symbol_name)
 		fprintf(_grPS, "n %.1f %.1f m %.1f _filledhalfmoondown S\n", xpt, ypt, _grSymbolSize_pt);
 		break;
 	default:			// tiny (1.0 mm) triangle
-		old_grSymbolSize_pt = gr_currentsymbolsize_pt();
-		gr_setsymbolsize_cm(0.1);
-		fprintf(_grPS, "n %.1f %.1f m %.1f _triangledown S\n", xpt, ypt, _grSymbolSize_pt);
-		gr_setsymbolsize_pt(old_grSymbolSize_pt);
+		{
+			double old_grSymbolSize_pt = gr_currentsymbolsize_pt();
+			gr_setsymbolsize_cm(0.1);
+			fprintf(_grPS, "n %.1f %.1f m %.1f _triangledown S\n", xpt, ypt, _grSymbolSize_pt);
+			gr_setsymbolsize_pt(old_grSymbolSize_pt);
+		}
 		break;
 	}
 	rectangle box(xcm - _grSymbolSize_pt / 2 / PT_PER_CM,

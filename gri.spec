@@ -96,6 +96,8 @@ then
 fi
 
 %changelog
+* Sat Jul 19 2003 <Dan.Kelley@Dal.Ca>
+- fix Sourceforge bug 773850 (bbox increased by 'draw symbol' even if (rectangular) postscript clipping is on)
 * Thu Jun 27 2003 <Dan.Kelley@Dal.Ca>
 - add 'age' RPN operator
 * Tue Jun 24 2003 <Dan.Kelley@Dal.Ca>
