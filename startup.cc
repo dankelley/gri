@@ -4,9 +4,13 @@
 #include	<unistd.h>
 #include	<stdio.h>
 #include	<time.h>
-//#if defined(HAVE_LIBPOPT)
+#if defined(HAVE_OLD_POPT)
+extern "C" {
 #include        <popt.h>
-//#endif
+}
+#else
+#include        <popt.h>
+#endif
 #include	"gr.hh"
 #include	"extern.hh"
 #include        "private.hh"
@@ -59,9 +63,9 @@ int             create_arrays(void);
 static void     create_builtin_variables(void);
 static void     create_builtin_synonyms(void);
 static void     set_defaults(void);
-const char**    interpret_optional_arguments(int argc, const char *argv[]);
+const char**    interpret_optional_arguments(int argc, char *argv[]);
 static void     get_input_simulation(int argc, const char *argv[]);
-static void     insert_creator_name_in_PS(int argc, const char *argv[], const std::string&psname);
+static void     insert_creator_name_in_PS(int argc, char *argv[], const std::string&psname);
 static void     dogrirc(void);
 #if 0
 static void     show_startup_msg(void);
@@ -123,7 +127,7 @@ last_name(char *s)
 #endif
 
 bool
-start_up(int argc, const char **argv)
+start_up(int argc, char **argv)
 {
 /*
 #if defined(TEST_POPT)
@@ -167,21 +171,18 @@ start_up(int argc, const char **argv)
 	
 	// Get leftover (non-optional) arguments
 	argv_leftover = interpret_optional_arguments(argc, argv);
-	const char **argv_leftover_start = argv_leftover;
 	unsigned int argc_leftover = 0;
 	//printf("leftover arguments:\n");
-	while(*argv_leftover != NULL) {
-		argc_leftover++;
+	while (argv_leftover[argc_leftover] != NULL) {
 		//printf("\t<%s>\n", *argv_leftover);
-		*argv_leftover++;
+		argc_leftover++;
 	}
-	argv_leftover = argv_leftover_start;
 	//printf("end. LEFTOVER.  have %d\n",argc_leftover);
 	if (argc_leftover == 0) {
 		_margin.assign("  ");
 		push_cmd_file("stdin", batch() ? false : true, true, "r");
 	} else {
-		std::string fname(*argv_leftover);
+		std::string fname(argv_leftover[0]);
 		//printf("FILENAME '%s'\n",fname.c_str());
 		// If filename shorter than 4 characters, cannot have .gri suffix,
 		// so append it.
@@ -614,7 +615,7 @@ create_builtin_variables()
 
 // return value: number of optional arguments
 const char**
-interpret_optional_arguments(int argc, const char *argv[])
+interpret_optional_arguments(int argc, char *argv[])
 {
 #if 1 //defined(HAVE_LIBPOPT) && defined(TEST_POPT)
 #define FLAG_DIRECTORY		1000
@@ -651,15 +652,21 @@ interpret_optional_arguments(int argc, const char *argv[])
 		{ "yes",               'y',  POPT_ARG_NONE   | POPT_ARGFLAG_ONEDASH, NULL, 'y'                   },
 		{  0,                   0,                                       0,     0, 0                     }
 	};
-	poptContext optCon;
-	optCon = poptGetContext("gri", argc, argv, optionsTable, 0);
+	const poptContext optCon =
+		poptGetContext("gri",
+			       argc, 
+#if !defined(HAVE_OLD_POPT)
+			       (const char**)
+#endif
+			       argv,
+			       optionsTable,
+			       0);
 	poptReadDefaultConfig(optCon, 0); // for aliasing ... this seems broken though
-	const char *optArg;
 	int arg;
 	extern char _gri_number[];
 	_lib_directory.assign(DEFAULT_GRI_DIR);
 	while ((arg = poptGetNextOpt(optCon)) > 0) {
-		optArg = poptGetOptArg(optCon);
+		const char *optArg = poptGetOptArg(optCon);
 		int ival;
 		switch (arg) {
 		case 'b':
@@ -778,6 +785,7 @@ interpret_optional_arguments(int argc, const char *argv[])
 	}
 	//printf("DEBUG: %s:%d last_option [%s]\n",__FILE__,__LINE__,last_option);
 #else
+	// BUG: REMOVE THIS (LONG) BLOCK WHEN POPT IS FINALLY WORKING!
 	extern char     _gri_number[];
 	int             number_optional_arg = 0;
 	_lib_directory.assign(DEFAULT_GRI_DIR);
@@ -920,7 +928,7 @@ interpret_optional_arguments(int argc, const char *argv[])
 	}
 #endif // BUG: this block should be trimmed when I see that popt is OK.
 	put_syn("\\.lib_dir.", _lib_directory.c_str(), true);
-	return poptGetArgs(optCon);
+	return (const char**) poptGetArgs(optCon);
 }
 
 void
@@ -1018,7 +1026,7 @@ give_help()
 
 // Insert Creator info in PS file
 static void
-insert_creator_name_in_PS(int argc, const char *argv[], const std::string& psname)
+insert_creator_name_in_PS(int argc, char *argv[], const std::string& psname)
 {
 	extern char _gri_release_time[];
 	extern char _gri_number[]; // see version.c

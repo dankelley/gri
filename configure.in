@@ -233,15 +233,15 @@ CHECK_FOR_NETCDF
 
 AC_CHECK_LIB(m,sin)
 AC_CHECK_LIB(popt,poptGetNextOpt,[
-		EXTRA_OBJS="";
-		LIBS="$LIBS -lpopt"
+		EXTRA_LIBS="$EXTRA_LIBS -lpopt"
 	],[
-		EXTRA_OBJS="$EXTRA_OBJS popt.o";
+		EXTRA_OBJS="$EXTRA_OBJS popt/findme.o popt/popt.o popt/poptconfig.o popt/popthelp.o popt/poptparse.o"
 		CXXFLAGS="$CXXFLAGS -I./popt"
+		AC_DEFINE(HAVE_OLD_POPT)
 	])
 AC_SUBST(EXTRA_CXXFLAGS)
 AC_SUBST(EXTRA_OBJS)
-
+AC_SUBST(EXTRA_LIBS)
 
 
 dnl	Check for Imgemagick's convert, needed to make PNG files in HTML manual

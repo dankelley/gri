@@ -219,7 +219,7 @@ void            show_syn_stack();
 int             skip_space(const char *s);
 int             skip_nonspace(const char *s);
 bool            skipping_through_if(void);
-bool            start_up(int argc, const char ** argv);
+bool            start_up(int argc, char **argv);
 bool            stop_replay_if_error(void);
 void            strcat_c(char *s, int c);
 bool            string_is_blank(const char *s);

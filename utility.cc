@@ -670,7 +670,9 @@ pwd()
 char*
 egetenv(const char *s)
 {
+#if defined(HAVE_GETENV)
 	char *rval = "";
+#endif
 	if (!strcmp(s, "PWD")) {
 		return (char *) pwd();
 	} else if (!strcmp(s, "USER")) {
@@ -2106,7 +2108,7 @@ tmp_file_name()
 		return NULL;
 	return rval;
 #else
-	return GRE_TMP_FILE;
+	return GRI_TMP_FILE;
 #endif
 #endif
 }

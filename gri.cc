@@ -144,12 +144,12 @@ GRI_COMMAND     _command[COMMAND_STACK_SIZE];
 
 
 int
-main(int argc, const char **argv)
+main(int argc, char **argv)
 {
 	start_up(argc, argv);
-	do
+	do {
 		do_command_line();
-	while (!_done);
+	} while (!_done);
 	warning("\\\\");		// notify of pending repeated warnings
 	end_up();
 	return _exit_value;
