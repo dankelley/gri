@@ -623,8 +623,8 @@ set_x_typeCmd()
 				return true;
 			}
 			if ((_xright > _xleft) && (_xleft > 0.0) && (_xright > 0.0)) {
-				PUT_VAR("..xleft..", pow(10.0, floor(0.5 + log10(_xleft))));
-				PUT_VAR("..xright..", pow(10.0, floor(0.5 + log10(_xright))));
+				PUT_VAR("..xleft..", _xleft = pow(10.0, floor(0.5 + log10(_xleft))));
+				PUT_VAR("..xright..", _xright = pow(10.0, floor(0.5 + log10(_xright))));
 				_xinc = 1;
 				_xtype = gr_axis_LOG;
 			} else {
@@ -675,16 +675,17 @@ set_y_typeCmd()
 			_ytype = gr_axis_LINEAR;
 		} else if (!strcmp(_word[3], "log")) {
 			_ytype_map = ' ';
-			if (_ytype == gr_axis_LOG)	// only change if necessary
+			if (_ytype == gr_axis_LOG) {	// only change if necessary
 				return true;
+			}
 			if (!_yscale_exists) {
 				_ytype = gr_axis_LOG;
 				gr_setytransform(_ytype);
 				return true;
 			}
 			if ((_ytop > _ybottom) && (_ytop > 0.0) && (_ybottom > 0.0)) {
-				PUT_VAR("..ybottom..", pow(10.0, floor(0.5 + log10(_ybottom))));
-				PUT_VAR("..ytop..", pow(10.0, floor(0.5 + log10(_ytop))));
+				PUT_VAR("..ybottom..", _ybottom = pow(10.0, floor(0.5 + log10(_ybottom))));
+				PUT_VAR("..ytop..", _ytop = pow(10.0, floor(0.5 + log10(_ytop))));
 				_yinc = 1;
 				_ytype = gr_axis_LOG;
 			} else {

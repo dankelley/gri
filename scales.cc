@@ -7,7 +7,7 @@
 bool
 create_x_scale()
 {
-	int             nsegs;
+	int nsegs;
 	double min, max;
 	if (_need_x_axis && !_user_set_x_axis) {
 		if (!gr_missing(_colX.min())) {
@@ -27,8 +27,8 @@ create_x_scale()
 			}
 		}
 		if (_xtype == gr_axis_LINEAR) {
-			int             nsegs_est;
-			double          xsize;
+			int nsegs_est;
+			double xsize;
 			if (!get_var("..xsize..", &xsize))
 				xsize = 10.0;	/* guess */
 			nsegs_est = 1 + (int) (xsize / 2.0); // ??? Should use fontsize
@@ -55,8 +55,8 @@ create_x_scale()
 				PUT_VAR("..xright..", _xright);
 				_xinc = ((double) _xright - (double) _xleft) / nsegs;
 			} else {
-				PUT_VAR("..xleft..", pow(10.0, floor(log10((double) min))));
-				PUT_VAR("..xright..", pow(10.0, ceil(log10((double) max))));
+				PUT_VAR("..xleft..", _xleft = pow(10.0, floor(log10((double) min))));
+				PUT_VAR("..xright..", _xright = pow(10.0, ceil(log10((double) max))));
 				_xinc = 1.0;
 			}
 		}
@@ -69,7 +69,7 @@ create_x_scale()
 bool
 create_y_scale()
 {
-	int             nsegs;
+	int nsegs;
 	double min, max;
 	if (_need_y_axis && !_user_set_y_axis) {
 		if (!gr_missing(_colY.min())) {
@@ -117,8 +117,8 @@ create_y_scale()
 				PUT_VAR("..ytop..", _ytop);
 				_yinc = (_ytop - _ybottom) / nsegs;
 			} else {
-				PUT_VAR("..ybottom..", pow(10.0, floor(log10(min))));
-				PUT_VAR("..ytop..", pow(10.0, ceil(log10(max))));
+				PUT_VAR("..ybottom..", _ybottom = pow(10.0, floor(log10(min))));
+				PUT_VAR("..ytop..", _ytop = pow(10.0, ceil(log10(max))));
 				_yinc = 1.0;
 			}
 		}

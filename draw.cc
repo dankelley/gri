@@ -195,8 +195,13 @@ draw_symbolCmd()
 	bool            hue_in_z = false, saturation_in_z = false, brightness_in_z = false;
 	double          hue = 1.0, saturation = 1.0, brightness = 1.0;
 	gr_symbol_type  symbolCode = gr_bullet_symbol; // will be changed
+#if 0
 	set_x_scale();
 	set_y_scale();
+#else
+	create_x_scale();
+	create_y_scale();
+#endif
 	// Columns must exist, if not the "at" style, which is for a single point
 	if (!word_is(3, "at")) {
 		if (!_columns_exist) {
@@ -207,8 +212,13 @@ draw_symbolCmd()
 	// Scales must be defined unless symbol location given in cm
 	if (!word_is(_nword - 1, "cm")) {
 		if (!scales_defined()) {
+#if 0				// Fix SF bug #129856 (I hope!)
 			no_scales_error();
 			return false;
+#else
+			create_x_scale();
+			create_y_scale();
+#endif
 		}
 	}
 	// Is it brightness in z?
@@ -571,8 +581,13 @@ draw_contourCmd()
 	if (!grid_exists())
 		return false;
 	if (!scales_defined()) {
+#if 0				// Fix SF bug #129856 (I hope!)
 		no_scales_error();
 		return false;
+#else
+		create_x_scale();
+		create_y_scale();
+#endif
 	}
 	// Decode command
 	labelled = true;
@@ -813,8 +828,13 @@ draw_arrow_from_toCmd()
 	if (strcmp(_word[_nword - 1], "cm")) {
 		double          x_cm, y_cm;
 		if (!scales_defined()) {
+#if 0				// Fix SF bug #129856 (I hope!)
 			no_scales_error();
 			return false;
+#else
+			create_x_scale();
+			create_y_scale();
+#endif
 		}
 		gr_usertocm(x0, y0, &x_cm, &y_cm);
 		x0 = x_cm;
@@ -854,8 +874,13 @@ draw_arrowsCmd()
 		return true;
 	}
 	if (!scales_defined()) {
+#if 0				// Fix SF bug #129856 (I hope!)
 		no_scales_error();
 		return false;
+#else
+		create_x_scale();
+		create_y_scale();
+#endif
 	}
 	if (!_uscale_exists) {
 		demonstrate_command_usage();
@@ -974,8 +999,13 @@ draw_axes(int type, double loc, gr_axis_properties side, bool allow_offset)
 	double          tmpx, tmpx_cm, tmpy, tmpy_cm;
 	double          axes_offset;
 	if (!scales_defined()) {
+#if 0				// Fix SF bug #129856 (I hope!)
 		no_scales_error();
 		return false;
+#else
+		create_x_scale();
+		create_y_scale();
+#endif
 	}
 	if (allow_offset)
 		axes_offset = _axes_offset;
@@ -1145,8 +1175,13 @@ draw_curveCmd()
 		return true;
 	}
 	if (!scales_defined()) {
+#if 0				// Fix SF bug #129856 (I hope!)
 		no_scales_error();
 		return false;
+#else
+		create_x_scale();
+		create_y_scale();
+#endif
 	}
 	bool filled = false;
 	if (_nword == 6
@@ -1233,8 +1268,13 @@ draw_curve_filled_to_valueCmd(bool to_y, double value)
 		return true;
 	}
 	if (!scales_defined()) {
+#if 0				// Fix SF bug #129856 (I hope!)
 		no_scales_error();
 		return false;
+#else
+		create_x_scale();
+		create_y_scale();
+#endif
 	}
 	GriPath p;
 	set_environment();
@@ -1334,8 +1374,13 @@ bool
 draw_isopycnalCmd()
 {
 	if (!scales_defined()) {
+#if 0				// Fix SF bug #129856 (I hope!)
 		no_scales_error();
 		return false;
+#else
+		create_x_scale();
+		create_y_scale();
+#endif
 	}
 	bool labelled = true;
 	double density, P_sigma = 0.0, P_theta = 0.0;
@@ -1564,8 +1609,13 @@ draw_image_histogramCmd()
 	double          left, right;
 	int             num;
 	if (!scales_defined()) {
+#if 0				// Fix SF bug #129856 (I hope!)
 		no_scales_error();
 		return false;
+#else
+		create_x_scale();
+		create_y_scale();
+#endif
 	}
 	if (!image_exists()) {
 		err("First `read image' or `convert grid to image'");
@@ -1663,8 +1713,13 @@ draw_image_paletteCmd()
 	if (!get_var("..xsize..", &dx))
 		warning("Sorry, don't know value of ..xsize.. so using XSIZE_DEFAULT");
 	if (!scales_defined()) {
+#if 0				// Fix SF bug #129856 (I hope!)
 		no_scales_error();
 		return false;
+#else
+		create_x_scale();
+		create_y_scale();
+#endif
 	}
 	// Check for old usage `draw image grayscale'.  Give warning, but proceed
 	// anyway.
@@ -1850,9 +1905,13 @@ draw_imageCmd()
 		return false;
 	}
 	if (!scales_defined()) {
-		demonstrate_command_usage();
+#if 0				// Fix SF bug #129856 (I hope!)
 		no_scales_error();
 		return false;
+#else
+		create_x_scale();
+		create_y_scale();
+#endif
 	}
 	if (!image_exists()) {
 		demonstrate_command_usage();
@@ -1951,9 +2010,13 @@ draw_labelCmd()
 	set_environment();
 	if (user_units) {
 		if (!scales_defined()) {
-			demonstrate_command_usage();
+#if 0				// Fix SF bug #129856 (I hope!)
 			no_scales_error();
 			return false;
+#else
+			create_x_scale();
+			create_y_scale();
+#endif
 		}
 		if (!getdnum(_word[coord_word], &tmp1)) {
 			demonstrate_command_usage();
@@ -2037,8 +2100,13 @@ draw_line_from_toCmd()
 	} else {
 		// User units -- draw axes if needed
 		if (!scales_defined()) {
+#if 0				// Fix SF bug #129856 (I hope!)
 			no_scales_error();
 			return false;
+#else
+			create_x_scale();
+			create_y_scale();
+#endif
 		}
 		if (!gr_missingx(x0) && !gr_missingx(x1) && !gr_missingy(y0) && !gr_missingy(y1)) {
 			p.push_back(x0, y0, 'm');
@@ -2120,8 +2188,13 @@ draw_patchesCmd()
 		return true;
 	}
 	if (!scales_defined()) {
+#if 0				// Fix SF bug #129856 (I hope!)
 		no_scales_error();
 		return false;
+#else
+		create_x_scale();
+		create_y_scale();
+#endif
 	}
 	if (!_imageTransform_exists) {
 		err("Image transform doesn't exist yet.  First `set image grayscale'");
@@ -2289,8 +2362,13 @@ draw_valuesCmd()
 		return false;
 	}
 	if (!scales_defined()) {
+#if 0				// Fix SF bug #129856 (I hope!)
 		no_scales_error();
 		return false;
+#else
+		create_x_scale();
+		create_y_scale();
+#endif
 	}
 	// Get separation x and y if they are given
 	int gave_separation = 0;
@@ -2494,8 +2572,13 @@ draw_x_box_plotCmd()
 		return true;
 	}
 	if (!scales_defined()) {
+#if 0				// Fix SF bug #129856 (I hope!)
 		no_scales_error();
 		return false;
+#else
+		create_x_scale();
+		create_y_scale();
+#endif
 	}
 	// Check command syntax
 	switch (_nword) {
@@ -2644,8 +2727,13 @@ draw_y_box_plotCmd()
 		return true;
 	}
 	if (!scales_defined()) {
+#if 0				// Fix SF bug #129856 (I hope!)
 		no_scales_error();
 		return false;
+#else
+		create_x_scale();
+		create_y_scale();
+#endif
 	}
 	// Check command syntax
 	switch (_nword) {
@@ -2779,8 +2867,13 @@ bool
 draw_zero_lineCmd()
 {
 	if (!scales_defined()) {
+#if 0				// Fix SF bug #129856 (I hope!)
 		no_scales_error();
 		return false;
+#else
+		create_x_scale();
+		create_y_scale();
+#endif
 	}
 	switch (_nword) {
 	case 3:
