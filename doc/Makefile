@@ -138,9 +138,6 @@ info-install-solaris:
 info-clean:
 	rm -f gri.info* info
 
-#
-# FIXME: These refcards are missing!
-#
 refcard:
 	make refcard1
 	make refcard2
@@ -148,7 +145,7 @@ refcard1:
 	tex refcard.tex
 	dvips -o refcard.ps -t landscape refcard.dvi
 	chmod a+r refcard.*
-	ghostview -land refcard.ps
+
 refcard2:
 	echo "***"
 	echo "*** First, do cmdrefcard.pl and manually put output in cmdrefcard.tex"
@@ -156,7 +153,6 @@ refcard2:
 	tex cmdrefcard.tex
 	dvips -o cmdrefcard.ps -t landscape cmdrefcard.dvi
 	chmod a+r cmdrefcard.*
-	ghostview -land cmdrefcard.ps
 
 clean:	info-clean html-clean card-clean
 	$(RM)				\
