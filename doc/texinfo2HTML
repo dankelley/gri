@@ -203,6 +203,7 @@ while(get_a_line()) {
     s,<,&lt;,og;
     # Special tweak to make 'Gri' look cooler.
 	#    s, Gri , G<FONT SIZE=-1>RI</FONT> ,og;
+    s,\@code{\@\@},\@code{TEXINFO2HTML-AT-AT},og; 
     s,\@},TEXINFO2HTML-CLOSE-BRACE,og; # retain inside e.g. @code{}
     s,\@\@,TEXINFO2HTML-AT-AT,og;
     s,\@{,{,og;
@@ -388,6 +389,10 @@ sub sub_refs {
     s|\@ref{([^}]*)}|see <a href="#$1">$1</a>|g;
     s|\@xref{([^}]*)}|see <a href="#$1">$1</a>|g;
     s|\@pxref{([^}]*)}|see <a href="#$1">$1.</a>|g;
+    while (/\@url{(.*)}/) {
+	$the_url = $1;
+        s:\@url{.*}:<a href="$the_url">\@code{$the_url}</a>:;
+    }
 }
 
 sub sub_headings {

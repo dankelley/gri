@@ -1,5 +1,5 @@
 @c -*-mode: texinfo; -*-
-@c $Id: gri.texim,v 1.64 2001/03/20 13:54:08 dankelley Exp $
+@c $Id: gri.texim,v 1.65 2001/03/22 13:52:04 dankelley Exp $
 \input texinfo @c -*-texinfo-*-
 @c
 @comment *** Start of HTML stuff ***
@@ -15570,25 +15570,26 @@ like so in the file @file{~/.emacs}
 @node   Version 2.6, Version 2.4, Archiving Old Versions, History
 @comment  node-name,  next,  previous,  up
 @section Version 2.6
-@table @emph
-@item 2.6.0 [2001-month-day] (Not released yet.)
 
-@sp 1
+@subsection Version 2.6.0 [To be released in March/April 2001]
+@itemize
+
+@item
 Permit @code{rewind} to take a filename.
 
-@sp 1
+@item
 Make @code{open} set @code{\.return_value.} to the full pathname of the
 file that was opened.
 
-@sp 1
+@item
 Add @code{set path} command (@ref{Set Path To}).
 
-@sp 1
+@item
 Remove functioning of @code{GRIINPUTS} environment variable, since this
 is more cleanly handled with the newly added @code{set path to} command
 (@ref{Set Path To}).
 
-@sp 1
+@item
 Remove @code{\.awk.} synonym, which was deemed to be unhelpful.  Users
 with many scripts that use this variable might wish to put a line like
 @example
@@ -15596,88 +15597,91 @@ with many scripts that use this variable might wish to put a line like
 @end example
 in their @file{~/.grirc} file.
 
-@sp 1
+@item
 Change the format of images in the PostScript output file, as a
 workaround for a bug in the @code{ps2pdf} program.
 
-@sp 1
-Add @code{\&} and @cindex @code{\&&} notation to permit newcommands to
+@item
+Add ``ampersand'' (@code{\&} and @code{\&&})
+syntax to permit newcommands to
 look up the name and nesting level of changeable arguments
-(@ref{Changeable Command Arguments})
+(@ref{Changeable Command Arguments}).
 
-@sp 1
-Add @code{@@} syntax for changeable newcommand arguments (@ref{Changeable Command Arguments})
+@item
+Add ``at-sign'' (@code{@@}) syntax for aliases
+(@ref{Alias Synonyms}).
 
-@sp 1
-Add alias synonyms (@ref{Alias Synonyms})
+@item
+Add ability to embed newlines in @code{show} 
+commands with the @code{\<<} sequence (@ref{Show}).
 
-@sp 1
-Add ability to do newlines and horizontal tabs in @code{show} 
-commands using @code{\<<} and @code{\>>} codes (@ref{Show}).
+@item
+Add ability to embed TAB characters in @code{show} 
+commands with the @code{\>>} sequence (@ref{Show}).
 
-@sp 1
+@item
 Make various @code{read} commands (@ref{Read}) able to decode synonyms
 as well as variables and simple numbers.
 
-@sp 1
+@item
 Add @code{strlen} RPN operator (@ref{Unary Operators}).
 
-@sp 1
+@item
 Add @code{default} option to @code{set x format} and 
 @code{set y format} commands.
 
-@sp 1
+@item
 Add @code{new postscript file} (@ref{New Postscript File}) command.
 
-@sp 1
+@item
 Switch email list from @code{majordomo} to GNU @code{mailman}.
 
-@sp 1
+@item
 No longer remove comments from data lines that are read.  This served
 little function, interfered with recent user code, and could be
 accomplished by reading through a @code{sed} pipe in any case.
 
-@sp 1
+@item
 Make the first element of the @code{argv} array be the name of 
 the command-file.  (This makes Gri consistent with languages such
 as C.)
 
-@sp 1
+@item
 Add chapter on test suite (@ref{Test Suite}).
 
-@sp 1
+@item
 Let newcommands have changeable arguments (@ref{Changeable Command Arguments}).
 
-@sp 1
+@item
 Remove @code{-s} as an abbreviation for the commandline option @code{-superuser}.
 
-@sp 1
+@item
 Remove the @code{:} syntax from the commandline options.
 
-@sp 1
+@item
 Add commandline option @code{-output PS_file_name}.
 
-@sp 1
+@item
 Add @code{assert} command (@ref{Assert}).
 
-@sp 1
+@item
 Add test suite (mainly for developers).
 
-@sp 1
+@item
 Add @code{sleep} command (@ref{Sleep}).
 
-@sp 1
+@item
 Remove command @code{show hint of the day}, since I no longer permission
 to use cgi-bin to provide the hints via web-server.
 
-@sp 1
+@item
 Permit indexing of synonym words with variables, in addition to
 constants.
 
-@sp 1
+@item
 Fix bug in interpolating synonyms in the test-expression of @code{while} loops.
 
-@sp 1
+@item
 Put source on the
 Source Forge open-source development website, at
 @url{http://gri.sourceforge.net}.
@@ -15698,39 +15702,39 @@ With this you may check for existing bugs reported by users, submit new
 bug reports, and also track the process of bug removal (e.g. optionally
 receiving emails when the bug is removed).
 
-@sp 1
+@item
 Add @code{set colorname} command (@ref{Set Colorname}).
 
-@sp 1
+@item
 Add @code{source} command (@ref{Source}).
 
-@sp 1
+@item
 Add RPN operators @code{wordc} (@ref{Solitary Operators}) and
 @code{wordv} (@ref{Unary Operators}) for accessing the words in the
 present Gri command.
 
-@sp 1
+@item
 Add RPN operators @code{argc} (@ref{Solitary Operators}) and
 @code{argv} (@ref{Unary Operators}) for accessing the command-line
 arguments used when Gri was invoked from the operating system.
 
-@sp 1
+@item
 Add automatic support for compressed data files.  So far, this only
 works with gzipped files (@ref{Open}).
 
-@sp 1
+@item
 Add two new RPN operators, @code{file_exists} and
 @code{directory_exists} (@ref{Unary Operators}).
 
-@sp 1
+@item
 Reorganize parts of manual (e.g.  changing the section about the Emacs
 @file{gri-mode.el} into a chapter, with screen snapshots).
 
-@sp 1
+@item
 Improve the HTML form of the manual (e.g. color-code the Gri syntax in
 examples, provide access to all the indices, use Jpeg format, et.).
 
-@sp 1
+@item
 
 Add several new features to @code{gri-mode.el}:
 
@@ -15753,15 +15757,16 @@ Add several new features to @code{gri-mode.el}:
       and one can now select a command with the mouse in the
       @strong{Completions} buffer.
 
-@end table
+@end itemize
+
 
 
 @c HTML <!-- newfile Version_2_4.html "Gri: Version 2.4" "Gri: Version 2.4" -->
 @node   Version 2.4, Version 2.2, Version 2.6, History
 @comment  node-name,  next,  previous,  up
 @section Version 2.4
-@table @emph
-@item 2.4.4 [2000-May-07]
+
+@subsection Version 2.4.4 [2000-May-07]
 Change so that only a warning is printed if mathematical operations are
 requested on empty arrays (e.g. @code{y += 10}).  Previously, an error
 was reported and Gri exited with an error condition, which is bothersome
@@ -15769,35 +15774,40 @@ in scripts that rely on successful completion of the Gri job.
 
 Port to the BeOS operating system.
 
-@item 2.4.3 [2000-Apr-01]
+@subsection Version 2.4.3 [2000-Apr-01]
 Change location of all files, to be consistent with Redhat convention.
 Previously, things were in @code{/opt/gri}; now they are in more
 standard locations.
-@item 2.4.2 [2000-Mar-25]
+
+@subsection Version 2.4.2 [2000-Mar-25]
 Remove bug in which @code{convert grid to image} produced incorrect
 images, visible as a patchy appearance with coarse grids.
-@item 2.4.1 [2000-Jan-31]
+
+@subsection Version 2.4.1 [2000-Jan-31]
 Remove bug in which @code{convert image to grid} failed to take note of
 the gri minimum and maximum, so that contouring of the grid was not
 possible for grids created from images.
-@item 2.4.0 [2000-Jan-05]
+
+@subsection Version 2.4.0 [2000-Jan-05]
 Add @code{set input data separator}.  Make @code{read columns} work with
 various input separators. Make @code{read .x.}, etc, work with various
 input separators.
-@end table
+
 
 
 @c HTML <!-- newfile Version_2_2.html "Gri: Version 2.2" "Gri: Version 2.2" -->
 @node   Version 2.2, Plans, Version 2.4, History
 @comment  node-name,  next,  previous,  up
 @section Version 2.2
-@table @emph
-@item 2.2.6 [1999 Nov 25]
+
+@subsection Version 2.2.6 [1999 Nov 25]
 Make web-based manual easier to read by putting a light-grey background
 under sample code.
-@item 2.2.5 [1999 Nov 10]
+
+@subsection Version 2.2.5 [1999 Nov 10]
 Fix bug in RPN calculations that prevented using a negative exponent.
-@item 2.2.4 [1999 Nov 7]
+
+@subsection Version 2.2.4 [1999 Nov 7]
 Add @code{set font encoding}, and also change the encoding to
 ISO-Latin-1.  (This doesn't hurt old code since Gri didn't make any
 claims to handle characters outside the normal printing-set before
@@ -15806,13 +15816,16 @@ anyway.)
 Fix bug in which there were 4 dead links in the HTML version of manual.
 
 Clean up some problems with Debian distribution (thanks, Peter Galbraith!).
-@item 2.2.3 [1999 Jun 30]
+
+@subsection Version 2.2.3 [1999 Jun 30]
 Fix bug in which word-of-synonym (e.g. @code{\[0]mysyn}) was not
 detected correctly (thanks to bug report from Kazuhiko Nakayama in
 Japan)
-@item 2.2.2 [-]
+
+@subsection Version 2.2.2 [-]
 Clean a few spelling and cross-reference errors in documentation.
-@item 2.2.1 [1999 Mar 31]
+
+@subsection Version 2.2.1 [1999 Mar 31]
 For debian, properly locate the @code{netcdf} library, if it is
 installed. 
 
@@ -15825,9 +15838,11 @@ grid spacing and image spacing.
 
 Don't create PostScript file if the commandfile is non-existent, or if
 there were errors on the commandline.
-@item 2.2.0 [1999 Mar 25]
+
+@subsection Version 2.2.0 [1999 Mar 25]
 First debian release.  Versions exist for intel, alpha, 68K and powerpc.
-@end table
+
+
 
 @c HTML <!-- newfile Plans.html "Gri: plans for future versions" "Gri: plans for future versions" -->
 
