@@ -328,15 +328,11 @@ Search gri manual for (may be a regular expression):<p>
         <br>
 
 
-<!-- 
-<A CLASS="menus" HREF="./gri-2.8.2-pre5.tgz">2.8.2 pre-release #5</a>
--->
+	<A CLASS="menus" HREF="./gri-2.8.3-pre1.tgz">2.8.3 pre-release #1</a>
 
       </TD>
     </TR>
   </table>
-
-
 
 
   </td>
@@ -349,10 +345,6 @@ Search gri manual for (may be a regular expression):<p>
               href="mailto:dankelley@users.sourceforge.net">webmaster</A></span></td>
         <td align="right" width="200"><SPAN class=bottombar><IMG src="blank.gif" height="1" width="145" border=0 alt=""></span></td>
       </tr>
-
-
-
-
 
     </table>
   </body>
