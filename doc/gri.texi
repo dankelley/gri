@@ -11325,16 +11325,16 @@ set font encoding PostscriptStandard | isolatin1
 @end example
 @noindent
 Permits one to control the so-called ``font encoding'' used in text.
-The default font encoding is ISO-Latin-1.  This is ideal for English and
+The default font encoding is ISO-Latin-1, which is best for English and
 other European languages.  To learn how to enter accents in a text
-editor, and for a very brief overview of font encodings,
+editor, and for a brief overview of font encodings,
 (@ref{Non-English Text}).
 
-If the so-called ``standard'' font encoding is required, this command
-permits changing the encoding.
+If the so-called ``Postscript Standard'' font encoding is required, this
+command permits changing the encoding.
 
-Note: very few users will ever need this command.  If you don't even
-know what ``font encoding'' is about, ignore this command!
+Note: few users will ever need this command.  If you don't even know
+what ``font encoding'' is about, ignore this command!
 
 
 

@@ -3033,6 +3033,20 @@ Alternate spelling of 'color'.
     extern "C" bool set_font_colorCmd(void);
 }
 
+`set font encoding PostscriptStandard | isolatin1'
+Permits one to control the so-called ``font encoding'' used in text.
+The default font encoding is ISO-Latin-1, which is best for English and
+other European languages.
+
+If the so-called `Postscript Standard'' font encoding is required, this command
+permits changing the encoding.
+
+Note: few users will ever need this command.  If you don't even know
+what ``font encoding'' is about, ignore this command!
+{
+    extern "C" bool set_font_encodingCmd(void);
+}
+
 `set font size {.size. [cm]}|default'
 Set the size of the font for drawing of text.
 
