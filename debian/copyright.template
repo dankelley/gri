@@ -12,8 +12,10 @@ Copyright and License:
  Gri:
   The Gri programming languages, and all manuals and online help-files,
   are (c) 1991-2001 Dan E. Kelley <Dan.Kelley@Dal.CA>.
-  Gri is distributed under the GPL.  See /usr/share/common-licenses/GPL
+  Gri is distributed under the GPL Version 2.  
+  See /usr/share/common-licenses/GPL
 
  Emacs gri-mode:
   Copyright (C) 1994-2001 Peter S. Galbraith <psg@debian.org>
-  gri-mode.el is distributed under the GPL.  See /usr/share/common-licenses/GPL
+  gri-mode.el is distributed under the GPL Version 2.
+  See /usr/share/common-licenses/GPL
