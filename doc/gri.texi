@@ -13464,7 +13464,7 @@ information and finished typing in `Helvetica'.
 @image{./screenshots/gri-screenshot-2}
 
 Here we see the user cascading through the Gri commands pull-down menu
-until @code{draw axes frame} is reached.
+until @code{draw axes} is reached.
 
 @image{./screenshots/gri-screenshot-3}
 
