@@ -58,28 +58,30 @@ public:
 	GriDvector();
 	GriDvector(unsigned int length);
 	~GriDvector();
-	void expand();		                 // Get more space
-	void expand(unsigned int capacity);		 // Get more space
-	void compact();				 // Remove things beyond depth
-	void push_back(double value);		 // Store on top
-	void pop_back();				 // Remove top element
-	double topElement();			 // Retrieve top
-	void erase(double *pos_);	                 // Remove element
-	double& operator[](unsigned int offset);	 // Retrieve at index
-	double min(void);				 // Min of non-missing
-	double max(void);				 // Max of non-missing
-	double median(void);			 // Median of non-missing
-	double mean(void);				 // Mean of non-missing
-	double stddev(void);			 // Std-deviation of non-mis
-	double *begin(void);			 // Pointer to contents
-	void setDepth(unsigned int theDepth);	 // Set depth
-	size_t size();			         // Get depth
-	unsigned int size_legit();	                 // Number of good values
-	unsigned int capacity();			 // Get total capacity
+	void expand();		// Get more space
+	void expand(unsigned int capacity); // Get more space
+	void compact();		// Remove things beyond depth
+	void push_back(double value); // Store on top
+	void pop_back();	// Remove top element
+	double topElement();	// Retrieve top
+	void erase(double *pos_); // Remove element
+	double& operator[](unsigned int offset); // Retrieve at index
+	double min(void);	// Min of non-missing
+	double max(void);	// Max of non-missing
+	double median(void);	// Median of non-missing
+	double skewness(void);	// skewness of non-missing
+	double kurtosis(void);	// skewness of non-missing
+	double mean(void);	// Mean of non-missing
+	double stddev(void);	// Std-deviation of non-mis
+	double *begin(void);	// Pointer to contents
+	void setDepth(unsigned int theDepth); // Set depth
+	size_t size();		// Get depth
+	unsigned int size_legit(); // Number of good values
+	unsigned int capacity(); // Get total capacity
 private:
-	size_t the_depth;		// Number stored
+	size_t the_depth;	// Number stored
 	size_t the_capacity;	// Number storable
-	double *contents;		// Contents
+	double *contents;	// Contents
 };
 
 class GriColumn : public GriDvector

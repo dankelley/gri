@@ -1,6 +1,6 @@
 show "doc/tst_suite/tst_rpn.gri     ..." ...
 
-rpnfunction same - abs 1e-10 >		# Are numbers virtually same?
+rpnfunction same - abs 1e-5 >		# Are numbers virtually same?
 
 # Arithmetic
 .a. = 0
@@ -55,6 +55,19 @@ assert {rpn 0 4 "hello" substr "hell" ==} " failed test 5.4"
 # NB. better to switch with something more universal
 \six = system "date | wc | awk '{print $2}'"
 assert {rpn \six 6 ==}			  " failed test 6.1"
+
+# Statistical operations
+read columns x
+1 
+3
+2
+9
+3
+
+assert {rpn x mean     3.6      same}
+assert {rpn x stddev   3.1305   same}
+assert {rpn x skewness 0.882432 same}
+assert {rpn x kurtosis 1.88008  same}
 
 # ----------- FILL IN LATER -----------------
 # Math functions (e.g. sin, ...)

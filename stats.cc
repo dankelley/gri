@@ -47,7 +47,7 @@ moment(double *data,
 		*sdev = sqrt(*svar);
 		if (*svar) {
 			*skew /= (ngood * (*svar) * (*sdev));
-			*kurt = (*kurt) / (ngood * (*svar) * (*svar)) - 3.0;
+			*kurt = (*kurt) / (ngood * (*svar) * (*svar))/* -3.0*/;
 		}
 	}
 }

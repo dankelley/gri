@@ -502,12 +502,49 @@ double GriDvector::stddev()
 	long good = 0;
 	for (unsigned int i = 0; i < the_depth; i++)
 		if (!gr_missing(contents[i])) {
-			sum += (contents[i] - the_mean) * (contents[i] - the_mean);
+			double tmp = (contents[i] - the_mean);
+			sum += tmp * tmp;
 			good++;
 		}
 	if (good > 1)
 		return double(sqrt(sum / (good - 1)));
 	else
+		return gr_currentmissingvalue();
+}
+double GriDvector::skewness()
+{
+	double the_mean = mean();
+	double sum = 0.0;
+	long good = 0;
+	for (unsigned int i = 0; i < the_depth; i++)
+		if (!gr_missing(contents[i])) {
+			double tmp = (contents[i] - the_mean);
+			sum += tmp * tmp * tmp;
+			good++;
+		}
+	double s = stddev();
+	if (good > 0 && s > 0)
+		return double((sum / good) / s / s / s);
+	else
+		return gr_currentmissingvalue();
+}
+double GriDvector::kurtosis()
+{
+	double the_mean = mean();
+	double sum = 0.0;
+	long good = 0;
+	for (unsigned int i = 0; i < the_depth; i++)
+		if (!gr_missing(contents[i])) {
+			double tmp = (contents[i] - the_mean);
+			sum += tmp * tmp * tmp * tmp;
+			good++;
+		}
+	double s = stddev();
+	// BUG: which kurtosis definition to use???
+	// some subtract 3 from the below
+	if (good > 1)
+		return double(sum / good / s / s / s / s);
+	else 
 		return gr_currentmissingvalue();
 }
 double * GriDvector::begin()

@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.204 2002/07/03 18:59:05 dankelley Exp $
+@c $Id: gri.texim,v 1.205 2002/07/21 13:31:02 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -13445,10 +13445,19 @@ end while
 
 @cindex maximum, column data
 @cindex minimum, column data
-@cindex column data -- minimum, maximum, mean
+@cindex statistics, column data
+@cindex column data, statistics
+@cindex mean, calculating for column data
+@cindex standard deviation, calculating for column data
+@cindex skewness, calculating for column data
+@cindex kurtosis, calculating for column data
 The mean value is available from the @code{mean} operator (e.g.,
 @code{.xmean. = @{rpn x mean @}}, while the standard deviation is given
-by @code{stddev} and the minimal and maximal values are given by
+by @code{stddev}, the skewness is given by @code{skewness},
+and the kurtosis is given by @code{kurtosis} (using the definition
+that yields 3 for a gaussian distribution).
+
+The minimal and maximal values are given by
 @code{min} and @code{max}.
 
 @cindex @code{area} rpn operator
@@ -17056,6 +17065,10 @@ they are found to create new bugs.
 
 @item
 Add @code{sed} RPN operator, to work on strings @ref{Binary Operators}.
+
+@item
+Add @code{skewness} and @code{kurtosis} RPN operators, to work on 
+columns @ref{Manipulation of Columns etc}.
 
 @end itemize
 

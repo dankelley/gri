@@ -102,7 +102,7 @@ typedef enum {
 	YPTTOUSER,
 	YUSERTOCM,
 	YUSERTOPT,
-	AREA, VAL, MIN, MAX, MEDIAN, MEAN, STDDEV, SIZE,
+	AREA, VAL, MIN, MAX, MEDIAN, MEAN, STDDEV, SKEWNESS, KURTOSIS, SIZE,
 	STRINGWIDTH, STRINGASCENT, STRINGDESCENT,
 	SED,
 	DEFINED,
@@ -211,8 +211,10 @@ RPN_DICT        rpn_dict[] =
 	{"min", 3, MIN},
 	{"max", 3, MAX},
 	{"median", 6, MEDIAN},
-	{"mean", 4, MEAN},
-	{"stddev", 6, STDDEV},
+	{"mean",     4, MEAN},
+	{"stddev",   6, STDDEV},
+	{"skewness", 8, SKEWNESS},
+	{"kurtosis", 8, KURTOSIS},
 	{"size", 4, SIZE},
 	{"directory_exists", 16, DIRECTORY_EXISTS},
 	{"file_exists", 11, FILE_EXISTS},
@@ -1824,6 +1826,50 @@ do_operation(operator_name oper)
 			SET(1, "", _colV.mean(), NUMBER);
 		} else if (!strcmp(NAME(1), "grid")) {
 			GET_GRID_MEAN();
+		} else {
+			err("Column `\\", NAME(1), "' is invalid", "\\");
+			RpnError = GENERAL_ERROR;
+			return false;
+		}
+		return true;
+	}
+	if (oper == SKEWNESS) {
+		NEED_ON_STACK(1);
+		NEED_IS_TYPE(1, COLUMN_NAME);
+		if (!strcmp(NAME(1), "x")) {
+			SET(1, "", _colX.skewness(), NUMBER);
+		} else if (!strcmp(NAME(1), "y")) {
+			SET(1, "", _colY.skewness(), NUMBER);
+		} else if (!strcmp(NAME(1), "z")) {
+			SET(1, "", _colZ.skewness(), NUMBER);
+		} else if (!strcmp(NAME(1), "u")) {
+			SET(1, "", _colU.skewness(), NUMBER);
+		} else if (!strcmp(NAME(1), "v")) {
+			SET(1, "", _colV.skewness(), NUMBER);
+		} else if (!strcmp(NAME(1), "grid")) {
+			err("Cannot do skewness of a grid.  Ask author if you need this to be added to Gri");
+		} else {
+			err("Column `\\", NAME(1), "' is invalid", "\\");
+			RpnError = GENERAL_ERROR;
+			return false;
+		}
+		return true;
+	}
+	if (oper == KURTOSIS) {
+		NEED_ON_STACK(1);
+		NEED_IS_TYPE(1, COLUMN_NAME);
+		if (!strcmp(NAME(1), "x")) {
+			SET(1, "", _colX.kurtosis(), NUMBER);
+		} else if (!strcmp(NAME(1), "y")) {
+			SET(1, "", _colY.kurtosis(), NUMBER);
+		} else if (!strcmp(NAME(1), "z")) {
+			SET(1, "", _colZ.kurtosis(), NUMBER);
+		} else if (!strcmp(NAME(1), "u")) {
+			SET(1, "", _colU.kurtosis(), NUMBER);
+		} else if (!strcmp(NAME(1), "v")) {
+			SET(1, "", _colV.kurtosis(), NUMBER);
+		} else if (!strcmp(NAME(1), "grid")) {
+			err("Cannot do kurtosis of a grid.  Ask author if you need this to be added to Gri");
 		} else {
 			err("Column `\\", NAME(1), "' is invalid", "\\");
 			RpnError = GENERAL_ERROR;

@@ -1,3 +1,9 @@
+2002-07-21  Dan Kelley  <kelley@limit.phys.ocean.dal.ca>
+
+	* CHANGE definition of kurtosis used in "column statistics", to be the more basic of the two common definitions (i.e. the one without 3 subtracted)
+
+	* rpncalc.cc (do_operation): Add rpn operators for column skewness and kurtosis
+
 2002-06-16  Dan Kelley  <kelley@limit.phys.ocean.dal.ca>
 
 	* rpncalc.cc (do_operation): add hex2dec and dec2hex RPN operators
