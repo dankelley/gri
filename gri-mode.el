@@ -5,7 +5,7 @@
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.53 (17 July 2001)
+;; Version:   2.56 (18 July 2001)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -384,10 +384,12 @@
 ;;   gri-menubar-cmds-build: (gri-lookat-syntax-file 3)
 ;;   gri-build-expansion-regex: stop at \.synonym.
 ;;   gri-perform-completion: needed to regexp-quote the search string
-;; V2.52 15Jul01 RCS 1.77
-;;   Add set/unset-command-postarguments to Perform menubar.
-;; V2.53 17Jul01 RCS 1.78
-;;   Tweak Perform menubar order.
+;; V2.52 15Jul01 RCS 1.77 - Add set/unset-command-postarguments to Perf menubar
+;; V2.53 17Jul01 RCS 1.78 - Tweak Perform menubar order.
+;; V2.54 18Jul01 RCS 1.79 - Change toolbar icons to look nicer.
+;; V2.55 18Jul01 RCS 1.80 - Add gri-syntax-default-this-builtin used by idle
+;;   timer.
+;; V2.56 18Jul01 RCS 1.81 - Fontify defined builtins distinctively
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -1561,12 +1563,36 @@ Used for gri-display-default-syntax."
                                         (forward-char -2)
                                         (point))))))))))
 
+(defun gri-syntax-default-this-builtin ()
+  "Returns default settings for builtin variable under point.
+Return: nil if not on a variable
+          0 if there is no default setting to display
+        else return the string
+Used for gri-idle-function."
+  (save-excursion
+    (if (not (progn
+               (if (re-search-backward 
+                    "[ \t]" (save-excursion (beginning-of-line) (point)) 1)
+                   (forward-char 1))
+               (looking-at "\\(\\\\\\|\\.\\)[^ \n]+")))
+        nil
+      (let ((the-builtin (match-string-no-properties 0)))
+        (gri-lookat-syntax-file 2)
+        (if (not (re-search-forward
+                  (concat "^" (regexp-quote the-builtin) " (\\(.*\\));") 
+                  nil t))
+            0
+          (concat the-builtin ": " (match-string-no-properties 1)))))))
+
 (defun gri-idle-function ()
   "Run whenever Emacs is idle to display function defaults."
   (if (eq major-mode 'gri-mode)
-      (let ((default-string (gri-syntax-default-this-command)))
+      (let ((default-string (gri-syntax-default-this-builtin)))
         (if (stringp default-string)
-            (message "%s" default-string)))))
+            (message "%s" default-string)
+          (let ((default-string (gri-syntax-default-this-command)))
+            (if (stringp default-string)
+                (message "%s" default-string)))))))
 
 (defun gri-prompt-for-command (user-flag)
   "Prompt user for gri command name, providing minibuffer completion.
@@ -3375,6 +3401,74 @@ If variable gri*hilit-before-return is t,
 ;;  '("break" "else" "else if" "end if" "end while" "if" "quit" "return" "rpn" 
 ;;    "while"))
 
+;; Take the list of builtins from gri.cmd, and run
+;;   perl -ne 'chop;{print "\"$_\"\n"}'
+;; to get the list of strings.  Then:
+;;
+;; (regexp-opt
+;; '(
+;; "..R2.."
+;; "..coeff0.."
+;; "..coeff0_sig.."
+;; "..coeff1.."
+;; "..coeff1_sig.."
+;; "..num_col_data.."
+;; "..num_col_data_missing.."
+;; "..arrowsize.."
+;; "..batch.."
+;; "..debug.."
+;; "..fontsize.."
+;; "..graylevel.."
+;; "..linewidth.."
+;; "..linewidthaxis.."
+;; "..linewidthsymbol.."
+;; "..missingvalue.."
+;; "..symbolsize.."
+;; "..superuser.."
+;; "..trace.."
+;; "..tic_direction.."
+;; "..tic_size.."
+;; "..xmargin.."
+;; "..xsize.."
+;; "..ymargin.."
+;; "..ysize.."
+;; "..red.."
+;; "..blue.."
+;; "..green.."
+;; "..exit_status.."
+;; "..xleft.."
+;; "..xright.."
+;; "..ybottom.."
+;; "..ytop.."
+;; "..use_default_for_query.."
+;; "..words_in_dataline.."
+;; "..eof.."
+;; "..landscape.."
+;; "..publication.."
+;; "..xlast.."
+;; "..ylast.."
+;; "..image_width.."
+;; "..image_height.."))
+;; 
+;; (regexp-opt
+;; '(
+;; "\.missingvalue."
+;; "\.return_value."
+;; "\.version."
+;; "\.pid."
+;; "\.wd."
+;; "\.time."
+;; "\.user."
+;; "\.host."
+;; "\.system."
+;; "\.home."
+;; "\.lib_dir."
+;; "\.command_file."
+;; "\.readfrom_file."
+;; "\.ps_file."
+;; "\.path_data."
+;; "\.path_commands."))
+
 (setq
  gri-font-lock-keywords
  '((gri-font-lock-match-functions
@@ -3391,11 +3485,15 @@ If variable gri*hilit-before-return is t,
     . font-lock-keyword-face)
    ("\\\\[^ ]+[ ]+[\\+\\*/^-]?= " . font-lock-function-name-face)
    ("\\.[^ .]+\\.[ ]+[\\+\\*/^-]?= " . font-lock-function-name-face)
-   (" \\(\\.\\.[A-z][^ .\n\C-m]*\\.\\.\\)" 
-    (1 font-lock-type-face))  ; system ..variables..
-   (" \\(\\.[A-z][^ .\n\C-m]*\\.\\)" 
-    (1 font-lock-variable-name-face))  ; user .variables.
-   (" \\(\\\\[^ \C-m\n]+\\)" (1 font-lock-variable-name-face)) ; \.synonyns.
+   ("\\.\\.\\(\\(R2\\|arrowsize\\|b\\(atch\\|lue\\)\\|coeff\\([01]_sig\\|[01]\\)\\|debug\\|e\\(of\\|xit_status\\)\\|fontsize\\|gr\\(aylevel\\|een\\)\\|image_\\(height\\|width\\)\\|l\\(andscape\\|inewidth\\(axis\\|symbol\\)?\\)\\|missingvalue\\|num_col_data\\(_missing\\)?\\|publication\\|red\\|s\\(uperuser\\|ymbolsize\\)\\|t\\(ic_\\(direction\\|size\\)\\|race\\)\\|use_default_for_query\\|words_in_dataline\\|x\\(l\\(\\(as\\|ef\\)t\\)\\|margin\\|right\\|size\\)\\|y\\(bottom\\|last\\|margin\\|size\\|top\\)\\)\\.\\.\\)"
+;; " \\(\\.\\.[A-z][^ .\n\C-m]*\\.\\.\\)" 
+    (0 font-lock-type-face))            ; builtin ..variables..
+   ("\\\\\\.\\(\\(command_file\\|ho\\(me\\|st\\)\\|lib_dir\\|missingvalue\\|p\\(ath_\\(commands\\|data\\)\\|id\\|s_file\\)\\|re\\(\\(adfrom_fil\\|turn_valu\\)e\\)\\|system\\|time\\|user\\|version\\|wd\\)\\.\\)"
+    (0 font-lock-type-face))            ; builtin \.synonyms.
+   ("\\(\\\\[^ \C-m\n]+\\)" 
+    (1 font-lock-variable-name-face))   ; \.synonyns.
+   ("\\(\\.[A-z][^ .\n\C-m]*\\.\\)"
+    (1 font-lock-variable-name-face))   ; user .variables.
    ))
 
 ;; V1.28 Stats on gsl-map.gri
@@ -4583,75 +4681,40 @@ static char *magick[] = {
 
   (defvar gri::toolbar-run-icon
     (gri-mode-toolbar-make-button
-;;;      "/* XPM */
-;;; static char * saveas_xpm[] = {
-;;; /* columns rows colors chars-per-pixel */
-;;; \"24 24 5 1\",
-;;; \"       c None\",
-;;; \".      c #01be01be01be\",
-;;; \"X      c white\",
-;;; \"o      c #e625e625e625\",
-;;; \"O      c Gray62\",
-;;; /* pixels */
-;;; \"                        \",
-;;; \"                        \",
-;;; \"                        \",
-;;; \"                        \",
-;;; \"   ..................   \",
-;;; \"    .XXXXXXXXXXXXXXX.   \",
-;;; \"    .XXXXXXXXXXXXXXX.   \",
-;;; \"    .oXXXXXXXXXXXXXo.   \",
-;;; \"   ..XoXooooXXXXXXoX.   \",
-;;; \"    .XXoXXXXooXXXoXX.   \",
-;;; \"    .XXXXXXXXXoXoXXX.   \",
-;;; \"    .XXoOOoXXXXoXXXX.   \",
-;;; \"   ..XOOOOOOXXXXXXXX.   \",
-;;; \"    .XOXXXXOXXXXOOXX.   \",
-;;; \"    .oOXXXXXXXXXOOXX.   \",
-;;; \"    .OOXXXXXXXXXooXX.   \",
-;;; \"   ..oOXXOOOXOOXOOXX.   \",
-;;; \"    .XOXXooOXOoXXOXX.   \",
-;;; \"    .XOOXoOOXOXXXOXX.   \",
-;;; \"    .XXOOOOXXOXXXOXX.   \",
-;;; \"   ..................   \",
-;;; \"    .   .   .   .   .   \",
-;;; \"                        \",
-;;; \"                        \"
-;;; };"
 "/* XPM */
 static char * gri24x24_xpm[] = {
 /* columns rows colors chars-per-pixel */
 \"24 24 5 1\",
 \" 	c None\",
-\".	c #01be01be01be\",
+\".	c black\",
 \"X	c white\",
-\"o	c Gray62\",
-\"O	c #e625e625e625\",
+\"o	c grey90\",
+\"O	c #010101\",
 /* pixels */
-\"                        \",
-\"....................... \",
-\"  .XXXXXXXXXXXXXXXXXXX. \",
-\"  .XXXXXXXXXXXXXXXXXXX. \",
-\"  .XXXXXXXXXXXXXXXXXXo. \",
-\"  .XXXXXXXXXXXXXXXXXoX. \",
-\"...ooXXXXXXXXXXXXXXoXX. \",
-\"  .XXoXXXXXXXXXXXXoXXX. \",
-\"  .XXXoooooooXXXXoXXXX. \",
-\"  .XXXXXXXXXooXXoXXXXX. \",
-\"  .XXXXXXXXXXooooXXXXX. \",
-\"...XXXXOooOXXXXoXXXXXX. \",
-\"  .XXXooooooXXXXXXXXXX. \",
-\"  .XXXoXXXXoXXXXooXXXX. \",
-\"  .XXOoXXXXXXXXXooXXXX. \",
-\"  .XXooXXXXXXXXXOOXXXX. \",
-\"...XXOoXXoooXooXooXXXX. \",
-\"  .XXXoXXOOoXoOXXoXXXX. \",
-\"  .XXXooXOooXoXXXoXXXX. \",
-\"  .XXXXooooXXoXXXoXXXX. \",
-\"  .XXXXXXXXXXXXXXXXXXX. \",
-\"....................... \",
-\"  .    .    .    .    . \",
-\"  .    .    .    .    . \"
+\" .      .      .      . \",
+\" ...................... \",
+\"..XXXX..XXXXXXXXXXXXXX..\",
+\" .XXXX..XXXXXXXXXXXXXX. \",
+\" .XXX.oo.XXXXXXXXXXXXX. \",
+\" .XX.oooo.XXXXXXX..XXX. \",
+\" .X.oooooo.XXXXXX..XXX. \",
+\" ...oooooo.XXXX..oo.XX. \",
+\" ...ooooooo.XX.ooooo... \",
+\" .oooooooooo..oooooo... \",
+\" .oooooooooo..oooooooo. \",
+\" .oooooooooooooooooooo. \",
+\"..oooooooooooooooooooo..\",
+\" .ooooO...Oooooooooooo. \",
+\" .oooO.ooo.ooooooo.ooo. \",
+\" .oooOoooooooooooooooo. \",
+\" .ooOOooooooooO.ooOooo. \",
+\" .ooO.ooo.O.o.OoooOooo. \",
+\" .oooOoooo.oooOoooOooo. \",
+\" .oooO.oooOoooOoooOooo. \",
+\" .ooooO...OoooOoooOooo. \",
+\" .oooooooooooooooooooo. \",
+\"........................\",
+\" .      .      .      . \"
 };")
   "The run gri icon.")
 
@@ -4660,38 +4723,36 @@ static char * gri24x24_xpm[] = {
 "/* XPM */
 static char * gri_gv24x24_xpm[] = {
 /* columns rows colors chars-per-pixel */
-\"24 24 6 1\",
+\"24 24 4 1\",
 \" 	c None\",
-\".	c #01be01be01be\",
+\".	c black\",
 \"X	c white\",
-\"o	c black\",
-\"O	c Gray62\",
-\"+	c #e625e625e625\",
+\"o	c grey90\",
 /* pixels */
-\"                        \",
-\"....................... \",
-\"  .XXXXXXXXXXXXXXXXXXX. \",
-\"  .XXXXXXXXXXXXXXXXXXX. \",
-\"  .XXXXXXXXXXXXXXXXXXX. \",
-\"  .XXXXXooooXXoXXXXoXX. \",
-\"...XXXXooXXooXoXXXXoXX. \",
-\"  .XXXooXXXooXoXXXXoXX. \",
-\"  .XXXooXXXoOXooXX+oXX. \",
-\"  .XXXXooooo+XXoXXooXX. \",
-\"  .XXXXXXXXoXXXoXXoXXX. \",
-\"...XXXXXXXXoXXXoXXoXXX. \",
-\"  .XXXXXXXXoXXX+oXoXXX. \",
-\"  .XXXoXXXooXXXXooXXXX. \",
-\"  .XXXooXooXXXXXooXXXX. \",
-\"  .XXXXoooXXXXXXXXXXXX. \",
-\"...XXXXXXXX+++++++XXXX. \",
-\"  .XXX+++++++++++XXXXX. \",
-\"  .XXX+XXXXXXXXXXXXXXX. \",
-\"  .XXXXXXXXXXXXXXXXXXX. \",
-\"  .XXXXXXXXXXXXXXXXXXX. \",
-\"....................... \",
-\"  .    .    .    .    . \",
-\"  .    .    .    .    . \"
+\" .      .      .      . \",
+\" ...................... \",
+\"..XXXX..XXXXXXXXXXXXXX..\",
+\" .XXXX..XXXXXXXXXXXXXX. \",
+\" .XXX.oo.XXXXXXXXXXXXX. \",
+\" .XX.oooo.XXXXXXX..XXX. \",
+\" .X.oooooo.XXXXXX..XXX. \",
+\" ...oooooo.XXXX..oo.XX. \",
+\" ...ooooooo.XX.ooooo... \",
+\" .oooooooooo..oooooo... \",
+\" .oooooooooo..oooooooo. \",
+\" .oooooooooooooooooooo. \",
+\"..oooooooooooooooooooo..\",
+\" .oooooooooooooooooooo. \",
+\" .oooooooooooooooooooo. \",
+\" .oooooooooooooooooooo. \",
+\" .oooooo..oo.ooo.ooooo. \",
+\" .ooooo.oo.o.ooo.ooooo. \",
+\" .ooooo.oo.oo.o.oooooo. \",
+\" .oooooo...oo...oooooo. \",
+\" .oooooooo.ooo.ooooooo. \",
+\" .ooooo.oo.ooooooooooo. \",
+\"........oo..............\",
+\" .      ..     .      . \"
 };")
   "The gri view icon.")
 
@@ -4702,35 +4763,35 @@ static char * gri_info24x24_xpm[] = {
 /* columns rows colors chars-per-pixel */
 \"24 24 5 1\",
 \" 	c None\",
-\".	c #01be01be01be\",
+\".	c black\",
 \"X	c white\",
-\"o	c #e625e625e625\",
-\"O	c Gray62\",
+\"o	c grey90\",
+\"O	c #010101\",
 /* pixels */
-\"                        \",
-\"....................... \",
-\"  .XXXXXXXXXXXXXXXXXXX. \",
-\"  .XXXXXXoOOOXXXXXXXXX. \",
-\"  .XXXXXXoOOOXXXXXXXXX. \",
-\"  .XXXXXXoOOOXXXXXXXXX. \",
-\"...XXXXXXXXXXXXXXXXXXX. \",
-\"  .XXXXXXOOOOXXXXXXXXX. \",
-\"  .XXXXXXOOOOXXXXXXXXX. \",
-\"  .XXXXXXOOOOXXXXXXXXX. \",
-\"  .XXXXXXOOOOXXXXXXXXX. \",
-\"...XXXXXXXOOOXXXXXXXXX. \",
-\"  .XXXXXXXOOOXXXXXXXXX. \",
-\"  .XXXXXXXOOOXXXXXXXXX. \",
-\"  .XXXXXXXOOOXXXXXXXXX. \",
-\"  .XXXXXXXOOOXXXXXXXXX. \",
-\"...XXXXXXXOOOXXXXXXXXX. \",
-\"  .XXXXXXOOOOOXXXXXXXX. \",
-\"  .XXXXXXOOOOOXXXXXXXX. \",
-\"  .XXXXXXXXXXXXXXXXXXX. \",
-\"  .XXXXXXXXXXXXXXXXXXX. \",
-\"....................... \",
-\"  .    .    .    .    . \",
-\"  .    .    .    .    . \"
+\" .      .      .      . \",
+\" ...................... \",
+\"..XXXX..XXXXXXXXXXXXXX..\",
+\" .XXXX..XXXXXXXXXXXXXX. \",
+\" .XXX.oo.XXXXXXXXXXXXX. \",
+\" .XX.oooo.XXXXXXX..XXX. \",
+\" .X.oooooo.XXXXXX..XXX. \",
+\" ...oooooo.XXXX..oo.XX. \",
+\" ...ooooooo.XX.ooooo... \",
+\" .oooooooooo..oooooo... \",
+\" .oooooooooo..oooooooo. \",
+\" .oooooooooooooooooooo. \",
+\"..oooooooooooooooooooo..\",
+\" .ooo.oooooo...ooooooo. \",
+\" .ooo.oooooo.ooooooooo. \",
+\" .oooooooooo.ooooooooo. \",
+\" .ooo.o.oooo..oooooooo. \",
+\" .ooo.o.OO.o.oo....ooo. \",
+\" .ooo.o.oo.o.oo.oo.ooo. \",
+\" .ooo.o.oo.o.oo.oo.ooo. \",
+\" .ooo.o.oo.o.oo....ooo. \",
+\" .oooooooooooooooooooo. \",
+\"........................\",
+\" .      .      .      . \"
 };")
   "The gri Info icon.")
 
@@ -4739,18 +4800,10 @@ static char * gri_info24x24_xpm[] = {
 ;;                :image gri::toolbar-run-icon))))
  
   (defvar gri::toolbar
-    '([gri::toolbar-run-icon
-       gri-run
-       t
-       "Run gri on this file"]
-      [gri::toolbar-view-icon
-       gri-view
-       t
-       "View PostScript file"]
-      [gri::toolbar-info-icon
-       gri-info-this-command
-       t
-       "Lookup Info about currently command"]))
+    '([gri::toolbar-run-icon gri-run t "Run gri on this file"]
+      [gri::toolbar-view-icon gri-view t "View PostScript file"]
+      [gri::toolbar-info-icon gri-info-this-command t 
+                              "Lookup Info about currently command"]))
 
   (mapcar (lambda (x)            
             (let* ((icon (aref x 0))
@@ -4770,7 +4823,7 @@ static char * gri_info24x24_xpm[] = {
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.53 (c) 17 July 2001 --  Peter Galbraith <psg@debian.org>
+V2.56 (c) 18 July 2001 --  Peter Galbraith <psg@debian.org>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
