@@ -232,8 +232,8 @@ marker_count() // -1 if error
 
 	int ns = 0;
 	int slen = synonymStack.size();
-	for (int i = slen - 1; i >= 0; i--)
-		if (*synonymStack[i].get_name() == '\0')
+	for (int ii = slen - 1; ii >= 0; ii--)
+		if (*synonymStack[ii].get_name() == '\0')
 			ns++;
 	if (ns == nv)
 		return ns;

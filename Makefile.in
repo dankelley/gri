@@ -83,7 +83,7 @@ CXX = @CXX@
 # case depends on whether -frepo exists ... and whether the installer
 # has temerity to try it!
 template.o: template.cc
-	$(CXX) -c -Wall $(CXXFLAGS) $(EXTRA_CFLAGS_TEMPLATE) $(DEFS) -I$(srcdir) $<
+	$(CXX) -c $(CXXFLAGS) $(EXTRA_CFLAGS_TEMPLATE) $(DEFS) -I$(srcdir) $<
 
 
 
@@ -189,7 +189,11 @@ etags:
 	etags *.cc *.hh
 
 clean:
-	rm -f gri *.o *.rpo core *.bak *.BAK *~ config.cache \#* tmp
+	-rm -f gri *.o *.rpo core *.bak *.BAK *~ config.cache \#* tmp
+#	Clean template-function directory, if existent. (Created by
+#	IBM C++ compiler.)
+	-rm -rf tempinc
+
 
 distclean:
 	make clean

@@ -729,9 +729,9 @@ remove_comment(char *s)
 			}
 		}
 		// Set a flag if there is now nothing but whitespace.
-		for (int i = 0; i < len; i++) {
-			//printf("\tEXAMINE [%c]\n", s[i]);
-			if (!isspace(s[i])) {
+		for (int ii = 0; ii < len; ii++) {
+			//printf("\tEXAMINE [%c]\n", s[ii]);
+			if (!isspace(s[ii])) {
 				//printf("\t\tRETURNING false [%s]\n", s);
 				return false;
 			}

@@ -402,10 +402,10 @@ get_syn(const char *name, std::string& value, bool do_decoding)
 		// Now know it's not of the form "\[0].word#." or "\[].word#.", etc.
 		// It must be of the form "\[]syn" or "\[0]syn", etc.
 		unsigned int stackLen = synonymStack.size();
-		for (int i = stackLen - 1; i >= 0; i--) {
-			if (!strcmp(name_unindexed.c_str(), synonymStack[i].get_name())) {
+		for (int ii = stackLen - 1; ii >= 0; ii--) {
+			if (!strcmp(name_unindexed.c_str(), synonymStack[ii].get_name())) {
 				if (index_len) {
-					if (get_nth_word(synonymStack[i].get_value(), the_index, value)) {
+					if (get_nth_word(synonymStack[ii].get_value(), the_index, value)) {
 						;
 					} else {
 						value.assign(name);
@@ -413,10 +413,10 @@ get_syn(const char *name, std::string& value, bool do_decoding)
 					}
 				} else {
 					char num[30];
-					sprintf(num, "%d", get_number_of_words(synonymStack[i].get_value()));
+					sprintf(num, "%d", get_number_of_words(synonymStack[ii].get_value()));
 					value.assign(num);
 				}
-				synonymStack[i].incrementCount();
+				synonymStack[ii].incrementCount();
 				return true;
 			}
 		}
