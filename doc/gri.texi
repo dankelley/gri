@@ -1,6 +1,6 @@
 \input texinfo 
 
-@c $Id: gri.texi,v 1.151 2003/09/03 20:26:30 dankelley Exp $
+@c $Id: gri.texi,v 1.152 2003/09/03 22:35:46 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16430,8 +16430,10 @@ only in the fixing of bugs.
 @itemize @bullet
 
 @item
-Fix Debian bug
-@uref{http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=208589,#208589}
+Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=800022&group_id=5511&atid=105511,#800022}
+AKA Debian bug
+@uref{http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=208589,#208589}, 
 @dots{} did not build on some Debian platforms because it was based 
 on an old version of @code{automake}.
 
