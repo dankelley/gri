@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.131 2001/09/13 20:09:59 dankelley Exp $
+@c $Id: gri.texim,v 1.132 2001/09/14 11:28:21 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -54,7 +54,7 @@
 @setfilename gri.info
 @settitle Gri
 @set GRI-VERSION 2.9.0
-@set GRI-PREVIOUS-VERSION 2.8.0
+@set GRI-PREVIOUS-VERSION 2.8.2
 @set AUTHOR-EMAIL Dan.Kelley@@Dal.CA
 @c %**end of header
 @iftex
@@ -15800,6 +15800,12 @@ only in the fixing of bugs.
 
 @subsection Version 2.8.2 [2001 Sep 19]
 @itemize @bullet
+@item
+Fix SourceForge bug
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=461444&group_id=5511&atid=105511">
+#461444
+@c HTML </a>
+(wouldn't compile with the @code{mingw32} compiler, for windows 32 machines). 
 @item
 Fix SourceForge bug
 @c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=454557&group_id=5511&atid=105511">
