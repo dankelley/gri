@@ -2644,6 +2644,14 @@ well_ordered(double min, double max, double inc)
 	else
 		return ((inc < 0.0) ? true : false);
 }
+bool
+inc_within_range(double min, double max, double inc)
+{
+	if (min < max)
+		return (min + inc < max);
+	else
+		return (min + inc > max);
+}
 
 bool
 set_x_axisCmd()
@@ -2718,10 +2726,10 @@ set_x_axisCmd()
 			READ_WORD_ERROR(".left. .right. .incBig.");
 			return false;
 		}
-		if (!well_ordered(xleft, xright, xinc)) {
-			err("`set x axis .left. .right. .incBig.' has .incBig. of wrong sign");
-			return false;
-		}
+		Require(well_ordered(xleft, xright, xinc),
+			err("`set x axis .left. .right. .incBig.' has .incBig. of wrong sign"));
+		Require(inc_within_range(xleft, xright, xinc),
+			err("`set x axis .left. .right. .incBig.' has .incBig. that goes outside range"));
 		_xleft = xleft;
 		_xright = xright;
 		PUT_VAR("..xleft..", _xleft);
@@ -2746,10 +2754,12 @@ set_x_axisCmd()
 			READ_WORD_ERROR(".left. .right. .incBig. .incSml.");
 			return false;
 		}
-		if (!well_ordered(xleft, xright, xinc)) {
-			err("`set x axis .left. .right. .incBig. .incSml.' has .incBig. of wrong sign");
-			return false;
-		}
+		Require(well_ordered(xleft, xright, xinc),
+			err("`set x axis .left. .right. .incBig. .incSml.' has .incBig. of wrong sign"));
+		Require(inc_within_range(xleft, xright, xinc),
+			err("`set x axis .left. .right. .incBig.' has .incBig. that goes outside range"));
+		Require(inc_within_range(xleft, xright, tmp),
+			err("`set x axis .left. .right. .incBig. .incSml.' has .incSml. that goes outside range"));
 		_xleft = xleft;
 		_xright = xright;
 		PUT_VAR("..xleft..", _xleft);
@@ -2838,6 +2848,8 @@ set_x_gridCmd()
 	Require(xmin != xmax, err("Can't have .xmin. = .xmax."));
 	Require(well_ordered(xmin, xmax, xinc),
 		err("`set x grid .xmin. .xmax. .xinc.' has .xinc. of wrong sign"));
+	Require(inc_within_range(xmin, xmax, xinc),
+		err("`set x grid .xmin. .xmax. .xinc.' has .xinc. that goes outside range"));
 	nx = int(floor(1.5 + fabs((double) ((xmax - xmin) / xinc))));
 	Require(nx > 0, err(".xinc. too big"));
 	// check against existing matrix
@@ -2910,6 +2922,8 @@ set_y_gridCmd()
 	Require(ymin != ymax, err("Can't have .ymin.=.ymax."));
 	Require(well_ordered(ymin, ymax, yinc),
 		err("`set y grid .ymin. .ymax. .yinc.' has .yinc. of wrong sign"));
+	Require(inc_within_range(ymin, ymax, yinc),
+		err("`set y grid .ymin. .ymax. .yinc.' has .yinc. that goes outside range"));
 	ny = 1 + int(floor(0.5 + fabs((double) ((ymax - ymin) / yinc))));
 	Require(ny > 0, err(".yinc. too big"));
 	// check against existing matrix
@@ -3115,10 +3129,10 @@ set_y_axisCmd()
 			err("can't understand parameters");
 			return false;
 		}
-		if (!well_ordered(ybottom, ytop, yinc)) {
-			err("`set y axis .bottom. .top. .incBig.' has .incBig. of wrong sign");
-			return false;
-		}
+		Require(well_ordered(ybottom, ytop, yinc),
+			err("`set y axis .bottom. .top. .incBig.' has .incBig. of wrong sign"));
+		Require(inc_within_range(ybottom, ytop, yinc),
+			err("`set y axis .bottom. .top. .incBig.' has .incBig. that goes outside range"));
 		_ybottom = ybottom;
 		_ytop = ytop;
 		PUT_VAR("..ybottom..", _ybottom);
@@ -3144,10 +3158,12 @@ set_y_axisCmd()
 			err("can't understand parameters");
 			return false;
 		}
-		if (!well_ordered(ybottom, ytop, yinc)) {
-			err("`set y axis .bottom. .top. .incBig. .incSml.' has .incBig. of wrong sign");
-			return false;
-		}
+		Require(well_ordered(ybottom, ytop, yinc),
+			err("`set y axis .bottom. .top. .incBig. .incSml.' has .incBig. of wrong sign"));
+		Require(inc_within_range(ybottom, ytop, yinc),
+			err("`set y axis .bottom. .top. .incBig.' has .incBig. that goes outside range"));
+		Require(inc_within_range(ybottom, ytop, tmp),
+			err("`set y axis .bottom. .top. .incBig. incSml.' has .incSml. that goes outside range"));
 		_ybottom = ybottom;
 		_ytop = ytop;
 		PUT_VAR("..ybottom..", _ybottom);
