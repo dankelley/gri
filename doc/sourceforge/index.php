@@ -87,6 +87,8 @@ scp index.php psg@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
                   <td class="menus" align="right">
 		    <b>Source tarball</b><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.1.tgz">gri-2.8.1.tgz</a><br>
+		    <b>with pre-made docs</b><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.1-arch-indep.tar.gz">gri-2.8.1-arch-indep.tar.gz</a><br>
 		    <b>RedHat Linux</b><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.1-1.src.rpm">gri-2.8.1-1.src.rpm</a><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.1-1.i386.rpm">gri-2.8.1-1.i386.rpm</a><br>
