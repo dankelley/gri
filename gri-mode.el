@@ -5,7 +5,7 @@
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.57 (18 July 2001)
+;; Version:   2.58 (24 July 2001)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -391,6 +391,7 @@
 ;;   timer.
 ;; V2.56 18Jul01 RCS 1.81 - Fontify defined builtins distinctively
 ;; V2.57 18Jul01 RCS 1.82 - Tweak the new local .variable. regexp for font-lock
+;; V2.58 24Jul01 RCS 1.83 - Typo fix.
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -4804,7 +4805,7 @@ static char * gri_info24x24_xpm[] = {
     '([gri::toolbar-run-icon gri-run t "Run gri on this file"]
       [gri::toolbar-view-icon gri-view t "View PostScript file"]
       [gri::toolbar-info-icon gri-info-this-command t 
-                              "Lookup Info about currently command"]))
+                              "Lookup Info about command under cursor"]))
 
   (mapcar (lambda (x)            
             (let* ((icon (aref x 0))
@@ -4824,7 +4825,7 @@ static char * gri_info24x24_xpm[] = {
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.57 (c) 18 July 2001 --  Peter Galbraith <psg@debian.org>
+V2.58 (c) 24 July 2001 --  Peter Galbraith <psg@debian.org>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
