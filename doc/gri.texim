@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.214 2002/09/14 13:13:08 dankelley Exp $
+@c $Id: gri.texim,v 1.215 2002/09/25 12:41:28 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16325,11 +16325,24 @@ only in the fixing of bugs.
 @subsection Version 2.12
 @cindex version 2.12
 
+@subsubsection Version 2.12.0 [2002 ??? ??]
+@strong{Bug Fixes}
+
+@itemize
+
+@item
+Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=613075&group_id=5511&atid=105511,#613075}
+@dots{} RPN operators sin, cos, and tan were limited in range (new bug in last release)
+
+@end itemize
+
+
+
 @subsubsection Version 2.12.0 [2002 Sep 15]
 (@uref{http://www.terryfox.org/,Terry Fox Day}, Canada.)
 
 @strong{New Features}
-
 
 @itemize @bullet
 

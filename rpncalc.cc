@@ -866,10 +866,6 @@ do_operation(operator_name oper)
 	if (oper == SINE) {
 		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
 		if (VALID(1)) {
-			if (VALUE(1) > 1.0 || VALUE(1) < -1.0) {
-				RpnError = RANGE_1;
-				return false;
-			}
 			SET(1, "", (sin(VALUE(1)/deg_per_rad)), NUMBER, true);
 		} else 
 			SET(1, "", missing, NUMBER, false);
@@ -878,10 +874,6 @@ do_operation(operator_name oper)
 	if (oper == COSINE) {
 		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
 		if (VALID(1)) {
-			if (VALUE(1) > 1.0 || VALUE(1) < -1.0) {
-				RpnError = RANGE_1;
-				return false;
-			}
 			SET(1, "", (cos(VALUE(1)/deg_per_rad)), NUMBER, true);
 		} else 
 			SET(1, "", missing, NUMBER, false);
@@ -890,10 +882,6 @@ do_operation(operator_name oper)
 	if (oper == TANGENT) {
 		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
 		if (VALID(1)) {
-			if (VALUE(1) > 1.0 || VALUE(1) < -1.0) {
-				RpnError = RANGE_1;
-				return false;
-			}
 			SET(1, "", (tan(VALUE(1)/deg_per_rad)), NUMBER, true);
 		} else 
 			SET(1, "", missing, NUMBER, false);
@@ -902,10 +890,6 @@ do_operation(operator_name oper)
 	if (oper == SINH) {
 		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
 		if (VALID(1)) {
-			if (VALUE(1) > 1.0 || VALUE(1) < -1.0) {
-				RpnError = RANGE_1;
-				return false;
-			}
 			SET(1, "", (sinh(VALUE(1))), NUMBER, true);
 		} else 
 			SET(1, "", missing, NUMBER, false);

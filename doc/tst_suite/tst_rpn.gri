@@ -69,13 +69,16 @@ read columns x
 9
 3
 
-assert {rpn x mean     3.6      same}
-assert {rpn x stddev   3.1305   same}
-assert {rpn x skewness 0.882432 same}
-assert {rpn x kurtosis 1.88008  same}
+assert {rpn x mean     3.6      same}     " failed test 7.1"
+assert {rpn x stddev   3.1305   same}     " failed test 7.2"
+assert {rpn x skewness 0.882432 same}     " failed test 7.3"
+assert {rpn x kurtosis 1.88008  same}     " failed test 7.4"
 
 # ----------- FILL IN LATER -----------------
 # Math functions (e.g. sin, ...)
 # Stack operations  push, pop, and exch.
+assert {rpn 45 cos 0.7071 same}           " failed test 8.1"
+assert {rpn 45 sin 0.7071 same}           " failed test 8.2"
+assert {rpn 45 tan 1      same}           " failed test 8.3"
 
 show " passed"
