@@ -3281,7 +3281,12 @@ assign_synonym()
 	    && !strcmp(_word[1], "=")
 	    && !strcmp(_word[2], "word")
 	    && !strcmp(_word[4], "of")) {
-		int             which = atoi(_word[3]), max, i;
+		double tmp;
+		if (!getdnum(_word[3], &tmp)) {
+			READ_WORD_ERROR(".n. in e.g. `\\syn = word .n. of \"string\"'");
+			return false;
+		}
+		int which = int(floor(0.5 + tmp));
 		Require(which >= 0, err("Can't select word whose index is < 0"));
 		string to_chop(_word[_nword - 1]);
 		if (to_chop[0] == '"')
@@ -3297,8 +3302,9 @@ assign_synonym()
 			err("Out of memory while trying to assign synonym as n-th word of string");
 			return false;
 		}
+		int max;
 		chop_into_words(to_chop_in_C, _Words2, &max, MAX_nword);
-		i = strlen(_Words2[max - 1]);
+		int i = strlen(_Words2[max - 1]);
 		if (i > 2 && *(_Words2[max - 1] + i - 1) == '"')
 			*(_Words2[max - 1] + i - 1) = '\0';
 		if (which > (max - 1)) {
