@@ -1,6 +1,6 @@
 gri (2.6.1-0) unstable; urgency=low
 
-  * New upstream version.
+  * New CVS upstream version (Note the debian version 0 !!!).
 
  -- Peter S Galbraith <psg@debian.org>  Mon,  9 Apr 2001 10:29:25 -0400
 
