@@ -736,16 +736,16 @@ used.
     delete .ur_y.
 }
 
-`draw box filled .ll_x. .ll_y. .ur_x. .ur_y. [cm|pt]'
+`draw box filled .xleft. .ybottom. .xright. .ytop. [cm|pt]'
 Draw filled box spanning indicated range, with lower-left corner at
-(`.ll_x.', `.ll_y.') and upper-right corner at (`.ur_x.', `.ur_y.').
+(`.xleft.', `.ybottom.') and upper-right corner at (`.xright.', `.ytop.').
 The corners are specified in user coordinates, unless the optional
 `cm' or 'pt' keyword is present, in which case they are in centimetres
 or points on the page.  An error will result if you specify user
 coordinates but they aren't defined yet.
 
    No checking is done on the rectangle; for example, there is no
-requirement that `.ll_x.' be to the left of `.ur_x.' in your
+requirement that `.xleft.' be to the left of `.xright.' in your
 coordinate system.
 
    NOTE: if the box is specified in user units, this command will cause
@@ -755,9 +755,9 @@ pt units.
     extern "C" bool draw_box_filledCmd(void);
 }
 
-`draw box .ll_x. .ll_y. .ur_x. .ur_y. [cm|pt]'
+`draw box .xleft. .ybottom. .xright. .ytop. [cm|pt]'
 Draw box spanning indicated range, with lower-left corner at
-(`.ll_x.', `.ll_y.)' and upper-right corner at (`.ur_x.', `.ur_y.').
+(`.xleft.', `.ybottom.') and upper-right corner at (`.xright.', `.ytop.').
 
    The corners are specified in user coordinates, unless the optional
 `cm' or `pt' keyword is present, in which case they are in centimetres
@@ -765,7 +765,7 @@ or points on the page.  An error will result if you specify user
 coordinates but they aren't defined yet.
 
    No checking is done on the rectangle; for example, there is no
-requirement that `.ll_x.' be to the left of `.ur_x.' in your
+requirement that `.xleft.' be to the left of `.xright.' in your
 coordinate system.
 {
     extern "C" bool draw_boxCmd(void);
