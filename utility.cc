@@ -2227,3 +2227,44 @@ fix_negative_zero(std::string& number) // change e.g. "-0" to "0", for axes
 	if (is_zero)
 		number.STRINGERASE(0, 1);
 }
+
+bool
+get_optionsCmd()
+{
+	DEBUG_FUNCTION_ENTRY;
+	DEBUG_MESSAGE("Note: this command does NOTHING so far;\n");
+	DEBUG_MESSAGE("      this command is NOT documented yet; and\n");
+	DEBUG_MESSAGE("      the material below is used by the author for debugging.\n");
+	if (_nword < 3 || _nword > 5) {
+		NUMBER_WORDS_ERROR;
+		demonstrate_command_usage();
+		return false;
+	}
+	bool keep = false;	// keep the unused options?
+	if (_nword == 4) {
+		if (word_is(3, "keep")) {
+			keep = true;
+		} else {
+			demonstrate_command_usage();
+			err("Cannot understand word `\\", _word[3], "'.  Expecting `keep' here, if anything", "\\");
+			DEBUG_FUNCTION_EXIT;
+			return false;
+		}
+	}
+	if (keep) 
+		DEBUG_MESSAGE("Gri will keep unused options.\n") 
+	else 
+		DEBUG_MESSAGE("Gri NOT keep unused options.\n") 
+
+	std::string options(_word[2]);
+	// Remove containing quotes, if present
+	if (options[0] == '"')
+		options.STRINGERASE(0, 1);
+	if (options[options.size() - 1] == '"')
+		options.STRINGERASE(options.size() - 1, 1);
+	
+	DEBUG_MESSAGE("Option-specification string was"); printf(" \"%s\"\n", options.c_str());
+	DEBUG_FUNCTION_EXIT;
+
+	return true;
+}

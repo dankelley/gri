@@ -62,4 +62,35 @@
     strcpy((n), (c));                                          \
 }
 
+// Pretty-print debug info
+#if defined (__GNUC__)
+#define DEBUG_MESSAGE(s)     {                                             \
+    printf("%*s%s", _function_indent, " ", (s));                           \
+}
+#define DEBUG_FUNCTION_ENTRY {                                             \
+    printf("%*s<%s>\n",_function_indent, " ", __FUNCTION__);               \
+    _function_indent += 4;                                                 \
+}
+#define DEBUG_FUNCTION_EXIT {                                              \
+    if (_function_indent > 3) {                                            \
+        _function_indent -= 4;                                             \
+    }                                                                      \
+    printf("%*s</%s>\n", _function_indent, " ", __FUNCTION__);             \
+}
+#else
+#define DEBUG_MESSAGE(s)     {                                             \
+    printf("%*s%s", _function_indent, " ", (s));                           \
+}
+#define DEBUG_FUNCTION_ENTRY {                                             \
+    printf("%*s</%s>.\n", _function_indent, " ", "unknown-function-name"); \
+    _function_indent += 4;                                                 \
+}
+#define DEBUG_FUNCTION_EXIT {                                              \
+    if (_function_indent > 3) {                                            \
+        _function_indent -= 4;                                             \
+    }                                                                      \
+    printf("%*s</%s>.\n", "unknown-function-name");                        \
+}
+#endif
+
 #endif

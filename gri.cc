@@ -141,6 +141,8 @@ typedef struct {
 }               GRI_COMMAND;
 GRI_COMMAND     _command[COMMAND_STACK_SIZE];
 
+int _function_indent = 4;
+
 
 
 int

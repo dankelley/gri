@@ -154,5 +154,6 @@ typedef struct {
 }               GRI_COMMAND;
 extern GRI_COMMAND _command[COMMAND_STACK_SIZE];
 
+extern int _function_indent;
 
 #endif				// _extern_h_

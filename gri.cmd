@@ -1818,6 +1818,11 @@ modified when the data are moved.  Example:
     extern "C" bool get_envCmd(void);
 }
 
+`get options "LIST" [keep]'
+{
+    extern "C" bool get_optionsCmd(void);
+}
+
 `heal columns|{grid along x|y}'
    The `heal' command heals over gaps in either columnar or gridded
 data.  This is done by linear interpolation across the missing-value
