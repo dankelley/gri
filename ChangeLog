@@ -1,22 +1,123 @@
+2001-10-01 Dan Kelley <Dan.Kelley@Dal.Ca>
+	
+	* Release as gri-2.8.3 on SourceForge.Net site.  
+	
+	* Fix SourceForge bug #462243 (endian problem in Rasterfile
+	images, plus a reading problem in PGM images).
+
+2001-09-10 Dan Kelley <Dan.Kelley@Dal.Ca>
+	
+	* Release as gri-2.8.2 on SourceForge.Net site.
+	
+	* Really fix SourceForge bug #454557 (wouldn't compile with the
+	pre-release version 3.0.1 of the GNU c++ compiler).  This closes
+	SourceForge Bug #111093.
+
+2001-09-06 Dan Kelley <Dan.Kelley@Dal.Ca>
+
+	* Release as gri-2.8.1 on SourceForge.Net site.
+	
+	* Fix SourceForge bug #450465 (`create columns from function' was
+	broken).
+	
+	* Fix SourceForge bug #454557 (wouldn't compile with the
+	pre-release version 3.0.1 of the GNU c++ compiler). Closes
+	Sourceforge bug #111093)
+	
+2001-07-24 Dan Kelley <dan.kelley@dal.ca>
+
+	* Bump up version number to 2.8.0
+
+2001-07-23 Dan Kelley <Dan.Kelley@Dal.Ca>
+
+	* Release as gri-2.8.0 on SourceForge.Net site.
+
+	* Add `unlink' command as a unix-familiar way to delete files.
+
+	* Add `set page size' command to clip to a given page size.
+
+	* Add `substr' RPN operator to permit extraction of sub-strings.
+
+	* Add `default' for the `set x name' and the `set y name'
+	commands.
+
+	* Add Perl-like ability to put underscores in numerical constants
+	(`.v. = 1_000' and `.v. = 1000' are completely equivalent).
+
+	* In Emacs mode, change <M-Tab> so that it completes builtin
+	variables and synonyms as well as commands.
+
+	* In Emacs mode, add "idle-timer help" to display defaults for
+	builtin variables under cursor.
+
+	* In Emacs mode, make fontification of builtin variables apply
+	only if spelled correctly.
+
+	* To Makefile, add `make source-arch-indep' target in sources.
+	This will build a source tar file in which all the
+	architecture-independent material (documentation in HTML,
+	postscript and Info formats) is pre-made.  This makes it easier to
+	install gri on a host that doesn't have TeX and ImageMagick
+	installed.
+
+	* Move gri-html-doc and gri-ps-doc documentation files to the
+	/usr/share/doc/gri directory
+
+	* Ensure that package compiles with Standards-Version: 3.5.5
+	without changes.
+
+2001-04-19 Dan Kelley <dan.kelley@dal.ca>
+
+	* Rename the RPM spec file as gri.spec, without the version number
+	embedded in the filename.  Upgrade to version number 2.6.1.
+	Change url to point to sourceforge site (but leave ftp as it is,
+	for now anyway).
+
+2000-06-1 Dan Kelley <dan.kelley@dal.ca>
+
+	* Triv changes here; code changes are to read compressed files,
+	and manual improvements.
+
 2000-05-30  Peter S. Galbraith <psg@debian.org>
 
 	* doc/gri.texi: Added Emacs gri-mode chapter.
-	* doc/gri.texi: Example images are not in example directory anymore.
+	
+	* doc/gri.texi: Example images are not in example directory
+	anymore.
+
 	* doc/screenshots: new directory.
+
 	* doc/gri2html: Colorize .gri file in HTML manual.
+
 	* index.html: Now first page instead of gri1.html
+
 	* doc/HTML_subdivide: Now has better navigation tags.
+
 	* doc/examples: All examples are jpg instead of Gif.
+
 	* doc/texinfo2HTML: skips a few more @if constructs.
+
 	* doc/Makefile: Updated for above things.
+
 	* Makefile.in: Updated source target
 	
-2000-05-11  Peter S. Galbraith <psg@debian.org>
+2000-05-12 Dan Kelley <dan.kelley@dal.ca>
+	
+	* Compress info files for linux-redhat.
+
+2000-05-11 Peter S Galbraith <psg@debian.org>
+
+	* Change info files to .info file extension.
+	
+	* Tweaked install-info rules.  I hope they work.
 
 	* Patch texinfo2HTML to skip over the @dircategory line and
 	  the @direntry block.
+	
 	* Uncomment them in gri.texi
+	
 	* Make gri.texi produce .info extensions (@setfilename gri.info)
+	
 	* Patch gri-2.5.1.spec, Makefile.in and doc/Makefile targets to
 	  use .info extension.
 
@@ -42,7 +143,46 @@
 	* Clean up a few things in the configure script, mainly by
 	renaming variables to be more readible, and by removing tests for
 	architectures that never have any affect on the code.
-	
 
-	
+2000-04-01 Dan Kelley <dan.kelley@dal.ca>
 
+	* Fix spec-file error in the install-info command.  However, to my
+	great frustration, this is still broken or install-info is broken)
+	since the command doesn't install an entry for gri.  After
+	hand-editing to insert a Gri entry, I uncovered another bug, and
+	so I have added a chmod of /usr/info/dir file so folks other than
+	root can use info.
+	
+	* Update the version number in gri.cmd to match the number
+	compiled into gri.  
+
+	* Update the startup message from the old form to the new form.
+
+	* Call this release 3 to match Tim Powers' convention (although I
+	think it should be called release 1, when it works!)
+
+2000-03-31 Dan Kelley <dan.kelley@dal.ca>
+
+	* applied Tim Powers' patches directly to the sources, updating
+	them so that the patches Tim had made in this spec file are no
+	longer needed.  Note: I didn't apply Tim's patch to the
+	documentation, since visual inspection indicated that I had
+	already repaired the errors he found (each of which which involved
+	my having used an incorrect name for the example gif files.)
+
+	* renamed Tim's spec file from gri.spec to gri-2.4.3.spec since
+	otherwise I'd get too confused as versions develop.
+
+2000-01-30  Dan Kelley <dan.kelley@dal.ca>
+
+	* Changing to e.g. /usr/share/info instead of /usr/info.  Same for
+	manpages.  I know, I should be using the fancy macros that are
+	defined in /usr/lib/rpm, but these seemed contradictory, with
+	respect to where things are in my Redhat 7.0 setup ... and I had a
+	hard time figuring out how to use these macros anyway, so I just
+	gave up and hard-wired them in, using the new directories as used
+	in Redhat 7.0, as opposed to the (different) directories in all
+	the other Redhat versions I've had.  Someday I'll switch to using
+	macros, but it means changing both this spec-file and various
+	Makefiles, and I need to be sure that changes to the Makefiles
+	don't hurt the distributions for Debian linux, for solaris, etc.
