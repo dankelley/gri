@@ -1,7 +1,7 @@
 %!PS-Adobe-2.0 EPSF-1.2
-%%Creator: Gri2.6.0 (released 2000-Jun-23).  User=kelley, commandfile=/home/kelley/GRI-work/gri/doc/examples/example8.gri
+%%Creator: Gri2.7.0 (released 2001-mmm-dd).  User=kelley, commandfile=example8.gri
 %%Title: example8.ps
-%%CreationDate: Sat Jun 24 12:26:17 2000
+%%CreationDate: Sat May 19 11:56:11 2001
 %%Pages: (atend)
 %%BoundingBox: (atend)
 %%TemplateBox: 0 0 612 792
@@ -149,16 +149,22 @@
  /xll exch def
  /imagemap exch def
  q
- % Add the mapping to the transfer function (ref: white book, p 743.
- [{255 mul cvi imagemap exch get} /exec load currenttransfer /exec load]
-   cvx settransfer
+ % Until version 2.6.0 used a 'settransfer' here, but that
+ % triggers a bug in ps2pdf
  xll yll translate
  xur xll sub yur yll sub scale
  /do cl string def
- cl rw 8 [cl 0 0 rw neg 0 rw] {currentfile do readhexstring pop}image
+ cl rw 8 [cl 0 0 rw neg 0 rw]
+ {currentfile do readhexstring pop
+  dup length 1 sub 0 1 3 -1 roll
+    { 1 index exch
+      2 copy get imagemap exch get 255 mul cvi put
+    }
+  for
+ }image
  Q
  end
-} def
+} bind def
 /frdict  5 dict def
 /fr {
  frdict begin
@@ -406,12 +412,24 @@
   currentdict
 end
 /Courier-ISOLatin1 exch definefont pop
+/Courier-Oblique findfont dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse } forall
+  /Encoding ISOLatin1Encoding def
+  currentdict
+end
+/Courier-Oblique-ISOLatin1 exch definefont pop
 /Courier-Bold findfont dup length dict begin
   {1 index /FID ne {def} {pop pop} ifelse } forall
   /Encoding ISOLatin1Encoding def
   currentdict
 end
 /Courier-Bold-ISOLatin1 exch definefont pop
+/Courier-BoldOblique findfont dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse } forall
+  /Encoding ISOLatin1Encoding def
+  currentdict
+end
+/Courier-BoldOblique-ISOLatin1 exch definefont pop
 /Helvetica findfont dup length dict begin
   {1 index /FID ne {def} {pop pop} ifelse } forall
   /Encoding ISOLatin1Encoding def
@@ -424,51 +442,84 @@ end
   currentdict
 end
 /Helvetica-Bold-ISOLatin1 exch definefont pop
+/Helvetica-Oblique findfont dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse } forall
+  /Encoding ISOLatin1Encoding def
+  currentdict
+end
+/Helvetica-Oblique-ISOLatin1 exch definefont pop
 /Palatino-Roman findfont dup length dict begin
   {1 index /FID ne {def} {pop pop} ifelse } forall
   /Encoding ISOLatin1Encoding def
   currentdict
 end
 /Palatino-Roman-ISOLatin1 exch definefont pop
-/Palatino-Bold findfont dup length dict begin
-  {1 index /FID ne {def} {pop pop} ifelse } forall
-  /Encoding ISOLatin1Encoding def
-  currentdict
-end
-/Palatino-Bold-ISOLatin1 exch definefont pop
 /Palatino-Italic findfont dup length dict begin
   {1 index /FID ne {def} {pop pop} ifelse } forall
   /Encoding ISOLatin1Encoding def
   currentdict
 end
 /Palatino-Italic-ISOLatin1 exch definefont pop
+/Palatino-Bold findfont dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse } forall
+  /Encoding ISOLatin1Encoding def
+  currentdict
+end
+/Palatino-Bold-ISOLatin1 exch definefont pop
+/Palatino-BoldItalic findfont dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse } forall
+  /Encoding ISOLatin1Encoding def
+  currentdict
+end
+/Palatino-BoldItalic-ISOLatin1 exch definefont pop
 /Symbol findfont dup length dict begin
   {1 index /FID ne {def} {pop pop} ifelse } forall
   /Encoding ISOLatin1Encoding def
   currentdict
 end
 /Symbol-ISOLatin1 exch definefont pop
-/Times findfont dup length dict begin
-  {1 index /FID ne {def} {pop pop} ifelse } forall
-  /Encoding ISOLatin1Encoding def
-  currentdict
-end
-/Times-ISOLatin1 exch definefont pop
-/Times-Bold findfont dup length dict begin
-  {1 index /FID ne {def} {pop pop} ifelse } forall
-  /Encoding ISOLatin1Encoding def
-  currentdict
-end
-/Times-Bold-ISOLatin1 exch definefont pop
 /Times-Roman findfont dup length dict begin
   {1 index /FID ne {def} {pop pop} ifelse } forall
   /Encoding ISOLatin1Encoding def
   currentdict
 end
 /Times-Roman-ISOLatin1 exch definefont pop
+/Times-Italic findfont dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse } forall
+  /Encoding ISOLatin1Encoding def
+  currentdict
+end
+/Times-Italic-ISOLatin1 exch definefont pop
+/Times-Bold findfont dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse } forall
+  /Encoding ISOLatin1Encoding def
+  currentdict
+end
+/Times-Bold-ISOLatin1 exch definefont pop
+/Times-BoldItalic findfont dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse } forall
+  /Encoding ISOLatin1Encoding def
+  currentdict
+end
+/Times-BoldItalic-ISOLatin1 exch definefont pop
 %%EndProlog
 %%Page: 1 1
 /Helvetica-ISOLatin1 findfont 12.00 sc sf
+%gri:# Gri was invoked by user named
+%gri:#     kelley
+%gri:# on host named
+%gri:#     Intrusion.phys.ocean.dal.ca
+%gri:# using the command
+%gri:#    gri -y -p example8.gri
+%gri:# at time Sat May 19 11:56:11 2001.
+%gri:#
+
+%gri:# The user's ~/.grirc file ...
+
+%gri:# ... end of users ~/.grirc file.
+
+%gri:
+
 %gri:# Example 8 -- Plot T=T(x,rho) section of eubex data
 %gri:
 %gri:`Initialize Parameters'
@@ -513,8 +564,8 @@ end
 %gri:`Read Data'
 %gri:{
 %gri:    # Read x-locations
-%gri:    system \.awk. '{print $2}' < \locn > TMP
-%gri:    system wc TMP | \.awk. '{print $1}' > NUM
+%gri:    system awk '{print $2}' < \locn > TMP
+%gri:    system wc TMP | awk '{print $1}' > NUM
 %gri:    open NUM
 %gri:    read .gridx_number.
 %gri:    close
@@ -604,7 +655,7 @@ end
 442.74 280.71 l
 440.37 281.15 l
 440.44 281.22 l
-436.73 281.66 l
+436.73 281.65 l
 439.36 282.12 l
 439.38 282.14 l
 441.49 282.60 l
@@ -656,7 +707,7 @@ end
 407.03 282.60 l
 406.33 282.36 l
 410.46 281.84 l
-409.73 281.66 l
+409.73 281.65 l
 406.77 281.41 l
 400.54 281.04 l
 397.07 280.71 l
@@ -674,7 +725,7 @@ end
 398.51 276.91 l
 401.01 276.59 l
 403.87 276.25 l
-406.10 275.97 l
+406.10 275.96 l
 404.64 275.69 l
 399.25 275.37 l
 397.95 275.02 l
@@ -692,7 +743,7 @@ end
 397.46 271.22 l
 396.62 270.83 l
 397.47 270.65 l
-396.47 270.28 l
+396.47 270.27 l
 399.37 269.92 l
 403.05 269.62 l
 405.77 269.33 l
@@ -856,7 +907,7 @@ S
 354.70 282.60 l
 353.83 282.53 l
 343.51 281.89 l
-341.24 281.66 l
+341.24 281.65 l
 340.18 281.37 l
 338.34 281.02 l
 337.23 280.71 l
@@ -874,7 +925,7 @@ S
 326.16 276.91 l
 326.68 276.46 l
 326.43 276.42 l
-327.08 275.97 l
+327.08 275.96 l
 329.75 275.52 l
 330.91 275.44 l
 334.24 275.02 l
@@ -892,7 +943,7 @@ S
 308.73 271.22 l
 307.36 271.06 l
 307.36 270.43 l
-306.28 270.28 l
+306.28 270.27 l
 307.40 270.12 l
 311.67 269.55 l
 313.22 269.33 l
@@ -1106,7 +1157,7 @@ S
 280.51 282.60 l
 279.97 282.45 l
 276.31 281.85 l
-275.67 281.66 l
+275.67 281.65 l
 274.65 281.45 l
 273.24 280.93 l
 272.10 280.71 l
@@ -1124,7 +1175,7 @@ S
 244.05 276.91 l
 241.03 276.48 l
 240.31 276.39 l
-237.29 275.97 l
+237.29 275.96 l
 236.51 275.57 l
 236.07 275.40 l
 235.29 275.02 l
@@ -1142,7 +1193,7 @@ S
 213.92 271.22 l
 213.92 271.04 l
 213.92 270.46 l
-213.92 270.28 l
+213.92 270.27 l
 215.04 270.08 l
 217.56 269.54 l
 218.84 269.33 l
@@ -1278,7 +1329,7 @@ S
 442.33 235.19 l
 444.77 235.49 l
 448.28 235.93 l
-449.90 236.14 l
+449.90 236.13 l
 450.70 236.27 l
 455.16 237.05 l
 S
@@ -1449,7 +1500,7 @@ S
 198.11 282.60 l
 197.99 282.57 l
 197.39 281.68 l
-197.29 281.66 l
+197.29 281.65 l
 197.16 281.63 l
 194.16 281.22 l
 S
@@ -1479,7 +1530,7 @@ S
 408.28 224.03 l
 423.19 224.54 l
 423.76 224.74 l
-423.85 224.76 l
+423.85 224.75 l
 423.92 224.78 l
 426.53 225.60 l
 426.87 225.70 l
@@ -1609,7 +1660,7 @@ S
 431.15 218.12 l
 434.21 218.44 l
 435.77 218.69 l
-440.26 219.07 l
+440.26 219.06 l
 441.24 219.48 l
 441.59 219.61 l
 442.56 220.01 l
@@ -1818,7 +1869,9 @@ S
 % gr_show_at() BEGIN
 0 g
 0 G
-451.9 149.9 m (0) sh
+449.8 149.9 m () sh
+(\255) sh
+(0) sh
 % gr_show_at() END
 0 g
 0 G

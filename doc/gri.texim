@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.88 2001/05/15 20:10:33 dankelley Exp $
+@c $Id: gri.texim,v 1.89 2001/05/19 15:07:52 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -53,7 +53,7 @@
 @comment %**start of header
 @setfilename gri.info
 @settitle Gri
-@set GRI-VERSION 2.6.1
+@set GRI-VERSION 2.6.2
 @set GRI-PREVIOUS-VERSION 2.4.0
 @set AUTHOR-EMAIL Dan.Kelley@@Dal.CA
 @c %**end of header
@@ -11747,7 +11747,7 @@ produces output that looks something like the following.
 Synonyms...
     \.missingvalue.           = "10000000000000000000000.000000"
     \.return_value.           = ""
-    \.version.                = "2.6.1"
+    \.version.                = "2.6.2"
     \.pid.                    = "24489"
     \.wd.                     = "/home/kelley/src/gri/doc"
     \.time.                   = "Fri Apr 20 12:03:14 2001"
@@ -15585,6 +15585,23 @@ and adjust the "status" menu to read "closed".
 @node   Version 2.6, Version 2.4, History, History
 @comment  node-name,  next,  previous,  up
 @section Version 2.6
+
+@subsection Version 2.6.2 [2001 May 19]
+@itemize @bullet
+@item
+Fix SourceForge bug 
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=425174&group_id=5511&atid=105511">
+#425174
+@c HTML </a>
+(synonym interpolation broken on e.g. @code{show "[\syn]"}
+@item
+Fix SourceForge bug 
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=425175&group_id=5511&atid=105511">
+#425175
+@c HTML </a>
+(@code{while !..eof..} acted ignored end of file)
+@end itemize
+
 
 @subsection Version 2.6.1 [2001 May 10]
 @itemize @bullet
