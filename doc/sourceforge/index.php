@@ -217,7 +217,7 @@ Search gri manual for (may be a regular expression):<p>
     <tr> 
       <td  class="menubox">
 	Stable version 
-	<a href="http://sourceforge.net/project/showfiles.php?group_id=5511&release_id=55284">2.8.4</a>
+	<a href="http://sourceforge.net/project/showfiles.php?group_id=5511&release_id=55363">2.8.4</a>
 	released
 	<? 
 	# REF: mktime(hour,minute,second,month,day,year)
