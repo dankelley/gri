@@ -208,7 +208,7 @@ source:
 	install -m 644 ChangeLog *.cc *.hh gri.cmd logo.dat license.txt \
 	    Makefile.in Makefile.dj2 configure configure.in install-sh \
 	    copyright.txt AUTHOR README* gri-mode.el gri_merge gri_unpage \
-	    startup.msg startup.debian startup.redhat gri-*.spec grilogo.gif \
+	    startup.msg startup.debian startup.redhat gri*.spec grilogo.gif \
 	    install-SunOS5 README-SunOS5 \
 	        $(SOURCE_NAME)
 	install -m 755 configure install-sh $(SOURCE_NAME)
@@ -278,7 +278,7 @@ test:
 	@cd doc/tst_suite ; ../../gri -directory ../.. -c0 tst_IO.gri
 
 what_is_new:
-	@for f in *.spec gri.cmd logo.dat *cc *hh Makefile.in configure.in doc/gri.texi doc/Makefile;\
+	@for f in gri*.spec gri.cmd logo.dat *cc *hh Makefile.in configure.in doc/gri.texi doc/Makefile;\
 		do diff --brief $$f ../$$f;\
 	done
 

@@ -1,11 +1,11 @@
 Summary: A language for scientific illustration
 Name: gri
-Version: 2.6.0
+Version: 2.6.1
 Release: 1
 Copyright: distributable
 Group: Applications/Engineering
-Source: ftp://ftp.phys.ocean.dal.ca/users/kelley/gri/gri-2.6.0.tgz
-URL: http://www.phys.ocean.dal.ca/~kelley/gri/index.html
+Source: ftp://ftp.phys.ocean.dal.ca/users/kelley/gri/gri-2.6.1.tgz
+URL: http://gri.sourceforge.net
 Packager: Dan E. Kelley <Dan.Kelley@Dal.CA>
 Icon: grilogo.gif
 BuildRoot: /var/tmp/%{name}-root
@@ -95,6 +95,11 @@ then
 fi
 
 %changelog
+* Thu Apr 19 09:17:05 ADT 2001 Dan Kelley <dan.kelley@dal.ca>
+- Rename this file as gri.spec, without the version number embedded 
+  in the filename.  Upgrade to version number 2.6.1.  Change url to
+  point to sourceforge site (but leave ftp as it is, for now anyway).
+
 * Tue Jan 30 2001  Dan Kelley <dan.kelley@dal.ca>
 - Changing to e.g. /usr/share/info instead of /usr/info.  Same for manpages.  I 
   know, I should be using the fancy macros that are defined in /usr/lib/rpm, but
