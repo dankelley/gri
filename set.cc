@@ -341,7 +341,6 @@ bool
 set_clipCmd()
 {
 	Require(_nword > 2, err("Must specify `set clip on' or `set clip off'"));
-	extern FILE    *_grPS;
 	if (_nword == 4 && word_is(2, "to") && word_is(3, "curve")) {
 		unsigned int xlen = _colX.size();
 		if (xlen < 1) {
@@ -353,38 +352,9 @@ set_clipCmd()
 			warning("`set clip to curve' noticed that curve's x and y lengths disagree");
 			return true;
 		}
-		if (_clipping_postscript) {
-			fprintf(_grPS, "S Q %% `set clip to curve' first must turn remnant clipping off\n");
-			check_psfile();
-		}
-                fprintf(_grPS, "q n %% `set clip to curve' setting clipping on\n");
 		double *xp = _colX.begin();
 		double *yp = _colY.begin();
-		bool need_moveto = true;
-		for (unsigned int i = 0; i < xlen; i++) {
-			double x = *xp;
-			double y = *yp;
-			if (!gr_missingx((double)x) && !gr_missingy((double)y)) {
-				double xpt, ypt;
-				gr_usertopt(x, y, &xpt, &ypt);
-				if (need_moveto)
-					fprintf(_grPS, "%f %f moveto\n", xpt, ypt);
-				else 
-					fprintf(_grPS, "%f %f lineto\n", xpt, ypt);
-				need_moveto = false;
-			} else {
-				need_moveto = true;
-			}
-			xp++;
-			yp++;
-		}
-		fprintf(_grPS, "h W\n");
-		fprintf(_grPS, "n %% turn clipping on\n");
-
-		check_psfile();
-		_clipping_postscript = true;
-		_clipData = -1;     // KEEP??
-
+		gr_set_clip_ps_curve(xp, yp, xlen);
 		return true;
 	} else {
 		if (!strcmp(_word[2], "postscript")) {

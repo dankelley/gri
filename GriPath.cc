@@ -88,7 +88,7 @@ void GriPath::push_back(double xx, double yy, char a)
 		action[depth] = lineto;
 		break;
 	default:
-		fprintf(stderr, "INTERNAL error 1 in GriPath.cc\n");
+		fprintf(stderr, "INTERNAL error at GriPath.cc line %d (a path action is neither 'moveto' nor 'lineto')\n", __LINE__);
 		exit(99);
 	}
 	depth++;

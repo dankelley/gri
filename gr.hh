@@ -252,6 +252,7 @@ void            gr_rotate_xy(double x, double y, double angle, double *xx, doubl
 void            gr_save_postscript(const char *PS_name, int normal_scale);
 void            gr_scale125(double xl, double xr, int n, double *xlr, double *xrr, int *nr);
 // Routines to set various things
+void            gr_set_clip_ps_curve(const double *xc, const double *yc, unsigned int len);
 void            gr_set_clip_ps_rect(double ll_x_pt, double ll_y_pt, double ur_x_pt, double ur_y_pt);
 void            gr_set_clip_ps_off();
 void            gr_setfont(gr_fontID newID);

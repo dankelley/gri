@@ -2,6 +2,7 @@
 #if !defined(_GriPath_hh_)
 #define _GriPath_hh_
 #include "types.hh"
+#include "gr_coll.hh"
 class GriPath
 {
 public:

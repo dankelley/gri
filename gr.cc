@@ -1722,3 +1722,34 @@ gr_set_clip_ps_rect(double ll_x_pt, double ll_y_pt, double ur_x_pt, double ur_y_
 	check_psfile();
 	_clipping_postscript = true;
 }
+
+void
+gr_set_clip_ps_curve(const double *xc, const double *yc, unsigned int len)
+{
+	if (_clipping_postscript) {
+		fprintf(_grPS, "S Q %% `set clip to curve' first must turn remnant clipping off\n");
+		check_psfile();
+	}
+	fprintf(_grPS, "q n %% `set clip to curve' setting clipping on\n");
+	bool need_moveto = true;
+	for (unsigned int i = 0; i < len; i++) {
+		if (!gr_missingx(double(*xc)) && !gr_missingy(double(*yc))) {
+			double xpt, ypt;
+			gr_usertopt(*xc, *yc, &xpt, &ypt);
+			if (need_moveto)
+				fprintf(_grPS, "%f %f moveto\n", xpt, ypt);
+			else 
+				fprintf(_grPS, "%f %f lineto\n", xpt, ypt);
+			need_moveto = false;
+		} else {
+			need_moveto = true;
+		}
+		xc++;
+		yc++;
+	}
+	fprintf(_grPS, "h W\n");
+	fprintf(_grPS, "n %% turn clipping on\n");
+	check_psfile();
+	_clipping_postscript = true;
+	//_clipData = -1;     // KEEP??
+}

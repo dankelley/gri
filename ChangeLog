@@ -1,3 +1,8 @@
+2002-04-21  Dan E. Kelley  <Dan.Kelley@Dal.Ca>
+
+	* set.cc (set_clipCmd): move the postscript clipping work to gr.cc,
+	isolating the control of the PS file to smooth the road for SVG.
+
 2002-04-04  Dan Kelley  <kelley@Limit.Phys.Ocean.Dal.Ca>
 
 	* set.cc (set_x_axisCmd): Add user-supplied axis labels (same for
