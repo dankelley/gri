@@ -2268,12 +2268,16 @@ we could write code to double a variable in the following way:
 @example
 `double .value.'
 @{
+    show "Original value is " \@@.word1.
     \@@.word0. = @{rpn \@@.word0. 2 *@}  # de-reference
+    show "Doubled value is " \@@.word1.
 @}
 .x. = 10
-double .x.
+double ".x."
 @end example
-which would cause @code{.x.} to equal @code{20}.
+which would cause @code{.x.} to equal @code{20}.  Note that the name of
+the variable had to be enclosed in double-quotes, since otherwise Gri
+would have interpolated its value, before calling the new command.
 
 Another example, perhaps more useful, might be to "complete" filenames, 
 by prepending a directory name:
@@ -2283,17 +2287,16 @@ by prepending a directory name:
     \@@.word0. = "/data/\@@.word0."  # de-reference
 @}
 \file = "myfile.dat"
-complete \\file
+complete "\\file"
 open \file # uses "/data/myfile.dat"
 @end example
 
-Please note something important, in the second-last line: you must
-provide the @emph{name} of the synonym holding the filename, not the
-synonym itself.  Why?  Because if Gri reads @code{complete \file}, then
-it will interpolate the @code{\file} value into the line before
-executing it, and the code would then be @code{complete "myfile.dat"},
-and Gri will have no idea how to de-reference that!
- 
+Note that it was necessary to use a double-backslash, to protect the
+name of the synonym, since Gri otherwise would have interpolated
+(substituted) its value into the calling line.  In fact, it is not
+necessary to put quotes around this synonym name (as @emph{is} necessary
+for variables, as in the preceeding example), but it is good form.
+
 
 @c HTML <!-- newfile IfStatements.html "Gri: if statements" "Programming Gri" -->
 
