@@ -50,6 +50,36 @@ get_normal_number(const char *s, double *d)
 	}
 }
 
+// This warning business is too hard.  Just ignore it for now.
+#if 1
+bool
+get_number_with_underscores(const char *s, double *value)
+{
+	const char *si = s;
+	static string ss;	// keep in storage 
+	ss.assign("");
+	unsigned int slen = strlen(s);
+	if (!isdigit(*si) && *si != '.' && *si != '+' && *si != '-')
+		return false;
+	if (*si == '.' && !isdigit(*(si + 1)))
+		return false;
+	for (unsigned int i = 0; i < slen; i++) {
+		if (isdigit(*si) || *si == '.' || *si == '-' || *si == '+'
+		    || *si == 'e' || *si == 'E' || *si == 'd' || *si == 'D') {
+			ss += *si;
+		} else if (*si == '_') {
+			;
+		} else {
+			return false;
+		}
+		si++;
+	}
+	if (get_normal_number(ss.c_str(), value))
+		return true;
+	else
+		return false;
+}
+#else
 bool
 get_number_with_underscores(const char *s, double *value)
 {
@@ -58,23 +88,33 @@ get_number_with_underscores(const char *s, double *value)
 	ss.assign("");
 	unsigned int slen = strlen(s);
 	unsigned int last_underline = 0;
+	bool have_underline = false;
+	bool have_decimal = false;
 	if (!isdigit(*si) && *si != '.' && *si != '+' && *si != '-')
 		return false;
+	if (*si == '.' && !isdigit(*(si + 1)))
+		return false;
 	for (unsigned int i = 0; i < slen; i++) {
-		if (isdigit(*si) || *si == '.' 
-		    || *si == '-' || *si == '+'
-		    || *si == 'e' || *si == 'E' 
-		    || *si == 'd' || *si == 'D') {
+		if (isdigit(*si) || *si == '-' || *si == '+') {
 			ss += *si;
-		} else if (*si == '_') {
-			if (last_underline != 0) {
-				if (i - last_underline == 3) {
-					;
-				} else {
-					warning("misplaced _ in constant `\\", s, "'", "\\");
-				}
-			}
+		} else if (*si == '.') {
+			ss += *si;
+			if (have_underline && ((i - 1 - last_underline) != 3))
+				warning("misplaced _ before decimal place in `\\", s, "'", "\\");
+			last_underline = i; // pretend
+			have_underline = false;
+			have_decimal = true;
+		} else if (*si == 'e' || *si == 'E' || *si == 'd' || *si == 'D') {
+			ss += *si;
+			if (have_underline && ((i - 1 - last_underline) != 3))
+				warning("misplaced _ before exponent indicator in `\\", s, "'", "\\");
 			last_underline = i;
+			have_underline = false;	// reset
+		} else if (*si == '_') {
+			if (have_underline && ((i -1 - last_underline) != 3))
+				warning("misplaced _ in numerical constant `\\", s, "'", "\\");
+			last_underline = i;
+			have_underline = true;
 		} else {
 #ifdef DEBUG_UNDERSCORE
 			printf("%s:%d NOT A NUMBER '%s'\n", __FILE__,__LINE__,s);
@@ -86,7 +126,7 @@ get_number_with_underscores(const char *s, double *value)
 #ifdef DEBUG_UNDERSCORE
 	printf("%s:%d last_underscore %d    end at %d\n", __FILE__,__LINE__,last_underline, slen);
 #endif
-	if (last_underline != 0 && (slen - 1 - last_underline != 3)) {
+	if (have_underline && (slen - 1 - last_underline != 3)) {
 		warning("misplaced _ in constant `\\", s, "'", "\\");
 	}
 #ifdef DEBUG_UNDERSCORE
@@ -103,7 +143,7 @@ get_number_with_underscores(const char *s, double *value)
 #endif
 	return false;
 }
-
+#endif
 
 bool
 get_coded_value(const std::string& name, int level, std::string& result)
