@@ -2232,9 +2232,8 @@ bool
 get_optionsCmd()
 {
 	DEBUG_FUNCTION_ENTRY;
-	DEBUG_MESSAGE("Note: this command does NOTHING so far;\n");
-	DEBUG_MESSAGE("      this command is NOT documented yet; and\n");
-	DEBUG_MESSAGE("      the material below is used by the author for debugging.\n");
+	DEBUG_MESSAGE("This command does NOTHING yet.\n");
+	DEBUG_MESSAGE("This command is NOT documented yet.\n");
 	if (_nword < 3 || _nword > 5) {
 		NUMBER_WORDS_ERROR;
 		demonstrate_command_usage();
@@ -2252,9 +2251,9 @@ get_optionsCmd()
 		}
 	}
 	if (keep) 
-		DEBUG_MESSAGE("Gri will keep unused options.\n") 
+		DEBUG_MESSAGE("Will keep unused options.\n") 
 	else 
-		DEBUG_MESSAGE("Gri NOT keep unused options.\n") 
+		DEBUG_MESSAGE("Will NOT keep unused options.\n") 
 
 	std::string options(_word[2]);
 	// Remove containing quotes, if present

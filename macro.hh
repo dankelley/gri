@@ -64,32 +64,32 @@
 
 // Pretty-print debug info
 #if defined (__GNUC__)
-#define DEBUG_MESSAGE(s)     {                                             \
-    printf("%*s%s", _function_indent, " ", (s));                           \
+#define DEBUG_MESSAGE(s)     {                                              \
+    printf("%*s%s", _function_indent, " ", (s));                            \
 }
 #define DEBUG_FUNCTION_ENTRY {                                             \
-    printf("%*s<%s>\n",_function_indent, " ", __FUNCTION__);               \
+    printf("%*s<%s>  # %s:%d\n",_function_indent, " ", __FUNCTION__,__FILE__,__LINE__); \
     _function_indent += 4;                                                 \
 }
 #define DEBUG_FUNCTION_EXIT {                                              \
     if (_function_indent > 3) {                                            \
         _function_indent -= 4;                                             \
     }                                                                      \
-    printf("%*s</%s>\n", _function_indent, " ", __FUNCTION__);             \
+    printf("%*s</%s> # %s:%d\n", _function_indent, " ", __FUNCTION__,__FILE__,__LINE__); \
 }
 #else
 #define DEBUG_MESSAGE(s)     {                                             \
     printf("%*s%s", _function_indent, " ", (s));                           \
 }
 #define DEBUG_FUNCTION_ENTRY {                                             \
-    printf("%*s</%s>.\n", _function_indent, " ", "unknown-function-name"); \
+    printf("%*s<%s>  # %s:%d\n",_function_indent, " ", "unknown-function-name", __FILE__,__LINE__); \
     _function_indent += 4;                                                 \
 }
 #define DEBUG_FUNCTION_EXIT {                                              \
     if (_function_indent > 3) {                                            \
         _function_indent -= 4;                                             \
     }                                                                      \
-    printf("%*s</%s>.\n", "unknown-function-name");                        \
+    printf("%*s</%s> # %s:%d\n", _function_indent, " ", "unknown-function-name", __FILE__, __LINE__); \
 }
 #endif
 
