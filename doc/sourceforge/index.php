@@ -80,7 +80,7 @@
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.2-1.i386.rpm">gri-2.6.2-1.i386.rpm</a><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.6.2-0potato1_i386.deb">gri_2.6.2-0potato1_i386.deb</a><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.6.2-1_i386.deb">gri_2.6.2-1_i386.deb</a><br>
-                    <A class="menus" HREF="http://packages.debian.org/unstable/science/gri.html">gri-2.6.1 at Debian</A><br>
+                    <A class="menus" HREF="http://packages.debian.org/unstable/science/gri.html">gri-2.6.2 at Debian</A><br>
                     <A class="menus" HREF="http://packages.debian.org/unstable/doc/gri-html-doc.html">HTML manual at Debian</A><br>
                     <A class="menus" HREF="http://packages.debian.org/unstable/doc/gri-ps-doc.html">PS manual at Debian</A><br>
 		    <b>Solaris Pre-packaged</b><br>
