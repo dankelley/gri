@@ -106,8 +106,8 @@ scp index.php psg@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.6-SunOS5.tar.gz">gri-2.8.6-SunOS6.tar.gz</a><br>
 		    <b>Windows</b><br>
 		    <A class="menus" HREF="http://gnuwin32.sourceforge.net/packages/gri.htm">Win95/98/2000/NT port</a><br>
-		    <b>Mac OS-X</b><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.5-MacOSX.tar.gz">Not available yet</a><br>
+		    <b>Macintosh</b><br>
+		    <A class="menus" HREF="http://fink.sourceforge.net/pdb/package.php/gri">OS-X</a><br>
                   </td>
                 </tr>
             </tr>
