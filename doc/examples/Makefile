@@ -11,7 +11,7 @@ GRI = gri -y -p
 	convert $< $@
 
 %.html : %.gri
-	../gri2html $(basename $<)
+	perl ../gri2html $(basename $<)
 
 %-tiny.jpg : %.jpg
 	convert -geometry 90x999 $< $@
