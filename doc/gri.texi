@@ -1,7 +1,7 @@
 \input texinfo 
 
 
-@c $Id: gri.texi,v 1.130 2003/06/07 23:21:19 dankelley Exp $
+@c $Id: gri.texi,v 1.131 2003/06/08 01:02:12 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16369,6 +16369,24 @@ only in the fixing of bugs.
 @cindex version 2.12
 
 @comment ADD-NEW-BUG-FIXES-HERE
+
+@subsubsection Version 2.12.6 [2003 Jun 7]
+
+@strong{New Features}
+@itemize @bullet
+@item
+@end itemize
+
+@strong{Bug Fixes}
+@itemize
+@item
+Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=743134&group_id=5511&atid=105511,#743134}
+@dots{} bounding box not limited by @code{set clip postscript}
+
+@end itemize
+
+
 
 @subsubsection Version 2.12.5 [2003 May 19]
 (Victoria Day Holiday, Canada.)

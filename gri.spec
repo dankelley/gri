@@ -1,5 +1,5 @@
 Summary: A language for scientific illustration
-%define griversion 2.12.5
+%define griversion 2.12.6
 Name: gri
 Version: %{griversion}
 Release: 1
@@ -96,6 +96,8 @@ then
 fi
 
 %changelog
+* Sun Jun 7 2003 <Dan.Kelley@Dal.Ca>
+- fix Sourceforge bug 743134 (bounding box not limited by 'set clip postscript')
 * Sat May 31 2003 <Dan.Kelley@Dal.Ca>
 - alter some target names to match the Automake Makefiles.
 * Sat May 03 2003 <Dan.Kelley@Dal.Ca> (fix by Kawamura Masao)

@@ -3,6 +3,7 @@
              srcdir = @srcdir@
               VPATH = @srcdir@
       info_TEXINFOS = gri.texi
+#      gri_TEXINFOS = version.texi
     PACKAGE_VERSION = @PACKAGE_VERSION@
 if OS_IS_LINUX_REDHAT
             DOC_DIR = $(DESTDIR)$(prefix)/share/doc/gri-${PACKAGE_VERSION}
@@ -39,8 +40,9 @@ EXTRA_DIST = \
 html: $(srcdir)/gri.texi texinfo2HTML HTML_subdivide
 	cd examples ; make
 	cd tst_suite ; make
-# 	Make the info page (even if rewritten later) to get indices
-	makeinfo $(srcdir)/gri.texi
+# 	Make the info page (even if rewritten later) to get indices ...
+	$(MAKEINFO) $(AM_MAKEINFOFLAGS) $(MAKEINFOFLAGS) -I$(srcdir) gri.texi
+#	... but this is clumsy and should be done with a dependency.
 	cat $(srcdir)/gri.texi           	>  TMP
 	perl $(srcdir)/make_html_index		>> TMP
 	perl $(srcdir)/make_html_commandindex	>> TMP
