@@ -1151,7 +1151,7 @@ dogrirc()
 	_done = 0;
 	_margin.assign("| ");
 #if defined(HAVE_GETENV)
-	char *            home = egetenv("HOME");
+	char *home = egetenv("HOME");
 	if (!home) {
 		warning("Cannot getenv(HOME), so cannot perform grirc file");
 		return;

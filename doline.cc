@@ -48,6 +48,7 @@ do_command_line()
 		}
 		return false;
 	}
+	//printf("DEBUG cmdline '%s'\n",_cmdLine);
 	// Remove comments, do math expansions, substitute synonyms, etc.
 	massage_command_line(_cmdLine);
 

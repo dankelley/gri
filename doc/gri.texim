@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.225 2002/12/15 00:43:53 dankelley Exp $
+@c $Id: gri.texim,v 1.226 2002/12/15 17:50:19 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16343,16 +16343,25 @@ only in the fixing of bugs.
 @subsection Version 2.12
 @cindex version 2.12
 
-@subsubsection Version 2.12.2 [2002 Dec 7]
+@subsubsection Version 2.12.2 [2002 Dec 15]
 @strong{Bug Fixes}
 
 @itemize
 
 @item
 Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=654129&group_id=5511&atid=105511,#654129}
+@dots{} ignoring ~/.grirc file
+
+@item
+Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=654127&group_id=5511&atid=105511,#654127}
+@dots{} configure scripts are broken
+
+@item
+Fix SourceForge bug
 @uref{http://sourceforge.net/tracker/index.php?func=detail&aid=649134&group_id=5511&atid=105511,#649132}
 @dots{} removed unused LDFLAGS phrase from Makefile
-
 
 @item
 Fix SourceForge bug

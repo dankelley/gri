@@ -96,8 +96,10 @@ then
 fi
 
 %changelog
+* Sun Dec 15 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
+- fix SourceForge bug 654129 (ignores ~/.grirc file)
+- fix SourceForge bug 654127 (configure scripts are broken)
 * Sat Dec 7 2002  Dan Kelley <Dan.Kelley@Dal.Ca>
-- Version 2.12.2
 - fix SourceForge bug 649132 (LDFLAGS not used in Makefile.in)
 - fix SourceForge bug 649134 (tweak gcc optimization)
 - fix SourceForge bug 649136 (examples 8 and 9 out-dated)

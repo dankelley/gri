@@ -396,7 +396,15 @@ CHECK_FOR_POSIX_TIMES
 
 
 dnl     checks for functions
-AC_CHECK_FUNCS(isnan isinf acosh getcwd getenv popen drand48 mkstemp tmpnam tempname gethostname access lstat strerror)
+dnl AC_CHECK_FUNCS(isnan isinf acosh getcwd getenv popen drand48 mkstemp tmpnam tempname gethostname access lstat strerror)
+AC_CHECK_FUNCS(isnan isinf acosh getcwd popen mkstemp tmpnam tempname gethostname access lstat strerror)
+dnl The next lines are because configure fails in c++, to find these things.
+dnl I first noticed this on 2002-Dec-15.  A discussion thread on the topic,
+dnl valid at that date, is 
+dnl     http://mail.gnu.org/pipermail/bug-autoconf/2001-September/001036.html
+dnl and I patterned my solution loosely on advice I found thre.
+AC_CHECK_DECL(getenv, [AC_DEFINE(HAVE_GETENV)])
+AC_CHECK_DECL(drand48, [AC_DEFINE(HAVE_DRAND48)])
 
 dnl     checks for structure members
 
