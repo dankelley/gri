@@ -33,7 +33,7 @@ scp index.php psg@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
     SPAN.center { text-align: center }
     SPAN.boxspace { font-size: 2pt; }
 
-    A.maintitlebar { color: #FFFFFF;  }
+    A.maintitlebar { color: #FFFFFF; }
     A.bottombar { color: #FFFFFF; text-decoration: none;  }
     A.sortbutton { color: #FFFFFF; text-decoration: none; }
     A.menus { color: #6666DD; text-decoration: none; }
@@ -83,30 +83,27 @@ scp index.php psg@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
 	    <!-- DOWNLOAD STABLE -->
             <tr>
               <TD align="center" bgcolor="#737b9c">
-                <span class="maintitlebar"><font color="#ffffff">Get Stable Release</font></span>
+                <span class="maintitlebar"><font color="#ffffff">Stable Release 2.8.7</font></span>
                 </td> </tr>
                 <tr>
                   <td class="menus" align="right">
-		    <b>Source [unbuilt docs]</b><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.7.tgz">gri-2.8.7.tgz</a><br>
-		    <b>Source [built docs]</b><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.7-arch-indep.tar.gz">gri-2.8.7-arch-indep.tar.gz</a><br>
+		    <b>Source</b><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.7.tgz">Tarball (unbuilt docs)</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.7-arch-indep.tar.gz">Tarball (built docs)</a><br>
 		    <b>RedHat Linux</b><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.7-1.src.rpm">gri-2.8.7-1.src.rpm</a><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.7-1.i386.rpm">gri-2.8.7-1.i386.rpm</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.7-1.src.rpm">Source RPM</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.7-1.i386.rpm">Intel RPM</a><br>
 		    <b>Debian GNU/Linux</b><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.8.6-0potato1_i386.deb">2.8.6 for Potato</a><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.8.7-1_i386.deb">2.8.7 for Woody</a><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.7static_2.8.7-1_i386.deb">2.8.7 static (no docs)</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.8.6-0potato1_i386.deb">Vsn 2.8.6 for Potato</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.8.7-1_i386.deb">Vsn 2.8.7 for Woody</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.7static_2.8.7-1_i386.deb">Vsn 2.8.7 static (no docs)</a><br>
                     <A class="menus" HREF="http://packages.debian.org/unstable/science/gri.html">gri at Debian</A><br>
                     <A class="menus" HREF="http://packages.debian.org/unstable/doc/gri-html-doc.html">HTML manual at Debian</A><br>
                     <A class="menus" HREF="http://packages.debian.org/unstable/doc/gri-ps-doc.html">PS manual at Debian</A><br>
-		    <b>Solaris Unix</b><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.7-SunOS5.tar.gz">gri-2.8.7-SunOS5.tar.gz</a><br>
-		    <b>Windows</b><br>
-		    <A class="menus" HREF="http://gnuwin32.sourceforge.net/packages/gri.htm">Win95/98/2000/NT port</a><br>
-		    <b>Macintosh</b><br>
-		    <A class="menus" HREF="http://fink.sourceforge.net/pdb/package.php/gri">OS-X</a><br>
+		    <b>Other Systems</b><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.7-SunOS5.tar.gz">Solaris OS5</a><br>
+		    <A class="menus" HREF="http://gnuwin32.sourceforge.net/packages/gri.htm">Windows</a><br>
+		    <A class="menus" HREF="http://fink.sourceforge.net/pdb/package.php/gri">Macintosh OS-X</a><br>
                   </td>
                 </tr>
             </tr>
@@ -114,7 +111,7 @@ scp index.php psg@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
 	    <!-- DOWNLOAD UNSTABLE -->
             <tr> 
               <TD align="center" bgcolor="#737b9c">
-                <span class="maintitlebar"><font color="#ffffff">Get Unstable Release</font></span>
+                <span class="maintitlebar"><font color="#ffffff">Unstable Release</font></span>
               </td>
             </tr>
             <td class="menus" align="right">
@@ -171,7 +168,7 @@ graphs.  The output is in PostScript.  Fine control is provided over all aspects
 e.g. line widths, colors, and fonts.  A TeX-like syntax provides the
 ability to use common Mathematical symbols.
 
-<p>Folks who write 1000-line Gri scripts usually start with something
+<p>Folks who write thousand-line Gri scripts usually start with something
 as simple as the following ...
 <pre>
 <font color="#82140F">
@@ -216,7 +213,7 @@ Search gri manual for (may be a regular expression):<p>
   <table width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr  bgcolor="#737b9c"> 
       <td align="center"> 
-        <span class="maintitlebar"><font color="#ffffff">This Version</font></span>
+        <span class="maintitlebar"><font color="#ffffff">Present Version</font></span>
       </td>
     </tr>
     <tr> 
@@ -268,7 +265,7 @@ Search gri manual for (may be a regular expression):<p>
     </tr>
   </table>
 
-   <!-- Next Version 
+   <!-- Next Version -->
    <table width="100%" border="0" cellspacing="0" cellpadding="0">
      <tr  bgcolor="#737b9c"> 
        <td align="center"> 
@@ -277,27 +274,8 @@ Search gri manual for (may be a regular expression):<p>
      </tr>
      <tr>
        <td align="left">
-       Version 2.8.8 due when ~5 bugs fixed
-       </td>
-     </tr>
-   </table>
--->
-
-   <!-- News -->
-   <table width="100%" border="0" cellspacing="0" cellpadding="0">
-     <tr  bgcolor="#737b9c"> 
-       <td align="center"> 
-	 <span class="maintitlebar"><font color="#ffffff">News</font></span>
-       </td>
-     </tr>
-     <tr> 
-       <td  class="menus" align="left">
-<!--	 <a class="menus" href="http://www.sourceforge.net/forum/forum.php?forum_id=134278">Announcements</a>-->
-	 <a class="menus" href="http://www.sourceforge.net/news/?group_id=5511">News forum</a>
-         <br>
-<A class="menus"
-HREF="http://gri.sourceforge.net/gridoc/html/Version_2_8.html#Version2.8">History of 2.8.x</a><br>
-
+       <A class="menus" HREF="http://gri.sourceforge.net/Development_Version.html">Completed Changes</a><br>
+       <A class="menus" HREF="http://gri.sourceforge.net/Plans.html">Planned Changes</a>
        </td>
      </tr>
    </table>
@@ -311,6 +289,7 @@ HREF="http://gri.sourceforge.net/gridoc/html/Version_2_8.html#Version2.8">Histor
     </tr>
     <tr>
       <td class="menus" align="left">
+        <A class="menus" HREF="http://gri.sourceforge.net/gridoc/html/Version_2_8.html#Version2.8">History of 2.8.x</a><br>
         <A class="menus" HREF="./gridoc/html/index.html">HTML manual</A><br>
         <A class="menus" HREF="./gri.pdf">PDF manual</A><br>
         <A class="menus" HREF="./gridoc/html/FAQ.html">FAQ</A><br>
@@ -345,6 +324,7 @@ HREF="http://gri.sourceforge.net/gridoc/html/Version_2_8.html#Version2.8">Histor
     </tr>
   </table>
       
+
   <table width="100%" border="0" cellspacing="0" cellpadding="0">
     <TR>
       <TD align="center" bgcolor="#737b9c">
