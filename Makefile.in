@@ -203,7 +203,8 @@ etags:
 	etags *.cc *.hh
 
 clean:
-	-rm -f gri *.o *.rpo core *.bak *.BAK *~ config.cache \#* tmp
+	-rm -f config.cache config.log config.status
+	-rm -f gri *.o *.rpo core *.bak *.BAK *~ \#* tmp
 #	Clean template-function directory, if existent. (Created by
 #	IBM C++ compiler.)
 	-rm -rf tempinc
@@ -212,7 +213,7 @@ clean:
 distclean:
 	make clean
 	cd doc ; make clean
-	rm -f config.log config.cache config.status Makefile
+	rm -f Makefile
 
 # Source distribution
         SOURCE_NAME = gri-$(VERSION)
