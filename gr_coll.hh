@@ -149,6 +149,7 @@ private:
 
 // Operand types.
 typedef enum {
+	UNKNOWN,
 	NOT_OPERAND,
 	NUMBER,
 	STRING,

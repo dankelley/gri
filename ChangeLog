@@ -1,3 +1,7 @@
+2002-05-04  Dan Kelley  <kelley@Limit.Phys.Ocean.Dal.Ca>
+
+	* rpn.cc: Fix SourceForge bug #552009 (`rpn' can segfault if `!=' operator is written as `=!')
+
 2002-04-21  Dan E. Kelley  <Dan.Kelley@Dal.Ca>
 
 	* set.cc (set_clipCmd): move the postscript clipping work to gr.cc,

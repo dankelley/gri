@@ -567,7 +567,7 @@ RpnItem::RpnItem()
 	if (!name) OUT_OF_MEMORY;
 	name[0] = '\0';
 	value = 0.0;
-	type = NUMBER;
+	type = UNKNOWN;
 }
 RpnItem::RpnItem(const RpnItem& n)
 {

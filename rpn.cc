@@ -38,11 +38,12 @@ rpnfunctionCmd()
 #define GENERAL_ERROR  12	/* some other error */
 
 /*
- * Substitute an rpn expression.  Return 1 if found an expression.  This is
- * called repeatedly by other functions, until it returns 0, at which time
- * all the rpn expressions will have been converted.
+ * Substitute an rpn expression.  Return TRUE if we found an expression and it
+ * parsed properly.  This is called repeatedly by other functions, until it
+ *  returns FALSE, at which time all the rpn expressions will have been 
+ * converted.
  * 
- * NOTE: nesting not allowed.
+ * NOTE: nesting is not permitted.
  */
 bool
 substitute_rpn_expressions(const char *s, char *sout)
@@ -209,7 +210,8 @@ final rpn stack has more than 1 operand.  Did you forget an operator?");
 			// string, and put it as next word of sout. Then increment it to
 			// point to next word after the `END_MATH'.
 			strcat(sout, result);
-			delete [] result;	// was allocated in rpn function
+			if (result != (char*)NULL)
+				delete [] result;	// was allocated in rpn function
 			strcat(sout, " ");
 			i = rpn_end;
 			found = true;

@@ -304,9 +304,14 @@ massage_command_line(char *cmd)
 	    && !re_compare(_cmdLine, "\\s*new\\s*.*")
 	    && !re_compare(_cmdLine, "\\s*while\\s*.*") ) {
 		if (((unsigned) superuser()) & FLAG_RPN) printf("DEBUG %s:%d about to substitute rpn in '%s'  skipping_through_if= %d\n",__FILE__,__LINE__,cmd,skipping_through_if());
-		if (!skipping_through_if())
-			while (substitute_rpn_expressions(cmd, _cmdLineCOPY))
+		if (!skipping_through_if()) {
+			while (substitute_rpn_expressions(cmd, _cmdLineCOPY)) {
 				strcpy(cmd, _cmdLineCOPY);
+			}
+			if (_error_in_cmd) {
+				err("Error in RPN expression");
+			}
+		}
 		remove_trailing_blanks(cmd);
 		if (strlen(cmd) < 1)
 			return true;

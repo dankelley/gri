@@ -243,32 +243,37 @@ static bool     do_operation(operator_name oper);
 int
 rpn(int nw, char **w, char ** result)
 {
-	//printf("--- rpn(%d,%s,...)\n",nw,w[0]);
-	unsigned int    i, NW;
+	if (((unsigned) superuser()) & FLAG_RPN) {
+		printf("%s:%d called rpn(", __FILE__,__LINE__);
+		for (int i=0; i < nw - 1; i++)
+			printf(" '%s',",w[i]);
+		printf(" '%s')\n", w[nw-1]);
+	}
+	unsigned int    NW;
 	char           *W[MAX_nword];
 	operator_name   oper;
 	double          operand_value;
+	*result = (char*)NULL;	// empty
 	if (nw < 1)
 		return STACK_UNDERFLOW;
 	RpnError = 0;
 	// Dump into new array (so can manipulate for funtions)
 	NW = nw;
 	if (NW < MAX_nword)
-		for (i = 0; i < NW; i++)
+		for (unsigned int i = 0; i < NW; i++)
 			W[i] = w[i];
-	else 
+	else
 		return OUT_OF_STORAGE;
-
 	// Now, scan through list, pushing operands onto stack and obeying
 	// operators immediately.
-	for (i = 0; i < NW; i++) {
-		//printf(" ^^^^^^^^ '%s'\n",W[i]);
+	for (unsigned int i = 0; i < NW; i++) {
+		if (((unsigned) superuser()) & FLAG_RPN) printf(" rpn scanning item '%s'\n",W[i]);
 		if (NOT_OPERATOR != (oper = is_oper((const char*)W[i]))) {
 			// Do indicated operation.
 			do_operation(oper);
 		} else {
 			// Must be an operand
-			unsigned int    ii, which;
+			unsigned int    which;
 			char           *Wnew[MAX_nword];	// for function case 
 			operand_type type = is_operand((const char*)W[i], &operand_value);
 			RpnItem item;
@@ -288,20 +293,20 @@ rpn(int nw, char **w, char ** result)
 				}
 				// Shuffle words up.
 				// Copy words up to function name 
-				for (ii = 0; ii < i; ii++) {
+				for (unsigned int ii = 0; ii < i; ii++) {
 					Wnew[ii] = W[ii];
 				}
 				// Copy the function contents 
-				for (ii = 0; ii < rpn_fcn[which].nw; ii++) {
+				for (unsigned int ii = 0; ii < rpn_fcn[which].nw; ii++) {
 					Wnew[i + ii] = rpn_fcn[which].w[ii];
 				}
 				// Copy rest (skip the function name itself) 
-				for (ii = 0; ii < NW - i - 1; ii++) {
+				for (unsigned int ii = 0; ii < NW - i - 1; ii++) {
 					Wnew[i + ii + rpn_fcn[which].nw] = W[i + ii + 1];
 				}
 				// Now dump back into W[] 
 				NW += rpn_fcn[which].nw - 1;
-				for (ii = 0; ii < NW; ii++) {
+				for (unsigned int ii = 0; ii < NW; ii++) {
 					W[ii] = Wnew[ii];
 				}
 				i--;		// Must reexamine i-th word 
@@ -311,6 +316,7 @@ rpn(int nw, char **w, char ** result)
 				rS.push_back(item);
 				break;
 			case NOT_OPERAND:
+			default:
 				RpnError = BAD_WORD;
 				break;
 			}
@@ -322,8 +328,6 @@ rpn(int nw, char **w, char ** result)
 		return STACK_OVERFLOW;
 	// If stack is empty, return nothing
 	if (rS.size() == 0) {
-		*result = new char[1];
-		strcpy(*result,"");
 		return NO_ERROR;
 	}
 	// Otherwise, save final result into the string 
@@ -1126,19 +1130,25 @@ do_operation(operator_name oper)
 	        return true;
 	}
 	if (oper == ASSIGN) {
+		// {rpn 10 ".a." =} # assigns 10 to the variable named ".a."
 		NEED_ON_STACK(2);
+		NEED_IS_TYPE(1, STRING);
 		char *unadorned = new char[1 + strlen(NAME(1))];
 		if (!unadorned) OUT_OF_MEMORY;
 		strcpy(unadorned, 1 + NAME(1));
 		// Remove quote (check, although MUST be there 
 		if (*STRING_END(unadorned) == '"')
 			*STRING_END(unadorned) = '\0';
+		//printf("%s:%d assigning to [%s]\n",__FILE__,__LINE__,NAME(1));
 		switch (TYPE(2)) {
 		case NUMBER:
 			if (is_var(unadorned)) {
 				PUT_VAR(unadorned, VALUE(2));
+				//printf("%s:%d debug\n",__FILE__,__LINE__);
 			} else {
-				err("Invalid variable name in assignment");
+				//printf("%s:%d [%s]\n",__FILE__,__LINE__,unadorned);
+				//printf("%s:%d [%s]\n",__FILE__,__LINE__,NAME(1));
+				err("Invalid variable name `\\", unadorned, "' in assignment", "\\");
 				RpnError = ILLEGAL_TYPE;
 				return false;
 			}
@@ -1163,7 +1173,6 @@ do_operation(operator_name oper)
 			RpnError = ILLEGAL_TYPE;
 			return false;
 		}
-		rS.pop_back();
 		rS.pop_back();
 		delete [] unadorned;
 		return true;

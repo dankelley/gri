@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.171 2002/04/20 20:59:55 dankelley Exp $
+@c $Id: gri.texim,v 1.172 2002/05/04 12:29:57 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -12793,12 +12793,27 @@ the asignment operator @code{=}, described next.)
 @item @{rpn 10 ".ten." =@}
 @cindex @code{=} rpn operator
 @cindex rpn operator @code{=}
-Assign the value @code{10} to the variable named @code{.ten.}.  (Do not
-confuse this with the @code{==} equality operator described above.)
+@cindex assigning to variables and synonyms within RPN expressions
+@cindex variables, assigning within RPN expressions
+@cindex synonyms, assigning within RPN expressions
 
+Assign the value @code{10} to the variable named @code{.ten.}.  The
+variable name must be put in quotes, or else Gri will insert the value
+of the variable (if it exists) into the expression, instead of trying
+to assign to it.
+
+This leaves the value on the stack.  For example, the code
+@example
+show @{rpn 3.1415 ".pi." =@}
+@end example
+prints the value of Pi.
+
+NOTE: Do not confuse this with the @code{==} equality operator
+described above.
 
 @item @{rpn "hello" "\\greeting" =@} 
-Assign the value @code{"hello"} to the synonym @code{\greeting}.
+Assign the value @code{"hello"} to the synonym @code{\greeting}.  See
+notes at the above item.
 
 
 @item @{rpn 0 1 &@}
@@ -16872,6 +16887,13 @@ Make the @code{-chatty} commandline option require a value (@ref{Invoking Gri}).
 
 
 @itemize
+
+@item
+Fix SourceForge bug
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=552009&group_id=5511&atid=105511">
+#552009
+@c HTML </a>
+(@code{rpn} can segfault if @code{!=} operator is written as @code{=!})
 
 @item
 Fix SourceForge bug
