@@ -9596,6 +9596,8 @@ handled.)
 @cindex binary data
 
 @subsubsection Binary Files
+@cindex little-endian vs big-endian data, caution
+@cindex big-endian vs little-endian data, caution
 Like most computer programs, Gri has some trouble with binary files.
 One big issue is the so-called "endian" character of the computer.  Some
 computers store multi-byte values with the most significant bytes first,
@@ -14644,7 +14646,14 @@ is in no particular order.  Please contact me at
 if you particularly need one of these things, or
 if you need something else that I've not listed.
 
+@cindex little-endian vs big-endian data, plans
+@cindex big-endian vs little-endian data, plans
+
 @enumerate
+
+@item Add support for both little-endian and big-endian data.
+
+@item Add a test suite for use in verifying correct functioning.
 
 @item Add readline support, to handle history, command-line editing, etc, 
 for interactive usage [probably for version 2.8]
