@@ -96,8 +96,9 @@ then
 fi
 
 %changelog
-* Tue Jan 28 2003 Dan Kelley <Dan.KelleyDal.Ca>
+* Fri Feb  7 2003 Dan Kelley <Dan.KelleyDal.Ca>
 - +++ VERSION 2.12.2 +++
+* Tue Jan 28 2003 Dan Kelley <Dan.KelleyDal.Ca>
 - fix SourceForge bug 675304 (segfault on 'read image pgm')
 * Sat Jan 25 2003 Dan Kelley <Dan.KelleyDal.Ca>
 - fix SourceForge bug 647234 (will not compile on Mac OS X 10.1.5)

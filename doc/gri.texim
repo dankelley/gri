@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.235 2003/01/28 15:41:36 dankelley Exp $
+@c $Id: gri.texim,v 1.236 2003/02/06 17:50:21 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16345,7 +16345,9 @@ only in the fixing of bugs.
 
 @comment ADD-NEW-BUG-FIXES-HERE
 
-@subsubsection Version 2.12.2 [2003 Jan 28]
+@subsubsection Version 2.12.2 [2003 Feb 7]
+(Munro Day at @uref{http://www.dal.ca/,Dalhousie University}, Canada.)
+
 @strong{Bug Fixes}
 
 @itemize
@@ -16394,7 +16396,7 @@ Fix SourceForge bug
 
 @item
 Fix SourceForge bug
-@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=649134&group_id=5511&atid=105511,#649132}
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=649132&group_id=5511&atid=105511,#649132}
 @dots{} removed unused LDFLAGS phrase from Makefile
 
 @item
