@@ -7,6 +7,15 @@ gri (2.9.0-0) unstable; urgency=low
   
  -- Peter S Galbraith <psg@debian.org>  Thu,  6 Sep 2001 22:32:12 -0400
 
+gri (2.8.2-1) unstable; urgency=low
+
+  * New upstream bug-fix release:
+   - Really Fix SourceForge bug #454557 when netcdfg-dev present  
+    (wouldn't compile with the pre-release version 3.0.1 of the GNU c++
+    compiler; closes: #111093)
+
+ -- Peter S Galbraith <psg@debian.org>  Mon, 10 Sep 2001 13:10:37 -0400
+
 gri (2.8.1-1) unstable; urgency=low
 
   * New upstream bug-fix release:
