@@ -105,8 +105,9 @@ get env \b "SHELL"
 assert {rpn "\a" "\b" ==}                       " failed test 11.1"
 
 # Part 7 'read' (SF bug 117412)
-system echo "Hello" > test.dat
-open "test.dat"
+\TMPFILE = tmpname
+system echo "Hello" > \TMPFILE
+open "\TMPFILE"
 read \a
 assert {rpn "\a" "Hello" ==}                    " failed test 12.1"
 \a = "JUNK"
@@ -120,7 +121,7 @@ rewind
 read \@alias_for_a
 close
 assert {rpn "\a" "Hello" ==}                    " failed test 12.3"
-system rm -f test.dat
+system rm -f \TMPFILE
 
 # Part 8 -- ensure not trying to evaluate inside 'false' if parts.
 \str = "Hello"
@@ -246,7 +247,7 @@ assert {rpn "\greeting" "Howdy" ==}             " failed test 18.7"
 }
 \filename = "test"
 postpend_dat &\filename
-assert {rpn "\filename" "test.dat" ==}          " failed test 18.8"
+assert {rpn "test.dat" "\filename" ==}           " failed test 18.8"
 
 # new
 `test_new &\s'
