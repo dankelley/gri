@@ -174,9 +174,9 @@ install-exec-local:
 install-data-local:
 	mkdir -m 755 -p                                  $(DESTDIR)$(prefix)/share/emacs/site-lisp
 if OS_IS_FINK
-	$(INSTALL_DATA)    $(srcdir)/gri-mode.el         $(DESTDIR)$(prefix)/share/emacs/site-lisp/gri-mode.el
-else
 	$(INSTALL_DATA)    $(srcdir)/gri-mode.el         $(DESTDIR)$(prefix)/share/emacs/site-lisp/gri/gri-mode.el
+else
+	$(INSTALL_DATA)    $(srcdir)/gri-mode.el         $(DESTDIR)$(prefix)/share/emacs/site-lisp/gri-mode.el
 endif
 	mkdir -m 755 -p                                  $(DESTDIR)$(prefix)/share/gri
 	$(INSTALL_DATA)    startup.msg-tmp               $(DESTDIR)$(prefix)/share/gri/startup.msg
