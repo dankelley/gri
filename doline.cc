@@ -303,7 +303,7 @@ massage_command_line(char *cmd)
 	if (!re_compare(_cmdLine, "\\s*postscript\\s*.*")
 	    && !re_compare(_cmdLine, "\\s*new\\s*.*")
 	    && !re_compare(_cmdLine, "\\s*while\\s*.*") ) {
-		if (((unsigned) superuser()) & FLAG_RPN) printf("DEBUG %s:%d about to substitute rpn in '%s'  skipping_through_if= %d\n",__FILE__,__LINE__,cmd,skipping_through_if());
+		if (((unsigned) superuser()) & FLAG_FLOW) printf("DEBUG %s:%d about to substitute rpn in '%s'  skipping_through_if= %d\n",__FILE__,__LINE__,cmd,skipping_through_if());
 		if (!skipping_through_if()) {
 			while (substitute_rpn_expressions(cmd, _cmdLineCOPY)) {
 				strcpy(cmd, _cmdLineCOPY);
@@ -331,7 +331,7 @@ massage_command_line(char *cmd)
 bool
 perform_command_line(FILE *fp, bool is_which)
 {
-	//if (((unsigned) superuser()) & FLAG_RPN) printf("\nDEBUG %s:%d begin of perform_command_line\n",__FILE__,__LINE__);
+	//if (((unsigned) superuser()) & FLAG_FLOW) printf("\nDEBUG %s:%d begin of perform_command_line\n",__FILE__,__LINE__);
 	if (strlen(_cmdLine) < 1)
 		return true;		// was ok, just blank
 	// If it's definition of a new gri command, do that.
@@ -349,17 +349,17 @@ perform_command_line(FILE *fp, bool is_which)
 	}
 
 
-	if (((unsigned) superuser()) & FLAG_RPN) printf("DEBUG %s:%d perform_command_line() has command '%s'\n", __FILE__, __LINE__, _cmdLine);
-	if (((unsigned) superuser()) & FLAG_RPN) printf("DEBUG %s:%d skipping_through_if is %d (STEP 1)\n", __FILE__, __LINE__, skipping_through_if());
+	if (((unsigned) superuser()) & FLAG_FLOW) printf("DEBUG %s:%d perform_command_line() has command '%s'\n", __FILE__, __LINE__, _cmdLine);
+	if (((unsigned) superuser()) & FLAG_FLOW) printf("DEBUG %s:%d skipping_through_if is %d (STEP 1)\n", __FILE__, __LINE__, skipping_through_if());
 
 
 	// Handle `end' and `else'
 	if (handle_if_block()) {
-		if (((unsigned) superuser()) & FLAG_RPN) printf("DEBUG: %s:%d returning early\n",__FILE__,__LINE__);
+		if (((unsigned) superuser()) & FLAG_FLOW) printf("DEBUG: %s:%d returning early\n",__FILE__,__LINE__);
 		return true;
 	}
 
-	if (((unsigned) superuser()) & FLAG_RPN) printf("DEBUG %s:%d skipping_through_if is %d (STEP 2)\n", __FILE__, __LINE__, skipping_through_if());
+	if (((unsigned) superuser()) & FLAG_FLOW) printf("DEBUG %s:%d skipping_through_if is %d (STEP 2)\n", __FILE__, __LINE__, skipping_through_if());
 
 	// Process line if not skipping
 	if (!skipping_through_if()) {

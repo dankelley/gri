@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.208 2002/08/30 12:37:30 dankelley Exp $
+@c $Id: gri.texim,v 1.209 2002/09/01 14:53:53 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -12610,6 +12610,13 @@ set x size @{rpn 30 2 / 5 -@}       # 10 = (30/2-5)
 set x size @{rpn pi 3.1415 / 10 *@} # 10 = 10*pi/pi
 @end example
 
+If an rpn expression contains a variable whose value is ``missing'',
+then the value of the result of the expression will also be missing
+(unless the value of the missing variable is thrown away with a
+``pop'' operator).  However, if a missing value just happens to occur
+as the result of an intermediate calculation, then the result is not
+considered to be missing.
+
 RPN operations can be divided roughly into the following groups.
 
 @menu
@@ -12618,7 +12625,7 @@ RPN operations can be divided roughly into the following groups.
 * Tertiary Operators::          Act on top three items on stack
 * Binary Operators::            Act on top two items on stack
 * Unary Operators::             Act on top item on stack
-* Solitary Operators::          Act alone, inserting something on stack
+* Solitary Operators::          Act alone
 * Manipulation of Columns etc:: Act on data columns
 * rpn Examples::                A few examples
 @end menu

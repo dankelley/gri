@@ -150,29 +150,32 @@ private:
 };
 
 // Operand types.
-typedef enum {
+enum operand_type {
 	UNKNOWN,
+	VARIABLE_WITH_MISSING_VALUE,
 	NOT_OPERAND,
 	NUMBER,
 	STRING,
 	COLUMN_NAME,
 	FUNCTION
-}               operand_type;
+};
 
 class RpnItem
 {
 private:
 	char *name;
 	double value;
+	bool valid;
 	operand_type type;
 public:
 	RpnItem();
 	RpnItem(const RpnItem& n);
 	~RpnItem()				{delete name;}
-	void set(const char *the_name, double the_value, operand_type the_type);
+	void set(const char *the_name, double the_value, operand_type the_type, bool the_valid = true);
 	char *getName()		const	{return name;}
-	double getValue()		const	{return value;}
+	double getValue()	const	{return value;}
 	operand_type getType()	const	{return type;}
+	bool  getValid()        const   {return valid;}
 	RpnItem& operator=(const RpnItem& n);
 };
 

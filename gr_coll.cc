@@ -606,6 +606,7 @@ RpnItem::RpnItem()
 	if (!name) OUT_OF_MEMORY;
 	name[0] = '\0';
 	value = 0.0;
+	valid = true;
 	type = UNKNOWN;
 }
 RpnItem::RpnItem(const RpnItem& n)
@@ -614,10 +615,11 @@ RpnItem::RpnItem(const RpnItem& n)
 	if (!name) OUT_OF_MEMORY;
 	strcpy(name, n.getName());
 	value = n.getValue();
+	valid = n.getValid();
 	type = n.getType();
 }
 void
-RpnItem::set(const char *the_name, double the_value, operand_type the_type)
+RpnItem::set(const char *the_name, double the_value, operand_type the_type, bool the_valid)
 {
 	if (strlen(the_name) > strlen(name)) {
 		delete [] name;
@@ -626,6 +628,7 @@ RpnItem::set(const char *the_name, double the_value, operand_type the_type)
 	}
 	strcpy(name, the_name);
 	value = the_value;
+	valid = the_valid;
 	type = the_type;
 }
 RpnItem& RpnItem::operator=(const RpnItem& n)
@@ -638,6 +641,7 @@ RpnItem& RpnItem::operator=(const RpnItem& n)
 	}
 	strcpy(name, cp);
 	value = n.getValue();
+	valid = n.getValid();
 	type = n.getType();
 	return *this;
 }

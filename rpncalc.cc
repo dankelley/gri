@@ -42,10 +42,12 @@ erase_rpn_stack()
 #define NAME(i)  (rS[rS.size() - (i)].getName())
 // Retrieve value (i-1) from top of stack (i=1 means top)
 #define VALUE(i) (rS[rS.size() - (i)].getValue())
+// Retrieve validity (i-1) from top of stack (i=1 means top)
+#define VALID(i) (rS[rS.size() - (i)].getValid())
 // Retrieve type (i-1) from top of stack (i=1 means top)
 #define TYPE(i)  (rS[rS.size() - (i)].getType())
 // Set (i-1) from top of stack (i=1 means top)
-#define SET(i, n, v, t) (rS[rS.size() - (i)].set((n), (v), (t)))
+#define SET(i, n, value, t, valid) (rS[rS.size() - (i)].set((n), (value), (t), (valid)))
 
 #define Ee 2.7182818284590452354
 // rpn - reverse polish notation calculator
@@ -288,14 +290,20 @@ rpn(int nw, char **w, char ** result)
 			unsigned int    which;
 			char           *Wnew[MAX_nword];	// for function case 
 			operand_type type = is_operand((const char*)W[i], &operand_value);
+			if (((unsigned) superuser()) & FLAG_RPN) printf("  rpn operand type %d (variable with missing value code = %d)\n", type, VARIABLE_WITH_MISSING_VALUE);
 			RpnItem item;
 			switch (type) {
+			case VARIABLE_WITH_MISSING_VALUE:
+				err("rpn trying to use variable '%s' but its value equals the current \"missing value\"", W[i]);
+				item.set("", gr_currentmissingvalue(), type, false);
+				rS.push_back(item);
+				break;
 			case NUMBER:
-				item.set("", operand_value, type);
+				item.set("", operand_value, type, true);
 				rS.push_back(item);
 				break;
 			case COLUMN_NAME:
-				item.set(W[i], operand_value, type);
+				item.set(W[i], operand_value, type, true);
 				rS.push_back(item);
 				break;
 			case FUNCTION:
@@ -324,7 +332,7 @@ rpn(int nw, char **w, char ** result)
 				i--;		// Must reexamine i-th word 
 				break;
 			case STRING:
-				item.set(W[i], 0.0 , type);
+				item.set(W[i], 0.0 , type, true);
 				rS.push_back(item);
 				break;
 			case NOT_OPERAND:
@@ -406,6 +414,15 @@ is_operand(const char *w, double *operand_value)
 		   || !strcmp(w, "v")
 		   || !strcmp(w, "grid")) {
 		return COLUMN_NAME;
+	} else if (is_var(w)) {
+		if (getdnum(w, &value))
+			*operand_value = value;
+		else 
+			return VARIABLE_WITH_MISSING_VALUE;
+		if (gr_missing(value))
+			return VARIABLE_WITH_MISSING_VALUE;
+		else 
+			return NUMBER;
 	} else if (getdnum(w, &value)) {	// BUG - if can't scan, will die 
 		*operand_value = value;
 		return NUMBER;
@@ -459,9 +476,9 @@ rpn_which_function(const char *name)
 #define GET_COL_VAL(COL_NAME, I)					\
 {									\
 if ((COL_NAME).size() <= 0 || (I) > ((COL_NAME).size() - 1)) {  \
-   SET(2, "", gr_currentmissingvalue(),NUMBER);				\
+   SET(2, "", gr_currentmissingvalue(),NUMBER,false);			\
 } else {								\
-   SET(2, "", (COL_NAME)(I), NUMBER);				\
+   SET(2, "", (COL_NAME)(I), NUMBER, true);				\
 }									\
 
 // Area under y-x curve
@@ -504,7 +521,7 @@ for (j = 0; j < _num_ymatrix_data; j++) {				\
         }								\
     }									\
 }									\
-SET(1, "", min_val, NUMBER);						\
+SET(1, "", min_val, NUMBER, true);					\
 }
  
 #define GET_GRID_MAX()							\
@@ -531,7 +548,7 @@ for (j = 0; j < _num_ymatrix_data; j++) {				\
         }								\
     }									\
 }									\
-SET(1, "", max_val, NUMBER);						\
+SET(1, "", max_val, NUMBER, true);					\
 }
 
 #define GET_GRID_MEAN()							\
@@ -557,7 +574,7 @@ if (num > 0) {								\
 } else {								\
     mean_val = gr_currentmissingvalue();				\
 }									\
-SET(1, "", mean_val, NUMBER);						\
+SET(1, "", mean_val, NUMBER, true);					\
 }
 
 #define GET_GRID_STDDEV()						\
@@ -596,7 +613,7 @@ if (num > 0) {								\
 } else {								\
     stddev_val = gr_currentmissingvalue();				\
 }									\
-SET(1, "", stddev_val, NUMBER);						\
+SET(1, "", stddev_val, NUMBER, true);					\
 }
 
 #define GET_GRID_SIZE()							\
@@ -615,7 +632,7 @@ for (j = 0; j < _num_ymatrix_data; j++) {				\
         }								\
     }									\
 }									\
-SET(1, "", num, NUMBER);						\
+SET(1, "", num, NUMBER, true);						\
 }
 
 static          bool
@@ -626,46 +643,55 @@ do_operation(operator_name oper)
 		RpnError = BAD_WORD;
 		return false;
 	}
+	double missing = gr_currentmissingvalue();
 	double res;			// holds result
 	if (oper == ADD) {
 		NEED_ON_STACK(2); NEED_IS_TYPE(1, NUMBER); NEED_IS_TYPE(2, NUMBER);
-		res = (gr_missing(VALUE(1)) || gr_missing(VALUE(2))) ?
-			gr_currentmissingvalue() : VALUE(2) + VALUE(1);
-		SET(2, "", res, NUMBER);
+		if (VALID(1) && VALID(2))
+			SET(2, "", (VALUE(1)+VALUE(2)), NUMBER, true);
+		else 
+			SET(2, "", missing, NUMBER, false);
 		rS.pop_back();
 		return true;
 	}
 	if (oper == SUBTRACT) {
 		NEED_ON_STACK(2); NEED_IS_TYPE(1, NUMBER); NEED_IS_TYPE(2, NUMBER);
-		res = (gr_missing(VALUE(1)) || gr_missing(VALUE(2))) ?
-			gr_currentmissingvalue() : VALUE(2) - VALUE(1);
-		SET(2, "", res, NUMBER);
+		SET(2, "", res, NUMBER, true);
+		if (VALID(1) && VALID(2))
+			SET(2, "", (VALUE(2)-VALUE(2)), NUMBER, true);
+		else 
+			SET(2, "", missing, NUMBER, false);
 		rS.pop_back();
 		return true;
 	} 
 	if (oper == GREATER_THAN) {
 		NEED_ON_STACK(2); NEED_IS_TYPE(1, NUMBER); NEED_IS_TYPE(2, NUMBER);
-		res = (gr_missing(VALUE(1)) || gr_missing(VALUE(2))) ?
-			gr_currentmissingvalue() : (VALUE(1) > VALUE(2) ? 1 : 0);
-		SET(2, "", res, NUMBER);
+		if (VALID(1) && VALID(2))
+			SET(2, "", (VALUE(1)>VALUE(2)?1.0:0.0), NUMBER, true);
+		else 
+			SET(2, "", missing, NUMBER, false);
 		rS.pop_back();
 		return true;
 	} 
 	if (oper == GREATER_THAN_EQUAL) {
 		NEED_ON_STACK(2); NEED_IS_TYPE(1, NUMBER); NEED_IS_TYPE(2, NUMBER);
-		res = (gr_missing(VALUE(1)) || gr_missing(VALUE(2))) ?
-			gr_currentmissingvalue() : (VALUE(1) >= VALUE(2) ? 1 : 0);
-		SET(2, "", res, NUMBER);
+		if (VALID(1) && VALID(2))
+			SET(2, "", (VALUE(1)>=VALUE(2)?1:0), NUMBER, true);
+		else 
+			SET(2, "", missing, NUMBER, false);
 		rS.pop_back();
 		return true;
 	} 
 	if (oper == EQUAL) {
 		NEED_ON_STACK(2);
 		if (TYPE(1) == STRING && TYPE(2) == STRING) {
-			SET(2, "", !strcmp(NAME(2), NAME(1)) ? 1.0 : 0.0, NUMBER);
+			SET(2, "", !strcmp(NAME(2), NAME(1)) ? 1.0 : 0.0, NUMBER, true);
 			rS.pop_back();
 		} else if (TYPE(1) == NUMBER && TYPE(2) == NUMBER) {
-			SET(2, "", VALUE(2) == VALUE(1) ? 1.0 : 0.0, NUMBER);
+			if (VALID(1) && VALID(2))
+				SET(2, "", (VALUE(1)==VALUE(2)?1.0:0.0), NUMBER, true);
+			else 
+				SET(2, "", missing, NUMBER, false);
 			rS.pop_back();
 		} else {
 			err("RPN operator `==' cannot handle the items currently on stack.");
@@ -677,10 +703,13 @@ do_operation(operator_name oper)
 	if (oper == NOT_EQUAL) {
 		NEED_ON_STACK(2);
 		if (TYPE(1) == STRING && TYPE(2) == STRING) {
-			SET(2, "", !strcmp(NAME(2), NAME(1)) ? 0.0 : 1.0, NUMBER);
+			SET(2, "", !strcmp(NAME(2), NAME(1)) ? 0.0 : 1.0, NUMBER, true);
 			rS.pop_back();
 		} else if (TYPE(1) == NUMBER && TYPE(2) == NUMBER) {
-			SET(2, "", VALUE(2) != VALUE(1) ? 1.0 : 0.0, NUMBER);
+			if (VALID(1) && VALID(2))
+				SET(2, "", (VALUE(1)!=VALUE(2)?1.0:0.0), NUMBER, true);
+			else 
+				SET(2, "", missing, NUMBER, false);
 			rS.pop_back();
 		} else {
 			err("Rpn operator `!=' cannot handle items on stack.");
@@ -691,74 +720,87 @@ do_operation(operator_name oper)
 	} 
 	if (oper == AND) {
 		NEED_ON_STACK(2); NEED_IS_TYPE(1, NUMBER); NEED_IS_TYPE(2, NUMBER);
-		SET(2, "", VALUE(2) && VALUE(1) ? 1.0 : 0.0, NUMBER);
+		if (VALID(1) && VALID(2))
+			SET(2, "", (VALUE(1)&&VALUE(2)?1.0:0.0), NUMBER, true);
+		else 
+			SET(2, "", missing, NUMBER, false);
 		rS.pop_back();
 		return true;
 	} 
 	if (oper == OR) {
 		NEED_ON_STACK(2); NEED_IS_TYPE(1, NUMBER); NEED_IS_TYPE(2, NUMBER);
-		SET(2, "", VALUE(2) || VALUE(1) ? 1.0 : 0.0, NUMBER);
+		if (VALID(1) && VALID(2))
+			SET(2, "", (VALUE(1)||VALUE(2)?1.0:0.0), NUMBER, true);
+		else 
+			SET(2, "", missing, NUMBER, false);
 		rS.pop_back();
 		return true;
 	} 
 	if (oper == NOT) {
 		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
-		SET(1, "", VALUE(1) ? 0.0 : 1.0, NUMBER);
+		if (VALID(1))
+			SET(1, "", (VALUE(1) ? 0.0 : 1.0), NUMBER, true);
+		else 
+			SET(1, "", missing, NUMBER, false);
 		return true;
 	} 
 	if (oper == LESS_THAN) {
 		NEED_ON_STACK(2); NEED_IS_TYPE(1, NUMBER); NEED_IS_TYPE(2, NUMBER);
-		res = (gr_missing(VALUE(1)) || gr_missing(VALUE(2))) ?
-			gr_currentmissingvalue() : (VALUE(1) < VALUE(2) ? 1 : 0);
-		SET(2, "", res, NUMBER);
+		if (VALID(1) && VALID(2))
+			SET(2, "", (VALUE(1)<VALUE(2)?1.0:0.0), NUMBER, true);
+		else 
+			SET(2, "", missing, NUMBER, false);
 		rS.pop_back();
 		return true;
 	} 
 	if (oper == LESS_THAN_EQUAL) {
 		NEED_ON_STACK(2); NEED_IS_TYPE(1, NUMBER); NEED_IS_TYPE(2, NUMBER);
-		res = (gr_missing(VALUE(1)) || gr_missing(VALUE(2))) ?
-			gr_currentmissingvalue() : (VALUE(1) <= VALUE(2) ? 1 : 0);
-		SET(2, "", res, NUMBER);
+		if (VALID(1) && VALID(2))
+			SET(2, "", (VALUE(1)<=VALUE(2)?1.0:0.0), NUMBER, true);
+		else 
+			SET(2, "", missing, NUMBER, false);
 		rS.pop_back();
 		return true;
 	} 
 	if (oper == MULTIPLY) {
 		NEED_ON_STACK(2); NEED_IS_TYPE(1, NUMBER); NEED_IS_TYPE(2, NUMBER);
-		res = (gr_missing(VALUE(1)) || gr_missing(VALUE(2))) ?
-			gr_currentmissingvalue() : VALUE(1) * VALUE(2);
-		SET(2, "", res, NUMBER);
+		if (VALID(1) && VALID(2))
+			SET(2, "", (VALUE(1)*VALUE(2)), NUMBER, true);
+		else 
+			SET(2, "", missing, NUMBER, false);
 		rS.pop_back();
 		return true;
 	} 
 	if (oper == DIVIDE) {
 		NEED_ON_STACK(2); NEED_IS_TYPE(1, NUMBER); NEED_IS_TYPE(2, NUMBER);
-		if (VALUE(1) == 0.0) {
-			RpnError = DIV_BY_ZERO;
-			rS.pop_back();	// no need, since will die
-			return false;
-		}
-		res = (gr_missing(VALUE(1)) || gr_missing(VALUE(2))) ?
-			gr_currentmissingvalue() : VALUE(2) / VALUE(1);
-		SET(2, "", res, NUMBER);
+		if (VALID(1) && VALID(2)) {
+			if (VALUE(1) == 0.0) {
+				RpnError = DIV_BY_ZERO;
+				rS.pop_back();	// no need, since will die
+				return false;
+			}
+			SET(2, "", (VALUE(2)/VALUE(1)), NUMBER, true);
+		} else 
+			SET(2, "", missing, NUMBER, false);
 		rS.pop_back();
 		return true;
 	} 
 	if (oper == POWER) {	// x^p
 		// Solve SourceForge bug #113816 for a few legal cases with x<0
 		NEED_ON_STACK(2); NEED_IS_TYPE(1, NUMBER); NEED_IS_TYPE(2, NUMBER);
-		double x = VALUE(2), p = VALUE(1);
-		if (gr_missing(x) || gr_missing(p)) {
-			SET(2, "", gr_currentmissingvalue(), NUMBER);
+		if (!VALID(1) || !VALID(2)) {
+			SET(2, "", missing, NUMBER, false);
 			rS.pop_back();
 			return true;
 		}
+		double x = VALUE(2), p = VALUE(1);
 		if (x == 0.0) {	// I bet pow() is ok on zero, but let's be safe
-			SET(2, "", 0.0, NUMBER);
+			SET(2, "", 0.0, NUMBER, true);
 			rS.pop_back();
 			return true;
 		}
 		if (x > 0.0) {
-			SET(2, "", pow(x, p), NUMBER);
+			SET(2, "", pow(x, p), NUMBER, true);
 			rS.pop_back();
 			return true;
 		}
@@ -767,11 +809,11 @@ do_operation(operator_name oper)
 		// Otherwise, we're out of luck.
 		if (x < 0.0) {
 			if (is_even_integer(p)) {
-				SET(2, "", pow(-x, p), NUMBER);
+				SET(2, "", pow(-x, p), NUMBER, true);
 				rS.pop_back();
 				return true;
 			} else if (is_odd_integer(p)) {
-				SET(2, "", -pow(-x, p), NUMBER);
+				SET(2, "", -pow(-x, p), NUMBER, true);
 				rS.pop_back();
 				return true;
 			} else {
@@ -785,72 +827,100 @@ do_operation(operator_name oper)
 	}
 	if (oper == ACOSINE) {
 		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
-		if (VALUE(1) > 1.0 || VALUE(1) < -1.0) {
-			RpnError = RANGE_1;
-			return false;
-		}
-		res = gr_missing(VALUE(1)) ? gr_currentmissingvalue() 
-			: acos(VALUE(1)) * deg_per_rad;
-		SET(1, "", res, NUMBER);
+		if (VALID(1)) {
+			if (VALUE(1) > 1.0 || VALUE(1) < -1.0) {
+				RpnError = RANGE_1;
+				return false;
+			}
+			SET(1, "", (acos(VALUE(1)) * deg_per_rad), NUMBER, true);
+		} else 
+			SET(1, "", missing, NUMBER, false);
 		return true;
 	}
 	if (oper == ASINE) {
 		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
-		if (VALUE(1) > 1.0 || VALUE(1) < -1.0 || gr_missing(VALUE(1))) {
-			RpnError = RANGE_1;
-			return false;
-		}
-		res = gr_missing(VALUE(1)) ? gr_currentmissingvalue() 
-			: asin(VALUE(1)) * deg_per_rad;
-		SET(1, "", res, NUMBER);
+		if (VALID(1)) {
+			if (VALUE(1) > 1.0 || VALUE(1) < -1.0) {
+				RpnError = RANGE_1;
+				return false;
+			}
+			SET(1, "", (asin(VALUE(1)) * deg_per_rad), NUMBER, true);
+		} else 
+			SET(1, "", missing, NUMBER, false);
 		return true;
 	} 
 	if (oper == ATANGENT) {
 		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
-		res = gr_missing(VALUE(1)) ?
-			gr_currentmissingvalue() 
-			: atan(VALUE(1)) * deg_per_rad;
-		SET(1, "", res, NUMBER);
+		if (VALID(1)) {
+			if (VALUE(1) > 1.0 || VALUE(1) < -1.0) {
+				RpnError = RANGE_1;
+				return false;
+			}
+			SET(1, "", (atan(VALUE(1)) * deg_per_rad), NUMBER, true);
+		} else 
+			SET(1, "", missing, NUMBER, false);
 		return true;
 	} 
 	if (oper == SINE) {
 		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
-		res = gr_missing(VALUE(1)) ?
-			gr_currentmissingvalue() : sin(VALUE(1) / deg_per_rad);
-		SET(1, "", res, NUMBER);
+		if (VALID(1)) {
+			if (VALUE(1) > 1.0 || VALUE(1) < -1.0) {
+				RpnError = RANGE_1;
+				return false;
+			}
+			SET(1, "", (sin(VALUE(1)/deg_per_rad)), NUMBER, true);
+		} else 
+			SET(1, "", missing, NUMBER, false);
 		return true;
 	} 
 	if (oper == COSINE) {
 		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
-		res = gr_missing(VALUE(1)) ?
-			gr_currentmissingvalue() : cos(VALUE(1) / deg_per_rad);
-		SET(1, "", res, NUMBER);
+		if (VALID(1)) {
+			if (VALUE(1) > 1.0 || VALUE(1) < -1.0) {
+				RpnError = RANGE_1;
+				return false;
+			}
+			SET(1, "", (cos(VALUE(1)/deg_per_rad)), NUMBER, true);
+		} else 
+			SET(1, "", missing, NUMBER, false);
 		return true;
 	} 
 	if (oper == TANGENT) {
 		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
-		res = gr_missing(VALUE(1)) ?
-			gr_currentmissingvalue() : tan(VALUE(1) / deg_per_rad);
-		SET(1, "", res, NUMBER);
+		if (VALID(1)) {
+			if (VALUE(1) > 1.0 || VALUE(1) < -1.0) {
+				RpnError = RANGE_1;
+				return false;
+			}
+			SET(1, "", (tan(VALUE(1)/deg_per_rad)), NUMBER, true);
+		} else 
+			SET(1, "", missing, NUMBER, false);
 		return true;
 	} 
 	if (oper == SINH) {
 		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
-		res = gr_missing(VALUE(1)) ?
-			gr_currentmissingvalue() : sinh(VALUE(1));
-		SET(1, "", res, NUMBER);
+		if (VALID(1)) {
+			if (VALUE(1) > 1.0 || VALUE(1) < -1.0) {
+				RpnError = RANGE_1;
+				return false;
+			}
+			SET(1, "", (sinh(VALUE(1))), NUMBER, true);
+		} else 
+			SET(1, "", missing, NUMBER, false);
 		return true;
 	} 
 	if (oper == ACOSH) {
 		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
+		if (!VALID(1)) {
+			SET(1, "", missing, NUMBER, false);
+			return true;
+		}
 		if (VALUE(1) < 1.0) {
 			RpnError = NEED_GT_1;
 			return false;
 		}
 #if defined(HAVE_ACOSH)
-		res = gr_missing(VALUE(1)) ?
-			gr_currentmissingvalue() : acosh(VALUE(1));
-		SET(1, "", res, NUMBER);
+		SET(1, "", (acosh(VALUE(1))), NUMBER, true);
 		return true;
 #else
 		RpnError = COMPUTER_LIMITATION;
@@ -859,14 +929,16 @@ do_operation(operator_name oper)
 	} 
 	if (oper == ATANH) {
 		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
+		if (!VALID(1)) {
+			SET(1, "", missing, NUMBER, false);
+			return true;
+		}
 		if (VALUE(1) > 1.0 || VALUE(1) < -1.0) {
 			RpnError = RANGE_1;
 			return false;
 		}
 #if defined(HAVE_ACOSH)
-		res = gr_missing(VALUE(1)) ?
-			gr_currentmissingvalue() : atanh(VALUE(1));
-		SET(1, "", res, NUMBER);
+		SET(1, "", (atanh(VALUE(1))), NUMBER, true);
 		return true;
 #else
 		RpnError = COMPUTER_LIMITATION;
@@ -875,10 +947,12 @@ do_operation(operator_name oper)
 	} 
 	if (oper == ASINH) {
 		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
+		if (!VALID(1)) {
+			SET(1, "", missing, NUMBER, false);
+			return true;
+		}
 #if defined(HAVE_ACOSH)
-		res = gr_missing(VALUE(1)) ?
-			gr_currentmissingvalue() : asinh(VALUE(1));
-		SET(1, "", res, NUMBER);
+		SET(1, "", (asinh(VALUE(1))), NUMBER, true);
 		return true;
 #else
 		RpnError = COMPUTER_LIMITATION;
@@ -887,78 +961,85 @@ do_operation(operator_name oper)
 	} 
 	if (oper == COSH) {
 		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
-		res = gr_missing(VALUE(1)) ?
-			gr_currentmissingvalue() : cosh(VALUE(1));
-		SET(1, "", res, NUMBER);
+		if (!VALID(1)) {
+			SET(1, "", missing, NUMBER, false);
+			return true;
+		}
+		SET(1, "", (cosh(VALUE(1))), NUMBER, true);
 		return true;
 	} 
 	if (oper == TANH) {
 		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
-		res = gr_missing(VALUE(1)) ?
-			gr_currentmissingvalue() : tanh(VALUE(1));
-		SET(1, "", res, NUMBER);
+		if (!VALID(1)) {
+			SET(1, "", missing, NUMBER, false);
+			return true;
+		}
+		SET(1, "", (tanh(VALUE(1))), NUMBER, true);
 		return true;
 	}
 	if (oper == SQRT) {
 		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
-		if (gr_missing(VALUE(1))) {
-			SET(1, "", gr_currentmissingvalue(), NUMBER);
+		if (!VALID(1)) {
+			SET(1, "", missing, NUMBER, false);
 			return true;
 		}
 		if (VALUE(1) < 0.0) {
 			RpnError = NEED_GE_0;
 			return false;
 		}
-		res = sqrt(VALUE(1));
-		SET(1, "", res, NUMBER);
+		SET(1, "", (sqrt(VALUE(1))), NUMBER, true);
 		return true;
 	}
 	if (oper == LOG) {
 		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
-		if (gr_missing(VALUE(1))) {
-			SET(1, "", gr_currentmissingvalue(), NUMBER);
+		if (!VALID(1)) {
+			SET(1, "", missing, NUMBER, false);
 			return true;
 		}
 		if (VALUE(1) <= 0.0) {
 			RpnError = NEED_GT_0;
 			return false;
 		}
-		res = gr_missing(VALUE(1)) ?
-			gr_currentmissingvalue() : log10(VALUE(1));
-		SET(1, "", res, NUMBER);
+		SET(1, "", (log10(VALUE(1))), NUMBER, true);
 		return true;
 	}
 	if (oper == LN) {
 		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
-		if (gr_missing(VALUE(1))) {
-			SET(1, "", gr_currentmissingvalue(), NUMBER);
+		if (!VALID(1)) {
+			SET(1, "", missing, NUMBER, false);
 			return true;
 		}
 		if (VALUE(1) <= 0) {
 			RpnError = NEED_GT_0;
 			return false;
 		}
-		res = gr_missing(VALUE(1)) ?
-			gr_currentmissingvalue() : log(VALUE(1));
-		SET(1, "", res, NUMBER);
+		SET(1, "", (log(VALUE(1))), NUMBER, true);
 		return true;
 	} 
 	if (oper == EXP) {
 		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
-		res = gr_missing(VALUE(1)) ?
-			gr_currentmissingvalue() : pow(Ee, VALUE(1));
-		SET(1, "", res, NUMBER);
+		if (!VALID(1)) {
+			SET(1, "", missing, NUMBER, false);
+			return true;
+		}
+		SET(1, "", (pow(Ee, VALUE(1))), NUMBER, true);
 		return true;
 	} 
 	if (oper == EXP10) {
 		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
-		res = gr_missing(VALUE(1)) ?
-			gr_currentmissingvalue() : pow(10.0, VALUE(1));
-		SET(1, "", res, NUMBER);
+		if (!VALID(1)) {
+			SET(1, "", missing, NUMBER, false);
+			return true;
+		}
+		SET(1, "", (pow(10.0, VALUE(1))), NUMBER, true);
 		return true;
 	} 
 	if (oper == HEX2DEC) {
 		NEED_ON_STACK(1); NEED_IS_TYPE(1, STRING);
+		if (!VALID(1)) {
+			SET(1, "", missing, NUMBER, false);
+			return true;
+		}
 		std::string hex = NAME(1);
 		un_double_quote(hex);
 		unsigned int r;
@@ -970,13 +1051,17 @@ do_operation(operator_name oper)
 			RpnError = GENERAL_ERROR;
 			return false;
 		}
-		SET(1, "", res, NUMBER);
+		SET(1, "", res, NUMBER, true);
 		return true;
 	} 
 	if (oper == DEC2HEX) {
 		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
+		if (!VALID(1)) {
+			SET(1, "", missing, NUMBER, false);
+			return true;
+		}
 		if (VALUE(1) < -0.5) {
-			SET(1, "", 0.0, STRING);
+			SET(1, "", 0.0, STRING, true);
 			RpnError = NEED_GE_0;
 			return false;
 		}
@@ -987,7 +1072,7 @@ do_operation(operator_name oper)
 			return false;
 		}
 		if (chars < 1) {
-			SET(1, "", 0.0, STRING);
+			SET(1, "", 0.0, STRING, true);
 			err("dec2hex cannot convert number");
 			RpnError = GENERAL_ERROR;
 			return false;
@@ -995,56 +1080,68 @@ do_operation(operator_name oper)
 		std::string qhex = "\"";
 		qhex.append(hex);
 		qhex.append("\"");
-		SET(1, qhex.c_str(), 0.0, STRING);
+		SET(1, qhex.c_str(), 0.0, STRING, true);
 		return true;
 	} 
 	if (oper == FLOOR) {
 		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
-		res = gr_missing(VALUE(1)) ?
-			gr_currentmissingvalue() : floor(VALUE(1));
-		SET(1, "", res, NUMBER);
+		if (!VALID(1)) {
+			SET(1, "", missing, NUMBER, false);
+			return true;
+		}
+		SET(1, "", (floor(VALUE(1))), NUMBER, true);
 		return true;
 	} 
 	if (oper == REMAINDER) {
 		NEED_ON_STACK(2); NEED_IS_TYPE(1, NUMBER); NEED_IS_TYPE(2, NUMBER);
-		res = (gr_missing(VALUE(1)) || gr_missing(VALUE(2))) ?
-			gr_currentmissingvalue() : fmod(VALUE(2), VALUE(1));
-		SET(2, "", res, NUMBER);
+		if (!VALID(1)) {
+			SET(1, "", missing, NUMBER, false);
+			return true;
+		}
+		SET(2, "", (fmod(VALUE(2), VALUE(1))), NUMBER, true);
 		rS.pop_back();
 		return true;
 	} 
 	if (oper == CEIL) {
 		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
-		res = gr_missing(VALUE(1)) ?
-			gr_currentmissingvalue() : ceil(VALUE(1));
-		SET(1, "", res, NUMBER);
+		if (!VALID(1)) {
+			SET(1, "", missing, NUMBER, false);
+			return true;
+		}
+		SET(1, "", (ceil(VALUE(1))), NUMBER, true);
 		return true;
 	} 
 	if (oper == ABS) {
 		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
-		res = gr_missing(VALUE(1)) ?
-			gr_currentmissingvalue() : fabs(VALUE(1));
-		SET(1, "", res, NUMBER);
+		if (!VALID(1)) {
+			SET(1, "", missing, NUMBER, false);
+			return true;
+		}
+		SET(1, "", (fabs(VALUE(1))), NUMBER, true);
 		return true;
 	} 
 	if (oper == CMTOPT) {
 		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
-		res = gr_missing(VALUE(1)) ?
-			gr_currentmissingvalue() : VALUE(1) * PT_PER_CM;
-		SET(1, "", res, NUMBER);
+		if (!VALID(1)) {
+			SET(1, "", missing, NUMBER, false);
+			return true;
+		}
+		SET(1, "", (VALUE(1) * PT_PER_CM), NUMBER, true);
 		return true;
 	} 
 	if (oper == PTTOCM) {
 		NEED_ON_STACK(1); NEED_IS_TYPE(1, NUMBER);
-		res = gr_missing(VALUE(1)) ?
-			gr_currentmissingvalue() : VALUE(1) / PT_PER_CM;
-		SET(1, "", res, NUMBER);
+		if (!VALID(1)) {
+			SET(1, "", missing, NUMBER, false);
+			return true;
+		}
+		SET(1, "", (VALUE(1) / PT_PER_CM), NUMBER, true);
 		return true;
 	} 
 	if (oper == DUP) {
 		NEED_ON_STACK(1); 
 		RpnItem item;
-		item.set(NAME(1), VALUE(1), TYPE(1));
+		item.set(NAME(1), VALUE(1), TYPE(1), true);
 		rS.push_back(item);
 		return true;
 	} 
@@ -1086,7 +1183,7 @@ do_operation(operator_name oper)
 	} 
 	if (oper == STRLEN) {
 		NEED_ON_STACK(1); NEED_IS_TYPE(1, STRING);
-		SET(1, "", double(strlen(NAME(1))), NUMBER);
+		SET(1, "", double(strlen(NAME(1))), NUMBER, true);
 		return true;
 	}
 	if (oper == SUBSTR) {
@@ -1109,7 +1206,7 @@ do_operation(operator_name oper)
 		ss = "\"";
 		ss.append(s.substr(start, stop));
 		ss.append("\"");
-		item.set(ss.c_str(), 0.0, STRING);
+		item.set(ss.c_str(), 0.0, STRING, true);
 		rS.push_back(item);
 		return true;
  	}
@@ -1119,7 +1216,7 @@ do_operation(operator_name oper)
 		std::string res(NAME(2));
 		res.STRINGERASE(res.size()-1, 1);
 		res.append(NAME(1) + 1);
-		SET(2, res.c_str(), 0.0, STRING);
+		SET(2, res.c_str(), 0.0, STRING, true);
 		rS.pop_back();
 		return true;
 	} 
@@ -1128,7 +1225,7 @@ do_operation(operator_name oper)
 		NEED_IS_TYPE(1, STRING);
 		double tmp;
 		sscanf(NAME(1), "\"%lf\"", &tmp);
-		SET(1, "", tmp, NUMBER);
+		SET(1, "", tmp, NUMBER, true);
 		return true;
 	}
 	if (oper == SYSTEM) {
@@ -1164,7 +1261,7 @@ do_operation(operator_name oper)
 			std::string tmp("\"");
 			tmp.append(output_lines);
 			tmp.append("\"");
-			SET(1, tmp.c_str(), 0.0, STRING);
+			SET(1, tmp.c_str(), 0.0, STRING, true);
 			delete [] thisline;
 			delete [] output_lines;
 		}
@@ -1173,19 +1270,19 @@ do_operation(operator_name oper)
 	} 
 	if (oper == SUP) {
 		NEED_ON_STACK(2); NEED_IS_TYPE(1, NUMBER); NEED_IS_TYPE(2, NUMBER);
-		res = (gr_missing(VALUE(1)) || gr_missing(VALUE(2))) ? 
-			gr_currentmissingvalue() 
-			: (VALUE(1) > VALUE(2) ? VALUE(1) : VALUE(2));
-		SET(2, "", res, NUMBER);
+		if (VALID(1) && VALID(2))
+			SET(2, "", (VALUE(1)>VALUE(2)?VALUE(1):VALUE(2)), NUMBER, true);
+		else 
+			SET(2, "", missing, NUMBER, false);
 		rS.pop_back();
 		return true;
 	} 
 	if (oper == INF) {
 		NEED_ON_STACK(2); NEED_IS_TYPE(1, NUMBER); NEED_IS_TYPE(2, NUMBER);
-		res = (gr_missing(VALUE(1)) || gr_missing(VALUE(2))) ? 
-			gr_currentmissingvalue() 
-			: (VALUE(1) < VALUE(2) ? VALUE(1) : VALUE(2));
-		SET(2, "", res, NUMBER);
+		if (VALID(1) && VALID(2))
+			SET(2, "", (VALUE(1)<VALUE(2)?VALUE(1):VALUE(2)), NUMBER, true);
+		else 
+			SET(2, "", missing, NUMBER, false);
 		rS.pop_back();
 	        return true;
 	}
@@ -1244,8 +1341,8 @@ do_operation(operator_name oper)
 		set_y_scale();
 		double          tmpy, tmpx;
 		gr_cmtouser(VALUE(2), VALUE(1), &tmpx, &tmpy);
-		SET(2, "", tmpx, NUMBER);
-		SET(1, "", tmpy, NUMBER);
+		SET(2, "", tmpx, NUMBER, true);
+		SET(1, "", tmpy, NUMBER, true);
 		return true;
 	} 
 	if (oper == XYUSERTOCM) {	// should check for missingvalue?
@@ -1254,8 +1351,8 @@ do_operation(operator_name oper)
 		set_y_scale();
 		double          tmpy, tmpx;
 		gr_usertocm(VALUE(2), VALUE(1), &tmpx, &tmpy);
-		SET(2, "", tmpx, NUMBER);
-		SET(1, "", tmpy, NUMBER);
+		SET(2, "", tmpx, NUMBER, true);
+		SET(1, "", tmpy, NUMBER, true);
 		return true;
 	} 
 	if (oper == XCMTOUSER) {	// should check for missingvalue?
@@ -1263,7 +1360,7 @@ do_operation(operator_name oper)
 		set_x_scale();
 		double          tmpy, tmpx;
 		gr_cmtouser(VALUE(1), 1.0, &tmpx, &tmpy);
-		SET(1, "", tmpx, NUMBER);
+		SET(1, "", tmpx, NUMBER, true);
 		return true;
 	} 
 	if (oper == XPTTOUSER) {	// should check for missingvalue?
@@ -1271,7 +1368,7 @@ do_operation(operator_name oper)
 		set_x_scale();
 		double          tmpy, tmpx;
 		gr_cmtouser(VALUE(1) / PT_PER_CM, 1.0, &tmpx, &tmpy);
-		SET(1, "", tmpx, NUMBER);
+		SET(1, "", tmpx, NUMBER, true);
 		return true;
 	} 
 	if (oper == XUSERTOCM) {	// should check for missingvalue?
@@ -1279,7 +1376,7 @@ do_operation(operator_name oper)
 		set_x_scale();
 		double          tmpy, tmpx;
 		gr_usertocm(VALUE(1), 1.0, &tmpx, &tmpy);
-		SET(1, "", tmpx, NUMBER);
+		SET(1, "", tmpx, NUMBER, true);
 		return true;
 	} 
 	if (oper == XUSERTOPT) {	// should check for missingvalue?
@@ -1287,7 +1384,7 @@ do_operation(operator_name oper)
 		set_x_scale();
 		double          tmpy, tmpx;
 		gr_usertopt(VALUE(1), 1.0, &tmpx, &tmpy);
-		SET(1, "", tmpx, NUMBER);
+		SET(1, "", tmpx, NUMBER, true);
 		return true;
 	} 
 	if (oper == YUSERTOCM) {	// should check for missingvalue?
@@ -1295,7 +1392,7 @@ do_operation(operator_name oper)
 		set_y_scale();
 		double          tmpy, tmpx;
 		gr_usertocm(1.0, VALUE(1), &tmpx, &tmpy);
-		SET(1, "", tmpy, NUMBER);
+		SET(1, "", tmpy, NUMBER, true);
 		return true;
 	} 
 	if (oper == YUSERTOPT) {	// should check for missingvalue?
@@ -1303,7 +1400,7 @@ do_operation(operator_name oper)
 		set_y_scale();
 		double          tmpy, tmpx;
 		gr_usertopt(1.0, VALUE(1), &tmpx, &tmpy);
-		SET(1, "", tmpy, NUMBER);
+		SET(1, "", tmpy, NUMBER, true);
 		return true;
 	} 
 	if (oper == YCMTOUSER) {	// should check for missingvalue?
@@ -1311,7 +1408,7 @@ do_operation(operator_name oper)
 		set_y_scale();
 		double          tmpy, tmpx;
 		gr_cmtouser(1.0, VALUE(1), &tmpx, &tmpy);
-		SET(1, "", tmpy, NUMBER);
+		SET(1, "", tmpy, NUMBER, true);
 		return true;
 	} 
 	if (oper == YPTTOUSER) {	// should check for missingvalue?
@@ -1319,7 +1416,7 @@ do_operation(operator_name oper)
 		set_y_scale();
 		double          tmpy, tmpx;
 		gr_cmtouser(1.0, VALUE(1) / PT_PER_CM, &tmpx, &tmpy);
-		SET(1, "", tmpy, NUMBER);
+		SET(1, "", tmpy, NUMBER, true);
 		return true;
 	}
 	if (oper == SED) {
@@ -1348,7 +1445,7 @@ do_operation(operator_name oper)
 		if (quoted_res[-1 + quoted_res.size()] == '\n')
 			quoted_res.STRINGERASE(-1 + quoted_res.size());
 		quoted_res.append("\"");
-		SET(2, quoted_res.c_str(), 0.0, STRING);
+		SET(2, quoted_res.c_str(), 0.0, STRING, true);
 		rS.pop_back();
 		return true;
 	}
@@ -1370,7 +1467,7 @@ do_operation(operator_name oper)
 			std::string       no_quotes(NAME(1));
 			un_double_quote(no_quotes);
 			gr_stringwidth(no_quotes.c_str(), &width, &ascent, &descent);
-			SET(1, "", width, NUMBER);
+			SET(1, "", width, NUMBER, true);
 		}
 		return true;
 	}
@@ -1392,7 +1489,7 @@ do_operation(operator_name oper)
 			std::string       no_quotes(NAME(1));
 			un_double_quote(no_quotes);
 			gr_stringwidth(no_quotes.c_str(), &width, &ascent, &descent);
-			SET(1, "", ascent, NUMBER);
+			SET(1, "", ascent, NUMBER, true);
 		}
 		return true;
 	}
@@ -1414,7 +1511,7 @@ do_operation(operator_name oper)
 			std::string       no_quotes(NAME(1));
 			un_double_quote(no_quotes);
 			gr_stringwidth(no_quotes.c_str(), &width, &ascent, &descent);
-			SET(1, "", descent, NUMBER);
+			SET(1, "", descent, NUMBER, true);
 		}
 		return true;
 	}
@@ -1436,12 +1533,12 @@ do_operation(operator_name oper)
 			}
 			//printf("DEBUG: should check if file named '%s' or '%s' exists\n",NAME(1),fname.c_str());
 			if (0 == access(fname.c_str(), R_OK | X_OK))
-				SET(1, "", 1.0, NUMBER);
+				SET(1, "", 1.0, NUMBER, true);
 			else
-				SET(1, "", 0.0, NUMBER);
+				SET(1, "", 0.0, NUMBER, true);
 #else
 			warning("Can't determine whether directory exists (no 'access' subroutine on this system) so guessing answer is yes.");
-			SET(1, "", 1.0, NUMBER);
+			SET(1, "", 1.0, NUMBER, true);
 #endif
 		}
 		return true;
@@ -1457,9 +1554,9 @@ do_operation(operator_name oper)
 		//printf("DEBUG cmd %d  num %d   stacksize %d\n",cmd,_num_command_word,rS.size());
 		RpnItem item;
 		if (cmd > -1)
-			item.set("", double(_num_command_word - cmd - 1), NUMBER);
+			item.set("", double(_num_command_word - cmd - 1), NUMBER, true);
 		else 
-			item.set("", 0.0, NUMBER);
+			item.set("", 0.0, NUMBER, true);
 		rS.push_back(item);
 		return true;
 	}
@@ -1495,14 +1592,14 @@ do_operation(operator_name oper)
 			rv.append(_command_word[cmd + index + 1]);
 			rv.append("\"");
 		}
-		SET(1, rv.c_str(), 0.0, STRING);
+		SET(1, rv.c_str(), 0.0, STRING, true);
 		//printf("\t\trv is '%s'\n",rv.c_str());
 		return true;
 	}
 	if (oper == ARGC) {
 		extern std::vector<const char*>_gri_argv;
 		RpnItem item;
-		item.set("", double(_gri_argv.size()), NUMBER);
+		item.set("", double(_gri_argv.size()), NUMBER, true);
 		rS.push_back(item);
 		return true;
 	}
@@ -1517,13 +1614,13 @@ do_operation(operator_name oper)
 		}
 		extern std::vector<const char*>_gri_argv;
 		if (index >= int(_gri_argv.size())) {
-			SET(1, "\" \"", 0.0, STRING);
+			SET(1, "\" \"", 0.0, STRING, true);
 			return true;
 		}
 		std::string rv("\"");
 		rv.append(_gri_argv[index]);
 		rv.append("\"");
-		SET(1, rv.c_str(), 0.0, STRING);
+		SET(1, rv.c_str(), 0.0, STRING, true);
 		return true;
 	} 
 	if (oper == FILE_EXISTS) {
@@ -1544,12 +1641,12 @@ do_operation(operator_name oper)
 			}
 			//printf("DEBUG: should check if file named '%s' or '%s' exists\n",NAME(1),fname.c_str());
 			if (0 == access(fname.c_str(), R_OK))
-				SET(1, "", 1.0, NUMBER);
+				SET(1, "", 1.0, NUMBER, true);
 			else
-				SET(1, "", 0.0, NUMBER);
+				SET(1, "", 0.0, NUMBER, true);
 #else
 			warning("Can't determine whether file exists (no 'access' subroutine on this system) so guessing answer is yes.");
-			SET(1, "", 1.0, NUMBER);
+			SET(1, "", 1.0, NUMBER, true);
 #endif
 		}
 		return true;
@@ -1576,18 +1673,18 @@ do_operation(operator_name oper)
 						std::string value;
 						if (get_coded_value(coded_name, coded_level, value)) {
 							//printf(" ** YES [%s] is defined\n", coded_name.c_str());
-							SET(1, "", 1.0, NUMBER);
+							SET(1, "", 1.0, NUMBER, true);
 						} else {
 							//printf(" ** NO [%s] is NOT defined\n", coded_name.c_str());
-							SET(1, "", 0.0, NUMBER);
+							SET(1, "", 0.0, NUMBER, true);
 						}							
 					} else {
 						// Nothing pointed-to, so \.word?. existence enough
-						SET(1, "", 1.0, NUMBER);
+						SET(1, "", 1.0, NUMBER, true);
 					}
 				} else {
 					// If no such \.word?., certainly nothing pointed-to.
-					SET(1, "", 0.0, NUMBER);
+					SET(1, "", 0.0, NUMBER, true);
 				}
 			} else {
 				//printf("CASE 2.  n1 is [%s]\n",n1.c_str());
@@ -1603,17 +1700,17 @@ do_operation(operator_name oper)
 					//printf("CASE 2B.  n1 is [%s] returning %d\n",n1.c_str(),exists);
 				}
 				if (exists)
-					SET(1, "", 1.0, NUMBER);
+					SET(1, "", 1.0, NUMBER, true);
 				else
-					SET(1, "", 0.0, NUMBER);
+					SET(1, "", 0.0, NUMBER, true);
 			}
 		} else if (is_var(n1)) {
 			double tmp;
 			bool exists = get_var(n1.c_str(), &tmp);
 			if (exists)
-				SET(1, "", 1.0, NUMBER);
+				SET(1, "", 1.0, NUMBER, true);
 			else
-				SET(1, "", 0.0, NUMBER);
+				SET(1, "", 0.0, NUMBER, true);
 		} else {
 			err("Can only use `defined' on a variable or synonym (e.g., `.var.' or `\\syn'), not on `\\", NAME(1), "' as found", "\\");
 			RpnError = ILLEGAL_TYPE;
@@ -1623,7 +1720,7 @@ do_operation(operator_name oper)
 	} 
 	if (oper == ISMISSING) {
 		NEED_IS_TYPE(1, NUMBER);
-		SET(1, "", gr_missing(VALUE(1)) == true ? 1.0 : 0.0, NUMBER);
+		SET(1, "", gr_missing(VALUE(1)) == true ? 1.0 : 0.0, NUMBER, true);
 		return true;
 	}
 	if (oper == INTERPOLATE) {
@@ -1635,14 +1732,14 @@ do_operation(operator_name oper)
 		int i, j;
 		double x = VALUE(2), y = VALUE(1), grid_value;
 		if (!locate_i_j(x, y, &i, &j)) {
-			SET(3, "", gr_currentmissingvalue(), NUMBER);
+			SET(3, "", gr_currentmissingvalue(), NUMBER, true);
 		} else {
 #if defined(OLD_IMAGE_INTERPOLATION)
 			value_i_j(i, j, x, y, &grid_value);
 #else
 			value_i_j(i, j, x, y, &grid_value);
 #endif
-			SET(3, "", grid_value, NUMBER);
+			SET(3, "", grid_value, NUMBER, true);
 		}
 		rS.pop_back();
 		rS.pop_back();
@@ -1651,9 +1748,9 @@ do_operation(operator_name oper)
 	if (oper == RAND) {
 		RpnItem item;
 #if defined(HAVE_DRAND48)
-		item.set("", drand48(), NUMBER);
+		item.set("", drand48(), NUMBER, true);
 #else
-		item.set("", rand(), NUMBER);
+		item.set("", rand(), NUMBER, true);
 #endif
 		rS.push_back(item);
 		return true;
@@ -1679,7 +1776,7 @@ do_operation(operator_name oper)
 				RpnError = GENERAL_ERROR;
 				return false;
 			}
-			SET(2, "", _colX[index], NUMBER);
+			SET(2, "", _colX[index], NUMBER, true);
 			rS.pop_back();
 		} else if (!strcmp(NAME(2), "y")) {
 			if (index > int(_colY.size() - 1)) {
@@ -1688,7 +1785,7 @@ do_operation(operator_name oper)
 				RpnError = GENERAL_ERROR;
 				return false;
 			}
-			SET(2, "", _colY[index], NUMBER);
+			SET(2, "", _colY[index], NUMBER, true);
 			rS.pop_back();
 		} else if (!strcmp(NAME(2), "z")) {
 			if (index > int(_colZ.size() - 1)) {
@@ -1697,7 +1794,7 @@ do_operation(operator_name oper)
 				RpnError = GENERAL_ERROR;
 				return false;
 			}
-			SET(2, "", _colZ[index], NUMBER);
+			SET(2, "", _colZ[index], NUMBER, true);
 			rS.pop_back();
 		} else if (!strcmp(NAME(2), "u")) {
 			if (index > int(_colU.size() - 1)) {
@@ -1706,7 +1803,7 @@ do_operation(operator_name oper)
 				RpnError = GENERAL_ERROR;
 				return false;
 			}
-			SET(2, "", _colU[index], NUMBER);
+			SET(2, "", _colU[index], NUMBER, true);
 			rS.pop_back();
 		} else if (!strcmp(NAME(2), "v")) {
 			if (index > int(_colV.size() - 1)) {
@@ -1715,7 +1812,7 @@ do_operation(operator_name oper)
 				RpnError = GENERAL_ERROR;
 				return false;
 			}
-			SET(2, "", _colV[index], NUMBER);
+			SET(2, "", _colV[index], NUMBER, true);
 			rS.pop_back();
 		} else if (!strcmp(NAME(2), "weight")) {
 			if (index > int(_colWEIGHT.size() - 1)) {
@@ -1724,7 +1821,7 @@ do_operation(operator_name oper)
 				RpnError = GENERAL_ERROR;
 				return false;
 			}
-			SET(2, "", _colWEIGHT[index], NUMBER);
+			SET(2, "", _colWEIGHT[index], NUMBER, true);
 			rS.pop_back();
 
 		} else {
@@ -1743,7 +1840,7 @@ do_operation(operator_name oper)
 			RpnError = GENERAL_ERROR;
 			return false;
 		}
-		SET(2, "", curve_area(), NUMBER);
+		SET(2, "", curve_area(), NUMBER, true);
 		rS.pop_back();
 		return true;
 	}
@@ -1751,15 +1848,15 @@ do_operation(operator_name oper)
 		NEED_ON_STACK(1);
 		NEED_IS_TYPE(1, COLUMN_NAME);
 		if (!strcmp(NAME(1), "x")) {
-			SET(1, "", _colX.min(), NUMBER);
+			SET(1, "", _colX.min(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "y")) {
-			SET(1, "", _colY.min(), NUMBER);
+			SET(1, "", _colY.min(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "z")) {
-			SET(1, "", _colZ.min(), NUMBER);
+			SET(1, "", _colZ.min(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "u")) {
-			SET(1, "", _colU.min(), NUMBER);
+			SET(1, "", _colU.min(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "v")) {
-			SET(1, "", _colV.min(), NUMBER);
+			SET(1, "", _colV.min(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "grid")) {
 			GET_GRID_MIN();
 		} else {
@@ -1773,15 +1870,15 @@ do_operation(operator_name oper)
 		NEED_ON_STACK(1);
 		NEED_IS_TYPE(1, COLUMN_NAME);
 		if (!strcmp(NAME(1), "x")) {
-			SET(1, "", _colX.max(), NUMBER);
+			SET(1, "", _colX.max(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "y")) {
-			SET(1, "", _colY.max(), NUMBER);
+			SET(1, "", _colY.max(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "z")) {
-			SET(1, "", _colZ.max(), NUMBER);
+			SET(1, "", _colZ.max(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "u")) {
-			SET(1, "", _colU.max(), NUMBER);
+			SET(1, "", _colU.max(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "v")) {
-			SET(1, "", _colV.max(), NUMBER);
+			SET(1, "", _colV.max(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "grid")) {
 			GET_GRID_MAX();
 		} else {
@@ -1795,15 +1892,15 @@ do_operation(operator_name oper)
 		NEED_ON_STACK(1);
 		NEED_IS_TYPE(1, COLUMN_NAME);
 		if (!strcmp(NAME(1), "x")) {
-			SET(1, "", _colX.median(), NUMBER);
+			SET(1, "", _colX.median(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "y")) {
-			SET(1, "", _colY.median(), NUMBER);
+			SET(1, "", _colY.median(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "z")) {
-			SET(1, "", _colZ.median(), NUMBER);
+			SET(1, "", _colZ.median(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "u")) {
-			SET(1, "", _colU.median(), NUMBER);
+			SET(1, "", _colU.median(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "v")) {
-			SET(1, "", _colV.median(), NUMBER);
+			SET(1, "", _colV.median(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "grid")) {
 			err("This version of Gri cannot do 'median' of grid yet.");
 			RpnError = GENERAL_ERROR;
@@ -1819,15 +1916,15 @@ do_operation(operator_name oper)
 		NEED_ON_STACK(1);
 		NEED_IS_TYPE(1, COLUMN_NAME);
 		if (!strcmp(NAME(1), "x")) {
-			SET(1, "", _colX.mean(), NUMBER);
+			SET(1, "", _colX.mean(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "y")) {
-			SET(1, "", _colY.mean(), NUMBER);
+			SET(1, "", _colY.mean(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "z")) {
-			SET(1, "", _colZ.mean(), NUMBER);
+			SET(1, "", _colZ.mean(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "u")) {
-			SET(1, "", _colU.mean(), NUMBER);
+			SET(1, "", _colU.mean(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "v")) {
-			SET(1, "", _colV.mean(), NUMBER);
+			SET(1, "", _colV.mean(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "grid")) {
 			GET_GRID_MEAN();
 		} else {
@@ -1841,15 +1938,15 @@ do_operation(operator_name oper)
 		NEED_ON_STACK(1);
 		NEED_IS_TYPE(1, COLUMN_NAME);
 		if (!strcmp(NAME(1), "x")) {
-			SET(1, "", _colX.skewness(), NUMBER);
+			SET(1, "", _colX.skewness(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "y")) {
-			SET(1, "", _colY.skewness(), NUMBER);
+			SET(1, "", _colY.skewness(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "z")) {
-			SET(1, "", _colZ.skewness(), NUMBER);
+			SET(1, "", _colZ.skewness(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "u")) {
-			SET(1, "", _colU.skewness(), NUMBER);
+			SET(1, "", _colU.skewness(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "v")) {
-			SET(1, "", _colV.skewness(), NUMBER);
+			SET(1, "", _colV.skewness(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "grid")) {
 			err("Cannot do skewness of a grid.  Ask author if you need this to be added to Gri");
 		} else {
@@ -1863,15 +1960,15 @@ do_operation(operator_name oper)
 		NEED_ON_STACK(1);
 		NEED_IS_TYPE(1, COLUMN_NAME);
 		if (!strcmp(NAME(1), "x")) {
-			SET(1, "", _colX.kurtosis(), NUMBER);
+			SET(1, "", _colX.kurtosis(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "y")) {
-			SET(1, "", _colY.kurtosis(), NUMBER);
+			SET(1, "", _colY.kurtosis(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "z")) {
-			SET(1, "", _colZ.kurtosis(), NUMBER);
+			SET(1, "", _colZ.kurtosis(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "u")) {
-			SET(1, "", _colU.kurtosis(), NUMBER);
+			SET(1, "", _colU.kurtosis(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "v")) {
-			SET(1, "", _colV.kurtosis(), NUMBER);
+			SET(1, "", _colV.kurtosis(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "grid")) {
 			err("Cannot do kurtosis of a grid.  Ask author if you need this to be added to Gri");
 		} else {
@@ -1885,15 +1982,15 @@ do_operation(operator_name oper)
 		NEED_ON_STACK(1);
 		NEED_IS_TYPE(1, COLUMN_NAME);
 		if (!strcmp(NAME(1), "x")) {
-			SET(1, "", _colX.stddev(), NUMBER);
+			SET(1, "", _colX.stddev(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "y")) {
-			SET(1, "", _colY.stddev(), NUMBER);
+			SET(1, "", _colY.stddev(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "z")) {
-			SET(1, "", _colZ.stddev(), NUMBER);
+			SET(1, "", _colZ.stddev(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "u")) {
-			SET(1, "", _colU.stddev(), NUMBER);
+			SET(1, "", _colU.stddev(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "v")) {
-			SET(1, "", _colV.stddev(), NUMBER);
+			SET(1, "", _colV.stddev(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "grid")) {
 			GET_GRID_STDDEV();
 		} else {
@@ -1907,15 +2004,15 @@ do_operation(operator_name oper)
 		NEED_ON_STACK(1);
 		NEED_IS_TYPE(1, COLUMN_NAME);
 		if (!strcmp(NAME(1), "x")) {
-			SET(1, "", _colX.size_legit(), NUMBER);
+			SET(1, "", _colX.size_legit(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "y")) {
-			SET(1, "", _colY.size_legit(), NUMBER);
+			SET(1, "", _colY.size_legit(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "z")) {
-			SET(1, "", _colZ.size_legit(), NUMBER);
+			SET(1, "", _colZ.size_legit(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "u")) {
-			SET(1, "", _colU.size_legit(), NUMBER);
+			SET(1, "", _colU.size_legit(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "v")) {
-			SET(1, "", _colV.size_legit(), NUMBER);
+			SET(1, "", _colV.size_legit(), NUMBER, true);
 		} else if (!strcmp(NAME(1), "grid")) {
 			GET_GRID_SIZE();
 		} else {

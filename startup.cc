@@ -47,6 +47,7 @@ static superuser_flag sflag[] = {
 	{FLAG_RPN,  "Print cmdline before/after sub rpn"},
 	{FLAG_NEW,  "Print new commands being defined"},
 	{FLAG_SYS,  "Print system commands before passing"},
+	{FLAG_FLOW, "Indicate program flow"},
 	{FLAG_AUT2, "Variable; for use by developers only"},
 	{FLAG_AUT1, "Variable; for use by developers only"},
 	{0, NULL}
