@@ -14,41 +14,47 @@ assert {rpn .a. 4 same}			  " failed test 1.4"
 .a. /= 4
 assert {rpn .a. 1 same}			  " failed test 1.5"
 
+# Conversions (lower-case ok on input, but output is upper-case)
+assert {rpn "aa" hex2dec  170 ==}         " failed test 2.1"
+assert {rpn "AB" hex2dec  171 ==}         " failed test 2.2"
+assert {rpn  63  dec2hex "3F" ==}         " failed test 2.3"
+assert {rpn 193  dec2hex "C1" ==}         " failed test 2.4"
+
 # Logic
-assert {rpn 1 0 or}                       " failed test 1.6"
-assert {rpn 0 1 or}                       " failed test 1.7"
-assert {rpn 1 0 |}                        " failed test 1.8"
-assert {rpn 0 1 |}                        " failed test 1.9"
-assert {rpn 1 0 and not}                  " failed test 1.10"
-assert {rpn 1 0 & !}                      " failed test 1.11"
+assert {rpn 1 0 or}                       " failed test 3.1"
+assert {rpn 0 1 or}                       " failed test 3.2"
+assert {rpn 1 0 |}                        " failed test 3.3"
+assert {rpn 0 1 |}                        " failed test 3.4"
+assert {rpn 1 0 and not}                  " failed test 3.5"
+assert {rpn 1 0 & !}                      " failed test 3.6"
 
 # Logs, powers
 .a. _= 10
-assert {rpn .a. 0 same}			  " failed test 2.1"
+assert {rpn .a. 0 same}			  " failed test 4.1"
 .a. = 2
 .a. ^= 8
-assert {rpn .a. 256 same}		  " failed test 2.2"
-assert {rpn -2 4 power 16 ==}             " failed test 2.3"
-assert {rpn -2 3 power -8 ==}             " failed test 2.4"
-assert {rpn -2 2 power  4 ==}             " failed test 2.5"
-assert {rpn  2 3 power  8 ==}             " failed test 2.6"
+assert {rpn .a. 256 same}		  " failed test 4.2"
+assert {rpn -2 4 power 16 ==}             " failed test 4.3"
+assert {rpn -2 3 power -8 ==}             " failed test 4.4"
+assert {rpn -2 2 power  4 ==}             " failed test 4.5"
+assert {rpn  2 3 power  8 ==}             " failed test 4.6"
 
 
 # String operations
 \a = {rpn "file" ".dat" strcat}
-assert {rpn "\a" "file.dat" ==}		  " failed test 3.1"
+assert {rpn "\a" "file.dat" ==}		  " failed test 5.1"
 \sentence = "This sentence has five words"
 \w1 = word 0 of "\sentence "
-assert {rpn "\w1" "This" ==}		  " failed test 3.2"
+assert {rpn "\w1" "This" ==}		  " failed test 5.2"
 \w2 = word 1 of "\sentence "
-assert {rpn "\w2" "sentence" ==}	  " failed test 3.3"
-assert {rpn 0 4 "hello" substr "hell" ==} " failed test 3.4"
+assert {rpn "\w2" "sentence" ==}	  " failed test 5.3"
+assert {rpn 0 4 "hello" substr "hell" ==} " failed test 5.4"
 
 
 # Q: will the below work on all OS?????
 # NB. better to switch with something more universal
 \six = system "date | wc | awk '{print $2}'"
-assert {rpn \six 6 ==}			  " failed test 4.1"
+assert {rpn \six 6 ==}			  " failed test 6.1"
 
 # ----------- FILL IN LATER -----------------
 # Math functions (e.g. sin, ...)

@@ -112,6 +112,8 @@ typedef enum {
 	NOT_OPERATOR,
 	DIRECTORY_EXISTS,
 	FILE_EXISTS,
+	HEX2DEC,
+	DEC2HEX,
 	ARGC,
 	ARGV,
 	WORDC,
@@ -161,7 +163,9 @@ RPN_DICT        rpn_dict[] =
 	{"exp", 3, EXP},
 	{"exp10", 5, EXP10},
 	{"ceil", 4, CEIL},
+	{"dec2hex", 7, DEC2HEX}, // cf hex2dec
 	{"floor", 5, FLOOR},
+	{"hex2dec", 7, HEX2DEC}, // cf dec2hex
 	{"remainder", 9, REMAINDER},
 	{"abs", 3, ABS},
 	{"<", 1, LESS_THAN},
@@ -943,6 +947,47 @@ do_operation(operator_name oper)
 		res = gr_missing(VALUE(1)) ?
 			gr_currentmissingvalue() : pow(10.0, VALUE(1));
 		SET(1, "", res, NUMBER);
+		return true;
+	} 
+	if (oper == HEX2DEC) {
+		NEED_IS_TYPE(1, STRING);
+		std::string hex = NAME(1);
+		un_double_quote(hex);
+		unsigned int r;
+		if (1 == sscanf(hex.c_str(), "%x", &r)) { 
+			res = floor(0.5 + r);
+		} else {
+			res = gr_currentmissingvalue();
+			err("hex2dec cannot decode \\", hex.c_str(), "\\");
+			RpnError = GENERAL_ERROR;
+			return false;
+		}
+		SET(1, "", res, NUMBER);
+		return true;
+	} 
+	if (oper == DEC2HEX) {
+		NEED_IS_TYPE(1, NUMBER);
+		if (VALUE(1) < -0.5) {
+			SET(1, "", 0.0, STRING);
+			RpnError = NEED_GE_0;
+			return false;
+		}
+		char hex[20];	// BUG: may not be long enough
+		unsigned int chars = snprintf(hex, -1 + sizeof(hex), "%X", (unsigned int)floor(0.5 + VALUE(1)));
+		if (chars > -1 + sizeof(hex)) {
+			err("dec2hex buffer overflow [internal error in rpncalc.cc, please contact developer]");
+			return false;
+		}
+		if (chars < 1) {
+			SET(1, "", 0.0, STRING);
+			err("dec2hex cannot convert number");
+			RpnError = GENERAL_ERROR;
+			return false;
+		}
+		std::string qhex = "\"";
+		qhex.append(hex);
+		qhex.append("\"");
+		SET(1, qhex.c_str(), 0.0, STRING);
 		return true;
 	} 
 	if (oper == FLOOR) {

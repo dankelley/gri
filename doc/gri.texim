@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.202 2002/06/08 12:07:34 dankelley Exp $
+@c $Id: gri.texim,v 1.203 2002/06/16 13:20:24 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -13059,6 +13059,21 @@ Calculate the hyperbolic cosine of 1 (radian), yielding 1.543.
 Convert from 1 centimeter to so-called ``point'' units, yielding 28.45.
 (Opposite of @code{pttocm}.)
 
+@item @{rpn 170 dec2hex@}
+@cindex converting decimal values to hexadecimal strings
+@cindex hexadecimal, converting to from decimal
+Convert a number into a string which is its hexadecimal
+representation.  Before the conversion, the number is rounded to the
+nearest integer, and if the result is negative, an error results.  The
+string is double-quoted, with letters (if there are any) being in
+upper case.  
+
+For example
+@code{\hex = @{rpn  63  dec2hex@}}
+is equivalent to
+@code{\hex = "3F"}.
+
+Compare with @code{hex2dec}, the inverse.
 
 @item @{rpn "\\syn" defined@}
 @cindex testing for existence of a synonym
@@ -13135,6 +13150,21 @@ and @code{0} otherwise.  (See also @code{directory_exists}.)
 @cindex rpn operator @code{floor}
 Calculate the nearest smaller integer, yielding 1.  (Opposite of
 @code{ceil}.)
+
+
+@item @{rpn "AA" hex2dec@}
+@cindex converting hexadecimal strings to decimal values
+@cindex hexadecimal, converting to decimal
+Convert a string, representing a hexadecimal value, into an integer.
+The string must be double-quoted, and it may contain either lower- or
+upper-case letters; this is in contrast to the inverse function,
+@code{dec2hex}, which returns upper-case.  
+
+This operator is most often used in working with colours, since Gri
+handles colour components in decimal terms, whereas many other
+applications refer to the components in hexadecimal notation.
+
+Compare with @code{dec2hex}, the inverse.
 
 
 @item @{rpn 3 ismissing@}

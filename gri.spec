@@ -96,9 +96,11 @@ then
 fi
 
 %changelog
-* Wed Jun 5 2002  Dan Kelley <Dan.Kelley@Dal.Ca>
+* Sun Jun 16 2002  Dan Kelley <Dan.Kelley@Dal.Ca>
+- Add 'hex2dec' and 'dec2hex' rpn operators.
+* Wed Jun  5 2002  Dan Kelley <Dan.Kelley@Dal.Ca>
 - Add 'sed' rpn operator.
-* Sat Jun 1 2002  Dan Kelley <Dan.Kelley@Dal.Ca>
+* Sat Jun  1 2002  Dan Kelley <Dan.Kelley@Dal.Ca>
 - Version 2.10.1
 - Fix Sourceforge bug 562911 (won't build with gcc-3.0)
 - Fix Sourceforge bug 562558 ('draw title' confusion with log axes)
@@ -111,14 +113,14 @@ fi
 - Version 2.10.0
 
 * Sat Apr 20 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
-- Fix Sourceforge bug #546109 (bounding box wrong if postscript clipping used)
+- Fix Sourceforge bug 546109 (bounding box wrong if postscript clipping used)
 
 * Mon Mar 18 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
 - Permit 'draw label' coordinates in pt
 
 * Sat Mar 16 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
-- Fix Sourceforge bug #508657 (missing backslash in drawing undefined synonyms)
-- Fix Sourceforge bug #482120 ('regress' ignores data weights)
+- Fix Sourceforge bug 508657 (missing backslash in drawing undefined synonyms)
+- Fix Sourceforge bug 482120 ('regress' ignores data weights)
 
 * Tue Mar 12 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
 - Permit 'draw box' to have coordinates in pt, as well as cm.
@@ -126,56 +128,56 @@ fi
 - Permit 'draw line from' to have coordinates in pt, as well as cm.
 
 * Wed Feb 27 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
-- Fix Sourceforge bug #523450 (log axes detect non-positive values too late)
+- Fix Sourceforge bug 523450 (log axes detect non-positive values too late)
 
 * Thu Feb 21 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
-- Fix Sourceforge bug #521045 (install problem, function prototype problem)
+- Fix Sourceforge bug 521045 (install problem, function prototype problem)
 
 * Thu Feb 07 2002  Dan Kelley <Dan.Kelley@Dal.Ca>
-- Fix Sourceforge bug #513002 (minor error in documentation of 'set clip').
+- Fix Sourceforge bug 513002 (minor error in documentation of 'set clip').
 
 * Mon Jan 28 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
-- Fix Sourceforge bug #509592 (doc HTML indices misordered).
+- Fix Sourceforge bug 509592 (doc HTML indices misordered).
 
 * Sat Jan 26 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
-- Fix SourceForge bug #506523 (map axes give wrong minutes in negative regions).
+- Fix SourceForge bug 506523 (map axes give wrong minutes in negative regions).
 
 * Fri Jan 25 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
-- Fix SourceForge bug #508088 (grimode: gv should update, not be relaunched).
+- Fix SourceForge bug 508088 (grimode: gv should update, not be relaunched).
 - Make RPM install/uninstall run silently.
 
 * Wed Jan 23 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
-- Fix SourceForge bug #506490 ('-v' commandline option gave wrong number)
+- Fix SourceForge bug 506490 ('-v' commandline option gave wrong number)
 
 * Wed Jan 02 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
 - add `set clip to curve'
 
 * Thu Dec 13 2001 Dan Kelley <Dan.Kelley@Dal.Ca>
 - Release as gri-2.8.5 on SourceForge.Net site.  
-- Fix SourceForge bug #492472 ('inf' rpn operator caused segfault)
+- Fix SourceForge bug 492472 ('inf' rpn operator caused segfault)
 
 * Thu Oct 04 2001 Dan Kelley <Dan.Kelley@Dal.Ca>
 - Release as gri-2.8.4 on SourceForge.Net site.  
-- Fix SourceForge bug #467973 (`gri -version' gave wrong version
+- Fix SourceForge bug 467973 (`gri -version' gave wrong version
   number, breaking the Emacs Gri mode.)
-- Fix SourceForge bug #468401 (`draw grid' disobeys pencolor)
+- Fix SourceForge bug 468401 (`draw grid' disobeys pencolor)
 
 * Mon Oct 01 2001 Dan Kelley <Dan.Kelley@Dal.Ca>
 - Release as gri-2.8.3 on SourceForge.Net site.
-- Fix SourceForge bug #462243 (endian problem in Rasterfile images, 
+- Fix SourceForge bug 462243 (endian problem in Rasterfile images, 
   plus a reading problem in PGM images).
 
 * Mon Sep 10 2001 Dan Kelley <Dan.Kelley@Dal.Ca>
 - Release as gri-2.8.2 on SourceForge.Net site.
-- Really Fix SourceForge bug #454557 (wouldn't compile with the
+- Really Fix SourceForge bug 454557 (wouldn't compile with the
   pre-release version 3.0.1 of the GNU c++ compiler). 
-  This closes SourceForge Bug #111093.
+  This closes SourceForge bug 111093.
 
 * Thu Sep 06 2001 Dan Kelley <Dan.Kelley@Dal.Ca>
 - Release as gri-2.8.1 on SourceForge.Net site.
-- Fix SourceForge bug #450465 (`create columns from function' was broken).
-- Fix SourceForge bug #454557 (wouldn't compile with the pre-release 
-  version 3.0.1 of the GNU c++ compiler; closes: #111093)
+- Fix SourceForge bug 450465 (`create columns from function' was broken).
+- Fix SourceForge bug 454557 (wouldn't compile with the pre-release 
+  version 3.0.1 of the GNU c++ compiler; closes: sourceforge bug 111093)
 
 * Tue Jul 24 2001 Dan Kelley <dan.kelley@dal.ca>
 - Bump up version number to 2.8.0

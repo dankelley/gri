@@ -1,3 +1,7 @@
+2002-06-16  Dan Kelley  <kelley@limit.phys.ocean.dal.ca>
+
+	* rpncalc.cc (do_operation): add hex2dec and dec2hex RPN operators
+
 2002-06-08  Dan E. Kelley  <Dan.Kelley@Dal.Ca>
 
 	* doc/texinfo2HTML (sub_refs): add ability to handle uref texinfo item, which makes cross-referencing urls a lot easier.
