@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Peter S Galbraith <psg@debian.org>
 Build-Depends: debhelper, netcdfg-dev, tetex-bin, texinfo, imagemagick, info, gs, gsfonts
 Build-Depends-Indep: debhelper, tetex-bin, texinfo, imagemagick, info, gs, gsfonts
-Standards-Version: 3.5.6
+Standards-Version: 3.5.7
 
 Package: gri
 Section: science
