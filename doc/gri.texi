@@ -15642,7 +15642,7 @@ this License.
 
 
 
-@c HTML <!-- newfile ConceptIndex.html  "Gri: Concept Index" "Concept Index" -->
+@c HTML <!--
 
 @node   Index of Commands, Index of Builtins, License, Top
 @comment node-name, next, previous, up
@@ -15658,6 +15658,8 @@ this License.
 @comment node-name, next, previous, up
 @unnumbered Index, general
 @printindex cp
+
+@c HTML -->
 
 @summarycontents
 @contents

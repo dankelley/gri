@@ -40,6 +40,8 @@ html: gri.texi gri.info
 	cp examples/*.html ./
 	cd screenshots; make jpg
 	cat gri.texi     		>  TMP
+	perl make_html_commandindex	>> TMP
+	perl make_html_builtinindex	>> TMP
 	perl make_html_index		>> TMP
 	cat TMP | perl texinfo2HTML	>  $(HTML_LONG_NAME)
 	rm -f TMP
