@@ -51,8 +51,9 @@ clean:
 TARDIR=gri-cookbook-src-$(VERSION)
 source:
 	rm -rf $(TARDIR)
-	install -d -m 755 $(TARDIR)/{1,2,3,4,5,6,7,8,9,10,11,12,13,14}
+	install -d -m 755 $(TARDIR)/{1,2,3,4,5,6,7,8,9,10,11,12,13,14,debian}
 	cp *.spec Makefile gri2html cookbook.html discussion.html index.html recipes.html submitting.html $(TARDIR)
+	(cd debian; cp README.Debian changelog control copyright doc-base menu.ex rules ../$(TARDIR)/debian)
 	cp -P */example* 4/*db 12/seawifs.palette $(TARDIR)
 	chmod -R u+rw $(TARDIR)
 	tar -cf gri-cookbook-src-$(VERSION).tar $(TARDIR)
