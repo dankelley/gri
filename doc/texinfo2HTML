@@ -283,7 +283,7 @@ while(<>) {
     # Multiple blanks lines are paragraph separators in texinfo
     if (/^$/o) {
 	if ($allow_P) {
-	    ; # print "<p>"; --- was empty
+	    print "<p>";
 	}
     	$allow_P = 0;
     } elsif (/<H/o) {
