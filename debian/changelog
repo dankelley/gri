@@ -1,8 +1,9 @@
-gri (2.6.2-0) unstable; urgency=low
+gri (2.7.0-0) unstable; urgency=low
 
-  * CVS version.
+  * CVS development version.
+    - Add `substr' RPN operator.
 
- -- Peter S Galbraith <psg@debian.org>  Fri, 11 May 2001 16:26:03 -0400
+ -- Peter S Galbraith <psg@debian.org>  Tue, 15 May 2001 11:19:14 -0400
 
 gri (2.6.1-1) unstable; urgency=low
 
