@@ -36,7 +36,9 @@
     <table bgcolor="#EEEEF8" width="100%" border=0 cellspacing=0 cellpadding=0>
       <TR bgcolor="#EEEEF8">
         <td align="center">
-          <font size="+4">Gri: a language for scientific illustration</font>
+          <b>
+            Gri: a language for scientific illustration
+          </b>
         </td>
       </tr>
     </table>
@@ -182,10 +184,18 @@ HREF="http://gri.sourceforge.net/gridoc/html/Version_2_6.html#Version2.6">here</
 	# mktime(hour,minute,second,month,day,year)
 	$diff = time() - mktime(14, 29, 0, 7, 4, 2001);
 	$days = floor($diff / 24 / 60 / 60);
+	$weeks = floor($days / 7);
+	$months = floor($days / 7 / 4);
 	$hours = floor(($diff - $days * 24) / 60 / 60);
 	$minutes = floor($diff - $days * 24 * 60 * 60 - $hours * 60 * 60) / 60;
 	$seconds = floor($diff - $days * 24 * 60 * 60 - $hours * 60 * 60 - $minutes * 60);
-	if ($days > 1) {
+	# Below I break up into intervals that make sense, e.g.
+	# only switching to months if it's been 3 or more.
+	if ($months > 2) {
+	    echo "$months months ago";
+        } else if ($weeks > 4) {
+	    echo "$weeks weeks ago";
+	} else if ($days > 1) {
 	    echo "$days days ago";
 	} else if ($hours > 1) {
 	    echo "$hours hours ago";
