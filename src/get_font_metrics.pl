@@ -1,9 +1,10 @@
 require PostScript::Fontmetrics;
 sub get_fm($) {
-    $name = $_[0];
-    $s = 1 / (72 / 2.54 * 1000); # or 28.35??
-    my $fm = new PostScript::FontMetrics("/Applications/OpenOffice.org1.1.2/share/psprint/fontmetric/$name.afm");
-    printf("struct font_metric %s = {
+    my $name = $_[0];
+    my $s = 1 / (72 / 2.54 * 1000); # or 28.35??
+    my $dir = "/Applications/OpenOffice.org1.1.2/share/psprint/fontmetric";
+    my $fm = new PostScript::FontMetrics("$dir/$name.afm");
+    printf("// Created by Perl script get_font_metrics.pl\nstruct font_metric %s = {
     %.6f, // XHeight
     %.6f, // CapHeight
     %.6f, // Ascender
@@ -26,4 +27,8 @@ sub get_fm($) {
     printf("\n    }\n};\n");
     #print $fm->MetricsData;
 }
-get_fm("Helvetica");
+
+die "Need at least one font name\n\tUsage: get_font_metrics.pl [fontname [fontname]]" if $#ARGV < 0;
+for ($f = 0; $f <= $#ARGV; $f++) {
+    get_fm($ARGV[$f]);
+}
