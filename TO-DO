@@ -1,0 +1,3 @@
+1) In command.cc, do command-word buffer as a vector, to improve
+   flexibility and possibly even performance.
+
