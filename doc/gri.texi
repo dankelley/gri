@@ -8167,6 +8167,7 @@ Set various flags and parameters which Gri will use in later commands.
 * Set Symbol Size::             Set size of symbols
 * Set Tic Size::                Set size of tics on axes
 * Set Trace::                   Set printout of statements as executed
+* Set Transparency::            Set transparency of the pen
 * Set U Scale::                 Set scale for u (i.e. x) component of arrows
 * Set V Scale::                 Set scale for v (i.e. y) component of arrows
 * Set X Axis::                  Set range of x axis
@@ -9322,7 +9323,8 @@ all of the above.  The width may be set to a value specified in points
 (conversion: 72 pt = 1 inch), to a named rapidograph width, or to the
 default value.  The initial default values are: 0.709pt (or rapidograph
 3x0) for curves; 0.369pt (or rapidograph 6x0) for axes; 0.369pt (or
-rapidograph 6x0) for symbols.
+rapidograph 6x0) for symbols.  (To learn more about standard
+pen widths, see the ISO 9175-1 documents.)
 
 @cindex American Geophysical Union, recommended line thickness
 
@@ -9726,7 +9728,7 @@ Make axis tics point inward or outward.  The default is outward.
 @end itemize
 
 
-@node   Set Trace, Set U Scale, Set Tic Size, Set
+@node   Set Trace, Set Transparency, Set Tic Size, Set
 @comment  node-name,  next,  previous,  up
 @subsubsection @code{set trace}
 @findex set trace
@@ -9751,8 +9753,28 @@ Same as @code{set trace}.
 Prevent printing command lines (default).
 @end itemize
 
+@node   Set Transparency, Set U Scale, Set Trace, Set
+@comment  node-name,  next,  previous,  up
+@subsubsection @code{set transparency}
+@findex set transparency
+@cindex @code{set transparency} command
 
-@node   Set U Scale, Set V Scale, Set Trace, Set
+@example
+`set transparency .transparency.'
+@end example
+
+@noindent
+
+Set the transparency of drawn items, 0 for opaque and 1 for invisibly
+faint.  @emph{This command is provisional, as of summer 2004, and 
+this part of the documentation needs to be fleshed out so
+users can build intuition on transparency.  For example, 
+a quick quiz: what color do you think comes from drawing
+red on top of yellow, or on top of blue?
+}
+
+
+@node   Set U Scale, Set V Scale, Set Transparency, Set
 @comment  node-name,  next,  previous,  up
 @subsubsection @code{set u scale}
 @findex set u scale

@@ -96,6 +96,8 @@ then
 fi
 
 %changelog
+* Sun Jun 13  2004 <Dan.Kelley@Dal.Ca>
+- add 'set transparency'
 * Thu Apr 15  2004 <Dan.Kelley@Dal.Ca>
 - fix SF bug 932203 (misplaced labels caused by 'set x axis labels')
 * Tue Apr 6  2004 <Dan.Kelley@Dal.Ca>
