@@ -5,7 +5,7 @@ bindir_default="/opt/gri/bin"
 libdir_default="/opt/gri/lib"
 docdir_default="/opt/gri/doc"
 
-echo "Please enter the name the directory in which the Gri executable"
+echo "Please enter the full pathname of the directory in which the Gri executable"
 echo "is to be stored. [Press ENTER to get the default of $bindir_default]"
 read BINDIR
 if [ -z "$BINDIR" ]
@@ -15,7 +15,7 @@ else
     bindir="$BINDIR"
 fi
 
-echo "Please enter the name the directory in which the Gri library"
+echo "Please enter the full pathname the directory in which the Gri library"
 echo "files are to be stored. [Press ENTER to get the default of $libdir_default]"
 read LIBDIR
 if [ -z "$LIBDIR" ]
@@ -25,7 +25,7 @@ else
     libdir="$LIBDIR"
 fi
 
-echo "Please enter the name the directory in which the Gri documenation"
+echo "Please enter the full pathname the directory in which the Gri documentation"
 echo "files are to be stored. [Press ENTER to get the default of $docdir_default]"
 read DOCDIR
 if [ -z "$DOCDIR" ]
@@ -41,9 +41,11 @@ echo "Installing Gri executable in $bindir"
 mkdir -m 755 -p $bindir
 cp -f bin/gri   $bindir/gri
 
-# BUG: next line broken
-#echo -e "#!/usr/bin/sh\n$bindir/gri -directory $libdir \"\$@\" > $bindir/Gri
-
+# Create a shellscript to run this, named "Gri" (note upper-case)
+cat > $bindir/Gri <<EOF
+#!/usr/bin/sh
+$bindir/gri -directory $libdir "\$@"
+EOF
 chmod a+rx      $bindir/gri $bindir/Gri
 
 echo "Installing Gri library files in $libdir"

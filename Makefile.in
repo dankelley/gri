@@ -209,7 +209,7 @@ source:
 	    Makefile.in Makefile.dj2 configure configure.in install-sh \
 	    copyright.txt AUTHOR README* gri-mode.el gri_merge gri_unpage \
 	    startup.msg startup.debian startup.redhat gri-*.spec grilogo.gif \
-	    install-solaris README-solaris \
+	    install-SunOS5 README-SunOS5 \
 	        $(SOURCE_NAME)
 	install -m 755 configure install-sh $(SOURCE_NAME)
 	install -d $(SOURCE_NAME)/debian
@@ -302,8 +302,8 @@ package-SunOS5: gri doc
 	install -m 644  tmp                                                          $(SUNOS5_NAME)/lib
 	-rm -f tmp
 	install -m 755 install-SunOS5                                                $(SUNOS5_NAME)/install
-	install -m 644 README-solaris                                                $(SUNOS5_NAME)/README
-	cat doc/gri-manpage-solaris.1 | sed -e s,VERSION,${VERSION}, >tmp
+	install -m 644 README-SunOS5                                                 $(SUNOS5_NAME)/README
+	cat doc/gri-manpage-SunOS5.1 | sed -e s,VERSION,${VERSION}, >tmp
 	install -m 644 tmp                                                           $(SUNOS5_NAME)/doc/gri.1
 	-rm -f tmp
 #       Next should really be done by "cd doc; make something" etc.
