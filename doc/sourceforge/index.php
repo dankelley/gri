@@ -173,7 +173,7 @@ e.g. line widths, colors, and fonts.  A TeX-like syntax provides the
 ability to use common Mathematical symbols.
 
 <p>Folks who write 1000-line Gri scripts usually start with something
-as simple as the following.
+as simple as the following ...
 <pre>
 <font color="#82140F">
    # Draw a linegraph
@@ -182,6 +182,9 @@ as simple as the following.
    draw curve
 </font>
 </pre>
+... which will produce a PostScript graph with axes autoscaled to fit the data.
+
+<p>
 
 A list of the recent changes is <A class="menus"
 HREF="http://gri.sourceforge.net/gridoc/html/Version_2_8.html#Version2.8">here</a>.<br>
