@@ -1,10 +1,11 @@
 Summary: A language for scientific illustration
+%define griversion 2.6.1
 Name: gri
-Version: 2.6.1
+Version: %{griversion}
 Release: 1
 Copyright: distributable
 Group: Applications/Engineering
-Source: ftp://ftp.phys.ocean.dal.ca/users/kelley/gri/gri-2.6.1.tgz
+Source: ftp://ftp.phys.ocean.dal.ca/users/kelley/gri/gri-%{griversion}.tgz
 URL: http://gri.sourceforge.net
 Packager: Dan E. Kelley <Dan.Kelley@Dal.CA>
 Icon: grilogo.gif
