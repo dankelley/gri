@@ -96,6 +96,8 @@ then
 fi
 
 %changelog
+* Sun Apr 06 2003 Dan Kelley <Dan.KelleyDal.Ca>
+- fix SourceForge bug 696073 (incorrect handling of \$() syntax)
 * Sat Apr 05 2003 Dan Kelley <Dan.KelleyDal.Ca>
 - fix SourceForge bug 715884 (mixup on quoted strings)
 * Sat Mar 29 2003 Dan Kelley <Dan.KelleyDal.Ca>

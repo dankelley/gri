@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.244 2003/04/05 16:17:14 dankelley Exp $
+@c $Id: gri.texim,v 1.245 2003/04/06 13:50:21 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16306,8 +16306,11 @@ stable stream, all versions sharing a given middle number have the
 same features; new releases are made only to fix bugs.  Thus, version
 @code{2.6.1} fixed bugs in version @code{2.6.0}.
 
-To learn more about the bugs, and their resolution, visit
-@url{http://sourceforge.net/tracker/?func=browse&group_id=5511&atid=105511}
+To learn more about the bugs, and their resolution, visit the bugs page at
+
+@uref{http://sourceforge.net/tracker/?func=browse&group_id=5511&atid=105511,gri.sourceforge.net}
+
+@noindent
 and adjust the "status" menu to read "closed".
 
 @menu
@@ -16345,9 +16348,14 @@ only in the fixing of bugs.
 
 @comment ADD-NEW-BUG-FIXES-HERE
 
-@subsubsection Version 2.12.4 [2003 Apr 05]
+@subsubsection Version 2.12.4 [2003 Apr 06]
 @strong{Bug Fixes}
 @itemize
+@item
+Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=696073&group_id=5511&atid=105511,#696073}
+@dots{} did not handle @code{\$()} syntax correctly.
+
 @item
 Fix SourceForge bug
 @uref{http://sourceforge.net/tracker/index.php?func=detail&aid=715884&group_id=5511&atid=105511,#715884}

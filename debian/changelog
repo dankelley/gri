@@ -2,12 +2,13 @@ gri (2.12.4-1) unstable; urgency=low
 
   * New upstream release
     Bug Fixes:
+  - Fix Sourceforge bug #696073 (incorrect handling of \$() syntax)
   - Fix Sourceforge bug #715884 (mixup on quoted strings)
   - Fix Sourceforge bug #706202 (page orientation Postscript hint missing)
   - Fix Sourceforge bug #711354 (program name missing in Postscript hint)
   - Fix compilation bug on m68k architecture (closes: #183912)
 
- -- Peter S Galbraith <psg@debian.org>  Sat,  5 Apr 2003 12:41:10 -0500
+ -- Peter S Galbraith <psg@debian.org>  Sun,  6 Apr 2003 9:40:10 -0500
 
 gri (2.12.3-1) unstable; urgency=low
 

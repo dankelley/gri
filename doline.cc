@@ -875,6 +875,9 @@ sub_dollar_paren(const char *in, std::string& out)
 	out = "";
 	std::string in_copy(in);
 	bool inserted_something = false;
+#ifdef DEBUG_DOLLAR_PAREN
+	printf("LEN=%d\n",len);
+#endif
 	while (1) {
 		std::vector<int> start;	// where \$( sequences start
 		std::vector<int> depth;	// depth of these sequences
@@ -882,16 +885,22 @@ sub_dollar_paren(const char *in, std::string& out)
 		unsigned int i;
 		for (i = 3; i < len; i++) {
 #ifdef DEBUG_DOLLAR_PAREN
-			printf("i = %d START OF LOOP.  rest of in_copy '%s'\n", i, in_copy.c_str()+i);
+			printf("in_copy[%d,...] = '%s'\n", i, in_copy.c_str()+i);
 #endif
 			if (in_copy[i] == '(' && in_copy[i - 1] == '$' && in_copy[i - 2] == '\\') {
 				start.push_back(i - 2);
 				depth.push_back(++level);
-			} else if (in_copy[i] == ')' && in_copy[i-1] != '\\')
+#ifdef DEBUG_DOLLAR_PAREN
+				printf("    got \\$( at i=%d\n",i);
+#endif
+			} else if (in_copy[i] == ')' && in_copy[i-1] != '\\') {
 				level--;
+#ifdef DEBUG_DOLLAR_PAREN
+				printf("    got ) at i=%d\n",i);
+#endif
+			}
 			if (level > max_level)
 				max_level = level;
-			//printf("i = %d END OF LOOP\n", i);
 		}
 #ifdef DEBUG_DOLLAR_PAREN
 		printf("after loop, start.size() = %d    max_level= %d\n", start.size(), max_level);
@@ -917,6 +926,7 @@ sub_dollar_paren(const char *in, std::string& out)
 #endif
 				tmp = tmp + (in_copy.c_str() + start[i] + skip);
 				in_copy = tmp;
+				len = in_copy.size();
 				for (i = 0; i < start.size(); i++) {
 					start.pop_back();
 					depth.pop_back();

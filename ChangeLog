@@ -1,3 +1,7 @@
+2003-04-06  Dan E. Kelley  <kelley@Limit.Phys.Ocean.Dal.Ca>
+
+	* doline.cc (sub_dollar_paren): fix SF bug 696073
+
 2003-04-05  Dan E. Kelley  <kelley@Limit.Phys.Ocean.Dal.Ca>
 
 	* doline.cc (remove_comment): fix problem in scanning double-quoted strings
