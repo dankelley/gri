@@ -8,10 +8,10 @@ set_up_rhs();
 <h1>Developers</h1>
 
 <p>
-<a href="$sf_url/users/dankelley/">
+<?php print "<a href=\"$sf_url/users/dankelley/\">";?>
 Dan Kelley
 </a> wrote Gri, and
-<a href="$sf_url/users/psg/">
+<?php print "<a href=\"$sf_url/users/psg/\">";?>
 Peter Galbraith
 </a> wrote the Gri Emacs mode.  The two have collaborated on Gri development 
 for a decade, and have enjoyed the help and advice of many users, named
