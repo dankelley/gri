@@ -283,8 +283,11 @@ what_is_new:
 	done
 
 # Sun microsystems, sunOS 5.x
+# NOTE: this target doesn't depend on 'gri' or 'doc', etc; this
+# is to be done manually, the first step perhaps on an 
+# entirely different computer!!
         SUNOS5_NAME = gri-$(VERSION)-SunOS5
-package-SunOS5: gri doc
+package-SunOS5:
 	rm -rf          $(SUNOS5_NAME)
 	mkdir -m 755 -p $(SUNOS5_NAME)
 	mkdir -m 755 -p $(SUNOS5_NAME)/bin
@@ -298,9 +301,9 @@ package-SunOS5: gri doc
 	-cp -p gri                                                        $(SUNOS5_NAME)/bin
 	-cp  gri.cmd logo.dat copyright.txt license.txt                   $(SUNOS5_NAME)/lib
 	-cat startup.msg | sed -e s,VSN,${VERSION}, | sed -e "s/DATE/`date`/" > tmp
-	-cp  tmp                                                          $(SUNOS5_NAME)/lib
-	-rm -f tmp
-	-cp ./install-SunOS5                                              $(SUNOS5_NAME)/install
+	-cp tmp                                                           $(SUNOS5_NAME)/lib/startup.msg
+	-cat install-SunOS5 | sed -e s,VSN,${VERSION}, > tmp
+	-cp tmp                                                           $(SUNOS5_NAME)/install
 	chmod a+rx                                                        $(SUNOS5_NAME)/install
 	-cp README-SunOS5                                                 $(SUNOS5_NAME)/README
 	cat doc/gri-manpage-SunOS5.1 | sed -e s,VERSION,${VERSION}, >tmp

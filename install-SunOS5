@@ -1,9 +1,9 @@
 #!/usr/bin/sh
 
 # Set defaults for file locations.
-bindir_default="/opt/gri/bin"
-libdir_default="/opt/gri/lib"
-docdir_default="/opt/gri/doc"
+bindir_default="/usr/local/bin"
+libdir_default="/usr/local/share/gri/VSN/lib"
+docdir_default="/usr/local/share/gri/VSN/doc"
 
 echo "Please enter the full pathname of the directory in which the Gri executable"
 echo "is to be stored. [Press ENTER to get the default of $bindir_default]"
