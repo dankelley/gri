@@ -46,17 +46,17 @@ print "<A HREF=\"$ftp_site/gri_2.8.6-0potato1_i386.deb\">old package</a> for the
 print "<A HREF=\"$ftp_site/gri_$gri_stable_version-1_i386.deb\">woody</a> distribution, and\n";
 print "a <A HREF=\"$ftp_site/gri-${gri_stable_version}static_2.10.1-1_i386.deb\">static</a> package, with no documentation files.\n";
 ?>
-The Potato package is the last version of gri which would build without
+The Potato package is the lastest gri version that compiles without
 changes in that distribution (due to uncompatible changes in debhelper
 scripts which are used to make the package).  The woody package is
 identical to the package currently in Debian's unstable distribution (sid),
 but is woody-compatible with respect to libraries.  The static package
 is a version-specific package made to live alongside other releases
-(possibly newer) of the regular gri package, thus providing backwards
-compatibility for your old code that may depend on a version of Gri.  To
-distinguish this package from the regular `gri' package, it is named as
-<i>gri-2.10.1static</i> as opposed to simply <i>gri</i>.  It does not
-contain Info files or the Emacs gri-mode;  install a regular version of the
+of the regular gri package, yielding backwards
+compatibility.  To
+distinguish this package from the regular `gri' package, it is named 
+<i>gri-2.10.1static</i> as opposed to <i>gri</i>.  It does not
+contain Info files or the Emacs gri-mode; install a regular version of the
 Gri package to get those.
 
 <p>For <b>Solaris OS5</b>,
@@ -73,14 +73,14 @@ and for
 Visit the
 <?php print $development_site_name;?> site for full list of
 <a href="$sf_url/project/showfiles.php?group_id=$gri_group_id">
-of downloadable files</a>.
+downloadable files</a>.
 
 <h1>Source Code</h1>
 <p>
 The Gri source code is provided in two tarballs: a 
-<?php print "<A HREF=\"$ftp_site/gri-$gri_stable_version.tgz\">smaller package</a>\n"; ?>
+<A HREF="<?php print "$ftp_site/gri-$gri_stable_version.tgz";?>">smaller package</a>
 for which documentation files are created during the building process, and a
-<?php print "<A HREF=\"$ftp_site/gri-$gri_stable_version-arch-indep.tar.gz\">larger package</a>\n"; ?>
+<A HREF="<?php print "$ftp_site/gri-$gri_stable_version-arch-indep.tar.gz";?>">larger package</a>
 which has pre-built documentation files.
 </p>
 
