@@ -4,8 +4,8 @@
 #define _PUT_STATIC_DATA_MEMBERS_HERE
 #include <string>
 #include <vector>		// part of STL
-#include <stdio.h>
 #include <algorithm>		// part of STL
+#include <stdio.h>
 #include "gr.hh"
 #include "defaults.hh"
 #include "private.hh"
@@ -45,9 +45,16 @@ template void  sort(vector<double>::iterator, vector<double>::iterator);
 // GNU c++ compiler
 #if defined(__GNUC__)
 
-#if __GNUC__ < 3		// avoid deficiency in old compilers
+#if __GNUC__ >= 3		// avoid deficiency in old compilers
+
+//void std::reverse(std::vector<double>::iterator, std::vector<double>::iterator);
+//void std::sort(std::vector<double>::iterator, std::vector<double>::iterator);
+
+#else
+
 template void std::reverse(std::vector<double>::iterator, std::vector<double>::iterator);
 template void std::sort(std::vector<double>::iterator, std::vector<double>::iterator);
+
 #endif
 
 template class std::vector<BlockSource>;
