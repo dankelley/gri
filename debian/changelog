@@ -1,6 +1,6 @@
-gri (2.7.0-0) unstable; urgency=low
+gri (2.8.0-1) unstable; urgency=low
 
-  * CVS development version.
+  * New upstream version.
     - Enhancements to gri-mode: meta-tab completion of builtin variables
       and synonyms, etc.
     - Add `unlink' command.
@@ -11,8 +11,9 @@ gri (2.7.0-0) unstable; urgency=low
       (`.v. = 1_000' and `.v. = 1000' are completely equivalent).
     - Add `set page size command.
     - Add `substr' RPN operator.
+  * Move gri-html-doc and gri-ps-doc documentation files to /usr/share/doc/gri
 
- -- Peter S Galbraith <psg@debian.org>  Tue, 17 Jul 2001 15:46:59 -0400
+ -- Peter S Galbraith <psg@debian.org>  Mon, 23 Jul 2001 20:54:15 -0400
 
 gri (2.6.4-1) unstable; urgency=low
 
