@@ -96,6 +96,9 @@ then
 fi
 
 %changelog
+* Thu Feb 21 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
+- Fix Sourceforge bug #521045 (install problem, function prototype problem)
+
 * Thu Feb 7 2002  Dan Kelley <Dan.Kelley@Dal.Ca>
 - Fix Sourceforge bug #513002 (minor error in documentation of 'set clip').
 

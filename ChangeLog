@@ -1,3 +1,27 @@
+2002-02-21  Dan Kelley  <kelley@Limit.Phys.Ocean.Dal.Ca>
+
+	* Fix Sourceforge bug #513002 (minor error in documentation of
+	'set clip').
+
+	* Fix sourceforge bug #521045 (install problem, function prototype
+	problem).
+
+	* Fix Sourceforge bug #509592 (doc HTML indices misordered).
+
+	* Fix SourceForge bug #506523 (map axes give wrong minutes in
+	negative regions).
+
+	* Fix SourceForge bug #508088 (grimode: gv should update, not be
+	relaunched).
+
+	* Make RPM install/uninstall run silently.
+
+	* Fix SourceForge bug #506490 ('-v' commandline option gave wrong
+	number)
+
+	* Add `set clip to curve'.  (Not reliable yet, for long curves, and also I've not finalized the winding convention yet.)
+	
+	
 2001-12-13  Dan Kelley  <kelley@localhost.localdomain>
 
 	* rpncalc.cc: insert a missing 'return' statement, to fix
