@@ -1052,6 +1052,7 @@ set_dashCmd()
 			_dash.push_back(tmp);
 		}
 	}
+	fprintf(_grPS, "[");
 	for (unsigned int i = 0; i < _dash.size(); i++)
 		fprintf(_grPS, "%.3f ", _dash[i] * PT_PER_CM);
 	fprintf(_grPS, "] %d d\n", int(_dash.size()));
