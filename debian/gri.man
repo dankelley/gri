@@ -244,9 +244,13 @@ named like so:
 
 .B gri-VSN_VSN-1_i386.deb
 
-at the ftp site:
+at the SourceForge download page for the gri project:
 
-.B ftp://ftp.phys.ocean.dal.ca/users/kelley/gri/linux-debian/
+.B http://sourceforge.net/project/showfiles.php?group_id=5511
+
+or possibly at:
+
+.B http://www.phys.ocean.dal.ca/~kelley/ftp/gri/linux-debian
 
 .SH "SEE ALSO"
 .B

@@ -12,7 +12,9 @@ Note to porters:
   bunch of Gri packages for each version ever made.  However, I do plan to
   make these available to users at
   
-   ftp://ftp.phys.ocean.dal.ca/users/kelley/gri/linux-debian
+   http://sourceforge.net/project/showfiles.php?group_id=5511
+  or perhaps
+   http://www.phys.ocean.dal.ca/~kelley/ftp/gri/linux-debian
   
   So... If you are porting Gri for some arch, you may build this extra target
   and provide to me so that I can include it at that site.
