@@ -96,8 +96,10 @@ then
 fi
 
 %changelog
-* Wed May 29 2002  Dan Kelley <Dan.Kelley@Dal.Ca>
+* Sat Jun 1 2002  Dan Kelley <Dan.Kelley@Dal.Ca>
 - Version 2.10.1
+- Fix Sourceforge bug 562911 (won't build with gcc-3.0)
+- Fix Sourceforge bug 562558 ('draw title' confusion with log axes)
 - Fix Sourceforge bug 562014 (won't build if popt library is unavailable)
 - Fix SourceForge bug 558463 (in HTML docs, the ``press'' margin tag was misdirected)
 - Fix SourceForge bug 562017 (parser fails with DOS end-of-line)
