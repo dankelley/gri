@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.167 2002/04/07 14:11:28 dankelley Exp $
+@c $Id: gri.texim,v 1.168 2002/04/07 14:14:32 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16845,8 +16845,10 @@ them!  The actual code will come later, probably by mid-2002
 
 @item
 Add @code{..xinc..} and @code{..yinc..} builtin variables (@ref{Axis Scaling}).
+
 @item
 Make the @code{-chatty} commandline option require a value (@ref{Invoking Gri}).
+
 @item
 Make the @code{open} command accept URLs as filenames (@ref{Open}).
 
@@ -16936,8 +16938,6 @@ options.
 @item Change @code{set axes style} from number-based selection to
 word-based selection, and print a deprecation warning if the
 number-based syntax is used.
-
-@item Make @code{open} handle URL addresses.
 
 @item Switch from @code{tmpname} to @code{mkstemp} subroutine, for temporary filenames.
 
