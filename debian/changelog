@@ -7,6 +7,13 @@ gri (2.9.0-0) unstable; urgency=low
   
  -- Peter S Galbraith <psg@debian.org>  Thu,  6 Sep 2001 22:32:12 -0400
 
+gri (2.8.5-1) unstable; urgency=low
+
+  * New upstream bug-fix release:
+   - Fix SourceForge bug #492472 (`inf' rpn operator caused segfault)
+
+ -- Peter S Galbraith <psg@debian.org>  Thu, 13 Dec 2001 10:34:47 -0500
+
 gri (2.8.4-1) unstable; urgency=low
 
   * New upstream bug-fix release:
