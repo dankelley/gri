@@ -87,6 +87,7 @@ while(<>) {
 	close OUT;
 	open (OUT, ">$file") || die "Cannot open $file";
 	$file_list[$num_files++] = $file;
+        print OUT "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
 	print OUT "<html>\n";
 	print OUT "<head>\n";
         print OUT "<title>$title</title>\n";
