@@ -162,9 +162,10 @@ gr_show_at(/*const*/ char *s, double xcm, double ycm, gr_textStyle style, double
 	switch (style) {
 	case TEXT_LJUST:
 		gr_moveto_cm(xcm, ycm);
-		if (_output_file_type==postscript) {
-			if (_grWritePS && fabs(angle_deg) > 0.1) {
-				fprintf(_grPS, "%.2f rotate ", angle_deg);
+		if (_output_file_type == postscript) {
+			if (_grWritePS) {
+				if (fabs(angle_deg) > 0.1)
+					fprintf(_grPS, "%.2f rotate ", angle_deg);
 				gr_drawstring(s);
 			}
 		} else if (_output_file_type == svg) {
@@ -173,9 +174,8 @@ gr_show_at(/*const*/ char *s, double xcm, double ycm, gr_textStyle style, double
 				gr_page_height_pt() - ycm * PT_PER_CM, 
 				fn_svg,
 				gr_currentfontsize_pt(), int(255*r+0.5), int(255*g+0.5), int(255*b+0.5));
-			if (fabs(angle_deg) > 0.1) {
+			if (fabs(angle_deg) > 0.1)
 				fprintf(stderr, "%s:%d: SVG cannot rotate text\n",__FILE__,__LINE__);
-			}
 			fprintf(_grSVG, "%s\n", s);
 		} else {
 			fprintf(stderr, "%s:%d unknown file output type\n",__FILE__,__LINE__);
@@ -187,7 +187,7 @@ gr_show_at(/*const*/ char *s, double xcm, double ycm, gr_textStyle style, double
 		box.shift_y(ycm);
 		break;
 	case TEXT_RJUST:
-		if (_output_file_type==postscript) {
+		if (_output_file_type == postscript) {
 			if (_grWritePS) {
 				fprintf(_grPS, "%.1f %.1f m ",
 					PT_PER_CM * (xcm - width_cm * cos(angle_deg / DEG_PER_RAD)),
@@ -203,9 +203,8 @@ gr_show_at(/*const*/ char *s, double xcm, double ycm, gr_textStyle style, double
 				fn_svg,
 				gr_currentfontsize_pt(), 
 				int(255*r+0.5), int(255*g+0.5), int(255*b+0.5));
-			if (fabs(angle_deg) > 0.1) {
+			if (fabs(angle_deg) > 0.1)
 				fprintf(stderr, "%s:%d: SVG cannot rotate text\n",__FILE__,__LINE__);
-			}
 			fprintf(_grSVG, "%s\n", s);
 		} else {
 			fprintf(stderr, "%s:%d unknown file output type\n",__FILE__,__LINE__);
@@ -218,7 +217,7 @@ gr_show_at(/*const*/ char *s, double xcm, double ycm, gr_textStyle style, double
 		box.shift_y(ycm);
 		break;
 	case TEXT_CENTERED:
-		if (_output_file_type==postscript) {
+		if (_output_file_type == postscript) {
 			if (_grWritePS) {
 				fprintf(_grPS, "%.1f %.1f m ",
 					PT_PER_CM * (xcm - 0.5 * width_cm * cos(angle_deg / DEG_PER_RAD)),
@@ -234,9 +233,8 @@ gr_show_at(/*const*/ char *s, double xcm, double ycm, gr_textStyle style, double
 				fn_svg,
 				gr_currentfontsize_pt(),
 				int(255*r+0.5), int(255*g+0.5), int(255*b+0.5));
-			if (fabs(angle_deg) > 0.1) {
+			if (fabs(angle_deg) > 0.1)
 				fprintf(stderr, "%s:%d: SVG cannot rotate text\n",__FILE__,__LINE__);
-			}
 			fprintf(_grSVG, "%s\n", s);
 		} else {
 			fprintf(stderr, "%s:%d unknown file output type\n",__FILE__,__LINE__);
@@ -251,11 +249,12 @@ gr_show_at(/*const*/ char *s, double xcm, double ycm, gr_textStyle style, double
 	}
 	switch (_output_file_type) {
 	case  postscript:
-		if (_grWritePS && fabs(angle_deg) > 0.1) {
-			fprintf(_grPS, "%.2f rotate ", -angle_deg);
+		if (_grWritePS) {
+			if (fabs(angle_deg) > 0.1)
+				fprintf(_grPS, "%.2f rotate ", -angle_deg);
 			check_psfile();
+			fprintf(_grPS, "%% gr_show_at() END\n");
 		}
-		fprintf(_grPS, "%% gr_show_at() END\n");
 		break;
 	case svg:
 		fprintf(_grSVG, "</text>\n");
