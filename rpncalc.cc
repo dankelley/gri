@@ -1034,11 +1034,6 @@ do_operation(operator_name oper)
 		un_double_quote(s);
 		int stop  = int(VALUE(2));
 		int start = int(VALUE(3));
-		if (stop < start) {
-			err("'substr' needs stop>start, e.g. '{rpn 0 4 \"hello\" substr}' yields \"hell\"");
-			RpnError = GENERAL_ERROR;
-			return false;
-		}
 		if (stop < 0 || start < 0) {
 			RpnError = NEED_GE_0;
 			return false;
