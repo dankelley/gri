@@ -231,9 +231,9 @@ first argument looks like a PostScript filename.  Older versions\n\
 #else
 	strcpy(host, "unknown");
 #endif
-	fprintf(_grPS, "%%gri:# Gri was invoked by user named\n%%gri:#     %s\n%%gri:# on host named\n%%gri:#     %s\n%%gri:# using the command\n%%gri:#    ", egetenv("USER"), host);
+	fprintf(_grPS, "%%gri:# Gri was invoked by user named\n%%gri:#     %s\n%%gri:# on host named\n%%gri:#     %s\n%%gri:# using the command\n%%gri:#   ", egetenv("USER"), host);
 	for (int i = 0; i < argc; i++)
-		fprintf(_grPS, " %s ", argv[i]);
+		fprintf(_grPS, " %s", argv[i]);
 	SECOND_TYPE sec;
 	time(&sec);
 	sprintf(_grTempString, "%s", asctime(localtime(&sec)));
