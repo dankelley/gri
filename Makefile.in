@@ -170,6 +170,22 @@ install: all
 	$(INSTALL_PROGRAM)      gri_unpage      $(prefix)/bin/gri_unpage
 	cd doc; prefix=$(prefix) make html-install
 
+install-solaris: all
+	echo "Installing into '$(prefix)' directory"
+	cat startup.msg | sed -e s,VSN,${VERSION}, > tmp
+	$(INSTALL_PROGRAM) -d $(prefix)/share/gri
+	$(INSTALL_DATA) tmp $(prefix)/share/gri/startup.msg
+	rm -f tmp
+	$(INSTALL_DATA)         gri.cmd         $(prefix)/share/gri/gri.cmd
+	$(INSTALL_DATA)         logo.dat        $(prefix)/share/gri/logo.dat
+	$(INSTALL_DATA)         license.txt     $(prefix)/share/gri/license.txt
+	$(INSTALL_PROGRAM) -d                   $(prefix)/bin
+	$(INSTALL_PROGRAM)      gri             $(prefix)/bin/gri
+	$(INSTALL_PROGRAM)      gri_merge       $(prefix)/bin/gri_merge
+	$(INSTALL_PROGRAM)      gri_unpage      $(prefix)/bin/gri_unpage
+	cd doc; prefix=$(prefix) make html-install-solaris
+
+
 all: force
 	make gri
 	make doc
