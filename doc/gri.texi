@@ -16465,7 +16465,7 @@ only in the fixing of bugs.
 
 @comment ADD-NEW-BUG-FIXES-HERE
 
-@subsubsection Version 2.12.9 [2005 Jan 6]
+@subsubsection Version 2.12.9 [2005 Jan 6: Epiphany in the Christian tradition]
 @strong{Bug Fixes}
 @itemize @bullet
 
