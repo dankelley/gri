@@ -30,7 +30,7 @@ Set up axes
     set x axis \xmin \xmax \xinc
     set y name "$\sigma_T$"
     set y size 5
-    set y axis label horizontal
+    set y axis name horizontal
     set y axis \ymin \ymax \yinc
     set y format "%.1f"
 }
