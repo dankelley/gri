@@ -1051,7 +1051,7 @@ EOF
 
     fi
 
-
+
 echo $ac_n "checking for for IBM AIX computer with IBM compiler""... $ac_c" 1>&6
 echo "configure:1057: checking for for IBM AIX computer with IBM compiler" >&5
 if eval "test \"`echo '$''{'gri_cv_is_aix_with_ibm'+set}'`\" = set"; then
@@ -1086,7 +1086,7 @@ EOF
 
     fi
 
-
+
 
 for ac_hdr in unistd.h
 do

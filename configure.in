@@ -152,7 +152,7 @@ AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([
 )dnl
 dnl
 DEK_IS_SUN
-
+
 dnl     See if IBM AIX with IBM compiler.  Note
 dnl	that an IBM running GNU compiler won't
 dnl	fall into this category.
@@ -171,7 +171,7 @@ AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([
 )dnl
 dnl
 DEK_IS_AIX_WITH_IBM
-
+
 
 AC_CHECK_HEADERS(unistd.h)
 
