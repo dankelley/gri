@@ -10,7 +10,7 @@ set_up_lhs();
 <br>
 <b>Debian/GNU Linux</b><br>
 - <A HREF="<?php print "$ftp_site/gri_2.8.6-0potato1_i386.deb";				?>">potato [old]	</a><br>
-- <A HREF="<?php print "$ftp_site/gri_$gri_stable_version-1_i386.deb";			?>">woody/sid		</a><br>
+- <A HREF="<?php print "$ftp_site/gri_$gri_stable_version-1_i386.deb";			?>">woody		</a><br>
 - <A HREF="<?php print "$ftp_site/gri-${gri_stable_version}static_2.12.1-1_i386.deb";
         ?>">statically linked		</a><br>
 - <A HREF="http://packages.debian.org/unstable/science/gri.html">Gri
