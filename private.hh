@@ -73,6 +73,7 @@ bool value_i_j(unsigned int ii, unsigned int jj, double xx, double yy, double *v
 #endif
 
 bool            calculate_image_histogram(void);
+int             call_the_OS(const char* cmd); 
 void            check_psfile(void);
 bool            chop_into_words(char *s, char **w, int *nw, int max);
 bool            chop_into_data_words(char *s, char **w, int *nw, int max);
