@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.115 2001/07/20 13:55:53 dankelley Exp $
+@c $Id: gri.texim,v 1.116 2001/07/20 16:42:12 psg Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -13394,6 +13394,17 @@ type it, Gri can draw it!  It is up to you to determine how to enter the
 accents.  Most text editors permit this.  Since many users will prefer
 the Emacs editor, a few words about that are in order.
 
+For complete information about entering iso-latin-1 characters in Emacs,
+consult your Emacs manual in the section
+@ifinfo
+@ref{(emacs)Single-Byte Character Support}
+@end ifinfo
+@ifhtml
+@code{(emacs)Single-Byte Character Support}
+@end ifhtml
+which describes the available methods suitable for the Emacs version you
+are using.  A few examples are nevertheless provided below.
+
 Consider the task of inserting French text, with the Emacs
 text-editor. There are several ways of doing this (and you may wish to
 consult your emacs info manual).  A method that works in emacs-19 up to
@@ -13406,7 +13417,7 @@ putting the following in your @file{~/.emacs} file:
 (standard-display-european t)
 @end example
 
-Loading this package defines three ways of entering the non-ASCII
+Loading the iso-transl package defines three ways of entering the non-ASCII
 printable characters with codes above 127: the prefix @kbd{C-x 8}, or
 the @key{Alt} key, or a dead accent key.  For example, you can enter
 uppercase A-umlaut as @kbd{C-x 8 " A} or @kbd{Alt-" A} (if you have an
@@ -13423,9 +13434,15 @@ set x name "Temp'erature"
 @end example
 
 As you type, the quote mark will dissappear, and reappear as an accent
-on the @code{e}.  And then, Gri will recognize this accented @code{e},
+on the @code{e}.  And then, Gri will recognize this accented @code{é},
 and it will draw the accent on the axis label.
 
+Perhaps the future default way of accomplishing this task is to use MULE
+support directly.  First, customize MULE using @code{M-x customize-group RET
+mule} setting the @code{current language environment} (e.g. latin-1) and
+the @code{default input method} (e.g. latin-1-prefix).  Then, invoking
+@code{M-x toggle-input-method} (e.g. @key{C-\}) toggles into a mode similar
+to the @code{iso-accents-mode} minor-mode described above.
 
 @c HTML <!-- newfile AdjustingCharacterPosition.html "Gri: adjusting character position" "Text" -->
 
@@ -15006,7 +15023,7 @@ C-v}, the user is ready to print the file using a pull-down menu.
 @c HTML <br clear=left>
 @c HTML <p>
 
-@comment Next, genarate these new HTML files (sneaky).
+@comment Next, generate these new HTML files (sneaky).
 
 @c HTML <!-- newfile ScreenShot1.html "Gri: Screenshot 1" "Screenshot 1" -->
 @node   Screenshot 1, Installing gri-mode.el, Gri-mode screenshots, Gri-mode screenshots
