@@ -12,25 +12,25 @@ Conflicts: gri (= VSN), gri-VSNstatic
 Description: a language for scientific illustration (without extras).
  This is not an official Debian package. 
  .
- Gri is a command-driven application, as opposed to a click/point
- application.  It is analogous to latex, and shares the property that
- extensive power is the reward for tolerating a modest learning curve.
- Gri output is in industry-standard PostScript, suitable for incorporation
- in documents prepared by various text processors.
+ Gri is an open-source language for scientific graphics programming. It is
+ command-driven, as opposed to point/click. Some users consider Gri similar
+ to LaTeX, since both provide extensive power as a reward for tolerating a
+ learning curve. The output is industry-standard PostScript as output,
+ suitable for inclusion in other documents.
  .
- Gri can make x-y graphs, contour-graphs, and image graphs.  In
- addition to high-level capabilities, it has enough low-level
- capabilities to allow users to achieve a high degree of customization.
- Precise control is extended to all aspects of drawing, including
- line-widths, colors, and fonts.  Text includes a subset of the tex
- language, so that it is easy to incorporate Greek letters and
- mathematical symbols in labels.
+ Gri can make x-y graphs, contour graphs, and image graphs. Fine control is
+ provided over all aspects of drawing, e.g. line widths, colors, fonts,
+ etc. Greek letters and mathematical symbols are available in a TeX-like
+ syntax.
  .
  This version-specific package exists to live alongside a newer release of
  the regular gri package, thus providing backwards compatibility for your
  old code that may depend on this version of Gri.  To distinguish this
  package from the regular `gri' package, it is named as `gri-VERSION', 
  e.g. gri-VSN.
+ .
+ This package does not contain an Info manual.  Install the regular gri
+ package to get that.
 
 Package: gri-VSNstatic
 Architecture: any
@@ -39,22 +39,22 @@ Conflicts: gri (= VSN), gri-VSN
 Description: a language for scientific illustration (without extras).
  This is not an official Debian package. 
  .
- Gri is a command-driven application, as opposed to a click/point
- application.  It is analogous to latex, and shares the property that
- extensive power is the reward for tolerating a modest learning curve.
- Gri output is in industry-standard PostScript, suitable for incorporation
- in documents prepared by various text processors.
+ Gri is an open-source language for scientific graphics programming. It is
+ command-driven, as opposed to point/click. Some users consider Gri similar
+ to LaTeX, since both provide extensive power as a reward for tolerating a
+ learning curve. The output is industry-standard PostScript as output,
+ suitable for inclusion in other documents.
  .
- Gri can make x-y graphs, contour-graphs, and image graphs.  In
- addition to high-level capabilities, it has enough low-level
- capabilities to allow users to achieve a high degree of customization.
- Precise control is extended to all aspects of drawing, including
- line-widths, colors, and fonts.  Text includes a subset of the tex
- language, so that it is easy to incorporate Greek letters and
- mathematical symbols in labels.
+ Gri can make x-y graphs, contour graphs, and image graphs. Fine control is
+ provided over all aspects of drawing, e.g. line widths, colors, fonts,
+ etc. Greek letters and mathematical symbols are available in a TeX-like
+ syntax.
  .
  This statically compiled version-specific package exists to live alongside
  a newer release of the regular gri package, thus providing backwards
  compatibility for your old code that may depend on this version of Gri.
  To distinguish this package from the regular `gri' package, it is named as
  `gri-VERSIONstatic', e.g. gri-VSNstatic.
+ .
+ This package does not contain an Info manual.  Install the regular gri
+ package to get that.
