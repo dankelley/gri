@@ -15017,6 +15017,7 @@ up-to-date, Gri can be compiled following the normal unix instructions.
 @menu
 * Known Bugs::                  Known bugs in current version 
 * Reporting Bugs::              How to report bugs
+* Killing Bugs::                How to (try to) kill bugs
 @end menu
 
 @node   Known Bugs, Reporting Bugs, Bugs, Bugs
@@ -15072,7 +15073,7 @@ uniform in all labels.  Workaround: Set the format yourself (example:
 @end itemize
 
 
-@node   Reporting Bugs, Acknowledgments, Known Bugs, Bugs
+@node   Reporting Bugs, Killing Bugs, Known Bugs, Bugs
 @comment  node-name,  next,  previous,  up
 @cindex bugs, how to report
 @section Reporting Bugs
@@ -15175,17 +15176,201 @@ Of course, I can't guarantee that I'll fix the bug for you.  However,
 I'm usually happy to try to fix bugs, so that they won't bite me later!
 
 
+@node   Killing Bugs, Acknowledgments, Reporting Bugs, Bugs
+@comment  node-name,  next,  previous,  up
+@cindex bugs, how to kill them
+@section Killing Bugs
+This section is intended to help you find and kill bugs yourself, by
+indicating how the author does this work.  Since Gri is open-source, all
+users are invited to try to kill bugs themselves!
+
+If you know nothing of C or C++, you may as well not read further.
+However, if you know C but not C++, you can probably proceed without
+difficulties.
+
+You'll need the Gri source, a C++ compiler.  It also helps if you have
+@code{gdb}, the GNU debugger, is installed; the instructions below
+assume that's the case.  Also, the instructions assume that you're using
+the Emacs editor, and running @code{gdb} from within Emacs.  Otherwise,
+you'll want to glance at the documentation on @code{gdb} to see how to
+use it in standalone mode.
+
+
+Let's take a recent bug as an example.  Peter Galbraith found that the
+gri script
+@example
+set color hsb 0.999 1 1
+draw box filled 2 2 3 3 cm
+set color hsb 1.000 1 1
+draw box filled 4 2 5 3 cm
+@end example
+produced odd results in a previous version of Gri; the color patches
+should have been of nearly the same color, but the first one was red, as
+expected, and the second was magenta.
+
+Here is how I found the bug.
+
+@table @emph
+@item Copy the above script (called @file{test.gri}) into the Gri source directory, and 
+the script into an Emacs buffer.  @b{Note:} all the following steps are
+done within Emacs, and the items in parentheses are the Emacs keys to
+get the indicated actions.
+@item If you're working from a pre-compiled version, you'll need to get the
+source first and do a compile yourself (@ref{Uncompiled Unix}).  Then do
+a @code{make tags} command (type this to the unix shell) to create a
+so-called "tag" table.
+@item Run Gri in this emacs buffer (@kbd{C-cC-r}) noting from the postscript window
+that pops up that the colors are, indeed, mixed up.
+@item Load up the @code{gdb} debugger by typing @kbd{M-x gdb gri}.  This
+will open a new Emacs buffer in which you may type commands.  We'll be
+switching back and forth between this buffer and various source files.
+@item Reasoning that the error probably occurs at @code{set color} or @code{draw box},
+try replacing the latter by @code{draw label "hi" at 3 3 cm"}.  The
+color is still wrong, indicating that it's the @code{set color} command
+that has the problem.
+@item Next, we must find where the C++ code corresponding to the
+@code{set color} command resides.  As it turns out, all @code{set}
+commands are defined in the source file @code{set.cc}, and this command
+is defined in a subroutine called @code{set_colorCmd()}.  But the author
+knows this -- how would you?  The answer is to look in the
+@file{gri.cmd} file, for the @code{set color} command.  (Search for the
+string @code{`set color }.) Then read down to see the body of the
+command, enclosed in braces; you'll see
+@example
+@{
+    extern "C" bool set_colorCmd(void);
+@}
+@end example
+which indicates that the subroutine name is @code{set_colorCmd()}.
+@item Next we need to edit this subroutine to see what it's doing.
+There are several ways to find it (e.g. @code{grep} through the source
+files), but the easiest is to use the "tags" feature of Emacs, by typing
+@kbd{M-. set_colorCmd}.  This will bring you to the indicated
+subroutine.
+@item Have a look through this subroutine to see what it's doing.  It
+looks very much like many other Gri subroutines.  A check is done on the
+number of words provided to the command, in the 
+@example
+	switch (_nword) @{
+@end example
+line.  (That's line @file{set.cc:484} at the moment -- but it may be
+different by the time you read this file, if I've changed it!)  We are
+calling it with 6 words (@code{set color hsb 1.000 1 1}), so move down
+to the line
+@example
+	case 6:
+@end example
+and you'll see that there is an @code{if} statement seeing whether this
+word is @code{rgb} or @code{hsv}.  These statements are checking
+@code{_word[2]}, which is the third word of the command.  (In Gri, as in
+C, words start at zero.  Thus, for this command, @code{_word[0]} is
+@code{set}, @code{_word[1]} is @code{color}, and @code{_word[2]} is
+expected to be either @code{rgb} or @code{hsb}.  We are having problems
+with the @code{hsb} style, so we'll move down to that code.  The code
+that's being executed is as follows.
+@example
+    @} else if (!strcmp(_word[2], "hsb")) @{
+            // `set color hsb .hue. .saturation. .brightness.'
+            double          hue, saturation, brightness;
+            Require(getdnum(_word[3], &hue), READ_WORD_ERROR(".hue."));
+            Require(getdnum(_word[4], &saturation), READ_WORD_ERROR(".saturation."));
+            Require(getdnum(_word[5], &brightness), READ_WORD_ERROR(".brightness."));
+            // Clip if necessary
+            CHECK_HSB_RANGE(hue);
+            CHECK_HSB_RANGE(saturation);
+            CHECK_HSB_RANGE(brightness);
+            gr_hsv2rgb(hue, saturation, brightness, &red, &green, &blue);
+            PUT_VAR("..red..", red);
+            PUT_VAR("..green..", green);
+            PUT_VAR("..blue..", blue);
+            c.setHSV(hue, saturation, brightness);
+            _griState.set_color_line(c);
+            if (_griState.separate_text_color() == false)
+                    _griState.set_color_text(c);
+            return true;
+@end example
+The @code{Require} lines are ensuring that we could decode the values of
+the variables @code{hue}, etc, from the commandline.  Then we clip the
+range of these values.  Then we convert from @code{hsb} color format to
+@code{rgb} color format, save the values of the colors in Gri variables
+with @code{PUT_VAR}, and then set the color with @code{c.setHSV}.
+Finally we save this color in the Gri "state" with
+@code{_griState.set_color_line(c)}.
+
+As it turns out, Gri outputs all colors to the PostScript file in RGB
+format, so the we may well suspect that the problem is in the
+@code{gr_hsv2rgb()} line. 
+
+@item We have an idea where to look now, so let's go to the line just after it, 
+in the editor, and insert a "breakpoint" there by typing
+@kbd{C-x SPC}.  Then move to the @code{gdb} buffer and re-run Gri
+by typing 
+@example
+run -directory . test.gri
+@end example
+to run Gri on our script.  Then, magic happens!  Gri stops at the
+indicated breakpoint, and Emacs will display both the @code{gdb} buffer
+and the @code{set.cc} buffer.  The latter has a margin indication
+telling what line were are on.  You may now type @code{gdb} commands in
+the @code{gdb} buffer.  In particular, type
+@example
+p hue
+@end example
+to print the hue.  Then type
+@example
+p red
+@end example
+to see the red value.  Then type
+@example
+c
+@end example
+to continue running Gri.  It will pause again.  Check the hue and red
+values again, as above.  If you like, play around with hue value in the
+Gri script @file{test.gri} and run gri again (type @code{r} in
+@code{gdb}).  This seems to indicate that the conversion is working
+strangely.
+@item To see how the conversion is done, clear the breakpoints by typing
+@kbd{delete} in the @code{gdb} buffer, then insert a breakpoint
+@emph{before} @code{gr_hsv2rgb} is called.  Then, run Gri again (@kbd{r}
+in the @code{gdb} buffer).  When it stops just before this subroutine,
+type @kbd{s} to "step into" the subroutine.  Then you'll see a
+conversion code from the (wonderful) textbook of Foley and Van Dam.
+You'll see
+@example
+void
+gr_hsv2rgb(double h, double s, double v, double *r, double *g, double *b)
+@{
+	h = 6.0 * pin0_1(h);
+	s = pin0_1(s);
+	v = pin0_1(v);
+	int i = (int) floor(h);
+	if (i > 5)
+		i = 5;		// Prevent problem if hue is exactly 1
+	double f = h - i;
+	double p = v * (1.0 - s);
+        ...
+@end example
+in the present version of Gri, but in the previous (buggy) version, the
+@code{if} statement was missing.  Without this @code{if} statement, Gri
+produced wrong colors.  With the statement, the colors are correct.
+@end table
+And so ends the example.  You may wish to read the Foley and Van Dam
+textbook to see just what I'm doing in @code{gr_hsv2rgb}, but suffice it
+to say that the problem in the (older) version of Gri was that @code{i}
+could take the value 6 if the hue was exactly equal to 1, and that was
+erroneous.
+
+
 
 @c HTML <!-- newfile Acknowledgments.html "Gri: Acknowledgments" "Acknowledgments" -->
 
-@node   Acknowledgments, License, Reporting Bugs, Top
+@node   Acknowledgments, License, Killing Bugs, Top
 @comment  node-name,  next,  previous,  up
 @chapter Acknowledgments
 @cindex user input to Gri
 @cindex acknowledgments
 Developing Gri was made easier by suggestions and bug reports from many
-users, among whom are:
-Ivo Alxneit,
+users, among whom are: Ivo Alxneit,
 @cindex Ivo Alxneit (contributer)
 Karin Bryan,
 @cindex Karin Bryan (contributer)
