@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.126 2001/08/13 19:59:03 dankelley Exp $
+@c $Id: gri.texim,v 1.127 2001/08/13 20:09:51 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -6617,6 +6617,7 @@ file.
 @menu
 * Opening Simple Files:: 
 * Opening Pipes::
+* Opening URLs::
 @end menu
 
 
@@ -6779,7 +6780,7 @@ various @code{read} commands (see e.g. @ref{Read Columns}).
 
 
 
-@node   Opening Pipes, Postscript, NetCDF Files, Open
+@node   Opening Pipes, Opening URLs, NetCDF Files, Open
 @comment  node-name,  next,  previous,  up
 @subsubsection Opening pipes
 @cindex pipes, opening files through them
@@ -6948,9 +6949,24 @@ seasoned @code{awk} users could easily fill in the code to handle
 datasets spanning several days.
 @end enumerate
 
+@node   Opening URLs, Postscript, Opening Pipes, Open
+@comment  node-name,  next,  previous,  up
+@subsubsection Opening URLs
+@cindex URL, how to open
+
+Gri can open a URL, @emph{if} you have the @code{wget} program on your
+machine.  The URL must be enclosed in quotes, in order to prevent the
+comment-processer from gobbling the material to the right of the
+@code{//}.  For example,
+@example
+open "http://gri.sourceforge.net/gridoc/examples/example1.dat"
+read columns x y
+show columns
+@end example
+
 @c HTML <!-- newfile PostScript.html "Gri: `postscript' command" "Gri Commands" -->
 
-@node   Postscript, Pwd, Opening Pipes, List Of Gri Commands
+@node   Postscript, Pwd, Opening URLs, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
 @subsection @code{postscript}
 @cindex write PostScript commands directly to output file
@@ -16218,6 +16234,8 @@ enter the next stable stream of Gri, but it is important to note that
 main exception is bug fixes, which will enter the stable stream unless
 they are found to create new bugs.
 @itemize @bullet
+@item
+Make the @code{open} command accept URLs as filenames (@ref{Open}).
 @item
 Fix SourceForge bug
 @c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=450465&group_id=5511&atid=105511">
