@@ -186,7 +186,7 @@ endif
 if !OS_IS_FINK
 	$(INSTALL_DATA)    $(srcdir)/../doc/gri.info*      $(INFO_DIR)
 else
-	@echo "DEBUG: The OS is *not* fink"
+	@echo "DEBUG: The OS is fink"
 endif
 if !OS_IS_LINUX_REDHAT
 #	This is handled by gri.spec [2003-may-31 Dan Kelley]

@@ -8,6 +8,7 @@ Source-MD5: 8a9adc96e702cc33f182a5343030b6e0
 DocFiles: README doc/*html
 InfoDocs: gri.info gri.info-1 gri.info-2 gri.info-3
 Description: Scientific graphics language
+ConfigureParams: --enable-FINK
 DescDetail: <<
 Gri is a language for scientific graphics programming. The word "language" is 
 important: Gri is command-driven, not point/click.
