@@ -168,6 +168,7 @@ function footer()
 	print "</td>\n";
 	print "</tr>\n";
 	print "</table>\n";
+	print "<a href=\"/donate/index.php?group_id=5511\"><img src=\"/images/project-support.jpg\" width=\"88\" height=\"32\" border=\"0\" alt=\"Support This Project\"></a>\n";
 	print "</body>\n";
 	print "</html>\n";
 }
