@@ -229,10 +229,12 @@ of work you do.
 <A NAME="A2.1"></A>
 <A HREF="#Q2.1"><h3>A2.1 Is there a quick-reference card for Gri?</h3></A>
 
-<p> Yes, two quick-reference cards are stored on the <A
-HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri">FTP site</A>
-<code>ftp://ftp.phys.ocean.dal.ca/users/kelley/gri</code> (the base
-address is 129.173.3.50).  The PostScript file <code>refcard.ps</code>
+<p> Yes, two quick-reference cards are stored on the 
+FTP site
+<A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri">
+<code>ftp://ftp.phys.ocean.dal.ca/users/kelley/gri</code>.
+</A>
+The PostScript file <code>refcard.ps</code>
 is an overview of Gri syntax and usage, while
 <code>cmdrefcard.ps</code> is a full list of Gri commands.  Each of
 these files is also available in TeX format.
@@ -243,9 +245,10 @@ these files is also available in TeX format.
 <A HREF="#Q2.2"><h3>A2.2 Where can I get documentation for Gri?</h3></A>
 
 <p> Full documentation is available in several forms on the FTP site
-<A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri">FTP site</A>
-<code>ftp://ftp.phys.ocean.dal.ca/users/kelley/gri</code> (the base
-address is 129.173.3.50).  Check out the FAQ file (which you are
+<A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri">
+<code>ftp://ftp.phys.ocean.dal.ca/users/kelley/gri</code>.
+</A>
+Check out the FAQ file (which you are
 reading now), <CODE>cmdrefcard.ps</CODE> (a PostScript reference card
 listing all Gri commands), <CODE>refcard.ps</CODE> (a PostScript
 reference card overviewing Gri), and a file called something like
@@ -299,10 +302,11 @@ other folks who are just as busy as you are.  In particular please do
 <A NAME="A2.5"></A>
 <A HREF="#Q2.5"><h3>A2.5 Where can I get some sample Gri input files?</h3></A>
 
-<p> You can get them from the anonymous <A
-HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri">FTP site</A>
-<code>ftp://ftp.phys.ocean.dal.ca/users/kelley/gri</code> (the base
-address is 129.173.3.50).  It is in the compressed tarfile with the
+<p> You can get them from the anonymous FTP at
+<A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri">
+<code>ftp://ftp.phys.ocean.dal.ca/users/kelley/gri</code>.
+</A>
+It is in the compressed tarfile with the
 word 'example' contained in it.  The file is compressed with the
 program "gzip," so you'll type
 <pre>
@@ -702,14 +706,8 @@ little program in the <code>gs</code> interpreter, by typing
 </pre>
 
 This creates a file called <code>foo.ppm</code>, in the so-called PPM
-format.  To convert this to GIF format, you may use the
-<code>xv</code> image viewer program (which is licensed shareware, not
-freeware), or use the <code>ppmtogif</code> program in the pbmplus
-package, available on the web at <a
-href="ftp://ftp.x.org/congrib/utilities/netpbm-1mar1994.p1.tar.gz">
-<code>ftp://ftp.x.org/congrib/utilities/netpbm-1mar1994.p1.tar.gz</code>
-</a>.
-
+format.  Various programs exist for converting image types,
+e.g. <code>convert</code>.
 
 </ul>
 
@@ -737,10 +735,10 @@ the web are theirs, not mine.
 <A HREF="#Q4.4"><h3>A4.4 Is there an Emacs mode for Gri?</h3></A>
 
 <p> Yes.  Peter Galbraith has written a very powerful mode for Gri
-commandfiles.  Available on anonymous FTP at the site <a
-href="ftp://ftp.phys.ocean.dal.ca/users/rhogee"> <code>
-ftp.phys.ocean.dal.ca</code> in <code>users/rhogee </code></A>.  See
-the files <code>gri-mode.el</code> and <code>gri-mode.readme</code>.
+commandfiles.  Available on anonymous FTP at the site 
+<A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri">
+<code>ftp://ftp.phys.ocean.dal.ca/users/rhogee</code>
+See the files <code>gri-mode.el</code> and <code>gri-mode.readme</code>.
 The capabilities include: <UL>
 
 <LI> Indents the loops, if statements, newcommands, etc.
@@ -772,44 +770,19 @@ offending line in the Gri editing buffer.
 <A NAME="A5.1"></A>
 <A HREF="#Q5.1"><h3>A5.1 Where can I get the latest version of Gri?</h3></A>
 
-To get Gri, you use anonymous FTP to the site <a
-href="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri"> site</A> <code>
-ftp.phys.ocean.dal.ca </code> or <code>129.173.3.50</code>.  (Use
-'anonymous' as the username and your normal username as the password.)
-Next, go to the Gri directory:
-<pre>
-        cd users/kelley/gri
-</pre>
-and get the instruction files:
-<pre>
-        mget README.*
-</pre>
-
-<P> These files tell you what to do next.  If you are not familiar with
-such things, you might want to exit from FTP and read the README
-files.  Otherwise, just do a directory listing and pick up the item
-you want.  For example, to get the Sun binary version, get the file
-with the word ``Sun'' in it:
-<pre>
-        binary
-        get gri-binary-SunOS5-2.1.10.tar.gz
-</pre>
-and then type
-<pre>
-        quit
-</pre>
-to get out of FTP, and 
-<pre>
-        zcat gri-binary-SunOS5-2.1.10.tar.gz | gar xvf -
-</pre>
-to decode the contents.
+Gri is available at the  anonymous FTP site 
+<A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri">
+<code>ftp://ftp.phys.ocean.dal.ca/users/kelley/gri</code>.
+</A>
+Instructions there will tell you what to do, but it should be obvious
+if you've used FTP before.
 
 
 <p>
 <A NAME="A5.2"></A>
 <A HREF="#Q5.2"><h3>A5.2 How can I find out the most recent features of Gri?</h3></A>
 
-<P> Do anonymous ftp to phys.ocean.dal.ca (129.173.3.50) and cd to the
+<P> Do anonymous ftp to phys.ocean.dal.ca and cd to the
 directory /users/kelley/gri.  Pick up the file ChangeLog.  For
 more details, see the chapter called "History" in the <a
 href="http://www.phys.ocean.dal.ca/~kelley/gri/gri1.html"> manual</A>.
@@ -848,11 +821,6 @@ enthusiastic about new versions than the users are.  Other Gri users
 may therefore provide the best advice on whether it is worth
 upgrading.
 
-<P> Every time you get a new copy of Gri, you should get a new online
-manual, and you should get/print the command reference card from the
-<A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri">FTP site</A>
-<code>ftp://ftp.phys.ocean.dal.ca/users/kelley/gri</code> (the base
-address is 129.173.3.50).
 
 
 <p>
@@ -860,80 +828,120 @@ address is 129.173.3.50).
 <A HREF="#Q5.4"><h3>A5.4 How can I protect myself against changes to Gri?</h3></A>
 
 
-<P> Do three things:
-
-<UL>
-
-<LI> Use the <code>expecting version .n.</code> command, where you
-replace <code>.n.</code> by the version number you are familiar with.
-Then if the Gri you are using is more recent, it will tell you of any
-changes in syntax since the version you've named.
-
-<LI> When you download a new version of Gri, look at the file called
-'changelog' in the
-<A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri">FTP site</A>
-<code>ftp://ftp.phys.ocean.dal.ca/users/kelley/gri</code> (the base
-address is 129.173.3.50).
-It tells you what changes have taken place.
-
-<LI> Archive old versions.  Each version takes about a Megabyte, which
-costs less than a cup of coffee.  Since the author <em>does not</em>
-archive old versions, you would be a little crazy not to do it
-yourself, if you use Gri much at all.
+<P> The most important thing is to save old versions of Gri.  At
+hard-disk street prices of about a cent per megabyte, an archive will
+cost under a nickle.
 
 <p> Archiving the source is just a matter of copying the files you've
-downloaded to a location of your choosing.
+downloaded to a location of your choosing.  Since the directory name
+is of the form <code>gri-VERSION</code>, keeping track of old sources
+is trivial.
 
-<p> Archiving the binary is easy, since the process of installing a
-new version automatically archives the old version.  On my machine,
-and on other machines in the default configuration, the Gri files are
-contained in a directory named <CODE>/opt/gri</CODE>.  Within the
-<code>/opt/gri</code> directory are directories named
-<code>bin</code>, which stores (a link to) the executable
-<code>gri</code> file, and <code>lib</code>, which stores (links to)
-the library file <code>gri.cmd</code> and the startup message file
-<code>startup.msg</code>.  These links point to files within other
-directories within <code>/opt/gri</code>, directories whose names are
-Gri version numbers.  For example, if a system contained version 2.051
-as the main Gri and 2.044 as an archived version,
-<code>/opt/gri</code> would contain directories named
-<code>bin</code>, <code>lib</code>, <code>2.051</code>, and
-<code>2.044</code>.
+<p> If you're using a prepackaged version of Gri (e.g. in RedHat or in
+Debian linux), then you'll probably know how to update Gri already.
+At any rate, you can skip some of the steps below, since <code> rpm
+-ql gri</code> will list all the relevant files, saving you the part
+of the steps below that involves locating files.
 
-<p> Each time a new version of Gri is installed, the remaining version
-is left on disk, with the links in <code>/opt/gri/bin</code> and
-<code>/opt/gri/lib</code> being severed and then reconnected to the
-newer versions.  Thus, on my system I can run version 2.051 just by
-typing
+<p> Archiving the Gri binary and library file is quite easy, but
+archiving the documentation is complicated since there are a
+<emph>lot</emph> of documentation files, and they are scattered across
+your filesystem.  For example, 'info' files go in the
+<code>/usr/info</code> directory, while 'manpage' files go in the
+<code>/usr/man/man*</code> directory, and the 'html' files go
+someplace else).  This isn't specific to Gri; the filesystem is just
+defined that way, for historical reasons.  Your first step is to
+determine whether you wish to archive the documentation.  In most case
+you won't want to.  The point is just that you have an old set of
+scripts that you need to work; you won't be writing new scripts, and
+if you wrote these ones, then you understand Gri well enough anyway.
+Besides, Gri doesn't change that much from version to version, and the
+changes mostly involve additions.
 
+<p> If you <emph>do</emph> wish to archive the documentation and emacs
+files, locate the files and copy them.  (If you do not, skip the
+remainder of this paragraph.)  In Redhat linux, do <code>rpm -ql
+gri</code> to locate the files.  In debian linux, do something
+similar.  If 'locate' is working on your computer, do <code>locate
+gri</code> and examine the list that you get.  If none of the above is
+true, look in the second-last paragraph above for directories where
+Gri documentation files are often found, and move them to wherever
+seems appropriate.  You'll probably have to alter other things as
+well, to tell the <code>info</code> and <code>man</code> programs
+where to find the documentation.  If you use the Emacs editing mode,
+move that appropriately and edit whatever dot-files and system
+configuration files that Emacs uses to locate mode files.  (Note that
+all emacs modes understand about using different versions; see the
+<code>C-c C-r</code> or by calling the command <code>M-x
+gri-version</code>.  If, as is likely, you're only archiving Gri for
+old scripts that you don't need to edit, you may not need to worry
+about changes to gri-mode and you may as well go ahead and install the
+new gri-mode and forget about the old one.)
+
+<p> If you <emph>only</emph> wish to archive Gri itself, things are
+<emph>much</emph> easier!  You need to copy only two files, the
+executable (often <code>/usr/bin/gri</code>) and a library file (often
+<code>/usr/share/gri/gri.cmd</code>) to a directory of your choosing,
+and then create a shell alias (or a shellscript), which uses these two
+files you've copied.  Let me take it step by step.
+
+<p>
+First, type
 <pre>
-    gri
+    gri -version
+</pre>
+and make note of the present version number.  For concreteness, let's
+say it is version 2.6.0.  
+
+<p> 
+Next, decide where you wish to keep this gri version.  For
+concreteness, let's say that you'd like to keep it in
+a directory named <code>/usr/local/gri/2.6.0</code>.  Create that
+directory if it doesn't exist already:
+<pre>
+    mkdir -p /usr/local/gri/2.6.0
 </pre>
 
-or I can run version 2.044 by explicitly naming it's source and the
-directory for the library files, e.g. by typing.
+<p>
+Next, type
 <pre>
-    /opt/gri/2.044/bin/gri -directory /opt/gri/2.044/lib
+    gri -directory_default
+</pre>
+to find out where the <code>gri.cmd</code> file is located.  Let's say
+it's in the common location <code>usr/share/gri</code>, for
+concreteness; then you need to move this to your chosen directory:
+<pre>
+    mv /usr/share/gri/gri.cmd /usr/local/gri/2.6.0
 </pre>
 
-On my system links are also created to put Gri in the system path,
-e.g.
+<p>
+Now, we need to copy the executable.  If you don't know where it is, type
 <pre>
-    /opt/bin/bin/gri -> /opt/bin/bin/gri-2.048*
+    which gri
 </pre>
-and some users find it convenient to save typing with the old Gri
-versions, by making additional links such as
+to find out.  Then move it also, e.g. if Gri is located in the
+<code>/usr/bin</code> directory, you'd type
 <pre>
-    /opt/bin/bin/gri-2.042 -> /opt/gri/2.042/bin/gri*
-    /opt/bin/bin/gri-2.043 -> /opt/gri/2.043/bin/gri*
-    /opt/bin/bin/gri-2.048 -> /opt/gri/2.048/bin/gri*
+    mv /usr/bin/gri /usr/local/gri/2.6.0
 </pre>
 
-<p> Also, the emacs mode understands about using different versions;
-see the <code>C-c C-r</code> or by calling the command <code>M-x
-gri-version</code>
+<p>
+Now we just have to make an alias to run this particular copy of Gri,
+with this particular library file.  In the Bash shell, just put the
+following line in your <code>~/.aliases</code> file:
+<pre>
+    alias gri2.6.0='/usr/local/gri/2.6.0/gri -directory /usr/local/gri/2.6.0'
+</pre>
+and then you have a new command, <code>gri2.6.0</code> that runs this
+particular copy of Gri.  Alternatively, you could create a shellscript
+to run this Gri, e.g. a script named <code>gri2.6.0</code> that
+contains the lines:
+<pre>
+    #!/usr/bin/sh
+    # Run numbered version of gri
+    /usr/local/gri/2.6.0/gri -directory /usr/local/gri/2.6.0 "$@"
+</pre>
 
-</UL>
 
 
 <hr>
@@ -1052,8 +1060,7 @@ more details.
 <P> Users of RedHat linux have it much easier though!  A RPM (RedHat
 Program Manager) version of Gri exists, so that installing it takes
 just one line of typing, or one mouse-click in the RPM GUI-based
-installer called `<tt>glint</tt>'.  requires just one line of typing
-(or
+installer called `<tt>glint</tt>'.  requires just one line of typing.
 
 <p> The RPM (RedHat Package Manager) version exists at FTP site <A
 HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri"> <code>
