@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.246 2003/04/11 18:41:35 dankelley Exp $
+@c $Id: gri.texim,v 1.247 2003/04/12 18:21:23 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -294,15 +294,16 @@ When you launch Gri interactively (without naming a commandfile, i.e. by
 just typing @code{gri} at the unix prompt), you'll see something like
 
 @example
-gri - scientific graphic program (version @value{GRI-VERSION})
+ gri - scientific graphic program (version @value{GRI-VERSION})
  GPL Copyright 2003 by Dan E. Kelley.
 
- Type `help' to view list of commands, or
- type `show license' to view license.  
- View /usr/local/share/doc/gri/html/index.html
- or access `gri' INFO node for the online manual.
+ Type `help' for an overview of Gri commands, or see the
+ full manual at
+     /usr/share/doc/gri-@value{GRI-VERSION}/html/index.html
+ and its text-only version in the 'gri' INFO node.  
 
-gri:
+ Visit http://gri.sourceforge.net for updates and resources.
+gri: 
 @end example
 
 @noindent
@@ -16349,7 +16350,7 @@ only in the fixing of bugs.
 @comment ADD-NEW-BUG-FIXES-HERE
 
 @subsubsection Version 2.12.5 [2003 ??? ??]
-@string{(This is the CVS version.)}
+@strong{(This is the CVS version.)}
 
 @subsubsection Version 2.12.4 [2003 Apr 06]
 @strong{Bug Fixes}
