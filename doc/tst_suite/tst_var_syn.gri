@@ -226,4 +226,30 @@ postpend_dat &\filename
 assert {rpn "\filename" "test.dat" ==}          " failed test 21.1"
 
 
+\t = system \.awk. -f - <<"EOF" 
+{print "Hi"}; 
+EOF 
+assert {rpn "\t" "Hi" ==}                       " failed test 22.1"
+\t = system \.awk. -f - <<"EOF" 
+{print "Hello"}; 
+ EOF 
+assert {rpn "\t" "Hello" ==}                    " failed test 22.2"
+`NC4'
+{ 
+    \t = system \.awk. -f - <<"EOF" 
+    {print "Howdie"};
+EOF 
+} 
+NC4
+assert {rpn "\t" "Howdie" ==}                   " failed test 22.3"
+`NC5'
+{ 
+    \t = system \.awk. -f - <<"EOF" 
+        {print "G'day"};
+    EOF 
+} 
+NC5
+assert {rpn "\t" "G'day" ==}                    " failed test 22.4"
+
+
 show " passed"
