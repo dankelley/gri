@@ -1,9 +1,8 @@
 1.2 for Gri
-	- tweak Makefile.in so that it will work on Solaris
-	- remove manpage 
-	- remove popt.ps
-	- remove test files
-	- remove installation script
+	- remove everything not needed for Gri, e.g. the Makefile (which
+          was problematic on solaris), the configure script, the manpages,
+          the PostScript file with a snippet from a textbook, the testfile,
+	  etc.
 
 1.1 -> 1.2
 	- added popt.3 man page (Robert Lynch)
