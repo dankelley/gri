@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.82 2001/05/08 14:51:01 psg Exp $
+@c $Id: gri.texim,v 1.83 2001/05/09 21:50:10 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -15565,8 +15565,7 @@ and adjust the "status" menu to read "closed".
 @comment  node-name,  next,  previous,  up
 @section Version 2.6
 
-
-@subsection Version 2.6.1 [NOT RELEASED YET]
+@subsection Version 2.6.1 [2001 May 10]
 @itemize @bullet
 @item
 Fix SourceForge bug 
