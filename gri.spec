@@ -1,5 +1,5 @@
 Summary: A language for scientific illustration
-%define griversion 2.12.9
+%define griversion 2.12.10
 Name: gri
 Version: %{griversion}
 Release: 1
@@ -96,6 +96,8 @@ then
 fi
 
 %changelog
+* Fri Jan  7 2005 <Dan.Kelley@Dal.Ca>
+- Fix SourceForge bug 1094087 (failed gcc-4.0 AMD64 compilation; solution provided by Andreas Jochens, a Debian user)
 * Mon Jan  3 2005 <Dan.Kelley@Dal.Ca>
 - Fix SourceForge bug 1094087 ('set path to' gave incorrect results)
 * Sun Dec 19 2004 <Dan.Kelley@Dal.Ca>
