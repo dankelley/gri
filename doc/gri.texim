@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.215 2002/09/25 12:41:28 dankelley Exp $
+@c $Id: gri.texim,v 1.216 2002/09/25 12:42:39 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16333,7 +16333,7 @@ only in the fixing of bugs.
 @item
 Fix SourceForge bug
 @uref{http://sourceforge.net/tracker/index.php?func=detail&aid=613075&group_id=5511&atid=105511,#613075}
-@dots{} RPN operators sin, cos, and tan were limited in range (new bug in last release)
+@dots{} RPN operators @code{sin}, @code{cos}, and @code{tan} were limited in range (new bug in last release)
 
 @end itemize
 
