@@ -36,7 +36,7 @@ insertCmd()
 	cf.set(fname.c_str(), fp, false, 0, false);
 	_cmdFILE.push_back(cf);
 #else
-	printf("DEBUG %s:%d insert on file '%s'\n",__FILE__,__LINE__,fname.c_str());
+	//printf("DEBUG %s:%d insert on file '%s'\n",__FILE__,__LINE__,fname.c_str());
 	
 	/*
 	 * Scan through the file, doing lines.
@@ -60,7 +60,7 @@ insertCmd()
 			insert_source_indicator(_cmdLine);
 		}
 		massage_command_line(_cmdLine);
-		printf("DEBUG %s:%d massaged line is '%s'\n",__FILE__,__LINE__,_cmdLine);
+		//printf("DEBUG %s:%d massaged line is '%s'\n",__FILE__,__LINE__,_cmdLine);
 		// Kludge
 		if (is_create_new_command(_cmdLine))
 			insert_cmd_in_ps(_cmdLine/*, "insert.cc:66"*/);

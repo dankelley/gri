@@ -170,7 +170,7 @@ index_of_synonym(const char *name, int mark = -1)
 					break;
 		}
 		if (this_mark != mark_above) {
-			printf("DEBUG %s:%d no match for <%s>\n",__FILE__,__LINE__,name);
+			//printf("DEBUG %s:%d no match for <%s>\n",__FILE__,__LINE__,name);
 			return -1;
 		}
 		//printf("DEBUG %s:%d index %d\n",__FILE__,__LINE__,index);
