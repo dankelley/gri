@@ -131,12 +131,13 @@ The Gri web homepage is at
 @c HTML <A HREF="#X-yPlots">x-y plots</A>, 
 @c HTML <A HREF="#ContourPlots">contour plots</A>, and
 @c HTML <A HREF="#Images">image plots</A>.
-@c HTML This document describes Gri @value{GRI-VERSION}, (c) 1991-2000,
-@c HTML <A HREF="http://www.phys.ocean.dal.ca/~kelley"> Dan Kelley.</A>
+@c HTML <p>
+@c HTML This document describes Gri @value{GRI-VERSION},
+@c HTML <br>(c) 1991-2000 <A HREF="http://www.phys.ocean.dal.ca/~kelley"> Dan Kelley.</A>
 @comment HTML Gri is distributed
 @comment HTML with a <A HREF="License.html">license</A> that permits 
 @comment HTML sharing in an OpenSource way.
-@c HTML <br>
+@c HTML <p><br>
 @c HTML <font size=+1><b>New users:</b></font>
 @c HTML To see if Gri might be useful to you, spend a few minutes
 @c HTML reading the
