@@ -9,8 +9,8 @@ Standards-Version: 3.5.6
 Package: gri
 Section: science
 Architecture: any
-Depends: ${shlibs:Depends}, emacsen-common
-Suggests: gri-html-doc, gri-ps-doc
+Depends: ${shlibs:Depends}
+Suggests: gri-html-doc, gri-ps-doc, gri-el
 Description: a language for scientific illustration.
  Gri is an open-source language for scientific graphics programming. It is
  command-driven, as opposed to point/click. Some users consider Gri similar
@@ -34,6 +34,16 @@ Description: a language for scientific illustration.
  PostScript suitable for printing (gri-ps-doc package) and on-line by
  following links from the gri home page:
    http://gri.sourceforge.net/
+
+Package: gri-el
+Section: science
+Architecture: all
+Depends: gri (>= 2.12.1-2), emacs21 | emacsen
+Conflicts: gri (<= 2.12.1-1)
+Description: a language for scientific illustration.
+ Gri is an open-source language for scientific graphics programming.
+ .
+ This is the Emacs major-mode for gri.
 
 Package: gri-html-doc
 Section: doc

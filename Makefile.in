@@ -142,8 +142,8 @@ install_linux_debian: gri
 	install -m 644 logo.dat $(debian-lib)/logo.dat
 	if test -f gri_merge; then install -m 755 gri_merge $(debian)/usr/bin; else echo "WARNING: no gri_merge file!"; fi;	
 	if test -f gri_unpage; then install -m 755 gri_unpage $(debian)/usr/bin; else echo "WARNING: no gri_unpage file!";fi;
-	install -d $(debian)/usr/share/emacs/site-lisp
-	install -m 644 gri-mode.el $(debian)/usr/share/emacs/site-lisp/
+#	install -d $(debian)/usr/share/emacs/site-lisp
+#	install -m 644 gri-mode.el $(debian)/usr/share/emacs/site-lisp/
 
 install_linux_debian_grionly: gri
 	@echo "Installing into '$(debian)' directory"

@@ -1,3 +1,10 @@
+gri (2.12.1-2) unstable; urgency=low
+
+  * Create new gri-el package for Emacs major-mode instead of bundling it
+    with the main gri package.
+
+ -- Peter S Galbraith <psg@debian.org>  Fri, 18 Oct 2002 13:36:48 -0400
+
 gri (2.12.1-1) unstable; urgency=low
 
   * New upstream version
