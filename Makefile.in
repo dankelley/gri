@@ -117,7 +117,7 @@ install-bin:
 	$(INSTALL_PROGRAM)      gri_unpage      $(prefix)/bin/gri_unpage
 
 install-solaris: all
-	cat startup.solaris | sed -e s,VSN,${VERSION}, -e s,PREFIX,$(PREFIX), > tmp
+	cat startup.solaris | sed -e s,VSN,${VERSION}, -e s,PREFIX,$(prefix), > tmp
 	$(INSTALL_PROGRAM) -d $(libdir)
 	$(INSTALL_DATA) tmp $(libdir)/startup.msg
 	rm -f tmp
