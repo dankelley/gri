@@ -138,7 +138,7 @@ gr_drawimage(unsigned char *im,
 		gri_debug_printf(1,"clip yrange (%f %f) pt\n",_clip_ps_ybottom,_clip_ps_ytop);
 #endif
 		ilow =  int(floor(0.5 + (_clip_ps_xleft   - xl)*imax/((xr-xl))));
-		ihigh = int(floor(0.5 + (_clip_ps_xright  - xl)*imax/((xr-xl))));
+		ihigh = int(floor(0.5 + (_clip_ps_xright  - xl)*imax/((xr-xl)))); // BUG: this can exceed available memory!
 		jlow =  int(floor(0.5 + (_clip_ps_ybottom - yb)*jmax/((yt-yb))));
 		jhigh = int(floor(0.5 + (_clip_ps_ytop    - yb)*jmax/((yt-yb))));
 #ifdef __GNUC__
@@ -240,10 +240,11 @@ gr_drawimage(unsigned char *im,
 		for (j = jmax - 1; j > -1; j--) {
 			for (i = 0; i < imax; i++) {
 #else
-                // printf("CASE 1\n"); // HEREHEREHERE
+                printf("CASE 1.  ilow=%d  ihigh=%d    jlow=%d jhigh=%d    imax=%d jmax=%d\n",ilow,ihigh,jlow,jhigh,imax,jmax); // HEREHEREHERE
 		for (j = jhigh - 1; j >= jlow; j--) {
 			for (i = ilow; i < ihigh; i++) {
 #endif
+				printf("%3d %3d\n",i,j);
 				value = *(im + i * jmax + j);
 				if (have_mask == true && *(mask + i * jmax + j) == 2) {
 					fprintf(_grPS, "%02X", mask_value);
@@ -305,7 +306,7 @@ gr_drawimage(unsigned char *im,
 			for (j = jmax - 1; j > -1; j--) {
 				for (i = 0; i < imax; i++) {
 #else
-                        for (j = jhigh - 1; j >= jlow; j--) {
+                        for (j = jhigh - 1; j >= jlow; j--) { // BUG: should these run on max, or on 'ihigh' etc???
 				for (i = ilow; i < ihigh; i++) {
 #endif
 					value = *(im + i * jmax + j);
