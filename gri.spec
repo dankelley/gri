@@ -1,5 +1,5 @@
 Summary: A language for scientific illustration
-%define griversion 2.9.0
+%define griversion 2.10.0
 Name: gri
 Version: %{griversion}
 Release: 1
@@ -96,6 +96,9 @@ then
 fi
 
 %changelog
+* Tue May 07 2002  Dan Kelley <Dan.Kelley@Dal.Ca>
+- Version 2.10.0
+
 * Sat Apr 20 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
 - Fix Sourceforge bug #546109 (bounding box wrong if postscript clipping used)
 

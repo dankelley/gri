@@ -1,4 +1,4 @@
-#         gri - scientific graphic program (version 2.9.0)
+#         gri - scientific graphic program (version 2.10.0)
 #              GPL Copyright 1991-2001 Dan E. Kelley.
 #
 # NOTE: The linkages to `extern "C"' routines makes use a list of C 
@@ -4841,5 +4841,5 @@ rpnfunction linear_intercept exch dup roll_left roll_left roll_left dup roll_rig
 # @variable \.path_commands. directory path for finding commands @default "."
 
 # BEGIN deprecated commands
-# @deprecated 2.9.0 `set y axis label horizontal|vertical'
+# @deprecated 2.10.0 `set y axis label horizontal|vertical'
 # END   deprecated commands
