@@ -710,12 +710,6 @@ interpret_optional_arguments(int argc, char *argv[])
 					}
 				} else if (!strcmp(argv[i], "-no_expecting")) {
 					warning("Gri no longer demands to find an `expecting' command, so the `-no_expecting' option can be dropped.");
-				} else if (!strncmp(argv[i], "-s", 2)) {
-					if (1 == sscanf(argv[i], "-s%d", &val)) {
-						PUT_VAR("..superuser..", ((double) val));
-					} else {
-						PUT_VAR("..superuser..", ((double) 1.0));
-					}
 				} else if (!strncmp(argv[i], "-superuser", 10)) {
 					if (1 == sscanf(argv[i], "-superuser%d", &val)) {
 						PUT_VAR("..superuser..", ((double) val));
