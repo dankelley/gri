@@ -63,18 +63,20 @@ give_overall_help_message()
 {
 	ShowStr("\
 Type `help' followed by a command-name:\n\
-  cd          close         convert       create        debug\n\
-  delete      differentiate draw          expecting     filter\n\
-  flip        get           help          if            ignore\n\
-  input       insert        interpolate   list          ls\n\
-  mask        move          new           open          pwd\n\
-  query       quit          read          regress       reorder\n\
-  rescale     resize        return        rewind        set\n\
-  show        skip          smooth        sprintf       superuser\n\
-  system      write\n\
-Or type `help -' followed by a topic from this list:\n\
-  example     extending     files         math          strings\n\
-  synonyms    variables     manual\n\
+    cd          close         convert       create\n\
+    debug       delete        differentiate draw\n\
+    expecting   filter        flip          get\n\
+    help        if            ignore        input\n\
+    insert      interpolate   list          ls\n\
+    mask        move          new           open\n\
+    pwd         query         quit          read\n\
+    regress     reorder       rescale       resize\n\
+    return      rewind        set           show\n\
+    skip        smooth        source        sprintf\n\
+    state       superuser     system        write\n\
+Or type `help -' followed by a topic in:\n\
+    example     extending     files         math\n\
+    strings     synonyms      variables     manual\n\
 To exit, type `quit'.\n\
 ");
 	return true;
