@@ -131,25 +131,26 @@ gr_drawimage(unsigned char *im,
 	double xl_c = xl, xr_c = xr, yb_c = yb, yt_c = yt;
 	int ilow = 0, ihigh = imax, jlow = 0, jhigh = jmax;
 	if (_clipping_postscript && _clipping_is_postscript_rect) {
-#ifdef __GNUC__
-		gri_debug_printf(1,"image xrange (%f %f) pt\n",xl,xr);
-		gri_debug_printf(1,"image yrange (%f %f) pt\n",yb,yt);
-		gri_debug_printf(1,"clip xrange (%f %f) pt\n",_clip_ps_xleft,_clip_ps_xright);
-		gri_debug_printf(1,"clip yrange (%f %f) pt\n",_clip_ps_ybottom,_clip_ps_ytop);
-#endif
 		ilow =  int(floor(0.5 + (_clip_ps_xleft   - xl)*imax/((xr-xl))));
 		ihigh = int(floor(0.5 + (_clip_ps_xright  - xl)*imax/((xr-xl)))); // BUG: this can exceed available memory!
 		jlow =  int(floor(0.5 + (_clip_ps_ybottom - yb)*jmax/((yt-yb))));
 		jhigh = int(floor(0.5 + (_clip_ps_ytop    - yb)*jmax/((yt-yb))));
-#ifdef __GNUC__
-		gri_debug_printf(1,"switching i to run from %d to %d instead of 0 to %d\n",ilow,ihigh,imax);
-		gri_debug_printf(1,"switching j to run from %d to %d instead of 0 to %d\n",jlow,jhigh,jmax);
-#endif
+		ilow = LARGER_ONE(ilow, 0);
+		ihigh = SMALLER_ONE(ihigh, imax);
+		jlow = LARGER_ONE(jlow, 0);
+		jhigh = SMALLER_ONE(jhigh, jmax);
 		if (ilow > 0)     xl_c = xl + ilow * (xr - xl) / imax;
 		if (ihigh < imax) xr_c = xl + ihigh * (xr - xl) / imax;
 		if (jlow > 0)     yb_c = yb + jlow * (yt - yb) / jmax;
 		if (jhigh < jmax) yt_c = yb + jhigh * (yt - yb) / jmax;
 #ifdef __GNUC__
+		gri_debug_printf(1,"image clipping debugging ...\n");
+		gri_debug_printf(1,"image xrange (%f %f) pt\n",xl,xr);
+		gri_debug_printf(1,"image yrange (%f %f) pt\n",yb,yt);
+		gri_debug_printf(1,"clip xrange (%f %f) pt\n",_clip_ps_xleft,_clip_ps_xright);
+		gri_debug_printf(1,"clip yrange (%f %f) pt\n",_clip_ps_ybottom,_clip_ps_ytop);
+		gri_debug_printf(1,"switching i to run from %d to %d instead of 0 to %d\n",ilow,ihigh,imax);
+		gri_debug_printf(1,"switching j to run from %d to %d instead of 0 to %d\n",jlow,jhigh,jmax);
 		gri_debug_printf(1,"clipped image xrange (%f %f) pt\n",xl_c,xr_c);
 		gri_debug_printf(1,"clipped image yrange (%f %f) pt\n",yb_c,yt_c);
 #endif
@@ -240,11 +241,9 @@ gr_drawimage(unsigned char *im,
 		for (j = jmax - 1; j > -1; j--) {
 			for (i = 0; i < imax; i++) {
 #else
-                printf("CASE 1.  ilow=%d  ihigh=%d    jlow=%d jhigh=%d    imax=%d jmax=%d\n",ilow,ihigh,jlow,jhigh,imax,jmax); // HEREHEREHERE
 		for (j = jhigh - 1; j >= jlow; j--) {
 			for (i = ilow; i < ihigh; i++) {
 #endif
-				printf("%3d %3d\n",i,j);
 				value = *(im + i * jmax + j);
 				if (have_mask == true && *(mask + i * jmax + j) == 2) {
 					fprintf(_grPS, "%02X", mask_value);
