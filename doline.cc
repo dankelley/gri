@@ -78,9 +78,10 @@ insert_cmd_in_ps(const char *cmd, const char *note="")
 	extern bool     _store_cmds_in_ps;	// DEFINED IN startup.c
 	if (!_store_cmds_in_ps)
 		return;
-	while (isspace(*cmd))
-		cmd++;
-	if (!strncmp(cmd, "insert", 6))
+	unsigned int first_nonwhite = 0;
+	while (isspace(*(cmd + first_nonwhite)))
+		first_nonwhite++;
+	if (!strncmp(cmd + first_nonwhite, "insert", 6))
 		return;		// don't want 'insert' commands (confusing eh)
 	strcpy(_grTempString, "gri:");
 	int ii = 4;			// where to start insert
