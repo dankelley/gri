@@ -355,6 +355,6 @@ package-SunOS5:
 	-cp doc/screenshots/*png                                          $(SUNOS5_NAME)/doc/html/screenshots
 	-cp doc/tst_suite/*dat doc/tst_suite/*gri doc/tst_suite/*html     $(SUNOS5_NAME)/doc/html/tst_suite
 	-cp doc/examples/*dat doc/examples/*gri doc/examples/*html        $(SUNOS5_NAME)/doc/html/examples
-	-tar -c -f $(SUNOS5_NAME).tar $(SUNOS5_NAME)
+	-tar chof $(SUNOS5_NAME).tar $(SUNOS5_NAME)
 	-rm -rf $(SUNOS5_NAME)
 	-gzip $(SUNOS5_NAME).tar
