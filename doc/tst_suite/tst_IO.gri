@@ -1,0 +1,16 @@
+show "doc/tst_suite/tst_IO.gri     ..." ...
+
+# File with newline at end ...
+open test_IO_1.dat
+read columns x y
+close
+assert {rpn ..num_col_data.. 2 ==}      " failed test 1"
+
+# File without newline at end ...
+open test_IO_2.dat
+read columns x y
+close
+assert {rpn ..num_col_data.. 2 ==}      " failed test 2"
+
+show " passed"
+
