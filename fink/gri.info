@@ -2,9 +2,9 @@ Package: gri
 Version: 2.12.8
 Revision: 1
 Depends:
-Source: /Users/kelley/GRITEST/gri-%v.tgz
-Source-MD5: 3dd65b520b5d2e740b03ceff332357f8
-DocFiles: README
+Source: http://ftp1.sourceforge.net/gri/gri-%v.tgz
+Source-MD5: e52cc1817a37fb80f667cd3e77880ec7
+DocFiles: README /sw/share/gri/doc/html/*html
 Description: Scientific graphics language
 DescDetail: <<
 Gri is a language for scientific graphics programming. The word "language" is important: Gri is command-driven, not point/click.

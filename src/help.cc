@@ -26,6 +26,7 @@ helpCmd()
 		std::string tmpname_file(tmp_file_name());
 		FILE           *fp;
 		if (!(fp = fopen(tmpname_file.c_str(), "w"))) {
+			printf("buffer filename is '%s'\n",tmpname_file.c_str());
 			err("Sorry, error opening buffer-file for `help'");
 			return false;
 		}

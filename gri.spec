@@ -96,6 +96,10 @@ then
 fi
 
 %changelog
+* Thu Jan 15 2004 <Dan.Kelley@Dal.Ca>
+- fix SF bug 877613 ('help' broken; cannot use temporary files)
+- fix SF bug 875881 ('draw image' broken with GCC 2.95)
+- fix SF bug 867515 ('convert grid to image' error)
 * Sun Jan 11 2004 <Dan.Kelley@Dal.Ca>
 - fix SF bug 874483 ('dash' properties ignored by 'save state')
 * Thu Jan 8 2004 <Dan.Kelley@Dal.Ca>

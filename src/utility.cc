@@ -2169,17 +2169,22 @@ tmp_file_name()
 {
 #if defined(HAVE_TEMPNAM)
 	//	rval = tempnam("/usr/tmp", "gri");
+	printf("CASE 1 (TEMPNAM).\n");
 	char *rval = tempnam(NULL, "gri");
 	if (rval == NULL)
 		return NULL;
+	printf(" got '%s'\n", rval);
 	return rval;
 #else
 #if defined(HAVE_TMPNAM)
+	printf("CASE 2 (TMPNAM).\n");
 	char *rval = tmpnam(NULL);
 	if (rval == NULL)
 		return NULL;
+	printf(" got '%s'\n", rval);
 	return rval;
 #else
+	printf("CASE 3 (neither)\n");
 	return GRI_TMP_FILE;
 #endif
 #endif
