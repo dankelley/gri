@@ -5,7 +5,7 @@
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.32 (28 Aug 2000)
+;; Version:   2.33 (29 Aug 2000)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -349,6 +349,7 @@
 ;;  - Added buffer-local variable gri-command-postarguments
 ;;    and functions gri-set-command-postarguments and
 ;;    gri-unset-command-postarguments.
+;; V2.33 29Aug00 RCS 1.58 - gri-hide-all skips over initial commands 
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -2553,17 +2554,20 @@ BUGS:  Will get confused if you have a string which looks like a function
        title in your function's help text (i.e. a line which begins with
        a ` character and ends with a ' character.)" 
   (interactive "P")
-  (let ((the-end) (modified (buffer-modified-p)))
-    (save-excursion
-      (goto-char (point-min))
+  (save-excursion
+    (goto-char (point-min))
+    (re-search-forward "^`[^']*'$" nil t)
+    (beginning-of-line)
+    (let ((the-start (point))(the-end) (modified (buffer-modified-p)))
+      ;; Find the end of the last new command
       (while (and (re-search-forward "^`[^']*'$" nil t)
                   (re-search-forward "^}$" nil t)))
-      (if (= (point) (point-min))
+      (if (= (point) the-start)
           (if (not quiet)
               (message "Sorry, can't find any functions to hide."))
         (forward-line 1)
         (setq the-end (point))
-        (hide-region-body (point-min) the-end)
+        (hide-region-body the-start the-end)
         (set-buffer-modified-p modified)))))
 
 (defvar gri-arg-hist nil)
@@ -4214,7 +4218,7 @@ static char *magick[] = {
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.32 (c) 28 Aug 2000 --  Peter Galbraith <GalbraithP@dfo-mpo.gc.ca>
+V2.33 (c) 29 Aug 2000 --  Peter Galbraith <GalbraithP@dfo-mpo.gc.ca>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
