@@ -334,6 +334,8 @@ draw_symbolCmd()
 					set_ps_color('p');
 					set_line_width_symbol();
 					gr_drawsymbol(xcm, ycm, symbolCode);
+					PUT_VAR("..xlast..", x);
+					PUT_VAR("..ylast..", y);
 				}
 				return true;
 			case 7:
@@ -377,6 +379,8 @@ draw_symbolCmd()
 					set_ps_color('p');
 					set_line_width_symbol();
 					gr_drawsymbol(x, y, symbolCode);
+					PUT_VAR("..xlast..", x);
+					PUT_VAR("..ylast..", y);
 				}
 				return true;
 			default:
@@ -397,6 +401,8 @@ draw_symbolCmd()
 	int num = _colX.size();
 	GriColor c, old_color = _griState.color_line();
 	set_line_width_symbol();
+	double xlast = gr_currentmissingvalue();
+	double ylast = gr_currentmissingvalue();
 	for (i = 0; i < num; i++) {
 		if (!gr_missingx((double) *xp)
 		    && !gr_missingy((double) *yp)
@@ -423,10 +429,14 @@ draw_symbolCmd()
 					set_ps_color('p');
 				}
 				gr_drawsymbol(xcm, ycm, symbolCode);
+				xlast = *xp;
+				ylast = *yp;
 			} else {
 				// Symbol stored in z 
 				if (!gr_missing((double) *zp)) {
 					gr_drawsymbol(xcm, ycm, gr_symbol_type(int(floor((0.5 + *zp)))));
+					xlast = *xp;
+					ylast = *yp;
 				}
 			}
 		}
@@ -450,6 +460,8 @@ draw_symbolCmd()
 		}
 
 	}
+	PUT_VAR("..xlast..", xlast);
+	PUT_VAR("..ylast..", ylast);
 	return true;
 }
 
@@ -1199,8 +1211,8 @@ draw_curveCmd()
 		path.fill(units_user);
 	else
 		path.stroke(units_user);
-	PUT_VAR("..lastx..", lastx);
-	PUT_VAR("..lasty..", lasty);
+	PUT_VAR("..xlast..", lastx);
+	PUT_VAR("..ylast..", lasty);
 	_drawingstarted = true;
 	draw_axes_if_needed();
 	return true;

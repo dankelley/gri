@@ -136,8 +136,8 @@ start_up(int argc, char **argv)
 	PUT_VAR("..eof..", 0.0);
 	PUT_VAR("..landscape..", 0.0);
 	PUT_VAR("..publication..", 0.0);
-	PUT_VAR("..lastx..", 0.0);
-	PUT_VAR("..lasty..", 0.0);
+	PUT_VAR("..xlast..", 0.0);
+	PUT_VAR("..ylast..", 0.0);
 	PUT_VAR("..image_width..", 0.0);
 	PUT_VAR("..image_height..", 0.0);
 	last_optional_arg = interpret_optional_arguments(argc, argv);

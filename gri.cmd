@@ -1078,16 +1078,16 @@ be given if the isospice line does not intersect the clipping region.
                 quit
             end if              # improper final word
         else                    # not 4 words
-            if {rpn ..lastx.. ..xright.. - ..lasty.. ..ytop.. - >}
+            if {rpn ..xlast.. ..xright.. - ..ylast.. ..ytop.. - >}
                 # Put label above.
                 draw label "\.word2." at \
-                    {rpn ..lastx.. xusertocm "\.word2." width 0.35 * -} \
+                    {rpn ..xlast.. xusertocm "\.word2." width 0.35 * -} \
                     {rpn ..ytop.. yusertocm ..fontsize.. pttocm 0.7 * +} cm
             else                # label at right
                 # Put label to right.
                 draw label "\.word2." at \
                     {rpn ..xright.. xusertocm ..fontsize.. pttocm 0.7 * +} \
-                    {rpn ..lasty.. yusertocm  ..fontsize.. pttocm 0.4 * -} cm
+                    {rpn ..ylast.. yusertocm  ..fontsize.. pttocm 0.4 * -} cm
             end if              # label at right
         end if
     else                        # iso-spice not in region
@@ -1204,13 +1204,13 @@ Cannot handle angled text; doesn't check for super/subscripts.
 }
 
 `draw label for last curve "label"'
-Draw a label for the last curve drawn, using the `..lastx..' and
-`..lasty..' built-in variables.
+Draw a label for the last curve drawn, using the `..xlast..' and
+`..ylast..' built-in variables.
 {
     if {rpn \.words. 6 ==}
         draw label "\.word5." at\
-            {rpn ..lastx.. xusertocm "M" width 0.5 * +} \
-            {rpn ..lasty.. yusertocm "M" ascent 0.5 * -} cm
+            {rpn ..xlast.. xusertocm "M" width 0.5 * +} \
+            {rpn ..ylast.. yusertocm "M" ascent 0.5 * -} cm
     else
         show "ERROR:  Require 6 words, but got \.words. words."
         show traceback

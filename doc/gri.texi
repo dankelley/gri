@@ -2097,13 +2097,13 @@ will be @code{"Thing"}.  On the other hand, if you call it with
 @example
 `Draw Label For Last Curve "label"'
 Draw a label for the last curve drawn, using
-..lastx.. and ..lasty.. built-in variables.
+..xlast.. and ..ylast.. built-in variables.
 @{
   .draw_label_for_last_curve_graylevel. = ..graylevel..
   set graylevel 0
   draw label "\.word5." at \
-      @{rpn ..lastx.. xusertocm 0.1 + xcmtouser@} \
-      @{rpn ..lasty.. yusertocm \
+      @{rpn ..xlast.. xusertocm 0.1 + xcmtouser@} \
+      @{rpn ..ylast.. yusertocm \
           ..fontsize.. pttocm 2 / -
           ycmtouser@}
   set graylevel .draw_label_for_last_curve_graylevel.
@@ -3177,8 +3177,8 @@ with a label placed near the last y-value of the data set:
 @cindex labels, on data curves
 @example
 draw curve
-.y. = @{rpn ..lasty.. yusertocm 0.5 - ycmtouser@}
-draw label "Smoothed" at ..lastx.. .y.
+.y. = @{rpn ..ylast.. yusertocm 0.5 - ycmtouser@}
+draw label "Smoothed" at ..xlast.. .y.
 @end example
 @end itemize
 
@@ -3825,8 +3825,8 @@ close
 if ..num_col_data..
   draw curve
   draw label "\f" at \
-      @{rpn ..lastx.. xusertocm 0.5@} \
-      @{rpn ..lasty.. yusertocm 0.2@} cm
+      @{rpn ..xlast.. xusertocm 0.5@} \
+      @{rpn ..ylast.. yusertocm 0.2@} cm
 end if
 @end example
 
@@ -8405,8 +8405,8 @@ text; doesn't check for super/subscripts.
 @cindex drawing labels on xy curves
 @cindex labels, for xy curves
 @noindent
-Draw a label for the last curve drawn, using the @code{..lastx..} and
-@code{..lasty..} built-in variables.
+Draw a label for the last curve drawn, using the @code{..xlast..} and
+@code{..ylast..} built-in variables.
 
 
 @node   Draw Label, Draw Line From, Draw Label For Last Curve, Draw
