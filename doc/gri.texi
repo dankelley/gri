@@ -1,6 +1,6 @@
 \input texinfo 
 
-@c $Id: gri.texi,v 1.146 2003/07/19 12:45:49 dankelley Exp $
+@c $Id: gri.texi,v 1.147 2003/08/30 11:32:35 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -54,8 +54,8 @@
 @comment %**start of header
 @setfilename gri.info
 @settitle Gri
-@c not used anymore @set GRI-VERSION 2.12.5
-@set GRI-PREVIOUS-VERSION 2.12.4
+@set GRI-VERSION 2.12.6
+@set GRI-PREVIOUS-VERSION 2.12.5
 @set AUTHOR-EMAIL dankelley@@users.sourceforge.net
 @include version.texi
 @c %**end of header
@@ -16424,17 +16424,18 @@ only in the fixing of bugs.
 
 @comment ADD-NEW-BUG-FIXES-HERE
 
-@subsubsection Version 2.12.6 [2003 Jul 19]
+@subsubsection Version 2.12.6 [2003 Sep 1: Labour Day)
 
 @strong{New Features}
 @itemize @bullet
+
 @item
 Add @code{age} RPN function, for testing file ages (@ref{age-rpn-operator}).
 
 @end itemize
 
 @strong{Bug Fixes}
-@itemize
+@itemize @bullet
 
 @item
 Fix SourceForge bug
@@ -16460,8 +16461,7 @@ Fix SourceForge bug
 
 
 
-@subsubsection Version 2.12.5 [2003 May 19]
-(Victoria Day Holiday, Canada.)
+@subsubsection Version 2.12.5 [2003 May 19: Victoria Day]
 
 @strong{New Features}
 @itemize @bullet
@@ -16537,8 +16537,7 @@ Fix SourceForge bug
 @end itemize
 
 
-@subsubsection Version 2.12.2 [2003 Feb 7]
-(Munro Day at @uref{http://www.dal.ca/,Dalhousie University}, Canada.)
+@subsubsection Version 2.12.2 [2003 Feb 7: Munro Day at @uref{http://www.dal.ca/,Dalhousie University}]
 
 @strong{Bug Fixes}
 
@@ -16623,8 +16622,7 @@ Fix SourceForge bug
 
 
 
-@subsubsection Version 2.12.0 [2002 Sep 15]
-(@uref{http://www.terryfox.org/,Terry Fox Day}, Canada.)
+@subsubsection Version 2.12.0 [2002 Sep 15: @uref{http://www.terryfox.org/,Terry Fox Day}, Canada.]
 
 @strong{New Features}
 
@@ -16728,8 +16726,7 @@ Fix SourceForge bug
 @end itemize
 
 
-@subsubsection Version 2.10.0 [2002 May 20] 
-(Victoria Day Holiday, Canada.)
+@subsubsection Version 2.10.0 [2002 May 20: Victoria Day]
 
 @strong{New Features}
 
@@ -17037,7 +17034,7 @@ Complete the port to IBM's compiler for their AIX operating system.
 @comment  node-name,  next,  previous,  up
 @subsection Version 2.6
 
-@subsection Version 2.6.4 [2001 Jul 9 (Dan's birthday!)]
+@subsection Version 2.6.4 [2001 Jul 9: Dan's birthday]
 @itemize @bullet
 @item
 Fix SourceForge bug 
