@@ -100,6 +100,13 @@ last_name(char *s)
 bool
 start_up(int argc, char **argv)
 {
+#if 1
+	{
+		printf("ARGS:\n");
+		for (int i = 0; i < argc; i++) printf("\t'%s'\n", argv[i]);
+	}
+#endif
+
 	// Record version number
 	int major_version, minor_version, minor_minor_version;
 	extern char _input_data_separator; // defined in gri.cc
