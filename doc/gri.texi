@@ -16465,9 +16465,14 @@ only in the fixing of bugs.
 
 @comment ADD-NEW-BUG-FIXES-HERE
 
-@subsubsection Version 2.12.9 [2004]
+@subsubsection Version 2.12.9 [2005 Jan 6]
 @strong{Bug Fixes}
 @itemize @bullet
+
+@item
+Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=1094087&group_id=5511&atid=105511,#1094087}
+@dots{} @code{set path to} incorrectly parsed colon-separated paths
 
 @item
 Fix SourceForge bug
