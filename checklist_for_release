@@ -28,7 +28,7 @@ CHECKLIST.
 	  cvs tag -F "GRI_2_6_1"
      for the 2.6.1 version.
 
-  5- DEK creates an official tarball and uploads it to the SourceForge
+  5+ DEK creates an official tarball and uploads it to the SourceForge
      website (SF henceforth).
 
   6- DEK builds an official redhat package based on the official
