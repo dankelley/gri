@@ -2273,3 +2273,16 @@ get_optionsCmd()
 
 	return true;
 }
+
+
+// Byte swapping, from /usr/include/bits/byteswap.h on a linux box
+#define gri_bswap_constant_32(x) \
+     ((((x) & 0xff000000) >> 24) | (((x) & 0x00ff0000) >>  8) | \
+      (((x) & 0x0000ff00) <<  8) | (((x) & 0x000000ff) << 24))
+unsigned int 
+endian_swap_uint(unsigned int v)
+{
+	return gri_bswap_constant_32(v);
+}
+#undef gri_bswap_constant_32
+

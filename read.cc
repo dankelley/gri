@@ -12,6 +12,9 @@
 #include <stdio.h>
 #include <stddef.h>
 
+#if defined(__GNUC__)
+#include <endian.h>
+#endif
 
 #include	"gr.hh"
 #include	"extern.hh"
@@ -1891,82 +1894,115 @@ skip_hash_headers(FILE * fp)
 }
 
 // REF: man 5 rasterfile; /usr/include/rasterfile.h on a sun computer
-static          bool
+static bool
 read_raster_image(FILE * fp, IMAGE * im)
 {
 	chars_read = 0;
 	int             i, j;
 	unsigned char   tmpB;
-	bool            need_zero_padding;
+	unsigned char   b0, b1, b2, b3;
 
-	unsigned char dummy;
-	if (1 != fread((char*)&dummy, sizeof(unsigned char), 1, fp)) {
-		err("Cannot read first byte of image");
+        // The "man rasterfile" page on solaris suggests to check the 
+	// first word against "#define RAS_MAGIC 0x59a66a95" but
+	// we have to check it byte by byte (0x59 0xa6 0x6a 0x95)
+	// because of endian issues.  An ugly issue.
+
+	if (1 != fread((char*)&b0, sizeof(unsigned char), 1, fp)) {
+		err("Cannot read the first 'magic' byte at start of image");
 		return false;
 	}
-	if (dummy != 0x59) {
-		sprintf(_grTempString, "This is not a Sun rasterfile, since first byte is %x instead of expected %x\n", dummy, 0x59);
+	if (1 != fread((char*)&b1, sizeof(unsigned char), 1, fp)) {
+		err("Cannot read the second 'magic' byte at start of image");
+		return false;
+	}
+	if (1 != fread((char*)&b2, sizeof(unsigned char), 1, fp)) {
+		err("Cannot read the third 'magic' byte at start of image");
+		return false;
+	}
+	if (1 != fread((char*)&b3, sizeof(unsigned char), 1, fp)) {
+		err("Cannot read the fourth 'magic' byte at start of image");
+		return false;
+	}
+	// Sun is big endian; intel is little endian.
+	bool big_endian = false;
+	if (b0 == 0x59 && b1 == 0xa6 && b2 == 0x6a && b3 == 0x95) 
+		big_endian = true;
+	else if (b3 == 0x59 && b2 == 0xa6 && b1 == 0x6a && b0 == 0x95)
+		big_endian = false;
+	else {
+		sprintf(_grTempString, "This is not a Sun rasterfile, since first bytes are %x,%x,%x,%x instead of the expected %x,%x,%x,%x or %x,%x,%x,%x\n", b0, b1, b2, b3, 0x59, 0xa6, 0x6a, 0x95, 0x95, 0x6a, 0xa6, 0x59); 
 		err(_grTempString);
-		return false;
+		
 	}
-	if (1 != fread((char*)&dummy, sizeof(unsigned char), 1, fp)) {
-		err("Cannot read first byte of image");
-		return false;
+
+	bool switch_bytes = false;
+#if defined(__GNUC__) // BUG: should do this endian work a lot more cleanly
+	if ((__BYTE_ORDER == __LITTLE_ENDIAN && big_endian)
+		|| (__BYTE_ORDER == __BIG_ENDIAN && ! big_endian)) {
+		switch_bytes = true;
+#if defined(DEBUG_READ)
+		printf("DEBUG: %s:%d must switch bytes\n",__FILE__,__LINE__);
+#endif
 	}
-	if (dummy != 0xa6) {
-		sprintf(_grTempString, "This is not a Sun rasterfile, since first byte is %x instead of expected %x\n", dummy, 0xa6);
-		err(_grTempString);
-		return false;
-	}
-	if (1 != fread((char*)&dummy, sizeof(unsigned char), 1, fp)) {
-		err("Cannot read first byte of image");
-		return false;
-	}
-	if (dummy != 0x6a) {
-		sprintf(_grTempString, "This is not a Sun rasterfile, since first byte is %x instead of expected %x\n", dummy, 0x6a);
-		err(_grTempString);
-		return false;
-	}
-	if (1 != fread((char*)&dummy, sizeof(unsigned char), 1, fp)) {
-		err("Cannot read first byte of image");
-		return false;
-	}
-	if (dummy != 0x95) {
-		sprintf(_grTempString, "This is not a Sun rasterfile, since first byte is %x instead of expected %x\n", dummy, 0x95);
-		err(_grTempString);
-		return false;
-	}
-	if (1 != fread((char *) & im->ras_width, sizeof(int), 1, fp)) {
+#endif
+#if defined(DEBUG_READ)
+	printf("DEBUG. %s:%d endian status = %s\n",__FILE__,__LINE__,big_endian? "BIG":"LITTLE");
+#endif
+	if (1 != fread((char *) & im->ras_width, sizeof(unsigned int), 1, fp)) {
 		err("Cannot read image width");
 		return false;
 	}
-	need_zero_padding = (im->ras_width == 2 * (im->ras_width / 2)) ? false : true;
-	if (1 != fread((char *) & im->ras_height, sizeof(int), 1, fp)) {
+#if defined(DEBUG_READ)
+	printf("DEBUG: %s:%d switch raster width from %d to ", __FILE__,__LINE__,im->ras_width);
+#endif
+	if (switch_bytes)
+		im->ras_width = endian_swap_uint(im->ras_width);
+#if defined(DEBUG_READ)
+	printf("%d\n", im->ras_width);
+#endif
+	bool need_zero_padding = (im->ras_width == 2 * (im->ras_width / 2)) ? false : true;
+
+	if (1 != fread((char *) & im->ras_height, sizeof(unsigned int), 1, fp)) {
 		err("Cannot read image height");
 		return false;
 	}
-	if (1 != fread((char *) & im->ras_depth, sizeof(int), 1, fp)) {
+	if (switch_bytes)
+		im->ras_height = endian_swap_uint(im->ras_height);
+	if (1 != fread((char *) & im->ras_depth, sizeof(unsigned int), 1, fp)) {
 		err("Cannot read image depth");
 		return false;
 	}
-	if (1 != fread((char *) & im->ras_length, sizeof(int), 1, fp)) {
+	if (switch_bytes)
+		im->ras_depth = endian_swap_uint(im->ras_depth);
+	if (1 != fread((char *) & im->ras_length, sizeof(unsigned int), 1, fp)) {
 		err("Cannot read image length");
 		return false;
 	}
-	if (1 != fread((char *) & im->ras_type, sizeof(int), 1, fp)) {
+	if (switch_bytes)
+		im->ras_length = endian_swap_uint(im->ras_length);
+	if (1 != fread((char *) & im->ras_type, sizeof(unsigned int), 1, fp)) {
 		err("Cannot read image type");
 		return false;
 	}
-	if (1 != fread((char *) & im->ras_maptype, sizeof(int), 1, fp)) {
+	if (switch_bytes)
+		im->ras_type = endian_swap_uint(im->ras_type);
+	if (1 != fread((char *) & im->ras_maptype, sizeof(unsigned int), 1, fp)) {
 		err("Cannot read image maptype");
 		return false;
 	}
-	if (1 != fread((char *) & im->ras_maplength, sizeof(int), 1, fp)) {
+	if (switch_bytes)
+		im->ras_maptype = endian_swap_uint(im->ras_maptype);
+	if (1 != fread((char *) & im->ras_maplength, sizeof(unsigned int), 1, fp)) {
 		err("Cannot read image maplength");
 		return false;
 	}
-	if (im->ras_length != im->ras_width * im->ras_height) {
-		sprintf(_grTempString, "Cannot read compressed images.  This seems to be compressed, given width=%d height=%d but length=%d\n", im->ras_width, im->ras_height, im->ras_length);
+	if (switch_bytes)
+		im->ras_maplength = endian_swap_uint(im->ras_maplength);
+	if (need_zero_padding)
+	if (im->ras_length 
+	    != (need_zero_padding ? 1 + im->ras_width : im->ras_width)
+	    * im->ras_height) {
+		sprintf(_grTempString, "Cannot read compressed images.  This seems to be compressed, since it's %d wide and %d tall, but the length is %d\n", im->ras_width, im->ras_height, im->ras_length);
 		err(_grTempString);
 		return false;
 	}
@@ -1975,7 +2011,8 @@ read_raster_image(FILE * fp, IMAGE * im)
 		return false;
 	}
 	if (im->ras_type != RT_STANDARD) {
-		err("Can only read images of type RT_STANDARD");
+		sprintf(_grTempString, "Can only read images of type RT_STANDARD (%d) but this is type %d\n", RT_STANDARD, im->ras_type);
+		err(_grTempString);
 		return false;
 	}
 	// Skip colormap if there is one BUG: should use it

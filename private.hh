@@ -32,8 +32,8 @@ typedef struct {
 	unsigned int    ras_height;	// height (pixels) of image
 	unsigned int    ras_depth;	// depth (1, 8, or 24 bits) of pixel
 	unsigned int    ras_length;	// length (bytes) of image
-	int             ras_type;	// type of file; see RT_* below
-	int             ras_maptype;// type of colormap; see RMT_* below
+	unsigned int    ras_type;	// type of file; see RT_* below
+	unsigned int    ras_maptype;// type of colormap; see RMT_* below
 	unsigned int    ras_maplength; // length (bytes) of following map
 	unsigned char  *map;	   // map
 	unsigned char  *image;	   // image
@@ -104,6 +104,7 @@ bool            draw_axes_if_needed(void);
 bool            draw_gri_logo(void);
 char           *egetenv(const char *s);
 void            end_up(void);
+unsigned int    endian_swap_uint(unsigned int v);
 void            expand_blanks(char *cmdline);
 int             ExtractQuote(const char *s, std::string& sout);
 char           *file_in_list(const char *name, bool show_nonlocal_files, bool show_local_files);
