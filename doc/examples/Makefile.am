@@ -77,8 +77,8 @@ txt: $(txt_files)
 # for the developer's use only.
 GRITEST = ../../gri -directory ../.. -y
 GRI = gri -y -p
-%.ps : %.gri
-	$(GRI) $<
+#%.ps : %.gri
+#	$(GRI) $<
 
 old_all_target:
 	make eps
