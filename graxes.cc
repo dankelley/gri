@@ -405,6 +405,9 @@ gr_drawxaxis(double y, double xl, double xinc, double xr, gr_axis_properties sid
 void
 gr_drawyaxis(double x, double yb, double yinc, double yt, gr_axis_properties side)
 {
+#if 1				// 2.9.x
+	bool user_gave_labels = (_x_labels.size() != 0);
+#endif // 2.9.x
 	GriString label;
 	std::string slabel;
 	extern char     _ytype_map;
@@ -528,20 +531,20 @@ gr_drawyaxis(double x, double yb, double yinc, double yt, gr_axis_properties sid
 					} else {
 						*_grTempString = '\0';
 					}
-					slabel.assign(_grTempString);
-					fix_negative_zero(slabel);
-					label.fromSTR(slabel.c_str());
-					if (side == gr_axis_LEFT) {
-						label.draw(labelx_cm, labely_cm, TEXT_RJUST, angle * DEG_PER_RAD);
-					} else {
-						label.draw(labelx_cm, labely_cm, TEXT_LJUST, angle * DEG_PER_RAD);
+					if (!user_gave_labels) { // 2.9.x
+						slabel.assign(_grTempString);
+						fix_negative_zero(slabel);
+						label.fromSTR(slabel.c_str());
+						if (side == gr_axis_LEFT)
+							label.draw(labelx_cm, labely_cm, TEXT_RJUST, angle * DEG_PER_RAD);
+						else
+							label.draw(labelx_cm, labely_cm, TEXT_LJUST, angle * DEG_PER_RAD);
 					}
 					// Keep track of maximum width of axis numbers, so that
 					// axis label can be offset right amount.
 					gr_stringwidth(_grTempString, &tmp0, &tmp1, &tmp2);
-					if (tmp0 > max_num_width_cm) {
+					if (tmp0 > max_num_width_cm)
 						max_num_width_cm = tmp0;
-					}
 				}
 			} else {
 				// Small tic
@@ -550,6 +553,24 @@ gr_drawyaxis(double x, double yb, double yinc, double yt, gr_axis_properties sid
 			axis_path.push_back(gr_usertocm_x(x, next), gr_usertocm_y(x, next), 'l');
 			present = next;
 		}
+#if 1				// 2.9.x
+		if (user_gave_labels) {
+			//printf("labels...\n");
+			for (unsigned int i = 0; i < _y_labels.size(); i++) {
+				label.fromSTR(_y_labels[i].c_str()); // BUG: should interpolate into this string
+				gr_usertocm(x, _y_label_positions[i], &xcm, &ycm);
+				xcm = labelx_cm;
+				//printf("'%s' at %f %f cm\n", _y_labels[i].c_str(),xcm,ycm);
+				if (side == gr_axis_LEFT)
+					label.draw(labelx_cm, ycm, TEXT_RJUST, DEG_PER_RAD * angle);
+				else
+					label.draw(labelx_cm, ycm, TEXT_LJUST, DEG_PER_RAD * angle);
+				gr_stringwidth(_y_labels[i].c_str(), &tmp0, &tmp1, &tmp2);
+				if (tmp0 > max_num_width_cm)
+					max_num_width_cm = tmp0;
+			}
+		}
+#endif
 		// Finish by drawing to end of axis (in case there was no tic there).
 		axis_path.push_back(gr_usertocm_x(x, yt), gr_usertocm_y(x, yt), 'l');
 		axis_path.stroke(units_cm, _griState.linewidth_axis());
