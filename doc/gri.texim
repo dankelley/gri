@@ -1,5 +1,5 @@
 @c -*-mode: texinfo; -*-
-@c $Id: gri.texim,v 1.57 2001/03/13 20:02:49 dankelley Exp $
+@c $Id: gri.texim,v 1.58 2001/03/15 23:21:20 dankelley Exp $
 \input texinfo @c -*-texinfo-*-
 @c
 @comment *** Start of HTML stuff ***
@@ -65,7 +65,9 @@
 @titlepage
 @title Gri
 
+@ifnottex
 @image{./examples/logo}
+@end ifnottex
 
 @subtitle A Program to Make Science Graphs
 @subtitle Version @value{GRI-VERSION}
@@ -168,7 +170,7 @@ considerable power, at the price of a moderate learning curve.
 
 * Examples::                    Some real-world examples
 * Handling Data::               Dealing with oddly-configured data
-* Commands::                    List of Gri commands
+* Commands::                    All about the many Gri commands
 * Programming::                 How to program in the Gri language
 * Environment::                 Related tools
 * Emacs Mode::                  Editing Gri code inside Emacs
@@ -1084,7 +1086,7 @@ European text, etc, is discussed (@ref{Text}).
 
 @node   Pen Color, X-y Plots, Fonts, Getting More Control
 @comment  node-name,  next,  previous,  up
-@subsection Controlling the graylevel of the ``pen''
+@section Controlling the graylevel of the ``pen''
 @cindex graylevel, explanation
 @cindex lines, gray, explanation
 
@@ -1219,7 +1221,7 @@ set color hsb .333 1   1  # pure, bright green
 
 @node   X-y Plots, Linegraphs, Pen Color, Top
 @comment  node-name,  next,  previous,  up
-@chapter x-y Plots
+@chapter X-Y Plots
 
 @menu
 * Linegraphs::                  x-y graphs with data connected by line segments
@@ -3658,12 +3660,110 @@ draw curves time y1 y2 y3
 @cindex programming, complete list of Gri commands
 @cindex syntax of Gri commands
 @cindex keywords of Gri commands
-@cindex gri commands, complete list of
-@cindex commands, complete list of
-@cindex spelling of gri commands
-@cindex gray vs Grey spelling
-@cindex grey vs Gray spelling
-@cindex colour vs Color spelling
+@menu
+* Overview Of Gri Commands::    General classification of commands
+* Command Syntax::              Syntax of the commands
+* List Of Gri Commands::        
+@end menu
+
+@c HTML <!-- newfile CommandsOverview.html "Gri: Overview of commands" "Gri Commands" -->
+
+@node   Overview Of Gri Commands, Command Syntax, Commands, Commands
+@comment  node-name,  next,  previous,  up
+@section Overview of Gri Commands
+The first word of a command hints at the meaning, but apart from that,
+here is a rough guide:
+
+@itemize @bullet
+@item @emph{File manipulation}
+Commands are @code{open}, @code{close}, @code{skip}, @code{read}, and
+@code{rewind}.
+@item @emph{Control parameters}
+Various @code{set} commands control values of parameters, like size of plot,
+linewidth, font, etc.
+@item @emph{Drawing things}
+Various @code{draw} commands let you draw data, axes, etc.
+@item @emph{Interaction with user}
+The @code{query} command gets instructions from the user.  The
+@code{show} command displays messages to user.
+@item @emph{Control program flow}
+The @code{if} statement controls optional execution of commands
+(@ref{If Statements}).  The @code{while} statement allows loops.
+@item @emph{Directory control}
+The @code{pwd}, @code{cd} and @code{ls} commands do the usual unix
+things.
+@item @emph{Interaction with operating system}
+The @code{system} command passes instructions to the operating system;
+the output may be saved into a synonym by using 
+@code{\syn = system ...}.  The @code{get env} command determines the value of any
+unix environment variables the system has defined.  For more discussion
+(@ref{Operating System}).
+@item @emph{Statistics}
+Some very limited capabilities exist; for example, @code{regress} does
+linear regression.
+@item @emph{Mathematics}
+Simple mathematical manipulation of column, grid, and image data is
+provided.  Also, wherever Gri expects a number, it will accept a
+reverse-polish expression; for example, @code{set x size 10} could also
+be written @code{set x size @{rpn 20 2 /@}}.  For details
+(@ref{Mathematics}).
+@end itemize
+
+The data types in Gri are columns, grids, images, scalar variables
+and ``synonyms'' that is, strings (@ref{Synonyms};
+@ref{Variables}).
+
+
+@c HTML <!-- newfile CommandSyntax.html "Gri: Command Syntax" "Gri Commands" -->
+@node   Command Syntax, List Of Gri Commands, Overview Of Gri Commands, Commands
+@comment  node-name,  next,  previous,  up
+@section Command syntax
+The syntax description is enclosed within angled single quotes, optional
+items are enclosed in square brackets, multiword items are enclosed in
+curly braces, and vertical bars separate different legitimate choices.
+For example, the documentation item for the command for drawing contours
+
+@example
+`draw contour \
+    [.value. |  \
+      @{.min. .max. .inc. [.inc_unlabelled.]@}] \
+    [unlabelled]'
+@end example
+
+@noindent
+indicates that following are legal:
+
+@example
+draw contour                   # gri selects levels
+draw contour unlabelled        # " but unlabelled
+draw contour 10                # single contour line
+draw contour 10 unlabelled     # " but unlabelled
+draw contour 0 100 10          # contours at z=0,1,
+draw contour 0 10 1 unlabelled # " but unlabelled
+# contours at 0, 0.1, ... labelled at 0, 1
+draw contour 0 10 1 0.1
+@end example
+
+@noindent
+Note that items enclosed in braces must appear in their entirety; for
+example,
+
+@example
+draw contour 0 10              # WRONG; missing .inc.
+@end example
+
+@noindent
+which might look similar @code{draw contour .min. .max. .inc.} to you,
+looks like garbage to Gri.  Gri will recognize it as an attempt at the
+@code{draw contour} command (because the first 2 words match the syntax)
+but it will then get confused, spit out an error message, and quit.
+
+
+
+@c HTML <!-- newfile ListOfGriCommands.html "Gri: List of commands" "Gri: Commands" -->
+@node   List Of Gri Commands, Assert, Command Syntax, Commands
+@comment  node-name,  next,  previous,  up
+@section List of all Gri commands
 
 Commands are listed below in the order in which they are defined in the
 @file{gri.cmd} file (@ref{Invoking Gri}).  What you see here
@@ -3672,14 +3772,15 @@ usually accepts both American and English spellings
 (As an example of spelling latitude, Gri accepts @code{grey} anywhere the
 manual says @code{gray}, and @code{colour} for @code{color}.)
 
+@cindex gri commands, complete list of
+@cindex commands, complete list of
+@cindex spelling of gri commands
+@cindex gray vs Grey spelling
+@cindex grey vs Gray spelling
+@cindex colour vs Color spelling
 
-Here is an introduction to Gri commands and their syntax:
-@menu
-* Overview Of Gri Commands::    General classification of commands
-* Command Syntax::              Syntax of the commands
-@end menu
 
-Here is a list of all comands:
+
 @menu
 * Assert::                      Assert something to be true (for debugging)
 * Cd::                          Change directory
@@ -3735,106 +3836,13 @@ Here is a list of all comands:
 @end menu
 
 
-@c HTML <!-- newfile CommandsOverview.html "Gri: Overview of commands" "Gri Commands" -->
-
-@node   Overview Of Gri Commands, Command Syntax, Commands, Commands
-@comment  node-name,  next,  previous,  up
-@section Overview of Gri Commands
-The first word of a command hints at the meaning, but apart from that,
-here is a rough guide:
-
-@itemize @bullet
-@item @emph{File manipulation}
-Commands are @code{open}, @code{close}, @code{skip}, @code{read}, and
-@code{rewind}.
-@item @emph{Control parameters}
-Various @code{set} commands control values of parameters, like size of plot,
-linewidth, font, etc.
-@item @emph{Drawing things}
-Various @code{draw} commands let you draw data, axes, etc.
-@item @emph{Interaction with user}
-The @code{query} command gets instructions from the user.  The
-@code{show} command displays messages to user.
-@item @emph{Control program flow}
-The @code{if} statement controls optional execution of commands
-(@ref{If Statements}).  The @code{while} statement allows loops.
-@item @emph{Directory control}
-The @code{pwd}, @code{cd} and @code{ls} commands do the usual unix
-things.
-@item @emph{Interaction with operating system}
-The @code{system} command passes instructions to the operating system;
-the output may be saved into a synonym by using 
-@code{\syn = system ...}.  The @code{get env} command determines the value of any
-unix environment variables the system has defined.  For more discussion
-(@ref{Operating System}).
-@item @emph{Statistics}
-Some very limited capabilities exist; for example, @code{regress} does
-linear regression.
-@item @emph{Mathematics}
-Simple mathematical manipulation of column, grid, and image data is
-provided.  Also, wherever Gri expects a number, it will accept a
-reverse-polish expression; for example, @code{set x size 10} could also
-be written @code{set x size @{rpn 20 2 /@}}.  For details
-(@ref{Mathematics}).
-@end itemize
-
-The data types in Gri are columns, grids, images, scalar variables
-and ``synonyms'' that is, strings (@ref{Synonyms};
-@ref{Variables}).
-
-
-@c HTML <!-- newfile CommandSyntax.html "Gri: Command Syntax" "Gri Commands" -->
-@node   Command Syntax, Assert, Overview Of Gri Commands, Commands
-@comment  node-name,  next,  previous,  up
-@section Command syntax
-The syntax description is enclosed within angled single quotes, optional
-items are enclosed in square brackets, multiword items are enclosed in
-curly braces, and vertical bars separate different legitimate choices.
-For example, the documentation item for the command for drawing contours
-
-@example
-`draw contour \
-    [.value. |  \
-      @{.min. .max. .inc. [.inc_unlabelled.]@}] \
-    [unlabelled]'
-@end example
-
-@noindent
-indicates that following are legal:
-
-@example
-draw contour                   # gri selects levels
-draw contour unlabelled        # " but unlabelled
-draw contour 10                # single contour line
-draw contour 10 unlabelled     # " but unlabelled
-draw contour 0 100 10          # contours at z=0,1,
-draw contour 0 10 1 unlabelled # " but unlabelled
-# contours at 0, 0.1, ... labelled at 0, 1
-draw contour 0 10 1 0.1
-@end example
-
-@noindent
-Note that items enclosed in braces must appear in their entirety; for
-example,
-
-@example
-draw contour 0 10              # WRONG; missing .inc.
-@end example
-
-@noindent
-which might look similar @code{draw contour .min. .max. .inc.} to you,
-looks like garbage to Gri.  Gri will recognize it as an attempt at the
-@code{draw contour} command (because the first 2 words match the syntax)
-but it will then get confused, spit out an error message, and quit.
-
-
 
 
 @c HTML <!-- newfile Assert.html "Gri: `assert' command" "Gri Commands" -->
 
-@node   Assert, Cd, Command Syntax, Commands
+@node   Assert, Cd, List Of Gri Commands, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{assert} Command
+@subsection @code{assert}
 @cindex debugging, with @code{assert} command
 @cindex @code{assert} command, for debugging
 @findex assert
@@ -3868,9 +3876,9 @@ command.)
 
 @c HTML <!-- newfile Cd.html "Gri: `cd' command" "Gri Commands" -->
 
-@node   Cd, Close, Assert, Commands
+@node   Cd, Close, Assert, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{cd} Command
+@subsection @code{cd}
 @cindex changing directories
 @cindex directories, changing
 @cindex @code{cd} command
@@ -3892,9 +3900,9 @@ exactly as @code{cd ~} and @code{cd $HOME} do.
 
 @c HTML <!-- newfile Close.html "Gri: `close' command" "Gri Commands" -->
 
-@node   Close, Convert, Cd, Commands
+@node   Close, Convert, Cd, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{close} Command
+@subsection  @code{close}
 @cindex files, closing
 @cindex closing files
 @findex close
@@ -3911,11 +3919,10 @@ otherwise close the indicated file.
 
 @c HTML <!-- newfile Convert.html "Gri: `convert' command" "Gri Commands" -->
 
-@node   Convert, Convert Columns to Grid, Close, Commands
+@node   Convert, Convert Columns to Grid, Close, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{convert} Command
+@subsection The @code{convert} commands
 
-Various @code{convert} commands:
 @menu
 * Convert Columns to Grid::      Create grid from (x,y,f) data
 * Convert Columns to Spline::    Create spline (x',y') from (x,y) data
@@ -3929,7 +3936,7 @@ Various @code{convert} commands:
 
 @node   Convert Columns to Grid, Convert Columns to Spline, Convert, Convert
 @comment  node-name,  next,  previous,  up
-@subsection The @code{convert columns to grid} @dots{} Command
+@subsubsection @code{convert columns to grid}
 @findex convert columns to grid
 @cindex @code{convert columns to grid} command
 Various forms exist:
@@ -4287,7 +4294,7 @@ tunable parameters: @code{(L_x,L_y,gamma)}.
 
 @node   Convert Columns to Spline, Convert Columns From Polar to Rectangular, Convert Columns to Grid, Convert
 @comment  node-name,  next,  previous,  up
-@subsection The @code{convert columns to spline} @dots{} Command
+@subsubsection @code{convert columns to spline}
 @cindex spline, fitting to (x,y) data
 @findex convert columns to spline
 @cindex @code{convert columns to spline} command
@@ -4335,7 +4342,7 @@ draw curve
 
 @node   Convert Columns From Polar to Rectangular, Convert Columns From Rectangular to Polar, Convert Columns to Spline, Convert
 @comment  node-name,  next,  previous,  up
-@subsection The @code{convert columns from polar to rectangular} Command
+@subsubsection @code{convert columns from polar}
 @findex convert columns from polar to rectangular
 @cindex @code{convert columns from polar to rectangular} command
 
@@ -4351,7 +4358,7 @@ NOTE: theta is in degrees.
 
 @node   Convert Columns From Rectangular to Polar, Convert Grid to Columns, Convert Columns From Polar to Rectangular, Convert
 @comment  node-name,  next,  previous,  up
-@subsection The @code{convert columns from rectangular to polar} Command
+@subsubsection @code{convert columns from rectangular}
 @findex convert columns from rectangular to polar
 @cindex @code{convert columns from rectangular to polar} command
 
@@ -4366,7 +4373,7 @@ NOTE: theta is in degrees.
 
 @node   Convert Grid to Columns, Convert Grid To Image, Convert Columns From Rectangular to Polar, Convert 
 @comment  node-name,  next,  previous,  up
-@subsection The @code{convert grid to columns} Command
+@subsubsection @code{convert grid to columns}
 @findex convert grid to columns
 @cindex columns, creating from grid
 @cindex @code{convert grid to columns} command
@@ -4397,7 +4404,7 @@ convert columns to grid
 
 @node   Convert Grid To Image, Convert Image to Grid, Convert Grid to Columns, Convert
 @comment  node-name,  next,  previous,  up
-@subsection The @code{convert grid to image} @dots{} Command
+@subsubsection @code{convert grid to image}
 @findex convert grid to image
 @cindex image, creating from grid
 @cindex @code{convert grid to image} command
@@ -4453,7 +4460,7 @@ command.
 
 @node   Convert Image to Grid, Create, Convert Grid To Image, Convert
 @comment  node-name,  next,  previous,  up
-@subsection The @code{convert image to grid} @dots{} Command
+@subsubsection @code{convert image to grid}
 @findex convert image to grid
 @cindex @code{convert image to grid} command
 @cindex grid, creating from image
@@ -4487,9 +4494,9 @@ the image x/y grids have already been defined.
 
 @c HTML <!-- newfile Create.html "Gri: `create' command" "Gri Commands" -->
 
-@node   Create, Create Columns From Function, Convert Image to Grid, Commands
+@node   Create, Create Columns From Function, Convert Image to Grid, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{create} Command
+@subsection The @code{create} commands
 @menu
 * Create Columns From Function:: prepare to draw a function
 * Create Image Grayscale::       prepare to draw banded image
@@ -4497,7 +4504,7 @@ the image x/y grids have already been defined.
 
 @node   Create Columns From Function, Create Image Grayscale, Create, Create
 @comment  node-name,  next,  previous,  up
-@subsection The @code{create columns from function} Command
+@subsubsection @code{create columns from function}
 @findex create
 @cindex @code{create columns from function} command
 
@@ -4532,7 +4539,7 @@ vax machines.
 
 @node   Create Image Grayscale, Debug, Create Columns From Function, Create
 @comment  node-name,  next,  previous,  up
-@subsection The @code{create image grayscale} @dots{} Command
+@subsubsection @code{create image grayscale}
 @cindex image, banded
 @findex create image grayscale
 
@@ -4549,9 +4556,9 @@ example, .band. = 2 gives grayscale = (0 0 2 2 4 4 6 6 ... 252 252 254
 
 @c HTML <!-- newfile Debug.html "Gri: `debug' command" "Gri Commands" -->
 
-@node   Debug, Delete, Create Image Grayscale, Commands
+@node   Debug, Delete, Create Image Grayscale, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{debug} Command
+@subsection @code{debug}
 @cindex debugging
 @findex debug
 @cindex @code{debug} command
@@ -4591,9 +4598,9 @@ All these forms of debugging are cancelled by @code{debug off}.
 
 @c HTML <!-- newfile Delete.html "Gri: `delete' command" "Gri Commands" -->
 
-@node   Delete, Differentiate, Debug, Commands
+@node   Delete, Differentiate, Debug, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{delete} Command
+@subsection @code{delete}
 @cindex deleting variables, synonyms, scales, etc
 @cindex grid, deleting
 @cindex scales, deleting
@@ -4644,9 +4651,9 @@ Delete scales for y, so next @code{read columns} will set it.
 
 @c HTML <!-- newfile Differentiate.html "Gri: `differentiate' command" "Gri Commands" -->
 
-@node   Differentiate, Draw, Delete, Commands
+@node   Differentiate, Draw, Delete, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{differentiate} Command
+@subsection @code{differentiate}
 @cindex differentiation
 @findex differentiate
 @cindex @code{differentiate} command
@@ -4671,9 +4678,9 @@ second derivative is zero at the edges of the grid).
 
 
 
-@node   Draw, Draw Arrow, Differentiate, Commands
+@node   Draw, Draw Arrow, Differentiate, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The Various @code{draw} Commands
+@subsection The @code{draw} commands
 @findex draw
 Draw commands do actual drawing on the page.  You can draw axes,
 lineplots, symbols, contours, images, and text.  
@@ -4730,7 +4737,7 @@ sure to do @code{draw axes} before you modify the graylevel.)
 
 @node   Draw Arrow, Draw Arrows, Draw, Draw
 @comment  node-name,  next,  previous,  up
-@subsection The @code{draw arrow} @dots{} Command
+@subsubsection @code{draw arrow}
 @cindex arrows, drawing single
 
 @example
@@ -4746,7 +4753,7 @@ page.  NOTE: This will not cause auto-drawing of axes.
 
 @node   Draw Arrows, Draw Axes If Needed, Draw Arrow, Draw
 @comment  node-name,  next,  previous,  up
-@subsection The @code{draw arrows} Command
+@subsubsection @code{draw arrows}
 @findex draw arrows
 @cindex @code{draw arrows} command
 
@@ -4767,7 +4774,7 @@ arrow, use @code{draw arrow}.
 @comment  node-name,  next,  previous,  up
 @findex draw axes if needed
 @cindex @code{draw axes if needed} command
-@subsection The @code{draw axes if needed} Command
+@subsubsection @code{draw axes if needed}
 
 @example
 `draw axes if needed'
@@ -4783,7 +4790,7 @@ NOTE: this should only be done by developers.
 @comment  node-name,  next,  previous,  up
 @findex draw axes
 @cindex @code{draw axes} command
-@subsection The @code{draw axes} @dots{} Command
+@subsubsection @code{draw axes}
 
 @example
 `draw axes [.style.|frame|none]'
@@ -4814,7 +4821,7 @@ drawing axes when drawing curves.
 @comment  node-name,  next,  previous,  up
 @findex draw border box
 @cindex @code{draw border box} command
-@subsection The @code{draw border box} @dots{} Command
+@subsubsection @code{draw border box}
 
 @example
 `draw border box .ll_x. .ll_y. .ur_x. .ur_y. \
@@ -4840,7 +4847,7 @@ NOTE: This command does not cause auto-drawing of axes.
 
 @node   Draw Box, Draw Circle, Draw Border Box, Draw
 @comment  node-name,  next,  previous,  up
-@subsection The @code{draw box} @dots{} Command
+@subsubsection @code{draw box}
 @findex draw box
 @cindex @code{draw box} command
 
@@ -4884,7 +4891,7 @@ coordinate system.
 
 @node   Draw Circle, Draw Contour, Draw Box, Draw
 @comment  node-name,  next,  previous,  up
-@subsection The @code{draw circle} @dots{} Command
+@subsubsection @code{draw circle}
 @cindex circles, drawing
 @findex draw circle
 @cindex @code{draw circle} command
@@ -4900,7 +4907,7 @@ location (in cm on the page).
 
 @node   Draw Contour, Draw Curve, Draw Circle, Draw
 @comment  node-name,  next,  previous,  up
-@subsection The @code{draw contour} @dots{} Command
+@subsubsection @code{draw contour}
 @cindex drawing contours
 @cindex contouring
 @findex draw contour
@@ -4958,7 +4965,7 @@ converting grid-values to image values (@ref{Convert Grid To Image}).
 
 @node   Draw Curve, Draw Essay, Draw Contour, Draw
 @comment  node-name,  next,  previous,  up
-@subsection The @code{draw curve} @dots{} Command
+@subsubsection @code{draw curve}
 @findex draw curve
 @cindex @code{draw curve} command
 @cindex x-y graphs
@@ -5014,7 +5021,7 @@ and x = @code{.x.}
 
 @node   Draw Essay, Draw Gri Logo, Draw Curve, Draw
 @comment  node-name,  next,  previous,  up
-@subsection The @code{draw essay} @dots{} Command
+@subsubsection @code{draw essay}
 @findex draw essay
 @cindex @code{draw essay} command
 
@@ -5043,7 +5050,7 @@ draw essay "Line 2, below top line"
 
 @node   Draw Gri Logo, Draw Grid, Draw Essay, Draw
 @comment  node-name,  next,  previous,  up
-@subsection The @code{draw gri logo} Command
+@subsubsection @code{draw gri logo}
 @findex draw gri logo
 @cindex @code{draw gri logo} command
 @cindex logo, how to dra
@@ -5079,7 +5086,7 @@ draw gri logo 1 1 3 4 blue green
 
 @node   Draw Grid, Draw Image Histogram, Draw Gri Logo, Draw
 @comment  node-name,  next,  previous,  up
-@subsection The @code{draw grid} Command
+@subsubsection @code{draw grid}
 @findex draw grid
 @cindex @code{draw grid} comman
 
@@ -5092,7 +5099,7 @@ Draw plus-signs at locations where grid data are non-missing.
 
 @node   Draw Image Histogram, Draw Image Palette, Draw Grid, Draw
 @comment  node-name,  next,  previous,  up
-@subsection The @code{draw image histogram} @dots{} Command
+@subsubsection @code{draw image histogram}
 @findex draw image histogram
 @cindex @code{draw image histogram} command
 @cindex image, histogra
@@ -5114,7 +5121,7 @@ done.
 
 @node   Draw Image Palette, Draw Image, Draw Image Histogram, Draw
 @comment  node-name,  next,  previous,  up
-@subsection The @code{draw image palette} @dots{} Command
+@subsubsection @code{draw image palette}
 @findex draw image palette
 @cindex @code{draw image palette} comman
 
@@ -5201,7 +5208,7 @@ end while
 
 @node   Draw Image, Draw Isopycnal, Draw Image Palette, Draw
 @comment  node-name,  next,  previous,  up
-@subsection The @code{draw image} Command
+@subsubsection @code{draw image}
 @findex draw image
 @cindex @code{draw image} comman
 
@@ -5216,7 +5223,7 @@ Draw black/white image made by @code{convert grid to image} or by
 
 @node   Draw Isopycnal, Draw Isospice, Draw Image, Draw
 @comment  node-name,  next,  previous,  up
-@subsection The @code{draw isopycnal} @dots{} Command
+@subsubsection @code{draw isopycnal}
 @findex draw isopycnal
 @cindex @code{draw isopycnal} command
 @cindex T-S diagram, drawing isopycnals on
@@ -5322,7 +5329,7 @@ the y-axis.
 
 @node   Draw Isospice, Draw Label Boxed, Draw Isopycnal, Draw
 @comment  node-name,  next,  previous,  up
-@subsection The @code{draw isospice} @dots{} Command
+@subsubsection @code{draw isospice}
 @findex draw isospice
 @cindex @code{draw isospice} command
 @cindex T-S diagram, drawing spice lines on
@@ -5368,7 +5375,7 @@ draw isospice line 27.50 unlabelled
 
 @node   Draw Label Boxed, Draw Label Whiteunder, Draw Isospice, Draw
 @comment  node-name,  next,  previous,  up
-@subsection The @code{draw label} @dots{} Command
+@subsubsection @code{draw label}
 @findex draw label boxed
 @cindex @code{draw label boxed} command
 @cindex text strings, drawing
@@ -5389,7 +5396,7 @@ current font size, with the label being centered within the box.
 
 @node   Draw Label Whiteunder, Draw Label For Last Curve, Draw Label Boxed, Draw
 @comment  node-name,  next,  previous,  up
-@subsection The @code{draw label whiteunder} @dots{} Command
+@subsubsection @code{draw label whiteunder}
 @findex draw label whiteunder
 @cindex @code{draw label whiteunder} command
 
@@ -5406,7 +5413,7 @@ text; doesn't check for super/subscripts.
 
 @node   Draw Label For Last Curve, Draw Label, Draw Label Whiteunder, Draw
 @comment  node-name,  next,  previous,  up
-@subsection The @code{draw label for last curve} @dots{} Command
+@subsubsection @code{draw label for last curve}
 @findex draw label for last curve
 @cindex @code{draw label for last curve} command
 @cindex drawing labels on xy curves
@@ -5423,7 +5430,7 @@ Draw a label for the last curve drawn, using the @code{..xlast..} and
 
 @node   Draw Label, Draw Line From, Draw Label For Last Curve, Draw
 @comment  node-name,  next,  previous,  up
-@subsection The @code{draw label} @dots{} Command
+@subsubsection @code{draw label}
 @findex draw label
 @cindex @code{draw label} command
 
@@ -5451,7 +5458,7 @@ text end at the given location.
 
 @node   Draw Line From, Draw Line Legend, Draw Label, Draw
 @comment  node-name,  next,  previous,  up
-@subsection The @code{draw line from} @dots{} @code{to} @dots{} Command
+@subsubsection @code{draw line from ... to}
 @findex draw line
 @cindex @code{draw line} command
 
@@ -5469,7 +5476,7 @@ on the page.  NOTE: This will not cause auto-drawing of axes.
 
 @node   Draw Line Legend, Draw Lines, Draw Line From, Draw
 @comment  node-name,  next,  previous,  up
-@subsection The @code{draw line legend} @dots{} Command
+@subsubsection @code{draw line legend}
 @findex draw line legend
 @cindex @code{draw line legend} command
 
@@ -5506,7 +5513,7 @@ draw line legend "Temperature" at .x. .y.
 
 @node   Draw Lines, Draw Patches, Draw Line Legend, Draw
 @comment  node-name,  next,  previous,  up
-@subsection The @code{draw lines} Command
+@subsubsection @code{draw lines}
 @findex draw lines
 @cindex @code{draw lines} command
 
@@ -5536,7 +5543,7 @@ set graylevel 0
 
 @node   Draw Patches, Draw Polygon, Draw Lines, Draw
 @comment  node-name,  next,  previous,  up
-@subsection The @code{draw patches} Command
+@subsubsection @code{draw patches}
 @findex draw patches
 @cindex @code{draw patches} command
 @cindex linear regression
@@ -5560,7 +5567,7 @@ specified in centimetres.
 
 @node   Draw Polygon, Draw Regression Line, Draw Patches, Draw
 @comment  node-name,  next,  previous,  up
-@subsection The @code{draw polygon} Command
+@subsubsection @code{draw polygon}
 @findex draw polygon
 @cindex @code{draw polygon} command
 @cindex polygons, drawing
@@ -5580,7 +5587,7 @@ polygon is filled with the current pen color.
 
 @node   Draw Regression Line, Draw Symbol At, Draw Polygon, Draw
 @comment  node-name,  next,  previous,  up
-@subsection The @code{draw regression line} Command
+@subsubsection @code{draw regression line}
 @findex draw regression line
 @cindex @code{draw regression line} command
 
@@ -5611,7 +5618,7 @@ draw title "The linear fit is \label"
 
 @node   Draw Symbol At, Draw Symbol Legend, Draw Regression Line, Draw
 @comment  node-name,  next,  previous,  up
-@subsection The @code{draw symbol} @dots{} @code{at} @dots{} Command
+@subsubsection @code{draw symbol ... at}
 @findex draw symbol at
 @cindex @code{draw symbol at} command
 
@@ -5662,7 +5669,7 @@ z-column exists.  The numerical/name codes are:
 
 @node   Draw Symbol Legend, Draw Symbol, Draw Symbol At, Draw
 @comment  node-name,  next,  previous,  up
-@subsection The @code{draw symbol legend} @dots{} Command
+@subsubsection @code{draw symbol legend}
 @findex draw symbol legend
 @cindex @code{draw symbol legend} command
 
@@ -5680,7 +5687,7 @@ vertically centered on the indicated @code{.y.} location.
 
 @node   Draw Symbol, Draw Time Stamp, Draw Symbol Legend, Draw
 @comment  node-name,  next,  previous,  up
-@subsection The @code{draw symbol} Command
+@subsubsection @code{draw symbol}
 @findex draw symbol
 @cindex @code{draw symbol} command
 
@@ -5767,7 +5774,7 @@ draw symbol bullet color hue z
 
 @node   Draw Time Stamp, Draw Title, Draw Symbol, Draw
 @comment  node-name,  next,  previous,  up
-@subsection The @code{draw time stamp} Command
+@subsubsection @code{draw time stamp}
 @findex draw times stamp
 @cindex @code{draw time stamp} command
 
@@ -5792,7 +5799,7 @@ that @code{set page landscape} precedes @code{draw time stamp.}
 
 @node   Draw Title, Draw Values, Draw Time Stamp, Draw
 @comment  node-name,  next,  previous,  up
-@subsection The @code{draw title} @dots{} Command
+@subsubsection @code{draw title}
 @findex draw title
 @cindex @code{draw title} command
 
@@ -5807,7 +5814,7 @@ Draw the indicated string above the plot.
 
 @node   Draw Values, Draw X Axis, Draw Title, Draw
 @comment  node-name,  next,  previous,  up
-@subsection The @code{draw values} @dots{} Command
+@subsubsection @code{draw values}
 @findex draw values
 @cindex @code{draw values} command
 
@@ -5847,7 +5854,7 @@ indicated format.
 
 @node   Draw X Axis, Draw X Box Plot, Draw Values, Draw
 @comment  node-name,  next,  previous,  up
-@subsection The @code{draw x axis} @dots{} Command
+@subsubsection @code{draw x axis}
 @findex draw x axis
 @cindex @code{draw x axis} command
 
@@ -5879,7 +5886,7 @@ Draw an upper x axis at indicated value of .y.
 
 @node   Draw X Box Plot, Draw Y Axis, Draw X Axis, Draw
 @comment  node-name,  next,  previous,  up
-@subsection The @code{draw x box plot} @dots{} Command
+@subsubsection @code{draw x box plot}
 @findex draw x box plot
 @cindex @code{draw x box plot} command
 
@@ -5915,7 +5922,7 @@ y=@code{.y.} and of width @code{.cm.} centimetres.
 
 @node   Draw Y Axis, Draw Y Box Plot, Draw X Box Plot, Draw
 @comment  node-name,  next,  previous,  up
-@subsection The @code{draw y axis} @dots{} Command
+@subsubsection @code{draw y axis}
 @findex draw y axis
 @cindex @code{draw y axis} command
 
@@ -5949,7 +5956,7 @@ the line) at indicated value of @code{.x.}
 
 @node   Draw Y Box Plot, Draw Zero Line, Draw Y Axis, Draw
 @comment  node-name,  next,  previous,  up
-@subsection The @code{draw y box plot} @dots{} Command
+@subsubsection @code{draw y box plot}
 @findex draw y box plot
 @cindex @code{draw y box plot} command
 
@@ -5972,7 +5979,7 @@ x=@code{.x.} and of width @code{.cm.} centimetres.
 
 @node   Draw Zero Line, Expecting, Draw Y Box Plot, Draw
 @comment  node-name,  next,  previous,  up
-@subsection The @code{draw zero line} @dots{} Command
+@subsubsection @code{draw zero line}
 @findex draw zero line
 @cindex @code{draw zero line} command
 
@@ -5994,10 +6001,9 @@ Draw line x=0 if it is within axes.
 
 @c HTML <!-- newfile Expecting.html "Gri: `expecting' command" "Gri Commands" -->
 
-
-@node   Expecting, Filter, Draw Zero Line, Commands
+@node   Expecting, Filter, Draw Zero Line, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{expecting} Command
+@subsection @code{expecting}
 @cindex changes to Gri, protection against
 @cindex protection against changes to Gri
 @findex expecting
@@ -6026,9 +6032,9 @@ numerical value of @code{2.0100}.
 
 @c HTML <!-- newfile Filter.html "Gri: `filter' command" "Gri Commands" -->
 
-@node   Filter, Flip, Expecting, Commands
+@node   Filter, Flip, Expecting, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{filter} Command
+@subsection @code{filter}
 @cindex columns, filtering
 @cindex images, filtering
 @cindex filtering image data
@@ -6109,9 +6115,9 @@ this by Laplacian smoothing.
 
 @c HTML <!-- newfile Flip.html "Gri: `flip' command" "Gri Commands" -->
 
-@node   Flip, Get Env, Filter, Commands
+@node   Flip, Get Env, Filter, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{flip} Command
+@subsection @code{flip}
 @cindex grid, flipping
 @cindex image, flipping
 @cindex flipping grids and images
@@ -6141,9 +6147,9 @@ Flip image so bottom side becomes top side.
 @c HTML <!-- newfile GetEnv.html "Gri: `get env' command" "Gri Commands" -->
 
 
-@node   Get Env, Heal, Flip, Commands
+@node   Get Env, Heal, Flip, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{get env} Command
+@subsection @code{get env}
 @cindex environment variables
 @cindex unix environment variables
 @cindex operating system, getenv
@@ -6189,9 +6195,9 @@ open \dir/data
 
 @c HTML <!-- newfile Heal.html "Gri: `heal' command" "Gri Commands" -->
 
-@node   Heal, Help, Get Env, Commands
+@node   Heal, Help, Get Env, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{heal} Command
+@subsection @code{heal}
 @findex heal
 @cindex @code{heal} command
 
@@ -6253,9 +6259,9 @@ interpolation.  Since this uses the the y-grid, you must first have done
 
 @c HTML <!-- newfile Help.html "Gri: `help' command" "Gri Commands" -->
 
-@node   Help, If, Heal, Commands
+@node   Help, If, Heal, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{help} Command
+@subsection @code{help}
 @findex help
 @cindex @code{help} command
 
@@ -6284,9 +6290,9 @@ request.
 
 @c HTML <!-- newfile If.html "Gri: `if' command" "Gri Commands" -->
 
-@node   If, Ignore, Help, Commands
+@node   If, Ignore, Help, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{if} Command
+@subsection @code{if}
 @cindex if statements
 @findex if
 @cindex @code{if} command
@@ -6399,9 +6405,9 @@ to @code{Temperature}.
 
 @c HTML <!-- newfile Ignore.html "Gri: `ignore' command" "Gri Commands" -->
 
-@node   Ignore, Input, If, Commands
+@node   Ignore, Input, If, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{ignore} Command
+@subsection @code{ignore}
 @findex ignore
 @cindex @code{ignore} command
 
@@ -6415,9 +6421,9 @@ Ignores last @code{.n.} lines read by @code{read columns}.
 
 @c HTML <!-- newfile Input.html "Gri: `input' command" "Gri Commands" -->
 
-@node   Input, Insert, Ignore, Commands
+@node   Input, Insert, Ignore, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{input} Command
+@subsection @code{input}
 @findex input
 @cindex @code{input} command
 
@@ -6447,9 +6453,9 @@ the (translation, scaling, rotation) operations.
 
 @c HTML <!-- newfile Insert.html "Gri: `insert' command" "Gri Commands" -->
 
-@node   Insert, Interpolate, Input, Commands
+@node   Insert, Interpolate, Input, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{insert} Command
+@subsection @code{insert}
 @findex insert
 @cindex @code{insert} command
 
@@ -6476,9 +6482,9 @@ Contrast this with the @code{source} command, which does not search the
 
 @c HTML <!-- newfile Interpolate.html "Gri: `interpolate' command" "Gri Commands" -->
 
-@node   Interpolate, List, Insert, Commands
+@node   Interpolate, List, Insert, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{interpolate} Command
+@subsection @code{interpolate}
 @findex interpolate
 @cindex @code{interpolate} command
 @cindex contouring, interpolating to new grid
@@ -6501,9 +6507,9 @@ the @code{convert grid to image} command.
 
 @c HTML <!-- newfile List.html "Gri: `list' command" "Gri Commands" -->
 
-@node   List, Ls, Interpolate, Commands
+@node   List, Ls, Interpolate, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{list} Command
+@subsection @code{list}
 @findex list
 @cindex @code{list} command
 
@@ -6520,9 +6526,9 @@ be more understandable (try @code{list set panel}).
 
 @c HTML <!-- newfile Ls.html "Gri: `ls' command" "Gri Commands" -->
 
-@node   Ls, Mask, List, Commands
+@node   Ls, Mask, List, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{ls} Command
+@subsection @code{ls}
 @cindex files, listing
 @cindex directory listing
 @findex ls
@@ -6542,9 +6548,9 @@ specification options are understood.
 
 @c HTML <!-- newfile Mask.html "Gri: `mask' command" "Gri Commands" -->
 
-@node   Mask, New, Ls, Commands
+@node   Mask, New, Ls, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{mask} Command
+@subsection @code{mask}
 @cindex masking image
 @cindex image, masking
 @findex mask
@@ -6570,9 +6576,9 @@ for 8-bit images).
 
 @c HTML <!-- newfile New.html "Gri: `new' command" "Gri Commands" -->
 
-@node   New, Newpage, Mask, Commands
+@node   New, Newpage, Mask, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{new} Command
+@subsection @code{new}
 @findex new
 @cindex @code{new} command
 @cindex synonyms, multiple copies of
@@ -6627,9 +6633,9 @@ examples (@ref{Test Suite}).
 
 @c HTML <!-- newfile Newpage.html "Gri: `newpage' command" "Gri Commands" -->
 
-@node   Newpage, New Postscript File, New, Commands
+@node   Newpage, New Postscript File, New, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{new page} Command
+@subsection @code{new page}
 @cindex page breaks
 @findex new page
 @cindex @code{new page} command
@@ -6645,9 +6651,9 @@ Among these settings is the flag that tells gri whether you need axes
 plotted along with your data.
 
 
-@node   New Postscript File, Open, Newpage, Commands
+@node   New Postscript File, Open, Newpage, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{new postscript file} Command
+@subsection @code{new postscript file}
 @findex new postscript file
 @cindex @code{new postscript file} command
 
@@ -6664,9 +6670,9 @@ data are retained on the new file.
 
 @c HTML <!-- newfile Open.html "Gri: `open' command" "Gri Commands" -->
 
-@node   Open, Opening Simple Files, New Postscript File, Commands
+@node   Open, Opening Simple Files, New Postscript File, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{open} Command
+@subsection @code{open}
 @findex open
 @cindex @code{open} command
 @cindex netCDF files, opening
@@ -6686,7 +6692,7 @@ file.
 
 @node   Opening Simple Files, Ascii Files, Open, Open
 @comment  node-name,  next,  previous,  up
-@subsection Opening simple files
+@subsubsection Opening simple files
 
 @menu
 * Ascii Files::
@@ -6696,7 +6702,7 @@ file.
 
 @node   Ascii Files, Binary Files, Opening Simple Files, Opening Simple Files
 @comment  node-name,  next,  previous,  up
-@subsubsection Ascii Files
+@b{Ascii Files}
 Most applications involve ascii files, and these are very easy to handle
 in Gri.  For example given a data file named @file{foo.dat}, just use
 the command
@@ -6758,7 +6764,7 @@ handled.)
 @comment  node-name,  next,  previous,  up
 @cindex binary data
 
-@subsubsection Binary Files
+@b{Binary Files}
 @cindex endian file compatibility, caution
 @cindex little-endian vs big-endian data, caution
 @cindex big-endian vs little-endian data, caution
@@ -6808,7 +6814,7 @@ open a compressed version of it (i.e. one with a @file{.gz} suffix).
 
 @node   NetCDF Files, Opening Pipes, Binary Files, Opening Simple Files
 @comment  node-name,  next,  previous,  up
-@subsubsection NetCDF Files
+@b{NetCDF Files}
 @cindex netcdf data
 The NetCDF format provides the best of both worlds.  It is binary, so
 that data are relatively compact, and may be read very quickly.
@@ -6840,8 +6846,9 @@ various @code{read} commands (e.g. @ref{Read Columns}
 
 @node   Opening Pipes, Postscript, NetCDF Files, Open
 @comment  node-name,  next,  previous,  up
-@subsection Opening pipes
+@subsubsection Opening pipes
 @cindex pipes, opening files through them
+
 Sometimes it makes sense to get Gri to work with the results of another
 command in the OS.  Gri handles this by creating a so-called "pipe",
 thus reading the output from the other command.  (Readers familiar with
@@ -6996,9 +7003,9 @@ datasets spanning several days.
 
 @c HTML <!-- newfile PostScript.html "Gri: `postscript' command" "Gri Commands" -->
 
-@node   Postscript, Pwd, Opening Pipes, Commands
+@node   Postscript, Pwd, Opening Pipes, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{postscript} Command
+@subsection @code{postscript}
 @cindex write PostScript commands directly to output file
 @cindex postscript file, write to
 @findex postscript
@@ -7040,9 +7047,9 @@ is in the file @file{doline.cc}; look for the string
 
 @c HTML <!-- newfile Pwd.html "Gri: `pwd' command" "Gri Commands" -->
 
-@node   Pwd, Query, Postscript, Commands
+@node   Pwd, Query, Postscript, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{pwd} Command
+@subsection @code{pwd}
 @cindex directory, how to find out
 @findex pwd
 @cindex @code{pwd} command
@@ -7058,9 +7065,9 @@ Print current directory (which can be set by @code{cd}).
 
 @c HTML <!-- newfile Query.html "Gri: `query' command" "Gri Commands" -->
 
-@node   Query, Quit, Pwd, Commands
+@node   Query, Quit, Pwd, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{query} Command
+@subsection @code{query}
 @findex query
 @cindex @code{query} command
 @cindex user interaction, @code{query} command
@@ -7093,9 +7100,9 @@ questions.  Thus the defaults, if they exist, are selected.
 
 @c HTML <!-- newfile Quit.html "Gri: `quit' command" "Gri Commands" -->
 
-@node   Quit, Read, Query, Commands
+@node   Quit, Read, Query, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{quit} Command
+@subsection @code{quit}
 @cindex quiting Gri
 @cindex stopping Gri
 @findex quit
@@ -7114,9 +7121,9 @@ environment, where it designates an error).
 
 @c HTML <!-- newfile Read.html "Gri: Read commands" "Gri Commands" -->
 
-@node   Read, Read Colornames, Quit, Commands
+@node   Read, Read Colornames, Quit, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{read} Command
+@subsection The @code{read} commands
 
 There are several varieties of @code{read} command.  Those commands used
 for reading numerical information (e.g. @code{read columns}) are able to
@@ -7138,7 +7145,7 @@ decode variables and synonyms as well as simple numbers.
 
 @node   Read Colornames, Read Columns, Read, Read
 @comment  node-name,  next,  previous,  up
-@section The @code{read colornames} Command
+@subsubsection @code{read colornames}
 @findex read colornames
 @cindex @code{read} command
 @cindex @code{read colornames} command
@@ -7173,7 +7180,7 @@ X11 database, so that the color constitutents range from 0 to 255.
 
 @node   Read Columns, Read Grid, Read Colornames, Read
 @comment  node-name,  next,  previous,  up
-@subsection The @code{read columns} @dots{} Command
+@subsubsection @code{read columns}
 @findex read columns
 @cindex @code{read columns} command
 
@@ -7290,7 +7297,7 @@ Sets @code{\.return_value} to
 
 @node   Read Grid, Read Image Colorscale, Read Columns, Read
 @comment  node-name,  next,  previous,  up
-@subsection The @code{read grid} @dots{} Command
+@subsubsection @code{read grid}
 @findex read grid
 @cindex reading grid data
 @cindex grid, reading
@@ -7408,7 +7415,7 @@ RETURN VALUE:
 
 @node   Read Image Colorscale, Read Image Grayscale, Read Grid, Read
 @comment  node-name,  next,  previous,  up
-@subsection The @code{read image colorscale|grayscale} Command
+@subsubsection @code{read image colorscale}
 @findex read image colorscale
 @cindex @code{read image colorscale} command
 @cindex image colorscale, reading
@@ -7444,7 +7451,7 @@ then a linear full-color spectrum running from red at 10C to magenta at
 
 @node   Read Image Grayscale, Read Image Mask, Read Image Colorscale, Read
 @comment  node-name,  next,  previous,  up
-@subsection The @code{read image grayscale} Command
+@subsubsection @code{read image grayscale}
 @findex read image grayscale
 @cindex @code{read image grayscale} command
 @cindex @code{read image greyscale} command
@@ -7513,7 +7520,7 @@ close
 
 @node   Read Image Mask, Read Image, Read Image Grayscale, Read
 @comment  node-name,  next,  previous,  up
-@subsection The @code{read image mask} @dots{} Command
+@subsubsection @code{read image mask}
 @findex read image mask
 @cindex @code{read image mask} command
 @cindex mask for image, reading
@@ -7541,7 +7548,7 @@ order is the same as for images.
 
 @node   Read Image, Read From, Read Image Mask, Read
 @comment  node-name,  next,  previous,  up
-@subsection The @code{read image} @dots{} Command
+@subsubsection @code{read image}
 @findex read image
 @cindex @code{read image} command
 @cindex images, reading
@@ -7610,7 +7617,7 @@ for which libraries exist to ease the input.
 
 @node   Read From, Read Synonym or Variable, Read Image, Read
 @comment  node-name,  next,  previous,  up
-@subsection The @code{read from \filename} Command
+@subsubsection @code{read from \filename}
 @findex read from
 @cindex @code{read from} command
 @cindex file, selecting between open files
@@ -7627,7 +7634,7 @@ that file is not open, an error message will result.  Use
 
 @node   Read Synonym or Variable, Read Line, Read From, Read
 @comment  node-name,  next,  previous,  up
-@subsection The @code{read} @dots{} (synonym or variable) command
+@subsubsection @code{read} synonym/variable
 @findex read
 @cindex @code{read ...} command
 @cindex variables, reading
@@ -7711,7 +7718,7 @@ For more information on netCDF format, see
 
 @node   Read Line, Regress, Read Synonym or Variable, Read
 @comment  node-name,  next,  previous,  up
-@subsection The @code{read line} Command
+@subsubsection @code{read line}
 @findex read line
 @cindex @code{read line raw} command
 @cindex @code{read line} command
@@ -7733,9 +7740,9 @@ the named synonym.
 
 @c HTML <!-- newfile Regress.html "Gri: `regress' command" "Gri Commands" -->
 
-@node   Regress, Reorder, Read Line, Commands
+@node   Regress, Reorder, Read Line, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{regress} Command
+@subsection @code{regress}
 @cindex statistics, performing regression
 @cindex linear regression
 @cindex regression, linear
@@ -7777,9 +7784,9 @@ Linear regression of x vs y; for notation see above.
 
 @c HTML <!-- newfile Reorder.html "Gri: `reorder' command" "Gri Commands" -->
 
-@node   Reorder, Rescale, Regress, Commands
+@node   Reorder, Rescale, Regress, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{reorder} Command
+@subsection @code{reorder}
 @cindex columns, reordering
 @cindex reordering Columns
 @findex reorder
@@ -7810,9 +7817,9 @@ The @code{ascending} and @code{descending} styles do what you'd expect.
 
 @c HTML <!-- newfile Rescale.html "Gri: `rescale' command" "Gri Commands" -->
 
-@node   Rescale, Resize, Reorder, Commands
+@node   Rescale, Resize, Reorder, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{rescale} Command
+@subsection @code{rescale}
 @cindex axes, forcing rescaling
 @cindex rescaling axes
 @cindex math on columns, rescaling after
@@ -7836,9 +7843,9 @@ then Gri will automatically rescale the axes it is planning to draw.)
 
 @c HTML <!-- newfile Resize.html "Gri: `resize' command" "Gri Commands" -->
 
-@node   Resize, Return, Rescale, Commands
+@node   Resize, Return, Rescale, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{resize} Command
+@subsection @code{resize}
 @cindex maps, scales
 @findex resize x
 @cindex @code{resize x} command
@@ -7879,9 +7886,9 @@ north-south and east-west directions.
 
 @c HTML <!-- newfile Return.html "Gri: `return' command" "Gri Commands" -->
 
-@node   Return, Rewind, Resize, Commands
+@node   Return, Rewind, Resize, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{return} Command
+@subsection @code{return}
 @findex return
 @cindex @code{return} command
 
@@ -7896,9 +7903,9 @@ in the main gri program, do the same thing as @code{quit}.
 
 @c HTML <!-- newfile Rewind.html "Gri: `rewind' command" "Gri Commands" -->
 
-@node   Rewind, Rpnfunction, Return, Commands
+@node   Rewind, Rpnfunction, Return, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{rewind} Command
+@subsection @code{rewind}
 @findex rewind
 @cindex @code{rewind} command
 
@@ -7913,9 +7920,9 @@ Rewind data-file to the beginning.
 
 @c HTML <!-- newfile Rpnfunction.html "Gri: `rpnfunction' command" "Gri Commands" -->
 
-@node  Rpnfunction, Set, Rewind, Commands
+@node  Rpnfunction, Set, Rewind, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{rpnfunction} Command
+@subsection @code{rpnfunction}
 @cindex rpn functions
 @cindex defining rpn functions
 @cindex functions in rpn expressions
@@ -7968,9 +7975,9 @@ and @code{set z missing above .intercept. .slope.}.
 
 @c HTML <!-- newfile Set.html "Gri: Set commands" "Gri Commands" -->
 
-@node   Set, Set Axes Style, Rpnfunction, Commands
+@node   Set, Set Axes Style, Rpnfunction, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{set} Command
+@subsection The @code{set} commands
 @findex set
 @cindex @code{set} command
 Set various flags and parameters which Gri will use in later commands.
@@ -8037,7 +8044,7 @@ Set various flags and parameters which Gri will use in later commands.
 
 @node   Set Axes Style, Set Arrow Size, Set, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set axes style} @dots{} Command
+@subsubsection @code{set axes style}
 @findex set axes style
 @cindex @code{set axes style} command
 
@@ -8082,7 +8089,7 @@ Same as @code{set axes style 0}, and with @code{offset} turned off.
 
 @node   Set Arrow Size, Set Arrow Type, Set Axes Style, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set arrow size} @dots{} Command
+@subsubsection @code{set arrow size}
 @findex set arrow size
 @cindex @code{set arrow size} command
 @cindex arrows, setting size of heads
@@ -8111,7 +8118,7 @@ Set the arrow size to the default of 0.2 cm.
 
 @node   Set Arrow Type, Set Beep, Set Arrow Size, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set arrow type} @dots{} Command
+@subsubsection @code{set arrow type}
 @findex set arrow type
 @cindex @code{set arrow type} command
 @cindex arrows
@@ -8135,7 +8142,7 @@ first set the line join parameter to 0.
 
 @node   Set Beep, Set Bounding Box, Set Arrow Type, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set beep} @dots{} Command
+@subsubsection @code{set beep}
 @findex set beep
 @cindex @code{set beep} command
 @cindex errors, beeping
@@ -8152,7 +8159,7 @@ The command @code{set beep on} makes gri beep on errors and
 
 @node   Set Bounding Box, Set Clip, Set Beep, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set bounding box} @dots{} Command
+@subsubsection @code{set bounding box}
 @findex set bounding box
 @cindex @code{set bounding box} command
 @cindex bounding box, setting
@@ -8194,7 +8201,7 @@ makes sense to put this command at the end of the commandfile.
 
 @node   Set Clip, Set Color, Set Bounding Box, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set clip} @dots{} Command
+@subsubsection @code{set clip}
 @findex set clip
 @cindex @code{set clip} command
 
@@ -8235,7 +8242,7 @@ Turn PostScript clipping off.
 
 @node   Set Color, Set Colorname, Set Clip, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set color} @dots{} Command
+@subsubsection @code{set color}
 @findex set color
 @findex set colour
 @cindex @code{set color} command
@@ -8298,7 +8305,7 @@ set color hsb .333 1   1 # pure, bright green
 
 @node   Set Colorname, Set Contour Format, Set Color, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set colorname} @dots{} Command
+@subsubsection @code{set colorname}
 @findex set colorname
 @cindex @code{set color name} command
 
@@ -8326,7 +8333,7 @@ to 1.
 
 @node   Set Contour Format, Set Contour Label For, Set Colorname, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set contour format} @dots{} Command
+@subsubsection @code{set contour format}
 @findex set contour format
 @cindex @code{set contour format} command
 
@@ -8348,7 +8355,7 @@ word (e.g. @code{set contour format "%.1f m/s"}).
 
 @node Set Contour Label For, Set Contour Label Position, Set Contour Format, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set contour label for} @dots{} Command
+@subsubsection @code{set contour label for}
 @findex set contour label for
 @cindex @code{set contour label for} command
 
@@ -8364,7 +8371,7 @@ labelled.
 
 @node   Set Contour Label Position, Set Contour Labels, Set Contour Label For, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set contour label position} @dots{} Command
+@subsubsection @code{set contour label position}
 @findex set contour label position
 @cindex @code{set contour label position} command
 @cindex contours, spacing of labels on
@@ -8395,7 +8402,7 @@ centered along the length of the line.
 
 @node   Set Contour Labels, Set Dash, Set Contour Label Position, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set contour labels rotated|horizontal|whiteunder|nowhiteunder} Command
+@subsubsection @code{set contour labels}
 @findex set contour labels
 @cindex @code{set contour labels} command
 @cindex contours, orientation of labels
@@ -8423,7 +8430,7 @@ space for the text, but no whiting out is done.
 
 @node   Set Dash, Set Environment, Set Contour Labels, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set dash} @dots{} Command
+@subsubsection @code{set dash}
 @findex set dash
 @cindex @code{set dash} command
 @cindex dashed lines
@@ -8477,7 +8484,7 @@ Turn dashing off, setting to a solid line.
 
 @node   Set Environment, Set Error Action, Set Dash, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set environment} Command
+@subsubsection @code{set environment}
 @findex set environment
 @cindex @code{set environment} command
 @cindex developer command @code{set environment}
@@ -8495,7 +8502,7 @@ NOTE: this should @emph{only} be done by developers.
 
 @node   Set Error Action, Set Flag, Set Environment, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set error} Command
+@subsubsection @code{set error}
 @findex set error
 @cindex @code{set error} command
 @cindex Handling errors with @code{set error} command
@@ -8509,7 +8516,7 @@ Make Gri dump core when any error is found, to facilitate debugging.
 
 @node   Set Flag, Set Font Color, Set Error Action, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set flag} Command
+@subsubsection @code{set flag}
 @findex set flag
 @cindex @code{set flag} command
 @cindex developer command @code{set flag}
@@ -8546,7 +8553,7 @@ kelley2      17jun97  for kelley only: print
 
 @node   Set Font Color, Set Font Encoding, Set Flag, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set font color} @dots{} Command
+@subsubsection @code{set font color}
 @findex set font color
 @findex set font colour
 @cindex font, setting color of
@@ -8572,7 +8579,7 @@ maintains a separate color from the lines.
 
 @node   Set Font Encoding, Set Font Size, Set Font Color, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set font encoding} @dots{} Command
+@subsubsection @code{set font encoding}
 @findex set font encoding
 @cindex font, setting encoding vector of
 @cindex text, encoding vector of
@@ -8602,7 +8609,7 @@ what ``font encoding'' is about, ignore this command!
 
 @node   Set Font Size, Set Font To, Set Font Encoding, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set font size} @dots{} Command
+@subsubsection @code{set font size}
 @findex set font size
 @cindex @code{set font size} command
 @cindex font size
@@ -8638,7 +8645,7 @@ figure not exceed 2.
 
 @node   Set Font To, Set Graylevel, Set Font Size, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set font to} @dots{} Command
+@subsubsection @code{set font to}
 @findex set font to
 @cindex @code{set font to} command
 
@@ -8665,7 +8672,7 @@ font is @code{Helvetica}.
 
 @node   Set Graylevel, Set Grid Missing, Set Font To, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set graylevel} @dots{} Command
+@subsubsection @code{set graylevel}
 @findex set graylevel
 @findex set greylevel
 @cindex @code{set graylevel} command
@@ -8694,7 +8701,7 @@ Union (publishers of J. Geophysical Res.), as of 1998.
 
 @node   Set Grid Missing, Set Ignore Initial Newline, Set Graylevel, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set grid missing} @dots{} Command
+@subsubsection @code{set grid missing}
 @findex set grid missing
 @cindex @code{set grid missing} command
 @cindex grid, missing values
@@ -8745,7 +8752,7 @@ them.  Multiple islands may be separated by missing-value codes.
 
 @node   Set Ignore Initial Newline, Set Ignore Error Eof, Set Grid Missing, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set ignore initial newline} @dots{} Command
+@subsubsection @code{set ignore initial newline}
 @findex set ignore initial newline
 @cindex @code{set ignore initial newline} command
 
@@ -8761,7 +8768,7 @@ VAX/VMS computers.
 
 @node   Set Ignore Error Eof, Set Image Colorscale, Set Ignore Initial Newline, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set ignore error eof} Command
+@subsubsection @code{set ignore error eof}
 @findex set ignore error eof
 @cindex @code{set ignore error eof} command
 @cindex files, testing for eof
@@ -8783,7 +8790,7 @@ future EOFs.
 
 @node   Set Image Colorscale, Set Image Grayscale, Set Ignore Error Eof, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set image colorscale} @dots{} Command
+@subsubsection @code{set image colorscale}
 @findex set image colorscale
 @findex set image colourscale
 @cindex @code{set image colorscale} command
@@ -8846,7 +8853,7 @@ See also @code{read image colorscale} (@ref{Read Image Colorscale}).
 
 @node   Set Image Grayscale, Set Image Missing Value Color, Set Image Colorscale, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set image grayscale} @dots{} Command
+@subsubsection @code{set image grayscale}
 @findex set image grayscale
 @findex set image greyscale
 @findex set image grayscale using histogram
@@ -8932,7 +8939,7 @@ draw image palette left \
 
 @node   Set Image Missing Value Color, Set Image Range, Set Image Grayscale, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set image missing value color} @dots{} Command
+@subsubsection @code{set image missing value color}
 @findex set image missing value color
 @findex set image missing value colour
 @cindex @code{set image missing value color} command
@@ -8955,7 +8962,7 @@ full color.
 
 @node   Set Image Range, Set Input Data Window, Set Image Missing Value Color, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set image range} Command
+@subsubsection @code{set image range}
 @findex set image range
 @cindex @code{set image range} command
 
@@ -9006,7 +9013,7 @@ new axes.  It is legal but not necessarily smart.)
 
 @node   Set Input Data Window, Set Input Data Separator, Set Image Range, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set input data window} Command
+@subsubsection @code{set input data window}
 @findex set input data window
 @cindex @code{set input data window} command
 
@@ -9049,7 +9056,7 @@ set input data window x \
 
 @node   Set Input Data Separator, Set Line Cap, Set Input Data Window, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set input data separator} Command
+@subsubsection @code{set input data separator}
 @findex set input data separator
 @cindex @code{set input data separator} command
 
@@ -9074,7 +9081,7 @@ since the assignment of null values is problematic.
 
 @node   Set Line Cap, Set Line Join, Set Input Data Separator, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set line cap} @dots{} Command
+@subsubsection @code{set line cap}
 @findex set line cap
 @cindex @code{set line cap} command
 @cindex setting line cap type
@@ -9100,7 +9107,7 @@ line cap of 0.
 
 @node   Set Line Join, Set Line Width, Set Line Cap, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set line join} @dots{} Command
+@subsubsection @code{set line join}
 @findex set line join
 @cindex @code{set line join} command
 @cindex setting line join type
@@ -9125,7 +9132,7 @@ line join of 0.
 
 @node   Set Line Width, Set Missing Value, Set Line Join, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set line width} @dots{} Command
+@subsubsection @code{set line width}
 @findex set line width
 @cindex @code{set line width} command
 @cindex setting line width
@@ -9207,7 +9214,7 @@ This is the list of @code{rapidograph} linewidths:
 
 @node   Set Missing Value, Set Page, Set Line Width, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set missing value} @dots{} Command
+@subsubsection @code{set missing value}
 @findex set missing value
 @cindex @code{set missing value} command
 @cindex missing values
@@ -9226,7 +9233,7 @@ ignored.  The initial default is 1.0e22.
 
 @node   Set Page, Set Panel, Set Missing Value, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set page} @dots{} Command
+@subsubsection @code{set page}
 @findex set page
 @cindex @code{set page} command
 
@@ -9284,7 +9291,7 @@ PostScript file:
 
 @node   Set Panel, Set Panels, Set Page, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set panel} Command
+@subsubsection @code{set panel}
 @findex set panel
 @cindex @code{set panel} command
 @cindex Multi-panel plots
@@ -9304,7 +9311,7 @@ layout using @code{Panels .row. .col. .dx_cm. .dy_cm.}.
 
 @node   Set Panels, Set Postscript Filename, Set Panel, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set panels} Command
+@subsubsection @code{set panels}
 @findex set panels
 @cindex @code{set panels} command
 @cindex Multi-panel plots
@@ -9364,7 +9371,7 @@ draw axes
 
 @node   Set Postscript Filename, Set Symbol Size, Set Panels, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set postscript filename} Command
+@subsubsection @code{set postscript filename}
 @findex set postscript filename
 @cindex @code{set postscript filename} command
 @cindex name, of PostScript file
@@ -9380,7 +9387,7 @@ Set name of PostScript file, over-riding the present name.
 
 @node   Set Symbol Size, Set Tic Size, Set Postscript Filename, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set symbol size} @dots{} Command
+@subsubsection @code{set symbol size}
 @findex set symbol size
 @cindex @code{set symbol size} command
 @cindex setting symbol size
@@ -9403,7 +9410,7 @@ Set to default diameter of 0.1 cm.
 
 @node   Set Tic Size, Set Trace, Set Symbol Size, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set tic size} @dots{} Command
+@subsubsection @code{set tic size}
 @cindex axes, setting tic size
 @cindex tic size, setting
 @findex set tic size
@@ -9427,7 +9434,7 @@ Make axis tics point inward or outward.  The default is outward.
 
 @node   Set Trace, Set U Scale, Set Tic Size, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set trace} @dots{} Command
+@subsubsection @code{set trace}
 @findex set trace
 @cindex @code{set trace} command
 
@@ -9450,7 +9457,7 @@ Prevent printing command lines (default).
 
 @node   Set U Scale, Set V Scale, Set Trace, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set u scale} @dots{} Command
+@subsubsection @code{set u scale}
 @findex set u scale
 @cindex @code{set u scale} command
 
@@ -9476,7 +9483,7 @@ NOTE: this only works if the x-scale is LINEAR (see @code{set x type}).
 
 @node   Set V Scale, Set X Axis, Set U Scale, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set v scale} @dots{} Command
+@subsubsection @code{set v scale}
 @findex set v scale
 @cindex @code{set v scale} command
 
@@ -9501,7 +9508,7 @@ NOTE: this only works if the y-scale is LINEAR (see @code{set y type}).
 
 @node   Set X Axis, Set X Format, Set V Scale, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set x axis} @dots{} Command
+@subsubsection @code{set x axis}
 @findex set x axis
 @cindex @code{set x axis} command
 
@@ -9554,7 +9561,7 @@ no such small tics are used.
 
 @node   Set X Format, Set X Grid, Set X Axis, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set x format} Command
+@subsubsection @code{set x format}
 @findex set x format
 @cindex @code{set x format} command
 
@@ -9579,7 +9586,7 @@ The default format is @code{%lg}.
 
 @node   Set X Grid, Set X Margin, Set X Format, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set x grid} @dots{} Command
+@subsubsection @code{set x grid}
 @findex set x grid
 @cindex @code{set x grid} command
 
@@ -9604,7 +9611,7 @@ Create x-grid with @code{.cols.} points, ranging from the value
 
 @node   Set X Margin, Set X Name, Set X Grid, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set x margin} @dots{} Command
+@subsubsection @code{set x margin}
 @findex set x margin
 @cindex @code{set x margin} command
 
@@ -9634,7 +9641,7 @@ Set left margin to default = 6 cm.
 
 @node   Set X Name, Set X Size, Set X Margin, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set x name} @dots{} Command
+@subsubsection @code{set x name}
 @findex set x name
 @cindex @code{set x name} command
 
@@ -9650,7 +9657,7 @@ Set name of x-axis to indicated string.  The empty string
 
 @node   Set X Size, Set X Type, Set X Name, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set x size} @dots{} Command
+@subsubsection @code{set x size}
 @findex set x size
 @cindex @code{set x size} command
 
@@ -9673,7 +9680,7 @@ Set width of x-axis to default = 10 cm.
 
 @node   Set X Type, Set Y Axis, Set X Size, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set x type} @dots{} Command
+@subsubsection @code{set x type}
 @findex set x type
 @cindex @code{set x type} command
 
@@ -9712,7 +9719,7 @@ BUG: this only has an effect if the axis is not already of type
 
 @node   Set Y Axis, Set Y Format, Set X Type, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set y axis} @dots{} Command
+@subsubsection @code{set y axis}
 @findex set y axis
 @cindex @code{set y axis} command
 
@@ -9768,7 +9775,7 @@ no such small tics are used.
 
 @node   Set Y Format, Set Y Grid, Set Y Axis, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set y format} Command
+@subsubsection @code{set y format}
 @findex set y format
 @cindex @code{set y format} command
 
@@ -9793,7 +9800,7 @@ The default format is @code{%lg}.
 
 @node   Set Y Grid, Set Y Margin, Set Y Format, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set y grid} @dots{} Command
+@subsubsection @code{set y grid}
 @findex set y grid
 @cindex @code{set y grid} command
 
@@ -9819,7 +9826,7 @@ Create y-grid with @code{.rows.} points, ranging from the value
 
 @node   Set Y Margin, Set Y Name, Set Y Grid, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set y margin} @dots{} Command
+@subsubsection @code{set y margin}
 @findex set y margin
 @cindex @code{set y margin} command
 
@@ -9849,7 +9856,7 @@ Set bottom margin to default = 6 cm.
 
 @node   Set Y Name, Set Y Size, Set Y Margin, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set y name} @dots{} Command
+@subsubsection @code{set y name}
 @findex set y name
 @cindex @code{set y name} command
 
@@ -9865,7 +9872,7 @@ Set name of y-axis to indicated string.  The empty string
 
 @node   Set Y Size, Set Y Type, Set Y Name, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set y size} @dots{} Command
+@subsubsection @code{set y size}
 @findex set y size
 @cindex @code{set y size} command
 
@@ -9888,7 +9895,7 @@ Set width of y-axis to default = 10 cm.
 
 @node   Set Y Type,  Set Z Missing, Set Y Size, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set y type} @dots{} Command
+@subsubsection @code{set y type}
 @findex set y type
 @cindex @code{set y type} command
 
@@ -9924,7 +9931,7 @@ BUG: this only has an effect if the axis is not already of type
 
 @node   Set Z Missing, Show, Set Y Type, Set
 @comment  node-name,  next,  previous,  up
-@subsection The @code{set z missing} @dots{} Command
+@subsubsection @code{set z missing}
 @findex set z missing
 @cindex @code{set z missing} command
 
@@ -9945,9 +9952,9 @@ y = .intercept. + .slope. * x
 
 @c HTML <!-- newfile Show.html "Gri: `show' command" "Gri Commands" -->
 
-@node   Show, Skip, Set Z Missing, Commands
+@node   Show, Skip, Set Z Missing, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{show} Command
+@subsection @code{show}
 @findex show
 @cindex @code{show} command
 
@@ -10103,9 +10110,9 @@ show "first line\<<\>>(tabbed) second line"
 
 @c HTML <!-- newfile Skip.html "Gri: `skip' command" "Gri Commands" -->
 
-@node   Skip, Sleep, Show, Commands
+@node   Skip, Sleep, Show, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{skip} Command
+@subsection @code{skip}
 @findex skip
 @cindex @code{skip} command
 @cindex data files, positioning within
@@ -10134,9 +10141,9 @@ binary files, skip backward @code{.n.} bytes.
 
 @c HTML <!-- newfile Sleep.html "Gri: `sleep' command" "Gri Commands" -->
 
-@node   Sleep, Smooth, Skip, Commands
+@node   Sleep, Smooth, Skip, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{sleep} Command
+@subsection @code{sleep}
 @cindex sleep, causing Gri to
 @cindex process, causing Gri to sleep
 @cindex @code{sleep} command
@@ -10157,9 +10164,9 @@ Beware: it is tricky to kill a sleeping job!
 
 @c HTML <!-- newfile Smooth.html "Gri: `smooth' command" "Gri Commands" -->
 
-@node   Smooth, Source, Sleep, Commands
+@node   Smooth, Source, Sleep, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{smooth} Command
+@subsection @code{smooth}
 @cindex columns, filtering
 @cindex smoothing column data
 @findex smooth
@@ -10249,9 +10256,9 @@ which allows for more sophisticated filters.
 
 @c HTML <!-- newfile Source.html "Gri: `source' command" "Gri Commands" -->
 
-@node   Source, Sprintf, Smooth, Commands
+@node   Source, Sprintf, Smooth, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{source} Command
+@subsection @code{source}
 @findex source
 @cindex @code{source} command, for running another command file
 @cindex running a commandfile
@@ -10270,9 +10277,9 @@ If the file cannot be found, an error results.  Contrast this with
 
 @c HTML <!-- newfile Sprintf.html "Gri: `sprintf' command" "Gri Commands" -->
 
-@node   Sprintf, State, Source, Commands
+@node   Sprintf, State, Source, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{sprintf} Command
+@subsection @code{sprintf}
 @findex sprintf
 @cindex @code{sprintf} command
 @cindex variables, storing values within synonyms (strings)
@@ -10311,9 +10318,9 @@ If you want an integer, use @code{"%.0f"}.
 
 @c HTML <!-- newfile State.html "Gri: `state' command" "Gri Commands" -->
 
-@node   State, Superuser, Sprintf, Commands
+@node   State, Superuser, Sprintf, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{state} Command: saving/restoring Graphics state
+@subsection @code{state}
 @cindex saving graphics state
 @cindex restoring graphics state
 @cindex graphics state, saving and restoring
@@ -10340,9 +10347,9 @@ should be saved has not yet been finalized by the author.
 
 @c HTML <!-- newfile Superuser.html "Gri: `superuser' command" "Gri Commands" -->
 
-@node   Superuser, System, State, Commands
+@node   Superuser, System, State, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{superuser} Command
+@subsection @code{superuser}
 @cindex debugging using superuser flags
 @cindex superuser flags
 @findex superuser
@@ -10375,9 +10382,9 @@ specifying 15 yields flags 1, 2, 4 and 8.
 
 @c HTML <!-- newfile System.html "Gri: `system' command" "Gri Commands" -->
 
-@node   System, While, Superuser, Commands   
+@node   System, While, Superuser, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{system} Command
+@subsection @code{system}
 @cindex gawk, sample of use
 @cindex operating system commands, printing results of
 @cindex system commands, printing results of
@@ -10555,9 +10562,9 @@ Sets @code{\.return_value} to system status
 
 @c HTML <!-- newfile While.html "Gri: `while' command" "Gri Commands" -->
 
-@node   While, Write, System, Commands
+@node   While, Write, System, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{while} Command
+@subsection @code{while}
 @cindex loops
 @findex while
 @cindex @code{while} command
@@ -10623,9 +10630,9 @@ end while
 
 @c HTML <!-- newfile Write.html "Gri: Write commands" "Gri Commands" -->
 
-@node   Write, Write Columns, While, Commands
+@node   Write, Write Columns, While, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
-@section The @code{write} Command
+@subsection The @code{write} commands
 @findex write
 @cindex @code{write} command
 The @code{write} commands write various things.
@@ -10655,6 +10662,7 @@ write grid to grid.dat
 
 @node   Write Columns, Write Contour, Write, Write
 @comment  node-name,  next,  previous,  up
+@subsubsection @code{write columns}
 @cindex writing to a file, column data
 @cindex column data, writing to a file
 @cindex data in columns, writing to a file
@@ -10668,6 +10676,7 @@ Append data columns to the end of the indicated file.
 
 @node   Write Contour, Write Grid, Write Columns, Write
 @comment  node-name,  next,  previous,  up
+@subsubsection @code{write contour}
 @cindex writing to a file, contour data
 @cindex contour data, writing to a file
 @cindex data in contours, writing to a file
@@ -10700,6 +10709,7 @@ draw curve
 
 @node   Write Grid, Write Image, Write Contour, Write
 @comment  node-name,  next,  previous,  up
+@subsubsection @code{write grid}
 @cindex writing to a file, grid data
 @cindex grid data, writing to a file
 @cindex data in grid, writing to a file
@@ -10718,6 +10728,7 @@ the original grid data.
 
 @node   Write Image, Programming, Write Grid, Write
 @comment  node-name,  next,  previous,  up
+@subsubsection @code{write image}
 @cindex writing to a file, image data
 @cindex image data, writing to a file
 @cindex data in image, writing to a file
@@ -10761,7 +10772,7 @@ The file is suitable for reading with the @code{read image grayscale}
 command.
 @end itemize
 
-
+
 @c HTML <!-- newfile Programming.html "Gri: programming" "Programming Gri" -->
 
 @node   Programming, Defaults, Write Image, Top
@@ -11995,6 +12006,7 @@ elsewhere (@ref{While}).
 Gri lets you do some simple mathematical manipulations on your
 column and grid data.
 
+@subsection Column data
 @cindex column mathematics
 @cindex mathematics, on columns
 @cindex powers, of columns or variables
@@ -13398,7 +13410,7 @@ similar command you might have defined previously, such as in your
 
 @node   Simple New Command, Complicated New Command, Parsing, Adding New Commands
 @comment node-name,  next,  previous,  up
-@subsection Simple example of creating new command
+@subsection Simple example of a new command
 @cindex new commands, simple example
 To make a new command called @code{Show The Time} insert the following
 into your @file{~/.grirc} resource file or into your command-file
@@ -13456,7 +13468,7 @@ command is found by @code{help Show The Time} or @code{help Show}.
 
 @node   Complicated New Command, Changeable Command Arguments, Simple New Command, Adding New Commands
 @comment node-name,  next,  previous,  up
-@subsection Complicated example of creating new command
+@subsection Complicated example of a new command
 @cindex extending Gri by adding new commands, complicated example
 @cindex adding new commands, complicated example
 @cindex new commands, complicated example
@@ -13523,7 +13535,7 @@ super/subscripts.
 
 @node   Changeable Command Arguments, The Ampersand Syntax, Complicated New Command, Adding New Commands
 @comment node-name,  next,  previous,  up
-@subsection Altering command arguments using the @code{&} syntax
+@subsection Altering command arguments -- the @code{&} syntax
 @cindex command arguments, how to alter
 @cindex newcommand arguments, how to alter
 @cindex arguments to new commands, how to alter
@@ -13549,7 +13561,7 @@ employed by the C++ language.
 
 @node   The Ampersand Syntax, Doubling A Variable, Changeable Command Arguments, Changeable Command Arguments
 @comment  node-name,  next,  previous,  up
-@subsubsection The @code{&} syntax for changeable arguments to newcommands
+@subsubsection Overview of the @code{&} syntax
 
 Normally the arguments to a newcommand are parsed into either numerical
 values or strings, before execution is passed into the newcommand.  This
@@ -13689,7 +13701,7 @@ A: it prints @code{apples are tasty}.
 
 @node   Using New And Delete, Determining Calling Information, Nesting, Changeable Command Arguments
 @comment  node-name,  next,  previous,  up
-@subsubsection What @code{new} and @code{delete} do with changeable arguments
+@subsubsection About @code{new} and @code{delete}
 
 @cindex @code{new}, used on changeable arguments
 @cindex @code{delete}, used on changeable arguments
@@ -13732,7 +13744,7 @@ being created in line 3 and destroyed in line 6.
 @comment  node-name,  next,  previous,  up
 @subsubsection Determining calling information
 
-@cindex @code{\&} and @cindex @code{\&&} notation
+@cindex @code{\&} and @code{\&&} notation
 @cindex newcommands, determining calling argument names with @code{\&}
 @cindex newcommands, determining calling argument level with @code{\&&}
 
@@ -14373,7 +14385,7 @@ separate pages
 
 @node   gri_merge, gri_unpage, Extras, Extras
 @comment  node-name,  next,  previous,  up
-@subsection @code{gri_merge} -- combine PostScript files into one page
+@subsection @code{gri_merge} -- combine PostScript files
 @cindex gri_merge
 Merge separate PostScript files, created by Gri, into one page.  To
 learn how it works, type @code{gri_merge -h} at the system prompt, to
@@ -14421,7 +14433,7 @@ EXAMPLE (style 2):
 
 @node   gri_unpage, Overview of System Tools, gri_merge, Extras
 @comment  node-name,  next,  previous,  up
-@subsection @code{gri_unpage} -- create multiple PostScript files for multipage input
+@subsection @code{gri_unpage} -- split pages into files
 @cindex gri_unpage
 Given a multipage PostScript file, @code{gri_unpage} creates several new
 PostScript files, one for each page.  To learn how it works, type
@@ -14960,7 +14972,7 @@ then put this near the top of your @file{~/.emacs} file:
 
 @node   Step 2, Step 3, Step 1, Installing gri-mode.el
 @comment  node-name,  next,  previous,  up
-@subsection Configuring gri-mode to where gri lives on your system:
+@subsection Telling gri-mode where gri resides
 @cindex gri-mode, Configuring gri-mode to where gri lives on your system
 
 (Those using gri from gri's @emph{RPM} package, a @emph{Debian} package
@@ -15170,7 +15182,7 @@ they can increase your productivity.
 @c HTML <!-- newfile GriModeCommandNames.html "Gri Mode: command names" "Gri Mode: command names" -->
 @node   Gri command names, Possible completions, Major Gri-mode commands, Major Gri-mode commands
 @comment  node-name,  next,  previous,  up
-@subsection Gri command names: how gri-mode names them
+@subsection How gri-mode names Gri commands
 @cindex gri-mode, gri command names
 @cindex gri-mode, how it names gri commands
 
@@ -15332,7 +15344,7 @@ not gri system commands.
 @c HTML <!-- newfile GriModeCodeFragments.html "Gri Mode: code fragments" "Gri Mode: code fragments" -->
 @node   Gri code fragments, Info interface, User commands, Major Gri-mode commands
 @comment  node-name,  next,  previous,  up
-@subsection Inserting gri code fragments using short-cuts with gri-mode
+@subsection Inserting gri code fragments in Emacs
 @cindex gri-mode, gri code fragments
 @cindex gri-mode, enter chunks of code with short-cuts
 
@@ -15358,7 +15370,7 @@ choices.  The gri commands used to replace them are found in the
 @c HTML <!-- newfile GriModeUserInterface.html "Gri Mode: user interface" "Gri Mode: user interface" -->
 @node   Info interface, Dealing with many Gri versions, Gri code fragments, Major Gri-mode commands
 @comment  node-name,  next,  previous,  up
-@subsection Info interface to get help on the command currently edited.
+@subsection Info interface for help on current command
 @cindex gri-mode, Info interface
 
 The Info system is built into Emacs (@kbd{C-h i}), and provides an easy
@@ -15417,7 +15429,7 @@ bottom of the gri file.
 @c HTML <!-- newfile Emacs5.html "Gri: Filename arguments when running gri" "Emacs Mode: Filename arguments when running gri" -->
 @node Filename arguments when running gri, History, Dealing with many Gri versions, Emacs Mode
 @comment  node-name,  next,  previous,  up
-@section Filename arguments when running gri, the gri-set-command-postarguments command.
+@section Filename arguments when running gri
 @cindex gri-mode, handling filename command arguments
 @cindex gri-mode, handling argv and argc
 
@@ -15792,7 +15804,7 @@ if you need something else that I've not listed.
 @cindex little-endian vs big-endian data, plans
 @cindex big-endian vs little-endian data, plans
 
-@b{High priority (i.e. likely in next stable release)}
+@b{High priority}
 
 @enumerate
 
