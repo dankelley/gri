@@ -5,7 +5,7 @@
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.50 (13 July 2001)
+;; Version:   2.51 (14 July 2001)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -378,6 +378,12 @@
 ;;   gri-build-expansion-regex: detects if at end of ..var[point]
 ;;   gri-add-variables: new function.
 ;;   gri-perform-completion: tweak fo delete only to gri-complete-begin-point
+;; V2.51 14Jul01 RCS 1.76 - Fix support for completion of builtin variables.
+;;   gri-lookat-syntax-file: add ARG = 3 to skip over variables.
+;;   gri-build-command-alist: skip over variables in syntax buffer.
+;;   gri-menubar-cmds-build: (gri-lookat-syntax-file 3)
+;;   gri-build-expansion-regex: stop at \.synonym.
+;;   gri-perform-completion: needed to regexp-quote the serach string
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -1250,11 +1256,10 @@ ARG is gri-syntax buffer to add to."
   (let ((the-list))
     (save-excursion
       (goto-char (point-min))
-      (while (re-search-forward 
-              "^# @variable \\(\\.\\.[^ ]*\\) +\\([^@]+\\)\\( @unit \\([^ ]+\\)\\)?\\( @default \\(.*\\)\\)?$" nil t)
+      (while (re-search-forward "^# @variable \\([^ ]*\\) +\\([^@]+\\)\\( @unit \\([^ ]+\\)\\)?\\( @default \\(.*\\)\\)?$" nil t)
 ;;;# @variable ..fontsize..              size of font @unit point @default 12
         (let ((the-variable (match-string 1))
-              (the-def 
+              (the-def
                (cond
                 ((match-string 3)
                  (concat (match-string 1) " (" (match-string 2)
@@ -1264,7 +1269,7 @@ ARG is gri-syntax buffer to add to."
                  (concat (match-string 1) " (" (match-string 2) 
                          ". Default is " (match-string 6) ".)"))
                 (t
-                 (match-string 1) " (" (match-string 2) ".)"))))
+                 (concat (match-string 1) " (" (match-string 2) ".)")))))
           (setq the-list (cons (list the-variable the-def) the-list))))
       (set-buffer syn-buffer) 
       (setq buffer-read-only nil)
@@ -1606,6 +1611,9 @@ It should only be called when the alists are not bound (not existant)."
         (defvar gri-sys-command-alist nil "Alist of gri system commands")
         (setq gri-sys-command-alist nil)
         (forward-line 1)
+        (when (looking-at "^\\(\.\\|\\\)") ; skip over variables
+          (re-search-forward "^[^\.\\]" nil t)
+          (beginning-of-line))
         (while (< (point) (point-max))
           (setq gri-sys-command-alist
                 (nconc gri-sys-command-alist 
@@ -1795,13 +1803,10 @@ usually command with the keyword \"default\" in their syntax."
           (word-count 0)
           (end-point (progn (end-of-line)(skip-chars-backward " \t") (point))))
       (save-excursion
-        (if (or
-             (and (re-search-backward
-                   "\\.\\." (save-excursion (beginning-of-line) (point)) t)
-                  (looking-at "\\.[^ \n]+"))
-             (and (re-search-backward
-                   "\\." (save-excursion (beginning-of-line) (point)) 1)
-                  (looking-at "\\.[^ \n]+")))
+        (if (progn
+             (if (re-search-backward "[ \t]" (save-excursion (beginning-of-line) (point)) 1)
+                 (forward-char 1))
+             (looking-at "\\(\\\\\\|\\.\\)[^ \n]+"))
             (progn
               (setq gri-complete-begin-point (point))
               (concat "^" (regexp-quote (match-string-no-properties 0))))
@@ -2085,7 +2090,9 @@ Sets gri-last-complete-status to 1 if show completions next time
                                         (re-search-forward "^[^ \t]" nil t)
                                         (backward-char 1)(point)))))
           (gri-lookat-syntax-file 1)
-          (re-search-forward (concat "^" (car expansion-list) "\\(;\\|(\\)") nil t)
+          (re-search-forward 
+           (concat "^" (regexp-quote (car expansion-list)) "\\(;\\|(\\)")
+           nil t)
           ;; Skip over default description, displaying it:
           (forward-char -1)
           (if (not (looking-at "("))
@@ -2217,7 +2224,8 @@ Sets gri-last-complete-status to 1 if show completions next time
   "Place point in syntax-file buffer, creating it if necessary.
 If ARG is 0, go to `-'   to see all commands (gri-complete)
 If ARG is 1, go to `--'  to skip fragments   (gri-help-apropos) (gri-help 2)
-If ARG is 2, go to `---' to see only gri system commands   (gri-help 1)"
+If ARG is 2, go to `---' to see only gri system commands   (gri-help 1)
+If ARG is 3, go to `---' and skip over variables"
   (let ((this-buffer (current-buffer))
         (local-cmd-file gri-cmd-file)
         (gri-syntax-buffer (get-buffer-create "*gri-syntax*"))
@@ -2274,7 +2282,10 @@ If ARG is 2, go to `---' to see only gri system commands   (gri-help 1)"
         (re-search-forward "^-\n" nil t)
       (if (= 1 where)
           (re-search-forward "^--\n" nil t)
-        (re-search-forward "^---\n" nil t)))))
+        (re-search-forward "^---\n" nil t) ; case 2 or 3
+        (when (= 3 where)
+          (re-search-forward "^[^\\.\\\\]" nil t)
+          (beginning-of-line))))))
 
 ;;   {  {{ }}  }
 ;;     ^^    ^
@@ -4234,7 +4245,7 @@ Any output (errors?) is put in the buffer `gri-WWW-manual'."
 (defun gri-menubar-cmds-build ()
   "Creates a buffer from ~/.gri-syntax to evaluate and define a menu map"
   (save-excursion
-    (gri-lookat-syntax-file 2)
+    (gri-lookat-syntax-file 3)
     ;; Get list of known commands
     (let ((syntax-entries (buffer-substring (point)(point-max)))
           (gri-tmp-buffer (get-buffer-create "*gri-tmp-buffer*")))
@@ -4742,7 +4753,7 @@ static char * gri_info24x24_xpm[] = {
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.50 (c) 13 July 2001 --  Peter Galbraith <psg@debian.org>
+V2.51 (c) 14 July 2001 --  Peter Galbraith <psg@debian.org>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
