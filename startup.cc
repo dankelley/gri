@@ -615,11 +615,10 @@ create_builtin_variables()
 	PUT_VAR("..green..", 0.0);
 }
 
-// return value: number of optional arguments
+#if defined(HAVE_LIBPOPT) && defined(TEST_POPT)
 const char**
 interpret_optional_arguments(int argc, char *argv[])
 {
-#if 1 //defined(HAVE_LIBPOPT) && defined(TEST_POPT)
 #define FLAG_DIRECTORY		1000
 #define FLAG_DIRECTORY_DEFAULT	1001
 #define FLAG_CREATOR            1002
@@ -803,8 +802,16 @@ interpret_optional_arguments(int argc, char *argv[])
 		fprintf(stderr, "Unknown option `%s'.  Type `gri -h' for valid options\n", last_option);
 		gri_exit(1);
 	}
+	put_syn("\\.lib_dir.", _lib_directory.c_str(), true);
+	return (const char**) poptGetArgs(optCon);
 	//printf("DEBUG: %s:%d last_option [%s]\n",__FILE__,__LINE__,last_option);
-#else
+}
+
+#else // #if defined(HAVE_LIBPOPT) && defined(TEST_POPT)
+
+const char**
+interpret_optional_arguments(int argc, char *argv[])
+{
 	// BUG: REMOVE THIS (LONG) BLOCK WHEN POPT IS FINALLY WORKING!
 	extern char     _gri_number[];
 	int             number_optional_arg = 0;
@@ -813,6 +820,9 @@ interpret_optional_arguments(int argc, char *argv[])
 	if (argc > 1) {
 		int             i;
 		for (i = 1; i < argc; i++) {
+#if 0
+			printf("argv[%d] = '%s'\n", i, argv[i]);
+#endif
 			// `gri -creator PostScript_filename' is a special case.  It now
 			// replaces the old (unix-only) system command grilog.
 			if (!strcmp(argv[i], "-creator")) {
@@ -871,7 +881,7 @@ interpret_optional_arguments(int argc, char *argv[])
 						std::string::size_type suffix_index = o.rfind(".");
 						if (suffix_index != STRING_NPOS) {
 							if (strEQ(o.c_str() + suffix_index, ".ps")) {
-								psname.assign(optArg);
+								psname.assign(argv[i]);
 								gr_setup_ps_filename(psname.c_str());
 							} else if (strEQ(o.c_str() + suffix_index, ".gif")) {
 								warning("Sorry, GIF output not permitted yet; using default postscript filename instead");
@@ -962,10 +972,9 @@ interpret_optional_arguments(int argc, char *argv[])
 			}
 		}
 	}
-#endif // BUG: this block should be trimmed when I see that popt is OK.
-	put_syn("\\.lib_dir.", _lib_directory.c_str(), true);
-	return (const char**) poptGetArgs(optCon);
+        return (const char**)(&argv[1 + number_optional_arg]);
 }
+#endif // #if defined(HAVE_LIBPOPT) && defined(TEST_POPT)
 
 void
 give_help()
