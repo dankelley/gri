@@ -131,20 +131,22 @@ gr_drawimage(unsigned char *im,
 	double xl_c = xl, xr_c = xr, yb_c = yb, yt_c = yt;
 	int ilow = 0, ihigh = imax, jlow = 0, jhigh = jmax;
 	if (_clipping_postscript && _clipping_is_postscript_rect) {
-		printf("%s:%d DEBUG.  image xrange (%f %f) pt\n",__FILE__,__LINE__,xl,xr);
-		printf("%s:%d DEBUG.  image yrange (%f %f) pt\n",__FILE__,__LINE__,yb,yt);
-		printf("%s:%d DEBUG.  clip xrange (%f %f) pt\n",__FILE__,__LINE__,_clip_ps_xleft,_clip_ps_xright);
-		printf("%s:%d DEBUG.  clip yrange (%f %f) pt\n",__FILE__,__LINE__,_clip_ps_ybottom,_clip_ps_ytop);
+		gri_debug_printf(0, "image xrange (%f %f) pt\n",xl,xr);
+		gri_debug_printf(0, "image yrange (%f %f) pt\n",yb,yt);
+		gri_debug_printf(0, "clip xrange (%f %f) pt\n",_clip_ps_xleft,_clip_ps_xright);
+		gri_debug_printf(0, "clip yrange (%f %f) pt\n",_clip_ps_ybottom,_clip_ps_ytop);
 		ilow =  int(floor(0.5 + (_clip_ps_xleft   - xl)*imax/((xr-xl))));
 		ihigh = int(floor(0.5 + (_clip_ps_xright  - xl)*imax/((xr-xl))));
 		jlow =  int(floor(0.5 + (_clip_ps_ybottom - yb)*jmax/((yt-yb))));
 		jhigh = int(floor(0.5 + (_clip_ps_ytop    - yb)*jmax/((yt-yb))));
-		printf("%s:%d DEBUG.  i should run %d to %d instead of 0 to %d\n",__FILE__,__LINE__,ilow,ihigh,imax);
-		printf("%s:%d DEBUG.  i should run %d to %d instead of 0 to %d\n",__FILE__,__LINE__,jlow,jhigh,jmax);
+		gri_debug_printf(0, "switching i to run from %d to %d instead of 0 to %d\n",ilow,ihigh,imax);
+		gri_debug_printf(0, "switching j to run from %d to %d instead of 0 to %d\n",jlow,jhigh,jmax);
 		if (ilow > 0)     xl_c = xl + ilow * (xr - xl) / imax;
 		if (ihigh < imax) xr_c = xl + ihigh * (xr - xl) / imax;
 		if (jlow > 0)     yb_c = yb + jlow * (yt - yb) / jmax;
 		if (jhigh < jmax) yt_c = yb + jhigh * (yt - yb) / jmax;
+		gri_debug_printf(0, "clipped image xrange (%f %f) pt\n",xl_c,xr_c);
+		gri_debug_printf(0, "clipped image yrange (%f %f) pt\n",yb_c,yt_c);
 	}
 	rectangle box(xl_c/PT_PER_CM, yb_c/PT_PER_CM, xr_c/PT_PER_CM, yt_c/PT_PER_CM); // CHECK: is it only updating if it's within clip region?
 	bounding_box_update(box);

@@ -87,4 +87,12 @@
 }
 #endif
 
+// Optional printing
+#define gri_debug_printf(debug_level,format, ...) {\
+    if (_debugFlag>=(debug_level)) {\
+	printf("DEBUG [%s:%d] ",__FILE__,__LINE__);\
+	printf((format),## __VA_ARGS__);\
+    }\
+}
+
 #endif
