@@ -1,6 +1,6 @@
 \input texinfo 
 
-@c $Id: gri.texi,v 1.147 2003/08/30 11:32:35 dankelley Exp $
+@c $Id: gri.texi,v 1.148 2003/08/30 12:02:23 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16424,7 +16424,7 @@ only in the fixing of bugs.
 
 @comment ADD-NEW-BUG-FIXES-HERE
 
-@subsubsection Version 2.12.6 [2003 Sep 1: Labour Day)
+@subsubsection Version 2.12.6 [2003 Sep 1: Labour Day]
 
 @strong{New Features}
 @itemize @bullet
