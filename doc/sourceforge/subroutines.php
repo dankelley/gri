@@ -142,7 +142,7 @@ function footer()
 	print "<a href=\"$sf_url/users/psg\">Peter Galbraith</a><br>\n";
 #        print "[Temporarily, old website is <a href=\"index-old.php\">here</a>.]<br>\n";
 	print "This material may be distributed only subject to the terms and conditions\n";
-	print "set forth in the GNU Publication License.\n";
+	print "set forth in the <a href=\"http://www.gnu.org/copyleft/gpl.html\">GNU Publication License</a>.\n";
 	print "</small><br>\n";
 	print "</center>\n";
 	print "</td>\n";
