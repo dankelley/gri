@@ -261,7 +261,9 @@ Search gri manual for (may be a regular expression):<p>
 	} else {
 	    echo floor($seconds), " seconds ago";
         }
+        echo ";";
 	?>
+      <p>pre-release #2 of 2.8.6 is <a href="./pre2/">here</a>.
       </td>
     </tr>
   </table>
