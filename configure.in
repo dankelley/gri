@@ -215,10 +215,6 @@ CHECK_FOR_NETCDF
 AC_CHECK_LIB(m,sin)
 
 
-dnl     Don't use AC_PROG_AWK, since gets 'mawk' before 'gawk'
-define(DEK_PROG_AWK, [AC_CHECK_PROGS(AWK, gawk nawk mawk awk,)])dnl
-DEK_PROG_AWK
-
 dnl	Check for Imgemagick's convert, needed to make PNG files in HTML manual
 AC_CHECK_PROG(HAVE_CONVERT, convert, "yes", "no")
 if test $HAVE_CONVERT = "no" ; then

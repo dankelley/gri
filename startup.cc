@@ -508,11 +508,8 @@ create_builtin_synonyms()
 	char *            home;
 	// Use this for return codes
 	if (!put_syn("\\.return_value.", "", true)) OUT_OF_MEMORY;
-	// \.awk. (name of awk program)
-	if (!put_syn("\\.awk.", AWK, true)) OUT_OF_MEMORY;
 	// \.version. (version number)
 	if (!put_syn("\\.version.", _gri_number, true)) OUT_OF_MEMORY;
-	//
 	// \.pid. (process ID)
 	sprintf(_grTempString, "%d", int(getpid()));
 	if (!put_syn("\\.pid.", _grTempString, true)) OUT_OF_MEMORY;

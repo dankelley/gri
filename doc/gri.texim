@@ -1,5 +1,5 @@
 @c -*-mode: texinfo; -*-
-@c $Id: gri.texim,v 1.55 2001/03/12 19:28:32 dankelley Exp $
+@c $Id: gri.texim,v 1.56 2001/03/12 22:00:03 dankelley Exp $
 \input texinfo @c -*-texinfo-*-
 @c
 @comment *** Start of HTML stuff ***
@@ -1428,7 +1428,7 @@ There are two methods for formula graphs.
 Do as in this example:
 
 @example
-open "\.awk. 'BEGIN@{for(i=0;i<3.141;i+=0.05)\
+open "awk 'BEGIN@{for(i=0;i<3.141;i+=0.05)\
     @{print(i,cos(i))@}@}' |"
 read columns x y
 close
@@ -1437,8 +1437,6 @@ quit
 @end example
 
 @noindent
-Note the use of @code{\.awk.}, a builtin synonym naming the awk program
-on your system (@ref{Important Builtin Synonyms})
 
 @item @emph{Let Gri calculate things for you}
 
@@ -1541,8 +1539,8 @@ started.
 
 @example
 \file = "somefile.dat"
-\rows = system wc \file      | \.awk. '@{print $1@}'
-\cols = system head -1 \file | \.awk. '@{print NF@}'
+\rows = system wc \file      | awk '@{print $1@}'
+\cols = system head -1 \file | awk '@{print NF@}'
 set x grid 0 1 /\cols
 set y grid 0 1 /\rows
 open \file
@@ -1550,10 +1548,6 @@ read grid data \rows \cols
 close
 draw contour
 @end example
-
-@noindent
-Note the use of @code{\.awk.}, a builtin synonym naming the awk program
-on your system (@ref{Important Builtin Synonyms})
 
 
 @subsection Complicated example
@@ -2168,8 +2162,8 @@ Set up axes
 `Read Data'
 @{
     # Read x-locations
-    system \.awk. '@{print $2@}' < \locn > TMP
-    system wc TMP | \.awk. '@{print $1@}' > NUM
+    system awk '@{print $2@}' < \locn > TMP
+    system wc TMP | awk '@{print $1@}' > NUM
     open NUM
     read .gridx_number.
     close
@@ -2324,8 +2318,8 @@ Set up axes.
 `Read Data'
 @{
     # Read x-locations
-    system \.awk. '@{print $2@}' < \locn > TMP
-    system wc TMP | \.awk. '@{print $1@}' > NUM
+    system awk '@{print $2@}' < \locn > TMP
+    system wc TMP | awk '@{print $1@}' > NUM
     open NUM
     read .gridx_number.
     close
@@ -6915,14 +6909,12 @@ open "sed -e 's/,/ /g' foo.dat | tail +2 |"
 @emph{Manipulating column data} is done by e.g.
 
 @example
-open "cat foo.dat | \.awk. '@{$1, $2 * 22@}' |"
+open "cat foo.dat | awk '@{$1, $2 * 22@}' |"
 @end example
 
 @noindent
 where @file{awk} has been used to multiply the second column in the file
-named @file{foo.dat} by 22. Note the use of @code{\.awk.}, 
-a builtin synonym naming the awk program
-on your system (@ref{Important Builtin Synonyms})
+named @file{foo.dat} by 22.
 
 
 @item
@@ -6954,7 +6946,7 @@ second 33.  Gri doesn't read HMS format, but gawk can be told to:
 
 @example
 open "cat datafile.HMS |        \
-    \.awk. '@{                   \
+    awk '@{                      \
     split($1, hms, \".\");      \
     h = hms[1];                 \
     m = int(hms[2] / 100);      \
@@ -7437,7 +7429,7 @@ For hints on how to create such an input file,
 following code instead, 
 
 @example
-open "\.awk. 'BEGIN @{            \
+open "awk 'BEGIN @{               \
      for(i=0;i<256;i++) @{        \
        print((i - 50)/50, 1, 1)  \
      @}                           \
@@ -7482,7 +7474,7 @@ is equivalent to
 
 @example
 set image range 5 30.5
-open "\.awk. 'BEGIN @{\
+open "awk 'BEGIN @{\
   for(i=0;i<256;i++) @{\
     print(1-(i-50)/50)\
   @} \
@@ -7513,7 +7505,7 @@ them, use the operating system to convert the numbers for you
 
 @example
 open "cat map.dat \
-  | \.awk. '@{print(($1+$2+$3)/3/255)@}' |"
+  | awk '@{print(($1+$2+$3)/3/255)@}' |"
 read image grayscale
 close
 @end example
@@ -10522,7 +10514,7 @@ opened, and the data plotted.  Finally, a system command is issued to
 remove the temporary file.
 
 @example
-system \.awk. 'BEGIN @{ \
+system awk 'BEGIN @{ \
     for (x=0; x<1; x+=0.1) @{ \
       printf("%f %f\n", x, sin(x)) \
     @} \
@@ -10535,24 +10527,20 @@ draw curve
 quit
 @end example
 
-@noindent
-Note the use of @code{\.awk.}, a builtin synonym naming the awk program
-on your system (@ref{Important Builtin Synonyms})
-
-NOTE Under unix, this command calls the Bourne shell, not the C-shell
+@emph{Note}: in unix, this command calls the Bourne shell, not the C-shell
 that is often used interactively.  For many simple uses, the only
 difference from normal interactive use will be that @code{~} is not
 expanded to the home directory.  For example, you should write
 
 @example
-system \.awk. -f $HOME/foo/bar/cmd.gawk
+system awk -f $HOME/foo/bar/cmd.gawk
 @end example
 
 @noindent
 instead of the 
 
 @example
-system \.awk. -f ~/foo/bar/cmd.gawk
+system awk -f ~/foo/bar/cmd.gawk
 @end example
 
 @noindent
@@ -11671,7 +11659,6 @@ produces output that looks something like the following.
 gri: Synonyms...
 \.missingvalue.="10000000000000000000000.000000"
 \.return_value.=""
-\.awk.="gawk"
 \.version.="2.2.6"
 \.pid.="13644"
 \.wd.="/autofs/users/dek/kelley/src/gri/src"
@@ -11694,10 +11681,6 @@ These things will be obvious to unix users; for example
 temporary files), and @code{\.wd.} is the working directory (often used
 in @code{draw title} commands to indicate in which directory the gri job
 was run.  
-
-The @code{\.awk.} synonym is provided for convenience; it tries to name
-the "best default" variant of the Awk program on your machine
-(@ref{Awk}).
 
 Some commands set @code{\.return_value.} to non-blank; the
 meaning of the return value varies from command to command.
@@ -14164,11 +14147,7 @@ variables); after replacement of any existing synonyms, the line is
 passed directly to the operating system.  Any results are printed on the
 terminal.
 
-@cindex gawk, using @code{\.awk.} to access
-@cindex nawk, using @code{\.awk.} to access
-@cindex awk, using @code{\.awk.} to access
-Frequently used system commands are @code{\.awk.} (a builtin synonym
-naming the awk program on your system), @code{head}, @code{grep} and
+Frequently used system commands are @code{awk}, @code{head}, @code{grep} and
 @code{sed}.  Examples:
 
 @itemize @bullet
@@ -14201,12 +14180,12 @@ Here's how to use the @code{awk} system command to create a tabulated
 function for plotting.
 
 @example
-system \.awk. \
-    'BEGIN @{ \
-       for (x=0; x<1; x+=0.1) @{       \
+system awk                             \
+    'BEGIN @{                           \
+       for (x=0; x<1; x+=0.1) @{        \
          printf ("%f %f\n", x, sin(x)) \
-       @}                              \
-     @}'                               \
+       @}                               \
+     @}'                                \
     > tmp.\.pid.
 open tmp.\.pid.
 read columns x y
@@ -14224,10 +14203,10 @@ This example is more cleanly written using the piping facility of the
 destroys it when @code{close} is done)
 
 @example
-open "\.awk. 'BEGIN @{\
-  for(x=0;x<1;x+=0.1) @{\
-    print(x,sin(x)) \
-  @} \
+open "awk 'BEGIN @{       \
+  for(x=0;x<1;x+=0.1) @{  \
+    print(x,sin(x))      \
+  @}                      \
 @}'|"
 read columns x y
 close
@@ -14594,16 +14573,6 @@ worse, Gawk is not fully compatible with Awk.  The good thing is that
 Gawk is pretty much the same on all operating systems, whereas the
 installed Awk may not be.  I use Gawk instead of Awk, for this reason
 and because it is normally faster.
-
-If you are unsure of whether Gawk or Awk is present on your operating
-system, you may use the synonym @code{\.awk.} in your system commands.
-Gri will take this to mean Gawk, if that is present, or the variant
-called Nawk (New-Awk) if Gawk is not present, or the tried and true Awk
-if neither of the above is present.  In the examples below, however,
-I'll use @code{awk}.  Unfortunately, various awk-like programs have
-somewhat different styles of syntax; you would be well advised to either
-become familiar with the features of the particular awk-ish variant on
-your machine, or to avoid relying on variant-specific features.
 
 The main concept in Awk is of "patterns" and "actions."  In the Awk
 syntax, actions are written in braces following patterns written with no
@@ -15535,6 +15504,14 @@ The next sections outline the changes made in Gri.
 @section Version 2.6
 @table @emph
 @item 2.6.0 [2001-month-day] (Not released yet.)
+
+@sp 1
+Remove @code{\.awk.} synonym, which was deemed to be unhelpful.  Users
+with many scripts that use this variable might wish to put a line like
+@example
+\.awk. = "gawk"
+@end example
+in their @file{~/.grirc} file.
 
 @sp 1
 Change the format of images in the PostScript output file, as a
