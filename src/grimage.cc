@@ -144,7 +144,7 @@ gr_drawimage(unsigned char *im,
 		if (jlow > 0)     yb_c = yb + jlow * (yt - yb) / jmax;
 		if (jhigh < jmax) yt_c = yb + jhigh * (yt - yb) / jmax;
 #ifdef __GNUC__
-		gri_debug_printf(1,"image clipping debugging ...\n");
+		gri_debug_printf(1,"image clipping debugging %sn", "...");
 		gri_debug_printf(1,"image xrange (%f %f) pt\n",xl,xr);
 		gri_debug_printf(1,"image yrange (%f %f) pt\n",yb,yt);
 		gri_debug_printf(1,"clip xrange (%f %f) pt\n",_clip_ps_xleft,_clip_ps_xright);
