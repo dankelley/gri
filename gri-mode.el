@@ -5,7 +5,7 @@
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.33 (29 Aug 2000)
+;; Version:   2.34 (25 Sep 2000)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -350,6 +350,8 @@
 ;;    and functions gri-set-command-postarguments and
 ;;    gri-unset-command-postarguments.
 ;; V2.33 29Aug00 RCS 1.58 - gri-hide-all skips over initial commands 
+;; V2.34 25Sep00 RCS 1.59 - allows spaces after new command brackets
+;;    Closes SF Bug #115307
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -4218,7 +4220,7 @@ static char *magick[] = {
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.33 (c) 29 Aug 2000 --  Peter Galbraith <GalbraithP@dfo-mpo.gc.ca>
+V2.34 (c) 25 Sep 2000 --  Peter Galbraith <GalbraithP@dfo-mpo.gc.ca>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
@@ -4640,7 +4642,7 @@ syntax for a new Gri command."
   (save-excursion
     (beginning-of-line)
     (skip-chars-forward " \t")
-    (looking-at "{\n")))
+    (looking-at "{ *\n")))
 
 (defun gri-new-command-syntax-end-line ()
   "Returns t if current line is a right brace, indicating the end of 
@@ -4648,7 +4650,7 @@ syntax for a new Gri command."
   (save-excursion
     (beginning-of-line)
     (skip-chars-forward " \t")
-    (looking-at "}\n")))
+    (looking-at "} *\n")))
 
 (defun gri-comment-line ()
   "Returns t if current line is a Gri comment line."
