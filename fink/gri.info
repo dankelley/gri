@@ -4,7 +4,7 @@ Revision: 1
 BuildDepends: imagemagick
 Depends:
 Source: mirror:sourceforge:%n/%n-%v.tgz
-Source-MD5: b4f49c6c942c7cb524415f5ac02716c7
+Source-MD5: 4de6c149bbfff5e207c4485dfbbf3216
 DocFiles: README doc/*html
 InfoDocs: gri.info gri.info-1 gri.info-2 gri.info-3
 Description: Scientific graphics language
