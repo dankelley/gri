@@ -136,7 +136,7 @@ The Gri web homepage is at
 @comment HTML Gri is distributed
 @comment HTML with a <A HREF="License.html">license</A> that permits 
 @comment HTML sharing in an OpenSource way.
-@c HTML <P>
+@c HTML <br>
 @c HTML <font size=+1><b>New users:</b></font>
 @c HTML To see if Gri might be useful to you, spend a few minutes
 @c HTML reading the
@@ -181,12 +181,11 @@ The Gri web homepage is at
 * Examples::                    Some real-world examples
 * Handling Data::               Dealing with oddly-configured data
 * Commands::                    List of Gri commands
-* Extras::                      Things that come with Gri
+* Environment::                 Related tools
 * Emacs Mode::                  Editing Gri code inside Emacs
 * History::                     Changes to Gri over time
 * Accessing::                   How to access/install Gri
 * Bugs::                        List of bugs, and how to report more
-* Overview of System Tools::    Useful tools in Unix and other OS
 * Acknowledgments::             People who have helped me develop Gri
 * License::                     The Gri license
 Indices
@@ -4965,9 +4964,6 @@ of the image data:
 @example
 %END_IMAGE
 @end example
-A program is provided with Gri to extract these images into a binary
-format suitable for viewing and manipulating with standard tools
-@xref{Extractor Of Images}.
 
 @node  Example Image, Examples, Image PostScript Output, Images
 @comment  node-name,  next,  previous,  up
@@ -5127,24 +5123,6 @@ Additionally, I've collected a few real life examples here.  Other
 sources are the Gri cookbook, available separately
 @c HTML <A HREF="http://www.phys.ocean.dal.ca/~kelley/gri/cookbook/cookbook.html"> 
 @c HTML (click here)</A>
-.  Other examples are available at other locations on the net, e.g.
-at 
-@cindex Examples, at satlab.hawaii.edu internet location
-@cindex Hawaii satellite examples
-@cindex Satellite examples
-@cindex Ocean viewing by satellite, examples
-@c HTML <A HREF="http://www.satlab.hawaii.edu">
-@file{www.satlab.hawaii.edu}
-@c HTML </A>
-or
-@c HTML <A HREF="http:#satftp.soest.hawaii.edu">
-@file{satftp.soest.hawaii.edu}
-@c HTML </A>
-.  You might also like to check out Kelley (1994, J. Physical Oceanogr.,
-24, 2424-2433), and the preprint of this available on my online archive
-of camera-ready papers, to get an idea of good sizes for fonts, etc, for
-use at reduction levels typical of Oceanographic journals.
-
 
 
 @menu
@@ -13189,7 +13167,7 @@ is present, then the grid is transposed first, in such a way that
 @code{read grid data bycolumns} performed on that file will read back
 the original grid data.
 
-@node   Write Image, Extras, Write Grid, Write
+@node   Write Image, Environment, Write Grid, Write
 @comment  node-name,  next,  previous,  up
 @cindex writing to a file, image data
 @cindex image data, writing to a file
@@ -13232,125 +13210,316 @@ command.
 @end itemize
 
 
-@c HTML <!-- newfile Extras.html "Gri: extra programs that work with Gri" "Gri Extras" -->
+@c HTML <!-- newfile Environment.html "Gri: extra programs that work with Gri" "Gri Extras" -->
 
-@node   Extras, gri_merge, Write Image, Top
+@node   Environment, Extras, Write Image, Top
 @comment  node-name,  next,  previous,  up
-@chapter Extra things provided with Gri
+@chapter Environment
+
+Gri comes with a few ancillary programs that may be useful.  Gri also
+provides a simple scheme to use other system tools (e.g. @code{awk}).
+These are discussed here.  And speaking of discussing, this chapter ends
+with a note about a mail-list Gri discussion group.
+
+(@code{gri_merge} to merge gri-produced PostScript files,
+@code{gri_unpage} to separate the pages of a multi-page file into
+separate pages
+
+@menu
+* Extras::                      Extra things provided with Gri
+* Overview of System Tools::    Using Gri with other tools
+* Discussion Group::            Gri email list
+@end menu
+
+@c HTML <!-- newfile Extras.html "Gri: Extras" "Gri Environment" -->
+
+@node   Extras, gri_merge, Environment, Environment
+@comment  node-name,  next,  previous,  up
+@section Extra things provided with Gri
+
 @menu
 * gri_merge::                   Merge files to one page
 * gri_unpage::                  Separate multipage doc into separate files
-* gri_curve::                   Extract data from Gri PostScript file
-* Updating Program::            Converts old Gri code to new
-* Fig To Gri Translator::       Translate Fig output to Gri
-* Extractor Of Images::         Program to extract image from PostScript
-* Discussion Group::            Gri email list
 @end menu
 
 @node   gri_merge, gri_unpage, Extras, Extras
 @comment  node-name,  next,  previous,  up
-@section gri_merge, combine PostScript files into one page
+@subsection @code{gri_merge} -- combine PostScript files into one page
 @cindex gri_merge
-Merge separate PostScript files, created by Gri, into one page.
+Merge separate PostScript files, created by Gri, into one page.  To
+learn how it works, type @code{gri_merge -h} at the system prompt, to
+see:
+@example
+PURPOSE: Strings Gri PostScript files together.
+
+BUGS:    With old versions, of gri, make sure to match each `set clip
+ postscript on' with a `set clip postscript off'.
+
+USAGE (style 1):
+    gri_merge [OPTIONS] CxR a.ps b.ps ... > merged_file.ps
+ Merges the files onto one page, in 'C' columns and 'R' rows.  The C*R
+ files are given in the order of words on a page.  The page is
+ presumed to be 8.5x11 in size, as are all the input files, and the
+ input files are sized to fit, and kept in natural scale.
+
+USAGE (style 2):
+    gri_merge [OPTIONS] xcm ycm enlarge a.ps [b.ps ...] > merged_file.ps
+ Where `enlarge' is a scale factor applied after offsetting `xcm' to
+ the right and `ycm' upward.
+
+EXAMPLE (style 2):
+ The following
+   gri_merge  2 12 .5 a.ps \
+            12 12 .5 b.ps \
+             2  2 .5 c.ps \
+            12  2 .5 d.ps > all.ps
+ produces 4 panels from gri plots done using margins and sizes
+ as specified in the following lines in a gri commandfile
+   set x margin 2
+   set x size 15
+   set y margin 2
+   set y size 15
+ The OPTIONS, available if your 'perl' has 'getopts' library, are:
+   -u graylevel -- set graylevel for underlay beneath panels, by default 0.75.
+                   Values range from 0 (black) to 1 (white), although a value
+                   of precisely 1 means do NOT draw underlay.
+   -b graylevel -- Set value for background under individual panels, again 0 
+                   for black to 1 for white, with 1 meaning no drawing.
+   -h           -- Print this help message and quit.
+@end example
 
 
-@node   gri_unpage, gri_curve, gri_merge, Extras
+@node   gri_unpage, Overview of System Tools, gri_merge, Extras
 @comment  node-name,  next,  previous,  up
-@section gri_unpage, create multiple PostScript files for multipage input
+@subsection @code{gri_unpage} -- create multiple PostScript files for multipage input
 @cindex gri_unpage
 Given a multipage PostScript file, @code{gri_unpage} creates several new
-PostScript files, one for each page.
-
-
-@node   gri_curve, Updating Program, gri_unpage, Extras
-@comment  node-name,  next,  previous,  up
-@section gri_curve, extract data from Gri PostScript file
-@cindex gri_curve
-
-@code{gri_curve} is a Perl script that extract information from
-PostScript files, in user units.  It is mostly used by the author; see
-comments in the script.
-
-
-@node   Updating Program, Fig To Gri Translator, gri_curve, Extras
-@comment  node-name,  next,  previous,  up
-@section Updating Program
-@cindex updating Gri
-A perlscript called @code{gri_update} is provided with Gri.  
-
-This perlscript edits Gri command files, translating old syntax into new
-syntax.  The editing is done in-place, after copying to a file with
-suffix @file{.BAK}.  @code{gri_update} cannot handle all
-incompatibilities but it will translate the things
-illustrated in the following before/after comparison.
-
-
-@itemize @bullet
-@item
-@code{@{rpn width("hello")@}} -> @code{@{rpn "hello" width@}}
-@item
-@code{@{rpn ascent("hello")@}} -> @code{@{rpn "hello" ascent@}}
-@item
-@code{@{rpn descent("hello")@}} -> @code{@{rpn "hello" descent@}}
-@item
-@code{convert columns to grid planar} 
--> @code{convert columns to grid boxcar}
-@end itemize
-
-
-@c HTML <!-- newfile Fig2Gri.html "Gri: Fig To Gri Translator" "Gri Extras" -->
-
-@node   Fig To Gri Translator, Extractor Of Images, Updating Program, Extras
-@comment  node-name,  next,  previous,  up
-@section Fig to Gri Translator
-@cindex fig translator
-@cindex drawing programs
-@cindex @code{fig2gri} translator
-A translator called @code{fig2gri} converts output from the @code{xfig}
-drawing program into Gri format.  @code{fig2gri} is under development
-and presently does only text and polyline items.  I welcome additions to
-@code{fig2gri}.
-
-
-@c HTML <A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri">Click here
-@c HTML to get to Gri FTP site.</A>
-
-@c HTML <!-- newfile ImageExt.html "Gri: Image Extractor" "Gri Extras" -->
- 
-@node   Extractor Of Images, Discussion Group, Fig To Gri Translator, Extras
-@comment  node-name,  next,  previous,  up
-@section Image extractor
-@cindex images, extracting from PostScript
-@cindex postscript file, images embedded within
-When Gri draws an image with @code{draw image}, it embeds special
-comments in the PostScript to allow removal of the data by an extractor
-program; for details @xref{Image PostScript Output}.  The extractor
-program is included along with the source distribution, in the C file
-called @code{gri_extract_image.c}.  After compiling it manually (since
-there is no Makefile for it), use it as a filter, e.g.
+PostScript files, one for each page.  To learn how it works, type
+@code{gri_unpage -h} at the system prompt, to see:
 @example
-gri_extract_image < file.ps > file.pgm
+PURPOSE: Chop multipage Gri PostScript file into one file per page.
+USAGE:   gri_unpage name.ps -- create files name-1.ps, name-2.ps, etc, one
+                               for each page of name.ps.
+         gri_unpage -h      -- print this help message
+
+BUGS:    1. Bounding box is always 8.5x11 inches.
+         2. Assumes that all Gri fonts are used even if they aren't.
+@end example
+
+
+@c HTML <!-- newfile SystemTools.html "Gri: Overview of System Tools" "Gri Environment" -->
+
+@node   Overview of System Tools, Why Use The Environment, gri_unpage, Environment
+@comment  node-name,  next,  previous,  up
+@section Overview of System Tools
+
+Using system tools to manipulate your data makes sense for several
+reasons.  First, you may be familiar with those tools already.  Second,
+learning these tools will help you in all your work.  
+
+@menu
+* Why Use The Environment::     Introduction
+* Grep::                        Search files for patterns
+* Sed::                         Serial editor
+* Awk::                         Search and manipulate data
+* Perl::                        Search and manipulate data
+@end menu
+
+@node   Why Use The Environment, Grep, Overview of System Tools, Overview of System Tools
+@comment  node-name,  next,  previous,  up
+@subsection Introduction
+
+Each of the programs listed in the sections below is available for Unix.
+Some (e.g. Perl and the Awk variant called Gawk) are available on other
+operating systems as well.  Each of these tools is fully documented in
+Unix manpages, so here I'll just give an indication of a couple of
+useful techniques you might want to use.
+
+Bear in mind that these tools can do very similar jobs.  For example,
+Awk can do much of what Sed and Grep can do, but also a whole lot more.
+If you don't know Sed or Grep, I suggest you learn Awk instead.  Then
+again, Perl can also do anything Gawk can do, and a whole lot more!
+(For one thing, it's easier to work with multiple files in Perl.)  In
+fact, Perl is the most powerful of this list.  If you know none of these
+tools, you might want to learn Perl instead of the others.  But Perl is
+more complicated for simple work than Awk is, so the most reasonable
+path might be to learn both Awk and Perl.
+
+For simple applications, you will probably want to use these tools in a
+piped open command, e.g.
+@example
+open "awk '@{print $1, $3/$2@}' MyFile |"
 @end example
 @noindent
-The result is an image in the pgm format.  ("pgm" stands for portable
-graymap; see unix manpage on @code{pgm}.)  Standard converters are
-available to convert pgm into most other formats.  
+which creates a temporary file (automatically erased when Gri finishes)
+which contains the output from running the system command that preceeds
+the pipe symbol (@code{|}); @xref{Open}.
 
-Note that just the image is output, not the axes or any other part of
-your drawing.  If you want to make your entire page into an image
-(perhaps for incorporation into a web-page), try using the FSF @code{gs}
-program.  For example, if the PostScript filename is @file{foo.ps}, do
-this:
+(Here and in all the examples of this chapter, it is assumed that the
+user's input file is named @file{MyFile}.)
+
+For more complicated appplications, you may use the Gri @code{system}
+command as follows.
 @example
-$ gs foo.ps
-GS> (pstoppm.ps)run
-GS> (foo) ppm1run
-GS> quit
+system perl   >tmp  <<"EOF"
+open(IN, "MyFile");
+while(<IN>) @{
+    ($x, $y) = split;
+    print "$x", " ", cos($y), "\n";
+@}
+EOF
+open tmp
+read columns x y
+draw curve
+system rm -f tmp
+@end example
+@noindent
+Here a temporary file, named @file{tmp}, has been used to store the
+results of the calculation.  Note that this file was specifically
+cleaned up by the second @code{system} command.  (Many folks, including
+the author, would prefer to take the perl script out of the above and
+make it a standalone executable script, calling it from Gri with the
+one-line form.  But it's just a matter of style.)
+
+
+
+@node   Grep, Sed, Why Use The Environment, Overview of System Tools
+@comment  node-name,  next,  previous,  up
+@subsection Grep
+
+@cindex grep system tool
+@cindex overview of grep system tool
+
+The most common application of Grep is to select lines matching a
+pattern, or not matching a pattern.  Here is how to skip all lines with
+the word "HEADER" in them:
+@example
+open "grep -v 'HEADER' MyFile |"
+...
+@end example
+@noindent
+Note that Gawk and Perl do this just as easily.
+
+
+@node Sed, Awk, Grep, Overview of System Tools
+@comment  node-name,  next,  previous,  up
+@subsection Sed
+
+@cindex sed system tool
+@cindex overview of sed system tool
+
+Sed is normally used for simple changes to files.  For example, if you
+have columnar data which are separated with comma characters instead of
+whitespace, you could make it Gri compatible by 
+@example
+open "sed -e 's/,/ /g' MyFile |"
 @end example
 
-@c HTML <!-- newfile Discuss.html "Gri: Discussion Group" "Gri Extras" -->
+@noindent
+Where the @code{-e} flag indicates that the next item is a command to
+Sed, in this case a command to switch ("s") the comma character with the
+blank character, globally ("g)" across each line of the file.  See also
+the overview of Perl.
 
-@node   Discussion Group, Emacs Mode, Extractor Of Images, Extras
+@node Awk, Perl, Sed, Overview of System Tools
+@comment  node-name,  next,  previous,  up
+@subsection Awk
+
+@cindex awk system tool
+@cindex gawk system tool
+@cindex overview of awk system tool
+
+Awk is great for one-liners.  If your system lacks Awk, you can procure
+the GNU version, called Gawk, from the web for free.  For better or
+worse, Gawk is not fully compatible with Awk.  The good thing is that
+Gawk is pretty much the same on all operating systems, whereas the
+installed Awk may not be.  I use Gawk instead of Awk, for this reason
+and because it is normally faster.
+
+If you are unsure of whether Gawk or Awk is present on your operating
+system, you may use the synonym @code{\.awk.} in your system commands.
+Gri will take this to mean Gawk, if that is present, or the variant
+called Nawk (New-Awk) if Gawk is not present, or the tried and true Awk
+if neither of the above is present.  In the examples below, however,
+I'll use @code{awk}.
+
+The main concept in Awk is of "patterns" and "actions."  In the Awk
+syntax, actions are written in braces following patterns written with no
+braces.  (This will become clear presently.)
+
+Whenever a line in the data file matches the pattern, the action is
+done.
+
+The default pattern is to match to every line in the file.  This is done
+if no pattern is supplied.
+
+The default action is to print the line, and this is done if no action
+is supplied.
+
+Here are a few examples.  To skip first 10 lines of a file:
+@example
+open "awk 'NR>10' MyFile |"
+read ...
+@end example
+@noindent
+Here the pattern was that @code{NR} (a special Awk variable for the
+number of the record, starting with 1 for the first line of the file)
+exceeded 10.  And the action was, taken by default since nothing was
+supplied between braces, was to print this line.
+
+@noindent
+To plot the cosine of the second column, against the first column:
+@example
+open "awk '@{print ($1, cos($2))@}' MyFile |"
+read columns x y
+draw curve
+@end example
+@noindent
+Here no pattern was supplied, so the action was done for every line.
+
+Combining these two forms, then, and supplying both a pattern and an
+action, here is how one might print the first and eighth columns of the
+file @file{MyFile}, but only for the first 10 lines of the file:
+@example
+open "awk NR<=10 @{print ($1, $8)@} MyFile |"
+@end example
+
+
+
+
+@node  Perl, Discussion Group, Awk, Overview of System Tools
+@comment  node-name,  next,  previous,  up
+@subsection Perl
+
+@cindex perl system tool
+@cindex overview of perl system tool
+
+Perl can do almost @emph{anything} with your data, since it is a full
+programming language designed to also emulate several Unix utilities.
+
+In perl, as in other commands, the commandline switch @code{-e}
+indicates that a Perl command is given in the next word of the command
+line.  The commandline switch @code{-p} indicates to print the line,
+after any indicated Perl actions have been done on it.  Here, for
+example, is how one would emulate a Sed replacement of comma by blank:
+@example
+open "perl -pe 's/,/ /g' MyFile |"
+@end example
+
+Perl also has a commandline switch @code{-a} indicating that lines
+should be "autosplit" into an array called @code{$F}.  The first element
+of this array is @code{$F[0]}.  Splitting is normally done on
+white-space character(s), although this may be changed if desired.
+Here, for example, is how to take the cosine of the second column of a
+file, and print this after the first column:
+@example
+open "perl -pea 'print($F[0], cos($F[1]))' MyFile |"
+@end example
+
+
+@c HTML <!-- newfile DiscussionGroup.html "Gri: Discussion Group" "Gri Discussion Group" -->
+
+@node   Discussion Group, Emacs Mode, Perl, Environment
 @comment  node-name,  next,  previous,  up
 @cindex discussion Group
 @cindex email list
@@ -14788,7 +14957,7 @@ uniform in all labels.  Workaround: Set the format yourself (example:
 @end itemize
 
 
-@node   Reporting Bugs, Overview of System Tools, Known Bugs, Bugs
+@node   Reporting Bugs, Acknowledgments, Known Bugs, Bugs
 @comment  node-name,  next,  previous,  up
 @cindex bugs, how to report
 @section Reporting Bugs
@@ -14891,212 +15060,10 @@ Of course, I can't guarantee that I'll fix the bug for you.  However,
 I'm usually happy to try to fix bugs, so that they won't bite me later!
 
 
-@comment
-@comment  APPENDICES FOLLOW
-@comment
-
-@c HTML <!-- newfile OverviewSystemTools.html "Gri: Overview of System Tools" "System Tools" -->
-
-@node   Overview of System Tools, Grep, Reporting Bugs, Top
-@comment  node-name,  next,  previous,  up
-@chapter Overview of System Tools
-
-Using system tools to manipulate your data makes sense for several
-reasons.  First, you may be familiar with those tools already.  Second,
-learning these tools will help you in all your work.  Each of the
-programs listed below is avaiable for Unix.  Some (e.g. Perl and the Awk
-variant called Gawk) are available on other operating systems as well.
-Each of these tools is fully documented in Unix manpages, so here I'll
-just give an indication of a couple of useful techniques you might want
-to use.
-
-Bear in mind that these tools can do very similar jobs.  For example,
-Perl can do anything Sed and Grep can do, often easier.  If you don't
-know Sed or Grep, I suggest you learn Awk instead.
-
-Perl can also do anything Gawk can do, sometimes easier.  Perl can also
-do a lot more than Gawk (primarily, it lets you work with multiple files
-very easily).  In fact, Perl is the most powerful of this list.  If you
-know none of these tools, you might want to learn Perl instead of the
-others.  But Perl is more complicated for simple work than Awk is, so
-the most reasonable path might be to learn both Awk and Perl.
-
-For simple applications, you will probably want to use these tools in a
-piped open command, e.g.
-@example
-open "awk '@{print $1, $3/$2@}' MyFile |"
-@end example
-@noindent
-which creates a temporary file (automatically erased when Gri finishes)
-which contains the output from running the system command that preceeds
-the pipe symbol (@code{|}); @xref{Open}.
-
-(Here and in all the examples of this chapter, it is assumed that the
-user's input file is named @file{MyFile}.)
-
-For more complicated appplications, you may use the Gri @code{system}
-command as follows.
-@example
-system perl   >tmp  <<"EOF"
-open(IN, "MyFile");
-while(<IN>) @{
-    ($x, $y) = split;
-    print "$x", " ", cos($y), "\n";
-@}
-EOF
-open tmp
-read columns x y
-draw curve
-system rm -f tmp
-@end example
-@noindent
-Here a temporary file, named @file{tmp}, has been used to store the
-results of the calculation.  Note that this file was specifically
-cleaned up by the second @code{system} command.
-
-@menu
-* Grep::                        Search files for patterns
-* Sed::                         Serial editor
-* Awk::                         Search and manipulate data
-* Perl::                        Search and manipulate data
-@end menu
-
-
-@node   Grep, Sed, Overview of System Tools, Overview of System Tools
-@comment  node-name,  next,  previous,  up
-@section Grep
-
-@cindex grep system tool
-@cindex overview of grep system tool
-
-The most common application of Grep is to select lines matching a
-pattern, or not matching a pattern.  Here is how to skip all lines with
-the word "HEADER" in them:
-@example
-open "grep -v 'HEADER' MyFile |"
-...
-@end example
-@noindent
-Note that Gawk and Perl do this just as easily.
-
-
-@node Sed, Awk, Grep, Overview of System Tools
-@comment  node-name,  next,  previous,  up
-@section Sed
-
-@cindex sed system tool
-@cindex overview of sed system tool
-
-Sed is normally used for simple changes to files.  For example, if you
-have columnar data which are separated with comma characters instead of
-whitespace, you could make it Gri compatible by 
-@example
-open "sed -e 's/,/ /g' MyFile |"
-@end example
-
-@noindent
-Where the @code{-e} flag indicates that the next item is a command to
-Sed, in this case a command to switch ("s") the comma character with the
-blank character, globally ("g)" across each line of the file.  See also
-the overview of Perl.
-
-@node Awk, Perl, Sed, Overview of System Tools
-@comment  node-name,  next,  previous,  up
-@section Awk
-
-@cindex awk system tool
-@cindex gawk system tool
-@cindex overview of awk system tool
-
-Awk is great for one-liners.  If your system lacks Awk, you can procure
-the GNU version, called Gawk, from the web for free.  For better or
-worse, Gawk is not fully compatible with Awk.  The good thing is that
-Gawk is pretty much the same on all operating systems, whereas the
-installed Awk may not be.  I use Gawk instead of Awk, for this reason
-and because it is normally faster.
-
-If you are unsure of whether Gawk or Awk is present on your operating
-system, you may use the synonym @code{\.awk.} in your system commands.
-Gri will take this to mean Gawk, if that is present, or the variant
-called Nawk (New-Awk) if Gawk is not present, or the tried and true Awk
-if neither of the above is present.  In the examples below, however,
-I'll use @code{awk}.
-
-The main concept in Awk is of "patterns" and "actions."  In the Awk
-syntax, actions are written in braces following patterns written with no
-braces.  (This will become clear presently.)
-
-Whenever a line in the data file matches the pattern, the action is
-done.
-
-The default pattern is to match to every line in the file.  This is done
-if no pattern is supplied.
-
-The default action is to print the line, and this is done if no action
-is supplied.
-
-Here are a few examples.  To skip first 10 lines of a file:
-@example
-open "awk 'NR>10' MyFile |"
-read ...
-@end example
-@noindent
-Here the pattern was that @code{NR} (a special Awk variable for the
-number of the record, starting with 1 for the first line of the file)
-exceeded 10.  And the action was, taken by default since nothing was
-supplied between braces, was to print this line.
-
-@noindent
-To plot the cosine of the second column, against the first column:
-@example
-open "awk '@{print ($1, cos($2))@}' MyFile |"
-read columns x y
-draw curve
-@end example
-@noindent
-Here no pattern was supplied, so the action was done for every line.
-
-Combining these two forms, then, and supplying both a pattern and an
-action, here is how one might print the first and eighth columns of the
-file @file{MyFile}, but only for the first 10 lines of the file:
-@example
-open "awk NR<=10 @{print ($1, $8)@} MyFile |"
-@end example
-
-
-@node  Perl, Acknowledgments, Awk, Overview of System Tools
-@comment  node-name,  next,  previous,  up
-@section Perl
-
-@cindex perl system tool
-@cindex overview of perl system tool
-
-Perl can do almost @emph{anything} with your data, since it is a full
-programming language designed to also emulate several Unix utilities.
-
-In perl, as in other commands, the commandline switch @code{-e}
-indicates that a Perl command is given in the next word of the command
-line.  The commandline switch @code{-p} indicates to print the line,
-after any indicated Perl actions have been done on it.  Here, for
-example, is how one would emulate a Sed replacement of comma by blank:
-@example
-open "perl -pe 's/,/ /g' MyFile |"
-@end example
-
-Perl also has a commandline switch @code{-a} indicating that lines
-should be "autosplit" into an array called @code{$F}.  The first element
-of this array is @code{$F[0]}.  Splitting is normally done on
-white-space character(s), although this may be changed if desired.
-Here, for example, is how to take the cosine of the second column of a
-file, and print this after the first column:
-@example
-open "perl -pea 'print($F[0], cos($F[1]))' MyFile |"
-@end example
-
 
 @c HTML <!-- newfile Acknowledgments.html "Gri: Acknowledgments" "Acknowledgments" -->
 
-@node   Acknowledgments, License, Perl, Top
+@node   Acknowledgments, License, Reporting Bugs, Top
 @comment  node-name,  next,  previous,  up
 @chapter Acknowledgments
 @cindex user input to Gri

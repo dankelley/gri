@@ -158,14 +158,13 @@ for ($i = 1; $i < $num_files; $i++) {
 <a href=\"Image.html\">8: Image Plots</a><br>
 <a href=\"Examples.html\">9: Examples</a><br>
 <a href=\"Commands.html\">10: Gri Commands</a><br>
-<a href=\"Extras.html\">11: Extras</a><br>
+<a href=\"Environment.html\">11: Environment</a><br>
 <a href=\"Emacs.html\">12: Emacs Mode</a><br>
 <a href=\"History.html\">13: History</a><br>
 <a href=\"Access.html\">14: Installation</a><br>
 <a href=\"Bugs.html\">15: Gri Bugs</a><br>
-<a href=\"OverviewSystemTools.html\">16: System Tools</a><br>
-<a href=\"Acknowledgments.html\">17: Acknowledgments</a><br>
-<a href=\"License.html\">18: License</a><br>
+<a href=\"Acknowledgments.html\">16: Acknowledgments</a><br>
+<a href=\"License.html\">17: License</a><br>
 <br>
 <a href=\"CommandIndex.html\"><i>Command Index</i></a><br>
 <a href=\"BuiltinIndex.html\"><i>Builtin Index</i></a><br>
