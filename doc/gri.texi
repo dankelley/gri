@@ -52,7 +52,7 @@
 @comment %**start of header
 @setfilename gri.info
 @settitle Gri
-@set GRI-VERSION 2.5.5
+@set GRI-VERSION 2.6.0
 @set AUTHOR-EMAIL Dan.Kelley@@Dal.CA
 @c %**end of header
 @iftex
@@ -171,7 +171,7 @@ The Gri web homepage is at
 @c HTML format, or HTML format.
 @c HTML </UL>
 @c HTML <P>
-@c HTML <i>Advanced gri users</i> might want to check out the descendent
+@c HTML <i>Advanced</i> gri users might want to check out a child
 @c HTML of the Gri language, called
 @c HTML <a href="http://www.phys.ocean.dal.ca/~kelley/gre"> Gre.</a>
 @c HTML <br>
@@ -183,16 +183,16 @@ The Gri web homepage is at
 * Fancy Example::               More complicated example
 * Invoking Gri::                Running/viewing/printing Gri
 * Programming::                 How to program in the Gri language
-* General Issues::              Miscellaneous aspects (read me)
+* General Issues::              Miscellaneous but important issues
 * X-y Plots::                   Drawing x-y linegraphs/scattergraphs
 * Contour Plots::               Drawing contour plots
 * Images::                      Drawing black+white or color images
 * Examples::                    Some real-world examples
 * Handling Data::               Dealing with oddly-configured data
-* Commands::                    COMPLETE list of Gri commands
-* Extras::                      Extra things that come with Gri
+* Commands::                    List of Gri commands
+* Extras::                      Things that come with Gri
 * Emacs Mode::                  Editing Gri code inside Emacs
-* History::                     How Gri has changed over time
+* History::                     Changes to Gri over time
 * Accessing::                   How to access/install Gri
 * Bugs::                        List of bugs, and how to report more
 * Overview of System Tools::    Useful tools in Unix and other OS
@@ -670,8 +670,8 @@ or more of the following (explained below):
 [-s[uperuser][N]]
 @end example
 @noindent
-@cindex @code{:} on commandline
-@cindex commandline flag @code{:}
+@cindex colon on commandline
+@cindex commandline flag colon
 @cindex arguments on commandline, accessing
 @cindex commandline arguments, accessing
 @cindex @code{argv}, RPN operator to access commandline arguments
@@ -3174,7 +3174,7 @@ symbols @code{\!} (which means go left one thin-space) and @code{\,}
 (which means go right on thin-space).  (A thin-space is 1/6 the width of
 the letter ``M'').
 
-@c HTML <!-- newfile NewCommands1.html "Gri: Adding new commands" "Programming Gri" -->
+@c HTML <!-- newfile NewCommands.html "Gri: Adding new commands" "Programming Gri" -->
 
 
 @node   Adding New Commands, Parsing, Adjustment Of Character Position, Programming
@@ -6553,7 +6553,7 @@ for ($i = 1; $i < $max_elem; $i++) @{
 
 
 
-@c HTML <!-- newfile NewCommands2.html "Gri: adding new commands" "Examples" -->
+@c HTML <!-- newfile NewCommandExample.html "Gri: adding new commands" "Examples" -->
 
 
 @node   New Commands, Handling Data, Finite Element Model Mesh, Examples
@@ -14081,15 +14081,66 @@ The next sections outline the changes made in Gri.
 * Plans::                          Plans, and the development version
 @end menu
 
-@node   Distribution versions, Version 2.4, History, History
+@node   Distribution versions, Version 2.6, History, History
 @comment  node-name,  next,  previous,  up
 @section Distribution versions
 @menu
+* Version 2.6::
 * Version 2.4::
 * Version 2.2::
 @end menu
 
-@node   Version 2.4, Version 2.2, Distribution versions, Distribution versions
+@node   Version 2.6, Version 2.4, Distribution versions, Distribution versions
+@comment  node-name,  next,  previous,  up
+@subsection Version 2.6
+@table @emph
+@item 2.6.0 [2000-Jun-23]
+Add RPN operators @code{argc} (@ref{Solitary Operators}) and
+@code{argv} (see @ref{Unary Operators}) for accessing the command-line
+arguments.  
+
+Improve discussion of RPN operators in manual.
+
+Remove documentation on @code{gri_indent}, not supplied with Gri for a
+long time.
+
+Fix up some errors in manual (non-visible images in html form).
+
+Add automatic support for compressed data files.  So far, this only
+works with gzipped files @xref{Open}.
+
+Add two new RPN operators, @code{file_exists} and
+@code{directory_exists} @xref{Unary Operators}.
+
+Improve the manual in various ways:
+@end table
+@enumerate
+@item Change the section about the Emacs @file{gri-mode.el} into a chapter, complete with screenshots
+@item Improve the HTML navigation tags.
+@item Make the Gri code examples be color-coded for syntax.
+@item Use Jpeg format for images instead of Gif format.
+@end enumerate
+
+@table @emph
+@item
+Add new features to @code{gri-mode.el}:
+@end table
+@enumerate
+@item Add a menubar pull-down menu listing all Gri commands,
+      allowing the user to get @code{Help} or @code{Info} on any command or
+      @code{Insert} it in the current Gri file.
+@item Gri info file can have @emph{.info} extension now.
+@item Made @code{gri-apropos} an alias for @code{gri-help-apropos}.
+@item gri-mode now uses the customize interface (See
+      @code{gri-customize}).
+@item The @code{~/.gri-syntax} file has changed format.  As a
+      side-effect, spaces are used instead of hyphens to display Gri commands,
+      and one can now select a command with the mouse in the
+      @emph{Completions} buffer.
+@end enumerate
+
+
+@node   Version 2.4, Version 2.2, Version 2.6, Distribution versions
 @comment  node-name,  next,  previous,  up
 @subsection Version 2.4
 @table @emph
@@ -14176,57 +14227,6 @@ First debian release.  Versions exist for intel, alpha, 68K and powerpc.
 @c
 @c 4) Fix bugs in the HTML version of the manual, as reported
 @c    by the 'tidy' checking programme.
-
-
-
-@table @emph
-@item 2.5.5 [2000-Jun-11]
-Add RPN operators @code{argc} (@ref{Solitary Operators}) and
-@code{argv} (see @ref{Unary Operators}) for accessing the command-line
-arguments.  
-
-Improve discussion of RPN operators in manual.
-
-Remove documentation on @code{gri_indent}, not supplied with Gri for a
-long time.
-
-
-@item 2.5.4 [2000-Jun-01]
-Fix up some errors in manual (non-visible images in html form).
-
-@item 2.5.3 [2000-May-24]
-Add automatic support for compressed data files.  So far, this only
-works with gzipped files @xref{Open}.
-
-Improve the manual in various ways: (1) change the section about the
-Emacs @file{gri-mode.el} into a chapter, complete with screenshots; (2)
-improve the HTML navigation tags; (3) make the Gri code examples be
-color-coded for syntax; and (4) use Jpeg format for images instead of
-Gif format.
-
-@item 2.5.2 [2000-May-18]
-Add new features to @code{gri-mode.el}, bringing it up to version 2.25:
-@end table
-
-@enumerate
-@item Add a menubar pull-down menu listing all Gri commands,
-      allowing the user to get @code{Help} or @code{Info} on any command or
-      @code{Insert} it in the current Gri file.
-@item Gri info file can have @emph{.info} extension now.
-@item Made @code{gri-apropos} an alias for @code{gri-help-apropos}.
-@item gri-mode now uses the customize interface (See
-      @code{gri-customize}).
-@item The @code{~/.gri-syntax} file has changed format.  As a
-      side-effect, spaces are used instead of hyphens to display Gri commands,
-      and one can now select a command with the mouse in the
-      @emph{Completions} buffer.
-@end enumerate
-
-@table @emph
-@item 2.5.1 [2000-May-10]
-Add two new RPN operators, @code{file_exists} and
-@code{directory_exists} @xref{Unary Operators}.
-@end table
 
 @cindex plans for future versions
 @cindex command-line interface
