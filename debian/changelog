@@ -4,6 +4,27 @@ gri (2.7.0-0) unstable; urgency=low
 
  -- Peter S Galbraith <psg@debian.org>  Tue, 22 May 2001 11:11:11 -0400
 
+gri (2.6.4-1) unstable; urgency=low
+
+  * New upstream bug-fix release:
+    - Fix SourceForge bug #435603 (`set dash' produced broken PostScript)
+    - Fix SourceForge bug #435688 (`polar' column type not supported)	
+  * Close bug I submitted to keep 2.6.3 from entering testing because of
+    #435603 above (closes: #103366).
+
+ -- Peter S Galbraith <psg@debian.org>  Tue,  3 Jul 2001 15:05:42 -0400
+
+gri (2.6.3-1) unstable; urgency=low
+
+  * New upstream bug-fix release:
+    - Use gri-mode.el from the 2.7.x stream.
+    - Fix SourceForge bug #433250 (`draw symbol' ignored dashing state
+      sometimes)
+    - Fix SourceForge bug #432549 (contours sometimes unlabelled)
+    - Tweak internal coding for compilation on AIX compilers.
+	
+ -- Peter S Galbraith <psg@debian.org>  Fri, 22 Jun 2001 09:15:27 -0400
+
 gri (2.6.2-1) unstable; urgency=low
 
   * New upstream version (bug fixes only).
