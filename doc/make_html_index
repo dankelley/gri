@@ -1,5 +1,6 @@
 #!/usr/local/bin/perl
-# Create HTML index from index of pre-installed info page
+# Create HTML index from index of pre-installed info page.
+# Bug: the @code{} items get lost, too bad.
 system("makeinfo TMP");
 system("info -d . -f gri --output ./tmp.1 'Concept Index'");
 system("cat tmp.1 | grep -v '^File' | grep -v '^\* Menu:\$' | gawk '/^\* .*\./'  |  sort -f >  tmp.2");
