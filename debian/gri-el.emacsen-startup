@@ -1,0 +1,3 @@
+(setq gri*directory-tree "/usr/share/gri/")
+(autoload 'gri-mode "gri-mode" "Enter Gri-mode." t)
+(setq auto-mode-alist (cons '("\\.gri$" . gri-mode) auto-mode-alist))

@@ -1,0 +1,28 @@
+#!/bin/sh
+#
+# emacsen remove script for the gri package
+# -
+# This script is installed by the Gri package `rules' file to 
+#  /usr/lib/emacsen-common/packages/remove/gri
+# It is run by Gri package `prerm' which calls 
+#  /usr/lib/emacsen-common/emacs-package-remove gri
+# The Gri package `prerm' is installed as /var/lib/dpkg/info/gri.prerm
+
+set -e 
+
+flavour=$1
+
+package=gri
+source=/usr/share/emacs/site-lisp/
+destination=/usr/share/${flavour}/site-lisp/
+
+if [ ${flavour} != emacs ]
+then
+    echo remove/${package}: Purging byte-compiled files for flavour ${flavour}
+    rm -f ${destination}/gri-mode.elc
+    rm -f ${destination}/gri-mode.CompilationLog.gz
+else
+    echo remove/${package}: Ignoring emacsen flavour ${flavour}
+fi
+
+exit 0;
