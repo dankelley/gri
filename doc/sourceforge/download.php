@@ -84,12 +84,12 @@ for <b>other platforms</b>, e.g. Solaris, Windows, etc.</p>
 
 <h1>Source Code</h1>
 <p>
-The Gri source code is provided in two tarballs: a 
-<A HREF="<?php print "$ftp_site/gri-$gri_stable_version.tgz";?>">smaller package</a>
-for which documentation files are created during the building process (but which
-requires more software on the build machine), and a
-<A HREF="<?php print "$ftp_site/gri-$gri_stable_version-arch-indep.tgz";?>">larger package</a>
-which has pre-built documentation files.
+A
+<A HREF="<?php print "$ftp_site/gri-$gri_stable_version.tgz";?>">
+tarball</a>
+provides the Gri source in a standard way, i.e. with the usual steps
+of <tt>./configure</tt> followed by <tt>make</tt> and then
+<tt>make install</tt>.  (Other standard targets exist also, such as <tt>make check</tt>, etc.)
 </p>
 
 <p> If you're adventurous and/or interested in helping with Gri development,

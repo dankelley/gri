@@ -12,7 +12,7 @@ A:mail { text-decoration: none; color: #6666FF; font-weight: bold }
 OL,UL,P,BODY,TD,TR,TH,FORM,SPAN { color: #333333 }
 #H1,H2,H3,H4,H5,H6 { font-family: arial,helvetica,sans-serif; font-size: large;}
 H1,H2,H3,H4,H5,H6 { font-size: large;}
-PRE,TT { font-family: courier,sans-serif }
+PRE,TT { font-family: courier,sans-serif; color: rgb(70%,40%,40$); }
 
 SPAN.center { text-align: center }
 SPAN.boxspace { font-size: 2pt; }
