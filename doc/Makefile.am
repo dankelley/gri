@@ -23,7 +23,6 @@ endif
             REFCARD = refcard
         CMD_REFCARD = cmdrefcard
      HTML_LONG_NAME = gri-long
-#           INFO_DIR = $(DESTDIR)$(prefix)/info
    INFO_DIR_SOLARIS = $(DESTDIR)$(prefix)/info
 
 SUBDIRS = examples resources screenshots tst_suite
@@ -34,7 +33,8 @@ EXTRA_DIST = \
  gri-manpage.1 gri-manpage-redhat.1 gri-manpage-SunOS5.1\
  gri_merge.1-skel gri_unpage.1-skel\
  gri2texi texinfo2HTML gri2html HTML_subdivide\
- make_html_index make_html_commandindex make_html_builtinindex
+ make_html_index make_html_commandindex make_html_builtinindex\
+ mdate-sh
 
 html: $(srcdir)/gri.texi texinfo2HTML HTML_subdivide
 	cd examples ; make
