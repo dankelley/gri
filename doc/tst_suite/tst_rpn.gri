@@ -1,2 +1,30 @@
 show "doc/tst_suite/tst_rpn.gri     ..." ...
+
+rpnfunction same - abs 1e-10 >		# tests if two numbers match to 1e-10
+
+# Arithmetic
+.a. = 0
+assert {rpn .a. !}			" failed test 1"
+.a. += 1
+assert .a.				" failed test 2"
+.a. += 1
+assert {rpn .a. 2 same}			" failed test 3"
+.a. *= 2
+assert {rpn .a. 4 same}			" failed test 4"
+.a. /= 4
+assert {rpn .a. 1 same}			" failed test 5"
+
+# Logs, powers
+.a. _= 10
+assert {rpn .a. 0 same}			" failed test 6"
+.a. = 2
+.a. ^= 8
+assert {rpn .a. 256 same}		" failed test 7"
+
+# Sine, etc.
+# ----------- FILL IN LATER -----------------
+
+# Stack operations (push, pop, exch)
+# ----------- FILL IN LATER -----------------
+
 show " passed"

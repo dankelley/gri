@@ -3362,7 +3362,7 @@ This computer can't `\\synonym = system ...' since no popen() subroutine.");
 		}
 #endif
 	} else {
-		printf("DEBUG %s:%d syn= ... '%s' (have %d words)\n", __FILE__,__LINE__,_cmdLine, _nword);
+		//printf("DEBUG %s:%d syn= ... '%s' (have %d words)\n", __FILE__,__LINE__,_cmdLine, _nword);
 		// `\synonym = "..."'
 		//printf("%d words...\n",_nword);
 		//printf("0 <<%s>>\n",_word[0]);

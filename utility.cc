@@ -986,7 +986,7 @@ warning(const char *s,...)
 int
 ExtractQuote(const char *s, string& sout)
 {
-	printf("DEBUG %s:%d input string is '%s'\n",__FILE__,__LINE__,s);
+	//printf("DEBUG %s:%d input string is '%s'\n",__FILE__,__LINE__,s);
 	int             i = 0;
 	// Skip along to first quote ...
 	while (s[i] != '"') {
@@ -1001,7 +1001,7 @@ ExtractQuote(const char *s, string& sout)
 			if (i > 0 && s[i - 1] == '\\') {
 				sout += '"';
 			} else {
-				printf("DEBUG %s:%d returning '%s' with pos %d\n",__FILE__,__LINE__,sout.c_str(), i+1);
+				//printf("DEBUG %s:%d returning '%s' with pos %d\n",__FILE__,__LINE__,sout.c_str(), i+1);
 				return i + 1;
 			}
 		} else {
@@ -1011,7 +1011,7 @@ ExtractQuote(const char *s, string& sout)
 	}
 	// ... and return an index so the parser can do more
 	// work on 's' past the quote
-	printf("DEBUG %s:%d extract quote put sout '%s' from '%s'\n", __FILE__,__LINE__,sout.c_str(),s);
+	//printf("DEBUG %s:%d extract quote put sout '%s' from '%s'\n", __FILE__,__LINE__,sout.c_str(),s);
 	return i;
 }
 
