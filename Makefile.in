@@ -199,7 +199,7 @@ distclean:
 # Source distribution
         SOURCE_NAME = gri-$(VERSION)
            DEST_DIR = .
-source:
+source-copy:
 #	Clean directory, if existent.
 	-rm -rf $(SOURCE_NAME)
 	install -d $(SOURCE_NAME)
@@ -258,6 +258,8 @@ source:
 	install -m 644 doc/tst_suite/tst_control.gri $(SOURCE_NAME)/doc/tst_suite
 	install -m 644 doc/tst_suite/tst_rpn.gri     $(SOURCE_NAME)/doc/tst_suite
 	install -m 644 doc/tst_suite/tst_var_syn.gri $(SOURCE_NAME)/doc/tst_suite
+
+source: source-copy
 #
 #	Tar package, compress it, install it.
 	tar -c -f $(SOURCE_NAME).tar $(SOURCE_NAME)
@@ -265,6 +267,15 @@ source:
 	gzip -f --best $(SOURCE_NAME).tar
 	mv $(SOURCE_NAME).tar.gz $(DEST_DIR)/$(SOURCE_NAME).tgz
 	chmod a+r $(DEST_DIR)/$(SOURCE_NAME).tgz
+
+source-arch-indep: source-copy
+	cd $(SOURCE_NAME)/doc; make refcard.ps cmdrefcard.ps info html
+	tar -c -f $(SOURCE_NAME)-arch-indep.tar $(SOURCE_NAME)
+	rm -rf $(SOURCE_NAME)
+	gzip -f --best $(SOURCE_NAME)-arch-indep.tar
+	-mv $(SOURCE_NAME)-arch-indep.tar.gz $(DEST_DIR)/
+	chmod a+r $(DEST_DIR)/$(SOURCE_NAME)-arch-indep.tar.gz
+
 
 README-ftp:
 	lynx -dump README-ftp.html > README-ftp
