@@ -620,6 +620,7 @@ end_of_synonym(char c, bool inmath, bool need_brace)
 	case '+':
 	case '<':
 	case '>':
+	case '=':
 	case '$':
 		if (((unsigned) superuser()) & FLAG_SYN) printf("\t\t returning TRUE place 2\n");
 		return true;
