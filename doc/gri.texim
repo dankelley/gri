@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.211 2002/09/07 00:03:30 psg Exp $
+@c $Id: gri.texim,v 1.212 2002/09/07 23:42:25 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16325,7 +16325,8 @@ only in the fixing of bugs.
 @subsection Version 2.12
 @cindex version 2.12
 
-@subsubsection Version 2.12.0 [2002 Sep 13]
+@subsubsection Version 2.12.0 [2002 Sep 15]
+(@uref{http://www.terryfox.org/,Terry Fox Day}, Canada.)
 
 @subsubsection New Features
 
@@ -16357,6 +16358,11 @@ n/a
 
 @item
 Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=593958&group_id=5511&atid=105511,#593958}
+@dots{} missing-values should be ignored if they occur in intermediate results of RPN calculations.
+
+@item
+Fix SourceForge bug
 @uref{http://sourceforge.net/tracker/index.php?func=detail&aid=600395&group_id=5511&atid=105511,#600395}
 @dots{} won't compile with recently released version (3.2) of GCC compiler.
 
@@ -16374,7 +16380,7 @@ not contain enough entries (e.g. @code{show @{rpn cosh@}}).
 @subsection Version 2.10
 @cindex version 2.10
 
-@subsubsection Version 2.10.1 [2002 Jun 1]
+@subsubsection Version 2.10.0 [2002 Jun 1]
 
 @strong{Bug Fixes}
 

@@ -96,11 +96,13 @@ then
 fi
 
 %changelog
-* Fri Sep 13 2002  Dan Kelley <Dan.Kelley@Dal.Ca>
+* Sun Sep 15 2002  Dan Kelley <Dan.Kelley@Dal.Ca>
 - Version 2.12.0
 - add 'sed' RPN operator
 - add 'skewness' RPN operator
 - add 'kurtosis' RPN operator
+- fix SourceForge bug 593958 (should ignore 'missingvalue' if it occurs 
+  within an intermediate result of an RPN calculation)
 - fix SourceForge bug 600395 (won't compile with recently released version (3.2) of GCC compiler)
 - fix SourceForge bug 600233 (segfaults if some RPN operators are used on too-small stack)
 * Sun Jun 16 2002  Dan Kelley <Dan.Kelley@Dal.Ca>

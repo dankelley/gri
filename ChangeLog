@@ -1,3 +1,7 @@
+2002-09-07  Dan Kelley  <kelley@limit.phys.ocean.dal.ca>
+
+	* Gri version 2.12.0.
+
 2002-08-28  Dan Kelley  <kelley@limit.phys.ocean.dal.ca>
 
 	* variable.cc (put_var): catch assignment to ..missingvalue.., and set the missing value if so
