@@ -938,7 +938,7 @@ interpret_optional_arguments(int argc, char *argv[])
 								_output_file_type = gif;
 							} else if (strEQ(o.c_str() + suffix_index, ".svg")) {
 								extern FILE *_grSVG;
-								fprintf(stderr, "%s:%d: warning: SVG output is rudimentary.  Note the warnings below.\n\tAlso, the following fail completely:\n\t\tfilled curves\n\t\timages\n\t\t...\n", __FILE__,__LINE__, o.c_str());
+								fprintf(stderr, "%s:%d: warning: SVG output is rudimentary.  Note the warnings below.\n\tAlso, the following fail completely:\n\t\tfilled curves\n\t\timages\n\t\t...\n", __FILE__,__LINE__);
 								_output_file_type = svg;
 								_grSVG = fopen(o.c_str(), "w");
 								if (!_grSVG) {

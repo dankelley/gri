@@ -2167,16 +2167,15 @@ lapse_rate(double S, double t, double p)
 char*
 tmp_file_name()
 {
-	char *rval;
 #if defined(HAVE_TEMPNAM)
 	//	rval = tempnam("/usr/tmp", "gri");
-	rval = tempnam(NULL, "gri");
+	char *rval = tempnam(NULL, "gri");
 	if (rval == NULL)
 		return NULL;
 	return rval;
 #else
 #if defined(HAVE_TMPNAM)
-	rval = tmpnam(NULL);
+	char *rval = tmpnam(NULL);
 	if (rval == NULL)
 		return NULL;
 	return rval;
