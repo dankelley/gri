@@ -240,7 +240,7 @@ source:
 	-cp $(DOC_DIR)/make_html_index      $(SOURCE_NAME)/doc
 	mkdir $(SOURCE_NAME)/doc/resources
 	chmod a+x $(SOURCE_NAME)/doc/resources
-	-cp $(DOC_DIR)/resources/*.gri $(DOC_DIR)/resources/*.eps $(DOC_DIR)/resources/*.gif $(DOC_DIR)/resources/*txt   $(SOURCE_NAME)/doc/resources
+	-cp $(DOC_DIR)/resources/*.gri $(DOC_DIR)/resources/*.eps $(DOC_DIR)/resources/*.gif $(DOC_DIR)/resources $(SOURCE_NAME)/doc/resources
 	chmod a+r $(SOURCE_NAME)/doc/resources/*
 	mkdir $(SOURCE_NAME)/doc/examples
 	chmod a+x $(SOURCE_NAME)/doc/examples
