@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.80 2001/05/03 16:56:20 dankelley Exp $
+@c $Id: gri.texim,v 1.81 2001/05/08 13:47:56 psg Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -15568,7 +15568,12 @@ and adjust the "status" menu to read "closed".
 
 @subsection Version 2.6.1 [NOT RELEASED YET]
 @itemize @bullet
-
+@item
+Fix SourceForge bug 
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=419599&group_id=5511&atid=105511">
+#421076
+@c HTML </a>
+(byte-compiled gri-mode.el has broken IMenu support;  Affects Debian package.)
 @item
 Fix SourceForge bug 
 @c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=419599&group_id=5511&atid=105511">
