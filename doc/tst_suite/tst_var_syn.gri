@@ -122,6 +122,17 @@ close
 assert {rpn "\a" "Hello" ==}                    " failed test 12.3"
 system rm -f test.dat
 
+# Part 8 -- ensure not trying to evaluate inside 'false' if parts.
+\str = "Hello"
+\t = {rpn "\s" "tr" strcat}	# construct a name
+if {rpn "\\t" defined}		# test if defined
+    .val. = 1
+end if
+if {rpn "\\x" defined}		# this one is not defined
+    .val. = 2
+end if
+assert {rpn .val. 1 ==}                         " failed test 12.4"
+
 #
 \a1 = "1"
 \b1 = "2"

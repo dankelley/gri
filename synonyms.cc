@@ -773,8 +773,10 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 					sout.append(alias_value);
 					if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d looked up '%s' (after skipping) to get '%s'\n",__FILE__,__LINE__,alias_name.c_str(),alias_value.c_str());
 				} else {
-					err("Cannot un-alias synonym in `\\", alias_name.c_str(), "'.", "\\");
-					return false;
+					if (!skipping_through_if()) {
+						err("Cannot un-alias synonym in `\\", alias_name.c_str(), "'.", "\\");
+						return false;
+					}
 				}
 			} else if (alias_name[0] == '.') {
 				double value = 0.0;
@@ -785,8 +787,10 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 					sprintf(alias_value_buffer, "%f", value);
 					sout.append(alias_value_buffer);
 				} else {
-					err("Cannot un-alias variable in `\\", alias_name.c_str(), "'.", "\\");
-					return false;
+					if (!skipping_through_if()) {
+						err("Cannot un-alias variable in `\\", alias_name.c_str(), "'.", "\\");
+						return false;
+					}
 				}
 			} else {
 				err("The purported alias `\\", alias_name.c_str(), "' doesn't name a synonym or a variable.", "\\");
