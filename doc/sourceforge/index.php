@@ -182,14 +182,13 @@ as simple as the following ...
    draw curve
 </font>
 </pre>
-... which will produce a PostScript graph with axes autoscaled to fit the data.
+... which produces a PostScript graph with axes autoscaled to fit the
+columnar data in the <tt><font color="#82140F">file.dat</font></tt>
+file.
 
 <p>
 
-A list of the recent changes is <A class="menus"
-HREF="http://gri.sourceforge.net/gridoc/html/Version_2_8.html#Version2.8">here</a>.<br>
-
-<p>
+<hr>
 <!-- See Ullman (2001) p33 for hints on how this PHP done -->
 <form action="search_concept.php">
 Search gri manual for (may be a regular expression):<p>
@@ -282,6 +281,9 @@ Search gri manual for (may be a regular expression):<p>
        <td  class="menus" align="left">
 <!--	 <a class="menus" href="http://www.sourceforge.net/forum/forum.php?forum_id=134278">Announcements</a></b>-->
 	 <a class="menus" href="http://www.sourceforge.net/news/?group_id=5511">News forum</a></b>
+         <br><A class="menus"
+HREF="http://gri.sourceforge.net/gridoc/html/Version_2_8.html#Version2.8">History of version 2.8.x</a><br>
+
        </td>
      </tr>
    </table>
