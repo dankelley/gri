@@ -1,7 +1,7 @@
 \input texinfo 
 
 
-@c $Id: gri.texi,v 1.131 2003/06/08 01:02:12 dankelley Exp $
+@c $Id: gri.texi,v 1.132 2003/06/10 17:23:41 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -93,7 +93,7 @@ Copyright @copyright{} 1991-2003 Dan Kelley
 @top Gri
 @c HTML <!--
 This manual describes Gri version
-@value{VERSION}, updated @value{UPDATED},
+@value{VERSION} @c , updated @value{UPDATED},
 (c) 1991-2003, 
 Dan Kelley at email address 
 @c HTML <A HREF="mailto:Dan.Kelley@Dal.CA"> 

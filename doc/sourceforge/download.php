@@ -102,7 +102,7 @@ requires more software on the build machine), and a
 which has pre-built documentation files.
 </p>
 
-<p> If you're adventurous and/or interested in helping with Gri developement,
+<p> If you're adventurous and/or interested in helping with Gri development,
 you might want to try building the
 <A HREF="<?php print "$sf_url/cvs/?group_id=$gri_group_id";?>">CVS version</a>,
    which is the very latest version.  Please note, however, that this may not even compile; 
