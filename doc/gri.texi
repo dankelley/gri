@@ -2570,6 +2570,8 @@ RPN operations can be divided roughly into the following groups.
 * rpn Examples::                A few examples
 @end menu
 
+@c HTML <!-- newfile StackOperators.html "Gri: RPN stack operators" "Programming Gri" -->
+
 @node   Stack Operators, Rpn Function, rpn Mathematics, rpn Mathematics
 @comment  node-name,  next,  previous,  up
 @subsection Stack Operators
@@ -2611,6 +2613,8 @@ show @{rpn 1 2 roll_right -@} " ... yields  1"
 
 
 
+@c HTML <!-- newfile RpnFunction.html "Gri: RPN function" "Programming Gri" -->
+
 @node   Rpn Function, Binary Operators, Stack Operators, rpn Mathematics
 @comment  node-name,  next,  previous,  up
 @subsection Rpn function Operators
@@ -2621,6 +2625,8 @@ replaces any such operator with the user-defined rpn expression.  The
 or even other legal @code{rpnfunction} constructs.  For details,
 (@ref{Rpnfunction}).
 
+
+@c HTML <!-- newfile BinaryOperators.html "Gri: RPN binary operators" "Programming Gri" -->
 
 @node   Binary Operators, Unary Operators, Rpn Function, rpn Mathematics
 @comment  node-name,  next,  previous,  up
@@ -2753,6 +2759,8 @@ Pick the larger of two values, yielding 3.  (Opposite to @code{inf}.)
 
 @end table
 
+
+@c HTML <!-- newfile UnaryOperators.html "Gri: RPN unary operators" "Programming Gri" -->
 
 @node   Unary Operators, Solitary Operators, Binary Operators, rpn Mathematics
 @comment  node-name,  next,  previous,  up
@@ -3068,6 +3076,8 @@ the bottom edge of the paper.  (Opposite of @code{yusertocm}.)
 
 
 
+@c HTML <!-- newfile SolitaryOperators.html "Gri: RPN solitary operators" "Programming Gri" -->
+
 @node   Solitary Operators, Manipulation of Columns etc, Unary Operators, rpn Mathematics
 @comment  node-name,  next,  previous,  up
 
@@ -3128,6 +3138,8 @@ command (@ref{Unary Operators}).
 @end table
 
 
+
+@c HTML <!-- newfile ManipulatingColumns.html "Gri: RPN column manipulation" "Programming Gri" -->
 
 @node   Manipulation of Columns etc, rpn Examples, Solitary Operators, rpn Mathematics
 @comment  node-name,  next,  previous,  up
@@ -3195,6 +3207,8 @@ found by by e.g. @code{@{rpn grid .x. .y. interpolate@}}.  The
 interpolation scheme is the same as that used in converting grids to
 images.
 
+
+@c HTML <!-- newfile RPNexamples.html "Gri: RPN examples" "Programming Gri" -->
 
 @node   rpn Examples, Text, Manipulation of Columns etc, rpn Mathematics
 @comment  node-name,  next,  previous,  up
@@ -3275,7 +3289,7 @@ draw label "Smoothed" at ..lastx.. .y.
 @end itemize
 
 
-@c HTML <!-- newfile Text.html "Gri: Text in Gri" "Programming Gri" -->
+@c HTML <!-- newfile Text.html "Gri: Text in Gri" "Text" -->
 
 @node   Text, Embedded Synonyms, rpn Examples, Programming
 @comment  node-name,  next,  previous,  up
@@ -3297,6 +3311,8 @@ LaTeX-style syntax.
 @end menu
 
 
+@c HTML <!-- newfile EmbeddedSynonyms.html "Gri: embedded synonyms" "Text" -->
+
 @node   Embedded Synonyms, Mathematical Text, Text, Text
 @comment  node-name,  next,  previous,  up
 @subsection Embedding synonyms in quoted text strings
@@ -3316,6 +3332,8 @@ draw title "data from \filename"
 Within math strings (ie, between matched dollar-signs), these synonyms
 are disabled, and only the mathematical symbols and Greek letters work.
 
+
+@c HTML <!-- newfile MathematicalText.html "Gri: mathematical text" "Text" -->
 
 @node   Mathematical Text, Non-English Text, Embedded Synonyms, Text
 @comment  node-name,  next,  previous,  up
@@ -3545,6 +3563,8 @@ draw label "$\rho\!\!\!\!^-$" at 3 3 cm
 
 
 
+@c HTML <!-- newfile NonEnglishText.html "Gri: non-English text" "Text" -->
+
 @node   Non-English Text, Adjustment Of Character Position, Mathematical Text, Text
 @comment  node-name,  next,  previous,  up
 @subsection Non-English characters
@@ -3599,6 +3619,8 @@ on the @code{e}.  And then, Gri will recognize this accented @code{e},
 and it will draw the accent on the axis label.
 
 
+@c HTML <!-- newfile AdjustingCharacterPosition.html "Gri: adjusting character position" "Text" -->
+
 @node   Adjustment Of Character Position, Adding New Commands, Non-English Text, Text
 @comment  node-name,  next,  previous,  up
 @subsection Adjustment Of Character Position
@@ -3609,8 +3631,8 @@ symbols @code{\!} (which means go left one thin-space) and @code{\,}
 (which means go right on thin-space).  (A thin-space is 1/6 the width of
 the letter ``M'').
 
-@c HTML <!-- newfile NewCommands.html "Gri: Adding new commands" "Programming Gri" -->
 
+@c HTML <!-- newfile NewCommands.html "Gri: Adding new commands" "Programming Gri" -->
 
 @node   Adding New Commands, Parsing, Adjustment Of Character Position, Programming
 @comment  node-name,  next,  previous,  up
