@@ -30,6 +30,9 @@ ToDo: Handle release date in version.cc
 NOTE: present version number is $version\n";
 }
 
+die "This script is disabled, pending updates.  (For example, some
+files are moved, and others are not manually updated anymore.)";
+
 exit usage() if ($opt_h || ! $opt_v || ($opt_v == ""));
 
 die "CVSROOT not defined" if (! defined($ENV{'CVSROOT'}));
