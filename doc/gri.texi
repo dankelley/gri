@@ -1,7 +1,7 @@
 \input texinfo 
 
 
-@c $Id: gri.texi,v 1.132 2003/06/10 17:23:41 dankelley Exp $
+@c $Id: gri.texi,v 1.133 2003/06/10 18:15:31 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -15515,22 +15515,10 @@ of all commands and key definitions.
 
 @c HTML <!-- newfile GriModeScreenshots.html "Gri Mode: Screenshots" "Gri Mode: Screenshots" -->
 
-@node   Gri-mode screenshots, Installing gri-mode.el, About Gri Mode, Emacs Mode
+@node   Gri-mode screenshots, Screenshot 1, About Gri Mode, Emacs Mode
 @comment  node-name,  next,  previous,  up
 @section Gri-mode screenshots, what it looks like.
 @cindex gri-mode, screenshots
-
-@comment First handle Info version
-@c HTML <!--
-@ifinfo
-Screenshots are not available in this Info version of the gri manual,
-however the HTML and PostScript versions have them.  You might want to
-look up 
-@url{http://gri.sourceforge.net/gridoc/html/Emacs.html}
-on the
-web and check it out.
-@end ifinfo
-@c HTML -->
 
 @cindex screen snapshots, using Gri
 @cindex snapshots of computer screen, using Gri
@@ -15566,7 +15554,7 @@ C-v}, the user is ready to print the file using a pull-down menu.
 @end iftex
 
 @comment Now handle more complicated HTML version
-@ifhtml
+@c @ifhtml
 
 @comment First the index images pointing to new HTML files.
 @c HTML <p>
@@ -15597,10 +15585,23 @@ C-v}, the user is ready to print the file using a pull-down menu.
 
 @comment Next, generate these new HTML files (sneaky).
 
+@menu
+* Screenshot 1::
+* Screenshot 2::
+* Screenshot 3::
+* Screenshot 4::
+@end menu
+
+
 @c HTML <!-- newfile ScreenShot1.html "Gri: Screenshot 1" "Screenshot 1" -->
-@node   Screenshot 1, Installing gri-mode.el, Gri-mode screenshots, Gri-mode screenshots
+@node   Screenshot 1, Screenshot 2, Gri-mode screenshots, Gri-mode screenshots
 @comment  node-name,  next,  previous,  up
 @subsection Screenshot 1
+
+@ifinfo
+Screenshots are not visible in the info node; see the online
+HTML documents.
+@end ifinfo
 
 In the first screenshot, the user has entered the text @code{set font}
 and has pressed @key{M-Tab} twice to see the list of possible
@@ -15616,6 +15617,11 @@ buffers} in Emacs.
 @comment  node-name,  next,  previous,  up
 @subsection Screenshot 2
 
+@ifinfo
+Screenshots are not visible in the info node; see the online
+HTML documents.
+@end ifinfo
+
 Here, the user has selected the command @code{set font to} and,
 forgetting what valid font name could be used, then invoked @kbd{C-c
 C-h} to get help about that command. The user found the needed
@@ -15630,6 +15636,11 @@ the minibuffer after a few seconds of inactivity.
 @comment  node-name,  next,  previous,  up
 @subsection Screenshot 3
 
+@ifinfo
+Screenshots are not visible in the info node; see the online
+HTML documents.
+@end ifinfo
+
 Here we see the user cascading through the Gri commands pull-down menu
 until @code{draw axes} is reached.  This menu can be used to display Info
 (or help) about a given command, or to insert the selection.  The default
@@ -15643,16 +15654,21 @@ exactly remember its name.
 @comment  node-name,  next,  previous,  up
 @subsection Screenshot 4
 
+@ifinfo
+Screenshots are not visible in the info node; see the online
+HTML documents.
+@end ifinfo
+
 With the output previewed in a @code{gv} window after pressing @kbd{C-c
 C-v} (or pressing the @code{gv} icon in the toolbar, or selecting it from
 the @code{Perform} pull-down menu), the user is ready to print the file,
 here using the @code{Perform} pull-down menu.
 
 @c HTML <IMG SRC="./screenshots/gri-screenshot-4.png"></A>
-@end ifhtml
+@c @end ifhtml
 
 @c HTML <!-- newfile InstallingGriMode.html "Gri Mode: Installation" "Gri Mode: Installation" -->
-@node   Installing gri-mode.el, Step 1, Gri-mode screenshots, Emacs Mode
+@node   Installing gri-mode.el, Step 1, Screenshot 4, Emacs Mode
 @comment  node-name,  next,  previous,  up
 @section Installing gri-mode.el, the nuts and bolts.
 @cindex gri-mode, installing
