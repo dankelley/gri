@@ -11,7 +11,7 @@
     \RHO_MAX = "27.5"
     \RHO_INC = "-0.002"
     \NY = "301"
-    \xmin = "500"
+    \xmin = "350"
     \xmax = "0"
     \xinc = "-100"
     \ymin = "28.1"
@@ -25,15 +25,14 @@
 Set up axes
 */
 {
-    set page landscape
-    set x margin 5
     set x name "km"
-    set x size 20
+    set x size 10
     set x axis \xmin \xmax \xinc
-    set y margin 5
     set y name "$\sigma_T$"
+    set y size 5
     set y axis label horizontal
     set y axis \ymin \ymax \yinc
+    set y format "%.1f"
 }
 `Initialize Files'
 {
@@ -107,9 +106,6 @@ Set up axes
 	end if
     end if
 }
-if !..publication..
-    draw time stamp
-end if
 Initialize Parameters
 Initialize Axes
 Initialize Files
@@ -121,6 +117,6 @@ if {"\doimage" == "yes"}
 else
     .contour_graylevel. = 0	# black contours 
     Plot Contours
-    draw title "Example 8 -- \data"
+    draw title "Example 8"
 end if
 quit

@@ -11,7 +11,7 @@
     \RHO_INC = "-0.002"
     \NY = "301"
     set missing value -99.0
-    \xmin = "500"
+    \xmin = "350"
     \xmax = "0"
     \xinc = "-100"
     \ymin = "28.1"
@@ -23,12 +23,10 @@
 `Initialize Axes'
 Set up axes.
 {
-    set page landscape
-    set x margin 5
     set x name "km"
-    set x size 20
+    set x size 10
     set x axis \xmin \xmax \xinc
-    set y margin 5
+    set y size 5
     set y name "$\sigma_T$"
     set y axis label horizontal
     set y axis \ymin \ymax \yinc
@@ -61,36 +59,25 @@ Set up axes.
     read grid data \NY .gridx_number.
     close
 }
-if !..publication..
-    draw time stamp
-end if
 Initialize Parameters
 Initialize Axes
 Initialize Files
 Read Data
 set image range \zmin \zmax
+set image colorscale hsb 0 1 1 \zmin   hsb .6 1 1 \zmax
 convert grid to image box \xmin  \ymin \xmax \ymax
-query \dohisto "Do histogram scaling? (yes|no)" ("no")
-if {"\dohisto" == "yes"}
-    set image grayscale using histogram
-end if
 #
-# Draw the image, then draw the axes.  If auto-drawing of axes had
-# been relied upon, or if the axes had been drawn previously, parts
-# of the axes would have been wiped out by spillover of the image.
+# Draw the image, then draw the axes.  Note that the image has
+# extends beyond the axes frame, so we will turn clipping
+# on before drawing it, to make a clean picture.
+set clip postscript on
 draw image
-draw axes frame
-.axis_offset. = 0.25		# offset in cm
-draw x axis at {rpn ..ybottom.. yusertocm .axis_offset. -} cm
-draw y axis at {rpn ..xleft..   xusertocm .axis_offset. -} cm
-.old. = ..fontsize..
-set font size 0
-draw y axis at {rpn ..xright..  xusertocm .axis_offset. +} cm right
-set font size .old.
-delete .old.
+set clip postscript off
+draw axes
+
 #
 # All done.
-draw title "Example 9 \data black=\zmin white=\zmax"
+draw title "Example 9"
 if {"\dohisto" == "yes"}
     draw title "Histogram enhanced grayscales"
 end if
