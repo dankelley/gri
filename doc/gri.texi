@@ -9729,12 +9729,12 @@ open "sed -e 's/,/ /g' foo.dat | tail +2 |"
 @item
 @emph{Manipulating column data} is done by e.g.
 @example
-open "cat a.dat | \.awk. '@{$1, $2 * 22@}' |"
+open "cat foo.dat | \.awk. '@{$1, $2 * 22@}' |"
 @end example
 @noindent
-where @file{awk} has been used to multiply the second column by 22.
-(Note the use of @code{\.awk.}, a builtin synonym naming the awk program
-on your system.)
+where @file{awk} has been used to multiply the second column in the file
+named @file{foo.dat} by 22.  (Note the use of @code{\.awk.}, a builtin
+synonym naming the awk program on your system.)
 
 @item
 @cindex files, opening remote WWW files
