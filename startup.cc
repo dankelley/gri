@@ -221,17 +221,25 @@ first argument looks like a PostScript filename.  Older versions\n\
 	insert_creator_name_in_PS(argc, argv, psname);
 	// Finally, ready to begin plot.
 	gr_begin(1);
-#if 1
+
+	// Embed info on how gri was invoked.
 	extern FILE *_grPS;
+	char host[BUFSIZ];
+#if defined(HAVE_GETHOSTNAME)
+	if (0 != gethostname(host, BUFSIZ - 1))
+		strcpy(host, "unknown");
+#else
+	strcpy(host, "unknown");
+#endif
+	fprintf(_grPS, "%%gri:# Gri was invoked by user named\n%%gri:#     %s\n%%gri:# on host named\n%%gri:#     %s\n%%gri:# using the command\n%%gri:#    ", egetenv("USER"), host);
+	for (int i = 0; i < argc; i++)
+		fprintf(_grPS, " %s ", argv[i]);
 	SECOND_TYPE sec;
 	time(&sec);
 	sprintf(_grTempString, "%s", asctime(localtime(&sec)));
 	_grTempString[-1 + strlen(_grTempString)] = '\0'; // trim newline
-	fprintf(_grPS, "%%gri:# Gri was invoked by user `%s' on %s by the command\n%%gri:#    ", egetenv("USER"), _grTempString);
-	for (int i = 0; i < argc; i++)
-		fprintf(_grPS, " %s ", argv[i]);
-	fprintf(_grPS, "\n%%gri:# in directory %s.\n", pwd());
-#endif
+	fprintf(_grPS, "\n%%gri:# at time %s.\n", _grTempString);
+
 	put_syn("\\.ps_file.", gr_currentPSfilename(), true);
 	// Disable tracing during startup phase, unless in superuser mode.
 	double          trace_old;
@@ -527,7 +535,7 @@ create_builtin_synonyms()
 	SECOND_TYPE sec;
 	time(&sec);
 	strcpy(_grTempString, asctime(localtime(&sec)));
-	_grTempString[strlen(_grTempString) - 1] = '\0';
+	_grTempString[-1 + strlen(_grTempString)] = '\0'; // trim newline
 	if (!put_syn("\\.time.", _grTempString, true)) OUT_OF_MEMORY;
 	//  \.user. (user name)
 	user = egetenv("USER");
@@ -919,12 +927,14 @@ dogrirc()
 	strcpy(grircname, GRIRC_FILE);
 #endif
 	if (push_cmd_file(grircname, false, false, "r")) {
-		gr_comment("gri:# BEGIN (~/.grirc)\n");
+		gr_comment("gri:#\n");
+		gr_comment("gri:# The user's ~/.grirc file ...\n");
 		while (do_command_line()){
 			;
 		}
 		_done = 0;
-		gr_comment("gri:# END   (~/.grirc)\n");
+		gr_comment("gri:# ... end of users ~/.grirc file.\n");
+		gr_comment("gri:\n");
 	}
 }
 
