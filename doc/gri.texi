@@ -13348,9 +13348,13 @@ The next sections outline the changes made in Gri.
 * Plans::                          Plans, and the development version
 @end menu
 
-@node Distribution versions, Version 2.4, Evolution, Evolution
+@node   Distribution versions, Version 2.4, Evolution, Evolution
 @comment  node-name,  next,  previous,  up
 @section Distribution versions
+@menu
+* Version 2.4::
+* Version 2.2::
+@end menu
 
 @node   Version 2.4, Version 2.2, Distribution versions, Distribution versions
 @comment  node-name,  next,  previous,  up
@@ -13382,7 +13386,7 @@ input separators.
 @end table
 
 
-@node   Version 2.2, Old versions, Version 2.4, Distribution versions
+@node   Version 2.2, Plans, Version 2.4, Distribution versions
 @comment  node-name,  next,  previous,  up
 @subsection Version 2.2
 @table @emph
@@ -13423,14 +13427,7 @@ there were errors on the commandline.
 First debian release.  Versions exist for intel, alpha, 68K and powerpc.
 @end table
 
-@node   Old versions, Plans, Version 2.2, Distribution versions
-@comment  node-name,  next,  previous,  up
-@subsection Old versions
-This section will be filled in later (or deleted) depending on whether
-the authors judge it useful.
-
-
-@node   Plans, Accessing, Old versions, Evolution
+@node   Plans, Accessing, Version 2.2, Evolution
 @comment  node-name,  next,  previous,  up
 @section Development versions
 @c FOR NEXT RELEASE:
@@ -13468,6 +13465,7 @@ is in no particular order.  Please contact me at
 if you particularly need one of these things, or
 if you need something else that I've not listed.
 @enumerate
+@item Rewrite section 15.2.1 (Unix installation) to reflect current usage.
 @item Porting to more machines.   (Most Unix platforms are supported, but 
 Gri doesn't work at all on Apple platforms, and the Windows support is definitely
 not up to scratch.
