@@ -1,7 +1,7 @@
 \input texinfo 
 
 
-@c $Id: gri.texi,v 1.134 2003/06/10 18:24:58 dankelley Exp $
+@c $Id: gri.texi,v 1.135 2003/06/10 18:36:01 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -15603,7 +15603,7 @@ C-v}, the user is ready to print the file using a pull-down menu.
 Screenshots are not visible in the info node; see the online
 HTML documents.
 @end ifinfo
-@c -->
+@c HTML -->
 
 In the first screenshot, the user has entered the text @code{set font}
 and has pressed @key{M-Tab} twice to see the list of possible
@@ -15624,7 +15624,7 @@ buffers} in Emacs.
 Screenshots are not visible in the info node; see the online
 HTML documents.
 @end ifinfo
-@c -->
+@c HTML -->
 
 Here, the user has selected the command @code{set font to} and,
 forgetting what valid font name could be used, then invoked @kbd{C-c
@@ -15645,7 +15645,7 @@ the minibuffer after a few seconds of inactivity.
 Screenshots are not visible in the info node; see the online
 HTML documents.
 @end ifinfo
-@c -->
+@c HTML -->
 
 Here we see the user cascading through the Gri commands pull-down menu
 until @code{draw axes} is reached.  This menu can be used to display Info
@@ -15665,7 +15665,7 @@ exactly remember its name.
 Screenshots are not visible in the info node; see the online
 HTML documents.
 @end ifinfo
-@c -->
+@c HTML -->
 
 With the output previewed in a @code{gv} window after pressing @kbd{C-c
 C-v} (or pressing the @code{gv} icon in the toolbar, or selecting it from
