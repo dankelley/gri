@@ -3324,14 +3324,17 @@ This computer can't `\\synonym = system ...' since no popen() subroutine.");
 			substitute_synonyms_cmdline(cmd.c_str(), cmd_sub, false);
 			cmd = cmd_sub;
 		} else {
+#if 0 // 2.6.0 -- the find_first_of doesn't do what I want + not sure I want it!
 			// No, it is not of the <<WORD form
 			string::size_type loc;
-			while (STRING_NPOS != (loc = cmd.find_first_of("\\\\n"))) {
+			while (STRING_NPOS != (loc = cmd.find_first_of("\\n"))) {
 				cmd.STRINGERASE(loc, 3);
 				cmd.insert(loc, "\n");
 			}
+#else
+			;
+#endif
 		}
-
 		if (((unsigned) superuser()) & FLAG_SYS) {
 			ShowStr("\n`\\synonym = system' sending the following command to the operating system:\n");
 			ShowStr(cmd.c_str());

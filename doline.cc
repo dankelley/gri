@@ -537,7 +537,7 @@ systemCmd()
 			break;
 		}
 	}
-	string cmd(s);
+	string cmd(s); 
 	if (using_read_until) {
 		// It is of the <<WORD form
 		cmd.append("\n");
@@ -560,12 +560,16 @@ systemCmd()
 		substitute_synonyms_cmdline(cmd.c_str(), cmd_sub, false);
 		cmd = cmd_sub;
 	} else {
+#if 0 // 2.6.0 -- the find_first_of doesn't do what I want + not sure I want it!
 		// No, it is not of the <<WORD form
 		string::size_type loc;
-		while (STRING_NPOS != (loc = cmd.find_first_of("\\\\n"))) {
+		while (STRING_NPOS != (loc = cmd.find_first_of("\\n"))) {
 			cmd.erase(loc, 3);
 			cmd.insert(loc, "\n");
 		}
+#else
+		;
+#endif
 	}
 	if (((unsigned) superuser()) & FLAG_SYS) {
 		ShowStr("\n`system' sending the following command to the operating system:\n");
