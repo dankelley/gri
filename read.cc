@@ -199,24 +199,28 @@ read_netCDF_column(unsigned int iword, GriColumn *col, int *expected_length, boo
 		switch(type) {
 		case NC_FLOAT:
 		{
-			std::vector<float> tmp((size_t)length, 0.0);
+			float *tmp = (float*)NULL;
+			GET_STORAGE(tmp, float, (size_t)length);
 			if (-1 == ncvarget(_dataFILE.back().get_netCDF_id(),
-					   var_id, start, edges, (void *) tmp.begin())) {
+					   var_id, start, edges, (void *)tmp)) {
 				err("Error reading variable `\\", varname.c_str(), "' from netCDF file", "\\");
 			}
 			for (unsigned int ii = 0; ii < (unsigned int) length; ii++)
 				(*col)[ii + old_length] = tmp[ii];
+			free(tmp);
 		}
 		break;
 		case NC_DOUBLE:
 		{
-			std::vector<double> tmp((size_t)length, 0.0);
+			double *tmp = (double*)NULL;
+			GET_STORAGE(tmp, double, (size_t)length);
 			if (-1 == ncvarget(_dataFILE.back().get_netCDF_id(),
-					   var_id, start, edges, (void *) tmp.begin())) {
+					   var_id, start, edges, (void *)tmp)) {
 				err("Error reading variable `\\", varname.c_str(), "' from netCDF file", "\\");
 			}
 			for (unsigned int ii = 0; ii < (unsigned int) length; ii++)
 				(*col)[ii + old_length] = tmp[ii];
+			free(tmp);
 		}
 		break;
 		default:
@@ -800,24 +804,28 @@ read_grid_xCmd()
 		switch(type) {
 		case NC_FLOAT:
 		{
-			std::vector<float> tmp((size_t)length, 0.0);
+			float *tmp = (float*)NULL;
+			GET_STORAGE(tmp, float, (size_t)length);
 			if (-1 == ncvarget(_dataFILE.back().get_netCDF_id(),
-					   var_id, start, edges, (void *) tmp.begin())) {
+					   var_id, start, edges, (void *)tmp)) {
 				err("Error reading variable `\\", varname, "' from netCDF file", "\\");
 			}
 			for (unsigned int ii = 0; ii < (unsigned int) length; ii++)
 				_xmatrix[ii] = tmp[ii];
+			free(tmp);
 		}
 		break;
 		case NC_DOUBLE:
 		{
-			std::vector<double> tmp((size_t)length, 0.0);
+			double *tmp = (double*)NULL;
+			GET_STORAGE(tmp, double, (size_t)length);
 			if (-1 == ncvarget(_dataFILE.back().get_netCDF_id(),
-					   var_id, start, edges, (void *) tmp.begin())) {
+					   var_id, start, edges, (void *) tmp)) {
 				err("Error reading variable `\\", varname, "' from netCDF file", "\\");
 			}
 			for (unsigned int ii = 0; ii < (unsigned int) length; ii++)
 				_xmatrix[ii] = tmp[ii];
+			free(tmp);
 		}
 		break;
 		default:
@@ -1002,24 +1010,28 @@ read_grid_yCmd()
 		switch(type) {
 		case NC_FLOAT:
 		{
-			std::vector<float> tmp((size_t)length, 0.0);
+			float *tmp = (float*)NULL;
+			GET_STORAGE(tmp, float, (size_t)length);
 			if (-1 == ncvarget(_dataFILE.back().get_netCDF_id(),
-					   var_id, start, edges, (void *) tmp.begin())) {
+					   var_id, start, edges, (void *)tmp)) {
 				err("Error reading variable `\\", varname, "' from netCDF file", "\\");
 			}
 			for (unsigned int ii = 0; ii < (unsigned int) length; ii++)
 				_ymatrix[ii] = tmp[ii];
+			free(tmp);
 		}
 		break;
 		case NC_DOUBLE:
 		{
-			std::vector<double> tmp((size_t)length, 0.0);
+			double *tmp = (double*)NULL;
+			GET_STORAGE(tmp, double, (size_t)length);
 			if (-1 == ncvarget(_dataFILE.back().get_netCDF_id(),
-					   var_id, start, edges, (void *) tmp.begin())) {
+					   var_id, start, edges, (void *)tmp)) {
 				err("Error reading variable `\\", varname, "' from netCDF file", "\\");
 			}
 			for (unsigned int ii = 0; ii < (unsigned int) length; ii++)
 				_ymatrix[ii] = tmp[ii];
+			free(tmp);
 		}
 		break;
 		default:
@@ -1305,7 +1317,7 @@ Grid height %ld disagrees with existing y-grid, which is %d high",
 			return false;
 		}
 #if 0
-		if (-1 == ncvarget(_dataFILE.back().get_netCDF_id(), var_id, start, edges, (void *) f_xy_tmp.begin())) {
+		if (-1 == ncvarget(_dataFILE.back().get_netCDF_id(), var_id, start, edges, (void *) f_xy_tmp)) {
 			err("Error reading grid data from variable `\\", varname, "' from netCDF file", "\\");
 			return false;
 		}
@@ -1313,8 +1325,9 @@ Grid height %ld disagrees with existing y-grid, which is %d high",
 		switch(type) {
 		case NC_FLOAT:
 		{
-			std::vector<float> f_xy_tmp((size_t)(grid_width * grid_height), 0.0);
-			if (-1 == ncvarget(_dataFILE.back().get_netCDF_id(), var_id, start, edges, (void *) f_xy_tmp.begin())) {
+			float *f_xy_tmp = (float*)NULL;
+			GET_STORAGE(f_xy_tmp, float, (size_t)(grid_width * grid_height));
+			if (-1 == ncvarget(_dataFILE.back().get_netCDF_id(), var_id, start, edges, (void *) f_xy_tmp)) {
 				err("Error reading grid data from variable `\\", varname, "' from netCDF file", "\\");
 				return false;
 			}
@@ -1326,12 +1339,14 @@ Grid height %ld disagrees with existing y-grid, which is %d high",
 					_legit_xy(col, row) = gr_missing(val) ? false : true;
 				}
 			}
+			free(f_xy_tmp);
 		}
 		break;
 		case NC_DOUBLE:
 		{
-			std::vector<double> f_xy_tmp((size_t)(grid_width * grid_height), 0.0);
-			if (-1 == ncvarget(_dataFILE.back().get_netCDF_id(), var_id, start, edges, (void *) f_xy_tmp.begin())) {
+			float *f_xy_tmp = (float*)NULL;
+			GET_STORAGE(f_xy_tmp, float, (size_t)(grid_width * grid_height));
+			if (-1 == ncvarget(_dataFILE.back().get_netCDF_id(), var_id, start, edges, (void *) f_xy_tmp)) {
 				err("Error reading grid data from variable `\\", varname, "' from netCDF file", "\\");
 				return false;
 			}
@@ -1343,6 +1358,7 @@ Grid height %ld disagrees with existing y-grid, which is %d high",
 					_legit_xy(col, row) = gr_missing(val) ? false : true;
 				}
 			}
+			free(f_xy_tmp);
 		}
 		break;
 		default:
