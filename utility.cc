@@ -1711,3 +1711,25 @@ lapse_rate(double S, double t, double p)
     
 	return Gamma;
 }
+
+// Get name for temporary file (hide details of libraries here)
+char*
+tmp_file_name()
+{
+	char *rval;
+#if defined(HAVE_TEMPNAM)
+	rval = tempnam("/usr/tmp", "gri");
+	if (return_value == NULL) 
+		return NULL;
+	return rval;
+#else
+#if defined(HAVE_TMPNAM)
+	rval = tmpnam(NULL);
+	if (rval == NULL)
+		return NULL;
+	return rval;
+#else
+	return GRE_TMP_FILE;
+#endif
+#endif
+}
