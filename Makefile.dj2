@@ -8,7 +8,7 @@
 #    and possibly edit the appropriate NETCDF_... lines below, as
 #    instructed by the comments preceding these lines.
 #
-# 3) If you don't want Gri inserted in the directory "c:/gri", 
+# 3) If you don't want Gri inserted in the directory "c:\gri", 
 #    edit the "instdir = ..." line below.
 #
 # 4) If you get error messages about the 'stdcxx' library, edit
@@ -26,7 +26,7 @@
 #NETCDF_INCLUDE = -I/netcdf24/include
 #NETCDF_LIBS = -L/netcdf24/lib -lnetcdf
 
-instdir = c:/gri
+instdir = c:\gri
 
 
 srcdir = .
@@ -51,7 +51,7 @@ CFLAGS = -m486 -Wall
 
 LDFLAGS =
 
-prefix = d:/proga~1/gri
+prefix = c:/gri
 
 exec_prefix = $(prefix)
 
@@ -61,16 +61,10 @@ manprefix =
 
 bindir = $(exec_prefix)
 
-libdir = /etc
-
-mandir = $(prefix)/man/man1
-
 manext = 1
 
 
 #### End of system configuration section. ####
-
-#SHELL = /bin/sh
 
 OBJS = assert.o chopword.o close.o command.o convert.o debug.o delete.o \
 differ.o doline.o draw.o endup.o expect.o file.o filter.o flip.o \
@@ -80,7 +74,7 @@ help.o if.o ignore.o image.o input.o insert.o interp.o mask.o math.o \
 new.o open.o popen.o query.o quit.o read.o regress.o reorder.o \
 rescale.o rewind.o rpncalc.o rpn.o scales.o set.o show.o skip.o \
 sleep.o smooth.o source.o startup.o state.o stats.o storage.o \
-synonyms.o template.o timer.o variable.o version.o while.o write.o
+synonyms.o template.o timer.o utility.o variable.o version.o while.o write.o
 
 all:  gri
 
