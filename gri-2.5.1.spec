@@ -71,8 +71,8 @@ rm -rf $RPM_BUILD_ROOT
 %doc docinst/html
 /usr/bin/gri
 /usr/share/gri
-/usr/man/*/*
-/usr/info/*
+/usr/man/*/gri*
+/usr/info/gri*
 /usr/share/emacs/site-lisp/gri-mode.el
 /usr/bin/gri_unpage
 /usr/bin/gri_merge
@@ -84,7 +84,7 @@ then
 	if ! grep -i gri /usr/info/dir
 	then
 #		/sbin/install-info --dir-file="/usr/info/dir" --entry="* GRI: (gri). Scientific graphics language." --info-file=/usr/info/gri.info
-		/sbin/install-info --dir-file="/usr/info/dir" /usr/info/gri.info
+		/sbin/install-info --dir-file="/usr/info/dir" /usr/info/gri.info.gz
 		chmod a+r /usr/info/dir
 	fi
 fi
@@ -95,7 +95,7 @@ if [ "$1" = 0 ];
 then
 	if grep -i "gri" /usr/info/dir
 	then
-		/sbin/install-info --dir-file="/usr/info/dir" --remove /usr/info/gri.info
+		/sbin/install-info --dir-file="/usr/info/dir" --remove /usr/info/gri.info.gz
 #		grep -vi "gri" /usr/info/dir > /usr/info/dir.tmp
 #		mv /usr/info/dir.tmp /usr/info/dir
 		chmod a+r /usr/info/dir
@@ -103,6 +103,9 @@ then
 fi
 
 %changelog
+* Fri May 12 2000 Dan Kelley <dan.kelley@dal.ca>
+- Compress info files for linux-redhat.
+
 * Thu May 11 2000 Peter S Galbraith <psg@debian.org>
 - Change info files to .info file extension.
 - Tweaked install-info rules.  I hope they work.

@@ -155,6 +155,7 @@ install_linux_redhat:
 	mv tmp gri-mode.el
 	# lets install some man and info docs
 	/usr/bin/install -m 644  doc/gri-manpage-redhat.1      $(DESTDIR)$(prefix)/man/man1/gri.1
+	cd doc ; gzip --best gri.info*
 	/usr/bin/install -m 644  doc/gri.info*                 $(DESTDIR)$(prefix)/info
 
 # Install all relevant files, creating directories, destroying old
