@@ -9591,11 +9591,17 @@ filenames with punctuation in them (e.g. @code{open "../data"}).  Files
 may be ascii (the default), binary or -- on systems with the
 @code{netCDF} libraries installed -- in the @code{netCDF} format.
 
-If the filename ends in @code{.gz}, then Gri will assume it has been
+@cindex compressed files, opening
+@cindex gzipped files, opening
+@cindex opening gzipped
+@cindex opening compressed files
+If the file name ends in @code{.gz}, then Gri will assume it has been
 compressed with the @code{gzip} utility, and will uncompress it before
-reading.  (A temporary file is created and then deleted when Gri exits.
-To see the name of the temporary file, use the @code{-superuser8} flag
-@xref{Superuser}.)
+reading.
+
+If the file is not found, then Gri tries looking for a compressed
+version by appending @code{.gz} to the name (and gives a warning that it
+is doing so).
 
 For more information on netCDF format, see
 @code{http://www.unidata.ucar.edu/packages/netcdf/index.html}
