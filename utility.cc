@@ -334,7 +334,7 @@ resolve_filename(string& f, bool trace_path)
 		string test_file = path.substr(start, colon);
 		test_file.append("/");
 		test_file.append(f);
-		printf("resolve_filename trying file named '%s'\n", test_file.c_str());
+		//printf("resolve_filename trying file named '%s'\n", test_file.c_str());
 		FILE *fp = fopen(test_file.c_str(), "r");
 		if (fp != NULL) {
 			fclose(fp);
