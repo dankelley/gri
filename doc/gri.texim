@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.145 2002/01/26 14:57:27 dankelley Exp $
+@c $Id: gri.texim,v 1.146 2002/01/26 15:27:40 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -15842,10 +15842,16 @@ only in the fixing of bugs.
 @itemize @bullet
 @item
 Fix SourceForge bug
-@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=508570&group_id=5511&atid=105511">
-#508570
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=506534&group_id=5511&atid=105511">
+#506534
 @c HTML </a>
 (map axes give wrong minutes in negative regions).  Thanks, Brian, for the patch on this!
+@item
+Fix SourceForge bug
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=508088&group_id=5511&atid=105511">
+#508088
+@c HTML </a>
+(grimode: gv should update, not be relaunched)
 @item
 Fix SourceForge bug
 @c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=506490&group_id=5511&atid=105511">

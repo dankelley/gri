@@ -97,12 +97,15 @@ fi
 
 %changelog
 * Sat Jan 26 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
-- Fix SourceForge bug #508570 (map axes give wrong minutes in negative regions).
+- Fix SourceForge bug #506523 (map axes give wrong minutes in negative regions).
+
+* Fri Jan 25 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
+- Fix SourceForge bug #508088 (grimode: gv should update, not be relaunched).
 
 * Fri Jan 25 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
 - Make RPM install/uninstall run silently.
 
-* Tue Jan 22 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
+* Wed Jan 23 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
 - Fix SourceForge bug #506490 ('-v' commandline option gave wrong number)
 
 * Wed Jan  2 2002 Dan Kelley <Dan.Kelley@Dal.Ca>
