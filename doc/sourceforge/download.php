@@ -1,6 +1,6 @@
 <?php
 require("subroutines.php");
-set_up_navigation_tabs("download", "download.png");
+set_up_navigation_tabs("download");
 set_up_lhs();
 ?>
 <b>Redhat Linux</b>

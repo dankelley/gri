@@ -1,6 +1,6 @@
 <?php
 require("subroutines.php");
-set_up_navigation_tabs("news", "news.png");
+set_up_navigation_tabs("news");
 set_up_lhs();
 ?>
 - <A href="<?php print "$sf_url/news/?group_id=$gri_group_id";?>">news forum</a><br>

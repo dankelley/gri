@@ -1,3 +1,4 @@
+#BODY { font-family: arial,helvetica,sans-serif; background-color: #FFFFFF }
 BODY { background-color: #FFFFFF }
 
 A { text-decoration: none; color #6666FF; }
@@ -7,8 +8,10 @@ A:active { text-decoration: none; color: #6666DD; }
 #A:hover { text-decoration: none; color: #FF6666 }
 A:hover { text-decoration: none; color: #AA6666 }
 A:mail { text-decoration: none; color: #6666FF; font-weight: bold }
-OL,UL,P,BODY,TD,TR,TH,FORM,SPAN { font-family: arial,helvetica,sans-serif;color: #333333 }
-H1,H2,H3,H4,H5,H6 { font-family: arial,helvetica,sans-serif }
+#OL,UL,P,BODY,TD,TR,TH,FORM,SPAN { font-family: arial,helvetica,sans-serif;color: #333333 }
+OL,UL,P,BODY,TD,TR,TH,FORM,SPAN { color: #333333 }
+#H1,H2,H3,H4,H5,H6 { font-family: arial,helvetica,sans-serif; font-size: large;}
+H1,H2,H3,H4,H5,H6 { font-size: large;}
 PRE,TT { font-family: courier,sans-serif }
 
 SPAN.center { text-align: center }
@@ -27,3 +30,4 @@ SPAN.titlebar { text-align: center; font-size: 10pt; color: #FFFFFF; font-weight
 TD.featurebox { font-size: small; }
 TD.newsbox { font-size: 8pt; }
 TD.menus { color: #000000; }
+.q { color:#0000cc;text-decoration: none; }

@@ -1,6 +1,6 @@
 <?php
 require("subroutines.php");
-set_up_navigation_tabs("docs", "docs.png");
+set_up_navigation_tabs("docs");
 set_up_lhs();
 ?>
 <b>Literature</b><br>

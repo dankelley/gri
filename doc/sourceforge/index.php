@@ -1,6 +1,6 @@
 <?php
 require("subroutines.php");
-set_up_navigation_tabs("index", "main.png");
+set_up_navigation_tabs("index");
 set_up_lhs();
 print "<font size=\"+2\">G r i</font><br><br><br><br>\n";
 print "<font size=\"+2\">V e r s i o n</font><br><br><br><br>\n";

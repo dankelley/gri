@@ -11,7 +11,26 @@ $gri_group_id = "5511";
 $sf_url = "http://sourceforge.net";
 $sf_ftp = "http://ftp1.sourceforge.net";
 $width_lhs = "125pt";
-$width_divider = "2pt";
+$width_divider = "3pix";
+
+$urls = array("index",
+	 "news",
+	 "docs",
+	 "download",
+	 "bugs",
+	 "contact",
+	 "developers"
+	);
+$titles = array("Main",
+	 "News",
+	 "Docs",
+	 "Download",
+	 "Bugs",
+	 "Contact",
+	 "Developers"
+	);
+
+
 
 function age() {
 # REF: mktime(hour,minute,second,month,day,year)
@@ -63,18 +82,20 @@ function age() {
 }
 
 function set_up_lhs() {
-	print "<tr>\n";
-	global $width_lhs;
-	print "<td valign=\"middle\" width=\"$width_lhs\" align=\"left\" bgcolor=\"#FFFFFF\">\n";
+	 print "<table>\n";
+	 print "<tr>\n";
+	 global $width_lhs;
+	 print "<td valign=\"middle\" width=\"$width_lhs\" align=\"left\" bgcolor=\"#FFFFFF\">\n";
 }
 function set_up_rhs() {
 	print "</td>\n";
 	global $width_divider;
-	print "<td width=\"$width_divider\" valign=\"top\" bgcolor=\"#FFD000\" ></td>\n";
+	print "<td width=\"$width_divider\" valign=\"top\" bgcolor=\"#f8e9a9\" ></td>\n";
 	print "<td valign=\"top\" bgcolor=\"#FFFFFF\">\n";
 }
 
-function set_up_navigation_tabs($title,$png_name) {
+function set_up_navigation_tabs($this_url) {
+	global $urls, $titles;
 	print "<!doctype HTML public \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
 	print "<html lang=\"en\">\n";
 	print "<head>\n";
@@ -83,40 +104,39 @@ function set_up_navigation_tabs($title,$png_name) {
 	print "<meta name=\"Author\" content=\"Dan Kelley, Dan.Kelley@Dal.Ca\">\n";
 	print "<meta name=\"keywords\" content=\"Gri, graphics, Scientific Computing\">\n";
 	print "<link rel=\"Shortcut Icon\" href=\"./favicon-gri.ico\">\n";
-	print "<style type=\"text/css\">\n";
-	print "<!--\n";
-	print "BODY { background-color: #ffffff; color: #000000; }\n";
-	print "A { text-decoration: none; color: #6666ff; background-color: #ffffff; }\n";
-	print "A:link { text-decoration: none; color: #0000ee; background-color: #ffffff; }\n";
-	print "A:visited { text-decoration: none; color: #0000ee; background-color: #ffffff; }\n";
-        print "A:active { text-decoration: none; color: #ff0000; background-color: #ffffff; }\n";
-	print "A:hover { text-decoration: none; color: #ff6666; background-color: #ffffff; }\n";
-	print "OL,UL,P,BODY,TD,TR,TH,FORM { }\n";
-	print "H1 { text-decoration: underline; margin-top: 1em; margin-bottom: 0.5em;}\n";
-	print "H2,H3,H4,H5,H6 { text-decoration: none; }\n";
-	print "PRE {font-family: courier,sans-serif; background-color: #ffffff; color: #82140F; margin: 15pt; margin-top: 0.5em; margin-bottom: 0.5em;}\n";
-	print "TT {font-family: courier,sans-serif;  background-color: #ffffff; color: #B22222;}\n";
-	print "P {margin: 10pt;}\n";
-	print "-->\n";
-	print "</style>\n";
+	print "<link rel=\"stylesheet\" href=\"gri.css\" type=\"text/css\">\n";
         print "</head>\n";
 	print "<body bgcolor=\"#FFFFFF\" link=\"0000ee\" vlink=\"#0000ee\">\n";
-	print "<!-- navigation is output from tabs.gri -->\n";
-	print "<map name=\"navigate_tabs\">\n";
-	print "  <area shape=\"rect\" coords=\"  0 ,   0 ,  46 ,  21\" href=\"index.php\" alt=\"main\">\n";
-	print "  <area shape=\"rect\" coords=\" 50 ,   0 , 102 ,  21\" href=\"news.php\" alt=\"news\">\n";
-	print "  <area shape=\"rect\" coords=\"105 ,   0 , 153 ,  21\" href=\"docs.php\" alt=\"docs\">\n";
-	print "  <area shape=\"rect\" coords=\"157 ,   0 , 240 ,  21\" href=\"download.php\" alt=\"download\">\n";
-	print "  <area shape=\"rect\" coords=\"244 ,   0 , 292 ,  21\" href=\"bugs.php\" alt=\"bugs\">\n";
-	print "  <area shape=\"rect\" coords=\"296 ,   0 , 362 ,  21\" href=\"contact.php\" alt=\"contact\">\n";
-	print "  <area shape=\"rect\" coords=\"366 ,   0 , 459 ,  21\" href=\"developers.php\" alt=\"developers\">\n";
-	print "</map>\n";
-	print "<table border=0>\n";
-	print "<tr align=\"left\">\n";
-	print "<td colspan=3>\n";
-	print "<img border=0 src=\"$png_name\" align=left usemap=\"#navigate_tabs\" alt=\"map\">\n";
-	print "</td>\n";
-	print "</tr>\n";
+	#print "<center><font size=\"+1\">RFC for CMOS-2005 Budget</font></center>\n";
+	#print "<hr><center><p>This is an <i>invitation-only</i>, password-protected, website.</p></center>\n";
+
+#	print "<center><table border=\"0\" bgcolor=\"#FFFFCC\"><tr><td>The next budget draft will be provided no sooner than <b>$next_draft</b></td></tr></table></center>\n";
+	print "<br>\n";
+#	print "<center>\n";
+	print "<table border=0 cellspacing=0 cellpadding=0>\n";
+	print "<tr>\n";
+	$i = 0;
+	$which = 0;
+	print "<td width=10>&nbsp;</td>";
+	foreach ($urls as $url) {
+		if ($url == $this_url) {
+			$which = $i;
+			print "  <td bgcolor=\"#ffd000\" align=center width=80 nowrap><font color=\"#000000\" size=-1><b>$titles[$i]</b></font></td>\n";
+		} else {
+			print "  <td bgcolor=\"#f8e9a9\" align=center width=80 nowrap><a class=q href=\"$url.php\"><font color=\"#000000\" size=-1>$titles[$i]</font></a></td>\n";
+		}
+		$i++;
+		print "<td width=10>&nbsp;</td>";
+	}
+	print "<td width=10>&nbsp;</td>";
+	print "  </tr>";
+	$cols = $i * 2 + 1;
+	print "<tr>
+   <td colspan=$cols bgcolor=\"#ffd000\"><img width=1 height=3 alt=\"\"></td>
+  </tr>\n";
+	print "</table>\n";
+#	print "</center>\n";
+
 }
 
 function footer()

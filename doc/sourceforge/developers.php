@@ -1,6 +1,6 @@
 <?php
 require("subroutines.php");
-set_up_navigation_tabs("developers", "developers.png");
+set_up_navigation_tabs("developers");
 set_up_lhs();
 set_up_rhs();
 ?>

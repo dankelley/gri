@@ -1,6 +1,6 @@
 <?php
 require("subroutines.php");
-set_up_navigation_tabs("contact", "contact.png");
+set_up_navigation_tabs("contact");
 set_up_lhs();
 ?>
 <b>Forums</b><br>
