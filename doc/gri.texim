@@ -1910,7 +1910,7 @@ Individual words of synonyms may be accessed by prefixing the synonym
 name with the index number of the word (starting at 0) enclosed in
 square brackets.  This number may be a constant or a variable, but not a
 more complicated expression.  If the index value is negative or exceeds
-the number of words less 1, then the first or last word is retrieved.
+the number of words minus 1, then an empty string is retrieved.
 If no number appears in the brackets, the result is the number of words
 in a synonym.
 

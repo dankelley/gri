@@ -585,25 +585,14 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 				sprintf(tmp, "%d", nw);
 				sout.append(tmp);
 			} else if (report_a_word) {
-				char *w[MAX_nword];
+				char *w[MAX_nword]; // BUG: wasteful
 				int nw;
 				chop_into_words(svalue, w, &nw, MAX_nword);
-				
 				if (word_to_report < 0) {
-#if 1				        // annoying since reports in 'false' parts of if.
-					char buf[100];
-					sprintf(buf, "Cannot get word %d of a synonym; using first word instead", word_to_report);
-					warning(buf);
-#endif
-					sout.append(w[0]);
+					; // nothing to do here
 				} else if (word_to_report < nw) {
 					sout.append(w[word_to_report]);
 				} else {
-#if 1				        // annoying since reports in 'false' parts of if.
-					char buf[100];
-					sprintf(buf, "Cannot get word %d of synonym `%s' since we only have %d words", word_to_report, sname.c_str(), nw);
-					warning(buf);
-#endif
 					; // nothing to do here
 				}
 			} else {
