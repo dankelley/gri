@@ -2,6 +2,7 @@ gri (2.12.4-1) unstable; urgency=low
 
   * New upstream release
     Bug Fixes:
+  - Fix Debian bug #183912 (failed compile on m86k architecture)
   - Fix Sourceforge bug #706202 (page orientation Postscript hint missing)
   - Fix Sourceforge bug #711354 (program name missing in Postscript hint)
 

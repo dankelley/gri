@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.242 2003/03/29 15:57:07 dankelley Exp $
+@c $Id: gri.texim,v 1.243 2003/04/05 12:51:38 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16345,9 +16345,14 @@ only in the fixing of bugs.
 
 @comment ADD-NEW-BUG-FIXES-HERE
 
-@subsubsection Version 2.12.4 [2003 Mar 29]
+@subsubsection Version 2.12.4 [2003 Apr 05]
 @strong{Bug Fixes}
 @itemize
+@item
+Fix Debian bug
+@uref{http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=183912,#183912}
+@dots{} would not compile on m86k architecture.
+
 @item
 Fix SourceForge bug
 @uref{http://sourceforge.net/tracker/index.php?func=detail&aid=711354&group_id=5511&atid=105511,#711354}
