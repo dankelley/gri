@@ -217,51 +217,11 @@ gr_buffgets(char *s, unsigned int most, FBUFFER * fbuf)
 	return false;
 }
 
-// print string, allowing for TAB/NEWLINE/... escapes
+// print string
 void
 gr_textput(const char *s)
 {
-	const char *c = s;
-	while (*c) {
-		if (*c == '\\') {
-			if (!*c++)
-				return;
-			if (*c == '\\') {
-				if (!*c++)
-					return;
-				if (*c == 'n')
-					putchar('\n');
-				else if (*c == 't')
-					putchar('\t');
-				else 
-					putchar(*c);
-			} else {
-				putchar('\\');
-				putchar(*c);
-			}
-		} else {
-			putchar(*c);
-		}
-		c++;
-	}
-}
-
-// print string, NOT allowing for (\n, \t) escapes
-void
-gr_textput2(const char *s)
-{
-	const char           *c = s;
-	while (*c) {
-		if (*c == '\n') {
-			putchar('\\');
-			putchar('n');
-		} else if (*c == '\t') {
-			putchar('\\');
-			putchar('t');
-		} else {
-			putchar(*c++);
-		}
-	}
+	printf(s);
 }
 
 bool

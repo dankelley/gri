@@ -113,10 +113,10 @@ display_cmd_being_done_stack()
 	int             i;
 	for (i = _cmd_being_done - 1; i > -1; i--) {
 		if (i == _cmd_being_done - 1)
-			gr_textput2("  called by:           `");
+			gr_textput("  called by:           `");
 		else
-			gr_textput2("  which was called by: `");
-		gr_textput2(_command[_cmd_being_done_code[i]].syntax);
+			gr_textput("  which was called by: `");
+		gr_textput(_command[_cmd_being_done_code[i]].syntax);
 		ShowStr("'\n");
 	}
 }

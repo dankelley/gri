@@ -276,7 +276,6 @@ void            gr_stringwidth(const char *s, double *x_cm, double *ascent_cm, d
 bool            gr_textget(char *s, int max);
 bool            gr_textsave(const char *s);
 void            gr_textput(const char *s);
-void            gr_textput2(const char *s);
 double          gr_thinspace_cm();	// 1/6 width of "M"
 void            gr_usertocm(double x, double y, double *x_cm, double *y_cm);
 double          gr_usertocm_x(double x, double y);
