@@ -38,12 +38,9 @@ html-tar:
 	gzip -f --best gri-cookbook-$(VERSION).tar
 	rm -rf $(HTMLDIR)
 
-DIR_redhat=/usr/doc/gri-cookbook-$(VERSION)
 install_linux_redhat:
-	make install_html_tree TARGETDIR=$(DIR_redhat)
-
-uninstall_linux_redhat:
-	rm -rf $(DIR_redhat)
+# $(DESTDIR) is usually set to something in the spec file
+	make install_html_tree TARGETDIR=$(DESTDIR)/usr/doc/gri-cookbook-$(VERSION)
 
 clean:
 	-rm -f *.lof *.dvi *.idx *.ilg *.ind *.log *.toc *.aux *.bbl *.blg cookbook.ps *~ */example-small.gif */example.gif */example.html 12/example-vertical.html
@@ -90,5 +87,3 @@ cookbook:
 	makeindex cookbook
 	latex cookbook
 	dvips cookbook.dvi > cookbook.ps
-
-

@@ -37,8 +37,10 @@ documents prepared by various text processors.
 make all
 
 %install
-make install_linux_redhat
+make DESTDIR=$RPM_BUILD_ROOT install_linux_redhat
 
+%clean
+rm -rf $RPM_BUILD_ROOT
 
 %post
 
