@@ -1,3 +1,12 @@
+2001-10-09  Dan E. Kelley  <Dan.Kelley@Dal.Ca>
+
+	* Makefile.in (check): add 'make check', to run the 'check.pl'
+	Perlscript (see next item)
+
+	* check.pl: add this new feature, which checks version numbers in
+	the various files, and will (I hope) eventually check other
+	aspects of a release.
+
 2001-10-01 Dan Kelley <Dan.Kelley@Dal.Ca>
 	
 	* Release as gri-2.8.4 on SourceForge.Net site.  

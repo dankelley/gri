@@ -226,6 +226,7 @@ source-copy:
 #	Copy source
 	install -m 644 ChangeLog *.cc *.hh gri.cmd logo.dat license.txt \
 	    Makefile.in Makefile.dj2 configure configure.in install-sh \
+	    check.pl \
 	    copyright.txt AUTHOR README* gri-mode.el gri_merge gri_unpage \
 	    startup.msg startup.debian startup.redhat gri*.spec grilogo.gif \
 	    install-SunOS5 README-SunOS5 \
