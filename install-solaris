@@ -1,0 +1,8 @@
+#!/usr/bin/sh
+echo "** Ed, can you help by writing this script? **"
+
+# ASK USER WHERE TO PUT STUFF.
+# cp gri SOMEPLACE
+# cp gri.cmd SOMEPLACE
+
+

@@ -209,6 +209,7 @@ source:
 	    Makefile.in Makefile.dj2 configure configure.in install-sh \
 	    copyright.txt AUTHOR README* gri-mode.el gri_merge gri_unpage \
 	    startup.msg startup.debian startup.redhat gri-*.spec grilogo.gif \
+	    install-solaris readme-solaris \
 	        $(SOURCE_NAME)
 	install -m 755 configure install-sh $(SOURCE_NAME)
 	install -d $(SOURCE_NAME)/debian
@@ -281,3 +282,20 @@ what_is_new:
 	@for f in *.spec gri.cmd logo.dat *cc *hh Makefile.in configure.in doc/gri.texi doc/Makefile;\
 		do diff --brief $$f ../$$f;\
 	done
+
+
+# Sun microsystems, sunOS 5.x
+     SUNOS5_VERSION = `gawk 'NR==1{gsub(/[a-z/ \-()]*/,"");print}' src-SunOS5/gri.cmd`
+        SUNOS5_NAME = gri-binary-$(SUNOS5_VERSION)-SunOS5
+        SUNOS5_FILE = $(TMP_DIR)/$(SUNOS5_NAME).tar
+binary-SunOS5:
+	mkdir $(SUNOS5_NAME)
+	-cp gri gri.cmd logo.dat copyright.txt license.txt $(SUNOS5_NAME)
+	-cat startup.msg | sed -e s,VSN,${VERSION}, | sed -e "s/DATE/`date`/" > $(SUNOS5_NAME)/startup.msg
+	-cp install-solaris $(SUNOS5_NAME)/install
+	-cp README-solaris  $(SUNOS5_NAME)/README
+	-chmod a+r          $(SUNOS5_NAME)/*
+	-chmod a+rx $(SUNOS5_NAME)/gri
+	tar -chofFFe $(SUNOS5_FILE) $(SUNOS5_NAME)
+	rm -rf $(SUNOS5_NAME)
+	gzip $(SUNOS5_FILE)
