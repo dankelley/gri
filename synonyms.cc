@@ -898,6 +898,7 @@ find_synonym_name(const std::string &s, std::string& name, bool inmath)
 		if (c == ')')  break;
 		if (c == '{')  break;
 		if (c == '}')  break;
+		if (c == ']')  break; // 2001-may-18: why not this way before?
 		if (c == '/')  break;
 		if (c == '*')  break;
 		if (c == '-')  break;
