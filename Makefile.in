@@ -118,7 +118,7 @@ install-bin:
 
 install-solaris: all install-bin
 	echo "Installing into '$(prefix)' directory"
-	cd doc; prefix=$(prefix) make install-solaris
+	cd doc; prefix=$(prefix) INSTALL="$(INSTALL)" make install-solaris
 
 debian-lib = $(debian)/usr/share/gri/$(VERSION)
 install_linux_debian: gri
