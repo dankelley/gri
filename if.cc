@@ -105,7 +105,7 @@ handle_if_block()
 	 */
 	if (!strcmp(_word[0], "else")) {
 		if (!inside_if_statement[top]) {
-			err("Ignoring `else' preceeding `if'");
+			err("This `else' doesn't match an `if'");
 			return true;
 		}
 		/* `else [...]' */
@@ -119,6 +119,19 @@ handle_if_block()
 			skipping[top] = (skip_to_end[top] || skipping[top - 1]) ? true : false;
 			return true;
 		} else if (_nword > 2 && !strcmp(_word[1], "if")) {
+			if (!inside_if_statement[top]) {
+				err("This `else if' doesn't match an `if'");
+				return true;
+			}
+			//printf("NOTE: In else if.  skipping[%d]=%d\n",top,skipping[top]);
+
+			// Only consider the value if presently skipping
+			if (skipping[top] == 0) {
+				skipping[top] = 1;
+				//printf("ELSE IF Set skipping[%d] to 1\n",top);
+				return true;
+			}
+
 			// Must figure out rpn expressions (if any) since they
 			// are ignored for the 'false' part of if blocks, and
 			// that's what we are in at the moment.
