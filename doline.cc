@@ -70,12 +70,18 @@ do_command_line()
 // Insert command line as a comment in the PostScript file, after
 // removing newpage character to blank, (since latex2e/epsfig breaks 
 // on newpage).
+// 
+// The 'note' is helpful in debugging.
 void
-insert_cmd_in_ps(const char *cmd)
+insert_cmd_in_ps(const char *cmd, const char *note="")
 {
 	extern bool     _store_cmds_in_ps;	// DEFINED IN startup.c
 	if (!_store_cmds_in_ps)
 		return;
+	while (isspace(*cmd))
+		cmd++;
+	if (!strncmp(cmd, "insert", 6))
+		return;		// don't want 'insert' commands (confusing eh)
 	strcpy(_grTempString, "gri:");
 	int ii = 4;			// where to start insert
 	int len = strlen(cmd);
@@ -88,6 +94,10 @@ insert_cmd_in_ps(const char *cmd)
 	_grTempString[ii] = '\0';
 	if (_grTempString[strlen(_grTempString) - 1] == '\n')
 		_grTempString[strlen(_grTempString) - 1] = '\0';
+	if (*note != '\0') {
+		strcat(_grTempString, " # ");
+		strcat(_grTempString, note);
+	}
 	gr_comment(_grTempString);
 }
 
@@ -143,7 +153,7 @@ get_command_line(void)
 		}
 	}
 	_cmdFILE.back().increment_line(); // BUG line numbers wrong BUG
-	insert_cmd_in_ps(_cmdLine);
+	insert_cmd_in_ps(_cmdLine/*, "doline.cc:154"*/);
 	if (((unsigned) superuser()) & FLAG_AUT1) {
 		insert_source_indicator(_cmdLine);
 	}

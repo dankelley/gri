@@ -13,12 +13,12 @@
 
 static vector<BlockSource> bsStack;
 
-void                   insert_cmd_in_ps(const char *cmd);
 static inline bool     testible(const char *s);
 static inline int      white_space(const char *sp);
 static inline int      word_length(const char *s);
-
-
+static bool            extract_help(FILE * fp, char *line);
+static bool            extract_procedure(FILE * fp, char *line);
+static bool            extract_syntax(char *line);
 
 // Store info about execution blocks.
 static bool     get_line_in_block(const char *block, unsigned *offset);
@@ -338,7 +338,7 @@ register_source()
 }
 
 // require closing ' to be on same line as opening ` 
-bool
+static bool
 extract_syntax(char *line)
 {
 	char  *cp;
@@ -384,7 +384,7 @@ bool extract_help(FILE * fp, char *line)
 		fgets(line, LineLength, fp);
 		_command[_num_command].fileline++;
 		_cmdFILE.back().increment_line();
-		insert_cmd_in_ps(line);
+		insert_cmd_in_ps(line/*, "command.cc:387"*/);
 		len = strlen(line);
 		size += len + 2;	// chars for NEWLINE and NULL (needed?) 
 		if (NULL == (cp = (char *) realloc(cp, size))) {
@@ -451,7 +451,7 @@ extract_procedure(FILE * fp, char *line)
 #endif
 		if (feof(fp))
 			break;
-		insert_cmd_in_ps(line);
+		insert_cmd_in_ps(line /*, "command.cc:454"*/);
 		//printf("\n[%s] ", line);
 		remove_comment(line);
 		//printf("-> [%s]\n",line);

@@ -909,12 +909,12 @@ dogrirc()
 	strcpy(grircname, GRIRC_FILE);
 #endif
 	if (push_cmd_file(grircname, false, false, "r")) {
-		gr_comment("gri:// BEGIN (~/.grirc)\n");
+		gr_comment("gri:# BEGIN (~/.grirc)\n");
 		while (do_command_line()){
 			;
 		}
 		_done = 0;
-		gr_comment("gri:// END   (~/.grirc)\n");
+		gr_comment("gri:# END   (~/.grirc)\n");
 	}
 }
 

@@ -61,7 +61,9 @@ insertCmd()
 			insert_source_indicator(_cmdLine);
 		}
 		massage_command_line(_cmdLine);
-		//printf("[%s]\n",_cmdLine);
+		// Kludge
+		if (is_create_new_command(_cmdLine))
+			insert_cmd_in_ps(_cmdLine/*, "insert.cc:66"*/);
 		if (_nword > 0 && !strcmp(_word[0], "return") && !skipping_through_if())
 			break;
 		if (!perform_command_line(fp, false)) {
