@@ -7,3 +7,4 @@
  Examples at:     PREFIX/share/doc/gri/examples
  Manual at:       PREFIX/share/doc/gri/html/index.html
  Info Manual at:  gri
+ Resources at:    http://gri.sourceforge.net

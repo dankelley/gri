@@ -1,3 +1,8 @@
+2001-10-14  Dan E. Kelley  <Dan.Kelley@Dal.Ca>
+
+	* startup.redhat: rewrite to shorten and clarify; also, put in a
+	pointer to the SourceForge website.
+
 2001-10-13  Dan E. Kelley  <Dan.Kelley@Dal.Ca>
 
 	* startup.cc (start_up): prevent segfault if no command-file name
