@@ -340,7 +340,7 @@ double lapse_rate(double S, double t, double p);
 #endif
 
 // Time type (time_t, int, or long) varies per machine (ug).
-#if defined(VMS) || defined(MSDOS) || defined(IS_DEC_ALPHA)
+#if defined(VMS) || defined(MSDOS) || defined(IS_DEC_ALPHA) || defined(AIX)
 #define SECOND_TYPE time_t
 #else
 #if defined(__DECCXX)
