@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.94 2001/05/30 15:17:29 psg Exp $
+@c $Id: gri.texim,v 1.95 2001/06/01 15:56:14 psg Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -80,7 +80,7 @@ Copyright @copyright{} 1991-2001 Dan Kelley
 
 @dircategory Scientific Applications
 @direntry
-* GRI: (gri).  Scientific graphics language.
+* Gri: (gri).  Programming language for scientific illustration
 @end direntry
 
 @node   Top, Introduction, (dir), (dir)
