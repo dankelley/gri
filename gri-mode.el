@@ -1,11 +1,11 @@
 ;; gri-mode.el - major mode for Gri, a scientific graphics programming language
 
-;; Copyright (C) 1994-2000 Peter S. Galbraith
+;; Copyright (C) 1994-2001 Peter S. Galbraith
  
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.34 (25 Sep 2000)
+;; Version:   2.35 (09 Jan 2001)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -352,6 +352,8 @@
 ;; V2.33 29Aug00 RCS 1.58 - gri-hide-all skips over initial commands 
 ;; V2.34 25Sep00 RCS 1.59 - allows spaces after new command brackets
 ;;    Closes SF Bug #115307
+;; V2.35 09Jan01 RCS 1.60 - gri-mode-is-Emacs20 -> gri-mode-is-Emacs2X
+;;                          for Emacs-21 now out in beta.
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -716,8 +718,8 @@ Reset this in your .emacs file like so:
 (defvar gri-mode-is-XEmacs
   (not (null (save-match-data (string-match "XEmacs\\|Lucid" emacs-version)))))
 
-(defvar gri-mode-is-Emacs20
-  (and (not gri-mode-is-XEmacs) (= 20 emacs-major-version)))
+(defvar gri-mode-is-Emacs2X
+  (and (not gri-mode-is-XEmacs) (<= 20 emacs-major-version)))
 
 (defvar gri-bin-file "" "Command used to call gri binary.") 
 (defvar gri-cmd-file "" 
@@ -894,21 +896,22 @@ Sets variables gri-bin-file and gri-cmd-file."
 
 (defun gri-inquire-default ()
   "Ask gri which -default_directory to use to find gri.cmd. Sets gri-cmd-file."
-  (let ((gri-tmp-buffer (get-buffer-create "*gri-tmp-buffer*")))
-    (set-buffer gri-tmp-buffer)
-;;  (message "Inquiring to gri about location of gri.cmd file...") 
-    (shell-command-on-region 1 1 "gri -directory_default" t)
-  ;;(shell-command-on-region 1 1 "echo ERROR" t)
-  ;;(shell-command-on-region 1 1 "echo /opt/gri/2.017/lib/" t)
-;;  (message "Inquiring to gri about location of gri.cmd file... Done.") 
-    (setq gri-cmd-file 
-          (and (not (search-backward "ERROR" nil t))
-               (expand-file-name 
-                "gri.cmd" 
-                (buffer-substring 
-                 1 (progn (goto-char 1)(end-of-line)(point))))))
-    (kill-buffer gri-tmp-buffer))
-  gri-cmd-file)
+  (save-excursion
+    (let ((gri-tmp-buffer (get-buffer-create "*gri-tmp-buffer*")))
+      (set-buffer gri-tmp-buffer)
+;;    (message "Inquiring to gri about location of gri.cmd file...") 
+      (shell-command-on-region 1 1 "gri -directory_default" t)
+    ;;(shell-command-on-region 1 1 "echo ERROR" t)
+    ;;(shell-command-on-region 1 1 "echo /opt/gri/2.017/lib/" t)
+;;    (message "Inquiring to gri about location of gri.cmd file... Done.") 
+      (setq gri-cmd-file 
+            (and (not (search-backward "ERROR" nil t))
+                 (expand-file-name 
+                  "gri.cmd" 
+                  (buffer-substring 
+                   1 (progn (goto-char 1)(end-of-line)(point))))))
+      (kill-buffer gri-tmp-buffer))
+    gri-cmd-file))
 
 (defun gri-inquire-default-version ()
   "Ask gri -v to find version number"
@@ -3105,7 +3108,7 @@ If variable gri*hilit-before-return is t,
         (make-face 'gri-mode-system-face)
         (set-face-foreground 
          'gri-mode-system-face "red" 'global nil 'append))
-       (gri-mode-is-Emacs20
+       (gri-mode-is-Emacs2X
 	(copy-face 'font-lock-warning-face 'gri-mode-system-face))
        (t
         ;; emacs-19:
