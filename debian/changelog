@@ -1,12 +1,12 @@
 gri (2.12.1-1) unstable; urgency=low
 
-* New upstream version
-  New Features:
-  - n/a
-  Bug Fixes:
-  - fix SourceForge bug 613075 (sin, cos, tan problem in RPN)
+  * New upstream version
+    New Features:
+    - n/a
+    Bug Fixes:
+    - Fix SourceForge bug #613075 (sin, cos, tan problem in RPN).
 
- -- Peter S Galbraith <psg@debian.org>  Tue, 25 Sep 2002 09:32:52 -0400
+ -- Peter S Galbraith <psg@debian.org>  Wed, 25 Sep 2002 11:04:30 -0400
 
 gri (2.12.0-2) unstable; urgency=low
 
