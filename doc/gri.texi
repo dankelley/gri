@@ -14466,10 +14466,11 @@ The arguments are accessed with RPN operators @file{argc} and
 @file{argv} (@ref{Unary Operators}).
 
 It's possible to edit such a gri script using gri-mode and test it using
-@code{gri-run}.  The way this done is by setting default arguments which
-be locally-defined in a specific gri command file while editing in
-gri-mode.  Use the gri-mode command @code{gri-set-command-postarguments}
-to setup a string that gri-mode will use, and the gri-mode command
+@code{gri-run}.  The way this done while editing in gri-mode is by
+setting default arguments which will be locally-defined in a specific
+gri command file.  Use the gri-mode command
+@code{gri-set-command-postarguments} to setup a string that gri-mode
+will use, and the gri-mode command
 @code{gri-unset-command-postarguments} to unset it.  The string will be
 stored in the locally-defined (aka buffer-local) variable
 @code{gri-command-postarguments} and will be written within a gri
