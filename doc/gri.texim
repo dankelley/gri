@@ -69,11 +69,11 @@
 
 @subtitle A Program to Make Science Graphs
 @subtitle Version @value{GRI-VERSION}
-@subtitle 2000
+@subtitle 2001
 @author Dan E. Kelley (@value{AUTHOR-EMAIL})
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 1991-2000 Dan Kelley
+Copyright @copyright{} 1991-2001 Dan Kelley
 @sp 2
 @end titlepage
 
@@ -86,7 +86,7 @@ Copyright @copyright{} 1991-2000 Dan Kelley
 @comment node-name, next, previous, up
 @top Gri
 @c HTML <!--
-This manual describes Gri version @value{GRI-VERSION}, (c) 1991-2000, 
+This manual describes Gri version @value{GRI-VERSION}, (c) 1991-2001, 
 Dan Kelley at email address 
 @c HTML <A HREF="mailto:Dan.Kelley@Dal.CA"> 
 @value{AUTHOR-EMAIL}
@@ -124,7 +124,7 @@ considerable power, at the price of a moderate learning curve.
 @c HTML <A HREF="#Images">image plots</A>.
 @c HTML <p>
 @c HTML This document describes Gri @value{GRI-VERSION},
-@c HTML <br>(c) 1991-2000 <A HREF="http://www.phys.ocean.dal.ca/~kelley"> Dan Kelley.</A>
+@c HTML <br>(c) 1991-2001 <A HREF="http://www.phys.ocean.dal.ca/~kelley"> Dan Kelley.</A>
 @comment HTML Gri is distributed
 @comment HTML with a <A HREF="License.html">license</A> that permits 
 @comment HTML sharing in an OpenSource way.
@@ -295,7 +295,7 @@ just typing @code{gri} at the unix prompt), you'll see something like
 
 @example
 gri - scientific graphic program (version @value{GRI-VERSION})
- GPL Copyright 2000 by Dan E. Kelley.
+ GPL Copyright 2001 by Dan E. Kelley.
 
  Type `help' to view list of commands, or
  type `show license' to view license.  
