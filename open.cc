@@ -88,16 +88,6 @@ Third word of `open filename' must be \"binary\", not `\\",
 	return true;
 }
 
-static bool
-is_compressed_file(string& fname)
-{
-	if (fname.size() < 3)
-		return false;
-	string last_three(fname, fname.size()-3, fname.size()-1);
-	if (last_three == ".gz")
-		return true;
-	return false;
-}
 bool
 open_file(DataFile::type type)
 {
@@ -122,7 +112,6 @@ open_file(DataFile::type type)
 		for (int i = len - 2; i > -1; i--) {
 			if (*(_word[1] + i) == '|') {
 				// It's a pipe
-				string tmpname_file;
 				string pipecmd;
 				if (type == DataFile::bin_netcdf) {
 					err("`open' cannot have a pipe that is netCDF type");
@@ -140,26 +129,16 @@ open_file(DataFile::type type)
 				while (isspace(pipecmd[pipecmd.size() - 1]))
 					pipecmd.STRINGERASE(pipecmd.size() - 1);
 				pipecmd.append(" > ");
-				// Try to use tempnam(), or tmpnam(), before using hardwired
-				// name
-#if defined(HAVE_TEMPNAM)
-				tmpname_file.assign(tempnam("/usr/tmp", "gri"));
-#else
-#if defined(HAVE_TMPNAM)
-				tmpname_file.assign(tmpnam(NULL));
-#else
-				tmpname_file.assign(GRI_TMP_FILE);
-#endif
-#endif
-				pipecmd.append(tmpname_file.c_str());
+				string tmpfile_name(tmp_file_name());
+				pipecmd.append(tmpfile_name.c_str());
 				if (((unsigned) superuser()) & FLAG_SYS) {
 					ShowStr("\n`open' sending the following command to the operating system:\n");
 					ShowStr(pipecmd.c_str());
 					ShowStr("\n");
 				}
 				system(pipecmd.c_str());
-				if (!push_data_file(tmpname_file.c_str(), type, "r", true)) {
-					err("`open' can't find file `\\", tmpname_file.c_str(), "'", "\\");
+				if (!push_data_file(tmpfile_name.c_str(), type, "r", true)) {
+					err("`open' can't find file `\\", tmpfile_name.c_str(), "'", "\\");
 					return false;
 				}
 				return false;
@@ -173,36 +152,9 @@ open_file(DataFile::type type)
 					return false;
 				}
 				string fullname((char *) complete_filename(filename.c_str()));
-				if (is_compressed_file(fullname)) {
-					string pipecmd("zcat ");
-					pipecmd.append(fullname);
-					pipecmd.append(" > ");
-					string tmpname_file;
-#if defined(HAVE_TEMPNAM)
-					tmpname_file.assign(tempnam("/usr/tmp", "gri"));
-#else
-#if defined(HAVE_TMPNAM)
-					tmpname_file.assign(tmpnam(NULL));
-#else
-					tmpname_file.assign(GRI_TMP_FILE);
-#endif
-#endif
-					pipecmd.append(tmpname_file.c_str());
-					if (((unsigned) superuser()) & FLAG_SYS) {
-						ShowStr("\n`open' sending the following command to the operating system:\n");
-						ShowStr(pipecmd.c_str());
-						ShowStr("\n");
-					}
-					system(pipecmd.c_str());
-					if (!push_data_file(tmpname_file.c_str(), type, "r", true)) {
-						err("`open' can't find constructed file `\\", tmpname_file.c_str(), "'", "\\");
-						return false;
-					}
-				} else {
-					if (!push_data_file(fullname.c_str(), type, "r", false)) {
-						err("`open' can't find file `\\", fullname.c_str(), "'", "\\");
-						return false;
-					}
+				if (!push_data_file(fullname.c_str(), type, "r", false)) {
+					err("`open' can't find file `\\", fullname.c_str(), "'", "\\");
+					return false;
 				}
 			}
 		}
@@ -213,36 +165,9 @@ open_file(DataFile::type type)
 			return false;
 		}
 		string fullname(complete_filename(_word[1]));
-		if (is_compressed_file(fullname)) {
-			string pipecmd("zcat ");
-			pipecmd.append(fullname);
-			pipecmd.append(" > ");
-			string tmpname_file;
-#if defined(HAVE_TEMPNAM)
-			tmpname_file.assign(tempnam("/usr/tmp", "gri"));
-#else
-#if defined(HAVE_TMPNAM)
-			tmpname_file.assign(tmpnam(NULL));
-#else
-			tmpname_file.assign(GRI_TMP_FILE);
-#endif
-#endif
-			pipecmd.append(tmpname_file.c_str());
-			if (((unsigned) superuser()) & FLAG_SYS) {
-				ShowStr("\n`open' sending the following command to the operating system:\n");
-				ShowStr(pipecmd.c_str());
-				ShowStr("\n");
-			}
-			system(pipecmd.c_str());
-			if (!push_data_file(tmpname_file.c_str(), type, "r", true)) {
-				err("`open' can't find constructed file `\\", tmpname_file.c_str(), "'", "\\");
-				return false;
-			}
-		} else {
-			if (!push_data_file(fullname.c_str(), type, "r", false)) {
-				err("`open' can't find file `\\", fullname.c_str(), "'", "\\");
-				return false;
-			}
+		if (!push_data_file(fullname.c_str(), type, "r", false)) {
+			err("`open' can't find file `\\", fullname.c_str(), "'", "\\");
+			return false;
 		}
 	}
 	return true;

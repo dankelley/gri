@@ -38,43 +38,51 @@ push_cmd_file(const char * fname, bool interactive, bool allow_warning, const ch
 	return true;
 }
 
+static bool
+is_compressed_file(string& fname)
+{
+	if (fname.size() < 3)
+		return false;
+	string last_three(fname, fname.size()-3, fname.size()-1);
+	if (last_three == ".gz")
+		return true;
+	return false;
+}
+
 // Push a new data file onto the stack.
+// The 'delete_when_close' is just a suggestion (true for output
+// from system commands).  Even if it is false, if we detect
+// here that a system command must be called, we'll still
+// remove the file when done.
 bool
-push_data_file(const char * name, DataFile::type the_type, const char * status, bool delete_when_close)
+push_data_file(const char* name, DataFile::type the_type, const char* status, bool delete_when_close)
 {
 	if (the_type == DataFile::bin_netcdf) {
-#if defined(HAVE_LIBNETCDF)
-		int file_id;
+#if !defined(HAVE_LIBNETCDF)
+		// This may be redundant; see openCmd
+		err("`open ... netCDF' impossible since Gri not compiled with netCDF library");
+		return false;
+#else
 		ncopts = NC_VERBOSE;	// Set external flag to live if error
-		file_id = ncopen(name, NC_NOWRITE);
+		int file_id = ncopen(name, NC_NOWRITE);
 		if (file_id == -1)
-			return false;	// failed
+			return false;
 		DataFile df;
 		df.set_name(name);
 		df.set_netCDF_id(file_id);
 		df.set_type(the_type);
 		df.set_delete_when_close(delete_when_close);
 		_dataFILE.push_back(df);
-#else
-		// This may be redundant; see openCmd
-		err("`open ... netCDF' impossible since Gri not compiled with netCDF library");
-		return false;
 #endif
 	} else {
-		FILE *tmp;
 #if defined(MSDOS)
 		// For MSDOS binary files, status must be of the form "rb"
 		char status2[10];
 		strcpy(status2, status);
-		if (the_type != DataFile::ascii) {
-			// binary file
+		if (the_type != DataFile::ascii)
 			strcat(status2, "b");
-		}
-		tmp = fopen(name, status2);
-#else
-		tmp = fopen(name, status);
-#endif
-		if (NULL == tmp)
+		FILE *fp = fopen(name, status2);
+		if (NULL == fp)
 			return false;
 		DataFile df;
 		df.set_name(name);
@@ -82,7 +90,78 @@ push_data_file(const char * name, DataFile::type the_type, const char * status, 
 		df.set_type(the_type);
 		df.set_delete_when_close(delete_when_close);
 		_dataFILE.push_back(df);
+#else
+		string sname(name);
+		if (is_compressed_file(sname)) {
+			string pipecmd("zcat ");
+			pipecmd.append(sname);
+			pipecmd.append(" > ");
+			string tmpfile_name(tmp_file_name());
+			pipecmd.append(tmpfile_name);
+			if (((unsigned) superuser()) & FLAG_SYS) {
+				ShowStr("\n`open' sending the following command to the operating system:\n");
+				ShowStr(pipecmd.c_str());
+				ShowStr("\n");
+			}
+			system(pipecmd.c_str());
+			FILE *fp = fopen(tmpfile_name.c_str(), status);			
+			if (NULL == fp)
+				return false;
+			DataFile df;
+			df.set_name(tmpfile_name.c_str());
+			df.set_fp(fp);
+			df.set_type(the_type);
+			df.set_delete_when_close(true);
+			_dataFILE.push_back(df);
+		} else {
+			FILE *fp = fopen(name, status);
+			if (NULL != fp) {
+				DataFile df;
+				df.set_name(name);
+				df.set_fp(fp);
+				df.set_type(the_type);
+				df.set_delete_when_close(delete_when_close);
+				_dataFILE.push_back(df);
+			} else {
+#if !defined(HAVE_ACCESS)
+				return false; // just give up then
+#else
+				string sname(name);
+				sname.append(".gz");
+				if (0 != access(sname.c_str(), R_OK)) {
+					warning("Cannot locate file `", name, "'",
+						" or a compressed version `", sname.c_str(), "'",
+						"\\");
+					
+					return false; // failure
+				}
+				warning("`open' can't find `\\", name, "' so using `",
+					sname.c_str(), "' instead.", "\\");
+				string pipecmd("zcat ");
+				pipecmd.append(sname);
+				string tmpfile_name(tmp_file_name());
+				pipecmd.append(" > ");
+				pipecmd.append(tmpfile_name);
+				if (((unsigned) superuser()) & FLAG_SYS) {
+					ShowStr("`open' sending the following command to the operating system:\n");
+					ShowStr(pipecmd.c_str());
+					ShowStr("\n");
+				}
+				system(pipecmd.c_str());
+				fp = fopen(tmpfile_name.c_str(), status);
+				if (NULL == fp)
+					return false;
+				DataFile df;
+				df.set_name(tmpfile_name.c_str());
+				df.set_fp(fp);
+				df.set_type(the_type);
+				df.set_delete_when_close(true);
+				_dataFILE.push_back(df);
+#endif
+			}
+		}
 	}
+#endif
 	update_readfrom_file_name();
 	return true;
 }
