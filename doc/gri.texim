@@ -3850,6 +3850,7 @@ super/subscripts.
 @cindex newcommand arguments, how to alter
 @cindex arguments to new commands, how to alter
 @cindex argument scope
+@cindex scope, of arguments to new-commands
 @cindex de-referenced synonyms, for program arguments
 
 Many programming languages support two types of arguments to
