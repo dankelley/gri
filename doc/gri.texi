@@ -53,8 +53,8 @@
 @comment %**start of header
 @setfilename gri.info
 @settitle Gri
-@set GRI-VERSION 2.12.9
-@set GRI-PREVIOUS-VERSION 2.12.8
+@set GRI-VERSION 2.12.10
+@set GRI-PREVIOUS-VERSION 2.12.9
 @set AUTHOR-EMAIL dankelley@@users.sourceforge.net
 @include version.texi
 @c %**end of header
@@ -16465,6 +16465,18 @@ only in the fixing of bugs.
 @cindex version 2.12
 
 @comment ADD-NEW-BUG-FIXES-HERE
+
+@subsubsection Version 2.12.10 [2005 xxx x]
+@strong{Bug Fixes}
+@itemize @bullet
+
+@item
+Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=1098269&group_id=5511&atid=105511,#1098269}
+@dots{} problem compiling on AMD64 machine.  (Solution provided by Andreas Jochens, a Debian user.)
+
+@end itemize
+
 
 @subsubsection Version 2.12.9 [2005 Jan 6: @uref{http://en.wikipedia.org/wiki/Epiphany_%28feast%29,Feast of Epiphany}]
 @strong{Bug Fixes}
