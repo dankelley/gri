@@ -117,7 +117,7 @@ FORCE:
 	chmod a+r $@/*
 
 clean:
-	-rm -f *.lof *.dvi *.idx *.ilg *.ind *.log *.toc *.aux *.bbl *.blg cookbook.ps *~ */example-small.gif */example.gif */example.pdf */example.html
+	-rm -f *.lof *.dvi *.idx *.ilg *.ind *.log *.toc *.aux *.bbl *.blg cookbook.ps *~ */example-small.gif */example.gif */example.pdf */example.html 12/example-vertical.html
 
 TAR_DIR_NAME=gri-cookbook-$(VERSION)
 source:
