@@ -11,9 +11,8 @@ version=$(shell expr `pwd` : '.*-\([0-9.]*\)')
 somefutureversion=2.8.0
 
 build: gri
-gri:
+gri:    Makefile
 	dh_testdir
-	./configure --prefix=/usr
 	$(MAKE) CXXFLAGS="-O2 -g -Wall" libdir=/usr/share/gri/$(version)
 
 clean:
@@ -40,8 +39,11 @@ debian/copyright:
 	sed -e 's/LATERVSN/$(somefutureversion)/g;s/VSN/$(version)/g' \
 		debian/README.Debian.template > debian/README.Debian
 
+Makefile:
+	./configure --prefix=/usr
+
 # Build architecture-independent files here.
-binary-indep: debian/copyright build install
+binary-indep: debian/copyright Makefile
 	(cd doc; make debian-ps prefix=`pwd`/../debian/gri-ps-doc/usr/share/doc)
 	(cd doc; make debian-html prefix=`pwd`/../debian/gri-html-doc/usr/share/doc)
 	rm -f debian/*debhelper
