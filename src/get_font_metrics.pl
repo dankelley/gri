@@ -1,6 +1,8 @@
 require PostScript::Fontmetrics;
+sub get_fm($);
+
 sub get_fm($) {
-    my $name = $_[0];
+    my ($name) = @_;
     my $s = 1 / (72 / 2.54 * 1000); # or 28.35??
     my $dir = "/Applications/OpenOffice.org1.1.2/share/psprint/fontmetric";
     my $fm = new PostScript::FontMetrics("$dir/$name.afm");
