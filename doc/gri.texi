@@ -299,7 +299,7 @@ cookbook
 @c HTML </A> 
 @cindex Gri newsgroup
 @cindex newsgroup
-and several reference cards @xref{Keeping Up To Date}.  It also has a
+and several reference cards.  It also has a
 mail-in newsgroup, which you can join by sending an email to
 @c HTML <A HREF="mailto:majordomo@phys.ocean.dal.ca">
 @code{majordomo@@phys.ocean.dal.ca}
@@ -3388,11 +3388,7 @@ If Gri complains of a syntax error, consult the printed manual, one of
 the online manuals, or the online help facility @xref{Online Help}.
 @item
 Check the version number (printed at startup) to see if a new version of
-Gri has been installed.  Check the manual for known incompatabilities
-@xref{Incompatibilities}.  You should @emph{always} have a
-@code{expecting version .n.} command in your program, with @code{.n.}
-set to the version of Gri that you are most familiar with.  This will
-warn of any incompatabilites since the named version.
+Gri has been installed, and check the manual for known incompatabilities.
 @item
 Sprinkle @code{show} commands throughout your program, to see what's
 happening.  Even when you are sure your program works, it is a good idea
@@ -13136,8 +13132,7 @@ This perlscript edits Gri command files, translating old syntax into new
 syntax.  The editing is done in-place, after copying to a file with
 suffix @file{.BAK}.  @code{gri_update} cannot handle all
 incompatibilities but it will translate the things
-illustrated in the following before/after comparison
-@xref{History}.
+illustrated in the following before/after comparison.
 
 
 @itemize @bullet
@@ -13326,143 +13321,118 @@ GS> quit
 
 @c HTML <!-- newfile Evolution.html "Gri: Evolution of Gri" "Evolution of Gri" -->
 
-@node   Evolution, Keeping Up To Date, Extractor Of Images, Top
+@node   Evolution, Distribution versions, Extractor Of Images, Top
 @comment  node-name,  next,  previous,  up
 @chapter Evolution of Gri
 
-@menu
-* Keeping Up To Date::          You should keep your Gri up-to-date
-* Keeping old Versions::        Saving old reliable copies of Gri
-* Incompatibilities::           Locating incompatibilites between versions
-* History::                     Changes made to Gri
-@end menu
+Gri, like other complex programs, sometimes changes in such a way as to
+break old scripts.  This is less so of changes since about 1998 or so,
+since the syntax became pretty firm about that time.  
 
-@node   Keeping Up To Date, Keeping old Versions, Evolution, Evolution
-@comment  node-name,  next,  previous,  up
-@section Keeping up to date
-@cindex changes to gri, protection against
-Keeping your version of Gri up-to-date is good for two reasons: (1)
-makes it easier to get bugs fixed (since the author normally repairs
-bugs in only the most recent version) and (2) lets you take advantage of
-new features @xref{History}.  For instructions on installing the new
-version, @xref{Accessing}.
-
-To protect yourself against changes in syntax, use the @code{expecting}
-command in all gri programs; this command checks the version number of
-Gri and summarizes any incompatibilities that have come up since you
-wrote the gri program; @xref{Incompatibilities}.
-
-Although it is difficult to keep a paper manual up-to-date, it's easy to
-keep the online manual up-to-date, so you should do that 
-@xref{Accessing}.  Furthermore, you should keep your paper copy of the
-commands reference card (a PostScript file called @file{cmdrefcard.ps})
-up-to-date at all times; download it from the FTP site
-
-@c HTML <A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri">
-@file{ftp.phys.ocean.dal.ca}
-@c HTML </A>
-
-whenever you get a new Gri.
-
-@cindex manual, World Wide Web format
-@cindex world-wide-web version of manual
-@cindex mosaic documentation
-@cindex html documentation
-@cindex hypertext documentation
-If you have mosaic or another WWW (world wide web) reader, you can access
-the Gri manual in WWW form at
-@c HTML <A HREF="http://www.phys.ocean.dal.ca/~kelley/gri/gri1.html">
-@code{http://www.phys.ocean.dal.ca/~kelley/gri/gri1.html}
-@c HTML </A>
-
-@noindent
-and of course you can access the FTP site
-@c HTML <A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri">
-@file{ftp.phys.ocean.dal.ca}
-@c HTML </A>
-from any ftp tool.
-
-
-@node   Keeping old Versions, Incompatibilities, Keeping Up To Date, Evolution
-@comment  node-name,  next,  previous,  up
-@section Keeping old versions of Gri
-@cindex incompatibilities, protecting yourself by archiving
-@cindex archiving old versions of the Gri program
-@cindex gri, how to archive
-@cindex executable, how to archive
-@cindex saving old gri versions
-
-@emph{NOTE: this section is under development and details may be wrong,
-especially for Linux systems.}
-
-To keep from getting clobbered by my ``improvements'' to Gri, you might
-wish to keep old versions of Gri online.
-
-Archiving the source is a simple matter of copying files.  You need to
-copy the executable (normally called @file{/usr/bin/gri}) and the
-startup file (normally called @file{/usr/share/gri/gri.cmd})
-to some location.  Let's say, for convenience, that this location is the
-directory @file{/usr/OLD_GRI_VERSIONS/@value{GRI-VERSION}}.  Then, just create a
-shellscript named @code{/usr/bin/gri-@value{GRI-VERSION}} that reads
+Still, disk costs are so cheap that you would be well advised to keep a
+backup version of Gri, whenever you update.  This is pretty simple.  You
+need to copy the executable (normally called @file{/usr/bin/gri}) and
+the startup file (normally called @file{/usr/share/gri/gri.cmd}) to some
+location.  Let's say, for convenience, that this location is the
+directory @file{/usr/OLD_GRI/@value{GRI-VERSION}}.  Then, just
+create a shellscript named @code{/usr/bin/gri-@value{GRI-VERSION}} that
+reads
 @example
-/usr/OLD_GRI_VERSIONS/@value{GRI-VERSION}/gri -directory /usr/OLD_GRI_VERSIONS/@value{GRI-VERSION}
+/usr/OLD_GRI/@value{GRI-VERSION}/gri -directory /usr/OLD_GRI/@value{GRI-VERSION}
 @end example
 
-
-@node   Incompatibilities, History, Keeping old Versions, Evolution
-@comment  node-name,  next,  previous,  up
-@section Incompatibilites Between Versions 
-Normally, new versions of Gri execute code written for old versions.
-But because Gri is under continual development, incompatibilities
-between versions sometimes arise @xref{Incompatible Changes}.  These are
-always easy to get around.
-
-The example files should always be up to date, so if your program is
-based on one of those, you might want to check there for hints.  Also,
-it helps to use the @code{expecting version .n.} command to keep track
-of changes.
-
-
-@c HTML <!-- newfile Newfeatures.html "Gri: History of Changes" "Evolution of Gri" -->
-
-@node   History, Compatible Changes, Incompatibilities, Evolution
-@comment  node-name,  next,  previous,  up
-@section History of Changes
-@cindex history of changes to Gri
-@cindex new features
-@cindex updates
-
-Some versions differ from others only in having bugs fixed; these are
-only documented below if the bug was important.  The visible changes
-listed below are grouped into changes which do not affect old code and
-those which do affect old code.
-
-@emph{IMPORTANT NOTE} this section is under development.  Eventually,
-the material will be separated into subsections on the "release" and
-"development" versions of Gri.
-
-
-Also, an important new item is that Gri
-on 
-@c HTML <a href="http://gri.sourceforge.net">
-gri.sourceforge.net
-@c HTML </a>
+The next sections outline the changes made in Gri.
 
 @menu
-* Compatible Changes::          Changes which don't hurt old programs
-* Incompatible Changes::        Changes which might hurt old programs
-* Plans::                       Plans for future versions
+* Distribution versions::          The stable, distribution stream
+* Plans::                          Plans, and the development version
 @end menu
 
-@node   Compatible Changes, Incompatible Changes, History, History
+@node Distribution versions, Version 2.4, Evolution, Evolution
 @comment  node-name,  next,  previous,  up
+@section Distribution versions
 
-@subsection Additions that don't break old code
+@node   Version 2.4, Version 2.2, Distribution versions, Distribution versions
+@comment  node-name,  next,  previous,  up
+@subsection Version 2.4
+@table @emph
+@item 2.4.4 [2000-May-07]
+Change so that only a warning is printed if mathematical operations are
+requested on empty arrays (e.g. @code{y += 10}).  Previously, an error
+was reported and Gri exited with an error condition, which is bothersome
+in scripts that rely on successful completion of the Gri job.
 
-@subsubsection Version 2.4.x
-Stable-release stream based on version 2.3.7.
-@image{./resources/version-diagram-2.4}
+Port to the BeOS operating system.
 
+@item 2.4.3 [2000-Apr-01]
+Change location of all files, to be consistent with Redhat convention.
+Previously, things were in @code{/opt/gri}; now they are in more
+standard locations.
+@item 2.4.2 [2000-Mar-25]
+Remove bug in which @code{convert grid to image} produced incorrect
+images, visible as a patchy appearance with coarse grids.
+@item 2.4.1 [2000-Jan-31]
+Remove bug in which @code{convert image to grid} failed to take note of
+the gri minimum and maximum, so that contouring of the grid was not
+possible for grids created from images.
+@item 2.4.0 [2000-Jan-05]
+Add @code{set input data separator}.  Make @code{read columns} work with
+various input separators. Make @code{read .x.}, etc, work with various
+input separators.
+@end table
+
+
+@node   Version 2.2, Old versions, Version 2.4, Distribution versions
+@comment  node-name,  next,  previous,  up
+@subsection Version 2.2
+@table @emph
+@item 2.2.6 [1999 Nov 25]
+Make web-based manual easier to read by putting a light-grey background
+under sample code.
+@item 2.2.5 [1999 Nov 10]
+Fix bug in RPN calculations that prevented using a negative exponent.
+@item 2.2.4 [1999 Nov 7]
+Add @code{set font encoding}, and also change the encoding to
+ISO-Latin-1.  (This doesn't hurt old code since Gri didn't make any
+claims to handle characters outside the normal printing-set before
+anyway.)
+
+Fix bug in which there were 4 dead links in the HTML version of manual.
+
+Clean up some problems with Debian distribution (thanks, Peter Galbraith!).
+@item 2.2.3 [1999 Jun 30]
+Fix bug in which word-of-synonym (e.g. @code{\[0]mysyn}) was not
+detected correctly (thanks to bug report from Kazuhiko Nakayama in
+Japan) @ref{Accessing Individual Words Within Synonyms}.
+@item 2.2.2 [-]
+Clean a few spelling and cross-reference errors in documentation.
+@item 2.2.1 [1999 Mar 31]
+For debian, properly locate the @code{netcdf} library, if it is
+installed. 
+
+Remove remnants of old commands for polar axes.
+
+Correct error in which the right-most and upper-most pixel of images
+created by @code{convert grid to image} may be blank (or not, depending
+on roundoff error) under certain conditions of exact matchup between
+grid spacing and image spacing.
+
+Don't create PostScript file if the commandfile is non-existent, or if
+there were errors on the commandline.
+@item 2.2.0 [1999 Mar 25]
+First debian release.  Versions exist for intel, alpha, 68K and powerpc.
+@end table
+
+@node   Old versions, Plans, Version 2.2, Distribution versions
+@comment  node-name,  next,  previous,  up
+@subsection Old versions
+This section will be filled in later (or deleted) depending on whether
+the authors judge it useful.
+
+
+@node   Plans, Accessing, Old versions, Evolution
+@comment  node-name,  next,  previous,  up
+@section Development versions
 @c FOR NEXT RELEASE:
 @c 1) Fix bug in @code{read colorname} that caused it to try to
 @c    interpret comments in the X11 color-name file as though
@@ -13478,1165 +13448,20 @@ Stable-release stream based on version 2.3.7.
 @c    by the 'tidy' checking programme.
 @c *  add to gri.sourceforge.net
 
+
+
 @table @emph
 @item 2.5.1 [2000-May-10]
 Add two new RPN operators, @code{file_exists} and
 @code{directory_exists} @xref{Unary Operators}.
-
-@item 2.4.4 [2000-May-07]
-1) Change so that only a warning is printed if mathematical operations are
-requested on empty arrays (e.g. @code{y += 10}).  Previously, an error
-was reported and Gri exited with an error condition, which is bothersome
-in scripts that rely on successful completion of the Gri job.
-
-2) Port to the BeOS operating system.
-
-@item 2.4.3 [2000-Apr-01]
-Change location of all files, to be consistent with Redhat convention.
-Previously, things were in @code{/opt/gri}; now they are in more
-standard locations.
-@item 2.4.2 [2000-Mar-25]
-Remove bug in which @code{convert grid to image} produced incorrect
-images, visible as a patchy appearance with coarse grids.
-@item 2.4.1 [2000-Jan-31]
-Remove bug in which @code{convert image to grid} failed to take note of
-the gri minimum and maximum, so that contouring of the grid was not
-possible for grids created from images.
-@item 2.4.0 [2000-Jan-05]
-Add @code{set input data separator}.
-
-Make @code{read columns} work with various input separators.
-
-Make @code{read .x.}, etc, work with various input separators.
 @end table
 
-
-@comment @subsubsection Version 2.3.x
-@comment @table @emph
-@comment @item 2.3.7
-@comment Make @code{read columns} work with various input separators.
-@comment @item 2.3.6
-@comment Make @code{read .x.}, etc, work with various input separators.
-@comment @item 2.3.5
-@comment Add @code{set input data separator}.
-@comment @end table
-
-
-@subsubsection Version 2.2.x
-Stable-release stream based on version 2.1.21.
-@image{./resources/version-diagram-2.2}
-
-@table @emph
-@item 2.2.6
-Make web-based manual easier to read by putting a light-grey background
-under sample code.
-@item 2.2.5
-Fix bug in RPN calculations that prevented using a negative exponent.
-@item 2.2.4
-Add @code{set font encoding}, and also change the encoding to
-ISO-Latin-1.  (This doesn't hurt old code since Gri didn't make any
-claims to handle characters outside the normal printing-set before
-anyway.)
-
-Fix bug in which there were 4 dead links in the HTML version of manual.
-
-Clean up some problems with Debian distribution (thanks, Peter Galbraith!).
-@item 2.2.3
-Fix bug in which word-of-synonym (e.g. @code{\[0]mysyn}) was not
-detected correctly (thanks to bug report from Kazuhiko Nakayama in
-Japan) @ref{Accessing Individual Words Within Synonyms}.
-@item 2.2.2
-Clean a few spelling and cross-reference errors in documentation.
-@item 2.2.1
-For debian, properly locate the @code{netcdf} library, if it is
-installed. 
-
-Remove remnants of old commands for polar axes.
-
-Correct error in which the right-most and upper-most pixel of images
-created by @code{convert grid to image} may be blank (or not, depending
-on roundoff error) under certain conditions of exact matchup between
-grid spacing and image spacing.
-
-Don't create PostScript file if the commandfile is non-existent, or if
-there were errors on the commandline.
-@item 2.2.0
-First debian release.  Versions exist for intel, alpha, 68K and powerpc.
-@end table
-
-@subsubsection Version 2.1.x
-
-@table @emph
-@item 2.1.21
-Gri no longer accepts multiple commandfiles separated by commas.  Also,
-don't search for commandfiles in the search path.
-@item 2.1.20
-Make conversion to/from polar coordinates function properly
-@xref{Convert Columns From Rectangular to Polar}.  (Thanks to Carl
-Osterwisch.)  Decent axes for polar plots are still missing though.
-@item 2.1.19
-Make @code{convert grid to image} follow same interpolation algorithm as
-is followed in contouring.  (The old scheme used a polynomial interpolation.)
-@item 2.1.18
-Add Debian linux distribution.
-
-Skip any control-M characters that appear at the ends of lines in
-command files.  (PC-type systems sometimes insert these characters, as
-do some mailer programs.)
-
-Make linux-redhat version store nearly everything in the @file{/opt/gri}
-directory, instead of in the @file{/usr} directory.
-@item 2.1.17
-Test port to linux (Redhat distribution).
-
-Remove @code{set map projection}, which was somewhat broken and would
-not be supported in its present form.
-@item 2.1.16
-Increase accuracy of bounding-box in the PostScript file.
-@item 2.1.15
-
-Allow @code{set bounding box ...} to take centimeters as well as points
-and unser-units.
-
-Add @code{set line join}; make default be 1, not the 0 it was lately.
-
-Make @code{draw symbol \name color hue z} automatically restrict the hue
-to the valid range of 0 to 1, by clipping to these limits.  (Some
-PostScript viewers, e.g. ghostview had trouble otherwise.)
-
-Make regression report 95 percent confidence interval, instead of
-"standard" errors.
-
-Make RPN operations on grids (e.g. @code{rpn grid mean}) obey legitimacy
-of regions of the grid as set by non-PostScript clipping.
-@item 2.1.14
-Internal changes to aid in port to HP.
-@item 2.1.13
-Streamline binary installation.  Make it locate the
-startup message even if installed in a nonstandard directory.
-@item 2.1.12
-Add the option to avoid drawing small tics on logarithmic axes
-@xref{Set X Axis}.
-
-Internal change to contouring, to prevent tracing zero-length contour
-segments.  Depending on the application, this may reduce PostScript file
-size by a factor of up to 3.
-@item 2.1.11
-Make it so that @code{new page} retains the current font.
-@item 2.1.10
-Internal change: modify how `templates' are handled, for the GNU C++
-compiler only.  The change is to make use of the GNU C++ compiler
-@code{-frepo} flag, but only optionally.  The flag is required on Silcon
-Graphics computers but it causes linkage failure on both Solaris and
-Linux computers.  Therefore the @code{configure} script checks for the
-existence of the flag, but asks the installer whether (s)he really wants
-to try using it.  An ugly mess, indeed.
-@item 2.1.9
-Create a default grid, if @code{convert columns to grid} is done before
-the user specified the grid geometry @xref{Convert Columns to Grid}.
-
-In @code{convert columns to grid} use the `barnes' method as the
-default, since it is now much faster than before.
-
-Switch to use the C++ standard library (internal change only)
-@item 2.1.8
-Add @code{set line width all} command @xref{Set Line Width}.
-
-Change the method used in @code{convert columns to grid barnes}, using
-bilineaer interpolation instead of barnes interpolation, at the data
-points.  This converts it from a @code{O(n*n)} scheme (where @code{n} is
-number of data points to a @code{O(n)} scheme.  For example, on a 10 by
-10 grid, it speeds up gridding of a dataset with 10,000 points by a
-factor of 150.  For a dataset 3 times larger, the speedup is by a factor
-of 350.  To put this into context, on a Sun workstation rated at 65
-SPECfp92, a run with 30,000 data points on a 10 by 10 grid is speeded up
-from 1 hour and 47 minutes to 20 seconds.
-
-Change the method used in @code{convert columns to grid barnes}, using
-an approximation to the exponential function (based on from Abramowitz
-and Stegun, eqns 26.2.1 and 26.2.21).  The grids produced are accurate
-to 0.1 percent, and the execuation is 2.5 to 3 times faster (in tests on
-a Solaris machine.)
-
-Change @code{convert columns to grid neighbor} so that it stores into a
-given grid-point the z-value of the data (x,y,z) triplet (column data)
-that is closest to the grid point.  This is an incompatible change
-@xref{Incompatible Changes}.
-@item 2.1.7
-Add @code{set line cap} command @xref{Set Line Cap}.  Permit
-double-quotes around format string in @code{set contour format}
-@xref{Set Contour Format}.
-@item 2.1.6
-Add @code{set bounding box} command @xref{Set Bounding Box}.
-Print warning if that version number embedded into the startup file
-(gri.cmd) fails to match that hard-wired into the executable.
-@item 2.1.5
-Make the PostScript output a little smaller (few percent,
-worst-case), and a little more accurate (bounding box with rotated text
-is now much more accurate).
-@item 2.1.4
-Prevent @code{smooth grid data} from filling in the grid in
-places where the smoothing interval encloses missing data.  Also, do a
-better job of collecting repeated warning messages
-@item 2.1.3
-Make various the warnings for drawing of offpage points be
-devoid of the actual (x,y) location, so that the warnings will be
-identical.  This prevents printing the warning multiple times; instead a
-message about number of identical warnings follows the initial warning.
-@item 2.1.2
-Make @code{draw symbol at} obey clipping.
-@item 2.1.1
-Create more accurate PostScript bounding box for @code{draw title}.
-@item 2.1.0
-Use new numbering scheme, following linux convention.
-@end table
-
-
-@subsubsection Older Versions
-@strong{Version 2.070}
-Add @code{-warn_offpage} commandline option.
-
-@strong{Version 2.069}
-
-Add ability to compile under OS/2 operating system.
-
-Change @code{smooth grid data} to not attempt to fill in missing-data
-voids.
-
-Add @code{HelveticaBold} font.
-
-Make @code{show grid} better.  Make @code{read grid data} work on binary
-files.
-
-
-
-@strong{Version 2.068}
-Minor bug fixes.
-
-@strong{Version 2.067}
-Remove bug, from 2.065 and 2.066, in which @code{\synonym = system ...}
-gave a newline character at end of synonym.  Improve accuracy of
-positioning of @code{draw title} labels.
-
-@strong{ Version 2.066}
-Remove bug, from version 2.059, in which column mathematics changed the
-axes scales of yet-to-be-draw axes, even if the user had specified the
-axes manually.  (Now the axes are only changed if they are to be
-autoscaled and if they are not drawn yet.)
-
-Add two builtin variables for linear regression, @code{..coeff0_sig..}
-and @code{..coeff1_sig..}.
-
-@strong{ Version 2.065}
-Internal change: improve accuracy of timing functions, using POSIX
-subroutines.  Add @code{frac} rpn operator.
-
-@strong{ Version 2.064}
-Add @code{draw symbol [.code.|\name] graylevel z} command, to complement
-the @code{draw symbol [.code.|\name] color z} command.
-
-@strong{ Version 2.063}
-Add capability to read netCDF objects of either @code{float} or
-@code{double} type.
-
-@strong{ Version 2.062}
-Internal changes only, to port to DEC alpha, convex, and other computers
-using up-to-date GNU compiler (2.7.x).
-
-@strong{ Version 2.061}
-Give error if try to do math on column with no data in it.
-
-@strong{ Version 2.060}
-Speed up @code{convert columns to grid}.  The speedup is dramatic on a
-large factor on large datasets, e.g. for 500 points the processing time
-is reduced by 100.
-
-@strong{ Version 2.059}
-Add capability to update axes ranges if math operations are done on the
-columns (provided that axes have not already been drawn).
-
-@strong{ Version 2.058}
-Add @code{size} rpn operator, to find the size of columns and grids,
-ignoring data which are missing.
-
-Make the PostScript bounding-box be correct in landscape mode.
-
-@strong{ Version 2.057}
-Add synonym @code{\.lib_dir.}, pointing to library directory where
-@file{gri.cmd} and other files reside.
-
-@strong{ Version 2.052}
-Make @code{draw grid} only draw symbols at legit points.  The result is
-much easier to understand for dense grids.
-
-@strong{ Version 2.051}
-Make @code{delete columns where missing} update @code{..num_col_data..}
-and @code{..num_missing_col_data..} variables.
-
-Add @code{rpn} operator @code{interpolate}, to interpolate in grid data.
-
-Interpret string @code{Infinity} as infinity, in addition to the
-existing interpretation of @code{Inf}.  (The longer form is used by the
-C++ programming language, as opposed to the C programming language.)
-
-
-@strong{ Version 2.050}
-Allow @code{set dash} to take any number of draw/blank lengths.  Note:
-the internal variables @code{..dash_length..} and
-@code{..blank_length..} are no longer set (but they were never
-documented anyway, so I don't consider this to break old code).
-
-
-@strong{ Version 2.049}
-Add @code{interpolate x|y grid} command.
-
-
-@strong{ Version 2.048}
-Fix recent bug in @code{read .synonym.}, which got confused if the data
-line contained extraneous stuff following the number.
-
-@strong{ Version 2.047}
-As first step toward internal calculation of bounding box, insert a
-comment in PostScript file to indicate the approximate bounding box;
-users might want to try editing the file and moving this line up to the
-start of the file, as indicated.  (This allows LaTeX to calculate the
-diagram size more easily; see for example the @code{aguplus}
-documentation.)  For example, if the line
-@example
-% Suggested %%BoundingBox: 46 31 643 347
-@end example
-was found at the bottom of the file, then the line
-@example
-%%BoundingBox: 0 0 612 792
-@end example
-near the top of the file should be replaced by 
-@example
-%%BoundingBox: 46 31 643 347
-@end example
-
-
-@strong{ Version 2.046}
-Undocumented steps toward bounding box (see 2.047).
-
-@strong{ Version 2.045}
-Add font @code{ZapfChancery} (removed in version 2.3.1/2.2.4 since it
-appeared not to be present in various linux utilities)
-
-Add @code{show hint of the day}.
-
-
-@strong{ Version 2.044}
-Add rpn operators @code{linear_slope} and @code{linear_intercept}.
-
-Add rpn operators @code{roll_left} and @code{roll_right}.
-
-Add @code{set z missing above|below .intercept. .slope.}.
-
-
-@strong{ Version 2.043}
-Add @code{set grid missing inside|outside curve}.
-
-
-@strong{ Version 2.042}
-Remove bug in 2.040 and 2.041, in which netCDF data were read
-incorrectly.
-
-@strong{ Version 2.041}
-Add @code{weight} column, and make @code{convert columns to grid barnes}
-use it to weight individual @code{z=z(x,y)} data.
-
-@strong{ Version 2.040}
-Make all internal storage double precision instead of single precision.
-Change directory structure.
-
-Add @code{-directory_default} commandline argument, mostly for internal
-use by gri-mode @xref{Emacs Editing Mode}.
-
-
-@strong{ Version 2.039}
-Make minor changes to increase portability across various versions of
-the GNU compiler.
-
-
-@strong{ Version 2.038}
-Remove @code{read word} and add @code{read line}.  This is not an
-incompatible change because @code{read word} and @code{read \synonym}
-previously acted incorrectly.
-
-
-@strong{ Version 2.037}
-Repair bug making stereopolar maps (@code{Set Map Projection}) appear in
-wrong place on page.  NOTE: map projections removed in version 2.1.17.
-
-
-@strong{ Version 2.036}
-Add @code{_=} mathematical operator (to take logs to any given base).
-
-Remove @code{set text angle}.  This breaks no old code because it had
-never been implemented anyway.
-
-
-@strong{ Version 2.035}
-Add @code{set panel} @xref{Set Panel}.
-
-Add @code{set panels} @xref{Set Panels}.
-
-Add @code{set error action} command @xref{Set Error Action}.
-
-Add @code{\.missingvalue.} (same as @code{.missingvalue.}).
-
-
-@strong{ Version 2.034}
-Bug fixes.
-
-
-@strong{ Version 2.033}
-Make @code{\.command_file.}  be just the filename, without directory
-name.
-
-
-@strong{ Version 2.032}
-Bug fixes.
-
-
-@strong{ Version 2.031}
-Fix very recent bug in @code{draw line from ... to ...} making it
-disobey dash properteries under some conditions.
-
-@strong{ Version 2.030}
-Add @code{set map projection peters}.  NOTE: map projections removed in version 2.1.17.
-
-@strong{ Version 2.029}
-Fix very recent bug making first @code{draw label for last curve}
-command draw label in wrong place, if axes had not been previously
-drawn.
-
-@strong{ Version 2.028}
-Interior changes involved in porting to DEC alpha.
-
-@strong{ Version 2.027}
-Add @code{set arrow type} command @xref{Set Arrow Type}.
-
-Add @code{show stopwatch} command @xref{Show}.
-
-Add @code{$()} style system commands, as replacement for backtic style;
-see @xref{Using OS Inside Gri}.  This notation is preferable to backtic
-notation because it can be nested.
-
-@strong{ Version 2.026}
-
-Change default PostScript filenames from e.g. @code{gr.ps00} to
-@code{gri-00.ps}
-
-Add @code{-no_startup_message} commandline option.
-
-Add @code{ismissing} rpn unary operator.
-
-Add @code{show colornames} command.
-
-Add ability to have @code{N} or @code{S} in @code{set x type map}
-commands, or @code{E} or @code{W} for the y axis @xref{Set X Type}.
-
-Add @code{draw isospice} command @xref{Draw Isospice}.
-
-Add @code{draw gri logo} command @xref{Draw Gri Logo}.
-
-Add @code{convert columns to spline} command 
-@xref{Convert Columns to Spline}.
-
-Add check so that repeated warnings are not reported, only the first
-occurance and the number of repeats.
-
-Add ability to rotate the colorbar created by @code{draw image palette}.
-@xref{Draw Image Palette}.
-
-Add ability to handle input data lines of any length, up to limit of
-computer storage.  (There is still a limitation on number of words per
-line though, currently 4096, although this limit will be removed soon.)
-
-
-@strong{ Version 2.025}
-Add @code{SUP} and @code{INF} binary rpn operators.
-@xref{rpn Mathematics}.
-
-
-@strong{ Version 2.024}
-Various bug fixes.
-
-@strong{ Version 2.023}
-Make @code{write contours to \file} properly put missing values
-separating islands in contours.
-
-@strong{ Version 2.022}
-Add secret flag @code{set flag jinyu1} @xref{Set Flag}.
-
-@strong{ Version 2.021}
-Add @code{show flags} command (for developers and colleagues only).
-
-Add @code{set flag} command (for developers and colleagues only).
-
-Add check in @code{regress} for fewer than 3 good data, in which case
-don't try to display confidence intervals on slope and intercept.
-
-
-@strong{ Version 2.020}
-Add @code{area} rpn operator.
-
-
-@strong{ Version 2.019}
-Fix bug in @code{help} introduced at about version 2.017.
-
-@strong{ Version 2.018}
-Add @code{show color}.
-
-@strong{ Version 2.017}
-Bug fix from 2.016, in @code{delete grid}.
-
-@strong{ Version 2.016}
-Add ability of @code{while} to indicate each 1000 passes through the
-loop, if @code{-chatty} is nonzero.  This helps prevent unintended
-infinite loops.
-
-
-@strong{ Version 2.015}
-Add beginnings of cross-validation for Barnes gridding (not documented
-yet; contact author).
-
-Add ability to dump core on certain errors, thus allowing the user to
-get a traceback @xref{Error Messages}.
-
-Add @code{[]} syntax for extracting words within synonyms.
-
-Add @code{\.return_value.} builtin synonym, and define these return
-values:
-@example
-Command                 \.return_value.
-=======                 =========================================
-read columns ...        N rows N non-missing N inside-clip-region
-read grid x ...         N cols
-read grid y ...         N rows
-read grid data ...      N rows N cols
-system ...              N status
-@end example
-
-
-
-@strong{ Version 2.014}
-Add ability of @code{draw curve filled} to handle curves with more than
-the PostScript limit of 1500 points.  This is done by iterative removal
-of nearly colinear points.
-
-Add ability of @code{draw curve filled} to handle missing values (by
-drawing filled islands).
-
-
-@strong{ Version 2.013}
-Add unix-style backtic expansion.  (This feature removed in 2.027,
-replaced by the equivalent but more powerful and intuitive
-dollar-parenthesis notation @xref{Using OS Inside Gri}.)
-
-Add @code{separation .dist_cm.} option to @code{draw values}.
-
-Add  @code{delete columns where missing}.
-
-Add @code{delete columns randomly .fraction.} command, useful for
-cross-validation studies.
-
-
-@strong{ Version 2.012}
-Add @code{set grid missing} command, which is useful for Barnes
-gridding especially, since it fills the whole grid.
-
-
-@strong{ Version 2.011}
-Add @code{Barnes} method of converting columns to grids.
-
-@strong{ Version 2.010}
-Fix a very recent bug in @code{while} that sometimes led to segmentation
-faults.
-
-@strong{ Version 2.009}
-@emph{Add} Symbols @code{\cdot}, @code{\vartheta}, @code{\varsigma},
-@code{\varphi}, @code{\oplus}, @code{\otimes}, @code{\aleph},
-@code{\wp}, @code{\prime}, @code{\emptyset}, @code{\angle}, @code{\neg},
-@code{\clubsuit}, @code{\diamondsuit}, and @code{\spadesuit}.  This
-completes the list of @TeX{} symbols that are available in the Symbol
-font used by Gri.
- 
-@strong{ Version 2.008}
-@emph{Add} Greek letters @code{\phi} and @code{\Phi}.
-
-@strong{ Version 2.007}
-Internal changes only.
-
-@strong{ Version 2.006}
-Internal changes only.
-
-@strong{ Version 2.005}
-@emph{Add} optional keyword @code{appending} to @code{read columns}.
-
-@strong{Version 2.004}
-@emph{Add} ability for @code{read \synonym} to read netCDF
-``attributes''.
-
-@emph{Add} ability to read FORTRAN double-precision numbers (those with
-@code{D} in them).
-
-
-@strong{ Version 2.003}
-Recode in C++ programming language.  This will create temporary bugs but
-should increase eventual robustness and power.
-
-@strong{ Version 2.002}
-Allow for compilation on MSDOS machines, without hand-editing files.
-
-@strong{ Version 2.001}
-@emph{Add} ability to read from @code{netCDF} binary files.
-@emph{Change} builtin variable @code{..R^2..} to new name @code{..R2..}
-to allow more sensible parsing.
-
-@strong{ Version 2.000}
-@emph{Add} a @code{grestore} PostScript command if the user forgot to
-turn off PostScript clipping; otherwise, @code{grimerge} has a problem
-postprocessing the file.
-
-@emph{Change} so that math is allowed on columns, even if they don't
-exist.  This makes more sense; why should the program die just because a
-particular file had all missing data or clipped data?
-
-@emph{Add} @code{read colornames from RGB \file}.
-
-@emph{Add} builtin variables @code{..red..}, @code{..green..},
-@code{..blue..}.
-
-@emph{Fix} bug in @code{draw label boxed}, allowing it to work with any
-base color.
-
-
-@strong{Version 1.070}
-@emph{Add} @code{input} command, to input PostScript code from a file
-directly into the Gri output PostScript file, with ability to translate,
-scale, and rotate.
-
-@emph{Add} @code{stddev} rpn function, to find standard-deviation of a
-column or grid.
-
-
-@strong{Version 1.069}
-@cindex comments, @code{/* ... */} style
-@emph{Add} C-style comments of the form
-@example
-/*
-line(s) to be commented-out
-*/
-@end example
-@noindent Note that inline comments are @emph{not} allowed; it is
-neccessary that the @code{/*} and @code{*/} appear on lines by
-themselves.
-
-@strong{Version 1.068}
-@emph{Add} better traceback information on errors.
-
-@strong{Version 1.067}
-@emph{Fix} very recent bugs preventing @code{write image} from writing
-anything more than a header.
-
-@strong{Version 1.066}
-@emph{Add} @code{set page translate .xcm. .ycm.}
-
-@emph{Add} ability to nest @code{while} loops
-
-@strong{Version 1.065}
-@emph{Add} reporting of location of errors in commandfiles.
-
-@emph{Add} @code{xyusertocm} and @code{xycmtouser} rpn operators (only
-way to convert in non-rectangular map projections).
-
-@emph{Add} ability to do @code{while} loops inside new commands.
-
-@emph{Add} ability to do @code{system ... <<} within new commands.
-Caution: if the system command has a line matching with a closing curly
-brace in the first column, Gri will interpret this as the end of the
-new-command.  So make put a space before any line like that.
-
-@emph{Add} @code{set map projection stereopolar .x0. .y0.} for
-stereopolar map projections.  NOTE: map projections removed in version 2.1.17.
-
-@emph{Add} @code{set x|y type map E|W|S|N} for better format on
-maps.
-
-
-
-@strong{Version 1.064}
-
-@emph{Add} To @code{draw symbol} the ability to code the
-@code{saturation} and @code{brightness} into the z-column, in addition
-to the @code{hue}.
-
-@emph{Add} Full filename of commandfile in @code{draw time stamp}.
-
-@emph{Add} @code{filter grid rows|columns recursively}.
-
-@emph{Add} @code{set x|y axis unknown}.
-
-@emph{Add} rpn commands to access min, max, and mean of grid data, e.g.
-@code{@{grid min@}}.
-
-@emph{Add} Simple error checking to @code{read image rasterfile|pgm}. 
-
-@emph{Add} @code{bycolumns} option to @code{write grid} command.
-
-@emph{Add} @code{smooth grid data along x|y}.
-
-@emph{Add} @code{convert grid to columns}.
-
-@emph{Add} @code{delete columns}.
-
-@emph{Add} @code{differentiate grid}.
-
-
-
-@strong{Version 1.063}
-@emph{Add} dotted lines (via dash styles numbered 10 and 11).
-
-@emph{Add} @code{convert image to grid} @xref{Convert}.
-
-
-@strong{Version 1.062}
-@emph{Add} @code{\synonym = tmpname}, a way to get the name of a
-temporary file guaranteed not to clash with any other temporary files. 
-
-@emph{Add} @code{read word} command; removed in version 2.038.
-
-@strong{Version 1.061}
-@emph{Add} ability to have semicolon in a command, not designating two
-separate commands; do this by preceding by backslash.  (Note: the
-semicolon feature removed in version 1.064.)
-
-@emph{Add} a check at termination time, for any variables and synonyms
-which were assigned to or created by @code{new}, but which were never used.
-
-@emph{Add} list of acceptable items to @code{query} @xref{Query}.
-
-@emph{Repair} the functioning of `system ... << ...' command @xref{System}.
-
-
-@strong{Version 1.060}
-@emph{Add} PGM output of images @xref{Write}.
-
-
-@strong{Version 1.059}
-@emph{Repair} bug in accessing individual elements of columns with the RPN
-command. 
-
-@strong{Version 1.058}
-@emph{Remove} warning if no @code{expecting version} command is found.
-
-
-@strong{Version 1.058}
-@emph{Add} ability of @code{while} to make tests, as in 
-@code{while @{rpn .i. 10 > @}} (which repeats until @code{.i.} equals or
-exceeds 10). @xref{While}.
-
-
-@strong{Version 1.057}
-@emph{Add} @code{draw contour .value. to \filename}
-
-@emph{Add} math symbols @code{\langle} and @code{\rangle}
-
-@emph{Repair} bug in @code{draw circle with radius .r_cm.}, so that now
-@code{.r_cm.} is interpreted as radius instead of diameter.
-
-@emph{Add} @code{set contour label for}.
-
-@emph{Add} @code{set contour label position centered}.
-
-
-@strong{Version 1.056}
-Allow nested @code{set clip postscript on}.
-
-
-@strong{Version 1.055}
-@emph{Repair} very recent bug that allowed attempted drawing of
-zero-size text (which Sun's viewer and printer accepts, but which
-ghostscript dislikes).
-
-
-@strong{Version 1.054}
-@emph{Add} possibility for multiple statements on one line, separated by
-semicolons.  (NOTE: this feature removed in version 1.064.)
-
-
-@emph{Add} Make @code{draw image palette} obey @code{set x format}.
-
-
-@strong{Version 1.054}
-Never released; author's copy only.
-
-@strong{Version 1.053}
-@emph{Repair} bug where y-axis on image histograms
-was misplaced. 
-
-@emph{Add} allow setting of negative margins.
-
-
-
-@strong{Version 1.052}
-@emph{Add} rpn function @code{=}, for assigning to variables and synonyms
-
-@emph{Add} rpn functions @code{atof}, @code{strcat} and @code{system}.
-
-@emph{Add} rpn output as string.
-
-
-@strong{Version 1.051}
-Bug fixes only.
-
-
-@strong{Version 1.050}
-
-@emph{Repair} @code{set image missing value color}, which used to do nothing.
-Also, @emph{Change} the default color for missing parts of the image to white,
-instead of the black that it was for the last few versions.
-
-@emph{Remove} the @code{function} and @code{show functions} commands, since
-they are superceded by the more powerful @code{rpnfunction} commands.
-
-@emph{Remove} All ``functions'' (@code{defined()}, @code{width("string")},
-@code{ascent("string")}, @code{descent("string")}, @code{column_min()},
-@code{column_max()}, and @code{column_mean()}).  These are superceded by
-rpnfunctions of the same names.
-
-@emph{Add} rpn operators @code{dup}, @code{pop}, @code{exch}, @code{pstack},
-@code{column_min}, @code{column_max}, @code{column_mean} 
-
-
-@strong{Version 1.049}
-
-@emph{Add} builtin @code{rpnfunction}'s @code{width}, @code{ascent} and
-@code{descent}, as replacements for old-style @code{width(string)} etc.  
-
-@emph{Add} @code{rpnfunction}.
-
-@emph{Add} @code{read image colorscale}.
-
-@emph{Add} ability to @code{read image grayscale} a line at a time, instead of
-requiring all 256 numbers on one line.
-
-@emph{Add} @code{mask image} command to permit alteration of image under the
-mask.
-
-@emph{Add} reading of ascii PGM (Portable GrayMap) files in addition to binary
-PGM files.
-
-
-
-@strong{Version 1.048}
-
-@emph{Add} @code{GRIINPUTS} unix environment variable and capability for Gri to
-search a directory list for commanfiles.  Also, @emph{Add} a few preliminary
-library files (e.g., @file{/usr/local/lib/gri/10pt.gri}.
-
-@emph{Add} ability to a sequence of commandfiles.
-
-@emph{Add} Ability to specify input to @code{query} commands on the
-commandline, via the @code{SIMULATED_INPUT} mechanism.
-
-@subsubsection Version 1.047
-@emph{Add} @code{read image pgm ...} command.
-
-@subsubsection Version 1.046
-@emph{Add} @code{reorder columns ...} command.
-
-
-@strong{Version 1.045}
-
-@emph{Add} builtin synonym @code{\.awk.}, which is set to the first awk program
-present on your machine, taken from this list: gawk, nawk, mawk, awk.
-All internal usage of @code{gawk} has been changed to use @code{\.awk.}
-instead.
-
-
-@strong{Version 1.044}
-FIX bug in @code{open "... |"} which prevented
-synonym substitution if unmatched $ signs precede the synonym.
-
-
-@strong{Version 1.043}
-
-@emph{Add} writing of image map into PostScript file, and @emph{Change}
-how the image is written there, so that the @emph{raw} image values are
-written, not the remapped values.  This allows system-level tools to
-extract the original image from the PostScript file.
-
-@emph{Add} to 
-@code{convert columns to grid}, @code{convert grid to image} and
-@code{draw contour} a display of the time likely to be 
-required to finish the conversion, provided that the @code{chatty} flag
-exceeds 0, and also that the total estimated time exceeds 20 seconds.
-
-@emph{Add} better error detection to @code{convert grid to image}, adding
-capability to catch old syntax (the presence of the @code{white} and
-@code{black} keywords, no longer allowed), and demand that @code{box}
-takes exactly 4 parameters.
-
-@emph{Add} a check for mis-spelling @code{set x name} as @code{set x label}.
-
-@emph{Add} detection of archaic usage to @code{convert columns to grid} (ie,
-die if the old @code{planar} method is attempted).
-
-
-@strong{Version 1.042}
-Internal changes only.
-
-@strong{Version 1.040}
-@emph{Add} commandline option @code{-noexpecting}, to prevent display of
-warning if the @code{expecting version} command is not present.
-
-
-@strong{Version 1.039}
-
-@emph{Repair} bug in @code{read columns .num_to_read.} which prevented
-counting data outside a window set by @code{set input data window}.
-
-@emph{Add} Rapidograph pen-names to @code{set line width}.
-
-@emph{Add} @code{convert columns to grid neighbor}, which was removed in
-1.033.
-
-
-
-
-@strong{Version 1.038}
-
-@emph{Add} @code{draw text whiteunder}
-
-@emph{Add} @code{set graylevel white} and @code{set graylevel black}.
-
-
-
-
-@strong{Version 1.037}
-
-@emph{Add} @code{increment .im_value.} option to @code{set image colorscale},
-to allow for quantized colorscales.
-
-@emph{Add} 
-@code{set image colorscale \color_name .im_value. \color_name .im_value.}, 
-to allow for named colors as endpoints of colorscales. 
-
-
-
-@strong{Version 1.036}
-
-@emph{Add} a warning if @code{expecting version .version.} has not been called.
-
-
-
-@strong{Version 1.035}
-@emph{Add} @code{show traceback}, and make errors call it.
-
-@emph{Add} @code{expecting version .n.}
-
-
-
-@strong{Version 1.034}
-@emph{Add} @code{set font to Palatino} and @code{set font to Times}.
-
-
-@strong{Version 1.034}
-@emph{Add} ability of @code{read grid x|y|data} to figure size of grid
-by searching for blank-lines, EOFs, etc.
-
-
-@strong{Version 1.033}
-
-@emph{Add} ability to @code{differentiate x|y} with respect to @code{y|x} as
-well as with respect to @code{index}
-
-@emph{Add} math operation @code{^=} to take powers.
-
-@emph{Add} @code{rescale} command.
-
-@emph{Add} support for @code{\n} and @code{\t} in @code{show} command.
-
-RENAME @code{-extract} commandline option as @code{-creator}.
-
-@emph{Add} @code{open "system command|"} command.
-
-@emph{Add} automatic selection of smoothing lengths in 
-@code{convert columns to grid}.
-
-
-@strong{Version 1.032}
-@emph{Add} @code{set postscript filename}.
-
-@strong{Version 1.031}
-@emph{Repair} a bug in images mappings.
-
-@strong{Version 1.030}
-Allow @code{color} to be spelt @code{colour} and @code{gray} to be spelt
-@code{grey}.
-
-@strong{Version 1.029}
-@emph{Add} command @code{smooth grid data .f.}, to
-do fractional smoothing of data to be contoured.
-
-@strong{Version 1.028}
-@emph{Add} builtin variable @code{..use_default_for_query..}.
-
-@strong{Version 1.026}
-@emph{Add} several arrows to math symbols.
-
-@strong{Version 1.025}
-Allow use of double-quote in @code{set x|y format}, to allow use of the
-space-character in the format string.
-
-@strong{Version 1.024}
-@emph{Add} color images with @code{set image colorscale} command.
-
-@strong{ Version 1.023}
-@emph{Add} @code{set contour labels rotated|horizontal}.
-
-@strong{ Version 1.022}
-@emph{Add} @code{-no_cmd_in_ps} commandline option.
-
-@strong{ Version 1.021}
-@emph{Add} @code{set contour label position .start_cm. .interval_cm.} command.
-
-@strong{Version 1.020}
-@emph{Add} @code{draw polygon} command
-
-@strong{ Version 1.019}
-Make x axis figure offset for label correctly, even if there are no
-numbers on the axis.  Also, switch numbering scheme (yet again!)
-
-
-
-@node   Incompatible Changes, Plans, Compatible Changes, History
-@comment  node-name,  next,  previous,  up
-@subsection Additions which may break old code
-@table @emph
-@item Version 2.1.8
-Change @code{convert columns to grid neighbor} so that it stores into a
-given grid-point the z-value of the data (x,y,z) triplet (column data)
-that is closest to the grid point.  Thus, the grid becomes independent
-of data order, whereas before it was dependent on data order, and prone
-to damage along the edges by far-flung data.  This suggestion was made
-by Dave Brickman.
-@item Version 2.050
-Because of a change to @code{set dash}, the internal variables
-@code{..dash_length..} and @code{..blank_length..} are no longer set.
-@item Version 2.040
-Remove @code{GRI_DIR} environment variable, which had no extra function
-in addition to the @code{-directory} commandline option.
-@item Version 2.038
-Remove @code{read word} command; make @code{read \synonym} function in
-the way @code{read word} had done, and add @code{read line \synonym} to
-fill the gap.  (This breaks the old @code{example10.gri}; replace the
-line @code{read \header} with @code{read line \header}.)
-@item Version 2.027
-Remove backtic notation for calling the operating system.  Replace it
-with @code{bash} unix shell notation @code{\(command)}.
-@item Version 2.026
-Change default PostScript filenames from e.g. @code{gr.ps00} to
-@code{gri-00.ps}
-
-Remove @code{move to} command.
-
-Remove @code{draw line to} command.
-@item Version 2.000
-@emph{Change} so that zero or negative data are allowed on a log axis.
-Previously, Gri used to switch to a linear axis, but now it considers
-the data as missing (recoverable by a switch to linear axis).
-@item Version 1.070
-@emph{Change} builtin variable @code{..R^2..} to new name @code{..R2..}
-to allow more sensible parsing.
-@item Version 1.064
-@emph{Change} so that multiple statements can no longer be put on one
-line, separated by semicolons.  (This command was used by few people
-since the introduction in version 1.054, and it led to a lot of
-confusion in @code{system} commands.)
-
-@emph{Change} name of rpn commands which select column statistics from
-e.g. @code{@{rpn x column_mean@}} to @code{@{rpn x mean@}}.
-
-@emph{Change} output from @code{show image} and @code{show grid} to be
-more informative; also, don't print info if grid is too big.
-
-@emph{Change} so that @code{show} commands produce warning message, not
-fatal error signals, if the item does not exist yet.
-@item Version 1.063
-@emph{Change} method of supplying default directory for TS diagram
-isopycnal data.  Now use a unix environment variable, as in 
-@code{export GRI_EOS_DIR="/users/dek/kelley/data/EOS/iso0"}.
-@item Version 1.062
-@emph{Change} @code{write} commands to append to end of file, if there
-is something in the file already.
-@item Version 1.059
-@emph{Remove} documentation on the commandline option
-@code{no_expecting}, since the default is now not to report
-non-existence of the @code{expecting version} command.  (The option now
-produces a warning.)
-@item Version 1.049
-@emph{Change} @code{read image grayscale} and @code{write image grayscale} to
-have the numbers range from 0 to 1, instead of from 0 to 255.
-
-@emph{Change} @code{insert} to search for the file using the @code{GRIINPUTS}
-mechanism
-@item Version 1.045
-@emph{Change} so math-mode text strings do not italicize punctuation marks.
-@item Version 1.043
-@emph{Change} default linewidths from (0.25, 0.5, 0.25) for (axes, curves,
-symbols) to (0.369, 0.709, 0.369) = rapidograph numbers (6x0, 3x0, 6x0)
-@item Version 1.041
-@emph{Change} how search for startup file @file{gri.cmd} is done.
-Previously, the ``path'' was searched; now, the @code{-directory} is
-used, if that is given as a commandline option, or else a pre-defined
-directory (e.g.  @file{/opt/gri/bin}), defined at compile time, is used.
-@item Version 1.037
-@emph{Change} @code{draw image grayscale} to @code{draw image palette}, in
-keeping with the ability of this command to draw palettes for both
-grayscale and color images.
-@item Version 1.036
-@emph{Change} @code{convert grid to image} to require @code{set image range} to
-have been done previously.  Also, now no longer accept the @code{white}
-and @code{black} options.
-@emph{Change} @code{read image} to require @code{set image range} to have been
-done previously.  Also, no longer accept the @code{scale} option.
-@emph{Change} @code{read image grayscale} to require @code{set image range}
-to have been done previously.
-@emph{Change} @code{read image colorscale} to require @code{set image range} to
-have been done previously.
-@item Version 1.034
-@emph{Change} math-mode text so that non-Greek letters are written in
-Italics, as in LaTeX.
-@item Version 1.033
-@emph{Remove} @code{-quiet} commandline option and @emph{add} levels to @code{-chatty}
-commandline option; also @emph{Change} some details of this chattiness
-behaviour.
-
-@emph{Remove} @code{convert columns to grid planar} gridding method; use
-@code{... boxcar} instead.
-
-@emph{Remove} @code{convert columns to grid neighbor} mehtod; was lousy anyway,
-and users can recreate it easily using awk or other shelltools.
-@item Version 1.027
-@emph{Change} so that contour labels are drawn not over a broken line as
-before, but rather over a solid line.  Whiteout is now used under the
-label to give the illusion of a broken line.  The old method is
-available with the new command @code{set contour labels nowhiteunder}.
-@end table
-
-
-@node   Plans, Accessing, Incompatible Changes, History
-@comment  node-name,  next,  previous,  up
-@subsection Plans for future versions
 @cindex plans for future versions
 @cindex command-line interface
 @cindex image formats, other than 8-bit
 
-The list below is in no particular order.  Please contact me at
+Some @emph{plans} for future versions are given below.  The list below
+is in no particular order.  Please contact me at
 @c HTML <A HREF="mailto:Dan.Kelley@Dal.CA"> 
 @value{AUTHOR-EMAIL}
 @c HTML </A>
@@ -15146,7 +13971,7 @@ reliable and useful for all users.  Here is how to report bugs:
 @item
 Archive your present version of Gri and
 then acquire the most recent version, to see if your bug has already
-been solved @xref{Keeping old Versions}.  Bugs in the current version are likely to be repaired,
+been solved.  Bugs in the current version are likely to be repaired,
 while the probability of my repairing bugs in previous versions is low.
 I invest in the future, not the past.
 @item
