@@ -5,7 +5,7 @@
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.29 (18 Jul 2000)
+;; Version:   2.30 (03 Aug 2000)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -340,8 +340,10 @@
 ;;    http://www.phys.ocean.dal.ca/~kelley/gri/index.html 
 ;; V2.28 21Jun00 RCS 1.53 - Added gri*run-settings
 ;;                        - Bettered some customize entries.
-;; V2.28 18Jul00 RCS 1.54 - default web page changed to:
+;; V2.29 18Jul00 RCS 1.54 - default web page changed to:
 ;;    http://gri.sourceforge.net/gridoc/html/index.html
+;; V2.30 03Aug00 RCS 1.55 - default web page changed to:
+;;    "http://gri.sourceforge.net/gridoc/html/index.html" (fixes bug)
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -602,7 +604,7 @@ On your system, this could be `netscape'.  If so, set this variable in your
                    (string :tag "Specify a program")))
 
 
-  (defcustom gri*WWW-page http://gri.sourceforge.net/gridoc/html/index.html
+  (defcustom gri*WWW-page "http://gri.sourceforge.net/gridoc/html/index.html"
   "*Web page or local html index file for the gri manual.
 This is used by the gri-WWW-manual command.
 If the sourceforge site is down, try:
@@ -4140,7 +4142,7 @@ static char *magick[] = {
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.29 (c) 18 Jul 2000 --  Peter Galbraith <GalbraithP@dfo-mpo.gc.ca>
+V2.30 (c) 03 Aug 2000 --  Peter Galbraith <GalbraithP@dfo-mpo.gc.ca>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
