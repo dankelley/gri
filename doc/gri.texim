@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.110 2001/07/16 17:00:10 psg Exp $
+@c $Id: gri.texim,v 1.111 2001/07/17 15:45:45 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -5511,8 +5511,8 @@ set graylevel 0
 @subsubsection @code{draw patches}
 @findex draw patches
 @cindex @code{draw patches} command
-@cindex linear regression
-@cindex regression, linear
+@cindex drawing patches
+@cindex patches, drawing
 
 @example
 `draw patches .width. .height. [cm]'

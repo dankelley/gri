@@ -151,6 +151,14 @@ as simple as the following.
 To see the recent changes in version 2.6.x, go <A class="menus"
 HREF="http://gri.sourceforge.net/gridoc/html/Version_2_6.html#Version2.6">here</a>.<br>
 
+<p>
+<!-- See Ullman (2001) p33 for hints on how this PHP done -->
+<form action="search_concept.php">
+Search gri manual for (may be a regular expression):<p>
+<input type=TEXT name=search_for size=30>
+<input type=SUBMIT name="Submit" value="Submit"> 
+</form>
+
         <hr noshade="noshade">
         <center>
           <small>
