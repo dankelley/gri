@@ -1,5 +1,5 @@
 @c -*-mode: texinfo; -*-
-@c $Id: gri.texim,v 1.56 2001/03/12 22:00:03 dankelley Exp $
+@c $Id: gri.texim,v 1.57 2001/03/13 20:02:49 dankelley Exp $
 \input texinfo @c -*-texinfo-*-
 @c
 @comment *** Start of HTML stuff ***
@@ -15453,30 +15453,52 @@ comment at the bottom of the file such that Emacs remembers it across
 editing sessions.
 
 @c HTML <!-- newfile History.html "Gri: History Gri" "History of Gri Versions" -->
-@node   History, Version 2.6, Filename arguments when running gri, Top
+@node   History, Archiving Old Versions, Filename arguments when running gri, Top
 @comment  node-name,  next,  previous,  up
 @chapter History of Gri Versions
+
+@menu
+* Archiving Old Versions::         How to archive old versions
+* Version 2.6::
+* Version 2.4::
+* Version 2.2::
+* Plans::                          Plans, and the development version
+@end menu
+
+@c HTML <!-- newfile Archiving.html "Gri: archiving old versions" "Gri: archiving old versions" -->
+@node   Archiving Old Versions, Version 2.6, History, History
+@comment  node-name,  next,  previous,  up
+@section Archiving Old Versions
 
 Gri, like other complex programs, sometimes changes in such a way as to
 break old scripts.  This is less so of changes since about 1998 or so,
 since the syntax became pretty firm about that time.  
 
-Still, disk costs are so cheap that you would be well advised to keep a
-backup version of Gri, whenever you update.  This is pretty simple.
-Let's assume you have the RPM-packaged version of gri installed.  You
-need to keep a copy of @file{/usr/bin/gri} and
-@file{/usr/share/gri/gri.cmd} before you upgrade the package.  You could
-copy both to the directory
-@file{/usr/local/share/gri/@value{GRI-VERSION}/} and create a wrapper
-script called @file{/usr/local/bin/gri-@value{GRI-VERSION}} to invoke
-this version of gri.  The script might look something like
+Still, disk costs are so cheap that you would be well-advised to keep a
+backup version of Gri, whenever you update.  This is pretty simple; you
+need to keep a copy of the executable and the library file, and you need
+to write a tiny shellscript that calls this particular executable with
+this particular library file.  For example, you might do the following
+
+@example
+mkdir -m 755 -p           /usr/local/share/gri/@value{GRI-VERSION}
+cp /usr/bin/gri           /usr/local/share/gri/@value{GRI-VERSION}
+cp /usr/share/gri/gri.cmd /usr/local/share/gri/@value{GRI-VERSION}
+@end example
+
+@noindent
+and then create a shellscript called
+@file{/usr/local/bin/gri-@value{GRI-VERSION}} containing
 
 @example
 #!/usr/bin/sh
 /usr/local/share/gri/@value{GRI-VERSION}/gri \
     -directory /usr/local/share/gri/@value{GRI-VERSION} \
-    "$@"
+    "$@@"
 @end example
+
+@noindent
+to invoke this version of Gri.
 
 To be able to access this old version of gri from within the Emacs
 gri-mode, you would reset the Emacs variable @code{gri*directory-tree}
@@ -15489,17 +15511,10 @@ like so in the file @file{~/.emacs}
     '("/usr/local/share/gri/" "/usr/share/gri/"))
 @end example
 
-The next sections outline the changes made in Gri.
 
-@menu
-* Version 2.6::
-* Version 2.4::
-* Version 2.2::
-* Plans::                          Plans, and the development version
-@end menu
 
 @c HTML <!-- newfile Version_2_6.html "Gri: Version 2.6" "Gri: Version 2.6" -->
-@node   Version 2.6, Version 2.4, History, History
+@node   Version 2.6, Version 2.4, Archiving Old Versions, History
 @comment  node-name,  next,  previous,  up
 @section Version 2.6
 @table @emph
@@ -15777,33 +15792,47 @@ if you need something else that I've not listed.
 @cindex little-endian vs big-endian data, plans
 @cindex big-endian vs little-endian data, plans
 
+@b{High priority (i.e. likely in next stable release)}
+
 @enumerate
+
+@item Switch from @code{tmpname} to @code{mkstemp} subroutine, for temporary filenames.
 
 @item Switch to @code{popt} library for the processing of command-line 
 options.
-
-@item Add support for both little-endian and big-endian data.
+(Docs on this are at
+@url{http://cvs.gnome.org/lxr/source/popt}.)
 
 @item Add readline support, to handle history, command-line editing, etc, 
-for interactive usage [probably for version 2.8]
+for interactive usage
+(Docs on this are at
+@url{http://cnswww.cns.cwru.edu/~chet/readline/readline.html}.)
 
-@item Add ability to read PNG images (@ref{Read Image}).
-[probably for version 2.8, at least in a limited form]
+@end enumerate
+
+
+@b{Medium priority}
+
+@enumerate
 
 @item Add optimal interpolation as another method for gridding
 data (@ref{Convert Columns to Grid}).
 
-@item Porting to more machines.   (Most Unix platforms are supported, but 
-Gri doesn't work at all on Apple platforms, and the Windows support is
-definitely not up to scratch.
+@item Add ability to read PNG images (@ref{Read Image})
+(Docs on this are at @url{http://www.libpng.org/pub/png/}.)
 
-@item Rewrite manual section on the versions, breaking it up into "stable" 
-and "unstable" releases instead of "compatible" and "incompatible" changes.
+@end enumerate
 
-@item Perhaps add non-RPN mathematics.
 
-@item Perhaps add graphical output to the screen as commands are executed.  
-(This could be done well if a good display-postscript library were available.)
+@b{Low priority}
+
+@enumerate
+
+@item Add non-RPN mathematics.
+
+@item Add graphical output to the screen as commands are executed.  
+
+@item Add support for both little-endian and big-endian data.
 
 @end enumerate
 
