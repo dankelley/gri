@@ -1,6 +1,6 @@
 // NB: number string must agree with line 1 of gri.cmd
 char _gri_number[] = "2.9.0";
-char _gri_release_time[] = "2001-???-??";
+char _gri_release_time[] = "2001-aug-14";
 char _gri_date[] = "2001";
 
 // OLDER VERSIONS:
