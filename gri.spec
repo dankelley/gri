@@ -40,19 +40,19 @@ a linegraph connecting data points in the file called `file.dat'.
 %setup -q
 
 %build
-%configure
-make libdir=/usr/share/gri gri
-strip gri
+%configure --enable-linux_redhat
+make DESTDIR=$RPM_BUILD_ROOT libdir=$RPM_BUILD_ROOT/usr/share/gri
+strip src/gri
 
 %install
 # remove docinst if it is there from a previous build
 rm -rf docinst
-(cd doc ; make linux_redhat)
-(cd doc ; make card-install-redhat CARD_DIR=..)
-(cd doc ; make html-install HTML_DIR=../docinst/html EXAMPLES_DIR=../docinst/examples)
+(cd doc ; make CARD_DIR=.. install-refcards)
+(cd doc ; make DESTDIR=$RPM_BUILD_ROOT HTML_DIR=../docinst/html EXAMPLES_DIR=../docinst/examples html-install)
 (cd docinst/html; ln -sf index.html gri1.html)
 cp -f README-linux-redhat README || :
-make DESTDIR=$RPM_BUILD_ROOT install_linux_redhat
+(cd src ; make install            DESTDIR=$RPM_BUILD_ROOT)
+(cd doc ; make install-data-local DESTDIR=$RPM_BUILD_ROOT)
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -72,10 +72,10 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/emacs/site-lisp/gri-mode.el
 
 %post
-# Add gri item to INFO file /usr/share/info/dir
+# add a gri entry to /usr/share/info/dir
 if [ "$1" = 1 ]
 then
-	if ! grep -i "(gri)" /usr/share/info/dir > /dev/null
+	if ! grep -i gri /usr/share/info/dir > /dev/null
 	then
 		/sbin/install-info --dir-file="/usr/share/info/dir" /usr/share/info/gri.info.gz
 #		chmod a+r /usr/share/info/dir
@@ -83,10 +83,10 @@ then
 fi
 
 %postun
-# Remove gri item from INFO file /usr/share/info/dir
+# remove instances of gri in /usr/share/info/dir
 if [ "$1" = 0 ];
 then
-	if grep -i "(gri)" /usr/share/info/dir > /dev/null
+	if grep -i "gri" /usr/share/info/dir > /dev/null
 	then
 		/sbin/install-info --dir-file="/usr/share/info/dir" --remove /usr/share/info/gri.info.gz
 #		grep -vi "gri" /usr/share/info/dir > /usr/info/share/dir.tmp
@@ -96,8 +96,8 @@ then
 fi
 
 %changelog
-* Mon May 19 2003 <Dan.Kelley@Dal.Ca>
-- fix Sourceforge bug 739761 ('draw time stamp' named command-file incorrectly)
+* Sat May 31 2003 <Dan.Kelley@Dal.Ca>
+- alter some target names to match the Automake Makefiles.
 * Sat May 03 2003 <Dan.Kelley@Dal.Ca> (fix by Kawamura Masao)
 - fix several typos on filenames, plus a compilation error hidden behind a precompilation flag
 * Tue Apr 15 2003 <Dan.Kelley@Dal.Ca> (fix by Peter Galbraith)
