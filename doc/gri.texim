@@ -101,8 +101,10 @@ rather, it is an interpreted scriping language.  Users regard it as an
 analogue to the latex document formatting language: users gain
 considerable power, at the price of a moderate learning curve.
 
-The Gri web homepage is at
-@url{http://www.phys.ocean.dal.ca/~kelley/gri}.
+@c * Not the best idea to get folks to use this url, so
+@c * I'm deleting it.
+@c * The Gri web homepage is at
+@c * @url{http://www.phys.ocean.dal.ca/~kelley/gri}.
 
 @c HTML -->
 
