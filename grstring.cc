@@ -59,7 +59,7 @@ static void     gr_drawstring(const char *s);
 static int      index_for_math_symbol(char *s);	// base routine
 static double   gr_charwidth_cm(int c, int font, double fontsize_pt);
 static void     gr_DrawChar(const char *c);
-static void     gr_setfont_fontsize(gr_fontID newID);
+static void     gr_setfont_fontsize(gr_fontID newID, bool force = false);
 static void     ClearStack(void);
 static void     PopStack(void);
 static void     MoveDown(void);
@@ -526,13 +526,13 @@ gr_currentfontsize_pt()
  * 
  */
 void
-gr_setfont(gr_fontID newID)
+gr_setfont(gr_fontID newID, bool force /* default false */)
 {
-	gr_setfont_fontsize(newID);
+	gr_setfont_fontsize(newID, force);
 }
 
 static void
-gr_setfont_fontsize(gr_fontID newID)
+gr_setfont_fontsize(gr_fontID newID, bool force)
 {
 	int             i = 0;
 	static bool     have_set_font = false;
@@ -541,10 +541,11 @@ gr_setfont_fontsize(gr_fontID newID)
 	while (font_list[i].id != gr_font_end_of_list) {
 		if (newID == font_list[i].id) {
 			/* Found the font, but ignore request if no change */
-			if (!have_set_font
-			    || newID != last_font.id
-			    || CurrentFont.encoding != last_font.encoding
-			    || CurrentFont.size_pt != last_font.size_pt) {
+			if (force
+			    || (!have_set_font
+				|| newID != last_font.id
+				|| CurrentFont.encoding != last_font.encoding
+				|| CurrentFont.size_pt != last_font.size_pt)) {
 				CurrentFont.id = newID;
 				if (!_grNeedBegin) {
 					/*

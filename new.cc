@@ -14,6 +14,7 @@ new_pageCmd()
 {
 	extern void reset_top_of_plot(void); // in set.cc
 	gr_showpage();
+	gr_setfont(gr_currentfont(), true);
 	_need_x_axis = true;
 	_need_y_axis = true;
 	reset_top_of_plot();
