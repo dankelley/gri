@@ -416,7 +416,7 @@ The output PostScript file is called @file{example1.ps}.
 @comment OLD \endinsert
 @comment OLD }
 @comment OLD @end tex
-@image{./examples/example1}
+@image{./examples/example1, 300pt}
 @cindex example 01, linegraph using data in a separate file
 
 To view Gri output, use your favorite PostScript previewer
@@ -503,9 +503,8 @@ what is being done, and consult the plot as you read the commandfile.
 @comment OLD \endinsert
 @comment OLD }
 @comment OLD @end tex
-@image{./examples/example3}
+@image{./examples/example3, 300pt}
 @cindex example 03, controlling scales, etc
-
 
 
 @c HTML <!--
@@ -4659,7 +4658,7 @@ data, with full control of axes, etc, do something like this:
 @comment OLD \endinsert
 @comment OLD }
 @comment OLD @end tex
-@image{./examples/example4}
+@image{./examples/example4, 300pt}
 
 
 @c HTML <!--
@@ -5266,8 +5265,8 @@ on execution, so the time stamp was not drawn.)
 
 `Initialize Parameters'
 @{
-    \FILE_DATA = "example8a.dat" 	 # T vs rho
-    \FILE_LOCN = "example8b.dat" 	 # section distances
+    \FILE_DATA = "example8a.dat" # T vs rho
+    \FILE_LOCN = "example8b.dat" # section distances
     set missing value -99.0
     #
     # Following values from ~/eubex/processing/to_rho_bins/do_rho_inter
@@ -5275,7 +5274,7 @@ on execution, so the time stamp was not drawn.)
     \RHO_MAX = "27.5"
     \RHO_INC = "-0.002"
     \NY = "301"
-    \xmin = "500"
+    \xmin = "350"
     \xmax = "0"
     \xinc = "-100"
     \ymin = "28.1"
@@ -5285,17 +5284,18 @@ on execution, so the time stamp was not drawn.)
     \zmax = "2.5"
 @}
 `Initialize Axes'
+/*
 Set up axes
+*/
 @{
-    set page landscape
-    set x margin 5
     set x name "km"
-    set x size 20
+    set x size 10
     set x axis \xmin \xmax \xinc
-    set y margin 5
     set y name "$\sigma_T$"
+    set y size 5
     set y axis label horizontal
     set y axis \ymin \ymax \yinc
+    set y format "%.1f"
 @}
 `Initialize Files'
 @{
@@ -5342,15 +5342,15 @@ Set up axes
     query \dohisto "Do histogram scaling? (yes|no)" ("yes")
     \incs = "no"
     if @{"\dohisto" == "yes"@}
-        set image grayscale using histogram
+	set image grayscale using histogram
     else
-        \zinc = "0.25"
-        query \incs "In linear scaling, band at an increment of \zinc?" ("yes")
-        if @{"\incs" == "yes"@}
-            set image grayscale black \zmin white \zmax increment \zinc
-        else
-            set image grayscale black \zmin white \zmax
-        end if
+	\zinc = "0.25"
+	query \incs "In linear scaling, band at an increment of \zinc?" ("yes")
+	if @{"\incs" == "yes"@}
+	    set image grayscale black \zmin white \zmax increment \zinc
+	else
+	    set image grayscale black \zmin white \zmax
+	end if
     end if
     write image rasterfile to \imagefile
     show "wrote image rasterfile `\imagefile '"
@@ -5358,37 +5358,33 @@ Set up axes
     draw image palette
     query \do_contours "Do contours as well (yes|no)" ("yes")
     if @{"\do_contours" == "yes"@}
-        Plot Contours
+	Plot Contours
     end if
     draw title "Example 8 -- \data black=\zmin white=\zmax"
     if @{"\dohisto" == "yes"@}
-        draw title "Histogram enhanced grayscales"
+	draw title "Histogram enhanced grayscales"
     else
-        if @{"\incs" == "yes"@}
-            draw title "Grayscale banded at intervals of \zinc"
-        end if
+	if @{"\incs" == "yes"@}
+	    draw title "Grayscale banded at intervals of \zinc"
+	end if
     end if
 @}
-if !..publication..
-    draw time stamp
-end if
 Initialize Parameters
 Initialize Axes
 Initialize Files
 Read Data
 query \doimage "Draw image (yes|no)" ("no")
 if @{"\doimage" == "yes"@}
-    .contour_graylevel. = 1     # white contours 
+    .contour_graylevel. = 1	# white contours 
     Plot Image And Maybe Contours
 else
-    .contour_graylevel. = 0     # black contours 
+    .contour_graylevel. = 0	# black contours 
     Plot Contours
-    draw title "Example 8 -- \data"
+    draw title "Example 8"
 end if
 quit
 @end example
 @c HTML -->
-
 
 
 
@@ -5437,8 +5433,8 @@ on execution, so the time stamp was not drawn.)
 
 `Initialize Parameters'
 @{
-    \FILE_DATA = "example9a.dat" 	 # T vs rho
-    \FILE_LOCN = "example9b.dat" 	 # section distances
+    \FILE_DATA = "example9a.dat" # T vs rho
+    \FILE_LOCN = "example9b.dat" # section distances
     #
     # Following values from ~/eubex/processing/to_rho_bins/do_rho_inter
     \RHO_MIN = "28.1"
@@ -5446,28 +5442,26 @@ on execution, so the time stamp was not drawn.)
     \RHO_INC = "-0.002"
     \NY = "301"
     set missing value -99.0
-    \xmin = "500"
+    \xmin = "350"
     \xmax = "0"
     \xinc = "-100"
     \ymin = "28.1"
     \ymax = "27.8"
     \yinc = "-0.1"
-    \zmin = "-10"               # black
-    \zmax = "0"                 # white
+    \zmin = "-10"		# black
+    \zmax = "0"			# white
 @}
 `Initialize Axes'
 Set up axes.
 @{
-    set page landscape
-    set x margin 5
     set x name "km"
-    set x size 20
+    set x size 10
     set x axis \xmin \xmax \xinc
-    set y margin 5
+    set y size 5
     set y name "$\sigma_T$"
     set y axis label horizontal
     set y axis \ymin \ymax \yinc
-    set y format %.1f
+    set y format %.1lf
     draw axes none
 @}
 `Initialize Files'
@@ -5496,36 +5490,25 @@ Set up axes.
     read grid data \NY .gridx_number.
     close
 @}
-if !..publication..
-    draw time stamp
-end if
 Initialize Parameters
 Initialize Axes
 Initialize Files
 Read Data
 set image range \zmin \zmax
+set image colorscale hsb 0 1 1 \zmin   hsb .6 1 1 \zmax
 convert grid to image box \xmin  \ymin \xmax \ymax
-query \dohisto "Do histogram scaling? (yes|no)" ("no")
-if @{"\dohisto" == "yes"@}
-    set image grayscale using histogram
-end if
 #
-# Draw the image, then draw the axes.  If auto-drawing of axes had
-# been relied upon, or if the axes had been drawn previously, parts
-# of the axes would have been wiped out by spillover of the image.
+# Draw the image, then draw the axes.  Note that the image has
+# extends beyond the axes frame, so we will turn clipping
+# on before drawing it, to make a clean picture.
+set clip postscript on
 draw image
-draw axes frame
-.axis_offset. = 0.25 		         # offset in cm
-draw x axis at @{rpn ..ybottom.. yusertocm .axis_offset. -@} cm
-draw y axis at @{rpn ..xleft..   xusertocm .axis_offset. -@} cm
-.old. = ..fontsize..
-set font size 0
-draw y axis at @{rpn ..xright..  xusertocm .axis_offset. +@} cm right
-set font size .old.
-delete .old.
+set clip postscript off
+draw axes
+
 #
 # All done.
-draw title "Example 9 \data black=\zmin white=\zmax"
+draw title "Example 9"
 if @{"\dohisto" == "yes"@}
     draw title "Histogram enhanced grayscales"
 end if
@@ -12602,8 +12585,8 @@ this makes the next @code{show} statement print on the same line.
 
 @itemize @bullet
 @item @code{skip}
-For ascii files, skip forward 1 line in the data file.  For binary
-files, skip forward 1 byte.
+For ascii files, skip next line in the data file.  For binary files,
+skip forward 1 byte.
 @item @code{skip backward}
 For ascii files, skip backward 1 line in the data file.  For binary
 files, skip backward 1 byte.
@@ -12643,11 +12626,9 @@ x[i-1]   x[i]   x[i+1]
   4       2       4
 @end example
 
-The @code{smooth x .n.} command does boxcar smoothing using centred
-boxcars @code{.n.} points wide.
-      
-The @code{smooth y} command does the same as @code{smooth x}, but on the
-@code{y} column.
+The @code{smooth x .n.} command does boxcar smoothing with centred
+boxcars @code{.n.} points wide.  The @code{smooth y} command does the
+same as @code{smooth x}, but on the @code{y} column.
 
 @cindex grid data, smoothing
 @cindex smoothing grid data
@@ -13545,7 +13526,6 @@ with contents consisting of the message you'd like to send.  Please
 respect the fact that folks on this group are busy people, and won't be
 able to respond to very open-ended questions such as "How do I plot
 things with gri".
-
 To find out more about this newsgroup, send email to
 @c HTML <a href="mailto:gri@phys.ocean.dal.ca">
 @code{gri@@phys.ocean.dal.ca}
@@ -14300,51 +14280,53 @@ The next sections outline the changes made in Gri.
 @subsection Version 2.6
 @table @emph
 @item 2.6.0 [2000-Jun-23]
+
+@sp 1
 Add RPN operators @code{argc} (@ref{Solitary Operators}) and
 @code{argv} (@ref{Unary Operators}) for accessing the command-line
 arguments.  
 
-Improve discussion of RPN operators in manual.
-
-Remove documentation on @code{gri_indent}, not supplied with Gri for a
-long time.
-
-Fix up some errors in manual (non-visible images in html form).
-
+@sp 1
 Add automatic support for compressed data files.  So far, this only
 works with gzipped files (@ref{Open}).
 
+@sp 1
 Add two new RPN operators, @code{file_exists} and
 @code{directory_exists} (@ref{Unary Operators}).
 
-Improve the manual in various ways:
-@end table
-@enumerate
-@item Change the section about the Emacs @file{gri-mode.el} into a chapter, complete with screenshots
-@item Improve the HTML navigation tags.
-@item Make the Gri code examples be color-coded for syntax.
-@item Use Jpeg format for images instead of Gif format.
-@end enumerate
+@sp 1
+Reorganize parts of manual (e.g.  changing the section about the Emacs
+@file{gri-mode.el} into a chapter, with screen napshots).
 
-@table @emph
-@item
-Add new features to @code{gri-mode.el}:
-@end table
-@enumerate
-@item Add a menubar pull-down menu listing all Gri commands,
+@sp 1
+Improve the HTML form of the manual (e.g. color-code the Gri syntax in
+examples, provide access to all the indices, use Jpeg format, et.).
+
+@sp 1
+
+Add several new features to @code{gri-mode.el}:
+
+
+1) Add a menubar pull-down menu listing all Gri commands,
       allowing the user to get @code{Help} or @code{Info} on any command or
       @code{Insert} it in the current Gri file.
-@item Add a menubar pull-down entry to @code{Perform} to set
+
+2) Add a menubar pull-down entry to @code{Perform} to set
       @code{gri-run} settings such as flag options passed to gri. 
-@item Gri info file can have @emph{.info} extension now.
-@item Made @code{gri-apropos} an alias for @code{gri-help-apropos}.
-@item gri-mode now uses the customize interface (See
+
+3) Gri info file can have @emph{.info} extension now.
+
+4) Made @code{gri-apropos} an alias for @code{gri-help-apropos}.
+
+5) gri-mode now uses the customize interface (See
       @code{gri-customize}).
-@item The @code{~/.gri-syntax} file has changed format.  As a
+
+6) The @code{~/.gri-syntax} file has changed format.  As a
       side-effect, spaces are used instead of hyphens to display Gri commands,
       and one can now select a command with the mouse in the
       @emph{Completions} buffer.
-@end enumerate
+
+@end table
 
 
 @node   Version 2.4, Version 2.2, Version 2.6, Distribution versions

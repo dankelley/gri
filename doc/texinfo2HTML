@@ -365,9 +365,9 @@ sub sub_refs {
     #     @xref{Viewing}
     # into
     #     <a href="#Viewing">see Viewing</a>
-    s|\@ref{([^}]*)}|<a href="#$1">see $1</a>|g;
-    s|\@xref{([^}]*)}|<a href="#$1">see $1</a>|g;
-    s|\@pxref{([^}]*)}|<a href="#$1">see $1.</a>|g;
+    s|\@ref{([^}]*)}|see <a href="#$1">$1</a>|g;
+    s|\@xref{([^}]*)}|see <a href="#$1">$1</a>|g;
+    s|\@pxref{([^}]*)}|see <a href="#$1">$1.</a>|g;
 }
 
 sub sub_headings {
