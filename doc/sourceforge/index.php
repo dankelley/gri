@@ -21,8 +21,9 @@ Gri is a language for scientific graphics programming.  The word
 "language" is important: Gri is command-driven, not point/click. 
 
 <p> Some
-users consider Gri similar to LaTeX, since both provide extensive
-power as a reward for tolerating a learning curve.
+users consider Gri similar to LaTeX, since both 
+provide extensive
+power in exchange for patience in learning syntax.
 
 <p>
 Gri can make 
