@@ -1,0 +1,17 @@
+Steps to building the fink package.  (For reference, search on "fink packaging tutorial".)
+
+1. Adjust gri.info if the version number has been increased.  Run
+	fink validate gri.info
+   to find errors.  Fix these before proceeding.
+
+2. Put the local copy of gri.info into a special place
+	sudo cp gri.info /sw/fink/dists/local/main/finkinfo/
+
+3. Download the gri source
+	fink fetch gri
+
+4. Build it
+	fink build gri
+
+5. Install it
+	fink install gri

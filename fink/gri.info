@@ -2,9 +2,10 @@ Package: gri
 Version: 2.12.8
 Revision: 1
 Depends:
+#Source: mirror:sourceforge:%n/%n-%v.tgz
 Source: http://ftp1.sourceforge.net/gri/gri-%v.tgz
 Source-MD5: 8a9adc96e702cc33f182a5343030b6e0
-DocFiles: README /sw/share/gri/doc/html/*html
+DocFiles: README doc/*html
 Description: Scientific graphics language
 DescDetail: <<
 Gri is a language for scientific graphics programming. The word "language" is 
