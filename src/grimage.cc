@@ -105,12 +105,12 @@ gr_drawimage(unsigned char *im,
 	     double mask_r,
 	     double mask_g,
 	     double mask_b,
-	     int imax,
-	     int jmax,
-	     double xl,		// in cm
-	     double yb,		// in cm
-	     double xr,		// in cm
-	     double yt,		// in cm
+	     int imax,		// image size
+	     int jmax,		// image size
+	     double xl,		// image lower-left-x, in cm
+	     double yb,		// image lower-left-y, in cm
+	     double xr,		// image upper-right-x, in cm
+	     double yt,		// image upper-right-y, in cm
 	     bool insert_placer)
 {
 	unsigned char   cmask_r, cmask_g, cmask_b;
@@ -123,31 +123,52 @@ gr_drawimage(unsigned char *im,
 		return;
 	/* Figure out about mask */
 	have_mask = (mask == NULL) ? false : true;
-	rectangle box(xl, yb, xr, yt);
-	bounding_box_update(box);
 	// Convert cm to pt
 	xl *= PT_PER_CM;
 	xr *= PT_PER_CM;
 	yb *= PT_PER_CM;
 	yt *= PT_PER_CM;
+	double xl_c = xl, xr_c = xr, yb_c = yb, yt_c = yt;
+	int ilow = 0, ihigh = imax, jlow = 0, jhigh = jmax;
+	if (_clipping_postscript && _clipping_is_postscript_rect) {
+		printf("%s:%d DEBUG.  image xrange (%f %f) pt\n",__FILE__,__LINE__,xl,xr);
+		printf("%s:%d DEBUG.  image yrange (%f %f) pt\n",__FILE__,__LINE__,yb,yt);
+		printf("%s:%d DEBUG.  clip xrange (%f %f) pt\n",__FILE__,__LINE__,_clip_ps_xleft,_clip_ps_xright);
+		printf("%s:%d DEBUG.  clip yrange (%f %f) pt\n",__FILE__,__LINE__,_clip_ps_ybottom,_clip_ps_ytop);
+		ilow =  int(floor(0.5 + (_clip_ps_xleft   - xl)*imax/((xr-xl))));
+		ihigh = int(floor(0.5 + (_clip_ps_xright  - xl)*imax/((xr-xl))));
+		jlow =  int(floor(0.5 + (_clip_ps_ybottom - yb)*jmax/((yt-yb))));
+		jhigh = int(floor(0.5 + (_clip_ps_ytop    - yb)*jmax/((yt-yb))));
+		printf("%s:%d DEBUG.  i should run %d to %d instead of 0 to %d\n",__FILE__,__LINE__,ilow,ihigh,imax);
+		printf("%s:%d DEBUG.  i should run %d to %d instead of 0 to %d\n",__FILE__,__LINE__,jlow,jhigh,jmax);
+		if (ilow > 0)     xl_c = xl + ilow * (xr - xl) / imax;
+		if (ihigh < imax) xr_c = xl + ihigh * (xr - xl) / imax;
+		if (jlow > 0)     yb_c = yb + jlow * (yt - yb) / jmax;
+		if (jhigh < jmax) yt_c = yb + jhigh * (yt - yb) / jmax;
+	}
+	rectangle box(xl_c/PT_PER_CM, yb_c/PT_PER_CM, xr_c/PT_PER_CM, yt_c/PT_PER_CM); // CHECK: is it only updating if it's within clip region?
+	bounding_box_update(box);
+
 	// Make image overhang the region.  This change, vsn 2.005, *finally*
 	// solves a confusion I've had for a long time about how to do
 	// images.
 	if (imax > 1) {
-		double dx = (xr - xl) / (imax - 1); // pixel width
-		xl -= dx / 2.0;
-		xr += dx / 2.0;
+		double dx = (xr_c - xl_c) / ((ihigh-ilow) - 1); // pixel width
+		xl_c -= dx / 2.0;
+		xr_c += dx / 2.0;
 	}
 	if (jmax > 1) {
-		double dy = (yt - yb) / (jmax - 1); // pixel height
-		yb -= dy / 2.0;
-		yt += dy / 2.0;
+		double dy = (yt_c - yb_c) / ((jhigh-jlow) - 1); // pixel height
+		yb_c -= dy / 2.0;
+		yt_c += dy / 2.0;
 	}
-	rectangle r(xl / PT_PER_CM,
-		    yb / PT_PER_CM,
-		    xr / PT_PER_CM,
-		    yt / PT_PER_CM);
+#if 0				// BUG: this contradicts the one above.
+	rectangle r(xl_c / PT_PER_CM,
+		    yb_c / PT_PER_CM,
+		    xr_c / PT_PER_CM,
+		    yt_c / PT_PER_CM);
 	bounding_box_update(r);
+#endif
 	/*
 	 * Handle BW and color differently, since PostScript handles differently.
 	 */
@@ -182,8 +203,12 @@ gr_drawimage(unsigned char *im,
 		/*
 		 * Now write image.
 		 */
-		fprintf(_grPS, "%f %f %f %f %d %d im\n",
-			xl, yb, xr, yt, jmax, imax);
+#if 0
+		fprintf(_grPS, "%f %f %f %f %d %d im\n", xl, yb, xr, yt, jmax, imax);
+#else
+		//printf("CASE 1a\n");
+		fprintf(_grPS, "%f %f %f %f %d %d im\n", xl_c, yb_c, xr_c, yt_c, (jhigh-jlow), (ihigh-ilow)); // BUG or +1?
+#endif
 		if (have_mask == true) {
 			int             diff, min_diff = 256;
 			unsigned char   index = 0; // assign to calm compiler ????
@@ -203,8 +228,14 @@ gr_drawimage(unsigned char *im,
 				mask_value = index;
 			}
 		}
+#if 0
 		for (j = jmax - 1; j > -1; j--) {
 			for (i = 0; i < imax; i++) {
+#else
+                // printf("CASE 1\n"); // HEREHEREHERE
+		for (j = jhigh - 1; j >= jlow; j--) {
+			for (i = ilow; i < ihigh; i++) {
+#endif
 				value = *(im + i * jmax + j);
 				if (have_mask == true && *(mask + i * jmax + j) == 2) {
 					fprintf(_grPS, "%02X", mask_value);
@@ -230,8 +261,7 @@ gr_drawimage(unsigned char *im,
 			perlineMAX = imax;
 		if (insert_placer)
 			fprintf(_grPS, "%%BEGIN_IMAGE\n");
-		fprintf(_grPS, "%f %f %f %f %d %d cim\n",
-			xl, yb, xr, yt, jmax, imax);
+		fprintf(_grPS, "%f %f %f %f %d %d cim\n", xl_c, yb_c, xr_c, yt_c, (jhigh-jlow), (ihigh-ilow)); // BUG
 		check_psfile();
 #if 0
 		if (have_mask == true) {
@@ -242,8 +272,13 @@ gr_drawimage(unsigned char *im,
 		cmask_g = (unsigned char)pin0_255(mask_g * 255.0);
 		cmask_b = (unsigned char)pin0_255(mask_b * 255.0);
 		if (imTransform == NULL) {
+#if 0
 			for (j = jmax - 1; j > -1; j--) {
 				for (i = 0; i < imax; i++) {
+#else
+                        for (j = jhigh - 1; j >= jlow; j--) {
+				for (i = ilow; i < ihigh; i++) {
+#endif
 					value = *(im + i * jmax + j);
 					if (have_mask == true && *(mask + i * jmax + j) == 2) {
 						fprintf(_grPS, "%02X%02X%02X", cmask_r, cmask_g, cmask_b);
@@ -258,8 +293,13 @@ gr_drawimage(unsigned char *im,
 			}
 			check_psfile();
 		} else {
+#if 0
 			for (j = jmax - 1; j > -1; j--) {
 				for (i = 0; i < imax; i++) {
+#else
+                        for (j = jhigh - 1; j >= jlow; j--) {
+				for (i = ilow; i < ihigh; i++) {
+#endif
 					value = *(im + i * jmax + j);
 					if (have_mask == true && *(mask + i * jmax + j) == 2) {
 						fprintf(_grPS, "%02X%02X%02X", cmask_r, cmask_g, cmask_b);

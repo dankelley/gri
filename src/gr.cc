@@ -77,6 +77,7 @@ char            _grNumFormat_y[LEN_num];	 // format for y axis
 char            grTempString[_grTempStringLEN];	 // local scratch string
 char            grTempString2[_grTempStringLEN]; // local scratch string
 double 	_clip_ps_xleft = 0.0, _clip_ps_ybottom = 0.0, _clip_ps_xright = 0.0, _clip_ps_ytop = 0.0;
+bool	_clipping_is_postscript_rect = true;
 bool    _clipping_postscript = false;
 
 /*
@@ -1742,6 +1743,8 @@ gr_set_clip_ps_rect(double ll_x_pt, double ll_y_pt, double ur_x_pt, double ur_y_
 	fprintf(_grPS, "h W\n");
 	fprintf(_grPS, "n %% turn clipping on\n");
 	check_psfile();
+	_clipping_is_postscript_rect = true;
+	//printf("%s:%d set RECT ps clip\n",__FILE__,__LINE__);
 	_clipping_postscript = true;
 }
 
@@ -1772,6 +1775,8 @@ gr_set_clip_ps_curve(const double *xc, const double *yc, unsigned int len)
 	fprintf(_grPS, "h W\n");
 	fprintf(_grPS, "n %% turn clipping on\n");
 	check_psfile();
+	//printf("%s:%d set CURVE ps clip\n",__FILE__,__LINE__);
+	_clipping_is_postscript_rect = false;
 	_clipping_postscript = true;
 	//_clipData = -1;     // KEEP??
 }

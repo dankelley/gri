@@ -57,7 +57,7 @@ extern std::string   _xFmt;
 extern std::string   _yFmt;
 extern double _clipxleft, _clipxright, _clipybottom, _clipytop;
 extern double _clip_ps_xleft, _clip_ps_xright, _clip_ps_ybottom, _clip_ps_ytop;
-extern bool   _clipping_postscript;
+extern bool   _clipping_postscript, _clipping_is_postscript_rect;
 // Axes
 extern double   _cm_per_u;
 extern double   _cm_per_v;
