@@ -5,7 +5,7 @@
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.28 (21 Jun 2000)
+;; Version:   2.29 (18 Jul 2000)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -30,17 +30,17 @@
 ;; This major mode for GNU emacs provides support for editing Gri files.
 ;; Gri is a graphics plotting language that produces beautiful postscript
 ;; output suitable for publications.  Gri is written by Dan Kelley,
-;; Dalhousie University.  Info about Gri is available at
-;;       http://www.phys.ocean.dal.ca/~kelley/gri/index.html
-
-;; New versions of gri-mode are included with Gri itself, and may also be
-;; obtained at:
-;;   ftp://ftp.phys.ocean.dal.ca/users/rhogee/elisp/gri-mode.el
+;; Dalhousie University.  General info about Gri is available at
+;;
+;;       http://gri.sourceforge.net
 
 ;; Full documentation on the installation and use of gri-mode.el is
 ;; provided in the Gri manual, included in source form in gri's source tar
 ;; file, in Info and HTML form in binary packages, and on-line at
-;;       http://www.phys.ocean.dal.ca/~kelley/gri/index.html
+;;
+;;       http://gri.sourceforge.net/gridoc/html/Emacs.html
+;;  or
+;;       http://www.phys.ocean.dal.ca/~kelley/gri/Emacs.html
 
 ;; Features of gri-mode include:
 ;;
@@ -340,6 +340,8 @@
 ;;    http://www.phys.ocean.dal.ca/~kelley/gri/index.html 
 ;; V2.28 21Jun00 RCS 1.53 - Added gri*run-settings
 ;;                        - Bettered some customize entries.
+;; V2.28 18Jul00 RCS 1.54 - default web page changed to:
+;;    http://gri.sourceforge.net/gridoc/html/index.html
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -444,13 +446,15 @@ On your system, this could be `netscape'.  If so, set this variable in your
 
   (setq gri*WWW-program \"netscape\")")
 
-  (defvar gri*WWW-page "http://www.phys.ocean.dal.ca/~kelley/gri/index.html"
+  (defvar gri*WWW-page "http://gri.sourceforge.net/gridoc/html/index.html"
   "*Web page or local html index file for the gri manual.
 This is used by the gri-WWW-manual command.
+If the sourceforge site is down, try:
+ http://www.phys.ocean.dal.ca/~kelley/gri/index.html
 On your system, this could be reset to a local html file, e.g.
  (setq gri*WWW-page \"file:/usr/share/doc/gri-html-doc/html/index.html\")
-but it defaults to the gri web page: 
- http://www.phys.ocean.dal.ca/~kelley/gri/index.html
+but it defaults to the online gri manual at sourceforge.net:
+ http://gri.sourceforge.net/gridoc/html/index.html
 
 See also:  variable gri*WWW-program.")
 
@@ -598,13 +602,15 @@ On your system, this could be `netscape'.  If so, set this variable in your
                    (string :tag "Specify a program")))
 
 
-  (defcustom gri*WWW-page "http://www.phys.ocean.dal.ca/~kelley/gri/index.html"
-  "Web page or local html index file for the gri manual.
+  (defcustom gri*WWW-page http://gri.sourceforge.net/gridoc/html/index.html
+  "*Web page or local html index file for the gri manual.
 This is used by the gri-WWW-manual command.
+If the sourceforge site is down, try:
+ http://www.phys.ocean.dal.ca/~kelley/gri/index.html
 On your system, this could be reset to a local html file, e.g.
  (setq gri*WWW-page \"file:/usr/share/doc/gri-html-doc/html/index.html\")
-but it (usually) defaults to the gri web page: 
- http://www.phys.ocean.dal.ca/~kelley/gri/index.html
+but it defaults to the online gri manual at sourceforge.net:
+ http://gri.sourceforge.net/gridoc/html/index.html
 
 See also:  variable gri*WWW-program."
     :group 'gri
@@ -3252,6 +3258,8 @@ Based on ffap.el from: mic@cs.ucsd.edu (Michelangelo Grigni)"
 The page visited is set in the variable gri-WWW-page, which may be reset on 
 your site.  The main site (always up to date) is:
 
+ http://gri.sourceforge.net/gridoc/html/index.html
+or
  http://www.phys.ocean.dal.ca/~kelley/gri/index.html
 
 The browser used by determined by the variable gri*WWW-program.
@@ -4132,7 +4140,7 @@ static char *magick[] = {
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.28 (c) 21 Jun 2000 --  Peter Galbraith <GalbraithP@dfo-mpo.gc.ca>
+V2.29 (c) 18 Jul 2000 --  Peter Galbraith <GalbraithP@dfo-mpo.gc.ca>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
