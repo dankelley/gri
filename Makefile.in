@@ -103,7 +103,7 @@ install: all install-bin
 	cd doc; prefix=$(prefix) make install
 
 install-bin:
-	cat startup.msg | sed -e s,VSN,${VERSION}, > tmp
+	cat startup.msg | sed -e s,VSN,${VERSION}, -e s,PREFIX,$(prefix), > tmp
 	$(INSTALL_PROGRAM) -d $(libdir)
 	$(INSTALL_DATA) tmp $(libdir)/startup.msg
 	rm -f tmp
