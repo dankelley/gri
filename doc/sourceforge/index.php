@@ -58,20 +58,21 @@
                   <td class="menus" align="right">
 <!--		   <a class="menus" href="http://www.phys.ocean.dal.ca/~kelley/gri-2.6.4-PRE-5.tgz">vsn 2.6.4 pre-release #5</a></br>
 -->
-		    <b>General tarball</b><br>
+		    <b>Source tar ball</b><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.4.tgz">gri-2.6.4.tgz</a><br>
-		    <b>Linux (RedHat)</b><br>
+		    <b>RedHat Linux</b><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.4-1.src.rpm">gri-2.6.4-1.src.rpm</a><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.4-1.i386.rpm">gri-2.6.4-1.i386.rpm</a><br>
-		    <b>Linux (Debian)</b><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.6.4-0potato1_i386.deb">gri_2.6.4-0potato1_i386.deb</a><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.6.4-1_i386.deb">gri_2.6.4-1_i386.deb</a><br>
-                    <A class="menus" HREF="http://packages.debian.org/unstable/science/gri.html">gri-2.6.4 at Debian</A><br>
+		    <b>Debian GNU/Linux</b><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.6.4-0potato1_i386.deb">2.6.4 for Potato</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.6.4-1_i386.deb">2.6.4 for Woody</a><br>
+                    <A class="menus" HREF="http://packages.debian.org/unstable/science/gri.html">gri at Debian</A><br>
                     <A class="menus" HREF="http://packages.debian.org/unstable/doc/gri-html-doc.html">HTML manual at Debian</A><br>
                     <A class="menus" HREF="http://packages.debian.org/unstable/doc/gri-ps-doc.html">PS manual at Debian</A><br>
-		    <b>Unix (Solaris)</b><br>
+		    <b>Solaris Unix</b><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.0-SunOS5.tar.gz">gri-2.6.0-SunOS6.tar.gz</a><br>
-
+		    <b>Windows</b><br>
+		    <A class="menus" HREF="http://gnuwin32.sourceforge.net/packages/gri.htm">Win95/98/2000/NT port</a><br>
                   </td>
                 </tr>
             </tr>
@@ -239,7 +240,7 @@ HREF="http://gri.sourceforge.net/gridoc/html/Version_2_6.html#Version2.6">here</
         <A class="menus" HREF="./gridoc/html/FAQ.html">FAQ</A><br>
         <A class="menus" HREF="./gri-cookbook/index.html">Cookbook of Examples</A><br>
         <A class="menus" HREF="./refcard.ps">Reference card</A><br>
-        <A class="menus" HREF="./cmdrefcard.ps">Command reference card</A><br>
+        <A class="menus" HREF="./cmdrefcard.ps">Command refcard</A><br>
         <A  class="menus" HREF="http://www2.linuxjournal.com/lj-issues/issue75/3743.html">Article in Linux Journal</A><br>
       </td>
     </tr>
