@@ -1,24 +1,4 @@
-Updating the tab images:
-
-Warning: This is slow, and should be automated!
-
-
-1) Modify tabs.gri file until it's ok.
-
-2) In shell, type
-	gri tabs.gri > ~/tmp
-   and then edit the results stored into ~/tmp into the
-   subroutines.php file, at the obvious place.
-
-3) Split the pages of tabs.ps into individual pages named
-   main.ps, etc. (named by the tab names).  I use gv to
-   do this.
-
-4) In shell, type
-	make
-   to create .png files.
-
-5) If you are Dan Kelley, in the shell type
+If you are Dan Kelley, in the shell type
 	make install
-   to install the files.  Otherwise, examine INSTALL 
-   to see how this is done, using scp.
+to install the files.  Otherwise, examine INSTALL 
+to see how this is done, using scp.
