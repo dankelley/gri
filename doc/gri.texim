@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.238 2003/02/13 21:19:55 dankelley Exp $
+@c $Id: gri.texim,v 1.239 2003/02/26 15:22:48 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -1394,9 +1394,9 @@ draw symbol
 .leg_x. = @{rpn ..xmargin.. ..xsize.. + 1 +@}
 .leg_y. = @{rpn ..ymargin.. ..ysize.. 4 / +@}
 draw symbol legend 0 "Foo" at .leg_x. .leg_y. cm
-.leg_y. += @{rpn ascent("M") 2 *@}
+.leg_y. += @{rpn "M" ascent 2 *@}
 draw symbol legend 1 "Bar" at .leg_x. .leg_y. cm
-.leg_y. += @{rpn ascent("M") 2 *@}
+.leg_y. += @{rpn "M" ascent 2 *@}
 @end example
 
 
