@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.124 2001/08/12 18:19:29 dankelley Exp $
+@c $Id: gri.texim,v 1.125 2001/08/13 13:35:27 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16235,14 +16235,20 @@ First debian release.  Versions exist for intel, alpha, 68K and powerpc.
 @subsection Development Version
 
 The list below shows changes that have been made in the development
-version of Gri, i.e. the version on CVS at @url{http://gri.sourceforge.net}.
-Some or all of these features may enter the next stable stream of Gri,
-but it is important to note that @emph{anything} that's listed here
-may be changed without notice!
+version of Gri, i.e. the version on CVS at
+@url{http://gri.sourceforge.net}.  Some or all of these features may
+enter the next stable stream of Gri, but it is important to note that
+@emph{anything} that's listed here may be changed without notice!  The
+main exception is bug fixes, which will enter the stable stream unless
+they are found to create new bugs.
 @itemize @bullet
-@item TBA
+@item
+Fix SourceForge bug
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=450465&group_id=5511&atid=105511">
+#450465
+@c HTML </a>
+(@code{create columns from function} was broken).
 @end itemize
-
 
 @c HTML <!-- newfile Plans.html "Gri: plans for future versions" "Gri: plans for future versions" -->
 

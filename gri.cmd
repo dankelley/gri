@@ -437,12 +437,12 @@ vax machines, but probably no Macintoshes.
         .must_clean_up_xinc. = 1
     end if
     if {"\.system." == "unix"}
-        system \.awk.           \
+        system awk           \
             'BEGIN {for(x = \xmin; x <= \xmax; x += \xinc) {print (x, \function)} \
             } '                 \
             > tmp
     else if {"\.system." == "vax"}
-        system \.awk./COMMANDS =\
+        system awk/COMMANDS =\
             "BEGIN { for (x = \xmin; x <= \xmax; x += \xinc) {print (x, \function)} \
             } "                 \
             /OUTPUT=TMP NL:
@@ -483,7 +483,7 @@ example, .band. = 2 gives grayscale = (0 0 2 2 4 4 6 6 ... 252 252 254
         show traceback
         quit
     end if
-    system \.awk. 'BEGIN        \
+    system awk 'BEGIN        \
         {                       \
         for (i = 0; i < 256; i++) \
         {                       \
@@ -509,7 +509,7 @@ Alternate spelling of grayscale.
         show traceback
         quit
     end if
-    system \.awk. 'BEGIN        \
+    system awk 'BEGIN        \
         {                       \
         for (i = 0; i < 256; i++) \
         {                       \
@@ -2113,10 +2113,9 @@ performed, with the output being inserted into a temporary file.  Future
 temporary file is automaticaly deleted by Gri, but if Gri fails for
 some reason you should scan `/usr/tmp/' for files that you own.)  For
 example
-     open "cat a.dat | \.awk. '\{$1, $2 * 22}' |"
+     open "cat a.dat | awk '\{$1, $2 * 22}' |"
      read columns x y
-gets awk to multiply the y column by 22.  (Note the use of `\.awk.', a
-builtin synonym naming the awk program on your system.) The ability to
+gets awk to multiply the y column by 22.  The ability to
 use system commands in `open' statements lets you use familiar system
 tools like `head', `sed', `awk', `perl', etc, to work on your data.
 For example, if you store your data in compressed form, and do not wish
@@ -2138,7 +2137,7 @@ generates.
 Hour.minutesecond format, e.g. 12.2133 means hour 12, minute 21, second
 33.  Gri doesn't read HMS format, but gawk can be told to:
      open "cat datafile.HMS |        \
-         \.awk. '\{                   \
+         awk '\{                   \
          split($1, hms, \".\");      \
          h = hms[1];                 \
          m = int(hms[2] / 100);      \
@@ -2420,7 +2419,7 @@ clipped to these limits if not.
 
 For hints on how to create such an input file, see `read image
 grayscale'.  If the example given there has the following code instead,
-open "\.awk. 'BEGIN \{                                  \
+open "awk 'BEGIN \{                                  \
     for(i=0;i<256;i++) \{                               \
     print((i - 50)/50, 1, 1)                         \
     }                                                 \
@@ -2444,7 +2443,7 @@ set image range 5 30.5
 set image grayscale black 10 white 15
 is equivalent to
 set image range 5 30.5
-open "\.awk. 'BEGIN\{for(i=0;i<256;i++) print(1-(i-50)/50)}' |"
+open "awk 'BEGIN\{for(i=0;i<256;i++) print(1-(i-50)/50)}' |"
 read image grayscale
 close
 
@@ -2463,7 +2462,7 @@ to 1).
 Sometimes you will have a file, say named `map.dat', with RGB
 numbers in the range 0-255, rather than 0-1 as Gri requires.  To read
 them, use the operating system to convert the numbers for you:
-open "cat map.dat | \.awk. '\{print(($1+$2+$3)/3/255)}' |"
+open "cat map.dat | awk '\{print(($1+$2+$3)/3/255)}' |"
 read image grayscale
 close
 {
@@ -4385,10 +4384,10 @@ stored in the builtin variable `..exit_status..'.
      required to force awk to take commands from standard input.  Note
      also the absence of a final newline in the string; Awk does not
      require one, while Perl does.  (Finally, as usual, note that the
-     synonym `\.awk.' is being used instead of `awk', to ensure
+     synonym `awk' is being used instead of `awk', to ensure
      portability.)
           \message = "Foo bar"
-          system \.awk. -f - <<"EOF"
+          system awk -f - <<"EOF"
           BEGIN \{
           a = 100;
           print "foobar is \message, and a is ", a, "\nQ: was a 100?";
@@ -4397,7 +4396,7 @@ stored in the builtin variable `..exit_status..'.
 
      which, written more safely (avoiding the string `\n'), is
           \message = "Foo bar"
-          system \.awk. -f - <<"EOF"
+          system awk -f - <<"EOF"
           BEGIN\{
           a = 100;
           print "foobar is \message, and a is ", a;
@@ -4430,7 +4429,7 @@ stored in the builtin variable `..exit_status..'.
      suffix is the process ID of the Gri job.  This file is then
      opened, and the data plotted.  Finally, a system command is issued
      to remove the temporary file.
-          system \.awk. 'BEGIN \{ \
+          system awk 'BEGIN \{ \
               for (x=0; x<1; x+=0.1) \{ \
                 printf("%f %f\n", x, sin(x)) \
               } \
@@ -4442,21 +4441,18 @@ stored in the builtin variable `..exit_status..'.
           draw curve
           quit
 
-     (Note the use of `\.awk.', a builtin synonym naming the awk program
-     on your system.)
 
      NOTE Under unix, this command calls the Bourne shell, not the
      C-shell that is often used interactively.  For many simple uses,
      the only difference from normal interactive use will be that `~'
      is not expanded to the home directory.  For example, you'd do
-          system \.awk. -f $HOME/foo/bar/cmd.gawk
+          system awk -f $HOME/foo/bar/cmd.gawk
 
      instead of the
-          system \.awk. -f ~/foo/bar/cmd.gawk
+          system awk -f ~/foo/bar/cmd.gawk
 
-     that you might expect from interactive C-shell usage.  (Note the
-     use of `\.awk.', a builtin synonym naming the awk program on your
-     system.)
+     that you might expect from interactive C-shell usage.
+
 
 RETURN VALUE: Sets `\.return_value' to system status, `N status'
 {
