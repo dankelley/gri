@@ -324,7 +324,7 @@ Search gri manual for (may be a regular expression):<p>
 <!-- <A class="menus" HREF="./checklist_for_release">Packaging checklist</A><br> -->
         <br>
 
-        <A CLASS="menus" HREF="./gri-2.8.2-pre2.tgz">2.8.2 pre-release #2</a>
+        <A CLASS="menus" HREF="./gri-2.8.2-pre3.tgz">2.8.2 pre-release #3</a>
 
       </TD>
     </TR>
