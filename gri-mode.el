@@ -338,7 +338,7 @@
 ;;   list of nodes.
 ;; V2.27 30May00 RCS 1.51 - default web page changed to:
 ;;    http://www.phys.ocean.dal.ca/~kelley/gri/index.html 
-;; V2.28 21Jun00 RCS 1.52 - Added gri*run-settings
+;; V2.28 21Jun00 RCS 1.53 - Added gri*run-settings
 ;;                        - Bettered some customize entries.
 ;; ----------------------------------------------------------------------------
 ;;; Code:
@@ -3583,6 +3583,7 @@ Any output (errors?) is put in the buffer `gri-WWW-manual'."
        (setq gri*view-after-run (not gri*view-after-run))
        :style toggle :selected gri*view-after-run]
       "-"
+      "Run-time options"
       ["-publication" (gri-run-setting-toggle "-publication")
        :style toggle :selected (member "-publication" gri*run-settings)]
       ["-trace" (gri-run-setting-toggle "-trace")
