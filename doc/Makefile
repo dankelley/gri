@@ -172,6 +172,7 @@ clean:	info-clean html-clean debian-clean card-clean
 		gri.tp gri.tps		\
 		gri.vr gri.vrs 		\
 		FAQ cmdrefcard.ps refcard.ps
+	$(RM) gri.texi
 	(cd examples    ; make clean)
 	(cd screenshots ; make clean)
 #	(cd resources   ; make clean)
