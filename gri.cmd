@@ -2247,7 +2247,7 @@ questions.  Thus the defaults, if they exist, are selected.
 }
 
 `quit [.exit_status.]'
-Exits the gri program.  If an exit status (`.exit_status') is
+Exits the gri program.  If an exit status (`.exit_status.') is
 specified, then Gri returns this value, rounded to the nearest integer,
 as the "exit status" (a concept meaningful mostly in the unix
 environment).
