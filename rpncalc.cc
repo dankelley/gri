@@ -294,7 +294,7 @@ rpn(int nw, char **w, char ** result)
 			RpnItem item;
 			switch (type) {
 			case VARIABLE_WITH_MISSING_VALUE:
-				err("rpn trying to use variable '%s' but its value equals the current \"missing value\"", W[i]);
+				err("rpn trying to use variable '\\", W[i], "' but its value equals the current \"missing value\"", "\\");
 				item.set("", gr_currentmissingvalue(), type, false);
 				rS.push_back(item);
 				break;
