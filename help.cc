@@ -12,65 +12,56 @@ bool            give_help_on_topic(void);
 bool
 helpCmd()
 {
-    FILE           *fp;
-    string          tmpname_file;
-    int             i = 0, cmd;
-    bool            found = false;
-    if (_nword == 1) {
-	(void) give_overall_help_message();
-	return true;
-    }
-    // Give help on topic
-    if (_nword == 3 && !strcmp(_word[1], "-")) {
-	give_help_on_topic();
-	return true;
-    } else {
-	// Must be `help item ...'
-	// Try to use tempnam(), or tmpnam(), before using hardwired name
-#if defined(HAVE_TEMPNAM)
-	tmpname_file.assign(tempnam("/usr/tmp", "gri"));
-#else
-#if defined(HAVE_TMPNAM)
-	tmpname_file.assign(tmpnam(NULL));
-#else
-	tmpname_file.assign(GRI_TMP_FILE);
-#endif
-#endif
-	if (!(fp = fopen(tmpname_file.c_str(), "w"))) {
-	    err("Sorry, error opening buffer-file for `help'");
-	    return false;
+	FILE           *fp;
+	string          tmpname_file;
+	int             i = 0, cmd;
+	bool            found = false;
+	if (_nword == 1) {
+		(void) give_overall_help_message();
+		return true;
 	}
-	// Figure out what command, and give help for it.
-	while (*(_cmdLine + i) != ' ')
-	    i++;
-	while (*(_cmdLine + i) == ' ')
-	    i++;
-	strcat(_cmdLine, " *");
-	for (cmd = 0; cmd < _num_command; cmd++) {
-	    if (same_syntax(_cmdLine + i, _command[cmd].syntax, 1)) {
-		found = true;
-		fprintf(fp, "%s\n", _command[cmd].help);
-	    }
-	}
-	if (found) {
-	    fclose(fp);
-	    more_file_to_terminal(tmpname_file.c_str());
-	    delete_file(tmpname_file.c_str());
-	    return true;
+	// Give help on topic
+	if (_nword == 3 && !strcmp(_word[1], "-")) {
+		give_help_on_topic();
+		return true;
 	} else {
-	    fclose(fp);
-	    delete_file(tmpname_file.c_str());
-	    err("Sorry, can't understand 'help' request.");
-	    give_overall_help_message();
-	    return false;
+		// Must be `help item ...'
+		string tmpname_file(tmp_file_name());
+		if (!(fp = fopen(tmpname_file.c_str(), "w"))) {
+			err("Sorry, error opening buffer-file for `help'");
+			return false;
+		}
+		// Figure out what command, and give help for it.
+		while (*(_cmdLine + i) != ' ')
+			i++;
+		while (*(_cmdLine + i) == ' ')
+			i++;
+		strcat(_cmdLine, " *");
+		for (cmd = 0; cmd < _num_command; cmd++) {
+			if (same_syntax(_cmdLine + i, _command[cmd].syntax, 1)) {
+				found = true;
+				fprintf(fp, "%s\n", _command[cmd].help);
+			}
+		}
+		if (found) {
+			fclose(fp);
+			more_file_to_terminal(tmpname_file.c_str());
+			delete_file(tmpname_file.c_str());
+			return true;
+		} else {
+			fclose(fp);
+			delete_file(tmpname_file.c_str());
+			err("Sorry, can't understand 'help' request.");
+			give_overall_help_message();
+			return false;
+		}
 	}
-    }
 }
 
 bool
 give_overall_help_message()
 {
-    ShowStr("\
+	ShowStr("\
 Type `help' followed by a command-name:\n\
   cd          close         convert       create        debug\n\
   delete      differentiate draw          expecting     filter\n\
@@ -86,28 +77,19 @@ Or type `help -' followed by a topic from this list:\n\
   synonyms    variables     manual\n\
 To exit, type `quit'.\n\
 ");
-    return true;
+	return true;
 }
 
 bool
 give_help_on_topic()
 {
-    FILE           *fp;
-    string          tmpname_file;
-#if defined(HAVE_TEMPNAM)
-    tmpname_file.assign(tempnam("/usr/tmp", "gri"));
-#else
-#if defined(HAVE_TMPNAM)
-    tmpname_file.assign(tmpnam(NULL));
-#else
-    tmpname_file.assign(GRI_TMP_FILE);
-#endif
-#endif
-    if (!(fp = fopen(tmpname_file.c_str(), "w"))) {
-	err("Sorry, error opening buffer-file for `help -'");
-	return false;
-    } else if (!strcmp(_word[2], "example")) {
-	fprintf(fp, "\
+	FILE           *fp;
+	string          tmpname_file(tmp_file_name());
+	if (!(fp = fopen(tmpname_file.c_str(), "w"))) {
+		err("Sorry, error opening buffer-file for `help -'");
+		return false;
+	} else if (!strcmp(_word[2], "example")) {
+		fprintf(fp, "\
 // Example of plot with 2 curves on it:\n\
 // Note: the `//' symbol means rest of line is a comment\n\
 open filename1   // open 1st data-file\n\
@@ -121,9 +103,9 @@ set dash         // make this line dashed\n\
 draw curve       // superimpose 2nd curve\n\
 quit             // end of plot\n\
 ");
-	fclose(fp);
-    } else if (!strcmp(_word[2], "extending")) {
-	fprintf(fp, "\
+		fclose(fp);
+	} else if (!strcmp(_word[2], "extending")) {
+		fprintf(fp, "\
 Extending gri by defining new commands:\n\
 You can define new commands as in this example:\n\n\
 \n\
@@ -139,9 +121,9 @@ the command should be indented 4 spaces.\n\
     show \"You've called `New Command'\"\n\
 }\n\
 ");
-	fclose(fp);
-    } else if (!strcmp(_word[2], "files")) {
-	fprintf(fp, "\
+		fclose(fp);
+	} else if (!strcmp(_word[2], "files")) {
+		fprintf(fp, "\
 Data-file operations:\n\
 open\n\
 close\n\
@@ -153,9 +135,9 @@ read grid data\n\
 skip forward\n\
 skip backward\n\
 ");
-	fclose(fp);
-    } else if (!strcmp(_word[2], "math")) {
-	fprintf(fp, "\
+		fclose(fp);
+	} else if (!strcmp(_word[2], "math")) {
+		fprintf(fp, "\
 Math operations:\n\
 Simple format:\n\
  `item += #', `item -= #', `item *= #', `item /= #'\n\
@@ -169,9 +151,9 @@ or a variable:\n\
 or a reverse-polish expression in numbers/variables:\n\
  `x += { rpn .phase. 30 + 10 / sin }\n\
 ");
-	fclose(fp);
-    } else if (!strcmp(_word[2], "strings")) {
-	fprintf(fp, "\
+		fclose(fp);
+	} else if (!strcmp(_word[2], "strings")) {
+		fprintf(fp, "\
 MATH SYMBOLS: get these by imbedding in dollar signs as in TeX.\n\
 Example \"$\\alpha$\".\n\
 SUPERSCRIPTS & SUBSCRIPTS:  Within this `math mode', get superscripts with\n\
@@ -189,9 +171,9 @@ Then whenever \\filename occurs in a string, gri will substitute \n\
 whatever string you've supplied.  Finally, you may at any time get gri \n\
 to print a $ by using \\$.\n\
 ");
-	fclose(fp);
-    } else if (!strcmp(_word[2], "synonyms")) {
-	fprintf(fp, "\
+		fclose(fp);
+	} else if (!strcmp(_word[2], "synonyms")) {
+		fprintf(fp, "\
 Synonyms store character strings.  You may use them in place of any\n\
 normal Gri command word, and also within quoted strings.\n\
 \n\
@@ -210,9 +192,9 @@ Examples of using synonyms:\n\
   \\first_word = word 0 from \"\\sentence\"\n\
   \\second_word = word 1 from \"\\sentence\"\n\
 ");
-	fclose(fp);
-    } else if (!strcmp(_word[2], "variables")) {
-	fprintf(fp, "\
+		fclose(fp);
+	} else if (!strcmp(_word[2], "variables")) {
+		fprintf(fp, "\
 Variables store numbers.  You may use them in place of any numbers\n\
 in any Gri command.\n\
 \n\
@@ -228,9 +210,9 @@ Examples of using variables:\n\
   sprintf \\title \"x is %%f and y is %%f (centimeters)\" .x. .y.\n\
   draw label \"\\title\" at .x. .y. cm\n\
 ");
-	fclose(fp);
-    } else if (word_is(2, "manual")) {
-	fprintf(fp, "\
+		fclose(fp);
+	} else if (word_is(2, "manual")) {
+		fprintf(fp, "\
 The Gri manual should be available online through the unix command\n\
    info gri\n\
 and this same manual should be available inside emacs.  Peter Galbraith\n\
@@ -242,13 +224,13 @@ Normally a PostScript manual is also available.  See your system manager.\n\
 Also, a world-wide-web manual is available; as of November 1994, this\n\
 is at the location http://www.cs.dal.ca/users/kelley/gri/gri1.html.\n\
 ");
-	fclose(fp);
-    } else {
-	err("Sorry, no help on that topic");
-	give_overall_help_message();
-	return false;
-    }
-    more_file_to_terminal(tmpname_file.c_str());
-    delete_file(tmpname_file.c_str());
-    return true;
+		fclose(fp);
+	} else {
+		err("Sorry, no help on that topic");
+		give_overall_help_message();
+		return false;
+	}
+	more_file_to_terminal(tmpname_file.c_str());
+	delete_file(tmpname_file.c_str());
+	return true;
 }

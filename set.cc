@@ -3199,17 +3199,8 @@ assign_synonym()
 			err("Cannot store synonym `\\", _word[0], "'", "\\"));
 		return true;
 	} else if (!strcmp(_word[1], "=") && !strcmp(_word[2], "tmpname")) {
-#if defined(HAVE_TEMPNAM)
-		put_syn(_word[0], tempnam("/usr/tmp", "gri"), true);
-#else
-#if defined(HAVE_TMPNAM)
-		if (!put_syn(_word[0], tmpnam(NULL), true))
-			gr_Error("Ran out of storage");
-#else
-		if (!put_syn(_word[0], GRI_TMP_FILE, true))
-			gr_Error("Ran out of storage");
-#endif
-#endif
+		if (!put_syn(_word[0], tmp_file_name(), true))
+			gr_Error("Ran out of storage");			
 		return true;
 	} else if (!strcmp(_word[1], "=") && !strcmp(_word[2], "system")) {
 		// `\synonym = system ...'

@@ -35,21 +35,12 @@ listCmd()
 {
 	int             i = 0, cmd, found = 0;
 	FILE           *fp;
-	string          tmpname_file;
 	if (_nword == 1) {
 		err("`list' what?");
 		return false;
 	}
 	// Try to use tempnam(), or tmpnam(), before using hardwired name 
-#if defined(HAVE_TEMPNAM)
-	tmpname_file.assign(tempnam("/usr/tmp", "gri"));
-#else
-#if defined(HAVE_TMPNAM)
-	tmpname_file.assign(tmpnam(NULL));
-#else
-	tmpname_file.assign(GRI_TMP_FILE);
-#endif
-#endif
+	string tmpname_file(tmp_file_name());
 	if (!(fp = fopen(tmpname_file.c_str(), "w"))) {
 		err("Error opening buffer-file for `list' command");
 		return false;
