@@ -3936,13 +3936,11 @@ Note that it was necessary to use a double-backslash, to protect the
 name of the synonym, since Gri otherwise would have interpolated
 (substituted) its value into the calling line.
 
-
-@subsubsection New-command arguments are treated specially
-
-Commandline arguments, e.g. @code{\.word1.}, are treated specially when
-they are de-referenced, since otherwise the behavior of new-commands
-would depend on the names of the arguments.  To see this, consider line
-4 of the following code snippet.
+@b{Important note about de-referencing rules}: Commandline arguments,
+e.g. @code{\.word1.}, are treated specially when they are de-referenced,
+since otherwise the behavior of new-commands would depend on the names
+of the arguments.  To see this, consider line 4 of the following code
+snippet.
 @example
 `foo .a_special_variable.'
 @{
