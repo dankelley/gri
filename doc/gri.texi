@@ -9647,7 +9647,7 @@ full pathname of the file containing some sort of data about Great
 Britain.  
 
 @example
-set path to "/atlases/world:/atlases/northern_hemisphere"
+set path to "/atlases/world:/atlases/northern_hemisphere" for data
 open britain.dat        # we don't know where file is ...
 \gb = "\.return_value." # ... until now!
 
