@@ -353,24 +353,17 @@ quit
 \endexample
 
 \section{4\quad Editing Gri in GNU Emacs}
-A {\tt gri-mode} is available for editing Gri commandfiles in {\tt
-emacs}.  It controls indentation, comment placement, etc, as well as
-providing command completion and access to the manual section
-referring to the command being edited.  In {\tt emacs19}, it has
-useful pulldown menus.  It highlights program structure with the {\tt
-hilit19} library.  To use {\tt gri-mode}, put lines like the following
-in your {\tt $\sim$/.emacs} file.
+A {\tt gri-mode} is available for editing Gri commandfiles in {\tt emacs}.
+It provides completion of Gri commands, a quick interface to the gri manual
+about the command being edited, useful pulldown menus, code
+fontontofication and the usual indentation, comment placement, etc.
+Consult the Gri manual for a full description.  To use {\tt gri-mode}, put
+lines like the following in your {\tt $\sim$/.emacs} file.
 \beginexample
 ;;; Gri mode
 (autoload 'gri-mode "gri-mode" "Enter Gri-mode." t)
 (setq auto-mode-alist 
     (cons '("\\.gri\$" . gri-mode) auto-mode-alist))
-(setq gri-mode-hook
-  '(lambda ()
-    (setq gri*view-after-run t)
-    (setq gri*mosaic-program "Mosaic")
-    (setq fill-column 74)
-    (setq gri*view-command "ghostview -magstep -2")))
 \endexample
 
 \section{5\quad Documentation and User Group}
@@ -379,7 +372,7 @@ Emacs.  A PostScript manual is also online, along with a cookbook of
 Gri examples.  Since Unix has no standard place to store PostScript
 manuals, you must consult your system manager to find these files.  A
 World Wide Web manual is available at {\it
-  http://www.phys.ocean.dal.ca/}$\sim${\it kelley/gri/gri1.html}.
+  http://www.phys.ocean.dal.ca/}$\sim${\it kelley/gri}.
 There is also a Gri mailing list.  To join, send a message to {\tt
   majordomo@phys.ocean.dal.ca}, containing a single line with the
 words {\tt subscribe gri}.
@@ -430,7 +423,6 @@ set line width 2
 draw curve
 \endexample
 
-\newcolumn
 To get a dashed line,
 \beginexample
 open example1.dat
