@@ -1,4 +1,4 @@
-#define DEBUG_STORAGE 1		// Debug
+//#define DEBUG_STORAGE 1		// Debug
 
 #include        <stdio.h>
 #include	"gr.hh"

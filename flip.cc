@@ -113,7 +113,7 @@ flip_imageCmd()
 	height = _image.ras_height;
 	height_half = height / 2;
 	if (do_x) {
-		printf("flipping in x an image %d wide and %d tall\n",width,height);
+		//printf("flipping in x an image %d wide and %d tall\n",width,height);
 		for (i = 0; i < width_half; i++)
 			for (j = 0; j < height; j++) {
 				int             ii = width - i - 1;
@@ -122,7 +122,7 @@ flip_imageCmd()
 				*(_image.image + ii * height + j) = swap;
 			}
 	} else {
-		printf("flipping in y an image %d wide and %d tall\n",width,height);
+		//printf("flipping in y an image %d wide and %d tall\n",width,height);
 		for (i = 0; i < width; i++)
 			for (j = 0; j < height_half; j++) {
 				int             jj = height - j - 1;

@@ -1,4 +1,4 @@
-#define DEBUG_IMAGE 1		// for debugging
+//#define DEBUG_IMAGE 1		// for debugging
 #include	<stdio.h>
 #include	<string.h>
 #include	"extern.hh"

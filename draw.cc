@@ -2035,7 +2035,7 @@ draw_imageCmd()
 		mask_r = _image_missing_color_red;
 		mask_g = _image_missing_color_green;
 		mask_b = _image_missing_color_blue;
-		printf("%s:%d image mask at %x\n",__FILE__,__LINE__,(unsigned int)( _imageMask.image));
+		//printf("%s:%d image mask at %x\n",__FILE__,__LINE__,(unsigned int)( _imageMask.image));
 		gr_drawimage(_image.image, _imageTransform, _image_color_model,
 			     _imageMask.image, mask_r, mask_g, mask_b,
 			     _image.ras_width, _image.ras_height,

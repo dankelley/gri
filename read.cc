@@ -1828,7 +1828,7 @@ This is not a PGM file, since the first 2 characters\n\
 		return false;
 	}
 	if (im->storage_exists) {
-		printf("%s:%d freeing image storage at %x\n",__FILE__,__LINE__,(int)im->image);
+		//printf("%s:%d freeing image storage at %x\n",__FILE__,__LINE__,(int)im->image);
 		free(im->image);
 		imMask->storage_exists = false;
 	}
@@ -1842,7 +1842,7 @@ This is not a PGM file, since the first 2 characters\n\
 	GET_STORAGE(im->image, unsigned char, (im->ras_width * im->ras_height));
 	im->storage_exists = true;
 
-	printf("%s:%d got new image storage at %x size %d by %d\n",__FILE__,__LINE__,(int)(im->image), im->ras_width, im->ras_height);
+	//printf("%s:%d got new image storage at %x size %d by %d\n",__FILE__,__LINE__,(int)(im->image), im->ras_width, im->ras_height);
 
 #if 1 // fixing SF bug 664388 
 	if (_dataFILE.back().get_type() == DataFile::from_cmdfile) {

@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.234 2003/01/25 20:57:52 dankelley Exp $
+@c $Id: gri.texim,v 1.235 2003/01/28 15:41:36 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16345,11 +16345,18 @@ only in the fixing of bugs.
 
 @comment ADD-NEW-BUG-FIXES-HERE
 
-@subsubsection Version 2.12.2 [2003 Jan 25]
+@subsubsection Version 2.12.2 [2003 Jan 28]
 @strong{Bug Fixes}
 
 @itemize
  
+@item
+Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=675304&group_id=5511&atid=105511,#675304}
+@dots{} Segmentation fault can occur on @code{read image pgm}
+if an image already exists, e.g. created by
+@code{convert grid to image}.
+
 @item
 Fix SourceForge bug
 @uref{http://sourceforge.net/tracker/index.php?func=detail&aid=647234&group_id=5511&atid=105511,#647234}
