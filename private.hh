@@ -138,6 +138,8 @@ bool            image_range_exists(void);
 bool            imageMask_exists(void);
 bool            image_scales_defined(void);
 double          image_to_value(int c);
+int             index_of_variable(const char *name);
+int             index_of_synonym(const char *name);
 void            insert_cmd_in_ps(const char *cmd, const char *note="");
 bool            inside_box(double x, double y);
 bool            is_even_integer(double v); 

@@ -10,7 +10,8 @@
 #include "gr_coll.hh"
 #include "GMatrix.hh"
 #include "GriState.hh"
-
+#include "Variable.hh"
+#include "Synonym.hh"
 
 
 #include "macro.hh"
@@ -71,6 +72,12 @@ extern int      _ysubdiv;
 // Data/Command file stacks
 extern vector<DataFile> _dataFILE;
 extern vector<CmdFile>  _cmdFILE;
+
+// Pointers to variables and synonyms, for & syntax
+extern vector<int> variablePointer;
+extern vector<GriVariable> variableStack;
+extern vector<int> synonymPointer;
+extern vector<GriSynonym> synonymStack;
 
 // Grid data
 extern GriMatrix<double> _f_xy;

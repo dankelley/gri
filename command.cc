@@ -533,6 +533,7 @@ testible(const char *s)
 	if (*s == '[')  return false;
 	if (*s == '"')  return false;
 	if (*s == '{')  return false;
+	if (*s == '&')  return false;
 	if (*s == '\n') return false;
 	if (*s == '\0') return false;
 	// May still be non-testible, if the next character after the next blank
@@ -610,8 +611,26 @@ push_command_word_buffer()
 		gr_Error("ran out of storage (must increase MAX_cmd_word in private.hh");
 	}
 	for (int i = 0; i < _nword; i++) {
-#if 1				// 2000-dec-18 SF bug 122893
-		if (is_var(_word[i])) {
+		//printf("DEBUG %s:%d push_command_word_buffer <%s>\n",__FILE__,__LINE__,_word[i]);
+		if (*_word[i] == '&') {	// 2001-feb-10 trying new syntax
+			const char *name = 1 + _word[i];
+			char coded_pointer[20];	// BUG: should be big enough.  Jeeze!
+			if (is_var(name)) {
+				sprintf(coded_pointer, "\\#v%d#", variablePointer.size());
+				int the_index = index_of_variable(name);
+				variablePointer.push_back(the_index);
+				GET_STORAGE(cp, char, 1 + strlen(coded_pointer));
+				strcpy(cp, coded_pointer);
+				//printf("DEBUG %s:%d WAS VAR.  made <%s>\n",__FILE__,__LINE__,cp);
+			} else if (is_syn(name)) {
+				sprintf(coded_pointer, "\\#s%d#", synonymPointer.size());
+				int the_index = index_of_synonym(name);
+				synonymPointer.push_back(the_index);
+				GET_STORAGE(cp, char, 1 + strlen(coded_pointer));
+				strcpy(cp, coded_pointer);
+				//printf("DEBUG %s:%d WAS SYN.  made <%s>\n",__FILE__,__LINE__,cp);
+			}
+		} else if (is_var(_word[i])) { // 2000-dec-18 SF bug 122893
 			double v;
 			bool ok = get_var(_word[i], &v);
 			if (ok) {
@@ -627,7 +646,6 @@ push_command_word_buffer()
 			GET_STORAGE(cp, char, 1 + strlen(_word[i]));
 			strcpy(cp, _word[i]);
 		}
-#endif
 		_command_word[_num_command_word] = cp;
 		//printf("DEBUG %s:%d pushed command word %d as '%s'\n", __FILE__, __LINE__, _num_command_word, _command_word[_num_command_word]);
 		_num_command_word++;

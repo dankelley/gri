@@ -846,7 +846,7 @@ give_help()
 	gr_textput("     -publication or -p\n");
 	gr_textput("             Sets the builtin variable ..publication.. to 1; normally it is 0.\n");
 	gr_textput("             One might use if statements (`if !..publication..' ...) on drafts.\n");
-	gr_textput("     -superuser or -s\n");
+	gr_textput("     -superuser\n");
 	gr_textput("	     Used only by Gri programmers (who can check the value with the\n");
 	gr_textput("	     C function `superuser()'.)  An optional value can be supplied\n");
 	gr_textput("	     without spaces (e.g. `-s2') to set the debugging level.\n");

@@ -3219,27 +3219,55 @@ set_y_sizeCmd()
 	return true;
 }
 
-// Four formats are possible from the user:
-//
+// Possible calls:
 // 1. \syn = word .n. of "string"
-//
 // 2. \syn = "string"
-//
 // 3. \syn = system ...
-//
 // 4. \syn = tmpname
-//
-// although it is also possible to get
-//
-// 5. \syn = \"string\"
-//
-// if the user is using the Ed Nather "lvalue" trick (see
-// emails near 2000-sept-10).
+// 5. \syn = &.a_var.
+// 6. \syn = &\a_syn
 bool
 assign_synonym()
 {
-	//printf("%s:%d in assign_synonym.  _word[0] is [%s]\n", __FILE__,__LINE__,_word[0]);
+#if 0
+	printf("DEBUG %s:%d in assign_synonym.  words: ", __FILE__,__LINE__);
+	for (int iw = 0; iw < _nword; iw++) 
+		printf("<%s> ", _word[iw]);
+	printf("\n");
+#endif
 	Require (_nword > 2, err("Can't understand command."));
+#if 1
+	// Check for e.g 
+	// \syn = &.a_var.
+	// \syn = &\a_syn
+	if (_nword == 3 && *_word[2] == '&') {
+		const char *name = 1 + _word[2];
+		//printf("DEBUG %s:%d GOT A & and think name is <%s>\n",__FILE__,__LINE__,name);
+		char coded_pointer[20];	// BUG: should be big enough.  Jeeze!
+		if (is_var(name)) {
+			//printf("DEBUG: %s:%d & on a var named <%s>\n",__FILE__,__LINE__,name);
+			int the_index = index_of_variable(name);
+			sprintf(coded_pointer, "\\#v%d#", variablePointer.size());
+			//printf("DEBUG %s:%d pushing back %d into position %d of variablePointer list\n",__FILE__,__LINE__,the_index,variablePointer.size());
+			variablePointer.push_back(the_index);
+			Require(put_syn(_word[0], coded_pointer, true),
+				err("Cannot store synonym `\\", _word[0], "'", "\\"));
+		} else if (is_syn(name)) {
+			//printf("DEBUG: %s:%d & on a syn named <%s>\n",__FILE__,__LINE__,name);
+			int the_index = index_of_synonym(name);
+			//printf("DEBUG %s:%d pushing back %d into position %d of synonymPointer list\n",__FILE__,__LINE__,the_index,synonymPointer.size());
+			sprintf(coded_pointer, "\\#s%d#", synonymPointer.size());
+			synonymPointer.push_back(the_index);
+			Require(put_syn(_word[0], coded_pointer, true),
+				err("Cannot store synonym `\\", _word[0], "'", "\\"));
+			return true;
+		} else {
+			err("Cannot do '&' unless item to right is name of variable or synonym");
+			return false;
+		}
+		return true;
+	}
+#endif
 	// Following check should never be needed, but keep for possible future
 	// changes.
 	Require(is_syn(_word[0]), err("`\\", _word[0], "' must begin with `\\'", "\\"));

@@ -6,8 +6,34 @@
 #include        "Variable.hh"
 
 
-static vector<GriVariable> variableStack;
+vector<GriVariable> variableStack;
+vector<int> variablePointer;	// used for e.g. \ap = &.a.
 
+
+// Get index of variable
+// RETURN non-negative integer if 'name' is an existing variable, or -1 if not.
+// BUG: only finds single-dotted variables (stored in the stack)
+int
+index_of_variable(const char *name)
+{
+	if (!is_var(name))
+		return -1;
+	unsigned int stackLen = variableStack.size();
+	if (stackLen > 0) {
+		for (int i = stackLen - 1; i >= 0; i--) {
+#ifdef DEBUG_VARIABLE
+			printf("debug: check [%s] vs %d-th [%s]\n", name, i, variableStack[i].getName());
+#endif
+			if (!strcmp(name, variableStack[i].getName())) {
+#ifdef DEBUG_VARIABLE
+				printf("DEBUG: returning index %d\n", i);
+#endif
+				return i;
+			}
+		}
+	}
+	return -1;
+}
 
 // Make new variable
 bool
@@ -21,23 +47,15 @@ create_variable(const char *name, double value)
 bool
 show_variablesCmd()
 {
-	const int variables_per_line = 1; // how many columns?
-	int             line_break = 0;
-	bool            have_some = false;
+	bool have_some = false;
 	ShowStr("Variables...\n");
-	vector<GriVariable>::iterator i;
-	for (i = variableStack.begin(); i < variableStack.end(); i++) {
+	int n = variableStack.size();
+	for (int i = 0; i < n; i++) {
 		extern char     _grTempString[];
-		sprintf(_grTempString, "    %-25s = %g", i->getName(), i->getValue());
+		sprintf(_grTempString, "%3d:    %-25s = %g\n", i, variableStack[i].getName(), variableStack[i].getValue());
 		ShowStr(_grTempString);
-		if (!(++line_break % variables_per_line)) {
-			ShowStr("\n");
-		} else {
-			ShowStr("  ");
-		}
 		have_some = true;
 	}
-	ShowStr("\n");
 	if (!have_some)
 		ShowStr(" ... none exist\n");
 	return true;
@@ -47,12 +65,11 @@ show_variablesCmd()
 void
 display_unused_var()
 {
-	int i;
-	unsigned stackLen = variableStack.size();
-	extern char     _grTempString[];
+	unsigned int stackLen = variableStack.size();
+	extern char _grTempString[];
 	if (stackLen > 0) {
 		char *name;
-		for (i = stackLen - 1; i >= 0; i--) {
+		for (int i = stackLen - 1; i >= 0; i--) {
 			if (0 == variableStack[i].getCount()) {
 				name = variableStack[i].getName();
 				if (*(name + 1) != '.') { // avoid builtins
@@ -84,11 +101,10 @@ is_var(const string& w)
 void
 show_var_stack()
 {
-	int i;
 	unsigned stackLen = variableStack.size();
 	if (stackLen > 0) {
 		printf("Variable stack [\n");
-		for (i = stackLen - 1; i >= 0; i--) {
+		for (int i = stackLen - 1; i >= 0; i--) {
 			printf("  %s = %f\n", 
 			       variableStack[i].getName(),
 			       variableStack[i].getValue());
@@ -104,9 +120,22 @@ delete_var(const string& name)
 	unsigned stackLen = variableStack.size();
 	for (int i = stackLen - 1; i >= 0; i--) {
 		if (name == variableStack[i].getName()) {
+			int Plen = variablePointer.size();
+			//printf("DEBUG %s:%d DELETING var %d named <%s>\n",__FILE__,__LINE__,i,name.c_str());
+			//for (int ip = 0; ip < Plen; ip++) printf("DEBUG: BEFORE %d <%s>\n", variablePointer[ip],variableStack[variablePointer[ip]].getName());
 			for (unsigned int j = i; j < stackLen - 1; j++)
 				variableStack[j] = variableStack[j + 1];
 			variableStack.pop_back();
+			for (int ip = 0; ip < Plen; ip++) {
+				if (variablePointer[ip] > i) {
+					variablePointer[ip]--;
+				} else if (variablePointer[ip] == i) {
+					variablePointer[ip] = -1; // missing
+				}
+			}
+			//printf("DEBUG %s:%d after handling 'delete var', the list is...\n",__FILE__,__LINE__);
+			//for (int ip = 0; ip < Plen; ip++) printf("DEBUG: AFTER %d <%s>\n", variablePointer[ip],variableStack[variablePointer[ip]].getName());
+
 			return true;
 		}
 	}

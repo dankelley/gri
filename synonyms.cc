@@ -8,9 +8,90 @@
 #include        "Synonym.hh"
 
 
-static vector<GriSynonym> synonymStack;
+vector<GriSynonym> synonymStack;
+vector<int> synonymPointer;	// used for e.g. \sp = &\\s
 
 static inline int end_of_synonym(char c, bool inmath, bool need_brace);
+static bool get_starred_synonym(const char* name, bool want_value/*or name*/, string& result);
+
+
+static bool
+get_starred_synonym(const char* name, bool want_value/*or name*/, string& result)
+{
+	if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d in get_starred_synonym(%s,%c)\n",__FILE__,__LINE__,name,want_value?'T':'F');
+	string coded_reference;
+	get_syn(name, coded_reference);
+	if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d coded_reference <%s>\n",__FILE__,__LINE__,coded_reference.c_str());
+	if (!strncmp(coded_reference.c_str(), "\\#v", 3)) {
+		if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d A VAR in <%s>\n",__FILE__,__LINE__,coded_reference.c_str());
+		int var_index;
+		sscanf(coded_reference.c_str(), "\\#v%d#", &var_index);
+		if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d var_index %d\n",__FILE__,__LINE__,var_index);
+		if (var_index < 0 || var_index > int(variablePointer.size())) {
+			err("Internal error with variable stack");
+			return false;
+		}
+		int which = variablePointer[var_index];
+		if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d var ptr is %d\n",__FILE__,__LINE__,which);
+		if (which > -1) {
+			if (want_value) {
+				char buffer[100];
+				sprintf(buffer, "%g", variableStack[which].getValue());
+				result.assign(buffer);
+			} else {
+				result.assign(variableStack[which].getName());
+			}
+		} else {
+			result.assign(coded_reference);
+		}
+	} else if (!strncmp(coded_reference.c_str(), "\\#s", 3)) {
+		if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d A SYN in <%s>\n",__FILE__,__LINE__,coded_reference.c_str());
+		int syn_index;
+		sscanf(coded_reference.c_str(), "\\#s%d#", &syn_index);
+		if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d syn_index %d\n",__FILE__,__LINE__,syn_index);
+		if (syn_index < 0 || syn_index > int(synonymPointer.size())) {
+			err("Internal error with synonym stack");
+			return false;
+		}
+		int which = synonymPointer[syn_index];
+		if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d syn ptr is %d\n",__FILE__,__LINE__,which);
+		if (which > -1) {
+			if (want_value) {
+				result.assign(synonymStack[which].getValue());
+			} else {
+				result.assign(synonymStack[which].getName());
+			}
+		} else {
+			result.assign(coded_reference);
+		}
+	} else {
+		if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d HUH?? no idea what <%s> is\n",__FILE__,__LINE__,coded_reference.c_str());
+		result.assign(coded_reference);
+	}
+	if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d get_starred_synonym returning <%s>\n",__FILE__,__LINE__,result.c_str());
+	return true;
+}
+
+
+// Get index of synonym
+// RETURN non-negative integer if 'name' is an existing synonym, or -1 if not.
+int
+index_of_synonym(const char *name)
+{
+	if (!is_syn(name))
+		return -1;
+	unsigned int stackLen = synonymStack.size();
+	if (stackLen > 0) {
+		for (int i = stackLen - 1; i >= 0; i--) {
+			//printf("debug: check [%s] vs %d-th [%s]\n", name, i, synonymStack[i].getName());
+			if (!strcmp(name, synonymStack[i].getName())) {
+				//printf("DEBUG: returning index %d\n", i);
+				return i;
+			}
+		}
+	}
+	return -1;
+}
 
 bool
 create_synonym(const char *name, const char *value)
@@ -25,15 +106,13 @@ show_synonymsCmd()
 {
 	ShowStr("Synonyms...\n");
 	bool have_some = false;
-	vector<GriSynonym>::iterator i;
-	for (i = synonymStack.begin(); i < synonymStack.end(); i++) {
-		extern char     _grTempString[];
-		sprintf(_grTempString, "    %-25s = \"%s\"\n", 
-			i->getName(), i->getValue());
+	int n = synonymStack.size();
+	for (int i = 0; i < n; i++) {
+		extern char _grTempString[];
+		sprintf(_grTempString, "%3d:    %-25s = \"%s\"\n", i, synonymStack[i].getName(), synonymStack[i].getValue());
 		ShowStr(_grTempString);
 		have_some = true;
 	}
-	ShowStr("\n");
 	if (!have_some) {
 		ShowStr(" ... none exist\n");
 	}
@@ -107,9 +186,21 @@ delete_syn(const string& name)
 	unsigned stackLen = synonymStack.size();
 	for (int i = stackLen - 1; i >= 0; i--) {
 		if (name == synonymStack[i].getName()) {
+			int Plen = synonymPointer.size();
+			if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d DELETING syn %d named <%s>\n",__FILE__,__LINE__,i,name.c_str());
+			if (((unsigned) superuser()) & FLAG_SYN) for (int ip = 0; ip < Plen; ip++) printf("DEBUG: BEFORE %d <%s>\n", synonymPointer[ip], synonymStack[synonymPointer[ip]].getName());
 			for (unsigned j = i; j < stackLen - 1; j++)
 				synonymStack[j] = synonymStack[j + 1];
 			synonymStack.pop_back();
+			for (int ip = 0; ip < Plen; ip++) {
+				if (synonymPointer[ip] > i) {
+					synonymPointer[ip]--;
+				} else if (synonymPointer[ip] == i) {
+					synonymPointer[ip] = -1; // missing
+				}
+			}
+			if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d after handling 'delete syn', the list is...\n",__FILE__,__LINE__);
+			if (((unsigned) superuser()) & FLAG_SYN) for (int ip = 0; ip < Plen; ip++) printf("DEBUG: AFTER %d <%s>\n", synonymPointer[ip], synonymStack[synonymPointer[ip]].getName());
 			return true;
 		}
 	}
@@ -383,6 +474,27 @@ substitute_synonyms_cmdline(const char *s, string& sout, bool allow_math)
 			offset = 1 + strlen(_Words2[0]);
 		}
 	}
+
+	// Catch *\name = something
+	if (*_Words2[0] == '*' || *(1 + _Words2[0]) == '\\') {
+		if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d NEED CODE HERE!\n",__FILE__,__LINE__);
+		if (nword > 1 && !strcmp(_Words2[1], "=")) {
+			if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d item is <%s>\n",__FILE__,__LINE__,_Words2[0]);
+			string syn_value(1 + _Words2[0]);
+			if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d looking up ref from <%s>\n",__FILE__,__LINE__,syn_value.c_str()); 
+			string pointed_to_name;
+			bool res = get_starred_synonym(syn_value.c_str(), false, pointed_to_name);
+			if (res) {
+				if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d pointed_to_name <%s>\n",__FILE__,__LINE__,pointed_to_name.c_str());
+				sout.append(pointed_to_name);
+				sout.append(" ");
+			} else {
+				sout.append(_Words2[0]);
+				sout.append(" ");
+			}
+			offset = 1 + strlen(_Words2[0]);
+		}
+	}
 	return substitute_synonyms(s + offset, sout, allow_math);
 }
 
@@ -421,7 +533,29 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 			//printf("    DONE appending 1\n");
 			continue;
 		}
-
+		
+		// If it is the &\ syntax, pass it through directly
+		if (s[i] == '&' && i < slen - 2 && s[i + 1] == '\\' && s[i + 2] != '\\') {
+			sout.append("&\\");
+			i++;
+			continue;
+		}
+		
+		// See if it is the *\syn syntax, and handle if so.
+		if (s[i] == '*' && i < slen - 2 && s[i + 1] == '\\' && s[i + 2] != '\\') {
+			if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG %s:%d got * i=%d <%s> <%s>\n",__FILE__,__LINE__,i,s,s+i-1);
+			i += 2;	// skip ahead, looking for synonym name.
+			string tmp("\\");
+			while (i < slen && !end_of_synonym(s[i], false /*inmath*/, false/*need_brace*/)) {
+				tmp += s[i++];
+			}
+			string coded_reference;
+			get_syn(tmp.c_str(), coded_reference);
+			string value;
+			get_starred_synonym(tmp.c_str(), true, value);
+			sout.append(value);
+		}
+		
 		// If not start of synonym, just paste character onto end of string
 		// and continue. (This also applies to apparent synonyms, if they are
 		// during math mode.)
@@ -429,7 +563,14 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 			sout += s[i];
 			continue;
 		}
-		// Catch de-referenced synonyms
+
+		// We now know that s[i] is a '\\' and now must 
+		// investigate further.  There are several possibilities
+		// depending on what the previous character was
+		// and what the next character is.
+
+
+		// Catch \@ [alias synonyms]
 		if (s[i + 1] == '@') {
 			i += 2;	// skip the '\\' and the '@'
 			//printf("DEREF start with <%s>\n", s);
@@ -475,6 +616,7 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 			sout += s[++i];
 			continue;
 		}
+
 		// Now know that it's the start of a synonym.  Isolate it, then find
 		// value.   But first, take note of whether name has a period at the
 		// start (since this determines whether a period can be used to end
@@ -493,6 +635,8 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 					break;
 			}
 			//printf("DEBUG dots_in_name %d      <%s>\n",dots_in_name,s+i);
+		} else if (s[i + 1] == '#') {
+			printf("DEBUG %s:%d got a # 1 character into <%s>\n",__FILE__,__LINE__,s+i);
 		} else if (s[i + 1] == '[') {
 			// Indexing a word within synonym
 			int index_length = -1;
