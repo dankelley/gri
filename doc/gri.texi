@@ -1285,18 +1285,18 @@ Type @code{help} to get a list of available commands and other topics of
 interest. Here's how Gri responds
 @example
 Type `help' followed by a command-name:
- cd          close         convert       create
- debug       delete        differentiate draw
- expecting   filter        flip          get
- help        if            ignore        input
- insert      interpolate   list          ls
- mask        move          new           open
- pwd         query         quit          read
- regress     reorder       rescale       resize
- return      rewind        set           show
- skip        sleep         smooth        source
- sprintf     state         superuser     system
- write
+ assert      cd            close         convert
+ create      debug         delete        differentiate
+ draw        expecting     filter        flip
+ get         help          if            ignore
+ input       insert        interpolate   list
+ ls          mask          move          new
+ open        pwd           query         quit
+ read        regress       reorder       rescale
+ resize      return        rewind        set
+ show        skip          sleep         smooth
+ source      sprintf       state         superuser
+ system      write
 Or type `help -' followed by a topic from this list:
  example     extending     files         math
  strings     synonyms      variables     manual
@@ -6777,6 +6777,7 @@ Here is an introduction to Gri commands and their syntax:
 
 Here is a list of all comands:
 @menu
+* Assert::                      Assert something to be true (for debugging)
 * Cd::                          Change directory
 * Close::                       Close a file
 * Convert::                     Convert various data types
@@ -6878,7 +6879,7 @@ and ``synonyms'' that is, strings (@ref{Synonyms};
 
 
 @c HTML <!-- newfile CommandSyntax.html "Gri: Command Syntax" "Gri Commands" -->
-@node   Command Syntax, Cd, Overview Of Gri Commands, Commands
+@node   Command Syntax, Assert, Overview Of Gri Commands, Commands
 @comment  node-name,  next,  previous,  up
 @section Command syntax
 The syntax description is enclosed within angled single quotes, optional
@@ -6917,10 +6918,45 @@ looks like garbage to Gri.  Gri will recognize it as an attempt at the
 but it will then get confused, spit out an error message, and quit.
 
 
+
+
+@c HTML <!-- newfile Assert.html "Gri: `assert' command" "Gri Commands" -->
+
+@node   Assert, Cd, Command Syntax, Commands
+@comment  node-name,  next,  previous,  up
+@section The @code{assert} Command
+@cindex debugging, with @code{assert} command
+@cindex @code{assert} command, for debugging
+@findex assert
+@example
+`assert .condition. ["msg"]
+@end example
+@noindent
+The condition may be a variable, a synonym, or an RPN expression.  If
+this condition is true (i.e. evaluates to a non-zero number), do
+nothing.  If the condition is false, the program will terminate with an
+error condition (in unix, it will terminate with a non-zero exit code).
+
+Before termination, a message will be printed, the form of which depends
+on the optional @code{"msg"} string.
+
+If no @code{"msg"} string is given, the the printed message will
+indicate the name of the command-file and the line at which the assert
+command was encountered.
+
+If a @code{"msg"} string is given, and if it ends in a newline
+(@code{"\\n"}), then this string is printed.
+
+If a @code{"msg"} string is given, and if it does not end in
+@code{"\\n"}, then the string is printed along with an indication of the
+location in the command-file.
+
+(Perl users will recognize this as being patterned on the @code{"die"}
+command.)
+
 @c HTML <!-- newfile Cd.html "Gri: `cd' command" "Gri Commands" -->
 
-
-@node   Cd, Close, Command Syntax, Commands
+@node   Cd, Close, Assert, Commands
 @comment  node-name,  next,  previous,  up
 @section The @code{cd} Command
 @cindex changing directories
@@ -14446,10 +14482,16 @@ The next sections outline the changes made in Gri.
 @comment  node-name,  next,  previous,  up
 @subsection Version 2.6
 @table @emph
-@item 2.6.0 [2000-Jul-26]
+@item 2.6.0 [2000-Aug-29]
 
 @sp 1
-Add command @code{sleep} (@ref{Sleep}).
+Add @code{assert} command (@ref{Assert}).
+
+@sp 1
+Add test suite (mainly for developers).
+
+@sp 1
+Add @code{sleep} command (@ref{Sleep}).
 
 @sp 1
 Remove command @code{show hint of the day}, since I no longer permission
@@ -14932,6 +14974,15 @@ Now compile Gri by typing
 @example
 make
 @end example
+
+@item Testing Gri
+@cindex test suite
+Type
+@example
+make test
+@end example
+to do some tests on the version of Gri that you just compiled.  If no
+errors are reported, you may go to the next step.
 
 @item Installing Gri
 Assuming compilation succeeds, install @file{gri} and the ancillary file

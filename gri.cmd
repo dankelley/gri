@@ -5,6 +5,12 @@
 # functions defined in the file tags.hh.
 
 
+`assert .condition. ["message"]'
+If the condition (which may be an RPN expression) is true, do nothing.  If it is false,
+{
+    extern "C" bool assertCmd(void);
+}
+
 `cd [\pathname]'
 If a pathname specified, change to that directory.  Normal unix
 filenames are used, according to the C-shell convention; thus 

@@ -2,7 +2,8 @@
 
 #define _tags_hh_
 #include "gr.hh"
-bool	cdCmd(void),
+bool	assertCmd(void),
+	cdCmd(void),
 	closeCmd(void),
 	convert_col_fro_pol_to_recCmd(void),
 	convert_col_fro_rec_to_polCmd(void),
@@ -178,6 +179,7 @@ typedef struct {
 }               C_FCN;
 
 C_FCN           c_fcn[] = {
+	{assertCmd,			"assertCmd",					9},
 	{cdCmd,				"cdCmd",					5},
 	{closeCmd,			"closeCmd",					8},
 	{convert_col_to_gridCmd,	"convert_columns_to_gridCmd",			26},
