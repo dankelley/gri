@@ -538,6 +538,9 @@ create_builtin_synonyms()
 	}
 	// \.host. (host computer name)
 #if defined(HAVE_GETHOSTNAME)
+#if defined(IS_SUN)
+	int gethostname(char *name, int namelen);
+#endif
 	char            host[BUFSIZ];
 	if (0 == gethostname(host, BUFSIZ - 1)) {
 		if (!put_syn("\\.host.", host, true)) OUT_OF_MEMORY;
