@@ -1,4 +1,4 @@
-      <!-- -*- html -*- -->
+<!-- -*- html -*- -->
 
 <!-- HOW TO INSTALL ON SOURCEFORGE:
 
@@ -147,9 +147,8 @@ as simple as the following.
 </font>
 </pre>
 
-To see the recent changes, go <A class="menus"
-HREF="http://gri.sourceforge.net/gridoc/html/Version_2_6.html#Version2.6">here</a><br>.
-
+To see the recent changes in version 2.6.x, go <A class="menus"
+HREF="http://gri.sourceforge.net/gridoc/html/Version_2_6.html#Version2.6">here</a>.<br>
 
         <hr noshade="noshade">
         <center>
@@ -179,7 +178,9 @@ HREF="http://gri.sourceforge.net/gridoc/html/Version_2_6.html#Version2.6">here</
       <td  class="menubox">
         <font size="-1">
         <!-- Vsn 2.6.4: 2001-jul-04</br> -->
-        Version 2.6.4 released
+	Stable version 
+	<a href="http://sourceforge.net/project/showfiles.php?group_id=5511&release_id=40718">2.6.4</a>
+	released
 	<? 
 	# mktime(hour,minute,second,month,day,year)
 	$diff = time() - mktime(14, 29, 0, 7, 4, 2001);
