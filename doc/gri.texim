@@ -1,7 +1,7 @@
 @c -*- mode: texinfo -*-
 \input texinfo 
 
-@c $Id: gri.texim,v 1.201 2002/06/05 17:47:27 dankelley Exp $
+@c $Id: gri.texim,v 1.202 2002/06/08 12:07:34 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16278,55 +16278,39 @@ only in the fixing of bugs.
 
 @item
 Fix SourceForge bug
-@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=562911&group_id=5511&atid=105511">
-#562911
-@c HTML </a>
-(won't build with @file{gcc}-3.0 compiler;  This was reported by
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=562911&group_id=5511&atid=105511,#562911}
+@dots{} won't build with @file{gcc-3.0} compiler.  This was reported by
 the Debian hppa builder as Debian bug
-@c HTML <a href="http://bugs.debian.org/148572">
-#148572
-@c HTML </a>
-)
+@uref{http://bugs.debian.org/148572,#148572}.
+
 
 @item
 Fix SourceForge bug
-@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=562558&group_id=5511&atid=105511">
-#562558
-@c HTML </a>
-(@code{draw title} terminates program if have non-positive data and had initially specified log axes)
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=562558&group_id=5511&atid=105511,#562558}
+@dots{} @code{draw title} terminates program if have non-positive data and had initially specified log axes.
 
 @item
 Fix SourceForge bug
-@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=562014&group_id=5511&atid=105511">
-#562014
-@c HTML </a>
-(won't build if @code{popt} library is unavailable;  This was reported by
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=562014&group_id=5511&atid=105511,#562014}
+@dots{} won't build if @code{popt} library is unavailable.  This was reported by
 the Debian ia64 builder as Debian bug
-@c HTML <a href="http://bugs.debian.org/148493">
-#148493
-@c HTML </a>
-)
+@uref{http://bugs.debian.org/148493,#148493}.
+
 
 @item
 Fix SourceForge bug
-@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=558463&group_id=5511&atid=105511">
-#558463
-@c HTML </a>
-(in HTML docs, the ``press'' margin tag was misdirected)
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=558463&group_id=5511&atid=105511,#558463}
+@dots{} in HTML docs, the ``press'' margin tag was misdirected.
 
 @item
 Fix SourceForge bug
-@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=562017&group_id=5511&atid=105511">
-#562017
-@c HTML </a>
-(parser fails with DOS end-of-line)
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=562017&group_id=5511&atid=105511,#562017}
+@dots{} parser fails with DOS end-of-line.
 
 @item
 Fix SourceForge bug
-@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=562113&group_id=5511&atid=105511">
-#562113
-@c HTML </a>
-(@code{new page} postscript error in @file{gv} viewer)
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=562113&group_id=5511&atid=105511,#562113}
+@dots{} @code{new page} postscript error in @file{gv} viewer.
 
 @end itemize
 

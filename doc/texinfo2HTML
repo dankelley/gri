@@ -233,9 +233,21 @@ while(get_a_line()) {
 	}
 	next;
     }
-    while (/\@url{(.*)}/) {
+    while (/\@url{([^}]*)}/) {
 	$the_url = $1;
-        s:\@url{.*}:<a href="$the_url">\@code{$the_url}</a>:;
+        s:\@url{[^}]*}:<a href="$the_url">\@code{$the_url}</a>:;
+    }
+    while (/\@uref{([^}]*)}/) {
+	@items = split(/,/, $1);
+        if ($#items == 0) {
+            s:\@uref{[^}]*}:<a href="$items[0]">$items[0]</a>:;
+        } elsif ($#items == 1) {
+            s:\@uref{[^}]*}:<a href="$items[0]">$items[1]</a>:;
+        } elsif ($#items == 2) {
+            s:\@uref{[^}]*}:\@code{$items[2]}:;
+        } else {
+            die "Cannot have more than 3 items in a 'uref' at \"$_\"";
+        }
     }
     #
     # Convert cross-references
@@ -244,7 +256,7 @@ while(get_a_line()) {
 	$previous_node = $3;
 	$parent_node = $4;
         # Start anchor, and set flag so end put after next heading.
-	# Need this flag because xmosaic 1.0 doesn't accept
+	# Need this flag because xmosaic 1.0 does not accept
 	# <A NAME="foo"></a>; it requires <A NAME="foo"><h1>heading</h1></a>
 	# or it will not properly search the reference.  I think this
 	# is a bug, and reported it to the author in an email:
@@ -399,9 +411,21 @@ sub sub_refs {
     s|\@ref{([^}]*)}|see <a href="#$1">$1</a>|g;
     s|\@xref{([^}]*)}|see <a href="#$1">$1</a>|g;
     s|\@pxref{([^}]*)}|see <a href="#$1">$1.</a>|g;
-    while (/\@url{(.*)}/) {
+    while (/\@url{([^}]*)}/) {
 	$the_url = $1;
-        s:\@url{.*}:<a href="$the_url">\@code{$the_url}</a>:;
+        s:\@url{[^}]*}:<a href="$the_url">\@code{$the_url}</a>:;
+    }
+    while (/\@uref{([^}]*)}/) {
+	@items = split(/,/, $1);
+        if ($#items == 0) {
+            s:\@uref{[^}]*}:<a href="$items[0]">$items[0]</a>:;
+        } elsif ($#items == 1) {
+            s:\@uref{[^}]*}:<a href="$items[0]">$items[1]</a>:;
+        } elsif ($#items == 2) {
+            s:\@uref{[^}]*}:\@code{$items[2]}:;
+        } else {
+            die "Cannot have more than 3 items in a 'uref' at \"$_\"";
+        }
     }
 }
 
