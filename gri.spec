@@ -96,6 +96,8 @@ then
 fi
 
 %changelog
+* Thu Jun 24  2004 <Dan.Kelley@Dal.Ca>
+- fix SF bug 978822 (doc error on 'set path to')
 * Sun Jun 13  2004 <Dan.Kelley@Dal.Ca>
 - add 'set transparency'
 * Thu Apr 15  2004 <Dan.Kelley@Dal.Ca>

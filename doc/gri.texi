@@ -16458,6 +16458,11 @@ only in the fixing of bugs.
 
 @item
 Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=978822&group_id=5511&atid=105511,#978822}
+@dots{} documentation wrong on @code{set path to}
+
+@item
+Fix SourceForge bug
 @uref{http://sourceforge.net/tracker/index.php?func=detail&aid=932203&group_id=5511&atid=105511,#932203}
 @dots{} misplaced labels caused by @code{set x axis labels}
 
