@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.96 2001/06/04 21:39:34 dankelley Exp $
+@c $Id: gri.texim,v 1.97 2001/06/09 17:15:47 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -1376,13 +1376,14 @@ at the data points whether or not you've read in a symbol column.
 @subsection Drawing a symbol legend
 @cindex legend for symbol
 @cindex symbol legend
+
 The following example shows how you might write a symbol legend for a
-plot.  The legend is drawn 1 cm to the right of the right-hand side of the axes,
-with the bottom of the legend one quarter of the way up the plot.  The
-lines in the legend are double-spaced vertically.  To change the
-location of the legend, alter the @code{.legend_x. =} and
-@code{.legend_y. =} lines.  To change the spacing, alter the
-@code{.legend_y. +=} line.
+plot.  The legend is drawn 1 cm to the right of the right-hand side of
+the axes, with the bottom of the legend one quarter of the way up the
+plot; @ref{Draw Symbol Legend}.  The lines in the legend are
+double-spaced vertically.  To change the location of the legend, alter
+the @code{.legend_x. =} and @code{.legend_y. =} lines.  To change the
+spacing, alter the @code{.legend_y. +=} line.
 
 @example
 set x axis -1 5 1
@@ -1395,12 +1396,12 @@ read columns x y z
 
 draw symbol
 
-# Draw symbol legend
+# Legend
 .leg_x. = @{rpn ..xmargin.. ..xsize.. + 1 +@}
 .leg_y. = @{rpn ..ymargin.. ..ysize.. 4 / +@}
-draw symbol leg 0 "Foo" at .leg_x. .leg_y. cm
+draw symbol legend 0 "Foo" at .leg_x. .leg_y. cm
 .leg_y. += @{rpn ascent("M") 2 *@}
-draw symbol leg 1 "Bar" at .leg_x. .leg_y. cm
+draw symbol legend 1 "Bar" at .leg_x. .leg_y. cm
 .leg_y. += @{rpn ascent("M") 2 *@}
 @end example
 
@@ -16048,6 +16049,13 @@ The following list applies to the version on CVS, but is subject to
 change:
 
 @itemize @bullet
+@item
+
+Add Perl-like ability to put underscores in numerical constants, to
+guide your eye and mode code easier to read.  These underscores are
+ignored, so that for example @code{.v. = 1_000} and @code{.v. = 1000}
+are completely equivalent.  (Warnings may result if the underscores
+are not in reasonable places for delineating parts in a thousand.)
 @item
 Add @code{set page size} command (@ref{Set Page}).
 @item
