@@ -255,7 +255,7 @@ CHECK_FOR_POSIX_TIMES
 
 
 dnl     checks for functions
-AC_CHECK_FUNCS(isnan isinf acosh getcwd getenv popen drand48 tmpnam tempname gethostname access)
+AC_CHECK_FUNCS(isnan isinf acosh getcwd getenv popen drand48 mkstemp tmpnam tempname gethostname access)
 
 dnl     checks for structure members
 
