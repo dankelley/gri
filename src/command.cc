@@ -259,7 +259,7 @@ perform_new_command(const char *s)
 }
 
 void
-no_gri_cmd()
+no_gri_cmd(const char *msg_postscript)
 {
 	std::string msg("ERROR: Gri can't locate the `gri.cmd' file\n");
 	msg.append("You need to tell Gri the directory containing this file.\n");
@@ -273,6 +273,11 @@ no_gri_cmd()
 	msg.append("        located, or ...\n");
 	msg.append("    (3) ... recompile Gri so it will know where to look by default (see\n");
 	msg.append("        the INSTALL file in the source directory for instructions).\n");
+	msg.append(msg_postscript);
+	msg.append("\n");
+	char wd[1024], *ptr = wd;
+	ptr = getcwd(ptr,1023);
+	msg.append("WD='");	msg.append(ptr);msg.append("'\n");
 	gr_textput(msg.c_str());
 	gri_exit(1);
 }
@@ -296,18 +301,21 @@ create_commands(const char *filename, bool user_gave_directory)
 #endif
 #endif
 	fullfilename += filename;
-	//printf("FIRST <%s>\n",fullfilename.c_str());
+#if 1 //def OS_IS_OSX // MAC OSX
+	fullfilename = "/Applications/Gri/gri.cmd";
+#endif
+//	printf("DEBUG: looking for gri.cmd as <%s>\n",fullfilename.c_str());
 	if (!push_cmd_file(fullfilename.c_str(), false, false, "r")) {
 		if (user_gave_directory)
-			no_gri_cmd(); // exits
+			no_gri_cmd(fullfilename.c_str()); // exits
 		char *gri_directory_library = egetenv("GRI_DIRECTORY_LIBRARY");
 		if (*gri_directory_library == '\0')
-			no_gri_cmd(); // exits
+			no_gri_cmd(fullfilename.c_str()); // exits
 		std::string envvar_location(gri_directory_library);
 		envvar_location.append("/gri.cmd");
-		//printf("TRY <%s>\n",envvar_location.c_str());
+		printf("TRY <%s>\n",envvar_location.c_str());
 		if (!push_cmd_file(envvar_location.c_str(), false, false, "r"))
-			no_gri_cmd(); // exits
+			no_gri_cmd(envvar_location.c_str()); // exits
 	}
 	/*
 	  First, see if the version number in gri.cmd matches hard-wired one.
@@ -337,7 +345,7 @@ create_commands(const char *filename, bool user_gave_directory)
 	}
 	// Finally, ok to process the startup file
 	while (do_command_line()) {
-		;			// EMPTY 
+	  ;			// EMPTY 
 	}
 	return true;
 }
