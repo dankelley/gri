@@ -216,8 +216,8 @@ start_up(int argc, char **argv)
 
 		// If user didn't give psname, create it.  First, must trim the
 		// ".gri" suffix (which is sure to be there).  Then, must remove
-		// any filename path, since we want the .ps file to be created
-		// in this local directory .
+		// any filename path, since we want the .ps or .eps
+		// file to be created in this local directory .
 		if (psname.empty()) {
 			psname = fname;
 			int l = psname.size();
@@ -746,6 +746,9 @@ interpret_optional_arguments(int argc, char *argv[])
 				if (strEQ(o.c_str() + suffix_index, ".ps")) {
 					psname.assign(optArg);
 					gr_setup_ps_filename(psname.c_str());
+				} else if (strEQ(o.c_str() + suffix_index, ".eps")) {
+					psname.assign(optArg);
+					gr_setup_ps_filename(psname.c_str());
 				} else if (strEQ(o.c_str() + suffix_index, ".gif")) {
 					fprintf(stderr, "%s:%d: GIF output does not work yet\n", __FILE__,__LINE__);
 					_output_file_type = gif;
@@ -913,6 +916,9 @@ interpret_optional_arguments(int argc, char *argv[])
 						std::string::size_type suffix_index = o.rfind(".");
 						if (suffix_index != STRING_NPOS) {
 							if (strEQ(o.c_str() + suffix_index, ".ps")) {
+								psname.assign(argv[i]);
+								gr_setup_ps_filename(psname.c_str());
+							} else if (strEQ(o.c_str() + suffix_index, ".eps")) {
 								psname.assign(argv[i]);
 								gr_setup_ps_filename(psname.c_str());
 							} else if (strEQ(o.c_str() + suffix_index, ".gif")) {

@@ -1,5 +1,5 @@
 Summary: A language for scientific illustration
-%define griversion 2.12.2
+%define griversion 2.12.3
 Name: gri
 Version: %{griversion}
 Release: 1
@@ -96,6 +96,8 @@ then
 fi
 
 %changelog
+* Thu Feb 13 2003 Dan Kelley <Dan.KelleyDal.Ca>
+- fix SourceForge bug 685919 (cannot understand '.eps' file extension)
 * Fri Feb  7 2003 Dan Kelley <Dan.KelleyDal.Ca>
 - +++ VERSION 2.12.2 +++
 * Tue Jan 28 2003 Dan Kelley <Dan.KelleyDal.Ca>
