@@ -84,15 +84,16 @@ html-install-solaris:	html
 	$(INSTALL) -d $(EXAMPLE_DIR_SOLARIS)
 	$(INSTALL) -d $(HTML_DIR_SOLARIS)/resources
 	$(INSTALL) -d $(HTML_DIR_SOLARIS)/screenshots
-	$(INSTALL) -m 644 resources/*.gif     $(HTML_DIR_SOLARIS)/resources
-	$(INSTALL) -m 644 examples/*.jpg      $(HTML_DIR_SOLARIS)/
-	$(INSTALL) -m 644 examples/model*     $(EXAMPLE_DIR_SOLARIS)
-	$(INSTALL) -m 644 examples/*.dat      $(EXAMPLE_DIR_SOLARIS)
-	$(INSTALL) -m 644 examples/*.gri      $(EXAMPLE_DIR_SOLARIS)
-	$(INSTALL) -m 644 examples/*.ps       $(EXAMPLE_DIR_SOLARIS)
-	$(INSTALL) -m 755 examples/FEM.pl     $(EXAMPLE_DIR_SOLARIS)
-	$(INSTALL) -m 644 screenshots/*.jpg   $(HTML_DIR_SOLARIS)/screenshots
-	$(INSTALL) -m 644 *.html              $(HTML_DIR_SOLARIS)
+	chmod 644 resources/* examples/* screenshots/*
+	cp resources/*.gif     $(HTML_DIR_SOLARIS)/resources
+	cp examples/*.jpg      $(HTML_DIR_SOLARIS)/
+	cp examples/model*     $(EXAMPLE_DIR_SOLARIS)
+	cp examples/*.dat      $(EXAMPLE_DIR_SOLARIS)
+	cp examples/*.gri      $(EXAMPLE_DIR_SOLARIS)
+	cp examples/*.ps       $(EXAMPLE_DIR_SOLARIS)
+	cp examples/FEM.pl     $(EXAMPLE_DIR_SOLARIS)
+	cp screenshots/*.jpg   $(HTML_DIR_SOLARIS)/screenshots
+	cp *.html              $(HTML_DIR_SOLARIS)
 	(cd $(HTML_DIR_SOLARIS); ln -sf ../examples)
 
 card-clean:
