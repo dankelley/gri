@@ -1702,6 +1702,13 @@ Draw lines corresponding to x=0 or y=0.
     extern "C" bool draw_zero_lineCmd(void);
 }
 
+`end group ["\name"]'
+Ene a group, i.e. a collection of graphical objects.  
+(NOT IMPLEMENTED YET.  SYNTAX MAY CHANGE.)
+{
+    extern "C" bool end_groupCmd(void);
+}
+
 `expecting version .n.'
 Show a list of incompatibilites since the named version.  This protects
 you from being clobbered by changes made to Gri, since you will be
@@ -1821,6 +1828,13 @@ modified when the data are moved.  Example:
 `get options "LIST" [keep]'
 {
     extern "C" bool get_optionsCmd(void);
+}
+
+`group ["\name"]'
+Start a group, i.e. a collection of graphical objects.  
+(NOT IMPLEMENTED YET.  SYNTAX MAY CHANGE.)
+{
+    extern "C" bool groupCmd(void);
 }
 
 `heal columns|{grid along x|y}'

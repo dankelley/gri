@@ -1,4 +1,4 @@
-<VAR></VAR><!-- -*- html -*- -->
+<!-- -*- html -*- -->
 
 <!-- HOW TO INSTALL ON SOURCEFORGE:
 
@@ -85,13 +85,13 @@ scp index.php psg@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
 	    <!-- DOWNLOAD STABLE -->
             <tr>
               <TD align="center" bgcolor="#737b9c">
-                <span class="maintitlebar"><font color="#ffffff">Download Stable Release</font></span>
+                <span class="maintitlebar"><font color="#ffffff">Get Stable Release</font></span>
                 </td> </tr>
                 <tr>
                   <td class="menus" align="right">
-		    <b>Source [buildable docs]</b><br>
+		    <b>Source [unbuilt docs]</b><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.5.tgz">gri-2.8.5.tgz</a><br>
-		    <b>Source [pre-built docs]</b><br>
+		    <b>Source [built docs]</b><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.5-arch-indep.tar.gz">gri-2.8.5-arch-indep.tar.gz</a><br>
 		    <b>RedHat Linux</b><br>
 		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.5-1.src.rpm">gri-2.8.5-1.src.rpm</a><br>
@@ -103,9 +103,11 @@ scp index.php psg@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
                     <A class="menus" HREF="http://packages.debian.org/unstable/doc/gri-html-doc.html">HTML manual at Debian</A><br>
                     <A class="menus" HREF="http://packages.debian.org/unstable/doc/gri-ps-doc.html">PS manual at Debian</A><br>
 		    <b>Solaris Unix</b><br>
-		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.0-SunOS5.tar.gz">gri-2.6.0-SunOS6.tar.gz</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.5-SunOS5.tar.gz">gri-2.8.5-SunOS6.tar.gz</a><br>
 		    <b>Windows</b><br>
 		    <A class="menus" HREF="http://gnuwin32.sourceforge.net/packages/gri.htm">Win95/98/2000/NT port</a><br>
+		    <b>Mac OS-X</b><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.8.5-MacOSX.tar.gz">Not available yet</a><br>
                   </td>
                 </tr>
             </tr>
@@ -113,7 +115,7 @@ scp index.php psg@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
 	    <!-- DOWNLOAD UNSTABLE -->
             <tr> 
               <TD align="center" bgcolor="#737b9c">
-                <span class="maintitlebar"><font color="#ffffff">Download Unstable Release</font></span>
+                <span class="maintitlebar"><font color="#ffffff">Get Unstable Release</font></span>
               </td>
             </tr>
             <td class="menus" align="right">
@@ -133,7 +135,7 @@ scp index.php psg@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
 	    <!-- GENERAL DOWNLOAD AREA -->
             <tr> 
               <TD align="center" bgcolor="#737b9c">
-                <span class="maintitlebar"><font color="#ffffff">Download Any Release</font></span>
+                <span class="maintitlebar"><font color="#ffffff">Get Any Release</font></span>
               </td>
             </tr>
             <td class="menus" align="right">
@@ -270,6 +272,7 @@ Search gri manual for (may be a regular expression):<p>
      </tr>
      <tr> 
        <td  class="menus" align="left">
+	 <a class="menus" href="http://www.sourceforge.net/forum/forum.php?forum_id=134278">Announcements</a></b>
 	 <a class="menus" href="http://www.sourceforge.net/news/?group_id=5511">News forum</a></b>
        </td>
      </tr>
@@ -324,7 +327,7 @@ Search gri manual for (may be a regular expression):<p>
     </TR>
     <TR>
       <td class="menus" align="left">
-        <A class="menus" HREF="http://www.sourceforge.net/project/?group_id=5511">Visit SourceForge</A><br>
+        <A class="menus" HREF="http://www.sourceforge.net/project/?group_id=5511">Gri at SourceForge</A><br>
         <A CLASS="menus" HREF="http://cvs.sourceforge.net/cvstarballs/gri-cvsroot.tar.gz">Nightly CVS tarball</a><br>
         <A class="menus" HREF="http://www.sourceforge.net/cvs/?group_id=5511">Get CVS source</a><br>
         <A class="menus" HREF="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/gri">View CVS history</a><br>
@@ -349,6 +352,7 @@ Search gri manual for (may be a regular expression):<p>
   </tr>
   </table>
 
+<!--
     <table width="100%" border=0 cellspacing=0 cellpadding=0 bgcolor="737b9c">
       <tr>
         <td  align="center"><SPAN class=bottombar><font color="#fffff">Comments to </font> <A class=bottombar
@@ -357,6 +361,6 @@ Search gri manual for (may be a regular expression):<p>
       </tr>
 
     </table>
+-->
   </body>
 </html>
-

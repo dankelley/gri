@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.138 2001/12/14 19:48:17 dankelley Exp $
+@c $Id: gri.texim,v 1.139 2001/12/19 15:58:26 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -3749,10 +3749,12 @@ manual says @code{gray}, and @code{colour} for @code{color}.)
 * Delete::                      Delete various data structures
 * Differentiate::               Differentiate things
 * Draw::                        Draw various things
+* End Group::                   End a group
 * Expecting::                   Make Gri warn of incompatibilites
 * Filter::                      Filter (smooth) various data structures
 * Flip::                        Flip or transpose grid or image
 * Get Env::                     Get a unix environment variable
+* Group::                       Start a group of drawn objects
 * Heal::                        Interpolate across missing values
 * Help::                        Give on-line help
 * If::                          If and if/else statements
@@ -5912,7 +5914,7 @@ x=@code{.x.} and of width @code{.cm.} centimetres.
 
 
 
-@node   Draw Zero Line, Expecting, Draw Y Box Plot, Draw
+@node   Draw Zero Line, End Group, Draw Y Box Plot, Draw
 @comment  node-name,  next,  previous,  up
 @subsubsection @code{draw zero line}
 @findex draw zero line
@@ -5934,9 +5936,28 @@ Draw line x=0 if it is within axes.
 @end itemize
 
 
+@c HTML <!-- newfile EndGroup.html "Gri: `end group' command" "Gri Commands" -->
+
+@node   End Group, Expecting, Draw Zero Line, List Of Gri Commands
+@comment  node-name,  next,  previous,  up
+@subsubsection @code{end grouip}
+@findex end group
+@cindex @code{end group} command
+
+@example
+end group
+@end example
+
+@noindent
+@emph{Command not implemented yet.  Syntax may change.}
+
+
+
+
+
 @c HTML <!-- newfile Expecting.html "Gri: `expecting' command" "Gri Commands" -->
 
-@node   Expecting, Filter, Draw Zero Line, List Of Gri Commands
+@node   Expecting, Filter, End Group, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
 @subsection @code{expecting}
 @cindex changes to Gri, protection against
@@ -6082,7 +6103,7 @@ Flip image so bottom side becomes top side.
 @c HTML <!-- newfile GetEnv.html "Gri: `get env' command" "Gri Commands" -->
 
 
-@node   Get Env, Heal, Flip, List Of Gri Commands
+@node   Get Env, Group, Flip, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
 @subsection @code{get env}
 @cindex environment variables
@@ -6125,10 +6146,25 @@ open \dir/data
 @end example
 
 
+@c HTML <!-- newfile Group.html "Gri: `group' command" "Gri Commands" -->
+
+@node   Group, Heal, Get Env, List Of Gri Commands
+@comment  node-name,  next,  previous,  up
+@subsection @code{group}
+@findex group
+@cindex @code{group} command
+
+@example
+`group ["\name"]'
+@end example
+
+@noindent
+@emph{Command not implemented yet.  Syntax may change.}
+
 
 @c HTML <!-- newfile Heal.html "Gri: `heal' command" "Gri Commands" -->
 
-@node   Heal, Help, Get Env, List Of Gri Commands
+@node   Heal, Help, Group, List Of Gri Commands
 @comment  node-name,  next,  previous,  up
 @subsection @code{heal}
 @findex heal
@@ -16303,6 +16339,10 @@ enter the next stable stream of Gri, but it is important to note that
 main exception is bug fixes, which will enter the stable stream unless
 they are found to create new bugs.
 @itemize @bullet
+@item
+Add @code{group} and @code{end group} commands ... or, at least, tags for 
+them!  The actual code will come later, probably by mid-2002 
+
 @item
 Add @code{..xinc..} and @code{..yinc..} builtin variables (@ref{Axis Scaling}).
 @item
