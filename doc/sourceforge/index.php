@@ -53,8 +53,8 @@
             </tr>
             <tr>
               <td align="right" class="menus">
-                <A class="menus" HREF="./gridoc/html/index.html">HTML manual (vsn 2.6.0)</A><br>
-                <A class="menus" HREF="./gri.pdf">PDF manual (vsn 2.6.0)</A><br>
+                <A class="menus" HREF="./gridoc/html/index.html">HTML manual</A><br>
+                <A class="menus" HREF="./gri.pdf">PDF manual</A><br>
                 <A class="menus" HREF="./gridoc/html/FAQ.html">FAQ</A><br>
                 <A class="menus" HREF="./gri-cookbook/index.html">Cookbook of Examples</A><br>
                 <A  class="menus" HREF="http://www2.linuxjournal.com/lj-issues/issue75/3743.html">Article in Linux Journal</A><br>
@@ -67,12 +67,16 @@
                 <IMG src="./images/blank.gif" height="1" width="1" border=0 alt=""><BR>
                 <span class="maintitlebar"><font color="#ffffff">Download stable release</font></span>
                 </td> </tr>
-                <tr><td class="menus" align="right">
-                <b>2001-Apr-01</b><br><font color="red">gri-2.6.0 to be released</font><br>
-                <b>2000-May-22</b><br><A  class="menus" HREF="http://download.sourceforge.net/gri/gri-2.4.4.tgz">gri-2.4.4.tgz</A><br>
-                <A  class="menus" HREF="http://download.sourceforge.net/gri/gri-2.4.4-1.i386.rpm">gri-2.4.4-1.i386.rpm</A><br>
-                <A  class="menus" HREF="http://www.debian.org/Packages/stable/math/gri.html">gri-2.4.2-1.deb</A><br>
-              </td>
+                <tr>
+                  <td class="menus" align="right">
+		    <b>General tarball</b><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.0.tgz">gri-2.6.0.tgz</a><br>
+		    <b>Linux Pre-packaged</b><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.0-1.src.rpm">gri-2.6.0-1.src.rpm</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.0-1.i386.rpm">gri-2.6.0-1.i386.rpm</a><br>
+		    <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.6.0-0potato1_i386.deb">gri_2.6.0-0potato1_i386.deb</a><br>
+                  </td>
+                </tr>
             </tr>
 
 	    <!-- DOWNLOAD UNSTABLE -->
@@ -82,31 +86,35 @@
                 <span class="maintitlebar"><font color="#ffffff">Download unstable release</font></span>
               </td>
             </tr>
+            <td class="menus" align="right">
+            </td>
             <tr>
               <td class="menus" align="right">
-                <b>2000-Jun-21</b><br><A  class="menus" HREF="http://download.sourceforge.net/gri/gri-2.5.5.tgz">gri-2.5.5.tgz</A><br>
-                <A  class="menus" HREF="http://download.sourceforge.net/gri/gri-2.5.5-1.i386.rpm">gri-2.5.5-1.i386.rpm</A><br>
+		<b>General tarball</b><br>
+                <i>N/A</i><br>
+                <b>Linux Pre-packaged</b><br>
+                <i>N/A</i><br>
               </td>
             </tr>
-            
-	    <!-- DOWNLOAD DEVELOPMENT -->
+
+	    <!-- GENERAL DOWNLOAD AREA -->
             <tr> 
               <TD align="center" bgcolor="#737b9c">
                 <IMG src="./images/blank.gif" height="1" width="1" border=0 alt=""><BR>
-                <span class="maintitlebar"><font color="#ffffff">Download trial prerelease of version 2.6.0</font></span>
+                <span class="maintitlebar"><font color="#ffffff">Download any release</font></span>
               </td>
             </tr>
+            <td class="menus" align="right">
+            </td>
             <tr>
               <td class="menus" align="right">
-	        <b>General tarball</b><br>
-                <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.0-pre6.tgz">gri-2.6.0-pre6.tgz</a><br>
-	        <b>Linux (RedHat)</b><br>
-                <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.0-1.src.rpm">gri-2.6.0-1.src.rpm</a><br>
-                <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri-2.6.0-1.i386.rpm">gri-2.6.0-1.i386.rpm</a><br>
-	        <b>Linux (Debian)</b><br>
-                <A class="menus" HREF="http://ftp1.sourceforge.net/gri/gri_2.6.0-0potato1_i386.deb">gri_2.6.0-0potato1_i386.deb</a><br>
+                <a class="menus" href="http://sourceforge.net/project/showfiles.php?group_id=5511">File Download Area</a><br>
               </td>
             </tr>
+
+
+
+
           </table>
       </td>
 
@@ -173,7 +181,7 @@ as simple as the following.
     <tr> 
       <td  class="menubox">
         <font size="-1">
-        Packaging <font color="red">2.6.0</font><br>
+        Version 2.6.0 released</br>
         </font>
       </td>
     </tr>
