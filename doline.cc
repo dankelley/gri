@@ -562,9 +562,9 @@ systemCmd()
 	if (using_read_until) {
 		// It is of the <<WORD form
 		cmd.append("\n");
-		printf("%s:%d ABOUT TO GOBBLE\n",__FILE__,__LINE__);
+		//printf("%s:%d ABOUT TO GOBBLE\n",__FILE__,__LINE__);
 		while (get_command_line()) {
-			printf("%s:%d cmd line is [%s]\n",__FILE__,__LINE__,_cmdLine);
+			//printf("%s:%d cmd line is [%s]\n",__FILE__,__LINE__,_cmdLine);
 			// Trim filename/fileline indicator
 			unsigned int l = strlen(_cmdLine);
 			for (unsigned int ii = 0; ii < l; ii++) {

@@ -486,12 +486,13 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 		if (((unsigned) superuser()) & FLAG_SYN) printf("DEBUG.  At start of synonym i= %d  s+i= '%s'\n",i,s+i);
 		if (s[i + 1] == '.') {
 			dots_in_name = 1;
-			for(int ii = i + 1; ii < slen; ii++) {
+			for(int ii = i + 2; ii < slen; ii++) {
 				if (s[ii] == '.')
 					dots_in_name++;
 				else
 					break;
 			}
+			//printf("DEBUG dots_in_name %d      <%s>\n",dots_in_name,s+i);
 		} else if (s[i + 1] == '[') {
 			// Indexing a word within synonym
 			int index_length = -1;
