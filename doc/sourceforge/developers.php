@@ -31,16 +31,24 @@ Gri  development is hosted on the
 <p>
 <?php
 print "Forums: ";
-print "<A HREF=\"$sf_url/forum/forum.php?forum_id=16976\">developer</A> ... \n";
-print "<A HREF=\"$sf_url/forum/forum.php?forum_id=16974\">open</A> ... \n";
-print "<A HREF=\"$sf_url/forum/forum.php?forum_id=16975\">help</A>.<br>\n";
-print "<A HREF=\"$sf_url/tracker/?atid=35$gri_group_id&amp;group_id=$gri_group_id&amp;func=browse\">Feature requests</A><br>\n";
-print "<A HREF=\"$sf_url/tracker/?atid=10$gri_group_id&amp;group_id=$gri_group_id&amp;func=browse\">Bug reports</A><br>\n";
-print "<A HREF=\"$sf_url/tracker/?atid=30$gri_group_id&amp;group_id=$gri_group_id&amp;func=browse\">Patch submissions</A><br>\n";
-print "<A HREF=\"$sf_url/pm/task.php?group_project_id=8706&amp;group_id=$gri_group_id&amp;func=browse\">View to-do list</A><br>\n";
-print "<A HREF=\"$sf_url/cvs/?group_id=$gri_group_id\">Get CVS source</a><br>\n";
-print "<A HREF=\"http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/gri/gri/\">View CVS history</a><br>\n";
-print "<br><a href=\"pre-releases\">pre-release</a> site\n";
+print "[<A HREF=\"$sf_url/forum/forum.php?forum_id=16976\">developer</A>] ";
+print "[<A HREF=\"$sf_url/forum/forum.php?forum_id=16974\">open</A>] ";
+print "[<A HREF=\"$sf_url/forum/forum.php?forum_id=16975\">help</A>].<br>\n";
+print "Debian: ";
+print "[<a href=\"http://packages.qa.debian.org/g/gri.html\">package</a>]
+       [<a href=\"http://buildd.debian.org/build.php?pkg=gri\">auto-builder's log</a>].\n";
+print "<br>";
+print "Trackers: ";
+print "[<A HREF=\"$sf_url/tracker/?atid=35$gri_group_id&amp;group_id=$gri_group_id&amp;func=browse\">Feature requests</A>] ";
+print "[<A HREF=\"$sf_url/tracker/?atid=10$gri_group_id&amp;group_id=$gri_group_id&amp;func=browse\">Bug reports</A>] ";
+print "[<A HREF=\"$sf_url/tracker/?atid=30$gri_group_id&amp;group_id=$gri_group_id&amp;func=browse\">Patch submissions</A>]\n";
+print "[<A HREF=\"$sf_url/pm/task.php?group_project_id=8706&amp;group_id=$gri_group_id&amp;func=browse\">To-do list</A>].\n";
+print "<br>";
+print "CVS:\n";
+print "[<A HREF=\"$sf_url/cvs/?group_id=$gri_group_id\">Get CVS source</a>]\n";
+print "[<A HREF=\"http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/gri/gri/\">View CVS history</a>].\n";
+print "<br>";
+print "Pre-release <a href=\"pre-releases\">site</a>.\n";
 ?>
 
 <?php
