@@ -267,7 +267,7 @@ bool
 show_columnsCmd()
 {
 	unsigned int    i;
-	unsigned        xlength = _colX.size();
+	unsigned int xlength = _colX.size();
 	if (xlength < 1) {
 		warning("`show columns' -- no columns exist");
 		return true;
@@ -409,7 +409,7 @@ show_columns_statisticsCmd()
 		sprintf(_grTempString, "\
 x[1-%4d]:         mean       stddev     skewness     kurtosis\n\
           %12g %12g %12g %12g\n",
-			int(_colX.size()), ave, sdev, skew, kurt);
+			(unsigned int)(_colX.size()), ave, sdev, skew, kurt);
 		gr_textput(_grTempString);
 		sprintf(_grTempString, "\
                 minimum           q1       median           q3      maximum\n\

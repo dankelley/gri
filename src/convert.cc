@@ -99,7 +99,7 @@ int interv(double *xt, int *lxt, double *x, int *left, int *mflag);
 
 double ppvalu(double *break_, double *coef, int *l, int *k, double *x, int *jderiv);
 
-int tautsp(double *x, double *y, int *n, double *gamma, double *scrtch, double *break_, double *coef, int *l, int *k, int *iflag);
+int tautsp(double *x, double *y, unsigned int *n, double *gamma, double *scrtch, double *break_, double *coef, int *l, int *k, int *iflag);
 
 
 #if 0
@@ -617,7 +617,7 @@ double ppvalu(double *break_,
 // Use iflag to indicate if call was ok
 int tautsp(double *tau,		// input data, x, of length ntau
 	   double *gtau,		// input data, y, of length ntau
-	   int *ntau,		// number data
+	   unsigned int *ntau,		// number data
 	   double *gamma,	// tension parameter
 	   double *s,		// length 6*ntau
 	   double *break_,	// knot locations, length=l
@@ -631,9 +631,9 @@ int tautsp(double *tau,		// input data, x, of length ntau
 
 	// Local variables
 	static double zeta, temp, c, d;
-	static int i;
+	static unsigned int i;
 	static double alpha, z, denom, ratio, sixth, entry_, factr2, onemg3;
-	static int ntaum1;
+	static unsigned int ntaum1;
 	static double entry3, divdif, factor;
 	static int method;
 	static double onemzt, zt2, del, gam;
@@ -1077,7 +1077,7 @@ X data must be ordered and distinct.\n\
 		++(*l);
 		// L70:
 		break_[*l] = tau[i + 1];
-		if (*l > 1 + 2 * (*ntau)) {
+		if (*l > 1 + 2 * int(*ntau)) {
 			gr_error("Too many knots.  Kelley thought max was 2*n\n");
 			return 0;		// not reached
 		}
@@ -1143,7 +1143,7 @@ convert_col_to_splineCmd()
 	//std::vector<double> coef((size_t)(4 * 2 * steps), 0.0);
 	//std::vector<double> break_point((size_t)(2 * steps), 0.0);
 	//std::vector<double> scrtch((size_t)(6 * steps), 0.0);
-	int n = _colX.size();
+	unsigned int n = _colX.size();
 	int l, k, iflag;
 	tautsp(_colX.begin(),
 	       _colY.begin(),
@@ -1156,15 +1156,14 @@ convert_col_to_splineCmd()
 	       &k,
 	       &iflag);
 	int zero = 0;
-	int i;
-	for (i = 0; i < steps; i++) {
+	for (unsigned int i = 0; i < (unsigned int)steps; i++) {
 		xs[i] = xmin + i * xinc;
 		ys[i] = ppvalu(break_point, coef, &l, &k, &xs[i], &zero);
 	}
 	// Dump spline output into (x,y)
 	_colX.setDepth(steps);
 	_colY.setDepth(steps);
-	for (i = 0; i < steps; i++) {
+	for (unsigned int i = 0; i < (unsigned int)steps; i++) {
 		_colX[i] = xs[i];
 		_colY[i] = ys[i];
 	}

@@ -6,7 +6,7 @@
 
 static bool     heal_columnsCmd(void);
 static bool     heal_gridCmd(void);
-void            heal_col(double *c, int n);
+void            heal_col(double *c, unsigned int n);
 
 
 // `heal columns|{grid along x|y}'
@@ -53,23 +53,22 @@ heal_columnsCmd()
 }
 
 void
-heal_col(double *c, int n)
+heal_col(double *c, unsigned int n)
 {
-	int             i, first_good;
-	int             last_good_index = 0;
-	bool            last_was_missing = false;
+	unsigned int first_good;
+	unsigned int last_good_index = 0;
+	bool last_was_missing = false;
 	// Find first good data point
 	for (first_good = 0; first_good < n; first_good++)
 		if (!gr_missing((double) *(c + first_good)))
 			break;
 	// Heal gaps, using last_good_value
-	for (i = first_good; i < n; i++) {
+	for (unsigned int i = first_good; i < n; i++) {
 		if (!gr_missing((double) *(c + i))) {
 			// This point is good.  If last was bad, have a hole to fill
 			if (last_was_missing) {
-				int             ii;
-				double          range = *(c + i) - *(c + last_good_index);
-				for (ii = last_good_index + 1; ii < i; ii++) {
+				double range = *(c + i) - *(c + last_good_index);
+				for (unsigned int ii = last_good_index + 1; ii < i; ii++) {
 					*(c + ii) = *(c + last_good_index)
 						+ (ii - last_good_index)
 						* range

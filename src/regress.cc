@@ -8,10 +8,10 @@
 extern char     _grTempString[];
 bool            regressCmd(void);
 bool            regress_linearCmd(void);
-static int      fit(double x[], double y[], int ndata, std::vector<double>::iterator, double *a, double *b, double *siga, double *sigb, double *chi2, double *q);
-double          R_linear(double x[], double y[], int n);
-double          rms_deviation(double x[], double y[], int n, double a, double b);
-static double student_t_025(int nu);
+static int      fit(double x[], double y[], unsigned int ndata, std::vector<double>::iterator, double *a, double *b, double *siga, double *sigb, double *chi2, double *q);
+double          R_linear(double x[], double y[], unsigned int n);
+double          rms_deviation(double x[], double y[], unsigned int n, double a, double b);
+static double student_t_025(unsigned int nu);
 
 // regressCmd() - handle 'regress' command
 bool
@@ -47,7 +47,6 @@ regress_linearCmd()
 {
 	double          a, b, siga, sigb, chi2, q;
 	double          r2;
-	unsigned int    i;
 	if (_colX.size() < 2 || _colY.size() < 2) {
 		err("need more than 2 data points\n");
 		return false;
@@ -58,7 +57,7 @@ regress_linearCmd()
 	}
 	std::vector<double> sigma(_colX.size(), 0.0);
 	if (_colWEIGHT.size() == _colX.size()) {
-		for (i = 0; i < _colWEIGHT.size(); i++) {
+		for (unsigned int i = 0; i < _colWEIGHT.size(); i++) {
 			if (_colWEIGHT[i])
 				sigma[i] = 1.0 / sqrt(_colWEIGHT[i]);
 			else {
@@ -66,7 +65,7 @@ regress_linearCmd()
 			}
 		}
 	} else {
-		for (i = 0; i < _colX.size(); i++)
+		for (unsigned int i = 0; i < _colX.size(); i++)
 			if (!gr_missing(_colX[i]) && !gr_missing(_colY[i]))
 				sigma[i] = 1.0;
 			else
@@ -149,13 +148,13 @@ x = %g + %g y; chi2=%g; R^2=%g (%d good data)\n",
 
 // Compute Pearson correlation coefficient, R.
 double
-R_linear(double x[], double y[], int n)
+R_linear(double x[], double y[], unsigned int n)
 {
 	// Use formulae in terms of demeaned variables, 
 	// for numerical accuracy.
-	int             i, non_missing = 0;
+	unsigned int non_missing = 0;
 	double          xmean = 0.0, ymean = 0.0;
-	for (i = 0; i < n; i++) {
+	for (unsigned i = 0; i < n; i++) {
 		if (!gr_missing(x[i]) && !gr_missing(y[i])) {
 			xmean += x[i];
 			ymean += y[i];
@@ -168,7 +167,7 @@ R_linear(double x[], double y[], int n)
 	ymean /= non_missing;
 	double          syy = 0.0, sxy = 0.0, sxx = 0.0;
 	double          xtmp, ytmp;
-	for (i = 0; i < n; i++) {
+	for (unsigned int i = 0; i < n; i++) {
 		if (!gr_missing(x[i]) && !gr_missing(y[i])) {
 			xtmp = x[i] - xmean;
 			ytmp = y[i] - ymean;
@@ -182,11 +181,11 @@ R_linear(double x[], double y[], int n)
 
 // RMS deviation to model y=a+bx
 double
-rms_deviation(double x[], double y[], int n, double a, double b)
+rms_deviation(double x[], double y[], unsigned int n, double a, double b)
 {
-	int non_missing = 0;
+	unsigned int non_missing = 0;
 	double sum = 0.0, dev;
-	for (int i = 0; i < n; i++) {
+	for (unsigned int i = 0; i < n; i++) {
 		if (!gr_missing(x[i]) && !gr_missing(y[i])) {
 			dev = y[i] - a - b * x[i];
 			sum += dev * dev;
@@ -202,18 +201,17 @@ rms_deviation(double x[], double y[], int n, double a, double b)
 static double   sqrarg;
 #define SQR(a) (sqrarg=(a),sqrarg*sqrarg)
 static int
-fit(double x[], double y[], int ndata,
+fit(double x[], double y[], unsigned int ndata,
     std::vector<double>::iterator sig, // std-deviation in y
     double *a, double *b,
     double *siga, double *sigb,
     double *chi2, double *q)
 {
-	int             i;
-	int             good = 0;
-	double          wt, t, sxoss, sx = 0.0, sy = 0.0, st2 = 0.0, ss, sigdat;
+	unsigned int good = 0;
+	double wt, t, sxoss, sx = 0.0, sy = 0.0, st2 = 0.0, ss, sigdat;
 	*b = 0.0;
 	ss = 0.0;
-	for (i = 0; i < ndata; i++) {
+	for (unsigned i = 0; i < ndata; i++) {
 		if (!gr_missing(x[i]) && !gr_missing(y[i]) && !gr_missing(sig[i])) {
 			wt = 1.0 / SQR(sig[i]);
 			sx += x[i] * wt;
@@ -223,7 +221,7 @@ fit(double x[], double y[], int ndata,
 		}
 	}
 	sxoss = sx / ss;
-	for (i = 0; i < ndata; i++) {
+	for (unsigned int i = 0; i < ndata; i++) {
 		if (!gr_missing(x[i]) && !gr_missing(y[i]) && !gr_missing(sig[i])) {
 			t = (x[i] - sxoss) / sig[i];
 			st2 += t * t;
@@ -235,7 +233,7 @@ fit(double x[], double y[], int ndata,
 	*siga = sqrt((1.0 + sx * sx / (ss * st2)) / ss);
 	*sigb = sqrt(1.0 / st2);
 	*chi2 = 0.0;
-	for (i = 0; i < ndata; i++)
+	for (unsigned int i = 0; i < ndata; i++)
 		if (!gr_missing(x[i]) && !gr_missing(y[i]))
 			*chi2 += SQR(y[i] - (*a) - (*b) * x[i]);
 	*q = 1.0;
@@ -253,7 +251,7 @@ fit(double x[], double y[], int ndata,
 
 // From table in a book.
 double
-student_t_025(int nu)
+student_t_025(unsigned int nu)
 {
 	static double t_025[30] = {
 		12.706,			// for nu=1

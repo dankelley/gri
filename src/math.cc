@@ -4,7 +4,7 @@
 #include	"image_ex.hh"
 
 bool            mathCmd();
-static bool     column_math(double *Ptr, int n, int operator_position = 1);
+static bool     column_math(double *Ptr, unsigned int n, int operator_position = 1);
 static bool     image_math(void);
 static bool     grid_data_math(void);
 extern void     highpass_image(void);
@@ -125,7 +125,7 @@ mathCmd()
 }
 
 static bool
-column_math(double *Ptr, int n, int operator_position /*= 1*/)
+column_math(double *Ptr, unsigned int n, int operator_position /*= 1*/)
 {
 	Require(n > 0, gr_Error("Trying to do column-math on non-existent column."));
 	// Ensure enough space
@@ -138,7 +138,7 @@ column_math(double *Ptr, int n, int operator_position /*= 1*/)
 
 	// special case of `y = x...'
 	if (_nword == 3 && word_is(0, "y") && word_is(1, "=") && word_is(2, "x")) {
-		for (int i = 0; i < n; i++)
+		for (unsigned int i = 0; i < n; i++)
 			_colY[i] = _colX[i];
 		if (word_is(0, "y") && _need_y_axis && !_user_set_y_axis)
 			create_y_scale();
@@ -152,7 +152,7 @@ column_math(double *Ptr, int n, int operator_position /*= 1*/)
 	// Special case of assignment
 	if (word_is(operator_position, "=")) {
 		// Make sure column can hold the data
-		for (int i = 0; i < n; i++, Ptr++) {
+		for (unsigned int i = 0; i < n; i++, Ptr++) {
 			if (!gr_missing(*Ptr)) {
 				*Ptr = number;
 			}
@@ -164,23 +164,23 @@ column_math(double *Ptr, int n, int operator_position /*= 1*/)
 
 	// Do modification (OP=) cases
 	if (word_is(operator_position, "+=")) {
-		for (int i = 0; i < n; i++, Ptr++) 
+		for (unsigned int i = 0; i < n; i++, Ptr++) 
 			if (!gr_missing(*Ptr))
 				*Ptr += number;
 	} else if (word_is(operator_position, "-=")) {
-		for (int i = 0; i < n; i++, Ptr++)
+		for (unsigned int i = 0; i < n; i++, Ptr++)
 			if (!gr_missing(*Ptr))	
 				*Ptr -= number;
 	} else if (word_is(operator_position, "*=")) {
-		for (int i = 0; i < n; i++, Ptr++)
+		for (unsigned int i = 0; i < n; i++, Ptr++)
 			if (!gr_missing(*Ptr))
 				*Ptr *= number;
 	} else if (word_is(operator_position, "/=")) {
-		for (int i = 0; i < n; i++, Ptr++)
+		for (unsigned int i = 0; i < n; i++, Ptr++)
 			if (!gr_missing(*Ptr))	
 				*Ptr /= number;
 	} else if (word_is(operator_position, "^=")) {
-		for (int i = 0; i < n; i++, Ptr++)
+		for (unsigned int i = 0; i < n; i++, Ptr++)
 			if (!gr_missing(*Ptr))
 				*Ptr = pow(*Ptr, number);
 	} else if (word_is(operator_position, "_=")) {
@@ -189,7 +189,7 @@ column_math(double *Ptr, int n, int operator_position /*= 1*/)
 			return false;
 		}
 		double lbase = log(number);
-		for (int i = 0; i < n; i++, Ptr++)
+		for (unsigned int i = 0; i < n; i++, Ptr++)
 			if (!gr_missing(*Ptr) && *Ptr > 0.0)
 				*Ptr = log(*Ptr) / lbase;
 			else
@@ -293,7 +293,7 @@ grid_data_math()
 static bool
 image_math()
 {
-	int i, n;
+	unsigned int n;
 	unsigned char  *Ptr;
 	double          number;
 	switch (_nword) {
@@ -321,19 +321,19 @@ image_math()
 		Ptr = _image.image;
 		n = _image.ras_length;
 		if (word_is(1, "+=")) {
-			for (i = 0; i < n; i++, Ptr++)
+			for (unsigned int i = 0; i < n; i++, Ptr++)
 				*Ptr = int(*Ptr + number);
 		} else if (word_is(1, "-=")) {
-			for (i = 0; i < n; i++, Ptr++)
+			for (unsigned int i = 0; i < n; i++, Ptr++)
 				*Ptr = int(*Ptr - number);
 		} else if (word_is(1, "*=")) {
-			for (i = 0; i < n; i++, Ptr++)
+			for (unsigned int i = 0; i < n; i++, Ptr++)
 				*Ptr = int(*Ptr * number);
 		} else if (word_is(1, "/=")) {
-			for (i = 0; i < n; i++, Ptr++)
+			for (unsigned int i = 0; i < n; i++, Ptr++)
 				*Ptr = int(*Ptr / number);
 		} else if (word_is(1, "^=")) {
-			for (i = 0; i < n; i++, Ptr++)
+			for (unsigned int i = 0; i < n; i++, Ptr++)
 				*Ptr = int(pow(double(*Ptr), number));
 		} else if (word_is(1, "_=")) {
 			if (number < 0.0) {
@@ -341,7 +341,7 @@ image_math()
 				return false;
 			}
 			double lbase = log(number);
-			for (i = 0; i < n; i++, Ptr++)
+			for (unsigned int i = 0; i < n; i++, Ptr++)
 				if (!gr_missing(*Ptr) && *Ptr > 0)
 					*Ptr = int(log(*Ptr) / lbase);
 				else
@@ -364,23 +364,23 @@ image_math()
 			return false;
 		Ptr = _imageTransform;
 		if (word_is(2, "+=")) {
-			for (i = 0; i < n; i++, Ptr++) {
+			for (unsigned int i = 0; i < n; i++, Ptr++) {
 				*Ptr = (int) (255.0 * (double(*Ptr) / 255.0 + number));
 			}
 		} else if (word_is(2, "-=")) {
-			for (i = 0; i < n; i++, Ptr++) {
+			for (unsigned int i = 0; i < n; i++, Ptr++) {
 				*Ptr = (int) (255.0 * (double(*Ptr) / 255.0 - number));
 			}
 		} else if (word_is(2, "*=")) {
-			for (i = 0; i < n; i++, Ptr++) {
+			for (unsigned int i = 0; i < n; i++, Ptr++) {
 				*Ptr = (int) (255.0 * (double(*Ptr) / 255.0 * number));
 			}
 		} else if (word_is(2, "/=")) {
-			for (i = 0; i < n; i++, Ptr++) {
+			for (unsigned int i = 0; i < n; i++, Ptr++) {
 				*Ptr = (int) (255.0 * (double(*Ptr) / 255.0 / number));
 			}
 		} else if (word_is(2, "^=")) {
-			for (i = 0; i < n; i++, Ptr++) {
+			for (unsigned int i = 0; i < n; i++, Ptr++) {
 				*Ptr = (int) (255.0 * pow(double(*Ptr) / 255.0, number));
 			}
 		} else if (word_is(2, "_=")) {
@@ -389,7 +389,7 @@ image_math()
 				return false;
 			}
 			double lbase = log(number);
-			for (i = 0; i < n; i++, Ptr++)
+			for (unsigned int i = 0; i < n; i++, Ptr++)
 				*Ptr = int(255.0 * log(double(*Ptr) / 255.0) / lbase);
 		} else {
 			err("Cannot use operator `\\", _word[2], "' on image colorscale|grayscale", "'\\");

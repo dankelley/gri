@@ -39,15 +39,15 @@ smooth_xCmd()
 		NUMBER_WORDS_ERROR;
 		return false;
 	}
-	int i, n = _colX.size() - 1;
+	unsigned int n = _colX.size() - 1;
 	std::vector<double> copy(_colX.size(), 0.0);
 	// Copy all, to get endparts
-	for (i = 0; i < n; i++)
+	for (unsigned int i = 0; i < n; i++)
 		copy[i] = _colX[i];
 	if (_nword == 2) {
 		copy[0] = _colX[0];
 		copy[_colX.size() - 1] = _colX[_colX.size() - 1];
-		for (i = 1; i < n; i++) {
+		for (unsigned int i = 1; i < n; i++) {
 			double x0 = _colX[i];
 			double xleft = _colX[i - 1];
 			double xright = _colX[i + 1];
@@ -59,7 +59,7 @@ smooth_xCmd()
 		}
 	} else if (_nword == 3) {
 		double          tmp;
-		int             halfwidth;
+		unsigned int halfwidth;
 		if (!getdnum(_word[2], &tmp)) {
 			err("Can't read .n. in `\\", _word[2], "'.", "\\");
 			return false;
@@ -73,12 +73,12 @@ smooth_xCmd()
 			err("Improper .n.; require < n / 2");
 			return false;
 		}
-		for (i = halfwidth; i <= n - halfwidth; i++) {
+		for (unsigned int i = halfwidth; i <= n - halfwidth; i++) {
 			int             j, nsum = 0;
 			double          sum = 0.0;
-			for (j = -halfwidth; j <= halfwidth; j++) {
+			for (j = -int(halfwidth); j <= int(halfwidth); j++) {
 				double tmp = _colX[i + j];
-				if (-1 < (i + j) && (i + j) <= n && !gr_missingx(tmp)) {
+				if (0 < (1 + (i + j)) && (i + j) <= n && !gr_missingx(tmp)) {
 					sum += tmp;
 					nsum++;
 				}
@@ -92,7 +92,7 @@ smooth_xCmd()
 	} else {
 		fatal_err("Programming error in `smooth x'");
 	}
-	for (i = 0; i < n; i++)
+	for (unsigned int i = 0; i < n; i++)
 		_colX[i] = copy[i];
 	return true;
 }
@@ -109,15 +109,15 @@ smooth_yCmd()
 		NUMBER_WORDS_ERROR;
 		return false;
 	}
-	int i, n = _colY.size() - 1;
+	unsigned int n = _colY.size() - 1;
 	// Copy all, to get endparts
 	std::vector<double> copy(_colY.size(), 0.0);
-	for (i = 0; i < n; i++)
+	for (unsigned int i = 0; i < n; i++)
 		copy[i] = _colY[i];
 	if (_nword == 2) {
 		copy[0] = _colY[0];
 		copy[_colY.size() - 1] = _colY[_colY.size() - 1];
-		for (i = 1; i < n; i++) {
+		for (unsigned int i = 1; i < n; i++) {
 			double y0 = _colY[i];
 			double yleft = _colY[i - 1];
 			double yright = _colY[i + 1];
@@ -129,7 +129,7 @@ smooth_yCmd()
 		}
 	} else if (_nword == 3) {
 		double          tmp;
-		int             halfwidth;
+		unsigned int halfwidth;
 		if (!getdnum(_word[2], &tmp)) {
 			err("Can't read .n. in `\\", _word[2], "'.", "\\");
 			return false;
@@ -143,12 +143,12 @@ smooth_yCmd()
 			err("Improper .n.; require < n / 2");
 			return false;
 		}
-		for (i = halfwidth; i <= n - halfwidth; i++) {
-			int             j, nsum = 0;
-			double          sum = 0.0;
-			for (j = -halfwidth; j <= halfwidth; j++) {
+		for (unsigned int i = halfwidth; i <= n - halfwidth; i++) {
+			int j, nsum = 0;
+			double sum = 0.0;
+			for (j = -halfwidth; j <= int(halfwidth); j++) {
 				double tmp = _colY[i + j];
-				if (-1 < (i + j) && (i + j) <= n && !gr_missingy(tmp)) {
+				if (0 < (1 + (i + j)) && (i + j) <= n && !gr_missingy(tmp)) {
 					sum += tmp;
 					nsum++;
 				}
@@ -162,7 +162,7 @@ smooth_yCmd()
 	} else {
 		fatal_err("Programming error in `smooth y'");
 	}
-	for (i = 0; i < n; i++)
+	for (unsigned int i = 0; i < n; i++)
 		_colY[i] = copy[i];
 	return true;
 }

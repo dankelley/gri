@@ -28,8 +28,8 @@ inline  void swap(GriColumn *A, int a, int b)
 bool
 reorder_columnsCmd()
 {
-	int             n;
-	bool            ascending;
+	unsigned int n;
+	bool ascending;
 	switch (_nword) {
 	case 3:
 		if (word_is(2, "randomly")) {

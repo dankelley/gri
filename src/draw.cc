@@ -205,7 +205,6 @@ draw_symbolCmd()
 {
 	unsigned int    num_drawn = 0;
 	double          x, y;
-	int             i;
 	bool            fixedSymbol = true;
 	bool            old = _ignore_error;
 	bool            uses_color = false;
@@ -444,12 +443,12 @@ draw_symbolCmd()
 	if (!uses_color)
 		set_ps_color('p');
 	set_line_width_symbol();
-	int num = _colX.size();
+	unsigned int num = _colX.size();
 	GriColor c, old_color = _griState.color_line();
 	set_line_width_symbol();
 	double xlast = gr_currentmissingvalue();
 	double ylast = gr_currentmissingvalue();
-	for (i = 0; i < num; i++) {
+	for (unsigned int i = 0; i < num; i++) {
 		if (!gr_missingx((double) *xp)
 		    && !gr_missingy((double) *yp)
 		    && inside_box((double) *xp, (double) *yp)) {
@@ -500,7 +499,9 @@ draw_symbolCmd()
 			sprintf(_grTempString, "\
 `draw symbol' drew %d of the %d data; the remaining %d points\n\
   were either missing or out of clip region.\n",
-				num_drawn, int(_colX.size()), int(_colX.size()) - num_drawn);
+				num_drawn, 
+				(unsigned int)(_colX.size()),
+				(unsigned int)(_colX.size()) - num_drawn);
 			gr_textput(_grTempString);
 		}
 
@@ -944,7 +945,6 @@ draw_arrow_from_toCmd()
 bool
 draw_arrowsCmd()
 {
-	int             i;
 	if (_nword != 2) {
 		demonstrate_command_usage();
 		NUMBER_WORDS_ERROR;
@@ -982,8 +982,8 @@ draw_arrowsCmd()
 	double          halfwidth = ARROWSIZE_DEFAULT;
 	if (!get_var("..arrowsize..", &halfwidth))
 		warning("Don't know ..arrowsize.. so using default _ARROWSIZE_PT_DEFAULT");
-	int i_max = _colX.size();
-	for (i = 0; i < i_max; i++) {
+	unsigned int i_max = _colX.size();
+	for (unsigned int i = 0; i < i_max; i++) {
 		if (!gr_missingx((double) *xp)
 		    && !gr_missingy((double) *yp)
 		    && inside_box((double) *xp, (double) *yp)
@@ -1124,8 +1124,7 @@ draw_axes(int type, double loc, gr_axis_properties side, bool allow_offset)
 	// Set to proper linewidth, and turn dashing off
 	set_line_width_axis();
 	std::vector<double> old_dash;
-	unsigned int i;
-	for (i = 0; i < _dash.size(); i++)
+	for (unsigned int i = 0; i < _dash.size(); i++)
 		old_dash.push_back(_dash[i]);
 	std::vector<double> dash;
 	_dash.erase(_dash.begin(), _dash.end());
@@ -1245,7 +1244,7 @@ draw_axes(int type, double loc, gr_axis_properties side, bool allow_offset)
 	gr_setfontsize_pt(oldFontsize_pt);
 	_drawingstarted = true;
 	draw_axes_if_needed();
-	for (i = 0; i < old_dash.size(); i++)
+	for (unsigned int i = 0; i < old_dash.size(); i++)
 		_dash.push_back(old_dash[i]);
 	group_end();
 	return true;
@@ -1298,11 +1297,11 @@ draw_curveCmd()
 	double          lastx = gr_currentmissingvalue();
 	double          lasty = gr_currentmissingvalue();
 	bool            first = true, last_OK = true;
-	int i_max = _colX.size();
+	unsigned int i_max = _colX.size();
 	set_environment();
 	set_line_width_curve();
 	GriPath  path(i_max);
-	for (int i = 0; i < i_max; i++) {
+	for (unsigned int i = 0; i < i_max; i++) {
 		//printf("i %d   x %f   y %f\n", i, *xp, *yp);
 		if (!gr_missingx((double) *xp)
 		    && !gr_missingy((double) *yp)
@@ -1345,7 +1344,6 @@ draw_curve_filled_to_valueCmd(bool to_y, double value)
 	double          *xp = _colX.begin();
 	double          *yp = _colY.begin();
 	double          lastx = 0.0, lasty = 0.0; // last good; assignment calms compiler
-	int             i;
 	bool            path_exists = false;
 	bool            last_OK = false;
 	if (!_columns_exist) {
@@ -1363,8 +1361,8 @@ draw_curve_filled_to_valueCmd(bool to_y, double value)
 	}
 	GriPath p;
 	set_environment();
-	int i_max = _colX.size();
-	for (i = 0; i < i_max; i++) {
+	unsigned int i_max = _colX.size();
+	for (unsigned i = 0; i < i_max; i++) {
 		if (!gr_missingx((double) *xp)
 		    && !gr_missingy((double) *yp)
 		    && inside_box((double) *xp, (double) *yp)) {
@@ -2364,7 +2362,6 @@ draw_patchesCmd()
 	double          dx, dx2, dy, dy2;
 	GriColor old_color = _griState.color_line();
 	bool            cmUnits;
-	int             i;
 	if (_nword < 4 || _nword > 5) {
 		demonstrate_command_usage();
 		NUMBER_WORDS_ERROR;
@@ -2410,10 +2407,10 @@ draw_patchesCmd()
 	dx2 = dx / 2.0;
 	dy2 = dy / 2.0;
 	set_environment();
-	int i_max = _colX.size();
+	unsigned int i_max = _colX.size();
 	static GriPath p(5);
 	GriColor gray_level;
-	for (i = 0; i < i_max; i++) {
+	for (unsigned int i = 0; i < i_max; i++) {
 		p.clear();
 		double          xl, yb, xr, yt;
 		if (!gr_missingx((double) *xp)
@@ -2607,12 +2604,12 @@ draw_valuesCmd()
 	double *xp = _colX.begin();
 	double *yp = _colY.begin();
 	double *zp = _colZ.begin();
-	int num = _colX.size();
+	unsigned int num = _colX.size();
 	double          xcm, ycm;
 	double          xcm_last = 0.0, ycm_last = 0.0; // assignment calms compiler
 	bool first = true;
 	GriString label;
-	for (int i = 0; i < num; i++) {
+	for (unsigned int i = 0; i < num; i++) {
 		if (!gr_missing(*zp) && !gr_missingx(*xp) && !gr_missingy(*yp) && inside_box(*xp, *yp)) {
 			gr_usertocm(*xp, *yp, &xcm, &ycm);
 			xcm += dx_cm;
@@ -2756,7 +2753,6 @@ draw_x_box_plotCmd()
 	double          lower_adjacent_value;	      // whisker<q1 
 	double          iqr;			      // interquartile range 
 	double          upper, lower;		      // temporary boundaries 
-	unsigned int    i;
 	double          xcm, ycm;
 	// See if data exist
 	if (!_columns_exist) {
@@ -2841,7 +2837,7 @@ draw_x_box_plotCmd()
 	lower_adjacent_value = q1 + 1;	// will be min between q3 and upper 
 	upper = q3 + 1.5 * iqr;	// upper fence 
 	lower = q1 - 1.5 * iqr;	// lower fence 
-	for (i = 0; i < _colX.size(); i++) {
+	for (unsigned int i = 0; i < _colX.size(); i++) {
 		double           x = _colX[i];
 		if (x > q3 && x < upper && x > upper_adjacent_value)
 			upper_adjacent_value = x;
@@ -2869,7 +2865,7 @@ draw_x_box_plotCmd()
 	// draw outliers > q3
 	lower = q3 + 1.5 * iqr;
 	upper = q3 + 3.0 * iqr;
-	for (i = 0; i < _colX.size(); i++) {
+	for (unsigned int i = 0; i < _colX.size(); i++) {
 		double           val = _colX[i];
 		if (val > lower) {
 			gr_usertocm(val, y, &xcm, &ycm);
@@ -2882,8 +2878,8 @@ draw_x_box_plotCmd()
 	// draw outliers < q1
 	lower = q1 - 3.0 * iqr;
 	upper = q1 - 1.5 * iqr;
-	for (i = 0; i < _colX.size(); i++) {
-		double           val = _colX[i];
+	for (unsigned int i = 0; i < _colX.size(); i++) {
+		double val = _colX[i];
 		if (val < upper) {
 			gr_usertocm(val, y, &xcm, &ycm);
 			if (val >= lower)	// minor outlier 
@@ -2906,12 +2902,11 @@ draw_y_box_plotCmd()
 	double          old_symbol_size = gr_currentsymbolsize_pt(); // store old 
 	double          size_cm = 0.5;                 // box size 
 	double          x;				   // location 
-	double           q1, q2, q3;			   // quartiles 
-	double           upper_adjacent_value;	   // whisker>q3 
-	double           lower_adjacent_value;	   // whisker<q1 
-	double           iqr;			   // interquartile range 
-	double           upper, lower;		   // temporary boundaries 
-	unsigned int     i;
+	double          q1, q2, q3;			   // quartiles 
+	double          upper_adjacent_value;	   // whisker>q3 
+	double          lower_adjacent_value;	   // whisker<q1 
+	double          iqr;			   // interquartile range 
+	double          upper, lower;		   // temporary boundaries 
 	double          xcm, ycm;
 	// See if data exist
 	if (!_columns_exist) {
@@ -2995,8 +2990,8 @@ draw_y_box_plotCmd()
 	lower_adjacent_value = q1 + 1; // will be min between q3 and upper 
 	upper = q3 + 1.5 * iqr;	   // upper fence 
 	lower = q1 - 1.5 * iqr;	   // lower fence 
-	for (i = 0; i < _colY.size(); i++) {
-		double           y = _colY[i];
+	for (unsigned int i = 0; i < _colY.size(); i++) {
+		double y = _colY[i];
 		if (y > q3 && y < upper && y > upper_adjacent_value)
 			upper_adjacent_value = y;
 		if (y < q1 && y > lower && y < lower_adjacent_value)
@@ -3024,8 +3019,8 @@ draw_y_box_plotCmd()
 	lower = q3 + 1.5 * iqr;
 	upper = q3 + 3.0 * iqr;
 	gr_setsymbolsize_cm(FRAC * size_cm);
-	for (i = 0; i < _colY.size(); i++) {
-		double           val = _colY[i];
+	for (unsigned int i = 0; i < _colY.size(); i++) {
+		double val = _colY[i];
 		if (val > lower) {
 			gr_usertocm(x, val, &xcm, &ycm);
 			if (val <= upper)	// minor outlier 
@@ -3037,8 +3032,8 @@ draw_y_box_plotCmd()
 	// Draw outliers < q1
 	lower = q1 - 3.0 * iqr;
 	upper = q1 - 1.5 * iqr;
-	for (i = 0; i < _colY.size(); i++) {
-		double           val = _colY[i];
+	for (unsigned int i = 0; i < _colY.size(); i++) {
+		double val = _colY[i];
 		if (val < upper) {
 			gr_usertocm(x, val, &xcm, &ycm);
 			if (val >= lower)	// minor outlier 

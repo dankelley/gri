@@ -250,15 +250,15 @@ static operator_name is_oper(const char *w);
 static operand_type is_operand(const char *w, double *operand);
 bool            rpn_create_function(char *name, char ** w, unsigned int nw);
 static unsigned int rpn_which_function(const char *w);
-int             rpn(int nw, char **w, char ** result);
+int             rpn(unsigned int nw, char **w, char ** result);
 static bool     do_operation(operator_name oper);
 
 int
-rpn(int nw, char **w, char ** result)
+rpn(unsigned int nw, char **w, char ** result)
 {
 	if (((unsigned) superuser()) & FLAG_RPN) {
 		printf("%s:%d called rpn(", __FILE__,__LINE__);
-		for (int i=0; i < nw - 1; i++)
+		for (unsigned int i=0; i < nw - 1; i++)
 			printf(" '%s',",w[i]);
 		printf(" '%s')\n", w[nw-1]);
 	}
@@ -1207,7 +1207,7 @@ do_operation(operator_name oper)
 		NEED_ON_STACK(2);
 		RpnItem         old;	// cannot do old=... here
 		old = rS[rS.size() - 1];
-		for (int i = rS.size() - 1; i > 0; i--)
+		for (unsigned int i = rS.size() - 1; i > 0; i--)
 			rS[i] = rS[i - 1];
 		rS[0] = old;
 		return true;
@@ -1382,7 +1382,7 @@ do_operation(operator_name oper)
 		rS.pop_back();
 		return true;
 	} 
-
+	
 	if (oper == XYCMTOUSER) {	// should check for missingvalue?
 		NEED_IS_TYPE(2, NUMBER);
 		set_x_scale();

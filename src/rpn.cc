@@ -6,7 +6,7 @@
 #include	"extern.hh"
 #define BEGIN_MATH "{"
 #define END_MATH   "}"
-extern int      rpn(int nw, char **w, char ** result); // in rpncalc.cc
+extern int      rpn(unsigned int nw, char **w, char ** result); // in rpncalc.cc
 
 bool
 rpnfunctionCmd()

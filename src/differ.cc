@@ -12,7 +12,6 @@ bool            differentiateCmd(void);
 bool
 differentiateCmd()
 {
-	unsigned int i, j;
 	switch (_nword) {
 	case 4:
 		if (!strcmp(_word[2], "wrt") && !strcmp(_word[1], "grid")) {
@@ -29,8 +28,8 @@ differentiateCmd()
 				}
 				std::vector<bool> ok((size_t)_num_xmatrix_data, false);
 				std::vector<double> tmp((size_t)_num_xmatrix_data, 0.0);
-				for (j = 0; j < _num_ymatrix_data; j++) {
-					for (i = 1; i < _num_xmatrix_data - 1; i++) {
+				for (unsigned int j = 0; j < _num_ymatrix_data; j++) {
+					for (unsigned int i = 1; i < _num_xmatrix_data - 1; i++) {
 						if (_legit_xy(i - 1, j) == true
 						    && _legit_xy(i + 1, j) == true
 						    && _xmatrix[i + 1] != _xmatrix[i - 1]) {
@@ -41,7 +40,7 @@ differentiateCmd()
 							ok[i] = false;
 						}
 					}
-					for (i = 1; i < _num_xmatrix_data - 1; i++) {
+					for (unsigned int i = 1; i < _num_xmatrix_data - 1; i++) {
 						_f_xy(i, j) = tmp[i];
 						if (ok[i] == true) {
 							_f_xy(i, j) = tmp[i];
@@ -63,8 +62,8 @@ differentiateCmd()
 				}
 				std::vector<bool>   ok((size_t)_num_ymatrix_data, false);
 				std::vector<double> tmp((size_t)_num_ymatrix_data, 0.0);
-				for (i = 0; i < _num_xmatrix_data; i++) {
-					for (j = 1; j < _num_ymatrix_data - 1; j++) {
+				for (unsigned int i = 0; i < _num_xmatrix_data; i++) {
+					for (unsigned int j = 1; j < _num_ymatrix_data - 1; j++) {
 						if (_legit_xy(i, j - 1) == true
 						    && _legit_xy(i, j + 1) == true
 						    && _ymatrix[j + 1] != _ymatrix[j - 1]) {
@@ -75,7 +74,7 @@ differentiateCmd()
 							ok[j] = false;
 						}
 					}
-					for (j = 1; j < _num_ymatrix_data - 1; j++) {
+					for (unsigned int j = 1; j < _num_ymatrix_data - 1; j++) {
 						if (ok[j] == true) {
 							_f_xy(i, j) = tmp[j];
 							_legit_xy(i, j) = true;
@@ -108,7 +107,7 @@ differentiateCmd()
 				}
 				if (!strcmp(_word[3], "index")) {
 					// `differentiate x wrt index'
-					for (i = 1; i < _colX.size(); i++) {
+					for (unsigned int i = 1; i < _colX.size(); i++) {
 						double x0 = _colX[i];
 						double xleft = _colX[i - 1];
 						if (!gr_missingx(x0) && !gr_missingx(xleft)) {
@@ -119,7 +118,7 @@ differentiateCmd()
 					}
 				} else if (!strcmp(_word[3], "y")) {
 					// `differentiate x wrt y'
-					for (i = 1; i < _colX.size(); i++) {
+					for (unsigned int i = 1; i < _colX.size(); i++) {
 						double x0 = _colX[i];
 						double xleft = _colX[i - 1];
 						double y0 = _colY[i];
@@ -151,7 +150,7 @@ differentiateCmd()
 				}
 				if (!strcmp(_word[3], "index")) {
 					// `differentiate y wrt index'
-					for (i = 1; i < _colY.size(); i++) {
+					for (unsigned int i = 1; i < _colY.size(); i++) {
 						double y0 = _colY[i];
 						double yleft = _colY[i - 1];
 						if (!gr_missingy(y0) && !gr_missingy(yleft)) {
@@ -162,7 +161,7 @@ differentiateCmd()
 					}
 				} else if (!strcmp(_word[3], "x")) {
 					// `differentiate y wrt x'
-					for (i = 1; i < _colY.size(); i++) {
+					for (unsigned int i = 1; i < _colY.size(); i++) {
 						double x0 = _colX[i];
 						double xleft = _colX[i - 1];
 						double y0 = _colY[i];

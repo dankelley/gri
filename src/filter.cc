@@ -55,8 +55,8 @@ filter_gridCmd()
 	nab = nab / 2;
 	std::vector<double> a((size_t)nab, 0.0);
 	std::vector<double> b((size_t)nab, 0.0);
-	unsigned int i, row, col;
-	for (i = 0; i < (unsigned int) nab; i++) {
+	unsigned row, col;
+	for (unsigned int i = 0; i < (unsigned int) nab; i++) {
 		a[i] = atof(_word[4 + i]);
 		b[i] = atof(_word[4 + i + nab]);
 	}
@@ -94,9 +94,8 @@ filter_gridCmd()
 bool
 filter_columnCmd()
 {
-	int             i;
-	int             nab;	// number of a, b coefficients
-	int             num = 0;	// length of column
+	unsigned int nab;	// number of a, b coefficients
+	unsigned int num = 0;	// length of column
 	Require(_nword > 3,
 		NUMBER_WORDS_ERROR);
 	Require(word_is(3, "recursively"),
@@ -134,14 +133,14 @@ filter_columnCmd()
 	nab = nab / 2;
 	std::vector<double> a((size_t)nab, 0.0);
 	std::vector<double> b((size_t)nab, 0.0);
-	for (i = 0; i < nab; i++) {
+	for (unsigned int i = 0; i < nab; i++) {
 		a[i] = atof(_word[4 + i]);
 		b[i] = atof(_word[4 + i + nab]);
 	}
 	double *copy = (double*)NULL;
 	GET_STORAGE(copy, double, (size_t)num);
 	filter_butterworth(orig, copy, num, a, b);
-	for (i = 0; i < num; i++)
+	for (unsigned int i = 0; i < num; i++)
 		orig[i] = copy[i];
 	free(copy);
 	return true;

@@ -749,16 +749,15 @@ set_z_missingCmd()
 		return false;
 	}
 	double missing = gr_currentmissingvalue();
-	unsigned int i;
 	switch (where) {
 	case above:
-		for (i = 0; i < _colX.size(); i++) {
+		for (unsigned int i = 0; i < _colX.size(); i++) {
 			if (_colY[i] > intercept + slope * _colX[i])
 				_colZ[i] = missing;
 		}
 		break;
 	case below:
-		for (i = 0; i < _colX.size(); i++) {
+		for (unsigned int i = 0; i < _colX.size(); i++) {
 			if (_colY[i] < intercept + slope * _colX[i])
 				_colZ[i] = missing;
 		}
@@ -1992,8 +1991,9 @@ set_grid_missing_curve(bool inside)
 		err("'set grid missing outside curve' not allowed");
 		return false;
 	}
-	unsigned int i, start = 0;
-	for (i = 0; i < _colX.size(); i++) {
+	unsigned int imax = 0, start = 0;
+	for (unsigned int i = 0; i < _colX.size(); i++) {
+		imax = i;
 		if (gr_missingx(_colX[i]) 
 		    || gr_missingy(_colY[i])
 		    || i > _colX.size() - 1) {
@@ -2006,10 +2006,10 @@ set_grid_missing_curve(bool inside)
 			start = i;
 		}
 	}
-	if (i <= _colX.size()) {
+	if (imax <= _colX.size()) {
 		mask_an_island(_colX.begin() + start,
 			       _colY.begin() + start, 
-			       i - start);
+			       imax - start);
 	}
 	return true;
 }
