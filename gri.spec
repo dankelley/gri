@@ -97,6 +97,8 @@ fi
 
 %changelog
 * Sat Jan  8 2005 <Dan.Kelley@Dal.Ca>
+Fix SourceForge bug 835711 ('draw gri logo' fails)
+* Sat Jan  8 2005 <Dan.Kelley@Dal.Ca>
 Fix SourceForge bug 875881 (failed compilation with gcc 2.95.3)
 * Sat Jan  8 2005 <Dan.Kelley@Dal.Ca>
 Fix SourceForge bug 867515 (problem with junk in images)

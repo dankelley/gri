@@ -16472,6 +16472,11 @@ only in the fixing of bugs.
 
 @item
 Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=835711&group_id=5511&atid=105511,#835711}
+@dots{} @code{draw gri logo} fails.
+
+@item
+Fix SourceForge bug
 @uref{http://sourceforge.net/tracker/index.php?func=detail&aid=1098269&group_id=5511&atid=105511,#1098269}
 @dots{} problem compiling on AMD64 machine.  (Solution provided by Andreas Jochens, a Debian user.)
 

@@ -21,7 +21,7 @@ BUILDING A LOCAL GRI FOR FINK
 
 4. Build it, install it, test it
   cd /sw/fink/dists/local/main/finkinfo
-  fink erase gri
+  fink delete gri
   fink rebuild gri
   fink install gri
   fink validate /sw/fink/debs/gri_2.12.10-1_darwin-powerpc.deb 
