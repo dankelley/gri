@@ -5,7 +5,7 @@
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.39 (20 Feb 2001)
+;; Version:   2.40 (20 Feb 2001)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -358,6 +358,7 @@
 ;; V2.37 15Feb01 RCS 1.62 - modify syntax table for strings with embedded "
 ;; V2.38 20Feb01 RCS 1.63 - add display of defaults after completion (>= 2.6.0)
 ;; V2.39 20Feb01 RCS 1.64 - add imenu support.
+;; V2.40 20Feb01 RCS 1.65 - add gri-idle-display-defaults.
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -400,6 +401,10 @@ See the gri-mode.el file itself for more information.")
 ;; The folowing are user-configurable variables which can be set in the 
 ;; user's .emacs file to change the behaviour of gri-mode
 ;; They can be set using the customize interface:  M-x gri-customize
+
+  (defvar gri-idle-display-defaults
+    (and (fboundp 'run-with-idle-timer) window-system)
+    "*t means to display function defaults under point when Emacs is idle.")
 
   (defvar gri-menubar-cmds-action 'Info
     "Default action to do on listed Gri command in Cmds menu-bar menu.
@@ -535,6 +540,12 @@ for the `gri-set-version' command to switch between gri versions.
 See the gri-mode.el file itself for more information."
     :group 'gri
     :type '(choice (directory) (repeat directory)))
+
+  (defcustom gri-idle-display-defaults
+    (and (fboundp 'run-with-idle-timer) window-system)
+    "*t means to display function defaults under point when Emacs is idle."
+    :group 'gri
+    :type 'boolean)
 
   (defcustom gri-menubar-cmds-action 'Info
     "Default action to do on listed Gri command in Cmds menu-bar menu.
@@ -1448,6 +1459,49 @@ Used for gri-display-syntax."
           (buffer-substring (point) 
                             (progn (end-of-line)(point))))))))
 
+(defun gri-syntax-default-this-command ()
+  "Returns default settings for multi-line gri command on point.
+Return: nil if the command is not found
+          0 if there is no default setting to display
+        else return the string
+Used for gri-display-default-syntax."
+  (save-excursion
+    (let ((the-command (gri-isolate-this-command nil)))
+      (gri-lookat-syntax-file 2)
+      (let ((the-start (point)))
+        (while (and (not (re-search-forward
+                          (concat "^" the-command "\\(;\\|(\\)") nil t))
+                    (progn (setq the-command 
+                                 (gri-shorten-guess-command the-command " "))
+                           the-command)))
+        (if (= (point) the-start)
+            nil
+          (forward-char -1)
+          (if (not (looking-at "("))
+              0
+            (forward-char 1)
+            (concat the-command ": "
+                    (buffer-substring (point) 
+                                      (progn
+                                        (re-search-forward ");" nil t)
+                                        (forward-char -2)
+                                        (point))))))))))
+
+(defun gri-idle-function ()
+  "Run whenever Emacs is idle to display function defaults."
+  (if (eq major-mode 'gri-mode)
+      (let ((default-string (gri-syntax-default-this-command)))
+        (if (stringp default-string)
+            (message "%s" default-string)))))
+
+(if gri-idle-display-defaults
+    (setq gri-idle-timer
+          (run-with-idle-timer 2 t 'gri-idle-function)))
+
+;;; To cancel:
+;; (cancel-timer gri-idle-timer)
+;; (setq gri-idle-timer nil)))
+
 (defun gri-prompt-for-command (user-flag)
   "Prompt user for gri command name, providing minibuffer completion.
 Allow user commands if ARG is t."
@@ -1665,7 +1719,6 @@ Display message if no help text supplied."
         (kill-buffer tmp-buffer))
       the-string)))
 
-
 (defun gri-display-syntax ()
   "Displays (in minibuffer) the full syntax of the gri command on point.
 The gri command may span many line, e.g.
@@ -1678,8 +1731,14 @@ The gri command may span many line, e.g.
     draw x axis [at bottom|top|{.y. [cm]} [lower|upper]]
   in the minibuffer."
   (interactive)
-  (message (gri-syntax-this-command)))
+  (message "%s" (gri-syntax-this-command)))
 
+(defun gri-display-default ()
+  "Displays (in minibuffer) the default settings for the gri command on point.
+Note that only a small subset of commands have such defaults.  These are
+usually command with the keyword \"default\" in their syntax."
+  (interactive)
+  (message "%s" (gri-syntax-default-this-command)))
 
 (defun gri-build-expansion-regex ()
   "Returns regular expression for abbreviated gri command on current line."
@@ -4411,7 +4470,7 @@ static char *magick[] = {
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.39 (c) 18 Feb 2001 --  Peter Galbraith <psg@debian.org>
+V2.40 (c) 18 Feb 2001 --  Peter Galbraith <psg@debian.org>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
