@@ -1009,13 +1009,13 @@ fatal_err(const char *string,...)
 	if (superuser() & FLAG_AUT1) {
 		// Remove quotes around source indicator
 		extern char source_indicator[];
-		sprintf(msg, " Error detected at %s\n", source_indicator);
+		sprintf(msg, " Error at %s\n", source_indicator);
 	} else {
 		if (block_level() > 0) {
 			if (block_source_file() != NULL) {
 				if (superuser() & FLAG_AUT1)printf("DEBUG utility.cc:fatal_err(): block_source_line()=%d\n",block_source_line());
 				sprintf(msg,
-					" Error detected at %s:%d\n",
+					" Error at %s:%d\n",
 					block_source_file(),
 					block_source_line() - 1);
 				gr_textput(msg);
@@ -1023,7 +1023,7 @@ fatal_err(const char *string,...)
 		} else {
 			if (what_file() != NULL) {
 				sprintf(msg,
-					" Error detected at %s:%d\n",
+					" Error at %s:%d\n",
 					what_file(),
 					what_line());
 				gr_textput(msg);

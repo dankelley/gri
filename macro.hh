@@ -16,14 +16,20 @@
     printf("\n");                                               \
 }
 
-// If 'condition' is untrue, perform action and return false
+// If 'condition' is false, perform action (typically warning).
+#define SUGGEST(condition, action_if_not) {			\
+    if (!(condition)) {						\
+        action_if_not;						\
+    }								\
+}
+// If 'condition' is untrue, perform action (typically err) and return false
 #define Require(condition, action_if_not) {			\
     if (!(condition)) {						\
         action_if_not;						\
         return false;						\
     }								\
 }
-// If 'condition' is untrue, perform action and return void
+// If 'condition' is untrue, perform action (typically error) and return void
 #define Require2(condition, action_if_not) {			\
     if (!(condition)) {						\
         action_if_not;						\

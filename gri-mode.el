@@ -2787,7 +2787,7 @@ Usually used to send debugging flags."
             (setq display-buffer-p t))
         ;;Error detected at /home/rhogee/new/paper/enlarged_map.gri:42
         (if (re-search-forward 
-             "Error detected at \\([^:]+\\):\\([0-9]+\\)" nil t)
+             "Error \\(detected\\)? at \\([^:]+\\):\\([0-9]+\\)" nil t)
             (setq efile (buffer-substring (match-beginning 1)(match-end 1))
                   eline (string-to-int 
                          (buffer-substring (match-beginning 2)(match-end 2)))))
