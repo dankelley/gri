@@ -8,6 +8,12 @@ print "
 \@c HTML <!-- newfile BuiltinIndex.html \"Gri: Builtin Index\" \"Builtin Index\" -->
 \@c HTML <h1>Builtin index</h1>
 \@node   Index of Builtins, Concept Index, Index of Commands, Top
+
+\@c HTML <b>Navigation</b>:
+\@c HTML <a href=\"#ConceptIndex\">next</a>,
+\@c HTML <a href=\"#CommandIndex\">previous</a>,
+\@c HTML <a href=\"#Top\">parent</a>.
+
 \@itemize \@bullet
 ";
 
