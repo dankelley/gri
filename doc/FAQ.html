@@ -6,7 +6,7 @@
 <h1> Introduction</h1>
 
 This is the FAQ ("frequently asked questions") document for the Gri
-scientific graphing language, (c) 1991-2000 Dan Kelley <A
+scientific graphing language, (c) 1991-2001 Dan Kelley <A
 HREF="http://www.phys.ocean.dal.ca/~kelley">
 (<CODE>Dan.Kelley@Dal.Ca</CODE>)</A>, to whom you are asked to <A
 HREF="mailto:Dan.Kelley@Dal.Ca"> email</A> reports of Gri errors, or
@@ -230,31 +230,23 @@ of work you do.
 <A HREF="#Q2.1"><h3>A2.1 Is there a quick-reference card for Gri?</h3></A>
 
 <p> Yes, two quick-reference cards are stored on the 
-FTP site
-<A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri">
-<code>ftp://ftp.phys.ocean.dal.ca/users/kelley/gri</code>.
+Gri development site
+<A HREF="http://gri.sourceforge.net">
+<code>http://gri.sourceforge.net</code>,
 </A>
-The PostScript file <code>refcard.ps</code>
-is an overview of Gri syntax and usage, while
-<code>cmdrefcard.ps</code> is a full list of Gri commands.  Each of
-these files is also available in TeX format.
-
-
+and these are also installed when gri is installed.
 <p> 
 <A NAME="A2.2"></A>
 <A HREF="#Q2.2"><h3>A2.2 Where can I get documentation for Gri?</h3></A>
 
-<p> Full documentation is available in several forms on the FTP site
-<A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri">
-<code>ftp://ftp.phys.ocean.dal.ca/users/kelley/gri</code>.
+<p> Full documentation is available in several forms on the Gri 
+development site
+Gri development site
+<A HREF="http://gri.sourceforge.net">
+<code>http://gri.sourceforge.net</code>,
 </A>
 Check out the FAQ file (which you are
-reading now), <CODE>cmdrefcard.ps</CODE> (a PostScript reference card
-listing all Gri commands), <CODE>refcard.ps</CODE> (a PostScript
-reference card overviewing Gri), and a file called something like
-<CODE>gri_manual_2.051.tar.gz</CODE> (which is a complete PostScript
-manual including figures).  To save time and paper, you should look at
-the FAQ and the two reference cards first.
+reading now), reference cards (see previous answer), etc.
 
 <P> The Gri manual is available on the WWW (world wide web) at the URL
 <a href="http://gri.sourceforge.net/gridoc/html/index.html">
@@ -279,48 +271,30 @@ http://gri.sourceforge.net/gri-cookbook/index.html
 <p> Gri has several email-type and web-type forums for discussions.
 
 <p>
-Until recently, the only such forum was a majordomo-based email list,
-to which one subscribed by sending to <A
-HREF="mailto:majordomo@phys.ocean.dal.ca"><CODE>majordomo@phys.ocean.dal.ca</CODE></A>
-a message containing just the two words <code>subscribe gri</code>,
-and to which one contributed by mailing to <a
-HREF="mailto:gri@phys.ocean.dal.ca"><CODE>gri@phys.ocean.dal.ca</CODE></A>.
+An email list (using GNU mailman technology) is available.  You may
+subscribe, or view archives of messages at
+<a href="http://www.phys.ocean.dal.ca/mailman/listinfo/gri">
+<tt>
+http://www.phys.ocean.dal.ca/mailman/listinfo/gri
+</tt>
+</a>
 
 <p>
-However, in summer 2000 Gri got a much better suite of newsgroups, on
-the
-<a href="http://sourceforge.net/forum/?group_id=5511">
-SourceForge Gri site </a>.  Since these newsgroups are archived 
-and threaded, they are a better resource than the majordomo group
-mentioned in the last paragraph.
+There are also various types of discussion groups at the Gri
+development site
+<A HREF="http://gri.sourceforge.net">
+<code>http://gri.sourceforge.net</code>,
+</A>
+
+
 
 <p> 
 <A NAME="A2.5"></A>
 <A HREF="#Q2.5"><h3>A2.5 Where can I get some sample Gri input files?</h3></A>
 
-<p> You can get them from the anonymous FTP at
-<A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri">
-<code>ftp://ftp.phys.ocean.dal.ca/users/kelley/gri</code>.
-</A>
-It is in the compressed tarfile with the
-word 'example' contained in it.  The file is compressed with the
-program "gzip," so you'll type
-<pre>
-	gunzip gri-examples-2.1.10.tar.gz
-	tar xvf  gri-examples-2.1.10.tar
-</pre>
-(where 2.1.10 will be changed to the current version number), and the
-tar program will create a directory called 'examples' which contains
-the example .gri programs and datafiles.  The 'examples' directory
-also contains subdirectories with names that reflect computer names
-(e.g., SGI, SUN4).  To get run gri on all the examples, go into the
-appropriate subdirectory and type 'make examples'.  For example:
-<pre>
-	cd examples/SUN4
-	make examples
-</pre>
-creates files <code>examples/SUN4/example1.ps</code>,
-<code>examples/SUN4/example2.ps</code>, etc.
+Sample files are scattered throughout the Gri manual and cookbook; the
+manual also contains a test-suite that you may find helpful in
+learning the language syntax, especially for programming.
 
 
 
@@ -765,12 +739,11 @@ offending line in the Gri editing buffer.
 <A NAME="A5.1"></A>
 <A HREF="#Q5.1"><h3>A5.1 Where can I get the latest version of Gri?</h3></A>
 
-Gri is available at the  anonymous FTP site 
-<A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri">
-<code>ftp://ftp.phys.ocean.dal.ca/users/kelley/gri</code>.
+Gri is available at the
+Gri development site
+<A HREF="http://gri.sourceforge.net">
+<code>http://gri.sourceforge.net</code>,
 </A>
-Instructions there will tell you what to do, but it should be obvious
-if you've used FTP before.
 
 
 <p>
@@ -1021,11 +994,17 @@ available
 <A NAME="Q6.5"></A>
 <A HREF="#Q6.5"><h3>A6.5 Is there a DOS/Windows version of Gri?</h3></A>
 
-<P> There is a version available for DOS, available at the normal Gri
-FTP site, <A
-HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri">
-<code>ftp://ftp.phys.ocean.dal.ca/users/kelley/gri</code></A>, and copy
-another at the anonymous FTP site 
+<P> There may or may not be a DOS/windows version at
+the Gri development site
+<A HREF="http://gri.sourceforge.net">
+<code>http://gri.sourceforge.net</code>,
+</A>
+depending on whether somebody with a PC has sent me a copy lately.
+(This FAQ is not kept up-to-date in this regard).
+
+<p>
+At some time in the past, a version was available at
+the anonymous FTP site 
 <a href="ftp://shiho.tokyo-u-fish.ac.jp/pub/msdos/gri">
 <code>
 ftp://shiho.tokyo-u-fish.ac.jp/pub/msdos/gri
@@ -1034,8 +1013,10 @@ ftp://shiho.tokyo-u-fish.ac.jp/pub/msdos/gri
 with filename of the form <code>gri2025b.zip</code> where 2025 refers
 to the version name.  This binary version was prepared and very kindly
 shared by Toru Suzuki <a href="mailto:toru@shiho.tokyo-u-fish.ac.jp">
-<code>toru@shiho.tokyo-u-fish.ac.jp</code></a>.  Together with the distribution comes a file called <code>README</code>, which tells how to install and use Gri in an msdos context.
-
+<code>toru@shiho.tokyo-u-fish.ac.jp</code></a>.  Together with the
+distribution comes a file called <code>README</code>, which tells how
+to install and use Gri in an msdos context.  There may be updates for
+newer versions there also; I'm not involved in this work.
 
 <p> Also, see the Gri manual under the heading 
 <A HREF="http://gri.sourceforge.net/gridoc/html/msdos-install.html#Msdos-install">
@@ -1062,12 +1043,12 @@ Program Manager) version of Gri exists, so that installing it takes
 just one line of typing, or one mouse-click in the RPM GUI-based
 installer called `<tt>glint</tt>'.  requires just one line of typing.
 
-<p> The RPM (RedHat Package Manager) version exists at FTP site <A
-HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri"> <code>
-ftp://ftp.phys.ocean.dal.ca/users/kelley/gri </code></a> in a file
-with a name such as `<code>gri-2.1.17-1.i386.rpm</code>' (RedHat
-readers will know immediately what all the numbers and dots stand
-for!)  Once you've downloaded this, install Gri by typing
+<p> The RPM (RedHat Package Manager) version exists at the
+Gri development site
+<A HREF="http://gri.sourceforge.net">
+<code>http://gri.sourceforge.net</code>,
+</a>
+Once you've downloaded this, install Gri by typing
 <pre>
     rpm -i gri-2.1.17-1.i386.rpm
 </pre>
