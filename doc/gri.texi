@@ -9728,10 +9728,17 @@ Possibilities are:
     [binary [uchar|8bit|int|float|double|16bit]]'
 @end example
 @noindent
-The first three forms work on data files.  Use double-quotes around
-filenames with punctuation in them (e.g. @code{open "../data"}).  Files
-may be ascii (the default), binary or -- on systems with the
-@code{netCDF} libraries installed -- in the @code{netCDF} format.
+The first three forms work on data files.  In these, the symbol
+@code{\filename} stands for a filename.
+
+@emph{Important} You must use double-quotes around filenames with
+punctuation in them (e.g. @code{open "../data"} or @code{open
+"a-z.dat"}).  Many users put double quotes around all filenames in open
+commands, as a matter of habit.
+
+Files may be ascii (the default) or binary.  On systems with the
+@code{netCDF} libraries installed, they may also be in the @code{netCDF}
+format.
 
 @cindex compressed files, opening
 @cindex gzipped files, opening
