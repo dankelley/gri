@@ -8,6 +8,9 @@ print OUT "<head>\n";
 print OUT "<title>$ARGV[0].gri</title>\n";
 print OUT "</head>\n";
 print OUT "<body bgcolor=\"#FFFFFF\">\n";
+print OUT "<i># This html document was prepared by gri2html based on the Gri script named</i>\n";
+print OUT "<br><i>#    <a href=\"$ARGV[0].gri\">$ARGV[0].gri</a></i>\n";
+print OUT "<br># <i>Gri is available for free at <a href=\"http://gri.sourceforge.net\">http://gri.sourceforge.net</a></i>\n";
 print OUT "<pre>\n";
 
 while(<IN>) {
