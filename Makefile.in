@@ -1,5 +1,5 @@
 #VERSION = `head -1 version`
-VERSION = 2.5.3
+VERSION = 2.5.4
 
 #### Start of system configuration section. ####
 # Prototype Gri Makefile.  Developers - read first few lines for instructions.

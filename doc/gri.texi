@@ -52,7 +52,7 @@
 @comment %**start of header
 @setfilename gri.info
 @settitle Gri
-@set GRI-VERSION 2.5.3
+@set GRI-VERSION 2.5.4
 @set AUTHOR-EMAIL Dan.Kelley@@Dal.CA
 @c %**end of header
 @iftex
@@ -13282,13 +13282,14 @@ GS> quit
 @cindex gri-mode, editing in emacs
 
 If you use the GNU Emacs (or XEmacs) text editor, writing Gri command
-files is made easier by using the Gri editing mode (gri-mode.el),
+files is made easier with the Gri editing mode (gri-mode.el),
 written by Peter S. Galbraith
 @c HTML <A HREF="mailto:Peter S Galbraith <psg@debian.org>">
 @code{<psg@@debian.org>}.
 @c HTML </A>
 
-Here's a brief overview of gri-mode features:
+It has all the wonderful things you've come to expect from Emacs modes.
+Here's a brief overview of the features:
 @itemize @bullet
 @item
 It can @emph{complete} partially typed commands (@code{gri-complete},
@@ -13480,12 +13481,17 @@ and gri-mode.el works with all of these various methods.  If you use gri
 from a Linux package (Debian or Red Hat) or compiled yourself using the
 default configuration, you won't need to do much.
 
-To install @file{gri-mode.el}, follow these 4 steps:
+To install @file{gri-mode.el}, follow these 4 steps.  If gri-mode is
+already installed, you can skip the first two steps and move on to the
+last two, in which you tell Emacs that you'd like to use Gri mode when
+you edit files that end in @file{.gri}, the Gri suffix.  (Actually, if
+you're using Debian linux, you can skip all of these steps since the
+system will assume that you want gri-mode if you're editing a Gri file.)
 
 @menu
 * Step 1::  Placing gri-mode.el where Emacs can find it.
 * Step 2::  Configuring gri-mode to where gri lives on your system.
-* Step 3::  Telling emacs to load gri-mode..
+* Step 3::  Telling emacs to load gri-mode
 * Step 4::  Extra user configuration of gri-mode.
 @end menu
 
@@ -13933,7 +13939,7 @@ access these various versions with the following gri-mode commands:
 
 @itemize @bullet
 @item
-@strong{@code{gri-set-version}}: 
+@code{gri-set-version}: 
 Tells gri-mode to use a given version as the default for all your gri
 files.  Tab completion is available listing all available versions (if
 they are not all listed, that means that the Emacs variable
@@ -13946,7 +13952,7 @@ may change after you update it) and deletes the
 @file{~/.gri-using-version} file.
 
 @item
-@strong{@code{gri-set-local-version}}: 
+@code{gri-set-local-version}: 
 Tells gri-mode to use a given version of gri this @emph{this} gri file
 (the one currently being edited when you invoke the command).  Tab
 completion is again available to list all available versions.  Your
@@ -14088,14 +14094,18 @@ First debian release.  Versions exist for intel, alpha, 68K and powerpc.
 
 
 @table @emph
+@item 2.5.4 [2000-Jun-01]
+Fix up some errors in manual (non-visible images in html form).
+
 @item 2.5.3 [2000-May-24]
 Add automatic support for compressed data files.  So far, this only
 works with gzipped files @xref{Open}.
 
-The manual gets a new section about the Emacs @file{gri-mode.el}
-complete with screenshots.  Additionally, HTML navigation tags are
-bettered, the gri code examples are HTML'ed with colour fontification,
-example images are now in Jpeg format instead of Gif.
+Improve the manual in various ways: (1) change the section about the
+Emacs @file{gri-mode.el} into a chapter, complete with screenshots; (2)
+improve the HTML navigation tags; (3) make the Gri code examples be
+color-coded for syntax; and (4) use Jpeg format for images instead of
+Gif format.
 
 @item 2.5.2 [2000-May-18]
 Add new features to @code{gri-mode.el}, bringing it up to version 2.25:
