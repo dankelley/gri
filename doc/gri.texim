@@ -12400,7 +12400,7 @@ no such small tics are used.
 @findex set x format
 @cindex @code{set x format} command
 @example
-`set x format \format|off
+`set x format \format|default|off
 @end example
 @noindent
 Set format for numbers on x axis.  The format is specified in the manner
@@ -12413,6 +12413,8 @@ To get spaces in your format, enclose the format string in
 double-quotes, e.g., you might use @code{set x format "%.0f$\circ$ W"}
 for a map, or @code{set x format "%f "} to make the numbers appear to
 the left of their normal location. 
+
+The default format is @code{%lg}.
 
 
 @node   Set X Grid, Set X Margin, Set X Format, Set
@@ -12598,7 +12600,7 @@ no such small tics are used.
 @findex set y format
 @cindex @code{set y format} command
 @example
-`set y format \format|off'
+`set y format \format|default|off'
 @end example
 @noindent
 Set format for numbers on y axis.  The format is specified in the manner
@@ -12613,6 +12615,7 @@ format, enclose the format string in double-quotes, e.g., you might use
 @code{set y format "%f"} to make the numbers appear to the right of
 their normal location.
 
+The default format is @code{%lg}.
 
 @node   Set Y Grid, Set Y Margin, Set Y Format, Set
 @comment  node-name,  next,  previous,  up
@@ -14680,7 +14683,11 @@ The next sections outline the changes made in Gri.
 @comment  node-name,  next,  previous,  up
 @subsection Version 2.6
 @table @emph
-@item 2.6.0 [2001-Jan-??] (Not released yet.)
+@item 2.6.0 [2001-month-day] (Not released yet.)
+@sp 1
+Add @code{default} option to @code{set x format} and 
+@code{set y format} commands.
+
 @sp 1
 Add @code{new postscript file} (@ref{New Postscript File}) command.
 

@@ -3705,7 +3705,7 @@ used.
     extern "C" bool set_x_axisCmd(void);
 }
 
-`set x format \format|off'
+`set x format \format|default|off'
 Set format for numbers on x axis.  The format is specified in the manner
 of the "C" programming language.  The "C" formats (i.e., `%f',
 `%e' and `%g') are permitted.  For example, `set x format %.1f'
@@ -3715,6 +3715,8 @@ write numbers on the axis.  To get spaces in your format, enclose the
 format string in double-quotes, e.g., you might use `set x format
 "%.0f$\circ$ W"' for a map, or `set x format "%f "' to make the
 numbers appear to the left of their normal location.
+
+The default format is `%lg'.
 {
     extern "C" bool set_x_formatCmd(void);
 }
@@ -3858,7 +3860,7 @@ small tics are used.
     extern "C" bool set_y_axisCmd(void);
 }
 
-`set y format \format|off'
+`set y format \format|default|off'
 Set format for numbers on y axis.  The format is specified in the manner
 of the "C" programming language.  The "C" formats (i.e., `%f',
 `%e' and `%g') are permitted.  For example, `set y format %.1f'
@@ -3868,6 +3870,8 @@ write numbers on the axis.  To get spaces in your format, enclose the
 format string in double-quotes, e.g., you might use `set y format
 "%.0f$\circ$ N"' for a map, or `set y format "   %f"' to make the
 numbers appear to the right of their normal location.
+
+The default format is `%lg'.
 {
     extern "C" bool set_y_formatCmd(void);
 }

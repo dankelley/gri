@@ -2699,9 +2699,11 @@ set_x_formatCmd()
 		err("Must specify a format for `set x format'");
 		return false;
 	}
-	if (!strcmp(_word[3], "off"))
+	if (!strcmp(_word[3], "off")) {
 		_xFmt.assign("");
-	else {
+	} else if (!strcmp(_word[3], "default")){
+		_xFmt.assign(X_FMT_DEFAULT);
+	} else {
 		if (*_word[3] == '"') {
 			int len = strlen(_word[3]);
 			if (len <= 1) {
@@ -3105,9 +3107,11 @@ bool
 set_y_formatCmd()
 {
 	Require(_nword > 3, err("Must specify a format for `set y format'"));
-	if (!strcmp(_word[3], "off"))
+	if (!strcmp(_word[3], "off")) {
 		_yFmt.assign("");
-	else {
+	} else if (!strcmp(_word[3], "default")){
+		_yFmt.assign(Y_FMT_DEFAULT);
+	} else {
 		if (*_word[3] == '"') {
 			int len = strlen(_word[3]);
 			if (len <= 1) {
