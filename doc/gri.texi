@@ -1,7 +1,6 @@
 \input texinfo 
 
-
-@c $Id: gri.texi,v 1.143 2003/06/28 00:56:36 dankelley Exp $
+@c $Id: gri.texi,v 1.144 2003/07/05 14:53:39 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -13012,15 +13011,16 @@ Calculate the inverse cosine of 0.5, yielding 60 (degrees).
 Calculate the inverse hyperbolic cosine of 2, yielding 1.317.  (Note:
 argument must equal or exceed 1, or an error results.)
 
+@anchor{age-rpn-operator} 
 @item @{rpn "filename" age@}
 @cindex makefiles, emulating action with the @code{age} rpn operator
 @cindex file age, determined with the @code{age} rpn operator
 @cindex @code{age} rpn operator
 @cindex rpn operator @code{age}
-@anchor{age-rpn-operator}
 Calculate the ``age'' of the indicated file, in seconds.  An age of
 zero indicates that the file was created, or last modified, within 1
 second of the execution of the @code{age} operator.
+
 
 On unix (and similar) machines, the calculation is done on unix
 machines with the @code{stat()} subroutine.  On other machines, the

@@ -326,7 +326,7 @@ while(get_a_line()) {
 	while(get_a_line()) {
 	    next if /\@sp/;
 	    next if /\@cindex/;
-            s|\@anchor{([^}]*)}|<a name=\"$1\">&nbsp;</a>|g;
+            s|\@anchor{([^}]*)}|<a name=\"$1\"></a>|g;
 	    &process_examples();
 	    # Handle HTML inserts
 	    if (/^\@c HTML (.*)/o) {
@@ -406,7 +406,7 @@ sub process_examples() {
 sub sub_refs {
     die "line $. of file: cannot have multiple refs on one line" if (/\@[px]*ref{(.*)}(.*)\@[px]*ref{(.*)}/);
     # anchors
-    s|\@anchor{([^}]*)}|<a name=\"$1\">&nbsp;</a>|g;
+    s|\@anchor{([^}]*)}|<a name=\"$1\"></a>|g;
     # Change e.g. 
     #     @xref{Viewing}
     # into
