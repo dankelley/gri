@@ -98,8 +98,9 @@ class BlockSource
 {
 public:
 	BlockSource() {
+		filename.assign("");
 		line = 0;
-		offset = 0;
+		start = NULL;
 	}
 	BlockSource& operator=(const BlockSource& n) {
 #if defined(DEBUG)
@@ -107,7 +108,8 @@ public:
 #endif
 		filename = n.get_filename();
 		line = n.get_line();
-		offset =  n.get_offset();
+		start = n.get_start();
+		offset = n.get_offset();
 		return *this;
 	}
 	BlockSource(const BlockSource& n) {
@@ -116,29 +118,33 @@ public:
 #endif
 		filename = n.get_filename();
 		line = n.get_line();
-		offset =  n.get_offset();
+		start = n.get_start();
 	}
-	BlockSource(const char *the_filename, unsigned int the_line) {
+	BlockSource(const char* the_start, const char *the_filename, unsigned int the_line) {
 #if defined(DEBUG)
-		printf("DEBUG:gr_coll.hh BlockSource(%s,%d)\n",the_filename,the_line);
+		printf("DEBUG:gr_coll.hh BlockSource([see below],%s,%d)\n[%s]\n",the_filename,the_line,the_start);
 #endif
+		start = the_start;
 		filename = the_filename;
 		line = the_line;
-		offset = 0;		// ???
 	}
 	~BlockSource() {
-#if 0				// BUG 2001-feb-17 -- not sure on next 2 lines
-		filename.string::~string(); // not executed
-#endif
+		//filename.string::~string(); 2001-feb-17
 	}
-	void increment_offset()		{offset++;}
-	unsigned int get_offset()	const	{return offset;			}
-	const char *get_filename()	const	{return filename.c_str();	}
-	unsigned int get_line()		const	{return line;			}
+	void increment_line(unsigned int line_length) {
+		line++;                        
+		offset += line_length + 1; // the 1 is for newline
+	}
+	const char  *get_filename()	const	{return filename.c_str(); }
+	unsigned int get_line()		const	{return line; }
+	const char  *get_start()        const   {return start; }
+	unsigned int get_offset()       const   {return offset; }
+	void         move_offset(unsigned int o) {offset += o; }
 private:
-	string filename;		// File containing this src
-	unsigned int line;		// Line in that file
-	unsigned int offset;	// Offset from this line
+	string filename;	// Name of file containing this src
+	unsigned int line;	// Which line we're executing that file
+	const char* start;		// Points to next line to execute
+	unsigned int offset;	// Next line is at (start+offset)
 };
 
 // Operand types.

@@ -32,6 +32,20 @@ extern double   strtod(const char *, char **);
 static string tmp_string;
 
 bool
+get_nth_word(const string& s, unsigned int which, string& result)
+{
+	char *w[MAX_nword];	// BUG: wasteful
+	unsigned int nw;
+	char *cpy = strdup(s.c_str());
+	chop_into_words(cpy, w, &nw, MAX_nword);
+	if (nw <= which)
+		return false;
+	result.assign(w[which]);
+	free(cpy);
+	return true;
+}
+
+bool
 is_assignment_op(const char *s)
 {
 	if (!strcmp(s, "="))
@@ -135,7 +149,7 @@ remove_esc_quotes(char *w)
 bool
 word_is(int i, const char *word)
 {
-	return ((-1 < i && i < _nword && !strcmp(word, _word[i])) ? true : false);
+	return ((-1 < i && i < int(_nword) && !strcmp(word, _word[i])) ? true : false);
 }
 
 void
@@ -501,8 +515,7 @@ egetenv(const char *s)
 bool
 sprintfCmd()
 {
-	int             i;
-	char *            fmt;
+	char           *fmt;
 	char            msg[1024];
 	double          x[N];
 	if (_nword < 4) {
@@ -511,7 +524,7 @@ sprintfCmd()
 	}
 	*(_word[2] + strlen(_word[2]) - 1) = '\0';
 	fmt = _word[2] + 1;
-	for (i = 3; i < _nword; i++) {
+	for (unsigned int i = 3; i < _nword; i++) {
 		getdnum(_word[i], &x[i - 3]);
 	}
 	switch (_nword) {
@@ -710,6 +723,22 @@ getinum(const char *s, int *i)
 				return true;
 			}
 		}
+	} else if (is_syn(s)) {
+		string syn_value;
+		bool exists = get_syn(s, syn_value);
+		//printf("DEBUG %s:%d '%s' exists= %d  value [%s]\n",__FILE__,__LINE__,s,exists,syn_value.c_str());
+		if (exists) {
+			const char* vptr = syn_value.c_str();
+			ptr = NULL;	// reset this
+			*i = int(strtod(vptr, &ptr));
+			if (*ptr == '\0') {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
 	} else if (!strcmp(s, "-NaN") 
 		   || !strcmp(s, "NaN") 
 		   || !strcmp(s, "Inf")
@@ -778,6 +807,7 @@ getdnum(const char *s, double *d)
 	} else if (is_syn(s)) {
 		string syn_value;
 		bool exists = get_syn(s, syn_value);
+		//printf("DEBUG %s:%d '%s' exists= %d  value [%s]\n",__FILE__,__LINE__,s,exists,syn_value.c_str());
 		if (exists) {
 			const char* vptr = syn_value.c_str();
 			ptr = NULL;	// reset this
@@ -866,7 +896,7 @@ fatal_err(const char *string,...)
 				sprintf(msg,
 					" Error detected at %s:%d\n",
 					block_source_file(),
-					block_source_line() + block_offset_line() - 1);
+					block_source_line() - 1);
 				gr_textput(msg);
 			}
 		} else {

@@ -56,7 +56,7 @@ newCmd()
 		demonstrate_command_usage();
 		return false;
 	}
-	for (int i = 1; i < _nword; i++) {
+	for (unsigned int i = 1; i < _nword; i++) {
                 string w(_word[i]);
 		//printf("DEBUG 1 <%s>\n",w.c_str());
 		un_double_quote(w);

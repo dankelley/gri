@@ -10569,7 +10569,11 @@ environment, where it designates an error).
 @node   Read, Read Colornames, Quit, Commands
 @comment  node-name,  next,  previous,  up
 @section The @code{read} Command
-There are several varieties of @code{read} command.
+
+There are several varieties of @code{read} command.  Those commands used
+for reading numerical information (e.g. @code{read columns}) are able to
+decode variables and synonyms as well as simple numbers.
+
 @menu
 * Read Colornames::             Read colornames
 * Read Columns::                Read (x,y,...) columnar data
@@ -15448,6 +15452,10 @@ The next sections outline the changes made in Gri.
 @table @emph
 @item 2.6.0 [2001-month-day] (Not released yet.)
 @sp 1
+Make various @code{read} commands able to decode synonyms as well as
+variables and simple numbers.
+
+@sp 1
 Add @code{strlen} RPN operator (@ref{Unary Operators}).
 
 @sp 1
@@ -16634,6 +16642,9 @@ will be as small as it can be.
 @node   Test Suite, Acknowledgments, Debugging Example, Top
 @comment  node-name,  next,  previous,  up
 @chapter Test Suite
+
+@cindex test suite
+@cindex suite of test files
 
 The following test files are invoked by typing @code{make test}, after
 compiling Gri.  They are provided here because they are examples of

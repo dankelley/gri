@@ -133,7 +133,7 @@ extern vector<double> _dash;
 extern int      _num_command;
 extern unsigned int _num_xmatrix_data;
 extern unsigned int _num_ymatrix_data;
-extern int      _nword;
+extern unsigned int _nword;
 
 // Version number.
 extern double   _version; // this version

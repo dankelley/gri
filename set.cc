@@ -1037,7 +1037,7 @@ set_dashCmd()
 		}
 	}
 	// Long list of values
-	for (int i = 0; i < _nword - 2; i++) {
+	for (unsigned int i = 0; i < _nword - 2; i++) {
 		double tmp;
 		if (!getdnum(_word[2 + i], &tmp)) {
 			demonstrate_command_usage();
@@ -2126,7 +2126,7 @@ bool
 set_line_widthCmd()
 {
 	double          w;		// the width, in pt
-	int             skip = 0;
+	unsigned int    skip = 0;
 	int             what = 0;	// -1=curve/rapido 0=curve 1=axis 2=symbol 3=all
 	if (word_is(3, "axis")) {
 		skip = 1;
@@ -3286,8 +3286,12 @@ assign_synonym()
 			READ_WORD_ERROR(".n. in e.g. `\\syn = word .n. of \"string\"'");
 			return false;
 		}
-		int which = int(floor(0.5 + tmp));
-		Require(which >= 0, err("Can't select word whose index is < 0"));
+		int iwhich = int(floor(0.5 + tmp));
+		if (iwhich < 0) {
+			err("Cannot take a negatively-indexed word");
+			return false;
+		}
+		unsigned int which = (unsigned int)(iwhich);
 		string to_chop(_word[_nword - 1]);
 		if (to_chop[0] == '"')
 			to_chop.STRINGERASE(0, 1);
@@ -3302,7 +3306,7 @@ assign_synonym()
 			err("Out of memory while trying to assign synonym as n-th word of string");
 			return false;
 		}
-		int max;
+		unsigned int max;
 		chop_into_words(to_chop_in_C, _Words2, &max, MAX_nword);
 		int i = strlen(_Words2[max - 1]);
 		if (i > 2 && *(_Words2[max - 1] + i - 1) == '"')

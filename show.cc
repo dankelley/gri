@@ -42,12 +42,11 @@ static const unsigned int GRID_MAX_WIDTH_TO_SHOW = 32;
 bool
 show_expression_or_stringCmd()
 {
-	int             i;
 	bool            no_newline = false;
 	double          value;
 	Require(_nword > 1,
 		err("`show' what?"));
-	for (i = 1; i < _nword; i++) {
+	for (unsigned int i = 1; i < _nword; i++) {
 		if (i == (_nword - 1) && !strcmp(_word[i], "...")) {
 			no_newline = true;
 			break;

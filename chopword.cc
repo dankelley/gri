@@ -16,7 +16,7 @@
 // 1999-Dec-15: permit TAB type separator
 // 2001-Feb-02: change to return error values
 int
-chop_into_words(char *s, char **w, int *nw, int max)
+chop_into_words(char *s, char **w, unsigned int *nw, unsigned int max)
 {
 	register char   c, *cp;
 	max--;
@@ -76,7 +76,7 @@ chop_into_words(char *s, char **w, int *nw, int max)
 
 // As above, but obey the separator from 'set input data separator'
 bool
-chop_into_data_words(char *s, char **w, int *nw, int max)
+chop_into_data_words(char *s, char **w, unsigned int *nw, unsigned int max)
 {
 	extern char _input_data_separator;
 	if (_input_data_separator == ' ') {

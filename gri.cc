@@ -88,7 +88,7 @@ bool            _ignore_error;
 GriMatrix<bool>  _legit_xy;
 bool            _need_x_axis = true;
 bool            _need_y_axis = true;
-int             _nword;
+unsigned int    _nword;
 bool            _xatbottom;
 bool            _xincreasing = true;
 int             _xsubdiv = 1;

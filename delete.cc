@@ -32,7 +32,7 @@ deleteCmd()
 	de_reference(w1);
 	if (is_var(w1) || is_syn(w1)) {
 		/* Deleting variable/synonym (s) */
-		for (int i = 1; i < _nword; i++) {
+		for (unsigned int i = 1; i < _nword; i++) {
 			w1.assign(_word[i]);
 			un_double_quote(w1);
 			un_double_slash(w1);

@@ -78,9 +78,9 @@ substitute_rpn_expressions(const char *s, char *sout)
 	strcpy(copy, s);
 	//printf("substitute_rpn_expressions(%s,...)\n",s);
 	bool            found = false;
-	int             i, nword;
 	int             rpn_start, rpn_end;
 	// Copy s to a buffer, to avoid destroying  it when chopping into words
+	unsigned int nword;
 	chop_into_words(copy, _Words2, &nword, MAX_nword);
 	if (nword < 2) {
 		strcpy(sout, _Words2[0]);
@@ -89,9 +89,9 @@ substitute_rpn_expressions(const char *s, char *sout)
 	}
 	strcpy(sout, "");		// initialize
 	/* Search for `BEGIN_MATH rpn ... END_MATH' */
-	for (i = 0; i < nword; i++) {
+	for (unsigned int i = 0; i < nword; i++) {
 		char           *result;
-		int             ii;
+		unsigned int   ii;
 		rpn_start = -1;
 		rpn_end = -1;
 		// If at beginning of expression, parse it and put result into next
@@ -214,11 +214,9 @@ final rpn stack has more than 1 operand.  Did you forget an operator?");
 			i = rpn_end;
 			found = true;
 		} else {
-			//printf("HUH6666666666666666666\n");
 			strcat(sout, _Words2[i]);
 			strcat(sout, " ");
 		}
 	}
-	//printf("9999 '%s'\n",sout);
 	return found;
 }

@@ -166,9 +166,9 @@ gr_textsave(const char *s)
 bool
 gr_textget(char *s, int max)
 {
-	int             len, most = max;
-	bool            got_eof;
-	got_eof = gr_buffgets(s, most, &stdin_buffer);
+	int most = max;
+	bool got_eof = gr_buffgets(s, most, &stdin_buffer);
+	//printf("DEBUG %s:%d in gr_textget.  got_eof=%d\n",__FILE__,__LINE__,int(got_eof));
 	if (got_eof) {
 		/*
 		 * No newline at end of file.  Paste one on.
@@ -176,6 +176,7 @@ gr_textget(char *s, int max)
 		strcat(s, "\n");
 		return false;
 	} else {
+		int len;
 		while ((len = strlen(s)) > 1 && s[len - 2] == '\\' && most > 0) {
 			most += len - 1;
 			got_eof = gr_buffgets(s + len - 2, most, &stdin_buffer);
@@ -200,8 +201,9 @@ gr_textget(char *s, int max)
 bool
 gr_buffgets(char *s, unsigned int most, FBUFFER * fbuf)
 {
+	printf("DEBUG %s:%d in gr_buffgets fbuf at %x\n",__FILE__,__LINE__,int(fbuf));
 	if (fbuf->buf_position < fbuf->buf_capacity) {
-		unsigned int             i;
+		unsigned int i;
 		for (i = 0; i < most - 1; i++) {
 			s[i] = fbuf->buf[fbuf->buf_position++];
 			if (s[i] == '\n')

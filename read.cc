@@ -26,6 +26,9 @@
 #include        "netcdf.h"
 #endif
 
+unsigned int chars_read = 0;
+unsigned int offset_for_read = 0;
+
 bool            read_colornamesCmd(void);
 bool            read_columnsCmd(void);
 void            skip_hash_headers(FILE * fp);
@@ -45,7 +48,7 @@ bool            read_image_colorscaleCmd(void);
 bool            read_image_grayscaleCmd(void);
 bool            read_image_maskCmd(void);
 #if defined(HAVE_LIBNETCDF)
-static bool     read_netCDF_column(int iword, GriColumn *col, int *expected_length, bool append);
+static bool     read_netCDF_column(unsigned int iword, GriColumn *col, int *expected_length, bool append);
 #endif
 bool            read_synonym_or_variableCmd(void);
 bool            read_lineCmd();
@@ -67,7 +70,7 @@ extern bool     _input_data_window_y_exists;
 static bool     maybe_make_grids(void);
 static GriString inLine(128);	// Start short
 static double   tmpf, tmpf2;
-static int      colu, colv, colx, coly, colz, colr, coltheta, colweight;
+static int colu, colv, colx, coly, colz, colr, coltheta, colweight;
 
 bool
 read_from_filenameCmd()
@@ -95,6 +98,7 @@ read_from_filenameCmd()
 bool
 read_colornamesCmd()
 {
+	chars_read = 0;
 	FILE *fp;
 	char name[100];		// should be long enough ??
 	string fname(_word[4]);
@@ -151,7 +155,7 @@ read_colornamesCmd()
 
 #if defined(HAVE_LIBNETCDF)
 static bool
-read_netCDF_column(int iword, GriColumn *col, int *expected_length, bool append)
+read_netCDF_column(unsigned int iword, GriColumn *col, int *expected_length, bool append)
 {
 	if (iword + 1 < _nword 
 	    && !strcmp(_word[iword + 1], "=")) {
@@ -242,14 +246,15 @@ figure_column(const char *w, int def)
 bool
 read_columnsCmd()
 {
+	chars_read = 0;
 	int             lines_with_missing_data = 0;
 	double          missing = gr_currentmissingvalue(); // call once to speed
-	int             i;
+	unsigned int    i;
 	bool            last_point_was_inside = false;
 	int             number_to_read, number_read = 0;
 	bool            number_specified;
 	int             maxCol, row;
-	eof_status        end_of_data = no_eof;	// flag for end of data
+	eof_status      end_of_data = no_eof;	// flag for end of data
 	int             number_outside_window = 0, number_made_missing = 0;
 	bool            old = _ignore_error;
 	bool            append = false; // appending to end of existing?
@@ -422,7 +427,7 @@ read_columnsCmd()
 		// Read data.
 		row = 0;
 		while (end_of_data == no_eof && (!number_specified || number_read < number_to_read)) {
-			int             numCols;
+			unsigned int numCols;
 			// Keep an eye on storage space.
 			char prompt[20];
 			sprintf(prompt, "row %3d: ", row);
@@ -434,7 +439,11 @@ read_columnsCmd()
 				warning("Got EOF on end of data line; should have a newline there");
 			}
 #endif
-			//printf("end_of_data %d  contents '%s'\n",end_of_data,inLine.getValue());
+
+			//printf("DEBUG %s:%d.  'read columns' got [%s]\n",__FILE__,__LINE__,inLine.getValue());
+
+			//unsigned int this_line_len = strlen(inLine.getValue()) + 1;
+
 #ifdef REMOVE_COMMENTS_FROM_DATA
 			remove_comment(inLine.getValue());
 #endif
@@ -452,7 +461,7 @@ read_columnsCmd()
 				break;
 			}
 			//printf("numCols= %d        maxCol= %d\n", numCols, maxCol);
-			if (maxCol > numCols) {
+			if (maxCol > int(numCols)) {
 				sprintf(_grTempString,
 					"`read columns' -- line %d has %d columns but need %d columns",
 					_dataFILE.back().get_line() - 1,
@@ -465,7 +474,7 @@ read_columnsCmd()
 			if (colx <= 0) {
 				_colX.push_back((double)row);
 			} else {
-				if (*_word[colx-1] == '\0' || colx > numCols) {
+				if (*_word[colx-1] == '\0' || colx > int(numCols)) {
 					_colX.push_back(missing);
 				} else {
 					if (!getdnum(_word[colx - 1], &tmpf)) {
@@ -476,7 +485,7 @@ read_columnsCmd()
 				}
 			}
 			if (coly > 0) {
-				if (*_word[coly-1] == '\0' || coly > numCols) {
+				if (*_word[coly-1] == '\0' || coly > int(numCols)) {
 					_colY.push_back(missing);
 				} else {
 					if (!getdnum(_word[coly - 1], &tmpf)) {
@@ -487,7 +496,7 @@ read_columnsCmd()
 				}
 			}
 			if (colu > 0) {
-				if (*_word[colu-1] == '\0' || colu > numCols) {
+				if (*_word[colu-1] == '\0' || colu > int(numCols)) {
 					_colU.push_back(missing);
 				} else {
 					if (!getdnum(_word[colu - 1], &tmpf)) {
@@ -498,7 +507,7 @@ read_columnsCmd()
 				}
 			}
 			if (colv > 0) {
-				if (*_word[colv-1] == '\0' || colv > numCols) {
+				if (*_word[colv-1] == '\0' || colv > int(numCols)) {
 					_colV.push_back(missing);
 				} else {
 					if (!getdnum(_word[colv - 1], &tmpf)) {
@@ -509,7 +518,7 @@ read_columnsCmd()
 				}
 			}
 			if (colz > 0) {
-				if (*_word[colz-1] == '\0' || colz > numCols) {
+				if (*_word[colz-1] == '\0' || colz > int(numCols)) {
 					_colZ.push_back(missing);
 				} else {
 					if (!getdnum(_word[colz - 1], &tmpf)) {
@@ -520,7 +529,7 @@ read_columnsCmd()
 				}
 			}
 			if (colr > 0) {
-				if (*_word[colr-1] == '\0' || colr > numCols) {
+				if (*_word[colr-1] == '\0' || colr > int(numCols)) {
 					_colR.push_back(missing);
 				} else {
 					if (!getdnum(_word[colr - 1], &tmpf)) {
@@ -531,7 +540,7 @@ read_columnsCmd()
 				}
 			}
 			if (coltheta > 0) {
-				if (*_word[coltheta-1] == '\0' || coltheta > numCols) {
+				if (*_word[coltheta-1] == '\0' || coltheta > int(numCols)) {
 					_colTHETA.push_back(missing);
 				} else {
 					if (!getdnum(_word[coltheta - 1], &tmpf)) {
@@ -542,7 +551,7 @@ read_columnsCmd()
 				}
 			}
 			if (colweight > 0) {
-				if (*_word[colweight-1] == '\0' || colweight > numCols) {
+				if (*_word[colweight-1] == '\0' || colweight > int(numCols)) {
 					_colWEIGHT.push_back(missing);
 				} else {
 					if (!getdnum(_word[colweight - 1], &tmpf)) {
@@ -777,6 +786,7 @@ read_columnsCmd()
 bool
 read_gridCmd()
 {
+	chars_read = 0;
 	if (_nword < 3) {
 		demonstrate_command_usage();
 		NUMBER_WORDS_ERROR;
@@ -798,6 +808,7 @@ read_gridCmd()
 bool
 read_grid_xCmd()
 {
+	chars_read = 0;
 	double           repeat = 0.0;
 	unsigned int i;
 	unsigned int number_to_read;
@@ -944,7 +955,8 @@ Grid width %d disagrees with existing x-grid (%d); first `delete grid'",
 #ifdef REMOVE_COMMENTS_FROM_DATA
 			remove_comment(inLine.getValue());
 #endif
-			chop_into_data_words(inLine.getValue(), _word, &numCols, MAX_nword);
+			unsigned int numCols_ui = numCols;
+			chop_into_data_words(inLine.getValue(), _word, &numCols_ui, MAX_nword);
 			PUT_VAR("..words_in_dataline..", double(numCols));
 			if (numCols < 1) {	// blank line means done
 				end_of_data = eof_before_data; // trick
@@ -1000,6 +1012,7 @@ vector_repeats(double *v, int n)
 bool
 read_grid_yCmd()
 {
+	chars_read = 0;
 	double           repeat = 0.0;
 	unsigned int number_to_read;
 	eof_status        end_of_data = no_eof;	// flag for end of data
@@ -1148,7 +1161,8 @@ Grid height %d disagrees with existing y-grid (%d); first `delete grid'",
 #ifdef REMOVE_COMMENTS_FROM_DATA
 			remove_comment(inLine.getValue());
 #endif
-			chop_into_data_words(inLine.getValue(), _word, &numCols, MAX_nword);
+			unsigned int numCols_ui = numCols;
+			chop_into_data_words(inLine.getValue(), _word, &numCols_ui, MAX_nword);
 			PUT_VAR("..words_in_dataline..", double(numCols));
 			if (numCols < 1) {	// blank line means done
 				end_of_data = eof_before_data; // trick
@@ -1195,6 +1209,7 @@ y-grid has some adjacent values equal (e.g., value %f)",
 bool
 read_grid_binary(bool bycolumns, char bintype)
 {
+	chars_read = 0;
 	if (bycolumns) {
 		err("`read grid data' cannot use `bycolumn' with binary data.");
 		return false;
@@ -1280,6 +1295,7 @@ read_grid_binary(bool bycolumns, char bintype)
 bool
 read_grid_dataCmd()
 {
+	chars_read = 0;
 	bool            bycolumns = false;
 	if (!strcmp(_word[_nword - 1], "bycolumns")) {
 		bycolumns = true;
@@ -1424,7 +1440,7 @@ Grid height %ld disagrees with existing y-grid, which is %d high",
 	} else if (_dataFILE.back().get_type()    == DataFile::ascii
 		   || _dataFILE.back().get_type() == DataFile::from_cmdfile) {
 		int             cantread = 0;
-		int             startcol = 0, skip_at_end = 0;
+		unsigned int    startcol = 0, skip_at_end = 0;
 		unsigned int row, col, nrow, ncol, nx, ny;
 		//
 		// Check for 'by columns', a common error
@@ -1548,7 +1564,7 @@ Grid height %ld disagrees with existing y-grid, which is %d high",
 				_grid_exists = true;
 				return false;
 			}
-			if (expected_words != _nword) {
+			if (expected_words != int(_nword)) {
 				char msg[1024];
 				if (bycolumns) {
 					sprintf(msg,
@@ -1603,6 +1619,7 @@ Grid height %ld disagrees with existing y-grid, which is %d high",
 bool
 read_image_mask_rasterfileCmd()
 {
+	chars_read = 0;
 	if (!_dataFILE.back().get_type()) {
 		err("Can only read images from binary files");
 		demonstrate_command_usage();
@@ -1619,6 +1636,7 @@ read_image_mask_rasterfileCmd()
 bool
 read_image_pgmCmd()
 {
+	chars_read = 0;
 	// get scale and box specifications if they exist
 	if (!image_range_exists()) {
 		err("First `set image range'");
@@ -1705,6 +1723,7 @@ maybe_make_grids()
 bool
 read_image_rasterfileCmd()
 {
+	chars_read = 0;
 	// get scale and box specifications if they exist
 	if (!image_range_exists()) {
 		err("First `set image range'");
@@ -1763,6 +1782,7 @@ typedef enum {
 static          bool
 read_pgm_image(FILE * fp, IMAGE * im)
 {
+	chars_read = 0;
 	FILE_TYPE file_type;
 	//int             i, j;
 	int             width, height, max_gray;
@@ -1922,6 +1942,7 @@ skip_hash_headers(FILE * fp)
 static          bool
 read_raster_image(FILE * fp, IMAGE * im)
 {
+	chars_read = 0;
 	int             i, j;
 	unsigned char   tmpB;
 	bool            need_zero_padding;
@@ -2047,6 +2068,7 @@ read_raster_image(FILE * fp, IMAGE * im)
 bool
 read_imageCmd()
 {
+	chars_read = 0;
 	bool            bycolumns = false;
 	int             i, j, nrow, ncol;
 	unsigned int nx, ny;
@@ -2206,7 +2228,7 @@ read_imageCmd()
 bool
 read_image_colorscaleCmd()
 {
-	int             i, nword;
+	chars_read = 0;
 	double          R, G, B;
 	double          H, S, V;
 	bool            using_rgb = true;
@@ -2228,7 +2250,7 @@ read_image_colorscaleCmd()
 		return false;
 	}
 	// Table must have 256 lines
-	for (i = 0; i < 256; i++) {
+	for (int i = 0; i < 256; i++) {
 		if (get_next_data_line("Image colorscale", 3)) {
 			err("Can't read image grayscale; found EOF on line.");
 			return false;
@@ -2236,6 +2258,7 @@ read_image_colorscaleCmd()
 #ifdef REMOVE_COMMENTS_FROM_DATA
 		remove_comment(inLine.getValue());
 #endif
+		unsigned int nword;
 		chop_into_data_words(inLine.getValue(), _Words2, &nword, MAX_nword);
 		if (using_rgb) {
 			getdnum(_Words2[0], &R);
@@ -2263,7 +2286,7 @@ read_image_colorscaleCmd()
 bool
 read_image_grayscaleCmd()
 {
-	int             i, nword;
+	chars_read = 0;
 	// Get data into inLine.
 	if (get_next_data_line("Image grayscale", 256)) {
 		err("Can't read image grayscale; found EOF on line.");
@@ -2272,11 +2295,12 @@ read_image_grayscaleCmd()
 #ifdef REMOVE_COMMENTS_FROM_DATA
 	remove_comment(inLine.getValue());
 #endif
+	unsigned int nword;
 	chop_into_data_words(inLine.getValue(), _Words2, &nword, MAX_nword);
 	PUT_VAR("..words_in_dataline..", double(nword));
 	if (nword == 256) {
 		// Table all on 1 line (required before version 1.049)
-		for (i = 0; i < 256; i++) {
+		for (int i = 0; i < 256; i++) {
 			getdnum(_Words2[i], &tmpf);
 			_imageTransform[i] = (int) (floor(0.5 + pin0_255(255.0 * tmpf)));
 		}
@@ -2284,7 +2308,7 @@ read_image_grayscaleCmd()
 		// Table has 256 lines
 		getdnum(_Words2[0], &tmpf);
 		_imageTransform[0] = (int) (floor(0.5 + pin0_255(255.0 * tmpf)));
-		for (i = 1; i < 256; i++) {
+		for (int i = 1; i < 256; i++) {
 			if (get_next_data_line("Image grayscale", 1)) {
 				err("Can't read image grayscale; found EOF on line.");
 				return false;
@@ -2306,6 +2330,7 @@ read_image_grayscaleCmd()
 bool
 read_image_maskCmd()
 {
+	chars_read = 0;
 	bool            bycolumns = false, outbounds = false;
 	int             cantread = 0;
 	int             i, j, nrow, ncol;
@@ -2421,12 +2446,13 @@ read_image_maskCmd()
 bool
 read_synonym_or_variableCmd()
 {
+	chars_read = 0;
 	if (_nword < 2) {
 		demonstrate_command_usage();
 		err("`read' what? (Need more words on command line.)");
 		return false;
 	}
-	int start = 0;
+	unsigned int start = 0;
 #ifdef REMOVE_COMMENTS_FROM_DATA
 	bool read_raw_flag = false;
 	if (strEQ(_word[1], "raw")) {
@@ -2560,7 +2586,7 @@ read_synonym_or_variableCmd()
 	} else if (_dataFILE.back().get_type() == DataFile::bin_int) {
 		gr_Error("Cannot read int grid data yet");
 	} else if (_dataFILE.back().get_type() == DataFile::bin_float) {
-		for (int w = 1 + start; w < _nword; w++) {
+		for (unsigned int w = 1 + start; w < _nword; w++) {
 			string the_word(_word[w]);
 			un_double_quote(the_word);
 			un_double_slash(the_word);
@@ -2590,7 +2616,7 @@ read_synonym_or_variableCmd()
 		gr_Error("Cannot read double grid data yet");
 	} else { 
 		// Ascii file [in read_synonym_or_variableCmd()]
-		for (int w = 1 + start; w < _nword; w++) {
+		for (unsigned int w = 1 + start; w < _nword; w++) {
 			if (true == get_next_data_word()) {
 				PUT_VAR("..words_in_dataline..", 0.0);
 				if (_ignore_eof) {
@@ -2656,6 +2682,7 @@ read_synonym_or_variableCmd()
 bool
 read_lineCmd()
 {
+	chars_read = 0;
 	Require (_nword > 2, err("`read line' what?"));
 	int start = 0;
 #ifdef REMOVE_COMMENTS_FROM_DATA
@@ -2716,7 +2743,8 @@ read_lineCmd()
 static eof_status
 get_next_data_line(const char *prompt, unsigned int expected_fields)
 {
-	//printf("\n  %s:%d (get_next_data_line)...\n",__FILE__,__LINE__);
+	//printf("DEBUG %s:%d (get_next_data_line) interactive=%d (from_cmdfile = %d)\n",__FILE__,__LINE__,int(_dataFILE.back().get_type()),DataFile::from_cmdfile);
+
  	eof_status got_eof = no_eof;
 	// Get line from either commandfile, data-file, or new-command.
 	extern bool     _store_cmds_in_ps;	// startup.c
@@ -2729,24 +2757,45 @@ get_next_data_line(const char *prompt, unsigned int expected_fields)
 			gr_textget(inLine.getValue(), inLine.getCapacity() - 1);
 			_cmdFILE.back().increment_line();
 		} else {
-			got_eof = inLine.line_from_FILE(_cmdFILE.back().get_fp());
-			if (got_eof != no_eof) {
-				set_eof_flag_on_data_file();
-				return got_eof;
-			}
-			_cmdFILE.back().increment_line();
-				// Take care of special case of data files created by VAX
-				// FORTRAN; they have a spurious newline at the start.
-			if (_dataFILE.back().get_line() == 1
-			    && *(inLine.getValue()) == '\n'
-			    && ignore_initial_newline()) {
-				warning("Skipping initial empty line in data file");
+#if 1				// TRYING to get 'read columns' to work in blocks
+			extern vector<BlockSource> bsStack;
+			//printf("DEBUG %s:%d non-interactive case.  bsStack.size %d ***\n",__FILE__,__LINE__,bsStack.size());
+			// If not in block, use file; if in block, read from it.
+			if (bsStack.size() == 0) {
 				got_eof = inLine.line_from_FILE(_cmdFILE.back().get_fp());
 				if (got_eof != no_eof) {
 					set_eof_flag_on_data_file();
 					return got_eof;
 				}
+				_cmdFILE.back().increment_line();
+				// Take care of special case of data files created by VAX
+				// FORTRAN; they have a spurious newline at the start.
+				if (_dataFILE.back().get_line() == 1
+				    && *(inLine.getValue()) == '\n'
+				    && ignore_initial_newline()) {
+					warning("Skipping initial empty line in data file");
+					got_eof = inLine.line_from_FILE(_cmdFILE.back().get_fp());
+					if (got_eof != no_eof) {
+						set_eof_flag_on_data_file();
+						return got_eof;
+					}
+				}
+			} else {
+				extern bool get_line_in_block(const char *block, unsigned int *offset);
+				unsigned int offset = offset_for_read + chars_read;
+				//printf("READ has offset= %d  for block\n||%s||\n",offset,bsStack.back().get_start()+offset);
+				if (!get_line_in_block(bsStack.back().get_start(), &offset)) {
+					set_eof_flag_on_data_file();
+					return got_eof;
+				}
+				bsStack.back().move_offset(strlen(_cmdLine) + 1);
+				//printf("DEBUG %s:%d think line is [%s]\n",__FILE__,__LINE__,_cmdLine);
+				inLine.fromSTR(_cmdLine);
+				chars_read += strlen(_cmdLine) + 1;
+				//printf("DEBUG %s:%d inLine is [%s]; chars_read now %d since adding %d\n",__FILE__,__LINE__,inLine.getValue(),chars_read,strlen(_cmdLine) + 1);
+				return no_eof;
 			}
+#endif
 		}
 		// Display the line as a comment in PostScript file.
 		if (_store_cmds_in_ps) {
@@ -2829,7 +2878,7 @@ get_next_data_line(const char *prompt, unsigned int expected_fields)
 			return got_eof;
 		}
 	}
-	_dataFILE.back().increment_line();
+	_dataFILE.back().increment_line(); // BUG: should only do this if reading from datafile
 	// If no newline, over-ran buffer.
 	// Check that newline-terminated; note already checked for EOF
 	if (inLine.size() > 0 && inLine[inLine.size() - 1] != '\n') {

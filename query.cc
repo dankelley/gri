@@ -16,8 +16,7 @@ queryCmd()
 	char            hint[NCHAR];
 	char            answer[NCHAR];
 	char            def[NCHAR], *def_word[NCHAR];
-	int             def_words = 0;
-	int             i;
+	unsigned int    def_words = 0;
 	bool            user_replied = true;
 	if (_nword < 2) {
 		demonstrate_command_usage();
@@ -39,7 +38,7 @@ queryCmd()
 	}
 	chop_into_words(def, def_word, &def_words, NCHAR);
 	// Strip off double-quotes form list of defaults
-	for (i = 0; i < def_words; i++) {
+	for (unsigned int i = 0; i < def_words; i++) {
 		if (*def_word[i] == '"') {
 			def_word[i] = 1 + def_word[i];
 			if (*(def_word[i] + strlen(def_word[i]) - 1) == '"') {
@@ -84,10 +83,9 @@ queryCmd()
 			// They gave a string.  If there was a list of acceptable
 			// choices, check that string was in list.
 			if (def_words > 1) {
-				int             i;
 				bool            acceptable = false;
 				while (!acceptable) {
-					for (i = 0; i < def_words; i++) {
+					for (unsigned int i = 0; i < def_words; i++) {
 						if (!strcmp(def_word[i], answer)) {
 							acceptable = true;
 							break;

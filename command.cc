@@ -11,7 +11,7 @@
 #include        "command.hh"
 #include        "superus.hh"
 
-static vector<BlockSource> bsStack;
+vector<BlockSource> bsStack;
 
 static inline bool     testible(const char *s);
 static inline int      white_space(const char *sp);
@@ -21,7 +21,7 @@ static bool            extract_procedure(FILE * fp, char *line);
 static bool            extract_syntax(char *line);
 
 // Store info about execution blocks.
-static bool     get_line_in_block(const char *block, unsigned *offset);
+bool             get_line_in_block(const char *block, unsigned int *offset);
 char           *_command_word_separator = "-----";
 int             _num_command_word = 0;
 char           *_command_word[MAX_cmd_word];
@@ -198,6 +198,7 @@ Gri cannot execute the command\n\
 			    char, 1 + strlen(s + start));
 		strcpy(_cmd_being_done_IP[_cmd_being_done], s + start);
 		push_command_word_buffer();
+		//printf("DEBUG %s:%d about to perform block.\n",__FILE__,__LINE__);
 		perform_block(_cmd_being_done_IP[_cmd_being_done],
 			      _command[_cmd_being_done_code[_cmd_being_done - 1]].filename,
 			      _command[_cmd_being_done_code[_cmd_being_done - 1]].fileline
@@ -611,7 +612,7 @@ push_command_word_buffer()
 	if (_num_command_word >= MAX_cmd_word) {
 		gr_Error("ran out of storage (must increase MAX_cmd_word in private.hh");
 	}
-	for (int i = 0; i < _nword; i++) {
+	for (unsigned int i = 0; i < _nword; i++) {
 		//printf("DEBUG %s:%d push_command_word_buffer <%s>\n",__FILE__,__LINE__,_word[i]);
 		if (*_word[i] == '&') {	// 2001-feb-10 trying new syntax
 			const char *name = 1 + _word[i];
@@ -702,11 +703,16 @@ set_up_command_word_buffer()
 bool
 perform_block(const char *block, const char *source_file, int source_line)
 {
-	unsigned        lines = 0, offset = 0;
-	BlockSource bs(source_file, source_line);
+	//printf("DEBUG %s:%d in perform_block()\n",__FILE__,__LINE__);
+
+	unsigned int lines = 0, offset = 0;
+	BlockSource bs(block, source_file, source_line);
 	bsStack.push_back(bs);
 	// Scan through block line by line.  If a 'while' is found, then scan the
 	// loop and give it to perform_while_block.
+
+	extern int chars_read; // defined in read.cc
+
 	while (get_line_in_block(block, &offset)) {
 		lines++;
 		massage_command_line(_cmdLine);
@@ -719,6 +725,10 @@ perform_block(const char *block, const char *source_file, int source_line)
 				quitCmd();
 			bsStack.pop_back();
 			return false;
+		}
+		if (word_is(0, "read") && !skipping_through_if()) {
+			extern unsigned int offset_for_read;
+			offset_for_read = offset;
 		}
 		if (word_is(0, "while") && !skipping_through_if()) {
 			// Capture the loop (look for matching 'end while')
@@ -755,6 +765,7 @@ perform_block(const char *block, const char *source_file, int source_line)
 			// while' line.  Therefore will next capture line after the loop.
 			offset += buffer.size() + 1;	// point to after this loop 
 			get_line_in_block(block, &offset);	// skip `end while' 
+			//printf("AFTER THE WHILE, \n~~~%s~~~\n",block+offset);
 		} else if (word_is(0, "system")) {
 			// Intercept system commands, since if they are of the
 			// <<EOF form, it will be neccessary to slurp the whole command
@@ -815,10 +826,15 @@ perform_block(const char *block, const char *source_file, int source_line)
 				}
 			}
 		} else {	// It's not a system command
+			chars_read = 0;
 			perform_command_line(NULL, true);
+			offset += chars_read;
+			//printf("DEBUG %s:%d AFTER PERFORMING CMD LINE chars read= %d. next is what's left:\n{%s}\n",__FILE__,__LINE__,chars_read,block+offset);
 		}
+#if 0
 		// Increment offset 
 		bsStack[bsStack.size() - 1].increment_offset();
+#endif
 		// See if an error, or if `quit' executed 
 		stop_replay_if_error();
 		if (_done) {
@@ -868,18 +884,22 @@ block_offset_line()
 
 // Return true if got a line 
 bool
-get_line_in_block(const char *block, unsigned *offset)
+get_line_in_block(const char *block, unsigned int *offset)
 {
-	int             i = 0;
+	//printf("DEBUG %s:%d in get_line_in_block ... <%s>\n",__FILE__,__LINE__,block+*offset);
+
 	if (*(block + *offset) == '\0')
 		return false;
+	unsigned int i = 0;
 	while (1) {
 		if (*(block + *offset) == '\n') {
 			*(_cmdLine + i) = '\0';
 			(*offset)++;
+			bsStack.back().increment_line(strlen(_cmdLine));
 			return true;
 		} else if (*(block + *offset) == '\0') {
 			*(_cmdLine + i) = '\0';
+			bsStack.back().increment_line(strlen(_cmdLine));
 			// Note -- next time will still point to '\0', and will catch 
 			return true;
 		}

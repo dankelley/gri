@@ -50,7 +50,7 @@ void GriString::convert_slash_to_MSDOS()
 // RETURN true if file at EOF before reading any data
 eof_status GriString::line_from_FILE(FILE *fp)
 {
-	//printf("line_from_FILE %s:%d\n",__FILE__,__LINE__);
+	//printf("DEBUG %s:%d line_from_FILE fp at %x\n",__FILE__,__LINE__,int(fp));
 	unsigned int i = 0;
 	bool got_eof = false;
 	if (feof(fp)) {

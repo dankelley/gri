@@ -262,7 +262,6 @@ draw_symbolCmd()
 	if (!uses_graylevel) {
 		if (word_is(2, "color") || word_is(2, "colour") || word_is(3, "color") || word_is(3, "colour")) {
 			bool            OLD = _ignore_error;
-			int             i;
 			_ignore_error = true;	// can't read "z" in "hue z" as number
 			if (1 == get_cmd_values(_word, _nword, "saturation", 1, _dstack))
 				saturation = _dstack[0];
@@ -271,7 +270,7 @@ draw_symbolCmd()
 			if (1 == get_cmd_values(_word, _nword, "hue", 1, _dstack))
 				hue = _dstack[0];
 			// Figure if anything coded into z column
-			for (i = 2; i < _nword; i++) {
+			for (unsigned int i = 2; i < _nword; i++) {
 				if (word_is(i, "z")) {
 					if (word_is(i - 1, "brightness"))
 						brightness_in_z = true;
@@ -1707,7 +1706,7 @@ draw_image_paletteCmd()
 	int             otherside=0;
 	int             i;
 	double          left_cm, bottom_cm, right_cm, top_cm;
-	int             words_understood = 3;	// 3 in `draw image palette'
+	unsigned int    words_understood = 3;	// 3 in `draw image palette'
 	unsigned char   gray[LEN];
 	double          left, inc = 0.0, right, grayVal, grayInc;
 	int             num;
@@ -2384,7 +2383,7 @@ draw_valuesCmd()
 #endif
 	}
 	// Get separation x and y if they are given
-	int gave_separation = 0;
+	unsigned int gave_separation = 0;
 	double xseparation = 0.0, yseparation = 0.0;
 	if (2 == get_cmd_values(_word, _nword, "separation", 2, _dstack)) {
 		xseparation = _dstack[0];
@@ -2397,10 +2396,10 @@ draw_valuesCmd()
 		gave_separation = 1;
 	}
 	// Get format if it is given
-	int             gave_fmt = 0;
+	unsigned int    gave_fmt = 0;
 	char            fmt[20];
 	strcpy(fmt, "%g");
-	for (int word = 2; word < _nword; word++) {
+	for (unsigned int word = 2; word < _nword; word++) {
 		if ('%' == *_word[word]) {
 			strcpy(fmt, _word[word]);
 			gave_fmt = 1;

@@ -14,6 +14,74 @@ vector<int> synonymPointer;	// used for e.g. \sp = &\\s
 static inline int end_of_synonym(char c, bool inmath, bool need_brace);
 static bool get_starred_synonym(const char* name, bool want_value/*or name*/, string& result);
 
+int
+get_num_cmdwords()
+{
+	extern int      _num_command_word;
+	if (_num_command_word <= 0)
+		return 0;
+	extern char    *_command_word[MAX_cmd_word];
+	extern char    *_command_word_separator;
+	int             cmd, level = 0, count = 0;
+	for (cmd = _num_command_word - 1; cmd > -1; cmd--) {
+		if (!strcmp(_command_word[cmd], _command_word_separator))
+			level++;
+		if (level == 1 || cmd <= 0) {
+			for (cmd++; cmd < _num_command_word; cmd++) {
+				if (!strcmp(_command_word[cmd], _command_word_separator))
+					break;
+				else
+					count++;
+			}
+			return count;
+		}
+	}
+	return 0;
+}
+
+static bool
+get_cmdword(unsigned int index, string& cmdword)
+{
+	extern int      _num_command_word;
+	extern char    *_command_word[MAX_cmd_word];
+	extern char    *_command_word_separator;
+
+	// The synonym \.wordn. is the n-th word in the command.
+	if (_num_command_word == 0)
+		return false;
+	int cmd, level = 0;
+	// Trace back through the stack until at next level deep, then
+	// move forward to indicated word.
+	for (cmd = _num_command_word - 1; cmd > -1; cmd--) {
+		if (!strcmp(_command_word[cmd], _command_word_separator))
+			level++;
+		if (level == 1 || cmd <= 0) {
+			cmd += index + 1;
+			break;
+		}
+	}
+	// If the command is requesting a word beyond the list (e.g.
+	// \.word10. in a line with only 3 words) just paste the name of
+	// the desired synonym (e.g "\.word10.") onto the line, and let
+	// further processing catch the error, if it is in a bit of code
+	// that is not being skipped.
+	if (cmd >= _num_command_word) {
+		return false;
+	} else {
+                // The word does exist.  If it's a quoted string, remove the
+                // quotes ...
+		if (*_command_word[cmd] == '"') {
+			cmdword.assign(1 + _command_word[cmd]);
+			if (cmdword[cmdword.size() - 1] == '"') {
+				cmdword.STRINGERASE(cmdword.size() - 1, 1);
+			}
+		} else {
+			// ... otherwise copy it directly
+			cmdword.assign(_command_word[cmd]);
+		}
+	}
+	return true;		// .word#.
+}
 
 static bool
 get_starred_synonym(const char* name, bool want_value/*or name*/, string& result)
@@ -214,104 +282,93 @@ delete_syn(const string& name)
 bool
 get_syn(const char *name, string& value)
 {
-	// printf("DEBUG get_syn(%s,)\n",name);
+	unsigned int name_len = strlen(name);
+	//printf("DEBUG %s:%d get_syn(%s,)\n",__FILE__,__LINE__,name);
 	if (!is_syn(name))
 		return false;
+	int word_index;
 	if (!strncmp(name, "\\.proper_usage.", 15)) {
 		// Take care of synonym \.proper_usage., used to demonstrate the
 		// proper usage of a command.
 		unbackslash(_command[cmd_being_done()].syntax, value);
 		return true;
-	} else if (!strncmp(name, "\\.word", 6) && strlen(name) > 6) {
-		// Take care of the synonym list for the command being processed.
-		// This list has synonyms \.words. (number of words in last level
-		// command) and \.word0., \.word1., etc (the words in last level
-		// command).
-		// 
-		// This list is not stored in the normal synonym stack, but is created
-		// here using the word stack is maintained in command.c.
-		// 
-		// Here is what the command stack will look like, for the command `New
-		// Draw TS Line \rho' within a new gri command named `Draw
-		// Isopycnals' which was called with the line `New Draw TS Line
-		// 26.00':
-		// 
-		// -----
-		// 
-		// Draw Isopycnals
-		// 
-		// -----
-		// 
-		// New Draw TS Line 26.00
-		int             i;
-		extern int      _num_command_word;
-		extern char    *_command_word[MAX_cmd_word];
-		extern char    *_command_word_separator;
-		if (*(name + 6) == 's' && *(name + 7) == '.' && *(name + 8) == '\0') {
-			// The synonym \.words. is the number of words in the command.
-			if (_num_command_word > 0) {
-				int             cmd, level = 0, count = 0;
-				for (cmd = _num_command_word - 1; cmd > -1; cmd--) {
-					if (!strcmp(_command_word[cmd], _command_word_separator))
-						level++;
-					if (level == 1 || cmd <= 0) {
-						for (cmd++; cmd < _num_command_word; cmd++) {
-							if (!strcmp(_command_word[cmd], _command_word_separator))
-								break;
-							else
-								count++;
-						}
-						char value_buffer[100];
-						sprintf(value_buffer, "%d", count);
-						value.assign(value_buffer);
-						return true;
-					}
-				}
-			} else {
-				value.assign("\\.words.");
-			}
-			return true;
-		} else if (1 == sscanf(name + 6, "%d", &i)) {
-			// The synonym \.wordn. is the n-th word in the command.
-			if (_num_command_word == 0) {
-				value.assign(name);
-				return true;
-			}
-			int             cmd, level = 0;
-			// Trace back through the stack until at next level deep, then
-			// move forward to indicated word.
-			for (cmd = _num_command_word - 1; cmd > -1; cmd--) {
-				if (!strcmp(_command_word[cmd], _command_word_separator))
-					level++;
-				if (level == 1 || cmd <= 0) {
-					cmd += i + 1;
-					break;
-				}
-			}
-			// If the command is requesting a word beyond the list (e.g.
-			// \.word10. in a line with only 3 words) just paste the name of
-			// the desired synonym (e.g "\.word10.") onto the line, and let
-			// further processing catch the error, if it is in a bit of code
-			// that is not being skipped.
-			if (cmd >= _num_command_word) {
-				value.assign(name);
-			} else {
-				// The word does exist.  If it's a quoted string, remove the
-				// quotes ...
-				if (*_command_word[cmd] == '"') {
-					value.assign(1 + _command_word[cmd]);
-					if (value[value.size() - 1] == '"') {
-						value.STRINGERASE(value.size() - 1, 1);
-					}
-				} else {
-					// ... otherwise copy it directly
-					value.assign(_command_word[cmd]);
-				}
-			}
-			return true;		// .word#.
+	} else if (!strcmp(name, "\\.words.")) {
+		int nc = get_num_cmdwords();
+		if (nc <= 0) {
+			value.assign("\\.words.");
+			return false;
 		} else {
-			value.assign(name);
+			char value_buffer[100];
+			sprintf(value_buffer, "%d", nc);
+			value.assign(value_buffer);
 			return true;
+		}
+	} else if (1 == sscanf(name, "\\.word%d.", &word_index)) {
+		if (!get_cmdword(word_index, value)) {
+			value.assign(name);
+			return false;
+		}
+		return true;		// .word#.
+	} else if (name_len > 1 && name[1] == '[') { // word within synonym (e.g. \[0]syn)
+		//printf("DEBUG %s:%d word within synonym [%s]\n",__FILE__,__LINE__,name);
+		int index_len = -1;
+		for (unsigned int i = 2; i < name_len; i++) {
+			if (name[i] == ']') {
+				index_len = i - 2;
+				break;
+			}
+		}
+		if (index_len == -1) {
+			value.assign(name);
+			return false;
+		}
+		string the_index_s = name;
+		double tmp;
+		if (!getdnum(the_index_s.substr(2, index_len).c_str(), &tmp)) {
+			value.assign(name);
+			return false;
+		}
+		int the_index = int(floor(0.5 + tmp));
+		if (the_index < 0) {
+			value.assign(name);
+			return false;
+		}
+		string name_unindexed = name;
+		name_unindexed.STRINGERASE(1, 2 + index_len);
+		//printf("DEBUG %s:%d will try to extract %d-th word in [%s]\n",__FILE__,__LINE__,int(the_index), name_unindexed.c_str());
+		
+		// Check for e.g. \[0].word1.
+		int which_word;
+		if (1 == sscanf(name_unindexed.c_str(), "\\.word%d.", &which_word)) {
+			//printf("DEBUG %s:%d which_word %d\n",__FILE__,__LINE__,which_word);
+			string buf;
+			if (!get_cmdword(which_word, buf)) {
+				value.assign(name);
+				return false;
+			}
+			//printf("DEBUG %s:%d buf [%s]\n",__FILE__,__LINE__,buf.c_str());
+			if (buf[0] == '"') {
+				buf.STRINGERASE(0, 1);
+				if (buf[buf.size() - 1] == '"') {
+					buf.STRINGERASE(buf.size() - 1, 1);
+				}
+			}
+			//printf("DEBUG %s:%d buf [%s] the_index= %d\n",__FILE__,__LINE__,buf.c_str(), the_index);
+			if (get_nth_word(buf, the_index, value))
+				return true;
+			return false;
+		}
+
+		// Figure out which synonym this is
+		unsigned int stackLen = synonymStack.size();
+		for (int i = stackLen - 1; i >= 0; i--) {
+			if (!strcmp(name_unindexed.c_str(), synonymStack[i].get_name())) {
+				if (get_nth_word(synonymStack[i].get_value(), the_index, value)) {
+					synonymStack[i].incrementCount();
+					return true;
+				}
+				return false;
+			}
 		}
 	} else {
 		// It's an ordinary synonym.  Look it up in the stack
@@ -406,7 +463,7 @@ substitute_synonyms_cmdline(const char *s, string& sout, bool allow_math)
 	}
 	strcpy(copy, s);
 
-	int             nword;
+	unsigned int nword;
 	chop_into_words(copy, _Words2, &nword, MAX_nword);
 	int offset = 0;
 	// Pass `sprintf \synonym ...' through directly
@@ -756,18 +813,18 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 			if (((unsigned) superuser()) & FLAG_SYN) printf("Syn value is <%s>\n", svalue);
 			if (report_num_words) {
 				char *w[MAX_nword];
-				int nw;
+				unsigned int nw;
 				chop_into_words(svalue, w, &nw, MAX_nword);
 				char tmp[30];
 				sprintf(tmp, "%d", nw);
 				sout.append(tmp);
 			} else if (report_a_word) {
 				char *w[MAX_nword]; // BUG: wasteful
-				int nw;
+				unsigned int nw;
 				chop_into_words(svalue, w, &nw, MAX_nword);
 				if (word_to_report < 0) {
 					; // nothing to do here
-				} else if (word_to_report < nw) {
+				} else if (word_to_report < int(nw)) {
 					sout.append(w[word_to_report]);
 				} else {
 					; // nothing to do here
