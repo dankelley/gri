@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.98 2001/06/12 19:32:57 psg Exp $
+@c $Id: gri.texim,v 1.99 2001/06/22 17:53:32 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -14983,23 +14983,28 @@ C-v}, the user is ready to print the file using a pull-down menu.
 @c HTML <p>
 @c HTML <A HREF="ScreenShot1.html">
 @c HTML <IMG ALT="Possible completions to `set font'." 
-@c HTML SRC="./screenshots/gri-screenshot-1-tiny.png" ALIGN=top></A>
+@c HTML SRC="./screenshots/gri-screenshot-1-tiny.png" ALIGN=left></A>
 @c HTML gri-mode displays possible completions to entered text.
+@c HTML <br clear=left>
 @c HTML <p>
 @c HTML <A HREF="ScreenShot2.html">
 @c HTML <IMG ALT="Displaying Help about current command." 
-@c HTML SRC="./screenshots/gri-screenshot-2-tiny.png" ALIGN=top></A>
+@c HTML SRC="./screenshots/gri-screenshot-2-tiny.png" ALIGN=left></A>
 @c HTML gri-mode display help about the current command.
+@c HTML <br clear=left>
 @c HTML <p>
 @c HTML <A HREF="ScreenShot3.html">
 @c HTML <IMG ALT="Cascading the command pull-down menu." 
-@c HTML SRC="./screenshots/gri-screenshot-3-tiny.png" ALIGN=top></A>
+@c HTML SRC="./screenshots/gri-screenshot-3-tiny.png" ALIGN=left></A>
 @c HTML The pull-down menu listing all gri commands.
+@c HTML <br clear=left>
 @c HTML <p>
 @c HTML <A HREF="ScreenShot4.html">
 @c HTML <IMG ALT="Getting set to print the PostScript output." 
-@c HTML SRC="./screenshots/gri-screenshot-4-tiny.png" ALIGN=top></A>
+@c HTML SRC="./screenshots/gri-screenshot-4-tiny.png" ALIGN=left></A>
 @c HTML The `Perform' menu to run gri, preview, print...
+@c HTML <br clear=left>
+@c HTML <p>
 
 @comment Next, genarate these new HTML files (sneaky).
 
