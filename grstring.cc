@@ -216,6 +216,17 @@ gr_drawstring(const char *s)
 	// Scan through whole string.
 	START_NEW_TEXT;
 	while (*s != '\0') {
+		if (*s == '-' && CurrentFont.encoding == font_encoding_isolatin1) {
+			// Use a different character to avoid looking like underscore.
+			if (_grWritePS) {
+				STOP_OLD_TEXT;
+				fprintf(_grPS, "(\\255) sh\n");	// endash
+				check_psfile();
+				START_NEW_TEXT;
+			}
+			s++;
+			continue;
+		}
 		// Figure out whether entering or leaving math mode; enter/leave if
 		// find $ without preceeding \.  Thus a$b$ has math but a\$b\$ does
 		// not.
@@ -286,29 +297,6 @@ gr_drawstring(const char *s)
 					MoveUp();
 					// Draw single character in math mode.  If it's a digit,
 					// do not do in italics!
-#if 1
-					if (*s == '-' && CurrentFont.encoding == font_encoding_isolatin1) {
-						// Use a different character to avoid looking like underscore.
-						extern FILE    *_grPS;
-						extern bool     _grWritePS;
-						if (_grWritePS) {
-							STOP_OLD_TEXT;
-							fprintf(_grPS, "(\\255) sh\n");	// endash
-							check_psfile();
-							START_NEW_TEXT;
-						}
-					} else if (isdigit(*s) || ispunct(*s)) {
-						STOP_OLD_TEXT;
-						gr_setfont(original_font);
-						START_NEW_TEXT;
-						gr_DrawChar(s);
-						STOP_OLD_TEXT;
-						gr_setfont(slant_font);
-						START_NEW_TEXT;
-					} else {
-						gr_DrawChar(s);
-					}
-#else
 					if (isdigit(*s) || ispunct(*s)) {
 						STOP_OLD_TEXT;
 						gr_setfont(original_font);
@@ -320,7 +308,6 @@ gr_drawstring(const char *s)
 					} else {
 						gr_DrawChar(s);
 					}
-#endif
 					PopStack();
 				}
 			} else if (*s == '_') {
@@ -416,29 +403,6 @@ gr_drawstring(const char *s)
 			} else {
 				// Draw single character in math mode.  If it's a digit, do
 				// not do in italics!
-#if 1
-				if (*s == '-' && CurrentFont.encoding == font_encoding_isolatin1) {
-					// Use a different character to avoid looking like underscore.
-					extern FILE    *_grPS;
-					extern bool     _grWritePS;
-					if (_grWritePS) {
-						STOP_OLD_TEXT;
-						fprintf(_grPS, "(\\255) sh\n");	// endash 
-						START_NEW_TEXT;
-						check_psfile();
-					}
-				} else if (isdigit(*s) || ispunct(*s)) {
-					STOP_OLD_TEXT;
-					gr_setfont(original_font);
-					START_NEW_TEXT;
-					gr_DrawChar(s);
-					STOP_OLD_TEXT;
-					gr_setfont(slant_font);
-					START_NEW_TEXT;
-				} else {
-					gr_DrawChar(s);
-				}
-#else
 				if (isdigit(*s) || ispunct(*s)) {
 					STOP_OLD_TEXT;
 					gr_setfont(original_font);
@@ -450,7 +414,6 @@ gr_drawstring(const char *s)
 				} else {
 					gr_DrawChar(s);
 				}
-#endif
 			}
 		} else {
 			// draw simple character outside math mode
