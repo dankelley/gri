@@ -48,6 +48,8 @@ debian/copyright:
 		debian/README.Debian.template > debian/README.Debian
 
 Makefile:
+# To test on g++-3.0 :
+#	CC=gcc-3.0 CXX=g++-3.0 ./configure --prefix=/usr
 	./configure --prefix=/usr
 
 # Build architecture-independent files here.
