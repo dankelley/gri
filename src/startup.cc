@@ -195,6 +195,19 @@ start_up(int argc, char **argv)
 	PUT_VAR("..ylast..", 0.0);
 	PUT_VAR("..image_width..", 0.0);
 	PUT_VAR("..image_height..", 0.0);
+
+#if 0 //def IS_OSX_BUNDLE
+        extern std::string _lib_directory;
+        _lib_directory.assign(argv[0]);
+	std::string::size_type last_slash = _lib_directory.rfind("/");
+        if (last_slash != STRING_NPOS) {
+	  _lib_directory.STRINGERASE(last_slash, _lib_directory.length());
+        } else {
+	  fatal_err("OSX error: cannot find slash in argv[0]\n");
+        }
+        printf("%s:%d: _lib_directory '%s' in OSX bundle\n", __FILE__, __LINE__, _lib_directory.c_str());
+        // BUG: the above is the wrong dir; I don't know yet how to do bundles.
+#endif
 	
 	// Get leftover (non-optional) arguments
 	argv_leftover = interpret_optional_arguments(argc, argv);
