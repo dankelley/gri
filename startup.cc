@@ -703,7 +703,7 @@ interpret_optional_arguments(int argc, char *argv[])
 				} else if (!strcmp(argv[i], "-directory")) {
 					number_optional_arg++;
 					i++;
-					if (i < argc - 1)
+					if (i < argc)
 						_lib_directory.assign(argv[i]);
 					else {
 						err("`-directory' needs an argument.");
