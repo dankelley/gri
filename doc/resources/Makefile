@@ -13,4 +13,4 @@ all:
 	chmod a+r top_banner.gif
 	rm -f top_banner.ps
 clean:
-	rm -rf logo.eps logo.html *~
+	rm -rf logo.html *~

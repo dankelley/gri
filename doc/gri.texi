@@ -433,16 +433,35 @@ illustrates that Gri also gives you control over such things.
 
 @c HTML <!-- newfile GettingMoreControl.html "Gri: getting more control" "Getting more control" -->
 
-@node   Getting More Control, Axis Scaling, Simple Example, Top
+@node   Getting More Control, Simple Example Revisited, Simple Example, Top
 @comment  node-name,  next,  previous,  up
 @chapter Getting More Control over Axes, Fonts, Colors, etc
+
+Gri provides a great many things that you can control, if you want to.
+An introduction to some of these things is presented in the sections
+below.
+
+@menu
+* Simple Example Revisited::    Adding more details
+* Axis Scaling::                Gri automatically scales and draws axes
+* Log And Linear::              Selecting log/linar axes
+* Length::                      Adjusting axis length
+* Range::                       Adjusting axis range
+* Labels::                      Adjusting labels on axes
+* Position::                    Positioning the axes
+* Fonts::                       Setting fonts
+* Pen Color::                   Controlling Pen color
+@end menu
+
+@c HTML <!-- newfile SimpleExampleRevisited.html "Gri: simple example revisited" "Getting more control" -->
+
+@node   Simple Example Revisited, Axis Scaling, Getting More Control, Getting More Control
 @section An example
 @cindex scales
 @cindex axes, scales
 @cindex font, selecting
-Gri makes good choices for axis size, axis scaling, line widths, fonts,
-etc, but of course you will often want to control these things.  Below
-is a followup to the previous example, which names the x and the y axes.
+Below is a followup to the previous example, which names the x and the y
+axes.
 @example
 # Fancier version of Example 1
 open example1.dat
@@ -574,22 +593,10 @@ quit
 @end example
 @c HTML -->
 
-Gri provides a great many things that you can control, if you want to.
-An introduction to some of these things is presented in the sections
-below.
 
-@menu
-* Axis Scaling::                Gri automatically scales and draws axes
-* Log And Linear::              Selecting log/linar axes
-* Length::                      Adjusting axis length
-* Range::                       Adjusting axis range
-* Labels::                      Adjusting labels on axes
-* Position::                    Positioning the axes
-* Fonts::                       Setting fonts
-* Pen Color::                   Controlling Pen color
-@end menu
+@c HTML <!-- newfile AxisScaling.html "Gri: axis scaling" "Getting more control" -->
 
-@node   Axis Scaling, Log And Linear, Getting More Control, Getting More Control
+@node   Axis Scaling, Log And Linear, Simple Example Revisited, Getting More Control
 @comment  node-name,  next,  previous,  up
 @section Axis scaling
 @cindex axes, and mathematical operations on columns
@@ -645,6 +652,8 @@ column, and @code{..ybottom..} and @code{..ytop..} whenever you
 transform the y column.
 
 
+@c HTML <!-- newfile LogAndLinearAxes.html "Gri: log and linear axes" "Getting more control" -->
+
 @node   Log And Linear, Length, Axis Scaling, Getting More Control
 @comment  node-name,  next,  previous,  up
 @section Logarithmic and linear axes
@@ -656,6 +665,8 @@ Axes are linear by default; to make logarithmic axes, use commands
 @code{set x type log} and @code{set y type log}.
 
 
+
+@c HTML <!-- newfile AxisLength.html "Gri: axis length" "Getting more control" -->
 
 @node   Length, Range, Log And Linear, Getting More Control
 @comment  node-name,  next,  previous,  up
@@ -681,6 +692,9 @@ For maps, you'll want the plot scaled so that shapes retain their aspect
 ratio.  To do this, do @code{set x size .cm.} and then do 
 @code{resize y for maps} (or vice versa).
 
+
+@c HTML <!-- newfile AxisRange.html "Gri: axis range" "Getting more control" -->
+
 @node   Range, Labels, Length, Getting More Control
 @comment  node-name,  next,  previous,  up
 @section Range
@@ -695,6 +709,9 @@ interval need not divide into the min/max range.  Thus,
 @code{set x axis 0 1.1 0.5} will create an axis that will range from 0 to 1.1, with
 labelled tics at the values 0, 0.5 and 1.
 
+
+@c HTML <!-- newfile AxisLabels.html "Gri: axis labels" "Getting more control" -->
+
 @node   Labels, Position, Range, Getting More Control
 @comment  node-name,  next,  previous,  up
 @section Labels
@@ -703,6 +720,8 @@ labelled tics at the values 0, 0.5 and 1.
 To set the name of the x axis, use @code{set x name "string"}, and
 similarly for the y-axis.  The default names are @code{x} and @code{y}.
 
+
+@c HTML <!-- newfile AxisPosition.html "Gri: axis position" "Getting more control" -->
 
 @node   Position, Fonts, Labels, Getting More Control
 @comment  node-name,  next,  previous,  up
@@ -727,12 +746,20 @@ line @code{set axes style offset} in your @file{~/.grirc} startup file
 (@pxref{Resource File}).
 
 
+@c HTML <!-- newfile Fonts.html "Gri: fonts" "Getting more control" -->
+
 @node   Fonts, Pen Color, Position, Getting More Control
 @comment  node-name,  next,  previous,  up
 @section Controlling Fonts
 Fonts are selected with @code{set font to} @ref{Set Font To} and font
 sizes are selected with @code{set font size} @ref{Set Font Size}.
 
+Much more about text, including how to draw mathematical symbols, how to
+use subscripts and superscipts, how to write non-English (accented)
+European text, etc, is discussed @ref{Text}.
+
+
+@c HTML <!-- newfile PenColor.html "Gri: pen color" "Getting more control" -->
 
 @node   Pen Color, Graylevel, Fonts, Getting More Control
 @comment  node-name,  next,  previous,  up
@@ -879,7 +906,7 @@ set color hsb .333 1   1  # pure, bright green
 
 
 
-@c HTML <!-- newfile InvokingGri.html "Gri: running" "Running Gri" -->
+@c HTML <!-- newfile InvokingGri.html "Gri: running" "Invoking Gri" -->
 
 @node   Invoking Gri, Launching, Colorlevel, Top
 @comment  node-name,  next,  previous,  up
@@ -892,6 +919,8 @@ This chapter tells how to run Gri, and how to view and print Gri output.
 * Viewing::                     Viewing the PostScript output
 * Printing::                    Printing the PostScript output
 @end menu
+
+@c HTML <!-- newfile Launching.html "Gri: launching" "Invoking Gri" -->
 
 @node   Launching, Options On Command Line, Invoking Gri, Invoking Gri
 @comment  node-name,  next,  previous,  up
@@ -925,6 +954,9 @@ gri - scientific graphic program (version @value{GRI-VERSION})
 @b{gri: } help draw label  # focus on relevant command
 @b{gri: } quit             # get out of Gri
 @end example
+
+
+@c HTML <!-- newfile OptionsOnCommandLine.html "Gri: options on command line" "Invoking Gri" -->
 
 @node	Options On Command Line, Viewing, Launching, Invoking Gri
 @comment  node-name,  next,  previous,  up
@@ -1232,7 +1264,7 @@ typing of a few characters, but some folks like this.
 
 
 
-@c HTML <!-- newfile Viewing.html "Gri: Viewing Gri output" "Running Gri" -->
+@c HTML <!-- newfile Viewing.html "Gri: Viewing Gri output" "Invoking Gri" -->
 
 @node   Viewing, Printing, Options On Command Line, Invoking Gri
 @comment  node-name,  next,  previous,  up
@@ -1259,7 +1291,7 @@ Gri PostScript output is standard, and can be viewed with standard
 viewers such as @code{ghostview} or @code{gv}.
 
 
-@c HTML <!-- newfile Printing.html "Gri: Printing Gri output" "Running Gri" -->
+@c HTML <!-- newfile Printing.html "Gri: Printing Gri output" "Invoking Gri" -->
 
 @node   Printing, Programming, Viewing, Invoking Gri
 @comment  node-name,  next,  previous,  up
