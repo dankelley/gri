@@ -1,7 +1,7 @@
 \input texinfo 
 
 
-@c $Id: gri.texi,v 1.142 2003/06/27 23:22:52 dankelley Exp $
+@c $Id: gri.texi,v 1.143 2003/06/28 00:56:36 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -1143,6 +1143,7 @@ even text.
 Set the pen color to the indicated name.  There are two types of
 names: hexadecimal-triplet names and English names.  
 
+@anchor{pen-color-hexadecimal}
 Hexadecimal-triplet names are of a form often used in web-pages.  They
 consist of exactly 6 characters, which are divided by Gri into three
 sets of two characters, specifying the red component, the green
@@ -13012,8 +13013,11 @@ Calculate the inverse hyperbolic cosine of 2, yielding 1.317.  (Note:
 argument must equal or exceed 1, or an error results.)
 
 @item @{rpn "filename" age@}
+@cindex makefiles, emulating action with the @code{age} rpn operator
+@cindex file age, determined with the @code{age} rpn operator
 @cindex @code{age} rpn operator
 @cindex rpn operator @code{age}
+@anchor{age-rpn-operator}
 Calculate the ``age'' of the indicated file, in seconds.  An age of
 zero indicates that the file was created, or last modified, within 1
 second of the execution of the @code{age} operator.
@@ -13038,8 +13042,10 @@ if @{rpn "file.dat" age "creator.pl" age <@}
 end if
 open file.dat
 @end example
-and for this reason, a non-existent file is assigned an ``infinite''
-age, i.e. it is reported to have been created on January 1, 1970.
+For the convenience in such usage, a non-existent file is assigned the
+maximum possible file age on the given OS, e.g. on a unix machine, the
+age is reported as though the non-existent file had been created on
+January 1, 1970 on a unix machine.
 
 
 @item @{rpn 0.5 asin@}
@@ -16425,8 +16431,9 @@ only in the fixing of bugs.
 
 @strong{New Features}
 @itemize @bullet
-@item Add @code{age} RPN function, for testing file ages 
-(@ref{Unary Operators}).
+@item
+Add @code{age} RPN function, for testing file ages (@ref{age-rpn-operator}).
+
 @end itemize
 
 @strong{Bug Fixes}
@@ -16460,7 +16467,9 @@ Apply a patch provided Kawamura Masao, relating to (a) errors in the
 documentation of file locations and (b) a programming error hidden
 behind an unset precompiler flag.
 
-@item Add hexadecimal colornames (@ref{Pen Color}).
+@item
+Add hexadecimal colornames (@ref{pen-color-hexadecimal}).
+
 @end itemize
 
 @strong{Bug Fixes}
