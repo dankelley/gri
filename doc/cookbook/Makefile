@@ -6,42 +6,43 @@ PSTOPDF = ps2pdf
 
 all:
 	for f in 1 2 3 4 5 6 7 8 9 10 11 12 13 14; do make $$f; done
-
+DIR_redhat=/usr/doc/gri-cookbook-$(VERSION)
 install_linux_redhat:
-	if test ! -d /opt/gri-cookbook       ; then mkdir -m 755 -p /opt/gri-cookbook       ; fi
-	if test ! -d /opt/gri-cookbook/1     ; then mkdir -m 755 -p /opt/gri-cookbook/1     ; fi
-	if test ! -d /opt/gri-cookbook/2     ; then mkdir -m 755 -p /opt/gri-cookbook/2     ; fi
-	if test ! -d /opt/gri-cookbook/3     ; then mkdir -m 755 -p /opt/gri-cookbook/3     ; fi
-	if test ! -d /opt/gri-cookbook/4     ; then mkdir -m 755 -p /opt/gri-cookbook/4     ; fi
-	if test ! -d /opt/gri-cookbook/5     ; then mkdir -m 755 -p /opt/gri-cookbook/5     ; fi
-	if test ! -d /opt/gri-cookbook/6     ; then mkdir -m 755 -p /opt/gri-cookbook/6     ; fi
-	if test ! -d /opt/gri-cookbook/7     ; then mkdir -m 755 -p /opt/gri-cookbook/7     ; fi
-	if test ! -d /opt/gri-cookbook/8     ; then mkdir -m 755 -p /opt/gri-cookbook/8     ; fi
-	if test ! -d /opt/gri-cookbook/9     ; then mkdir -m 755 -p /opt/gri-cookbook/9     ; fi
-	if test ! -d /opt/gri-cookbook/10    ; then mkdir -m 755 -p /opt/gri-cookbook/10    ; fi
-	if test ! -d /opt/gri-cookbook/11    ; then mkdir -m 755 -p /opt/gri-cookbook/11    ; fi
-	if test ! -d /opt/gri-cookbook/12    ; then mkdir -m 755 -p /opt/gri-cookbook/12    ; fi
-	if test ! -d /opt/gri-cookbook/13    ; then mkdir -m 755 -p /opt/gri-cookbook/13    ; fi
-	install -m 644 *html /opt/gri-cookbook
-	install -m 644  1/*gif  1/*html   /opt/gri-cookbook/1
-	install -m 644  2/*gif  1/*html   /opt/gri-cookbook/2
-	install -m 644  3/*gif  3/*html   /opt/gri-cookbook/3
-	install -m 644  4/*gif  4/*html   /opt/gri-cookbook/4
-	install -m 644  5/*gif  5/*html   /opt/gri-cookbook/5
-	install -m 644  6/*gif  6/*html   /opt/gri-cookbook/6
-	install -m 644  7/*gif  7/*html   /opt/gri-cookbook/7
-	install -m 644  8/*gif  8/*html   /opt/gri-cookbook/8
-	install -m 644  9/*gif  9/*html   /opt/gri-cookbook/9
-	install -m 644 10/*gif 10/*html   /opt/gri-cookbook/10
-	install -m 644 11/*gif 11/*html   /opt/gri-cookbook/11
-	install -m 644 12/*gif 12/*html   /opt/gri-cookbook/12
-	install -m 644 12/seawifs.palette /opt/gri-cookbook/12
-	install -m 644 12/example-vertical.gri /opt/gri-cookbook/12
-	install -m 644 13/*pdf 13/*gif 13/*html   /opt/gri-cookbook/13
+	if test ! -d $(DIR_redhat)       ; then mkdir -m 755 -p $(DIR_redhat)       ; fi
+	if test ! -d $(DIR_redhat)/1     ; then mkdir -m 755 -p $(DIR_redhat)/1     ; fi
+	if test ! -d $(DIR_redhat)/2     ; then mkdir -m 755 -p $(DIR_redhat)/2     ; fi
+	if test ! -d $(DIR_redhat)/3     ; then mkdir -m 755 -p $(DIR_redhat)/3     ; fi
+	if test ! -d $(DIR_redhat)/4     ; then mkdir -m 755 -p $(DIR_redhat)/4     ; fi
+	if test ! -d $(DIR_redhat)/5     ; then mkdir -m 755 -p $(DIR_redhat)/5     ; fi
+	if test ! -d $(DIR_redhat)/6     ; then mkdir -m 755 -p $(DIR_redhat)/6     ; fi
+	if test ! -d $(DIR_redhat)/7     ; then mkdir -m 755 -p $(DIR_redhat)/7     ; fi
+	if test ! -d $(DIR_redhat)/8     ; then mkdir -m 755 -p $(DIR_redhat)/8     ; fi
+	if test ! -d $(DIR_redhat)/9     ; then mkdir -m 755 -p $(DIR_redhat)/9     ; fi
+	if test ! -d $(DIR_redhat)/10    ; then mkdir -m 755 -p $(DIR_redhat)/10    ; fi
+	if test ! -d $(DIR_redhat)/11    ; then mkdir -m 755 -p $(DIR_redhat)/11    ; fi
+	if test ! -d $(DIR_redhat)/12    ; then mkdir -m 755 -p $(DIR_redhat)/12    ; fi
+	if test ! -d $(DIR_redhat)/13    ; then mkdir -m 755 -p $(DIR_redhat)/13    ; fi
+	if test ! -d $(DIR_redhat)/14    ; then mkdir -m 755 -p $(DIR_redhat)/14    ; fi
+	install -m 644 *html $(DIR_redhat)
+	install -m 644  1/*gif  1/*html   $(DIR_redhat)/1
+	install -m 644  2/*gif  1/*html   $(DIR_redhat)/2
+	install -m 644  3/*gif  3/*html   $(DIR_redhat)/3
+	install -m 644  4/*gif  4/*html   $(DIR_redhat)/4
+	install -m 644  5/*gif  5/*html   $(DIR_redhat)/5
+	install -m 644  6/*gif  6/*html   $(DIR_redhat)/6
+	install -m 644  7/*gif  7/*html   $(DIR_redhat)/7
+	install -m 644  8/*gif  8/*html   $(DIR_redhat)/8
+	install -m 644  9/*gif  9/*html   $(DIR_redhat)/9
+	install -m 644 10/*gif 10/*html   $(DIR_redhat)/10
+	install -m 644 11/*gif 11/*html   $(DIR_redhat)/11
+	install -m 644 12/*gif 12/*html   $(DIR_redhat)/12
+	install -m 644 12/seawifs.palette $(DIR_redhat)/12
+	install -m 644 12/example-vertical.gri $(DIR_redhat)/12
+	install -m 644 13/*gif 13/*html   $(DIR_redhat)/13
+	install -m 644 14/*gif 14/*html   $(DIR_redhat)/14
 
 uninstall_linux_redhat:
-	rm -rf /opt/gri-cookbook
-
+	rm -rf $(DIR_redhat)
 
 FORCE:
 
@@ -137,7 +138,7 @@ html-tar:
 	mkdir $(HTMLDIR)/10; cp 10/*gri 10/*gif 10/*html $(HTMLDIR)/10
 	mkdir $(HTMLDIR)/11; cp 11/*gri 11/*gif 11/*html $(HTMLDIR)/11
 	mkdir $(HTMLDIR)/12; cp 12/seawifs.palette 12/*gri 12/*gif 12/*html $(HTMLDIR)/12
-	mkdir $(HTMLDIR)/13; cp 13/*gri 13/*gif 13/*pdf 13/*html $(HTMLDIR)/13
+	mkdir $(HTMLDIR)/13; cp 13/*gri 13/*gif 13/*html $(HTMLDIR)/13
 	mkdir $(HTMLDIR)/14; cp 14/*gri 14/*gif 14/*html $(HTMLDIR)/14
 	tar -chf gri-cookbook-$(VERSION).tar $(HTMLDIR)
 	gzip --best gri-cookbook-$(VERSION).tar
