@@ -1,7 +1,7 @@
 # Makefile for Gri documentation files.
 
            HTML_DIR = $(prefix)/doc/gri/html
-   HTML_DIR_SOLARIS = $(prefix)/share/gri
+   HTML_DIR_SOLARIS = $(prefix)/share/gri/doc/html
                  RM = rm -f
             REFCARD = refcard
         CMD_REFCARD = cmdrefcard
@@ -112,8 +112,8 @@ info-install:
 	make info-clean
 
 info-install-solaris:
-	chmod a+r *.info
-	cp *.info /opt/gnu/info
+	cp gri.info* $(INFO_DIR)
+	chmod a+r   $(INFO_DIR)/gri.info*
 	make info-clean
 
 info-clean:
