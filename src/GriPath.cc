@@ -243,7 +243,7 @@ void GriPath::stroke_or_fill(char s_or_f, units the_units, double width, bool cl
 					 || xc[i] > OFFPAGE_RIGHT
 					 || yc[i] < OFFPAGE_BOTTOM
 					 || yc[i] > OFFPAGE_TOP)) {
-					warning("`draw curve' detected a point which is offpage.");
+					warning("Gri drew a point that is offpage.");
 				}
 				switch (ac[i]) {
 				case GriPath::moveto:		// moveto (skip multiple)
