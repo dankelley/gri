@@ -5,6 +5,7 @@ gri (2.12.0-1) unstable; urgency=low
     - Add 'sed' RPN operator, to work on strings.
     - Add 'skewness and 'kurtosis' RPN operators, to work on columns.
     Bug Fixes:
+    - Fix SourceForge bug #606303 (web pages were not valid html)
     - Fix SourceForge bug #600395 (won't compile with recently released
       version (3.2) of GCC compiler.)
     - Fix SourceForge bug #600233 (segfaults if some RPN operators are

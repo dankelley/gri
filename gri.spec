@@ -101,6 +101,7 @@ fi
 - add 'sed' RPN operator
 - add 'skewness' RPN operator
 - add 'kurtosis' RPN operator
+- fix SourceForge bug 606303 (web pages were not valid html)
 - fix SourceForge bug 593958 (should ignore 'missingvalue' if it occurs 
   within an intermediate result of an RPN calculation)
 - fix SourceForge bug 600395 (won't compile with recently released version (3.2) of GCC compiler)
