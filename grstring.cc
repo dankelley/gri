@@ -913,6 +913,9 @@ gr_DrawChar(const char *c)
 	if (_grWritePS) {
 		extern FILE *_grPS;
 		switch (*c) {
+		case '\\':
+			fprintf(_grPS, "\\\\");
+			break;
 		case '(':
 			fprintf(_grPS, "\\(");
 			break;

@@ -1,3 +1,9 @@
+2002-03-16  Dan Kelley  <kelley@Limit.Phys.Ocean.Dal.Ca>
+
+	* grstring.cc (gr_DrawChar): Fix Sourceforge bug # 508657 (drawing
+	of strings containing undefined synonyms was missing the backslash
+	that should have been present).
+
 2002-03-12  Dan E. Kelley  <Dan.Kelley@Dal.Ca>
 
 	* draw.cc (draw_box_filledCmd): permit 'draw box' coordinates in pt

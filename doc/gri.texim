@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.155 2002/03/13 00:17:12 dankelley Exp $
+@c $Id: gri.texim,v 1.156 2002/03/16 14:20:51 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -15843,6 +15843,13 @@ only in the fixing of bugs.
 
 @subsection Version 2.8.7 [2002 ??? ??]
 @itemize @bullet
+@item
+Fix SourceForge bug
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=#508657&group_id=5511&atid=105511">
+#508657
+@c HTML </a>
+(missing backslash in drawing undefined synonyms)
+
 @item
 Fix SourceForge bug
 @c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=523450&group_id=5511&atid=105511">
