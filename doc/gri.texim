@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.168 2002/04/07 14:14:32 dankelley Exp $
+@c $Id: gri.texim,v 1.169 2002/04/07 14:39:36 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16847,9 +16847,6 @@ them!  The actual code will come later, probably by mid-2002
 Add @code{..xinc..} and @code{..yinc..} builtin variables (@ref{Axis Scaling}).
 
 @item
-Make the @code{-chatty} commandline option require a value (@ref{Invoking Gri}).
-
-@item
 Make the @code{open} command accept URLs as filenames (@ref{Open}).
 
 @end itemize
@@ -16864,6 +16861,9 @@ Remove @code{gri -repair old.ps new.ps} since (a) it was only half
 functional, (b) it was hard to code in the new scheme of
 argument-processing and (c) the author was not aware of anybody every
 having used it.
+
+@item
+Make the @code{-chatty} commandline option require a value (@ref{Invoking Gri}).
 
 @end itemize
 
