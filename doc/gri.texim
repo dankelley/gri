@@ -101,11 +101,6 @@ rather, it is an interpreted scriping language.  Users regard it as an
 analogue to the latex document formatting language: users gain
 considerable power, at the price of a moderate learning curve.
 
-@c * Not the best idea to get folks to use this url, so
-@c * I'm deleting it.
-@c * The Gri web homepage is at
-@c * @url{http://www.phys.ocean.dal.ca/~kelley/gri}.
-
 @c HTML -->
 
 @c HTML <map name="navigate_top">
@@ -1784,7 +1779,8 @@ by the user and @emph{Builtin synonyms} which are pre-defined by Gri.
 * About Synonyms::              What synonyms are used for, and how
 * User Synonyms::               Defining your own synonyms
 * Built-in Synonyms::           Built-in synonyms pre-defined by Gri
-* De-referenced Synonyms::      Accessing by reference
+* Aliasing Synonyms::           Aliasing
+* Pointing Synonyms::           Pointing
 @end menu
 
 @node   About Synonyms, Synonym Names, Synonyms, Synonyms
@@ -2113,10 +2109,6 @@ will be @code{"Thing"}.  On the other hand, if you call it with
 @code{\.word0.} will be @code{"New"}, @code{\.word1.} will be
 @code{"Thing"} as before, and @code{\.word2.} will be @code{"22.3"}.
 
-A special syntax called "de-referencing" may be used to let a
-new-command modify the values of variables or synonyms which have been
-named in the calling line; @ref{De-referenced Synonyms}.
-
 @emph{EXAMPLE}  Here is a new command to label lines drawn by 
 @code{draw curve}: 
 @example
@@ -2149,7 +2141,7 @@ check @file{gri.cmd} to see how a full
 command does checking of the calling syntax
 (@ref{Invoking Gri}).
 
-@node   Global Synonyms, De-referenced Synonyms, Local Synonyms, Built-in Synonyms
+@node   Global Synonyms, Aliasing Synonyms, Local Synonyms, Built-in Synonyms
 @comment  node-name,  next,  previous,  up
 @subsubsection Global synonyms
 @cindex synonyms, global
@@ -2209,27 +2201,26 @@ was run.  Some commands set @code{\.return_value.} to non-blank; the
 meaning of the return value varies from command to command.
 
 
-@node   De-referenced Synonyms, If Statements, Global Synonyms, Synonyms
+@node   Aliasing Synonyms, Pointing Synonyms, Global Synonyms, Synonyms
 @comment  node-name,  next,  previous,  up
-@subsection De-referenced Synonyms
-@cindex synonyms, de-referenced
-@cindex de-referenced synonyms
-@cindex dereferenced synonyms
-@cindex call by reference, synonyms
-@cindex call-by-reference, synonyms
+@subsection Aliasing Synonyms
+@cindex synonyms, aliasing with the @code{\@@} syntax
+@cindex aliasing synonyms with the @code{\@@} syntax
+@cindex @code{\@@} syntax for aliasing synonyms
 
-Sometimes, particularly in programming new commands, it is helpful to
-be able to work with variables and synonyms whose names are not known in
-advance.
+Sometimes it is helpful to be able to work with variables and synonyms
+whose names are not known in advance.  For example, you may wish to work
+with a variable or synonym that is named in a header line in a datafile,
+but which is not known at the time when you write your Gri commandfile.
 
-Gri satisfies this need by so-called "de-referenced" synonyms.  The
-syntax is simple: an ampersand following a backslash indicates that the
-synonym's value itself is not of interest, but rather the value of the
-variable or synonym that it @emph{names}.  Consider the following code
-snippet.
+To help with such tasks, Gri provides so-called "aliasing" synonyms.
+The syntax is simple: an ampersand following a backslash indicates that
+the synonym's value itself is not of interest, but rather the value of
+the variable or synonym that it @emph{names}.  Consider the following
+code snippet.
 @example
-\deref = ".a."
-\@@deref = 10
+\alias = ".a."
+\@@alias = 10
 @end example
 The first line names a variable and the second indicates that this
 variable should be set to equal 10.  These two lines are equivalent to
@@ -2238,37 +2229,70 @@ the single line
 .a. = 10
 @end example
 
-You may wonder why we'd ever want to do such a thing.
-
-One general type of application is a Gri program that must determine at
-the name of a variable or synonym at run-time.  Perhaps, for example, a
-header-line in a data file might contain the name of a synonym that
-should be altered.  Or a user may be expected to provide information of
-this sort during an interactive session.  However, by far the most
-common application is in giving new-commands the ability to alter
-argument that are provided to them.  For more on this, see
-@ref{Altering Command Arguments}.
-
-Hints:
-@table @emph
-@item The  RPN 'defined' operator
-You must preceed the de-referenced name by double-backslash, to prevent
-interpolation.  For example, write 
+It is @emph{very important} to note that if multiple items of the same
+name exist (e.g. if a @code{new} command has been executed) then Gri
+uses the instance of the item that is "active" at the moment the
+@code{\&&} code is executed.  Thus, for example, the following prints
+200, not 100.
 @example
-\a = "HI"
-\point_to_a = "\\a"
-if @{rpn "\\@@point_to_a" defined @} # BUG: HTML shows two 'at' signs but should be 1
+.a. = 100
+\alias = ".a."
+new .a.       # this "shadows" the previous instance
+.a. = 200
+show \@@alias # prints 200, not 100
 @end example
-@item "Protecting" item names
-On the calling line of a newcommand, you must enclose the
-item in double-quotes, and if it's a synonym you must double-backslash
-it.
-@end table
+For this reason, you should not use the aliasing syntax if you wish to
+create a newcommand that can modify its arguments; for that you should
+use a pointing synonym (described in the next section).
+
+
+@node   Pointing Synonyms, If Statements, Aliasing Synonyms, Synonyms
+@comment  node-name,  next,  previous,  up
+@subsection Pointing Synonyms
+@cindex synonyms, pointers to with the @code{&} and @code{*} syntax,
+@cindex variables, pointers to with the @code{&} and @code{*} syntax,
+@cindex pointers to variables or synonyms
+@cindex @code{*} syntax, for receiving end of pointing synonyms
+@cindex @code{&} syntax, for sending end of pointing synonyms
+
+Sometimes it is necessary to make what in the C programming language are
+called "pointers" to variables and synonyms.  The main application is to
+permit newcommands to alter their arguments.  By analogy to the C
+programming language, Gri uses the symbols @code{&} and @code{*} for
+this work.
+
+When the @code{&} operator is placed to the left of the name of a
+variable or a synonym, it creates a "pointer" to the item.  This pointer
+may be stored in synonyms or passed to new commands @ref{New Commands}.
+The pointed-to item may be retrieved by putting a @code{*} to the left
+of the synonym containing the pointer.
+
+A few examples should clarify this.  Here is how to store a pointer to a
+variable:
+@example
+.v. = 10
+\vptr = &.v.
+assert @{rpn 10 *\vptr ==@} " variable-pointer error 1"
+*\vptr = 20
+assert @{rpn 20 *\vptr ==@} " variable-pointer error 2"
+@end example
+@noindent and here is how to store a pointer to a synonym:
+@example
+\s = "HI"
+\sptr = &\s
+assert @{rpn "HI" "*\sptr" ==@} " synonym-pointer error 1"
+*\sptr = "BYE"
+assert @{rpn "BYE" "*\sptr" ==@} " synonym-pointer error 2"
+@end example
+
+In most cases, however, this syntax is used with new commands, providing
+the ability to modify arguments @ref{New Commands}.
+
 
 
 @c HTML <!-- newfile IfStatements.html "Gri: if statements" "Programming Gri" -->
 
-@node   If Statements, Loops, De-referenced Synonyms, Programming
+@node   If Statements, Loops, Pointing Synonyms, Programming
 @comment  node-name,  next,  previous,  up
 @section If Statements
 @cindex programming, if statements
@@ -3624,13 +3648,25 @@ the letter ``M'').
 
 @c HTML <!-- newfile NewCommands.html "Gri: Adding new commands" "Programming Gri" -->
 
-@node   Adding New Commands, Parsing, Adjustment Of Character Position, Programming
+@node   Adding New Commands, Purpose, Adjustment Of Character Position, Programming
 @comment  node-name,  next,  previous,  up
 @section Adding new commands to Gri
 @cindex commands, how to add new ones to Gri
 @cindex new commands, how to add to Gri
 @cindex adding new commands to Gri
 @cindex extending Gri by adding new commands
+Gri provides so-called "newcommands" as a sort of subroutine syntax on steroids.
+@menu
+* Purpose::                     What newcommands are for
+* Parsing::                     How Gri parses commands
+* Simple New Command::          Simple example of adding new command
+* Complicated New Command::     More complicated example
+* Altering Command Arguments::  Altering command arguments
+@end menu
+
+@node   Purpose, Parsing, Adding New Commands, Adding New Commands
+@comment  node-name,  next,  previous,  up
+@subsection Purpose of newcommands
 Gri can be extended easily.  Primitive commands (e.g. @code{set x name})
 can be supplemented with so-called "new commands."  New commands are a
 little like subroutines other programming languages.  For example, you
@@ -3661,14 +3697,8 @@ Once you've learned how to make new commands, you are likely to use them
 a lot.  The following explains how you add new commands.  For advice on
 programming style, etc., (@ref{Resource File}).
 
-@menu
-* Parsing::                     How Gri parses commands
-* Simple New Command::          Simple example of adding new command
-* Complicated New Command::     More complicated example
-* Altering Command Arguments::  Altering command arguments
-@end menu
 
-@node   Parsing, Simple New Command, Adding New Commands, Adding New Commands
+@node   Parsing, Simple New Command, Purpose, Adding New Commands
 @comment  node-name,  next,  previous,  up
 @subsection How Gri parses commands
 @cindex new commands, how they are parsed
@@ -3849,142 +3879,52 @@ super/subscripts.
 @cindex command arguments, how to alter
 @cindex newcommand arguments, how to alter
 @cindex arguments to new commands, how to alter
-@cindex argument scope
-@cindex scope, of arguments to new-commands
-@cindex de-referenced synonyms, for program arguments
+@cindex the @code{&.variable.} notation
+@cindex the @code{&\synonym} notation
+@cindex the @code{*\synonym} notation
+@cindex variables, references to
+@cindex synonym, references to
+@cindex references to variables and synonyms
 
-Many programming languages support two types of arguments to
-subroutines: "call by value" and "call by reference."  These come up
-when a subroutine is called with an argument equal to a variable name.
+Normally, the arguments to a newcommand are parsed into either numerical
+values or strings, before execution is passed into the newcommand.  This
+is a akin to the scheme called "call by value" in some programming
+languages.  But how, then, can a newcommand alter its arguments?  The
+answer is to pass @emph{pointers} to items, not items themselves
+(@ref{Pointing Synonyms}).
 
-In the "by value" scheme, the @emph{value} of the argument is passed to
-the subroutine.  This means the subroutine cannot modify the value and
-transmit this new value back to the calling program.
+The technique is simple.  To permit a newcommadn to modify an argument
+that is a variable or a synonym, just put a @code{&} to the left of the
+item on the calling line, and put a @code{*} to the left of the
+associated local synonym inside the newcommand.
 
-In the "by reference" scheme, the subroutine is provided with a
-reference to where the variable is stored.  This means that a subroutine
-may change parameter values.
-
-FORTRAN uses the "by reference" scheme, so that subroutines may alter
-the values of variables passed as arguments, while more modern languages
-such as C provide a choice of the "reference" or "value" methods.
-
-Gri uses "call by value" for its equivalent of subroutines, that is, for
-new commands.  When a new command is called, Gri parses all arguments,
-substituting the values of variables and synonyms as they exist at the
-time of the call.  These values are provided to the new command as the
-special synonyms named @code{\.word0.}, @code{\.word1.}, and so forth;
-for more on this see @ref{Local Synonyms}.  For an example, consider the
-code
-
+For example, here is how to double the value of a variable: 
 @example
-`foo .value.'  # line 1
+`double &.value.'
 @{
-    show "\.word1."
+    *\.word1. = @{rpn *\.word1. 2 *@}
 @}
 .x. = 10
-foo .x.  # line 6
+double &.x.
+assert @{rpn .x. 20 ==@} " Failed variable test"
 @end example
-@noindent
-When Gri gets to line 6, it substitutes the value (10) for the variable
-named @code{.x.}, replacing that line with the command @code{foo 10}.
-Gri recognizes this as a call to the newcommand defined in line 1, and
-thus passes this value, 10, as @code{\.word1.}.  (Note that
-@code{\.word0.} is equal to @code{foo} in this example.)
+Note the use of the @code{&} in the syntax declaration.  As usual, Gri
+doesn't parse this in any real way; it does no more than realize that
+the first word is fixed and further words are not fixed.  However, the
+use of the @code{&} is a good mnemonic to the programmer.
 
-If a newcommand needs to alter a variable, then one must use
-"de-referenced synonyms".  The idea is to pass the @emph{name} of the
-variable as an argument, not the variable itself.  Thus, line 6 of the
-above would be written
-
+Here is how to prepend a directory to a filename:
 @example
-foo ".x."  # pass the NAME of the variable, not the value
-@end example
-@noindent 
-so that @code{\.word1.} within the newcommand will equal the string
-@code{".x."}, which refers to the @emph{name} of the variable of
-interest.  Then Gri provides access to the named item by the so-called
-"at" syntax, in which the @code{@@} sign is put to the right of the
-backslash.  An example will clarify.  We could write a newcommand to
-double the value of a variable in the following way.
-
-@example
-`double .value.'
+`prepend_dat &\filename'
 @{
-    \@@.word1. = @{rpn \@@.word1. 2 *@}
+    *\.word1. = "mydirectory/*\.word1."
 @}
-.x. = 10
-double ".x."
-assert @{rpn .x. 20 ==@}
+\filename = "test.dat"
+prepend_dat &\filename
+show "\filename ... should equal 'mydirectory/test.dat'"
+assert @{rpn "\filename" "mydirectory/test.dat" ==@} " Failed synonym test"
 @end example
-@noindent
-which would cause @code{.x.}, making it equal to @code{20} after
-@code{double} has been called.
 
-Another example, perhaps more useful, might be to "complete" filenames, 
-by prepending a directory name:
-@example
-`complete \fname.'
-@{
-    \@@.word1. = "/data/\@@.word1."  # de-reference
-@}
-\filename = "myfile.dat"
-complete "\\filename"
-open \filename                     # uses "/data/myfile.dat"
-@end example
-Note that it was necessary to use a double-backslash, to protect the
-name of the synonym, since Gri otherwise would have interpolated
-(substituted) its value into the calling line.
-
-@b{Important note about de-referencing rules}: Commandline arguments,
-e.g. @code{\.word1.}, are treated specially when they are de-referenced,
-since otherwise the behavior of new-commands would depend on the names
-of the arguments.  To see this, consider line 4 of the following code
-snippet.
-@example
-`foo .a_special_variable.'
-@{
-    new .a.         # line 3
-    \@.word1. = 10  # line 4
-    delete .a.
-@}
-.a. = 1             # line 7
-foo ".a."
-show .a.
-@end example
-If Gri didn't treat @code{\.word1.} specially in this case, the effect
-would be to replace line 4 with the line
-@example
-    .a. = 10
-@end example
-which would have the effect of altering the value of the @emph{new}
-instance of @code{.a.}, an instance that is deleted in line 5.  Thus,
-the output from the program would be 1.  However, if the last three
-lines of the snippet were
-@example
-.b. = 1
-foo ".b."
-show .b.
-@end example
-then the output would be 10, since line 4 would have been translated
-into 
-@example
-    .b. = 10
-@end example
-In other words, if @code{\.word1.} in this example were @emph{not}
-treated specially, then the result of the new-command would depend on
-the @emph{names} of the arguments.  This behavior would be unlike other
-programming languages, so Gri is designed to treat syonyms such as
-@code{\.word1.} in a special way.  When they are de-referenced, the
-variable or syonym to which they point to is taken to be the the one
-that applied @emph{at the moment} the new-command was called.  In other
-words, in the code example above, the re-direction on line 4 refers to
-the variable @code{.a.} defined in line 7, before the new-command was
-called, instead of the one defined by the @code{new} syntax on line 3.
-
-In other words, the snippet prints 10 instead of 1.  The @code{foo}
-new-command thus behaves in the same way, no matter what the name of the
-calling arguments may be.
 
 
 @c HTML <!-- newfile Hints.html "Gri: Hints for Gri programming" "Programming Gri" -->
@@ -14767,6 +14707,9 @@ The next sections outline the changes made in Gri.
 @table @emph
 @item 2.6.0 [2001-month-day] (Not released yet.)
 @sp 1
+Add pointers, as in the C language (@ref{Pointing Synonyms}).
+
+@sp 1
 Add @code{default} option to @code{set x format} and 
 @code{set y format} commands.
 
@@ -14790,7 +14733,7 @@ as C.)
 Add chapter on test suite (@ref{Test Suite}).
 
 @sp 1
-Add de-referenced synonyms (@ref{De-referenced Synonyms}).
+Add aliasing synonyms (@ref{Aliasing Synonyms}).
 
 @sp 1
 Remove @code{-s} as an abbreviation for the commandline option @code{-superuser}.
