@@ -122,6 +122,20 @@ gr_drawxyaxes(double xl, double xinc, double xr, double yb, double yinc, double 
 void
 gr_drawxaxis(double y, double xl, double xinc, double xr, gr_axis_properties side)
 {
+#if 1				// 2.9.x
+	bool user_gave_labels = (_x_labels.size() != 0);
+#if 0				// debugging
+	if (user_gave_labels) {
+		printf("DEBUG: x axis should have labels [");
+		for (unsigned int i = 0; i < _x_labels.size(); i++)
+			printf("'%s' ", _x_labels[i].c_str());
+		printf("] at positions [");
+		for (unsigned int i = 0; i < _x_label_positions.size(); i++)
+			printf("%f ", _x_label_positions[i]);
+		printf("]\n");
+	}
+#endif	
+#endif // 2.9.x
 	GriString label;
 	std::string slabel;
 	extern char     _xtype_map;
@@ -262,13 +276,15 @@ gr_drawxaxis(double y, double xl, double xinc, double xr, gr_axis_properties sid
 					}
 					// Text is rotated
 					angle -= 90.0 / DEG_PER_RAD;
-					slabel.assign(_grTempString);
-					fix_negative_zero(slabel);
-					label.fromSTR(slabel.c_str());
-					label.draw(xcm - offset * sin(angle),
-						   ycm + offset * cos(angle),
-						   TEXT_CENTERED,
-						   DEG_PER_RAD * angle);
+					if (!user_gave_labels) {
+						slabel.assign(_grTempString);
+						fix_negative_zero(slabel);
+						label.fromSTR(slabel.c_str());
+						label.draw(xcm - offset * sin(angle),
+							   ycm + offset * cos(angle),
+							   TEXT_CENTERED,
+							   DEG_PER_RAD * angle);
+					}
 				}
 			} else {
 				// Small tic
@@ -276,6 +292,15 @@ gr_drawxaxis(double y, double xl, double xinc, double xr, gr_axis_properties sid
 			}
 			axis_path.push_back(gr_usertocm_x(next, y), gr_usertocm_y(next, y), 'l');
 			present = next;
+		}
+		if (user_gave_labels) {
+			//printf("labels...\n");
+			for (unsigned int i = 0; i < _x_labels.size(); i++) {
+				label.fromSTR(_x_labels[i].c_str()); // BUG: should interpolate into this string
+				gr_usertocm(_x_label_positions[i], y, &xcm, &ycm);
+				//printf("'%s' at %f %f cm\n", _x_labels[i].c_str(),xcm,ycm);
+				label.draw(xcm - offset * sin(angle), ycm + offset * cos(angle), TEXT_CENTERED, DEG_PER_RAD * angle);
+			}
 		}
 		// Finish by drawing to end of axis (in case there was no tic there).
 		axis_path.push_back(gr_usertocm_x(final, y), gr_usertocm_y(final, y), 'l');

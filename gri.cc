@@ -93,6 +93,8 @@ unsigned int    _nword;
 bool            _xatbottom;
 bool            _xincreasing = true;
 int             _xsubdiv = 1;
+vector<double>  _x_label_positions;
+vector<string>  _x_labels;
 gr_axis_properties _xtype;
 char            _xtype_map = ' '; // could be "EWNS "
 gr_axis_properties _ytype;
@@ -100,6 +102,8 @@ char            _ytype_map = ' '; // could be "EWNS "
 bool            _yatleft;
 bool            _yincreasing = true;
 int             _ysubdiv = 1;
+vector<string>  _y_labels;
+vector<double>  _y_label_positions;
 /* numbers of items existing */
 int             _num_command = 0;	/* commands */
 unsigned int    _num_xmatrix_data;

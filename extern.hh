@@ -64,6 +64,8 @@ extern bool     _need_x_axis;
 extern bool     _xatbottom;
 extern bool     _xincreasing;
 extern int      _xsubdiv;
+extern vector<string> _x_labels;
+extern vector<double> _x_label_positions;
 extern gr_axis_properties _ytype;
 extern double   _yinc;
 extern bool     _yscale_exists;
@@ -71,6 +73,8 @@ extern bool     _need_y_axis;
 extern bool     _yatleft;
 extern bool     _yincreasing;
 extern int      _ysubdiv;
+extern vector<string> _y_labels;
+extern vector<double> _y_label_positions;
 
 // Data/Command file stacks
 extern std::vector<DataFile> _dataFILE;

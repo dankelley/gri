@@ -2725,6 +2725,39 @@ bool
 set_x_axisCmd()
 {
 	_xatbottom = true;
+#if 1				// 2.9.x
+	if (word_is(3, "labels")) {
+		if (word_is(4, "automatic")) {
+			_x_labels.erase(_x_labels.begin(), _x_labels.end());
+			_x_label_positions.erase(_x_label_positions.begin(), _x_label_positions.end());
+			//printf("DEBUG: cleared x axis labels\n");
+			return true;
+		} else {
+			//printf("DEBUG: setting x axis labels...\n");
+			for (unsigned int i = 4; i < _nword; i++) {
+				double tmp;
+				//printf("d <%s>\n", _word[i]);
+				if (!getdnum(_word[i], &tmp)) {
+					READ_WORD_ERROR(".position.");
+					return false;
+				}
+				_x_label_positions.push_back(tmp);
+				if (i++ == _nword - 1) {
+					err("Missing label to be applied at position \\", _word[i-1], "\\");
+					demonstrate_command_usage();
+					return false;
+				}
+				//printf("s <%s>\n", _word[i]);
+				string l = _word[i];
+				un_double_quote(l);
+				_x_labels.push_back(l);
+
+			}
+			//printf("%d %d\n",_x_labels.size(),_x_label_positions.size());
+			return true;
+		}
+	}
+#endif // 2.9.x
 	if (!strcmp(_word[_nword - 1], "bottom")) {
 		_xatbottom = true;
 		if (_nword == 4) {
@@ -3151,6 +3184,39 @@ bool
 set_y_axisCmd()
 {
 	_yatleft = true;
+#if 1				// 2.9.x
+	if (word_is(3, "labels")) {
+		if (word_is(4, "automatic")) {
+			_y_labels.erase(_y_labels.begin(), _y_labels.end());
+			_y_label_positions.erase(_y_label_positions.begin(), _y_label_positions.end());
+			//printf("DEBUG: cleared x axis labels\n");
+			return true;
+		} else {
+			//printf("DEBUG: setting x axis labels...\n");
+			for (unsigned int i = 4; i < _nword; i++) {
+				double tmp;
+				//printf("d <%s>\n", _word[i]);
+				if (!getdnum(_word[i], &tmp)) {
+					READ_WORD_ERROR(".position.");
+					return false;
+				}
+				_y_label_positions.push_back(tmp);
+				if (i++ == _nword - 1) {
+					err("Missing label to be applied at position \\", _word[i-1], "\\");
+					demonstrate_command_usage();
+					return false;
+				}
+				//printf("s <%s>\n", _word[i]);
+				string l = _word[i];
+				un_double_quote(l);
+				_y_labels.push_back(l);
+			}
+			//printf("%d %d\n",_y_labels.size(),_y_label_positions.size());
+			return true;
+		}
+	}
+#endif // 2.9.x
+
 	if (!strcmp(_word[_nword - 1], "left")) {
 		_yatleft = true;
 		if (_nword == 4) {
