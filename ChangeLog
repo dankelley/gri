@@ -1,5 +1,15 @@
 2001-10-01 Dan Kelley <Dan.Kelley@Dal.Ca>
 	
+	* Release as gri-2.8.4 on SourceForge.Net site.  
+	
+	* Fix SourceForge bug #467973 (`gri -version' gave wrong version
+	number, breaking the Emacs Gri mode.)
+	
+	* Fix SourceForge bug #468401 (`draw grid' disobeys pencolor)
+	
+	
+2001-10-01 Dan Kelley <Dan.Kelley@Dal.Ca>
+	
 	* Release as gri-2.8.3 on SourceForge.Net site.  
 	
 	* Fix SourceForge bug #462243 (endian problem in Rasterfile

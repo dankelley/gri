@@ -1357,8 +1357,8 @@ draw_gridCmd()
 	}
 	set_environment();
 	set_line_width_symbol();
+	set_ps_color('p');
 	unsigned j = _num_ymatrix_data - 1;
-	set_line_width_symbol();
 	do {
 		double xcm, ycm;
 		for (unsigned int i = 0; i < _num_xmatrix_data; i++) {

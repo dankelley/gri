@@ -96,24 +96,30 @@ then
 fi
 
 %changelog
-* Mon 2001-oct-1 Dan Kelley <Dan.Kelley@Dal.Ca>
+* Thu Oct 4 2001 Dan Kelley <Dan.Kelley@Dal.Ca>
+- Release as gri-2.8.4 on SourceForge.Net site.  
+- Fix SourceForge bug #467973 (`gri -version' gave wrong version
+  number, breaking the Emacs Gri mode.)
+- Fix SourceForge bug #468401 (`draw grid' disobeys pencolor)
+
+* Mon Oct 1 2001 Dan Kelley <Dan.Kelley@Dal.Ca>
 - Release as gri-2.8.3 on SourceForge.Net site.
 - Fix SourceForge bug #462243 (endian problem in Rasterfile images, 
   plus a reading problem in PGM images).
 
-* Mon 2001-oct-10 Dan Kelley <Dan.Kelley@Dal.Ca>
+* Mon Sept 10 2001 Dan Kelley <Dan.Kelley@Dal.Ca>
 - Release as gri-2.8.2 on SourceForge.Net site.
 - Really Fix SourceForge bug #454557 (wouldn't compile with the
   pre-release version 3.0.1 of the GNU c++ compiler). 
   This closes SourceForge Bug #111093.
 
-* Mon 2001-sep-6 Dan Kelley <Dan.Kelley@Dal.Ca>
+* Mon Sept 6 2001 Dan Kelley <Dan.Kelley@Dal.Ca>
 - Release as gri-2.8.1 on SourceForge.Net site.
 - Fix SourceForge bug #450465 (`create columns from function' was broken).
 - Fix SourceForge bug #454557 (wouldn't compile with the pre-release 
   version 3.0.1 of the GNU c++ compiler; closes: #111093)
 
-* Mon 2001-jul-23 Dan Kelley <Dan.Kelley@Dal.Ca>
+* Mon Jul 23 2001 Dan Kelley <Dan.Kelley@Dal.Ca>
 - Release as gri-2.8.0 on SourceForge.Net site.
 - Add `unlink' command as a unix-familiar way to delete files.
 - Add `set page size' command to clip to a given page size.
