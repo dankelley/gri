@@ -1,5 +1,5 @@
 @c -*-mode: texinfo; -*-
-@c $Id: gri.texim,v 1.69 2001/03/30 13:06:29 dankelley Exp $
+@c $Id: gri.texim,v 1.70 2001/03/30 15:26:24 dankelley Exp $
 \input texinfo @c -*-texinfo-*-
 @c
 @comment *** Start of HTML stuff ***
@@ -151,7 +151,7 @@ considerable power, at the price of a moderate learning curve.
 @c HTML To monitor (or contribute to) the development
 @c HTML process visit
 @c HTML <a href="http://gri.sourceforge.net">
-@c HTML <tt>sourceforge.net</tt></a>.
+@c HTML <tt>gri.sourceforge.net</tt></a>.
 @c HTML <p>
 @c HTML <b>See also:</b>
 @c HTML The <a href="http://www.phys.ocean.dal.ca/~kelley/gre">
