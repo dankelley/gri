@@ -15,7 +15,7 @@ end_groupCmd()
 	return group_end();
 }
 bool
-group_start(const char *id = "")
+group_start(const char *id)
 {
 	if (_output_file_type == svg) {
 		if (strlen(id) > 0)
