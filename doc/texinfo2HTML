@@ -81,6 +81,7 @@ print "<!-- Created automatically from texinfo source -->\n";
 print "<!-- $date -->\n";
 sub get_a_line() {
     $_ = <>;
+    s/\@noindent//;
     if (/^\@c\s*HTML\s*<!--\s*$/) {
 	while(<>) {
 	    #print STDERR "SKIPPING $_";
