@@ -52,7 +52,7 @@
 @comment %**start of header
 @setfilename gri.info
 @settitle Gri
-@set GRI-VERSION 2.5.2
+@set GRI-VERSION 2.5.3
 @set AUTHOR-EMAIL Dan.Kelley@@Dal.CA
 @c %**end of header
 @iftex
@@ -9591,6 +9591,12 @@ filenames with punctuation in them (e.g. @code{open "../data"}).  Files
 may be ascii (the default), binary or -- on systems with the
 @code{netCDF} libraries installed -- in the @code{netCDF} format.
 
+If the filename ends in @code{.gz}, then Gri will assume it has been
+compressed with the @code{gzip} utility, and will uncompress it before
+reading.  (A temporary file is created and then deleted when Gri exits.
+To see the name of the temporary file, use the @code{-superuser8} flag
+@xref{Superuser}.)
+
 For more information on netCDF format, see
 @code{http://www.unidata.ucar.edu/packages/netcdf/index.html}
 @c HTML <a href="http://www.unidata.ucar.edu/packages/netcdf/index.html">
@@ -12677,22 +12683,22 @@ should be saved has not yet been finalized by the author.
 @findex superuser
 @cindex @code{superuser} command
 @example
-`superuser'
+`superuser [value]'
 @end example
 @noindent
 Allow extra debugging information and commands.  Normally, this command
-and the corresponding commandline flag -superuser are only used by
-programmers altering the Gri source.
+and the corresponding commandline flag @code{-superuser} are only used
+by programmers altering the Gri source.
 
 These are the flags and their meanings:
 @itemize @bullet
-@item @emph{1} Print cmdline before/after substituting synonyms
-@item @emph{2} Print cmdline before/after substituting rpn expressions
+@item @emph{1} Print cmdline before/after substituting synonyms.
+@item @emph{2} Print cmdline before/after substituting rpn expressions.
 @item @emph{4} Print all new commands as they are being defined
-@item @emph{8} Print system commands and @code{open "...|"} commands
-@item @emph{128} Changeable; as of Mar 1997, print before/after doing gri.cmd
-@item @emph{256} Changeable; as of Mar 1997, no function
-before they are passed to the system
+@item @emph{8} Print the system commands that are used with
+@code{open "...|"} and in other instances.
+@item @emph{128} Changeable; only author should use this.
+@item @emph{256} Changeable; only author should use this.
 @end itemize
 Note that all flags are equal to 2 raised to an integer power.  Since
 the flag values are detected by a bitwise OR, you can combine flags by
@@ -13531,6 +13537,10 @@ First debian release.  Versions exist for intel, alpha, 68K and powerpc.
 
 
 @table @emph
+@item 2.5.3 [2000-May-24]
+Add automatic support for compressed data files.  So far, this only
+works with gzipped files @xref{Open}.
+
 @item 2.5.2 [2000-May-18]
 Add new features to @code{gri-mode.el}, bringing it up to version 2.25:
 @end table
