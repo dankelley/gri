@@ -99,7 +99,7 @@ push_data_file(const char* name, DataFile::type the_type, const char* status, bo
 			system(pipecmd.c_str());
 			FILE *fp = fopen(tmpfile_name.c_str(), status);
 			if (NULL == fp) {
-				printf("ERROR: gri-%s cannot open file '%s' (source at %s:%d)\n", VERSION,tmpfile_name.c_str(),__FILE__,__LINE__);
+				err("Cannot open file `\\", tmpfile_name.c_str(), "'.", "\\");
 				return false;
 			}
 			DataFile df(fp, tmpfile_name.c_str(), 0, the_type, true);
@@ -110,7 +110,7 @@ push_data_file(const char* name, DataFile::type the_type, const char* status, bo
 				DataFile df(fp, name, 0, the_type, delete_when_close);
 				_dataFILE.push_back(df);
 			} else {
-				printf("DEBUG: %s:%d ... error is '%s'\n", __FILE__, __LINE__, strerror(errno));
+				//printf("DEBUG: %s:%d ... error is '%s'\n", __FILE__, __LINE__, strerror(errno));
 				if (errno == EMFILE) { // ref: 'man errno'
 					err("Cannot open file `\\", name, "' since there are too many open files.", "\\");
 					return false;
@@ -142,7 +142,7 @@ push_data_file(const char* name, DataFile::type the_type, const char* status, bo
 				system(pipecmd.c_str());
 				fp = fopen(tmpfile_name.c_str(), status);
 				if (NULL == fp) {
-					printf("%s:%d 2222  Cannot open.  err is '%s'\n", __FILE__, __LINE__, strerror(errno));
+					//printf("%s:%d 2222  Cannot open.  err is '%s'\n", __FILE__, __LINE__, strerror(errno));
 					return false;
 				}
 				DataFile df(fp, tmpfile_name.c_str(), 0, the_type, true);
@@ -212,11 +212,11 @@ pop_data_file(int file)
 #endif
 	} else {
 		if (_dataFILE[file].get_fp() == stdin) {
-			printf("ERROR %s:%d pop_data_file(%d) trying to close stdin\n",__FILE__,__LINE__,file);
+			fatal_err("pop_data_file() is trying to close stdin");
 			exit(1);
 		} else {
 			if (EOF == fclose(_dataFILE[file].get_fp())) {
-				printf("%s:%d: ERROR: pop_data_file() cannot close data file fp= %x for reason `%s'\n", __FILE__, __LINE__, int(_dataFILE[file].get_fp()), strerror(errno));
+				fatal_err("pop_data_file() cannot close a data file reason \"\\", strerror(errno), "\".", "\\");
 				exit(1);
 			}
 		}
@@ -237,9 +237,9 @@ pop_data_file(int file)
 		}
 		system(sys_cmd.c_str());
 	}
-	display_data_stack("BEFORE the erasure of a file\n");
+	//display_data_stack("BEFORE the erasure of a file\n");
 	_dataFILE.erase(_dataFILE.begin() + file);
-	display_data_stack("AFTER the erasure\n");
+	//display_data_stack("AFTER the erasure\n");
 	return true;
 }
 
