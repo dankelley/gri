@@ -62,21 +62,10 @@
 @titlepage
 @title Gri
 
-@comment Logo/begin
+@comment an error here, when I try to do
+@comment pdftex on this file.  Error is occuring
+@comment at /usr/share/texmf/pdftex/texinfo/pdftexinfo.tex:5484
 @image{./examples/logo}
-@comment OLD @tex
-@comment OLD {
-@comment OLD \midinsert
-@comment OLD \vskip 4cm
-@comment OLD \special{psfile="./examples/logo.ps" 
-@comment OLD hoffset=-72
-@comment OLD voffset=-172
-@comment OLD }
-@comment OLD \endinsert
-@comment OLD }
-@comment OLD @end tex
-@comment Logo/end
-
 
 @subtitle A Program to Make Science Graphs
 @subtitle Version @value{GRI-VERSION}
@@ -431,7 +420,7 @@ illustrates that Gri also gives you control over such things.
 
 @node   Getting More Control, Simple Example Revisited, Simple Example, Top
 @comment  node-name,  next,  previous,  up
-@chapter Getting More Control over Axes, Fonts, Colors, etc
+@chapter Controlling Axes, Fonts, Colors, etc
 
 Gri provides a great many things that you can control, if you want to.
 An introduction to some of these things is presented in the sections
@@ -804,7 +793,7 @@ RGB (red, green, blue) or HSB (hue, saturation, brightness)
 specification, or a color name.  This pen color applies to everything,
 even text.
 
-@subsubsection The @code{set color \name} Command
+@noindent @b{The} @code{set color \name} @b{command}
 
 Set the pen color to the indicated name.  By default, only a handful of
 colors are known.  You @emph{MUST} give color names as written here,
@@ -844,7 +833,7 @@ printer I like the following colors: @code{black}, @code{red},
 @code{yellow}, @code{green}, @code{cyan}, and @code{magenta}.
 
 
-@subsubsection The @code{set color rgb .red. .green. .blue.} Command
+@noindent @b{The} @code{set color rgb .red. .green. .blue.} @b{command}
 
 This command sets the color using the red-green-blue color model.  If
 you are familiar with how colors add (e.g. red plus green yields
@@ -866,7 +855,7 @@ set color rgb 1   1   0  # yellow: red + green
 @end example
 
 
-@subsubsection The @code{set color hsb .hue. .saturation. .brightness.} Command
+@noindent @b{The} @code{set color hsb .hue. .saturation. .brightness.} @b{command}
 
 In this color model, the color ("hue") is specified with a single
 parameter.  Many people find this easier than using the corresponding
@@ -904,7 +893,7 @@ set color hsb .333 1   1  # pure, bright green
 
 @node   Invoking Gri, Launching, Colorlevel, Top
 @comment  node-name,  next,  previous,  up
-@chapter Running Gri and Viewing and Printing Output
+@chapter Invoking and Using Gri
 This chapter tells how to run Gri, and how to view and print Gri output. 
 
 @menu
@@ -2546,7 +2535,7 @@ Possible commands are:
 
 @node   rpn Mathematics, Stack Operators, Mathematics, Programming
 @comment  node-name,  next,  previous,  up
-@section Built-in rpn Calculator
+@section Rpn (reverse-polish notation) Calculator
 @cindex examples of @code{rpn} mathematics
 @cindex @code{rpn} mathematics, examples
 @cindex mathematics, @code{rpn} notation, description
@@ -4301,43 +4290,58 @@ esac
 The following shows a sample @file{~/.grirc} resource file.  Much of the
 code here is adding new commands (@ref{Adding New Commands}.)
 @example
-# my ~/.grirc stuff
-#
-`user'
-Show user's name.
-@{
-  show "\.user."
-@}
+# Some folks like tics to point inwards ...
+set tics in
 
-`time'
-Show the time.
-@{
-  show "\.time."
-@}
+# Hey, I'm bored with Helvetica font, and
+# Palatino is a bit prettier than Times
+set font to PalatinoRoman
 
-`host'
-Show host computer name.
-@{
-  show "\.host."
-@}
+# Now for something a bit less trivial.
+# This lets me draw a set of y-values
+# against a single x-value, by e.g.
+#    open xyyy.dat
+#    draw curves time T1 T2 T3
+# where the first column of the file is
+# time, and the others are temperatures
+# at various sensors.
+`draw curves \xname \y1name ...'
+Draw multiple y columns versus an x column.  Assumes
+that the datafile is open, and that x is in the first
+column, with the y values in one or more following 
+columns.
 
-`Landscape Big'
-Plot in landscape mode, big size.
+The number of columns is figured out from the options, 
+as is the name of the x-axis, and the labels to be 
+used on each of the y curves.
 @{
-  set page landscape
-  set x margin 2
-  set x size 25
-  set y margin 2
-  set y size 15
-@}
+  # NB. the 3 below lets us skip the words 'draw' 
+  # and 'curves', and the name of the x-column.
+  .num_of_y_columns. = @{rpn wordc 3 -@}
+  if @{rpn .num_of_y_columns. 1 >@}
+    show "ERROR: `draw curves' needs at least 1 y column!"
+    quit
+  end if
 
-`Portrait Big'
-Plot in portrait mode, big size.
-@{
-  set x margin 2
-  set x size 15
-  set y margin 2
-  set y size 15
+  set x name @{rpn 2 wordv@}
+  set y name ""
+
+  # Loop through the columns.
+  .col. = 0
+  while @{rpn .num_of_y_columns. .col. <@}
+    # The x-values will be in column 1, with y-values
+    # in columns 2, 3, ..., of the file.
+    .ycol. = @{rpn .col. 2 +@}
+    rewind
+    read columns x=1 y=.ycol.
+    # At this point, you may want to change line thickness,
+    # thickness, color, dash-type, etc.  For illustration,
+    # let's set dash type to the column number.
+    set dash .col.
+    draw curve
+    draw label for last curve @{rpn .col. 3 + wordv@}
+    .col. += 1
+  end while
 @}
 @end example
 
@@ -6688,6 +6692,8 @@ quit
 @end menu
 
 
+@c HTML <!-- newfile HandlingHeaders.html "Gri: handling headers" "Examples" -->
+
 @node   Handling Headers, Ignoring Columns, Handling Data, Handling Data
 @comment  node-name,  next,  previous,  up
 
@@ -6780,6 +6786,8 @@ sprintf \label "Decimal day is %.4f" .dday.
 kept the extra mathematical step -- nothing is lost by being
 straightforward!)
 
+@c HTML <!-- newfile IgnoringColumns.html "Gri: ignoring columns" "Examples" -->
+
 @node   Ignoring Columns, Column Algebra, Handling Headers, Handling Data
 @comment  node-name,  next,  previous,  up
 @subsection Ignoring columns that are not of interest
@@ -6817,6 +6825,8 @@ draw curve
 For more on the Gawk command see @ref{Awk}.
 
 
+@c HTML <!-- newfile ColumnAlgebra.html "Gri: column algebra" "Examples" -->
+
 @node   Column Algebra, Combining Columns, Ignoring Columns, Handling Data
 @comment  node-name,  next,  previous,  up
 @subsection Algebra on column data
@@ -6850,6 +6860,8 @@ read columns x y
 draw curve
 @end example
 
+@c HTML <!-- newfile CombiningColumns.html "Gri: combining columns" "Examples" -->
+
 @node   Combining Columns, Plotting Several Columns, Column Algebra, Handling Data
 @comment  node-name,  next,  previous,  up
 @subsection Combining columns from different files
@@ -6863,6 +6875,9 @@ open "paste file1 file2 |"
 read columns x y
 draw curve
 @end example
+
+
+@c HTML <!-- newfile PlottingSeveralColumns.html "Gri: plotting several columns" "Examples" -->
 
 @node   Plotting Several Columns, Commands, Combining Columns, Handling Data
 @comment  node-name,  next,  previous,  up
