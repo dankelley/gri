@@ -14128,6 +14128,8 @@ Add new features to @code{gri-mode.el}:
 @item Add a menubar pull-down menu listing all Gri commands,
       allowing the user to get @code{Help} or @code{Info} on any command or
       @code{Insert} it in the current Gri file.
+@item Add a menubar pull-down entry to @code{Perform} to set
+      @code{gri-run} settings such as flag options passed to gri. 
 @item Gri info file can have @emph{.info} extension now.
 @item Made @code{gri-apropos} an alias for @code{gri-help-apropos}.
 @item gri-mode now uses the customize interface (See
