@@ -51,5 +51,9 @@ hi pi "\\g" ".p."
 assert {rpn "\g" "hi" ==}		" failed test 19"
 assert {rpn .p.  3.14 ==}		" failed test 20"
 
+# Execution of synonyms
+\ret = "\string = \"Hello\""
+\ret
+assert {rpn "\string" "Hello" ==}       " failed test 21"
 
 show " passed"

@@ -3205,11 +3205,26 @@ set_y_sizeCmd()
 	return true;
 }
 
-// Three formats are possible: `\syn = word .n. of "string"' `\syn =
-// "string"' `\syn = system ...'
+// Four formats are possible from the user:
+//
+// 1. \syn = word .n. of "string"
+//
+// 2. \syn = "string"
+//
+// 3. \syn = system ...
+//
+// 4. \syn = tmpname
+//
+// although it is also possible to get
+//
+// 5. \syn = \"string\"
+//
+// if the user is using the Ed Nather "lvalue" trick (see
+// emails near 2000-sept-10).
 bool
 assign_synonym()
 {
+	//printf("%s:%d in assign_synonym\n", __FILE__,__LINE__);
 	Require (_nword > 2, err("Can't understand command."));
 	// Following check should never be needed, but keep for possible future
 	// changes.
@@ -3362,12 +3377,14 @@ This computer can't `\\synonym = system ...' since no popen() subroutine.");
 		}
 #endif
 	} else {
-		//printf("DEBUG %s:%d syn= ... '%s' (have %d words)\n", __FILE__,__LINE__,_cmdLine, _nword);
 		// `\synonym = "..."'
-		//printf("%d words...\n",_nword);
-		//printf("0 <<%s>>\n",_word[0]);
-		//printf("1 <<%s>>\n",_word[1]);
-		//printf("2 <<%s>>\n",_word[2]);
+#if 0
+		printf("DEBUG %s:%d syn= ... '%s' (have %d words)\n", __FILE__,__LINE__,_cmdLine, _nword);
+		printf("%d words...\n",_nword);
+		printf("0 <<%s>>\n",_word[0]);
+		printf("1 <<%s>>\n",_word[1]);
+		printf("2 <<%s>>\n",_word[2]);
+#endif
 		string unquoted;
 		if (!ExtractQuote(_cmdLine, unquoted)) {
 			err("Can't extract value for synonym '\\",
@@ -3376,6 +3393,9 @@ This computer can't `\\synonym = system ...' since no popen() subroutine.");
 			    "\\");
 			return false;
 		}
+#if 0
+		printf("after extract quote, have '%s'\n",unquoted.c_str());
+#endif
 		// Store synonym
 		if (!put_syn(_word[0], unquoted.c_str(), true)) OUT_OF_MEMORY;
 	}

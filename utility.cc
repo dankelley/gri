@@ -982,24 +982,36 @@ warning(const char *s,...)
  * ExtractQuote() -- extract quote `sout' from string `s'. NOTE: You must
  * ensure sout is as long as s. RETURN VALUE: character position at end of
  * extracted quote, if all was OK.  Otherwise 0.
+ *
+ * Accepts both quoted strings '... "hi" ...' and unquoted strings '... \"hi\" ...'
+ * but not combinations.
  */
 int
 ExtractQuote(const char *s, string& sout)
 {
 	//printf("DEBUG %s:%d input string is '%s'\n",__FILE__,__LINE__,s);
 	int             i = 0;
+	bool slash_quoted = false;
 	// Skip along to first quote ...
 	while (s[i] != '"') {
 		if (s[i] == '\0')
-			return 0;
+			return 0; // never found any quoted items
 		i++;
 	}
+	if (i > 0 && s[i - 1] == '\\')
+		slash_quoted = true;
+
 	i++;			// skip the quote
 	// ... then copy along until find first un-escaped quote ...
 	while (s[i] != '\0') {
 		if (s[i] == '"') {
 			if (i > 0 && s[i - 1] == '\\') {
-				sout += '"';
+				if (!slash_quoted)
+					sout += '"';
+				else {
+					sout.STRINGERASE(sout.size() - 1, 1); // trim it
+					return i + 1;
+				}
 			} else {
 				//printf("DEBUG %s:%d returning '%s' with pos %d\n",__FILE__,__LINE__,sout.c_str(), i+1);
 				return i + 1;
