@@ -10,14 +10,23 @@ sub indicate_age($$) {
     $age = &DateCalc(&ParseDate("now"), $before);
     $s = 0;			# prevent warning
     ($y, $mo, $w, $d, $h, $min, $s) = split(/:/, "$age");
-    if ($y > 0) {
-	print "\t... $item was last updated $y years and $mo months ago\n";
-    } elsif ($mo > 0) {
-	print "\t... $item was last updated $mo months and $w weeks ago\n";
-    } elsif ($w > 0) {
-	print "\t... $item was last updated $w weeks ago\n";
+#    print "<$age> [age]\n";
+#    print "<$y>   [year]\n";
+    $future = 0 if ("$y" eq "-0");
+    $future = 1 if ("$y" eq "+0");
+#    print "NEW \n" if $new;
+    if ($future) {
+	print "\t... $item is from $y years, $mo months, $w weeks, $d days into the future\n";
     } else {
-	print "\t... $item was last updated $d days ago\n";
+	if ($y > 0) {
+	    print "\t... $item was last updated $y years and $mo months ago\n";
+	} elsif ($mo > 0) {
+	    print "\t... $item was last updated $mo months and $w weeks ago\n";
+	} elsif ($w > 0) {
+	    print "\t... $item was last updated $w weeks ago\n";
+	} else {
+	    print "\t... $item was last updated $d days ago\n";
+	}
     }
 }
 
@@ -124,10 +133,11 @@ indicate_age($date_debian_changelog, "debian/changelog");
 open (DOC, "doc/gri.texim") or die "Cannot open doc/gri.texim";
 $latest = &ParseDate("1971"); # pre-history, basically
 while(<DOC>) {
-    if (/\@subsubsection Version (.*) \[(.*)\]$/) {
-	#$version = $1;
+    if (/\@subsubsection\s*Version\s*(.*)\s*\[(.*)\]\s*$/) {
+	#print;
 	$date_doc = $2;
 	$latest = $date_doc if (&Date_Cmp($date_doc, $latest) > 0);
+	#printf "$date_doc [date_doc] $latest [latest]\n";
     }
 }
 $date_doc = $latest;
