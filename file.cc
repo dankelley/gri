@@ -165,7 +165,7 @@ bool
 push_data_file_to_top(const char* filename)
 {
 	int i = data_file_index(filename);
-	if (((unsigned) superuser()) & FLAG_AUT1)printf("\n  DEBUG: %s:%d push_data_file_to_top(%s).  This is the %d file   stack_len= %d\n",__FILE__,__LINE__,filename, i, _dataFILE.size());
+	if (((unsigned) superuser()) & FLAG_AUT1)printf("\n  DEBUG: %s:%d push_data_file_to_top(%s).  This is the %d file   stack_len= %d\n",__FILE__,__LINE__,filename, i, int(_dataFILE.size()));
 	if (i == -1)
 		return false;
 	DataFile n(_dataFILE.back());
@@ -178,7 +178,7 @@ push_data_file_to_top(const char* filename)
 bool
 pop_data_file(int file)
 {
-	if (((unsigned) superuser()) & FLAG_AUT1)printf("\n  DEBUG: %s:%d pop_data_file(file= %3d) fp= %x   stack_len= %d\n",__FILE__,__LINE__,file, int(_dataFILE[file].get_fp()), _dataFILE.size());
+	if (((unsigned) superuser()) & FLAG_AUT1)printf("\n  DEBUG: %s:%d pop_data_file(file= %3d) fp= %x   stack_len= %d\n",__FILE__,__LINE__,file, int(_dataFILE[file].get_fp()), int(_dataFILE.size()));
 	if (file < 0) {
 		err("No such data file exists");
 		return false;

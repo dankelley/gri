@@ -3374,16 +3374,16 @@ assign_synonym()
 		if (is_var(name)) {
 			//printf("DEBUG: %s:%d & on a var named <%s>\n",__FILE__,__LINE__,name);
 			int the_index = index_of_variable(name);
-			sprintf(coded_pointer, "\\#v%d#", variablePointer.size());
-			//printf("DEBUG %s:%d pushing back %d into position %d of variablePointer list\n",__FILE__,__LINE__,the_index,variablePointer.size());
+			sprintf(coded_pointer, "\\#v%d#", int(variablePointer.size()));
+			//printf("DEBUG %s:%d pushing back %d into position %d of variablePointer list\n",__FILE__,__LINE__,the_index,int(variablePointer.size()));
 			variablePointer.push_back(the_index);
 			Require(put_syn(_word[0], coded_pointer, true),
 				err("Cannot store synonym `\\", _word[0], "'", "\\"));
 		} else if (is_syn(name)) {
 			//printf("DEBUG: %s:%d & on a syn named <%s>\n",__FILE__,__LINE__,name);
 			int the_index = index_of_synonym(name);
-			//printf("DEBUG %s:%d pushing back %d into position %d of synonymPointer list\n",__FILE__,__LINE__,the_index,synonymPointer.size());
-			sprintf(coded_pointer, "\\#s%d#", synonymPointer.size());
+			//printf("DEBUG %s:%d pushing back %d into position %d of synonymPointer list\n",__FILE__,__LINE__,the_index,int(synonymPointer.size()));
+			sprintf(coded_pointer, "\\#s%d#", int(synonymPointer.size()));
 			synonymPointer.push_back(the_index);
 			Require(put_syn(_word[0], coded_pointer, true),
 				err("Cannot store synonym `\\", _word[0], "'", "\\"));

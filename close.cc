@@ -7,7 +7,7 @@
 bool
 closeCmd()
 {
-	if (((unsigned) superuser()) & FLAG_AUT1)printf("\nDEBUG: %s:%d closing a datafile.   Before doing that, datafile stack_len= %d\n",__FILE__,__LINE__,_dataFILE.size());
+	if (((unsigned) superuser()) & FLAG_AUT1)printf("\nDEBUG: %s:%d closing a datafile.   Before doing that, datafile stack_len= %d\n",__FILE__,__LINE__,int(_dataFILE.size()));
 
 
 	if ((_dataFILE.back()).get_type() == DataFile::from_cmdfile) {
