@@ -5,7 +5,7 @@
 ;; Author:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                               <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.48 (01 June 2001)
+;; Version:   2.49 (06 June 2001)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -372,7 +372,8 @@
 ;;   imenu--create-gri-index: fix for few variables and synonym cases.
 ;; V2.47 10May01 RCS 1.72 - locally set resize-mini-windows to nil when
 ;;   running shell--command to run gri.
-;; V2.48 01May01 RCS 1.73 - Add emacs21 icons for gri-info and gri-view
+;; V2.48 01Jun01 RCS 1.73 - Add emacs21 icons for gri-info and gri-view
+;; V2.49 06Jun01 RCS 1.74 - "Error at FILE:LINE" now instead of "detected at"
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -2788,9 +2789,9 @@ Usually used to send debugging flags."
         ;;Error detected at /home/rhogee/new/paper/enlarged_map.gri:42
         (if (re-search-forward 
              "Error\\( detected\\)? at \\([^:]+\\):\\([0-9]+\\)" nil t)
-            (setq efile (buffer-substring (match-beginning 1)(match-end 1))
+            (setq efile (buffer-substring (match-beginning 2)(match-end 2))
                   eline (string-to-int 
-                         (buffer-substring (match-beginning 2)(match-end 2)))))
+                         (buffer-substring (match-beginning 3)(match-end 3)))))
         (goto-char (point-min))
         (set-window-point (get-buffer-window (current-buffer))
                           (point-max))) ;This won't work !!!
@@ -4687,7 +4688,7 @@ static char * gri_info24x24_xpm[] = {
 ;; Gri Mode
 (defun gri-mode ()
   "Major mode for editing and running Gri files. 
-V2.48 (c) 01 June 2001 --  Peter Galbraith <psg@debian.org>
+V2.49 (c) 06 June 2001 --  Peter Galbraith <psg@debian.org>
 COMMANDS AND DEFAULT KEY BINDINGS:
    gri-mode                           Enter Gri major mode.
  Running Gri; viewing output:
