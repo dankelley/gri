@@ -2,7 +2,7 @@ show "doc/tst_suite/tst_rpn.gri     ..." ...
 
 rpnfunction same - abs 1e-5 >		# Are numbers virtually same?
 
-# Arithmetic
+# Simple arithmetic
 .a. = 0
 assert {rpn .a. !}			  " failed test 1.1"
 .a. += 1
@@ -13,6 +13,11 @@ assert {rpn .a. 2 same}			  " failed test 1.3"
 assert {rpn .a. 4 same}			  " failed test 1.4"
 .a. /= 4
 assert {rpn .a. 1 same}			  " failed test 1.5"
+assert {rpn 2 1 - 1 same}                 " failed test 1.6"
+assert {rpn 2 1 + 3 same}                 " failed test 1.7"
+assert {rpn 3 2 * 6 same}                 " failed test 1.8"
+assert {rpn 4 2 / 2 same}                 " failed test 1.9"
+
 
 # Conversions (lower-case ok on input, but output is upper-case)
 assert {rpn "aa" hex2dec  170 ==}         " failed test 2.1"

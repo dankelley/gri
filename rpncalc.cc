@@ -659,10 +659,9 @@ do_operation(operator_name oper)
 	}
 	if (oper == SUBTRACT) {
 		NEED_ON_STACK(2); NEED_IS_TYPE(1, NUMBER); NEED_IS_TYPE(2, NUMBER);
-		SET(2, "", res, NUMBER, true);
 		if (VALID(1) && VALID(2))
-			SET(2, "", (VALUE(2)-VALUE(2)), NUMBER, true);
-		else 
+			SET(2, "", ((VALUE(2))-(VALUE(1))), NUMBER, true);
+		else
 			SET(2, "", missing, NUMBER, false);
 		rS.pop_back();
 		return true;
