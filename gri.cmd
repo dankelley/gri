@@ -2255,7 +2255,7 @@ environment).
     extern "C" bool quitCmd(void);
 }
 
-`read colornames from RGB \filename'
+`read colornames from RGB {"/usr/lib/X11/rgb.txt" | \filename}'
 Read colornames from named file, which is in the X11 format.  This
 format has 4 or more columns, the first three giving the red, green
 and blue values in the range 0 to 255, and the last columns giving the
