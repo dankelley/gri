@@ -148,10 +148,12 @@ function footer()
         print "<table>\n";
 	print "<tr>\n";
 	global $width_lhs, $width_divider;
-	print "<td valign=\"middle\" width=\"$width_lhs\">\n";
+	#print "<td valign=\"middle\" width=\"$width_lhs\">\n";
+	print "<td valign=\"middle\">\n";
+	print "<a href=\"http://sourceforge.net/export/rss2_projnews.php?group_id=5511\"><img src=\"/images/xml.png\"></a>\n";
 	print "<A href=\"http://sourceforge.net/\"> <IMG src=\"http://sourceforge.net/sflogo.php?group_id=5511&amp;type=1\" width=\"88\" height=\"31\" border=\"0\" alt=\"SourceForge Logo\"></A>\n";
+	print "<a href=\"/donate/index.php?group_id=5511\"><img src=\"/images/project-support.jpg\" width=\"88\" height=\"32\" border=\"0\" alt=\"Support This Project\"></a>\n";
 	print "</td>\n";
-	#print "<td width=\"$width_divider\" valign=\"top\" color=\"#FFd000\" bgcolor=\"#FFD000\" fgcolor=\"#FFD000\"></td>\n";
 	print "<td valign=\"top\" bgcolor=\"#FFFFFF\">\n";
 	print "<center>\n";
 	print "<small>\n";
@@ -168,7 +170,6 @@ function footer()
 	print "</td>\n";
 	print "</tr>\n";
 	print "</table>\n";
-	print "<a href=\"/donate/index.php?group_id=5511\"><img src=\"/images/project-support.jpg\" width=\"88\" height=\"32\" border=\"0\" alt=\"Support This Project\"></a>\n";
 	print "</body>\n";
 	print "</html>\n";
 }
