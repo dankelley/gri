@@ -195,7 +195,7 @@ start_up(int argc, char **argv)
 		if (argc > last_optional_arg + 2) {
 			string tmp(argv[last_optional_arg+2]);
 			string::size_type p = tmp.rfind(".ps");
-			if (p == -3 + tmp.size()) {
+			if (p != STRING_NPOS && p == -3 + tmp.size()) {
 				warning("\
 first argument looks like a PostScript filename.  Older versions\n\
          of Gri allowed you to specify the PostScript name that way,\n\
