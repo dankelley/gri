@@ -1,6 +1,5 @@
 @c -*-mode: texinfo; -*-
 
-
 \input texinfo @c -*-texinfo-*-
 @c
 @comment *** Start of HTML stuff ***
@@ -10596,17 +10595,13 @@ that file is not open, an error message will result.  Use
 @cindex reading synonyms
 
 @example
-`read [raw] [* [*...]] \synonym|.variable. [\synonym|.variable. [...]]@}'
+`read [* [*...]] \synonym|.variable. [\synonym|.variable. [...]]@}'
 @end example
 @noindent
 Read one or more items from the next line of the input file.  These
 items may be synonyms or variables.  The token @code{*} indicates
 that the word in the datafile should be skipped.  As usual, the datafile
 may be embedded in the commandfile, providing the last data line is blank.
-
-If the optional @code{raw} keyword is not present, comments are first
-trimmed from the data line.  If @code{raw} is present, however, any
-comments are retained on the line.
 
 Normally one would use synonyms for words, and variables for numbers.
 The items are separated by one or more "whitespace" characters
@@ -10678,17 +10673,12 @@ For more information on netCDF format, see
 @cindex reading variables
 @cindex reading synonyms
 @example
-`read line [raw] \synonym'
+`read line \synonym'
 @end example
 @noindent
 Read the next line of the datafile (or commandfile), trim off a trailing
 comment if there is one, and then store the next line of datafile into
 the named synonym.
-
-If the optional @code{raw} keyword is not present, comments are first
-trimmed from the data line.  If @code{raw} is present, however, any
-comments are retained on the line.
-
 
 @c HTML <!-- newfile Regress.html "Gri: `regress' command" "Gri Commands" -->
 
@@ -14700,11 +14690,11 @@ The next sections outline the changes made in Gri.
 @comment  node-name,  next,  previous,  up
 @subsection Version 2.6
 @table @emph
-@item 2.6.0 [2000-Nov-??] (Not released yet.)
+@item 2.6.0 [2000-Dec-??] (Not released yet.)
 @sp 1
-Permit keyword @code{raw} in reading synonyms and variables, e.g.
-@code{read raw \syn} (@ref{Read Synonym or Variable})
-and @code{read raw line \syn} (@ref{Read Line}.
+No longer remove comments from data lines that are read.  This served
+little function, interfered with recent user code, and could be
+accomplished by reading through a @code{sed} pipe in any case.
 
 @sp 1
 Make the first element of the @code{argv} array be the name of 

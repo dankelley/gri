@@ -452,6 +452,10 @@ extract_procedure(FILE * fp, char *line)
 		if (feof(fp))
 			break;
 		insert_cmd_in_ps(line);
+		//printf("\n[%s] ", line);
+		remove_comment(line);
+		//printf("-> [%s]\n",line);
+		
 		// Test whether starting to define a newcommand within this one
 		if (*(line + skip_space(line)) == '`') {
 			err("Missing `}' in procedure body.");

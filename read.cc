@@ -1,4 +1,10 @@
-#define DEBUG_READ 1 // Debug
+//#define DEBUG_READ 1 // Debug
+
+//     #define REMOVE_COMMENTS_FROM_DATA 1 
+// Uncomment the preceding line to make Gri remove comments
+// from data lines.  It used to do this by default, but
+// E.N. pointed out that it was a silly idea from the get-go.
+
 
 #include <string>
 #include <algorithm>	// for reverse
@@ -429,7 +435,9 @@ read_columnsCmd()
 			}
 #endif
 			//printf("end_of_data %d  contents '%s'\n",end_of_data,inLine.getValue());
+#ifdef REMOVE_COMMENTS_FROM_DATA
 			remove_comment(inLine.getValue());
+#endif
 			chop_into_data_words(inLine.getValue(), _word, &numCols, MAX_nword);
 #if 0
 			printf("%s:%d LINE IS:\n", __FILE__,__LINE__);
@@ -933,7 +941,9 @@ Grid width %d disagrees with existing x-grid (%d); first `delete grid'",
 				warning("Got EOF on end of data line; should have a newline there");
 			}
 #endif
+#ifdef REMOVE_COMMENTS_FROM_DATA
 			remove_comment(inLine.getValue());
+#endif
 			chop_into_data_words(inLine.getValue(), _word, &numCols, MAX_nword);
 			PUT_VAR("..words_in_dataline..", double(numCols));
 			if (numCols < 1) {	// blank line means done
@@ -1135,7 +1145,9 @@ Grid height %d disagrees with existing y-grid (%d); first `delete grid'",
 				warning("Got EOF on end of data line; should have a newline there");
 			}
 #endif
+#ifdef REMOVE_COMMENTS_FROM_DATA
 			remove_comment(inLine.getValue());
+#endif
 			chop_into_data_words(inLine.getValue(), _word, &numCols, MAX_nword);
 			PUT_VAR("..words_in_dataline..", double(numCols));
 			if (numCols < 1) {	// blank line means done
@@ -1522,7 +1534,9 @@ Grid height %ld disagrees with existing y-grid, which is %d high",
 			char prompt[20];
 			sprintf(prompt, "row %3d: ", row);
 			end_of_data = get_next_data_line(prompt, expected_words);
+#ifdef REMOVE_COMMENTS_FROM_DATA
 			remove_comment(inLine.getValue());
+#endif
 			chop_into_data_words(inLine.getValue(), _word, &_nword, MAX_nword);
 			PUT_VAR("..words_in_dataline..", double(_nword));
 			if (end_of_data == eof_before_data || _nword == 0) {
@@ -2219,7 +2233,9 @@ read_image_colorscaleCmd()
 			err("Can't read image grayscale; found EOF on line.");
 			return false;
 		}
+#ifdef REMOVE_COMMENTS_FROM_DATA
 		remove_comment(inLine.getValue());
+#endif
 		chop_into_data_words(inLine.getValue(), _Words2, &nword, MAX_nword);
 		if (using_rgb) {
 			getdnum(_Words2[0], &R);
@@ -2253,7 +2269,9 @@ read_image_grayscaleCmd()
 		err("Can't read image grayscale; found EOF on line.");
 		return false;
 	}
+#ifdef REMOVE_COMMENTS_FROM_DATA
 	remove_comment(inLine.getValue());
+#endif
 	chop_into_data_words(inLine.getValue(), _Words2, &nword, MAX_nword);
 	PUT_VAR("..words_in_dataline..", double(nword));
 	if (nword == 256) {
@@ -2271,7 +2289,9 @@ read_image_grayscaleCmd()
 				err("Can't read image grayscale; found EOF on line.");
 				return false;
 			}
+#ifdef REMOVE_COMMENTS_FROM_DATA
 			remove_comment(inLine.getValue());
+#endif
 			chop_into_data_words(inLine.getValue(), _Words2, &nword, MAX_nword);
 			PUT_VAR("..words_in_dataline..", double(nword));
 			getdnum(_Words2[0], &tmpf);
@@ -2406,12 +2426,14 @@ read_synonym_or_variableCmd()
 		err("`read' what? (Need more words on command line.)");
 		return false;
 	}
-	bool read_raw_flag = false;
 	int start = 0;
+#ifdef REMOVE_COMMENTS_FROM_DATA
+	bool read_raw_flag = false;
 	if (strEQ(_word[1], "raw")) {
 		read_raw_flag = true;
 		start = 1;
 	}
+#endif
 	if (_dataFILE.back().get_type() == DataFile::bin_netcdf) {
 #if defined(HAVE_LIBNETCDF)
 		// For netCDF files, only allow `read \name' (with one synonym)
@@ -2579,9 +2601,11 @@ read_synonym_or_variableCmd()
 					return true;
 				}
 			}
+#ifdef REMOVE_COMMENTS_FROM_DATA
 			if (!read_raw_flag)
 				if (remove_comment(inLine.getValue()))
 					return true;
+#endif
 			string the_word(_word[w]);
 			un_double_quote(the_word);
 			un_double_slash(the_word);
@@ -2633,12 +2657,14 @@ bool
 read_lineCmd()
 {
 	Require (_nword > 2, err("`read line' what?"));
-	bool read_raw_flag = false;
 	int start = 0;
+#ifdef REMOVE_COMMENTS_FROM_DATA
+	bool read_raw_flag = false;
 	if (strEQ(_word[2], "raw")) {
 		read_raw_flag = true;
 		start = 1;
 	}
+#endif
 	Require(is_syn(_word[2 + start]), err("`read line' what?"));
 	
 	eof_status        end_of_data = no_eof;	// flag for end of data
@@ -2653,6 +2679,7 @@ read_lineCmd()
 		}
 	} else {
 		char *s = inLine.getValue();
+#ifdef REMOVE_COMMENTS_FROM_DATA
 		if (!read_raw_flag) {
 			remove_comment(s);
 		} else {
@@ -2661,6 +2688,12 @@ read_lineCmd()
 			while (len > 1 && (s[len - 1] == '\n' || s[len - 1] == '\r'))
 				s[--len] = '\0';
 		}
+#else
+		// remove trailing newlines
+		int len = strlen(s);
+		while (len > 1 && (s[len - 1] == '\n' || s[len - 1] == '\r'))
+			s[--len] = '\0';
+#endif
 		if (!put_syn(_word[2 + start], s, true)) {
 			err("Synonym stack exhausted");
 			return false;

@@ -663,23 +663,43 @@ write_prompt()
 bool
 remove_comment(char *s)
 {
+	//printf("\tremove_comment(%s)\n",s);
+	int len = strlen(s);
+#if 0
 	// Discard trailing newlines (or control-M characters, which
 	// are added to newline in PC-ish systems), by converting
 	// them to nulls
-	int len = strlen(s);
 	while (len > 1 && (s[len - 1] == '\n' || s[len - 1] == '\r'))
 		s[--len] = '\0';
-
+#endif
+	bool is_continued = false;
+	if (len > 1 && s[len - 1] == '\\' && s[len - 2] == '\\') 
+		is_continued = true;
 	// Discard comment on end
 	if (len > 0) {
-		bool inquote = false;
+		bool in_dquote = false;
+		bool in_squote = false;
 		for (int i = 0; i < len; i++) {
-			if (s[i] == '"' || s[i] == '\'') {
-				inquote = !inquote;
-			} else if (!inquote 
-				   && ((s[i] == '/' && s[i+1] == '/')
-				   || s[i] == '#')) {
+			if (s[i] == '"') {
+				if (!in_squote)
+					in_dquote = !in_dquote;
+				continue;
+			}
+			if (s[i] == '\'') {
+				if (!in_dquote)
+					in_squote = !in_squote;
+				continue;
+			}
+			if (!in_dquote
+			    && !in_squote
+			    && ((s[i] == '/' && s[i+1] == '/') || s[i] == '#')) {
+				//printf("remove_comment [%s] ->\n", s);
 				s[i] = '\0';
+				//printf("               [%s]\n", s);
+				if (is_continued) {
+					s[i++] = '\\';
+					s[i++] = '\\';
+				}
 				len = i;
 				break;
 			}
@@ -688,13 +708,14 @@ remove_comment(char *s)
 		for (int i = 0; i < len; i++) {
 			//printf("\tEXAMINE [%c]\n", s[i]);
 			if (!isspace(s[i])) {
-				//printf("\t\tRETURNING false\n");
+				//printf("\t\tRETURNING false [%s]\n", s);
 				return false;
 			}
 		}
-		//printf("\t\tRETURNING true\n");
+		//printf("\t\tRETURNING true [%s]\n", s);
 		return true;
 	}
+	//printf("\t\tRETURNING BOTTOM false [%s]\n", s);
 	return false;
 }
 
