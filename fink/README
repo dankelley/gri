@@ -15,15 +15,11 @@ to find errors, and fix these before proceeding to step 2.
 	sudo cp gri.info           /sw/fink/dists/local/main/finkinfo/
 	sudo cp ../gri-2.12.9.tgz  /sw/src
 
-4. Build it
+4. Build it, install it, test it
+	cd /sw/fink/dists/local/main/finkinfo
 	fink rebuild gri
-
-5. Install it
 	fink install gri
-
-6. Test it
 	fink validate /sw/fink/debs/gri_2.12.8-1_darwin-powerpc.deb 
-
 
 REFERENCES
 * http://fink.sourceforge.net/doc/quick-start-pkg/example.php?phpLang=en
