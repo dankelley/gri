@@ -75,9 +75,12 @@ card-clean:
 	-rm -f card
 
 html-clean:
-	-cp FAQ.html save
+	rm -rf HIDE_FILE
+	mkdir HIDE_FILE
+	mv FAQ.html HIDE_FILE
 	-rm -f [A-Z]*.html *.jpg example*.html gri1.html index.html html
-	-mv save FAQ.html
+	mv HIDE_FILE/FAQ.html .
+	rm -rf HIDE_FILE
 
 info:	gri.texi
 	makeinfo gri.texi
