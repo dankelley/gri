@@ -191,7 +191,7 @@ Search gri manual for (may be a regular expression):<p>
         <font size="-1">
         <!-- Vsn 2.8.0: 2001-jul-27</br> -->
 	Stable version 
-	<a href="http://sourceforge.net/project/showfiles.php?group_id=5511&release_id=40718">2.8.0</a>
+	<a href="http://sourceforge.net/project/showfiles.php?group_id=5511&release_id=45649">2.8.0</a>
 	released
 	<? 
 	# mktime(hour,minute,second,month,day,year)
