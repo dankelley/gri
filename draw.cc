@@ -733,7 +733,7 @@ draw_contourCmd()
 			gr_textput(_grTempString);
 		}
 		if (labelled
-		    && (numcontours == 1 || gr_multiple(dlevel, dinc, 0.001 * dinc))) {
+		    && (numcontours == 1 || gr_multiple(dmax - dlevel, dinc, 0.001 * dinc))) {
 			if (fabs(dlevel) <= 1.0e-6 * fabs(dinc)) {
 				label.fromSTR("0");
 			} else {
