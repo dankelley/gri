@@ -31,7 +31,7 @@
 ;; Gri is a graphics plotting language that produces beautiful postscript
 ;; output suitable for publications.  Gri is written by Dan Kelley,
 ;; Dalhousie University.  Info about Gri is available at
-;;       http://www.phys.ocean.dal.ca/~kelley/gri/gri1.html
+;;       http://www.phys.ocean.dal.ca/~kelley/gri/index.html
 
 ;; New versions of gri-mode are included with Gri itself, and may also be
 ;; obtained at:
@@ -384,13 +384,13 @@ On your system, this could be `netscape'.  If so, set this variable in your
 
   (setq gri*WWW-program \"netscape\")")
 
-  (defvar gri*WWW-page "http://www.phys.ocean.dal.ca/~kelley/gri/gri1.html"
+  (defvar gri*WWW-page "http://www.phys.ocean.dal.ca/~kelley/gri/index.html"
   "*Web page or local html index file for the gri manual.
 This is used by the gri-WWW-manual command.
 On your system, this could be reset to a local html file, e.g.
  (setq gri*WWW-page \"file:/usr/share/doc/gri-html-doc/html/index.html\")
 but it defaults to the gri web page: 
- http://www.phys.ocean.dal.ca/~kelley/gri/gri1.html
+ http://www.phys.ocean.dal.ca/~kelley/gri/index.html
 
 See also:  variable gri*WWW-program.")
 
@@ -500,13 +500,13 @@ On your system, this could be `netscape'.  If so, set this variable in your
     :group 'gri
     :type '(restricted-sexp :match-alternatives (stringp 'nil)))
 
-  (defcustom gri*WWW-page "http://www.phys.ocean.dal.ca/~kelley/gri/gri1.html"
+  (defcustom gri*WWW-page "http://www.phys.ocean.dal.ca/~kelley/gri/index.html"
   "*Web page or local html index file for the gri manual.
 This is used by the gri-WWW-manual command.
 On your system, this could be reset to a local html file, e.g.
  (setq gri*WWW-page \"file:/usr/share/doc/gri-html-doc/html/index.html\")
 but it (usually) defaults to the gri web page: 
- http://www.phys.ocean.dal.ca/~kelley/gri/gri1.html
+ http://www.phys.ocean.dal.ca/~kelley/gri/index.html
 
 See also:  variable gri*WWW-program."
     :group 'gri
@@ -3192,7 +3192,7 @@ Based on ffap.el from: mic@cs.ucsd.edu (Michelangelo Grigni)"
 The page visited is set in the variable gri-WWW-page, which may be reset on 
 your site.  The main site (always up to date) is:
 
- http://www.phys.ocean.dal.ca/~kelley/gri/gri1.html
+ http://www.phys.ocean.dal.ca/~kelley/gri/index.html
 
 The browser used by determined by the variable gri*WWW-program.
 Any output (errors?) is put in the buffer `gri-WWW-manual'."
