@@ -50,5 +50,4 @@ as simple as the following, which produces an auto-scaled graph.<br>
    draw curve
 </font>
 
-
 <?php footer(); ?>
