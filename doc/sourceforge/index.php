@@ -44,10 +44,10 @@ common mathematical symbols.
 
 <p>Folks who write thousand-line Gri scripts usually start with something
 as simple as the following, which produces an auto-scaled graph.<br>
-<font color="#82140F">
-   open file.dat<br>
-   read columns x y<br>
+<pre>
+   open file.dat
+   read columns x y
    draw curve
-</font>
+</pre>
 
 <?php footer(); ?>
