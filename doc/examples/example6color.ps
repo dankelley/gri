@@ -1,7 +1,7 @@
 %!PS-Adobe-2.0 EPSF-1.2
-%%Creator: Gri2.2.4 (released 1999-Oct-20).  User=kelley, commandfile=example6color.gri
+%%Creator: Gri2.6.0 (released 2000-Jul-26).  User=kelley, commandfile=example6color.gri
 %%Title: example6color.ps
-%%CreationDate: Thu Oct 21 11:30:27 1999
+%%CreationDate: Mon Mar  5 18:23:07 2001
 %%Pages: (atend)
 %%BoundingBox: (atend)
 %%TemplateBox: 0 0 612 792
@@ -149,16 +149,22 @@
  /xll exch def
  /imagemap exch def
  q
- % Add the mapping to the transfer function (ref: white book, p 743.
- [{255 mul cvi imagemap exch get} /exec load currenttransfer /exec load]
-   cvx settransfer
+ % Until version 2.6.0 used a 'settransfer' here, but that
+ % triggers a bug in ps2pdf
  xll yll translate
  xur xll sub yur yll sub scale
  /do cl string def
- cl rw 8 [cl 0 0 rw neg 0 rw] {currentfile do readhexstring pop}image
+ cl rw 8 [cl 0 0 rw neg 0 rw]
+ {currentfile do readhexstring pop
+  dup length 1 sub 0 1 3 -1 roll
+    { 1 index exch
+      2 copy get imagemap exch get 255 mul cvi put
+    }
+  for
+ }image
  Q
  end
-} def
+} bind def
 /frdict  5 dict def
 /fr {
  frdict begin
@@ -406,12 +412,24 @@
   currentdict
 end
 /Courier-ISOLatin1 exch definefont pop
+/Courier-Oblique findfont dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse } forall
+  /Encoding ISOLatin1Encoding def
+  currentdict
+end
+/Courier-Oblique-ISOLatin1 exch definefont pop
 /Courier-Bold findfont dup length dict begin
   {1 index /FID ne {def} {pop pop} ifelse } forall
   /Encoding ISOLatin1Encoding def
   currentdict
 end
 /Courier-Bold-ISOLatin1 exch definefont pop
+/Courier-BoldOblique findfont dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse } forall
+  /Encoding ISOLatin1Encoding def
+  currentdict
+end
+/Courier-BoldOblique-ISOLatin1 exch definefont pop
 /Helvetica findfont dup length dict begin
   {1 index /FID ne {def} {pop pop} ifelse } forall
   /Encoding ISOLatin1Encoding def
@@ -424,53 +442,85 @@ end
   currentdict
 end
 /Helvetica-Bold-ISOLatin1 exch definefont pop
+/Helvetica-Oblique findfont dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse } forall
+  /Encoding ISOLatin1Encoding def
+  currentdict
+end
+/Helvetica-Oblique-ISOLatin1 exch definefont pop
 /Palatino-Roman findfont dup length dict begin
   {1 index /FID ne {def} {pop pop} ifelse } forall
   /Encoding ISOLatin1Encoding def
   currentdict
 end
 /Palatino-Roman-ISOLatin1 exch definefont pop
-/Palatino-Bold findfont dup length dict begin
-  {1 index /FID ne {def} {pop pop} ifelse } forall
-  /Encoding ISOLatin1Encoding def
-  currentdict
-end
-/Palatino-Bold-ISOLatin1 exch definefont pop
 /Palatino-Italic findfont dup length dict begin
   {1 index /FID ne {def} {pop pop} ifelse } forall
   /Encoding ISOLatin1Encoding def
   currentdict
 end
 /Palatino-Italic-ISOLatin1 exch definefont pop
+/Palatino-Bold findfont dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse } forall
+  /Encoding ISOLatin1Encoding def
+  currentdict
+end
+/Palatino-Bold-ISOLatin1 exch definefont pop
+/Palatino-BoldItalic findfont dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse } forall
+  /Encoding ISOLatin1Encoding def
+  currentdict
+end
+/Palatino-BoldItalic-ISOLatin1 exch definefont pop
 /Symbol findfont dup length dict begin
   {1 index /FID ne {def} {pop pop} ifelse } forall
   /Encoding ISOLatin1Encoding def
   currentdict
 end
 /Symbol-ISOLatin1 exch definefont pop
-/Times findfont dup length dict begin
-  {1 index /FID ne {def} {pop pop} ifelse } forall
-  /Encoding ISOLatin1Encoding def
-  currentdict
-end
-/Times-ISOLatin1 exch definefont pop
-/Times-Bold findfont dup length dict begin
-  {1 index /FID ne {def} {pop pop} ifelse } forall
-  /Encoding ISOLatin1Encoding def
-  currentdict
-end
-/Times-Bold-ISOLatin1 exch definefont pop
 /Times-Roman findfont dup length dict begin
   {1 index /FID ne {def} {pop pop} ifelse } forall
   /Encoding ISOLatin1Encoding def
   currentdict
 end
 /Times-Roman-ISOLatin1 exch definefont pop
+/Times-Italic findfont dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse } forall
+  /Encoding ISOLatin1Encoding def
+  currentdict
+end
+/Times-Italic-ISOLatin1 exch definefont pop
+/Times-Bold findfont dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse } forall
+  /Encoding ISOLatin1Encoding def
+  currentdict
+end
+/Times-Bold-ISOLatin1 exch definefont pop
+/Times-BoldItalic findfont dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse } forall
+  /Encoding ISOLatin1Encoding def
+  currentdict
+end
+/Times-BoldItalic-ISOLatin1 exch definefont pop
 %%EndProlog
 %%Page: 1 1
 /Helvetica-ISOLatin1 findfont 12.00 sc sf
+%gri:# Gri was invoked by user named
+%gri:#     kelley
+%gri:# on host named
+%gri:#     Intrusion.phys.ocean.dal.ca
+%gri:# using the command
+%gri:#    gri -y -p example6color.gri
+%gri:# at time Mon Mar  5 18:23:07 2001.
+%gri:#
+
+%gri:# The user's ~/.grirc file ...
+
+%gri:# ... end of users ~/.grirc file.
+
+%gri:
+
 %gri:# Example 6color -- Plot IR image of Gulf of Maine
-%gri:# $Id: example6color.ps,v 1.1 2000/05/11 15:08:00 dankelley Exp $
 %gri:
 %gri:# define characteristics of norda images
 %gri:\0val = "5"			# 0 in image
@@ -485,11 +535,11 @@ end
 %gri:query \maskname "Name mask  file" ("example6mask.dat")
 %gri:
 %gri:# get data
-%gri:open \filename uchar
+%gri:open \filename binary uchar
 %gri:set image range \0val \255val
 %gri:read image .rows. .cols. box 0 0 .km. .km.
 %gri:close
-%gri:open \maskname uchar
+%gri:open \maskname binary uchar
 %gri:read image mask .rows. .cols.
 %gri:close
 %gri:
@@ -2016,6 +2066,8 @@ S
 /Helvetica-ISOLatin1 findfont 12.00 sc sf
 %gri:draw image palette left \minT right \maxT increment \incT
 %^ scale 1 170.7 0 1.4225 1 170.7 0 1.4225
+0 g
+0 G
 q n % turn clipping on for image palette
 170.700000 591.760000 moveto
 534.860000 591.760000 lineto
@@ -2064,7 +2116,7 @@ FF6500FF4300FF4300FF4300FF4300FF4300FF4300FF4300FF4300FF4300FF4300FF4300FF4300
 FF4300FF4300FF4300FF4300FF4300FF2100FF2100FF2100FF2100FF2100FF2100FF2100FF2100
 FF2100FF2100FF2100FF2100FF2100FF2100FF2100FF2100FF2100FF0000FF0000FF0000FF0000
 FF0000FF0000FF0000FF0000FF0000
-S Q % turn clipping off for image palette
+Q % turn clipping off for image palette
 % gr_show_at() BEGIN
 0 g
 0 G
@@ -2104,13 +2156,15 @@ S Q % turn clipping off for image palette
 534.98 591.76 l
 S
 % END GriPath stroke/fill
+0.369 w % test
 0 g
 0 G
-1.0 i 0 J 1 j 0.709 w 10.0 M [] 0 d
+1.0 i 0 J 1 j 0.369 w 10.0 M [] 0 d
 170.70 591.76 m
 170.70 620.21 l
 534.86 620.21 l
 534.86 591.76 l
+170.70 591.76 l
 S
 % END GriPath stroke/fill
 %gri:draw image histogram
@@ -2195,7 +2249,7 @@ S
 0.0 5.4 rm
 /Helvetica-Oblique-ISOLatin1 findfont 9.00 sc sf
 () sh
-(\261) sh
+(\255) sh
 () sh
 /Helvetica-ISOLatin1 findfont 9.00 sc sf
 (4) sh
@@ -2224,7 +2278,7 @@ S
 0.0 5.4 rm
 /Helvetica-Oblique-ISOLatin1 findfont 9.00 sc sf
 () sh
-(\261) sh
+(\255) sh
 () sh
 /Helvetica-ISOLatin1 findfont 9.00 sc sf
 (3) sh
@@ -2253,7 +2307,7 @@ S
 0.0 5.4 rm
 /Helvetica-Oblique-ISOLatin1 findfont 9.00 sc sf
 () sh
-(\261) sh
+(\255) sh
 () sh
 /Helvetica-ISOLatin1 findfont 9.00 sc sf
 (2) sh
@@ -2282,7 +2336,7 @@ S
 0.0 5.4 rm
 /Helvetica-Oblique-ISOLatin1 findfont 9.00 sc sf
 () sh
-(\261) sh
+(\255) sh
 () sh
 /Helvetica-ISOLatin1 findfont 9.00 sc sf
 (1) sh
