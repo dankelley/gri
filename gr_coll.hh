@@ -90,76 +90,43 @@ class BlockSource
 {
 public:
 	BlockSource() {
-		filename = new char[1];
-		if (!filename) OUT_OF_MEMORY;
-		filename[0] = '\0';
 		line = 0;
 		offset = 0;
 	}
 	BlockSource& operator=(const BlockSource& n) {
 #if defined(DEBUG)
-		printf("DEBUG:gr_coll.hh BlockSource operator=() [line now is %d]\n",n.getLine());
+		printf("DEBUG:gr_coll.hh BlockSource operator=() [line now is %d]\n",n.get_line());
 #endif
-		if (strlen(n.getFilename()) > strlen(filename)) {
-			filename = new char[1 + strlen(n.getFilename())];
-			if (!filename) OUT_OF_MEMORY;
-		}
-		strcpy(filename, n.getFilename());
-		line = n.getLine();
-		offset =  n.getOffset();
+		filename = n.get_filename();
+		line = n.get_line();
+		offset =  n.get_offset();
 		return *this;
 	}
 	BlockSource(const BlockSource& n) {
 #if defined(DEBUG)
-		printf("DEBUG:gr_coll.hh BlockSource(BlockSource) [line now is %d]\n",n.getLine());
+		printf("DEBUG:gr_coll.hh BlockSource(BlockSource) [line now is %d]\n",n.get_line());
 #endif
-		filename = new char[1 + strlen(n.getFilename())];
-		if (!filename) OUT_OF_MEMORY;
-		strcpy(filename, n.getFilename());
-		line = n.getLine();
-		offset =  n.getOffset();
+		filename = n.get_filename();
+		line = n.get_line();
+		offset =  n.get_offset();
 	}
 	BlockSource(const char *the_filename, unsigned int the_line) {
 #if defined(DEBUG)
 		printf("DEBUG:gr_coll.hh BlockSource(%s,%d)\n",the_filename,the_line);
 #endif
-		filename = new char [1 + strlen(the_filename)];
-		if (!filename) OUT_OF_MEMORY;
-		strcpy(filename, the_filename);
+		filename = the_filename;
 		line = the_line;
 		offset = 0;		// ???
 	}
 	~BlockSource() {
-		// Oddly, a memory fault occurs on HP computers with g++ 2.7.x
-		// compilers, when cleaning up at the deletion of the global
-		// BlockSource vector.  Since this only happens at exit() time
-		// anyway, may as well just skip it I guess.  We should really
-		// be cleaning up memory, but what the heck, it's better to 
-		// be messy than crash.
-		//
-		// This measure introduced 23 April 1996, in version 2.6.2.
-		//
-		// Thanks to Toru Suzuki for help on this (see email archive for 
-		// more details).
-#if !defined(OS_IS_HPUX)
-		delete [] filename;
-#endif
+		filename.string::~string();
 	}
-#if 0
-	void setFilenameLine(const char *the_filename, unsigned int the_line) {
-		delete [] filename;
-		filename = new char [1 + strlen(the_filename)];
-		if (!filename) OUT_OF_MEMORY;
-		strcpy(filename, the_filename);
-		line = the_line;
-	}
-#endif
-	void incrementOffset()		{offset++;}
-	unsigned int getOffset()	const	{return offset;}
-	char *getFilename()		const	{return filename;}
-	unsigned int getLine() 	const	{/*printf("DEBUG:gr_coll.hh: getLine returning %d\n",line);*/return line;}
+	void increment_offset()		{offset++;}
+	unsigned int get_offset()	const	{return offset;			}
+	const char *get_filename()	const	{return filename.c_str();	}
+	unsigned int get_line()		const	{return line;			}
 private:
-	char *filename;		// File containing this src
+	string filename;		// File containing this src
 	unsigned int line;		// Line in that file
 	unsigned int offset;	// Offset from this line
 };

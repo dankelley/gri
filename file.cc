@@ -12,7 +12,7 @@
 
 // Push a new cmd file onto the stack.  Return NO if cannot load the file.
 bool
-push_cmd_file(const char * fname, bool interactive, bool allow_warning, const char * status)
+push_cmd_file(const char* fname, bool interactive, bool allow_warning, const char* status)
 {
 	if (!fname)
 		gr_Error("empty command-file name");
@@ -57,7 +57,7 @@ is_compressed_file(string& fname)
 bool
 push_data_file(const char* name, DataFile::type the_type, const char* status, bool delete_when_close)
 {
-	if (((unsigned) superuser()) & FLAG_AUT1)printf("DEBUG %s:%d push_data_file(%s,...) ...\n",__FILE__,__LINE__,name);
+	if (((unsigned) superuser()) & FLAG_AUT1)printf("\n  DEBUG %s:%d push_data_file(%s,...) ...\n",__FILE__,__LINE__,name);
 	if (the_type == DataFile::bin_netcdf) {
 #if !defined(HAVE_LIBNETCDF)
 		// This may be redundant; see openCmd
@@ -69,13 +69,6 @@ push_data_file(const char* name, DataFile::type the_type, const char* status, bo
 		if (file_id == -1)
 			return false;
 		DataFile df((FILE*)NULL, name, file_id, the_type, delete_when_close);
-		if (((unsigned) superuser()) & FLAG_AUT1)printf("DEBUG: %s:%d created a datafile at %x\n",__FILE__,__LINE__,int(&df));
-#if 0
-		df.set_name(name);
-		df.set_netCDF_id(file_id);
-		df.set_type(the_type);
-		df.set_delete_when_close(delete_when_close);
-#endif
 		_dataFILE.push_back(df);
 #endif
 	} else {
@@ -89,12 +82,6 @@ push_data_file(const char* name, DataFile::type the_type, const char* status, bo
 		if (NULL == fp)
 			return false;
 		DataFile df(fp, name, 0, the_type, delete_when_close);
-#if 0
-		df.set_fp(fp);
-		df.set_name(name);
-		df.set_type(the_type);
-		df.set_delete_when_close(delete_when_close);
-#endif
 		_dataFILE.push_back(df);
 #else
 		string sname(name);
@@ -110,31 +97,31 @@ push_data_file(const char* name, DataFile::type the_type, const char* status, bo
 				ShowStr("\n");
 			}
 			system(pipecmd.c_str());
-			FILE *fp = fopen(tmpfile_name.c_str(), status);			
+			FILE *fp = fopen(tmpfile_name.c_str(), status);
 			if (NULL == fp) {
 				printf("ERROR: gri-%s cannot open file '%s' (source at %s:%d)\n", VERSION,tmpfile_name.c_str(),__FILE__,__LINE__);
 				return false;
 			}
-			if (((unsigned) superuser()) & FLAG_AUT1)printf("FILE-OPEN: '%s' at fp %x\n", tmpfile_name.c_str(), int(fp));
 			DataFile df(fp, tmpfile_name.c_str(), 0, the_type, true);
-			if (((unsigned) superuser()) & FLAG_AUT1)printf("DEBUG: %s:%d created a datafile at %x\n",__FILE__,__LINE__,int(&df));
 			_dataFILE.push_back(df);
 		} else {
 			FILE *fp = fopen(name, status);
 			if (NULL != fp) {
-				if (((unsigned) superuser()) & FLAG_AUT1)printf("FILE-OPEN: '%s' at fp %x\n", name, int(fp));
 				DataFile df(fp, name, 0, the_type, delete_when_close);
-				if (((unsigned) superuser()) & FLAG_AUT1)printf("DEBUG %s:%d push_data_file(%s,...) about to do _dataFILE.push_back(fp=%x)\n",__FILE__,__LINE__,name,int(fp));
 				_dataFILE.push_back(df);
-
 			} else {
+				printf("DEBUG: %s:%d ... error is '%s'\n", __FILE__, __LINE__, strerror(errno));
+				if (errno == EMFILE) { // ref: 'man errno'
+					err("Cannot open file `\\", name, "' since there are too many open files.", "\\");
+					return false;
+				}
 #if !defined(HAVE_ACCESS)
 				return false; // just give up then
 #else
 				string sname(name);
 				sname.append(".gz");
 				if (0 != access(sname.c_str(), R_OK)) {
-					warning("Cannot locate file `", name, "'",
+					warning("Cannot locate file `\\", name, "'",
 						" or a compressed version `", sname.c_str(), "'",
 						"\\");
 					
@@ -154,10 +141,11 @@ push_data_file(const char* name, DataFile::type the_type, const char* status, bo
 				}
 				system(pipecmd.c_str());
 				fp = fopen(tmpfile_name.c_str(), status);
-				if (NULL == fp)
+				if (NULL == fp) {
+					printf("%s:%d 2222  Cannot open.  err is '%s'\n", __FILE__, __LINE__, strerror(errno));
 					return false;
+				}
 				DataFile df(fp, tmpfile_name.c_str(), 0, the_type, true);
-				if (((unsigned) superuser()) & FLAG_AUT1)printf("DEBUG: %s:%d created a datafile at %x\n",__FILE__,__LINE__,int(&df));
 				_dataFILE.push_back(df);
 #endif
 			}
@@ -169,7 +157,7 @@ push_data_file(const char* name, DataFile::type the_type, const char* status, bo
 }
 
 int
-data_file_index(const char * name)
+data_file_index(const char* name)
 {
 	string completefilename(name);
 	resolve_filename(completefilename, true);
@@ -181,13 +169,13 @@ data_file_index(const char * name)
 
 // Reorder data-file stack so named file is ready for reading
 bool
-push_data_file_to_top(const char * filename)
+push_data_file_to_top(const char* filename)
 {
 	int i = data_file_index(filename);
+	if (((unsigned) superuser()) & FLAG_AUT1)printf("\n  DEBUG: %s:%d push_data_file_to_top(%s).  This is the %d file   stack_len= %d\n",__FILE__,__LINE__,filename, i, _dataFILE.size());
 	if (i == -1)
 		return false;
 	DataFile n(_dataFILE.back());
-	if (((unsigned) superuser()) & FLAG_AUT1)printf("DEBUG: %s:%d push_data_file_to_top(%s) created a datafile at %x\n",__FILE__,__LINE__,filename,int(&n));
 	_dataFILE.back() = _dataFILE[i];
 	_dataFILE[i] = n;
 	return true;
@@ -197,6 +185,7 @@ push_data_file_to_top(const char * filename)
 bool
 pop_data_file(int file)
 {
+	if (((unsigned) superuser()) & FLAG_AUT1)printf("\n  DEBUG: %s:%d pop_data_file(file= %3d) fp= %x   stack_len= %d\n",__FILE__,__LINE__,file, int(_dataFILE[file].get_fp()), _dataFILE.size());
 	if (file < 0) {
 		err("No such data file exists");
 		return false;
@@ -223,12 +212,13 @@ pop_data_file(int file)
 #endif
 	} else {
 		if (_dataFILE[file].get_fp() == stdin) {
-			if (((unsigned) superuser()) & FLAG_AUT1)printf("********** %s:%d pop_data_file(%d) trying to close stdin\n",__FILE__,__LINE__,file);
+			printf("ERROR %s:%d pop_data_file(%d) trying to close stdin\n",__FILE__,__LINE__,file);
 			exit(1);
 		} else {
-			if (((unsigned) superuser()) & FLAG_AUT1)printf("FILE-CLOSE %s:%d about to close dataFILE[%d] which has fp at %x ...\n",__FILE__,__LINE__,file,int(_dataFILE[file].get_fp()));
-			fclose(_dataFILE[file].get_fp());
-			if (((unsigned) superuser()) & FLAG_AUT1)printf("\t     ... closed it ok.\n");
+			if (EOF == fclose(_dataFILE[file].get_fp())) {
+				printf("%s:%d: ERROR: pop_data_file() cannot close data file fp= %x for reason `%s'\n", __FILE__, __LINE__, int(_dataFILE[file].get_fp()), strerror(errno));
+				exit(1);
+			}
 		}
 	}
 	if (_dataFILE[file].get_delete_when_close()) {
@@ -247,14 +237,14 @@ pop_data_file(int file)
 		}
 		system(sys_cmd.c_str());
 	}
+	display_data_stack("BEFORE the erasure of a file\n");
 	_dataFILE.erase(_dataFILE.begin() + file);
-	if (((unsigned) superuser()) & FLAG_AUT1)printf("pop_data_file(%d) about to do _dataFILE.pop_back() size before is %d ...\n",file,int(_dataFILE.size()));
-	if (((unsigned) superuser()) & FLAG_AUT1)printf("        ... did pop_data_file(%d) ok ... size now %d\n",file,int(_dataFILE.size()));
+	display_data_stack("AFTER the erasure\n");
 	return true;
 }
 
 void
-display_data_stack(const char * s)
+display_data_stack(const char* s)
 {
 	printf("%s", s);
 	unsigned int n = _dataFILE.size();
@@ -263,12 +253,12 @@ display_data_stack(const char * s)
 	else {
 		printf("Data file stack is as follows:\n");
 		for (unsigned int i = 0; i < n; i++)
-			printf("   file [%s] type=%d delete_when_close=%d\n", _dataFILE[i].get_name(), int(_dataFILE[i].get_type()),int(_dataFILE[i].get_delete_when_close()));
+			printf("   file name= '%s' type= %d delete_when_close= %d  fp= %x\n", _dataFILE[i].get_name(), int(_dataFILE[i].get_type()),int(_dataFILE[i].get_delete_when_close()), int(_dataFILE[i].get_fp()));
 	}
 }
 
 void
-display_cmd_stack(const char * s)
+display_cmd_stack(const char* s)
 {
 	unsigned int i, n = _cmdFILE.size();
 	printf("%s Command file stack is as follows:\n", s);
@@ -279,15 +269,10 @@ void
 close_data_files()
 {
 	int n = _dataFILE.size();
-	if (((unsigned) superuser()) & FLAG_AUT1)printf("DEBUG: %s:%d in close_data_files().  n=%d\n",__FILE__,__LINE__,n);
+	if (((unsigned) superuser()) & FLAG_AUT1)printf("\n  DEBUG: %s:%d in close_data_files() about to dispose %d files\n",__FILE__,__LINE__,n);
 	for (int i = n - 1; i >= 0; i--) {
-		if (((unsigned) superuser()) & FLAG_AUT1)printf("\tDEBUG: %s:%d in close_data_files().  i=%d\n",__FILE__,__LINE__,i);
 		if (_dataFILE[i].get_type() != DataFile::from_cmdfile) {
-			if (((unsigned) superuser()) & FLAG_AUT1)printf("\t\tDEBUG: %s:%d in close_data_files().  i=%d (ok to pop this one)\n",__FILE__,__LINE__,i);
 			pop_data_file(i);
-		} else {
-			if (((unsigned) superuser()) & FLAG_AUT1)printf("\t\tDEBUG: %s:%d in close_data_files().  i=%d (IT IS **NOT** ok to pop this one)\n",__FILE__,__LINE__,i);
 		}
 	}
-	if (((unsigned) superuser()) & FLAG_AUT1)printf("DEBUG-------- leaving close_data_files()\n");
 }

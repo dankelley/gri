@@ -354,11 +354,11 @@ char *
 pwd()
 {
 #if HAVE_GETCWD
-	char msg[1024];
+	static char msg[1024];
 	if (NULL == getcwd(msg, 1024))
 		return "";
 	else
-		return strdup(msg);
+		return msg;
 #elif defined(VMS)		/* vms version braindead */
 	return "";
 #elif defined(MSDOS)		/* msdos version braindead */
@@ -1247,8 +1247,6 @@ demonstrate_command_usage()
 	return true;
 }
 
-bool            find_target(const char *pattern, int *pindex, int plen, char *target, int *tlen, int *star, int *plus);
-
 // Regular expression search. This is limited; presently can match:
 
 // (1) characters; (2) alternative characters given in square brackets; (3)
@@ -1261,22 +1259,21 @@ bool            find_target(const char *pattern, int *pindex, int plen, char *ta
 bool
 re_compare(const char *s, const char *pattern)
 {
+	bool find_target(const char *pattern, int *pindex, int plen, string& target, int *star, int *plus);
 	int             slen = strlen(s);
 	int             plen = strlen(pattern); 
-	int             tlen;	// for target
 	int             sindex = 0;
 	int             pindex = 0;
-	int             tindex = 0;
 	int             star;	// is subpattern followed by '*'?
 	int             plus;	// is subpattern followed by '+'?
 	bool            need_new_target = true;
 	int             matches = 0;
 	// Search through pattern
-	GriString target(strlen(pattern));
+	string target("");
 	while (sindex < slen) {
 		bool            this_matches = false;
 		if (need_new_target) {
-			if (!find_target(pattern, &pindex, plen, target.getValue(), &tlen, &star, &plus)) {
+			if (!find_target(pattern, &pindex, plen, target, &star, &plus)) {
 #ifdef DEBUG_RE
 				printf("ran out of pattern\n");
 #endif
@@ -1287,9 +1284,9 @@ re_compare(const char *s, const char *pattern)
 		// Now see if source string matches
 #ifdef DEBUG_RE
 		printf("source[%d] = `%c'  ", sindex, s[sindex]);
-		show_pattern(target.getValue(), tlen, star, plus);
+		show_pattern(target.c_str(), target.size(), star, plus);
 #endif
-		for (tindex = 0; tindex < tlen; tindex++) {
+		for (unsigned int tindex = 0; tindex < target.size(); tindex++) {
 			if (s[sindex] == target[tindex] || target[tindex] == '.') {
 				this_matches = true;
 				matches++;
@@ -1325,10 +1322,10 @@ re_compare(const char *s, const char *pattern)
 	}
 	// Some pattern left.  See if all remaining targets are '*' types; then
 	// have a match.
-	while (find_target(pattern, &pindex, plen, target.getValue(), &tlen, &star, &plus)) {
+	while (find_target(pattern, &pindex, plen, target, &star, &plus)) {
 		if (!star) {
 #ifdef DEBUG_RE
-			printf(" ... still some non-* target left: `%s'\n", target.getValue());
+			printf(" ... still some non-* target left: `%s'\n", target.c_str());
 #endif
 			return false;
 		}
@@ -1338,12 +1335,13 @@ re_compare(const char *s, const char *pattern)
 }
 
 bool
-find_target(const char *pattern, int *pindex, int plen, char *target, int *tlen, int *star, int *plus)
+find_target(const char *pattern, int *pindex, int plen, string& target, int *star, int *plus)
 {
+	target = "";
 	/*
 	 * Determine present target, leaving *pindex pointing at next part of
 	 * pattern.
-     */
+	 */
 	*star = *plus = 0;
 	if (*pindex >= plen)
 		return false;
@@ -1354,18 +1352,14 @@ find_target(const char *pattern, int *pindex, int plen, char *target, int *tlen,
 		 */
 		switch (pattern[*pindex + 1]) {
 		case '\\':
-			target[0] = '\\';
-			target[1] = '\0';
-			*tlen = 1;
+			target += '\\';
 			(*pindex)++;	/* the backslash */
 			(*pindex)++;	/* the '\\' */
 			break;
 		case 's':		/* whitespace as in perl */
-			target[0] = ' ';	// blank
-			target[1] = '\t';	// tab
-			target[2] = '\n';	// newline
-			target[3] = '\0';
-			*tlen = 3;
+			target += ' ';
+			target += '\t';
+			target += '\n';
 			(*pindex)++;	/* the backslash */
 			(*pindex)++;	/* the 's' */
 			break;
@@ -1379,20 +1373,15 @@ find_target(const char *pattern, int *pindex, int plen, char *target, int *tlen,
 		 * List of alternatives.
 		 */
 		(*pindex)++;		/* skip the '[' */
-		*tlen = 0;
-		while (pattern[*pindex] != ']' && pattern[*pindex] != '\0') {
-			target[(*tlen)++] = pattern[(*pindex)++];
-		}
+		while (pattern[*pindex] != ']' && pattern[*pindex] != '\0')
+			target += pattern[(*pindex)++];
 		(*pindex)++;		/* skip the ']' */
-		target[*tlen] = '\0';
 		break;
 	default:
 		/*
-		 * Single character.
+		 * A single character.
 		 */
-		target[0] = pattern[(*pindex)++];
-		target[1] = '\0';
-		*tlen = 1;
+		target += pattern[(*pindex)++];
 	}
 	if (pattern[*pindex] == '*') {
 		*star = 1;

@@ -201,12 +201,8 @@ start_up(int argc, char **argv)
 	PUT_VAR("..trace..", trace_old);
 
 	// DataFile stack
-	if (superuser() & FLAG_AUT1) {
-		printf("DEBUG: %s:%d about to create a new datafile\n",__FILE__,__LINE__);
-		printf("DEBUG: cmdfile length is %d\n", int(_cmdFILE.size()));
-	}
 	DataFile new_data_file;
-	if (superuser() & FLAG_AUT1)printf("DEBUG: %s:%d pushing back a datafile at address %x\n",__FILE__,__LINE__,int(&new_data_file));
+	if (superuser() & FLAG_AUT1)printf("\nDEBUG: %s:%d pushing back a datafile at address %x\n",__FILE__,__LINE__,int(&new_data_file));
 	_dataFILE.push_back(new_data_file);
 
 	//printf("last optional arg @ %d\n",last_optional_arg);

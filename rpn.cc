@@ -46,13 +46,38 @@ rpnfunctionCmd()
 bool
 substitute_rpn_expressions(const char *s, char *sout)
 {
+	// To speed action, maintain a buffer in which 's' will be copied,
+	// prior to chopping into words.  BUG: this buffer is only cleaned
+	// up at exit() time, since I never free() it.
+	unsigned int space_needed = 1 + strlen(s);
+	static char* copy = NULL;
+	static unsigned int copy_len = 0;
+	if (copy_len == 0) {
+		copy_len = space_needed;
+		copy = (char*)malloc(copy_len * sizeof(char));
+		//printf(" RPN started with space of %d\n", copy_len);
+		if (!copy) {
+			gr_Error("Out of memory in `rpn'");
+		}
+		//printf("RPN initially got space for %d new bytes of memory, to copy `%s'\n", space_needed, s);
+	} else {
+		if (copy_len < space_needed) {
+			copy_len = space_needed;
+			copy = (char*)realloc(copy, copy_len * sizeof(char));
+			//printf(" RPN increased space to %d\n", copy_len);
+			if (!copy) {
+				gr_Error("Out of memory in `rpn'");
+			}
+			//printf("RPN got space for %d new bytes of memory, to copy `%s'\n", space_needed, s);
+		}
+	}
+	strcpy(copy, s);
 	//printf("substitute_rpn_expressions(%s,...)\n",s);
 	bool            found = false;
 	int             i, nword;
 	int             rpn_start, rpn_end;
 	// Copy s to a buffer, to avoid destroying  it when chopping into words
-	GriString sCopy(s);
-	chop_into_words(sCopy.getValue(), _Words2, &nword, MAX_nword);
+	chop_into_words(copy, _Words2, &nword, MAX_nword);
 	if (nword < 2) {
 		strcpy(sout, _Words2[0]);
 		//printf("1111\n");

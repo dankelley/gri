@@ -4,7 +4,6 @@
 #include        "extern.hh"
 #include        "files.hh"
 
-int             system(const char *);
 
 bool            give_overall_help_message(void);
 bool            give_help_on_topic(void);
@@ -71,9 +70,10 @@ Type `help' followed by a command-name:\n\
     pwd         query         quit          read\n\
     regress     reorder       rescale       resize\n\
     return      rewind        set           show\n\
-    skip        smooth        source        sprintf\n\
-    state       superuser     system        write\n\
-Or type `help -' followed by a topic in:\n\
+    skip        sleep         smooth        source\n\
+    sprintf     state         superuser     system\n\
+    write\n\
+Or type `help -' followed by a topic from this list:\n\
     example     extending     files         math\n\
     strings     synonyms      variables     manual\n\
 To exit, type `quit'.\n\

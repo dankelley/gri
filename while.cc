@@ -35,7 +35,7 @@ whileCmd(void)
 		} else {
 			// Search for `end while', but first make a copy
 			// without the source_indicator
-			char *copy = new char [1 + strlen(_cmdLine)];
+			char *copy = (char*)malloc((1 + strlen(_cmdLine)) * sizeof(char));
 			if (!copy) OUT_OF_MEMORY;
 			strcpy(copy, _cmdLine);
 			int len = strlen(copy);
@@ -51,7 +51,7 @@ whileCmd(void)
 					break;
 				}
 			}
-			delete [] copy;
+			free(copy);
 		}
 		buffer.append(_cmdLine);
 		buffer.append("\n");
@@ -60,6 +60,7 @@ whileCmd(void)
 	return true;
 }
 
+#define DEBUG 1
 const int NOTIFY = 1000;
 bool
 perform_while_block(const char *buffer, const char *test, int lines)
@@ -69,7 +70,6 @@ perform_while_block(const char *buffer, const char *test, int lines)
 	int             fileline;
 	int             passes = 0;
 	while (test_is_true(test)) {
-		//printf(">>> STILL IN LOOP test '%s'\n",test);
 		// Check to see if test is now false
 		if (block_level() > 0) {
 			filename.assign(block_source_file());
@@ -90,10 +90,12 @@ perform_while_block(const char *buffer, const char *test, int lines)
 			       what_line() - lines + 1);
 #endif
 		}
+		
 		if (!perform_block(buffer, filename.c_str(), fileline)) {
 			// got break
 			break;
 		}
+
 		passes++;
 		if (_chatty > 0 && !(passes % NOTIFY)) {
 			char msg[100];
@@ -110,11 +112,10 @@ perform_while_block(const char *buffer, const char *test, int lines)
 static bool
 test_is_true(const char *s)
 {
-	char            res[100];
+	char            res[30];
 	double          value;
 #if 1
 	string ss;
-	bool substitute_synonyms_new(const char *s, string& sout, bool allow_math);
 	substitute_synonyms(s, ss, true);
 	substitute_rpn_expressions(ss.c_str(), res);
 	//printf(" + '%s'        ->     '%s'\n", s,ss.c_str());

@@ -14,6 +14,7 @@ bool            openCmd(void);
 bool
 openCmd()
 {
+	if (((unsigned) superuser()) & FLAG_AUT1)printf("\nDEBUG: %s:%d opening file named '%s'.  Before doing that, datafile stack_len= %d\n",__FILE__,__LINE__, _word[1], _dataFILE.size());
 	switch (_nword) {
 	case 2:
 		open_file(DataFile::ascii);
@@ -140,22 +141,28 @@ open_file(DataFile::type type)
 					err("`open' can't find file `\\", tmpfile_name.c_str(), "'", "\\");
 					return false;
 				}
-				return false;
+				break;
 			} else if (!isspace(*(_word[1] + i))) {
-				// Not a pipe.  Remove the quotes from filename and open
+				// Presume quoted string ... but check to be sure!
 				string filename;
-				filename.assign(1 + _word[1]);
-				filename[len - 2] = '\0';
+				if (*_word[1] == '"' && *_word[1] != '\0')
+					filename.assign(1 + _word[1]);
+				else
+					filename.assign(_word[1]);
 				if (filename.size() < 1) {
 					err("`open' needs a filename; \"\" won't do!");
 					return false;
 				}
+				if (filename[filename.size() - 1] == '"')
+					filename.STRINGERASE(filename.size() - 1, filename.size());
+				// Determine actual filename (substituting for ~ etc).
 				string completefilename(filename);
 				resolve_filename(completefilename, true);
 				if (!push_data_file(completefilename.c_str(), type, "r", false)) {
 					err("`open' can't find file `\\", completefilename.c_str(), "'", "\\");
 					return false;
 				}
+				break;
 			}
 		}
 	} else {
@@ -167,7 +174,7 @@ open_file(DataFile::type type)
 		string completefilename(_word[1]);
 		resolve_filename(completefilename, true);
 		if (!push_data_file(completefilename.c_str(), type, "r", false)) {
-			err("`open' can't find file `\\", completefilename.c_str(), "'", "\\");
+			err("`open' can't find (or successfully open) file `\\", completefilename.c_str(), "' due to system error `", strerror(errno), "'.", "\\");
 			return false;
 		}
 	}

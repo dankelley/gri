@@ -234,7 +234,6 @@ massage_command_line(char *cmd)
 		// Chop into words.  Note: chop_into_words() destroys it's string, so
 		// use a copy.
 		chop_into_words(_cmdLineCOPY, _word, &_nword, MAX_nword);
-		printf("DEBUG: is now '%s'\n",cmd);
 		return true;
 	}
 #endif
@@ -335,7 +334,6 @@ massage_command_line(char *cmd)
 bool
 perform_command_line(FILE *fp, bool is_which)
 {
-	int             cmd;
 	if (strlen(_cmdLine) < 1)
 		return true;		// was ok, just blank
 	// If it's definition of a new gri command, do that.
@@ -404,6 +402,7 @@ perform_command_line(FILE *fp, bool is_which)
 			}
 		}
 		// Figure out what command, and do it.
+		int cmd;
 		if (0 != (cmd = match_gri_syntax(_cmdLine, 0))) {
 			// Do the command.
 			push_cmd_being_done_stack(cmd - 1);
@@ -457,7 +456,7 @@ is_system_command(const char *s)
 	if (!strncmp(s, "system", 6) ? true : false)
 		return true;
 
-    // Second, check if '\s*\\name\s*=\s*system ...'
+	// Second, check if '\s*\\name\s*=\s*system ...'
 	s += skip_nonspace(s);      // name
 	s += skip_space(s);         // space
 	s += skip_nonspace(s);      // =
@@ -487,6 +486,7 @@ is_system_command(const char *s)
 bool
 systemCmd()
 {
+
 	char           *s = _cmdLine;
 	if (skipping_through_if())
 		return true;
@@ -504,7 +504,8 @@ systemCmd()
 	// appears on the lines following, ended by whatever word follows the
 	// "<<".
 	int i = strlen(s) - 2;
-	string read_until;
+	static string read_until;
+	read_until.assign("");
 	bool            using_read_until = false;
 	while (--i) {
 		if (!strncmp((s + i), "<<", 2)) {
@@ -537,7 +538,8 @@ systemCmd()
 			break;
 		}
 	}
-	string cmd(s); 
+	static string cmd;	// might save time
+	cmd.assign(s); 
 	if (using_read_until) {
 		// It is of the <<WORD form
 		cmd.append("\n");
@@ -556,7 +558,7 @@ systemCmd()
 				break;
 			}
 		}
-		string cmd_sub;
+		static string cmd_sub;
 		substitute_synonyms_cmdline(cmd.c_str(), cmd_sub, false);
 		cmd = cmd_sub;
 	} else {
@@ -574,10 +576,13 @@ systemCmd()
 		ShowStr(cmd.c_str());
 		ShowStr("\n");
 	}
+
 	int status = system(cmd.c_str());
+
 	PUT_VAR("..exit_status..", (double) status);
 	sprintf(_grTempString, "%d status\n", status);
 	RETURN_VALUE(_grTempString);
+
 	return true;
 }
 

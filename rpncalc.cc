@@ -986,10 +986,12 @@ do_operation(operator_name oper)
 		return print_rpn_stack();
 	} 
 	if (oper == STRCAT) {
+		// Need to remove the last quote (") of first and first quote of second.
 		NEED_ON_STACK(2); NEED_IS_TYPE(1, STRING); NEED_IS_TYPE(2, STRING);
-		string tmp(NAME(2));
-		tmp.append(NAME(1));
-		SET(2, tmp.c_str(), 0.0, STRING);
+		string res(NAME(2));
+		res.STRINGERASE(res.size()-1, 1);
+		res.append(NAME(1) + 1);
+		SET(2, res.c_str(), 0.0, STRING);
 		rS.pop_back();
 		return true;
 	} 

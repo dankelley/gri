@@ -389,7 +389,7 @@ bool extract_help(FILE * fp, char *line)
 		size += len + 2;	// chars for NEWLINE and NULL (needed?) 
 		if (NULL == (cp = (char *) realloc(cp, size))) {
 			gr_Error("Can't reallocate space for help for new command");
-			free(cp);
+			free(cp); // BUG: need this?
 			return false;
 		}
 		// An unprotected '{' designates end of help text
@@ -675,22 +675,21 @@ perform_block(const char *block, const char *source_file, int source_line)
 		    && !skipping_through_if()) {
 			if (word_is(0, "quit"))
 				quitCmd();
+			bsStack.pop_back();
 			return false;
 		}
 		if (word_is(0, "while") && !skipping_through_if()) {
 			// Capture the loop (look for matching 'end while')
 			string          test;
-			char           *buffer;
-			unsigned        buffer_len = 1;
 			unsigned        buffer_offset = offset;
 			int             loop_level = 1;
 			test.assign((char*)(6 + (char*)strstr(_cmdLine, "while")));
 			if (re_compare(test.c_str(), " *")) {
 				err("`while .test.|{rpn ...}' missing the test part");
+				bsStack.pop_back();
 				return false;
 			}
-			GET_STORAGE(buffer, char, 1);
-			*buffer = '\0';
+			string buffer;
 			while (get_line_in_block(block, &buffer_offset)) {
 				// Search for matching `end while'
 				if (re_compare(_cmdLine, "\\s*while.*")) {
@@ -701,42 +700,34 @@ perform_block(const char *block, const char *source_file, int source_line)
 						break;
 					}
 				}
-				buffer_len += 2 + strlen(_cmdLine);
-				buffer = (char *) realloc(buffer, buffer_len);
-				if (!buffer) {
-					gr_Error("ran out of storage during scanning of `while' loop");
-					return false;
-				}
-				strcat(buffer, _cmdLine);
-				strcat(buffer, "\n");
+				buffer.append(_cmdLine);
+				buffer.append("\n");
 			}
 			if (loop_level != 0) {
 				err("Missing `end while'");
+				bsStack.pop_back();
 				return false;
 			}
-			perform_while_block(buffer, test.c_str(), lines);
+			perform_while_block(buffer.c_str(), test.c_str(), lines);
 			// Adjust 'offset' to skip this interior loop, then skip the `end
 			// while' line.  Therefore will next capture line after the loop.
-			offset += strlen(buffer) + 1;	// point to after this loop 
+			offset += buffer.size() + 1;	// point to after this loop 
 			get_line_in_block(block, &offset);	// skip `end while' 
-			free(buffer);
 		} else if (word_is(0, "system")) {
-			// Intercept system commands, since if they are of the 
+			// Intercept system commands, since if they are of the
 			// <<EOF form, it will be neccessary to slurp the whole command
 			// right here.  Even if skipping through if, need
 			// to slurp until EOF
 			int status = 0;
 			char *s = _cmdLine;
-			char *cmd = NULL;		// assignment prevents warning
 			char *ptr;
 			s += skip_space(s);		// skip any initial space 
 			s += skip_nonspace(s);	// skip "system" 
 			s += skip_space(s);
-			GET_STORAGE(cmd, char, 1 + strlen(s));		
-			strcpy(cmd, s);
 			// s now points to first word after "system" 
 			if (*s == '\0' || *s == '\n') {
 				err("`system' needs a system command to do");
+				bsStack.pop_back();
 				return false;
 			}
 			ptr = (char*)strstr(s, "<<");
@@ -755,58 +746,54 @@ perform_block(const char *block, const char *source_file, int source_line)
 				int len = read_until.size();
 				for(int i = 0; i < len; i++) {
 					if (read_until[i] == '"' || isspace(read_until[i])) {
-						read_until[i] = '\0';
+						read_until.STRINGERASE(i, read_until.size() - i);
 						break;
 					}
 				}
+				string cmd;
 				while(get_line_in_block(block, &offset)) {
-					cmd = (char *) realloc(cmd, strlen(cmd) + 2 + strlen(_cmdLine));
-					if (!cmd) OUT_OF_MEMORY;
-					strcat(cmd, "\n");
-					strcat(cmd, _cmdLine);
+					cmd.append("\n");
+					cmd.append(_cmdLine);
 					if (len && !strncmp(_cmdLine + skip_space(_cmdLine), read_until.c_str(), len)) {
 						break;
 					}
 				}
 				if (!skipping_through_if()) {
 					string cmd_new;
-					substitute_synonyms_cmdline(cmd, cmd_new, false);
-					strcpy(cmd, cmd_new.c_str());
+					substitute_synonyms_cmdline(cmd.c_str(), cmd_new, false);
 					if (_griState.superuser() & FLAG_SYS) {
 						ShowStr("\n`system' sending the following command to the operating system:\n");
-						ShowStr(cmd);
+						ShowStr(cmd_new.c_str());
 						ShowStr("\n");
 					}
-					status = system(cmd);
+					status = system(cmd_new.c_str());
 					PUT_VAR("..exit_status..", (double) status);
 				}
-				free(cmd);
 			} else {
 				// It's just a simple system command. 
 				if (!skipping_through_if()) {
-					GET_STORAGE(cmd, char, 1 + strlen(s));
-					strcpy(cmd, s);
 					if (_griState.superuser() & FLAG_SYS) {
 						ShowStr("\n`system' sending the following command to the operating system:\n");
-						ShowStr(cmd);
+						ShowStr(s);
 						ShowStr("\n");
 					}
-					status = system(cmd);
+					status = system(s);
 					PUT_VAR("..exit_status..", (double) status);
-					free(cmd);
 				}
 			}
-		} else {
+		} else {	// It's not a system command
 			perform_command_line(NULL, true);
 		}
 		// Increment offset 
-		bsStack[bsStack.size() - 1].incrementOffset();
+		bsStack[bsStack.size() - 1].increment_offset();
 		// See if an error, or if `quit' executed 
 		stop_replay_if_error();
 		if (_done) {
+			bsStack.pop_back();
 			return false;
 		}
 	}				// while (get_line_in_block(block, &offset)) 
+	bsStack.pop_back();
 	return true;
 }				// perform_block
 
@@ -817,26 +804,23 @@ block_level()
 }
 
 // Do not call this if block_level()<=0 
-char
-*
+const char*
 block_source_file()
 {
 	if (bsStack.size() < 1) {
 		gr_Error("Underflow of block-stack (internal error)");
 	}
-	return bsStack[bsStack.size() - 1].getFilename();
+	return bsStack[bsStack.size() - 1].get_filename();
 }
 
 // Do not call this if block_level()<=0 
 unsigned int
 block_source_line()
 {
-	//printf("DEBUG:command.cc:block_source_line(): bsStack size %d\n",bsStack.size());
-	//printf("DEBUG:command.cc:block_source_line():  bsStack[bsStack.size() - 1].getLine()= %d\n", bsStack[bsStack.size() - 1].getLine());
 	if (bsStack.size() < 1) {
 		gr_Error("Underflow of block-stack (internal error)");
 	}
-	return bsStack[bsStack.size() - 1].getLine();
+	return bsStack[bsStack.size() - 1].get_line();
 }
 
 // Do not call this if block_level()<=0 
@@ -846,7 +830,7 @@ block_offset_line()
 	if (bsStack.size() < 1) {
 		gr_Error("Underflow of block-stack (internal error)");
 	}
-	return bsStack[bsStack.size() - 1].getOffset();
+	return bsStack[bsStack.size() - 1].get_offset();
 }
 
 // Return true if got a line 

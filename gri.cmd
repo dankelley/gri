@@ -612,7 +612,7 @@ labelling plots, etc, use the `draw arrow from .x0. .y0.  to .x1. .y1.
 Draw axes frame if required.  Used within gri commands that auto-draw
 axes.  NOTE: this should only be done by developers.
 {
-    extern "C" bool draw_axes_if_neededCmd(void);
+    extern "C" bool draw_axes_if_needed(void);
 }
 
 `draw axes [.style.|frame|none]'
@@ -4056,6 +4056,40 @@ Show values of all variables, whether built-in or user-defined.
     extern "C" bool show_expression_or_stringCmd(void);
 }
 
+`skip [forward|backward] [.n.]'
+ `skip'
+     For ascii files, skip forward 1 line in the data file.  For binary
+     files, skip forward 1 byte.
+
+ `skip backward'
+     For ascii files, skip backward 1 line in the data file.  For
+     binary files, skip backward 1 byte.
+
+ `skip .n.'
+ `skip forward .n.'
+     For ascii files, skip forward `.n.' lines in the data file.  For
+     binary files, skip forward `.n.' bytes.
+
+ `skip backward .n.'
+     For ascii files, skip backward `.n.' lines in the data file.  For
+     binary files, skip backward `.n.' bytes.
+{
+    extern "C" bool skipCmd(void);
+}
+
+`sleep .sec.'
+   Cause Gri to sleep for the indicated number of seconds, which should
+be a positive integer.  This command is ignored if `.sec.' is zero or
+negative, and the value of `.sec.' is first rounded to the nearest
+integer.
+
+   Normally, this command is used only be the developer, as a way to
+slow down Gri execution, to allow easier monitoring for debugging
+purposes.  Beware: it is tricky to kill a sleeping job!
+{
+    extern "C" bool sleepCmd(void);
+}
+
 `smooth {x [.n.]} | {y [.n.]} | {grid data [.f.|{along x|y}]}'
    All these smoothing commands ignore the *location* of the data.  For
 equispaced data these algorithms have the standard interpretation in
@@ -4116,25 +4150,13 @@ for more sophisticated filters.
     extern "C" bool smoothCmd(void);
 }
 
-`skip [forward|backward] [.n.]'
- `skip'
-     For ascii files, skip forward 1 line in the data file.  For binary
-     files, skip forward 1 byte.
-
- `skip backward'
-     For ascii files, skip backward 1 line in the data file.  For
-     binary files, skip backward 1 byte.
-
- `skip .n.'
- `skip forward .n.'
-     For ascii files, skip forward `.n.' lines in the data file.  For
-     binary files, skip forward `.n.' bytes.
-
- `skip backward .n.'
-     For ascii files, skip backward `.n.' lines in the data file.  For
-     binary files, skip backward `.n.' bytes.
+`source \filename'
+Insert instructions in named file into current file.  This is useful as
+a way of sharing global information between several Gri programs.  On
+unix systems, if a full filename is specified (i.e., a filename
+beginning with slash or period), then that particular file will be used.
 {
-    extern "C" bool skipCmd(void);
+    extern "C" bool sourceCmd(void);
 }
 
 `sprintf \synonym "format" .variable. [.variable. [...]]'
@@ -4172,15 +4194,6 @@ BUG: only line characteristics (width, color) and font characteristics
 should be saved has not yet been finalized by the author.
 {
     extern "C" bool stateCmd(void);
-}
-
-`source \filename'
-Insert instructions in named file into current file.  This is useful as
-a way of sharing global information between several Gri programs.  On
-unix systems, if a full filename is specified (i.e., a filename
-beginning with slash or period), then that particular file will be used.
-{
-    extern "C" bool sourceCmd(void);
 }
 
 `superuser'

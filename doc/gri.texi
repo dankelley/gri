@@ -1295,9 +1295,10 @@ Type `help' followed by a command-name:
  pwd         query         quit          read
  regress     reorder       rescale       resize
  return      rewind        set           show
- skip        smooth        source        sprintf
- state       superuser     system        write
-Or type `help -' followed by a topic in:
+ skip        sleep         smooth        source
+ sprintf     state         superuser     system
+ write
+Or type `help -' followed by a topic from this list:
  example     extending     files         math
  strings     synonyms      variables     manual
 @end example
@@ -6810,6 +6811,7 @@ Here is a list of all comands:
 * Set::                         Set various preference flags, etc
 * Show::                        Show values of various things
 * Skip::                        Skip some lines in data file
+* Sleep::                       Sleep for a while
 * Smooth::                      Smooth data
 * Source::                      Run another command file
 * Sprintf::                     Print variable values into a synonym
@@ -12497,7 +12499,7 @@ this makes the next @code{show} statement print on the same line.
 
 @c HTML <!-- newfile Skip.html "Gri: `skip' command" "Gri Commands" -->
 
-@node   Skip, Smooth, Show, Commands
+@node   Skip, Sleep, Show, Commands
 @comment  node-name,  next,  previous,  up
 @section The @code{skip} Command
 @findex skip
@@ -12525,9 +12527,31 @@ binary files, skip backward @code{.n.} bytes.
 @end itemize
 
 
+@c HTML <!-- newfile Sleep.html "Gri: `sleep' command" "Gri Commands" -->
+
+@node   Sleep, Smooth, Skip, Commands
+@comment  node-name,  next,  previous,  up
+@section The @code{sleep} Command
+@cindex sleep, causing Gri to
+@cindex process, causing Gri to sleep
+@cindex @code{sleep} command
+@example
+`sleep .sec.'
+@end example
+
+Cause Gri to sleep for the indicated number of seconds, which should be
+a positive integer.  This command is ignored if @code{.sec.} is zero or
+negative, and the value of @code{.sec.} is first rounded to the nearest
+integer.
+
+Normally, this command is used only be the developer, as a way to slow
+down Gri execution, to allow easier monitoring for debugging purposes.
+Beware: it is tricky to kill a sleeping job!
+
+
 @c HTML <!-- newfile Smooth.html "Gri: `smooth' command" "Gri Commands" -->
 
-@node   Smooth, Source, Skip, Commands
+@node   Smooth, Source, Sleep, Commands
 @comment  node-name,  next,  previous,  up
 @section The @code{smooth} Command
 @cindex columns, filtering
@@ -14259,6 +14283,9 @@ The next sections outline the changes made in Gri.
 @subsection Version 2.6
 @table @emph
 @item 2.6.0 [2000-Jul-26]
+
+@sp 1
+Add command @code{sleep} (@ref{Sleep}).
 
 @sp 1
 Remove command @code{show hint of the day}, since I no longer permission

@@ -276,11 +276,12 @@ show_columnsCmd()
 	if (_nword == 2) {
 		// `show columns'
 		// print label line
-		sprintf(_grTempString, "\"x\" column has name `%s'\n", 
-			unbackslash(_colX.getName()));
+		string tmp;
+		unbackslash(_colX.getName(), tmp);
+		sprintf(_grTempString, "\"x\" column has name `%s'\n", tmp.c_str());
+		unbackslash(_colY.getName(), tmp);
 		ShowStr(_grTempString);
-		sprintf(_grTempString, "\"y\" column has name `%s'\n", 
-			unbackslash(_colY.getName()));
+		sprintf(_grTempString, "\"y\" column has name `%s'\n", tmp.c_str());
 		ShowStr(_grTempString);
 		sprintf(_grTempString, "%s:\n", "column data");
 		ShowStr(_grTempString);
