@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.163 2002/04/04 21:34:35 dankelley Exp $
+@c $Id: gri.texim,v 1.164 2002/04/05 19:18:36 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -5030,7 +5030,7 @@ draw essay "Line 2, below top line"
 @subsubsection @code{draw gri logo}
 @findex draw gri logo
 @cindex @code{draw gri logo} command
-@cindex logo, how to dra
+@cindex logo, how to draw
 
 @example
 `draw gri logo .x_cm. .y_cm. .height_cm. .style. \fgcolor \bgcolor'
@@ -6029,24 +6029,20 @@ end group
 @cindex incompatibilities, keeping track of
 
 @example
-expecting version .n.
+expecting version a.b
+expecting version a.b.c
 @end example
 
-@noindent
-Show a list of incompatibilites since the named version.  This protects
-you from being clobbered by changes made to Gri, since you will be
-assured of being warned of these changes.  For example, if you are doing
-a lot of work with version 2.1.0, but want to move up to a higher
-version, you would include the line @code{expecting version 2.0100} in
-all your commandfiles.  Once you are sure that your commandfile will not
-be affected by the newer version, you should change the version that is
-expected.
+@noindent 
 
-Note: As of October 1996, Gri version numbers have been in the form
-@code{a.b.c}.  Numerical version numbers are created by the formula
-@code{a + b/100 + c/10000}.  For example, version @code{2.1.0} has a
-numerical value of @code{2.0100}.
+Show a list of incompatibilites that have been introduced since the
+named version.  This command can make your commandfiles more reliable
+against changes to Gri.
 
+There are two forms of the version number.  Modern versions use the
+triplet form, e.g.  @code{expecting version 2.8.7}, but prior to
+October 1996 the version numbers were written in decimal form, so that
+you would write @code{expecting version 1.069} for example.
 
 @c HTML <!-- newfile Filter.html "Gri: `filter' command" "Gri Commands" -->
 
@@ -16185,6 +16181,7 @@ and adjust the "status" menu to read "closed".
 @menu
 * Stable Stream::
 * Unstable Stream::
+* Deprecated Commands::
 @end menu
 
 
@@ -16845,7 +16842,7 @@ having used it.
 
 @c HTML <!-- newfile Plans.html "Gri: plans for future versions" "Gri: plans for future versions" -->
 
-@node   Plans, Installation, Development Version, Unstable Stream
+@node   Plans, Deprecated Commands, Development Version, Unstable Stream
 @comment  node-name,  next,  previous,  up
 @subsection Plans
 @c FOR NEXT RELEASE:
@@ -16934,9 +16931,23 @@ data (@ref{Convert Columns To Grid}).
 
 
 
+@c HTML <!-- newfile DeprecatedCommands.html "Gri: Deprecated Commands" "Gri: History" -->
+@node   Deprecated Commands, Installation, Plans, History
+@comment  node-name,  next,  previous,  up
+@section Deprecated Commands
+@cindex deprecated commands
+
+@itemize @bullet
+@item @emph{version 2.9.0}
+
+Replace @code{set y axis label horizontal} with @code{set y name horizontal}.
+@end itemize
+
+
+
 @c HTML <!-- newfile Installation.html "Gri: installing Gri" "Installing Gri" -->
 
-@node   Installation, Unix-install, Plans, Top
+@node   Installation, Unix-install, Deprecated Commands, Top
 @comment  node-name,  next,  previous,  up
 @chapter Installing Gri
 
