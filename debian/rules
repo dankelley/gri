@@ -8,7 +8,8 @@
 export DH_COMPAT=3
 
 #version=$(shell expr `pwd` : '.*-\([0-9.]*\)')
-version := $(shell grep ^VERSION Makefile | cut -d" " -f3)
+#version := $(shell grep ^VERSION Makefile | cut -d" " -f3)
+version := $(shell perl -ne 'if (/AC_INIT\(gri, ([0-9.]+)\)/){print $$1}' configure.ac)
 somefutureversion=2.14.0
 
 CXXFLAGS = -O2 -Wall
