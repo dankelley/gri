@@ -8364,17 +8364,33 @@ makes sense to put this command at the end of the commandfile.
 @end example
 
 @noindent
-Control clipping of following drawing commands.
+Control clipping of following drawing commands.  Note that the
+commands have two styles, one of which includes the keyword
+@code{postscript}.  PostScript clipping does a cleaner job, but it
+results in larger file sizes.  @emph{Important} if you are using
+@code{postscript} clipping, then you be @emph{sure} to turn it off
+using @code{set clip postscript off}, instead of @code{set clip off};
+otherwise Gri will get mixed up.
+
 @itemize @bullet
 
 @item @code{set clip on}
 Don't plot data outside axes.
 
+@item @code{set clip postscript on}
+As above, but Postscript clipping.
+
 @item @code{set clip on .xleft. .xright. .ybottom. .ytop.}
 Don't plot data outside indicated box.
 
+@item @code{set clip postscript on .xleft. .xright. .ybottom. .ytop.}
+As above, but Postscript clipping.
+
 @item @code{set clip off}
 Plot all data, whether inside the axes or not.
+
+@item @code{set clip postscript off}
+As above, but Postscript clipping.
 
 @item @code{set clip to curve} set clip to the curve, as
 would be drawn by a @code{draw curve filled} command, i.e. to the
@@ -8382,10 +8398,8 @@ polygon constructed by running along the xy points, in order, followed
 by a final segment from the last point back to the first point.  This is a 
 "postscript" clip, as explained in the next item.
 
-@item @code{set clip postscript on .xleft. .xright. .ybottom. .ytop.}
-Turn PostScript clipping on.  This will prevent @strong{any} drawing
-outside the named box.  Note that it will also prevent axis drawing, so
-the recommended procedure is something like
+@item @code{set clip postscript to curve}
+As above, but Postscript clipping.
 
 @example
 draw axes
@@ -8400,7 +8414,6 @@ Turn PostScript clipping off.
 @cindex data, clipping using @code{set input clip}
 @cindex clipping data using @code{set input clip}
 @end itemize
-
 
 @node   Set Color, Set Colorname, Set Clip, Set
 @comment  node-name,  next,  previous,  up
