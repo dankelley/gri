@@ -4,7 +4,7 @@
      VPATH = @srcdir@
 
 txt_files = example1.txt example2.txt example3.txt example4.txt example5.txt\
- example6color.txt example6histogram.txt example6.txt\
+ example6histogram.txt example6.txt\
  example7.txt example8.txt example9.txt\
  example10color.txt example10.txt\
  example11.txt example12.txt example13.txt\

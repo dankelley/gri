@@ -119,7 +119,7 @@ png_files = FEM.png example1.png example2.png example3.png example4.png \
  example13-tiny.png logo.png
 
 
-EXTRA_DIST = $(txt_files) \
+EXTRA_DIST = \
  example1.gri example2.gri example3.gri example4.gri example5.gri\
  example6.gri example6histogram.gri example7.gri example8.gri\
  example9.gri example10.gri example10color.gri example11.gri\
@@ -141,7 +141,7 @@ EXTRA_DIST = $(txt_files) \
  logo.ps FEM.ps
 
 
-DISTCLEANFILES = $(png_files) $(eps_files) $(html_files)
+DISTCLEANFILES = $(png_files) $(eps_files) $(html_files) $(txt_files)
 
 # Everything below this line is old, or is provide
 # for the developer's use only.
@@ -266,24 +266,23 @@ uninstall-am: uninstall-info-am
 	mostlyclean-generic uninstall uninstall-am uninstall-info-am
 
 
+%.txt : %.gri
+	echo "$<" | cat >$@
 %.eps : %.ps
 	cp $< $@
-
 %.png : %.ps
 	convert $< $@
 %-tiny.png : %.png
 	-convert -geometry 90x999 $< $@
-
 %.pdf : %.ps
 	ps2pdf $< $@
-
 %.html : %.gri
 	perl $(srcdir)/../gri2html $< $@
-
-all: html png eps
+all: html png eps txt
 html: $(html_files)
 eps: $(eps_files)
 png: $(png_files)
+txt: $(txt_files)
 %.ps : %.gri
 	$(GRI) $<
 
