@@ -33,27 +33,28 @@ void            register_source(void);
 bool
 listCmd()
 {
-	int             i = 0, cmd, found = 0;
-	FILE           *fp;
 	if (_nword == 1) {
 		err("`list' what?");
 		return false;
 	}
 	// Try to use tempnam(), or tmpnam(), before using hardwired name 
+	FILE *fp;
 	string tmpname_file(tmp_file_name());
 	if (!(fp = fopen(tmpname_file.c_str(), "w"))) {
 		err("Error opening buffer-file for `list' command");
 		return false;
 	}
 	// Figure out what command, and give help for it. 
+	int i = 0;
 	while (!isspace(*(_cmdLine + i)))
 		i++;
 	while (isspace(*(_cmdLine + i)))
 		i++;
-	strcat(_cmdLine, "*");
-	for (cmd = 0; cmd < _num_command; cmd++) {
+	strcat(_cmdLine, " *");
+	bool found = false;
+	for (int cmd = 0; cmd < _num_command; cmd++) {
 		if (same_syntax(_cmdLine + i, _command[cmd].syntax, 1)) {
-			found = 1;
+			found = true;
 			fprintf(fp, "%s\n{\n", _command[cmd].help);
 			fprintf(fp, "%s}\n", _command[cmd].procedure);
 		}

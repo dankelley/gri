@@ -1214,23 +1214,24 @@ more_file_to_terminal(const char *filename)
 	char            sys_cmd[100];
 #if defined(VMS)		// vax-vms machine
 	sprintf(sys_cmd, "TYPE %s/PAGE", filename);
-	system(sys_cmd);
 #elif defined(MSDOS)		// ibm-style msdos machine
 	GriString fn(filename);
 	fn.convert_slash_to_MSDOS();
 	sprintf(sys_cmd, "COMMAND.COM MORE < %s", fn.getValue());
-	system(sys_cmd);
 #else				// a neutral machine
-	char *            egetenv(const char *);
-	char *            pager = egetenv("PAGER");
-	if (pager) {
+	char *egetenv(const char *);
+	char *pager = egetenv("PAGER");
+	if (*pager != '\0')
 		sprintf(sys_cmd, "%s %s", pager, filename);
-		system(sys_cmd);
-	} else {
+	else
 		sprintf(sys_cmd, "more %s", filename);
-		system(sys_cmd);
-	}
 #endif
+	if (((unsigned) superuser()) & FLAG_SYS) {
+		ShowStr("\nSending the following command to the operating system:\n");
+		ShowStr(sys_cmd);
+		ShowStr("\n");
+	}
+	system(sys_cmd);
 }
 
 bool
