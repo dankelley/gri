@@ -12,10 +12,6 @@ bool            give_help_on_topic(void);
 bool
 helpCmd()
 {
-	FILE           *fp;
-	string          tmpname_file;
-	int             i = 0, cmd;
-	bool            found = false;
 	if (_nword == 1) {
 		(void) give_overall_help_message();
 		return true;
@@ -26,7 +22,10 @@ helpCmd()
 		return true;
 	} else {
 		// Must be `help item ...'
+		int             i = 0, cmd;
+		bool            found = false;
 		string tmpname_file(tmp_file_name());
+		FILE           *fp;
 		if (!(fp = fopen(tmpname_file.c_str(), "w"))) {
 			err("Sorry, error opening buffer-file for `help'");
 			return false;

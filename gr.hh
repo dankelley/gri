@@ -40,7 +40,7 @@
 #if 0                           // removed 1999-mar-07 to port to AIX
 #if defined(__GNUC__)
 extern "C" {
-    int  pclose(FILE *stream);
+	int  pclose(FILE *stream);
 }
 #endif
 #endif
@@ -64,24 +64,24 @@ extern "C" {
 // An io buffer that resorts to file i/o only if a buffer is exhausted. Used
 // by gr_textget() and gr_textsave().
 typedef struct {
-    FILE           *fp;		// file to read if buffer exhausted
-    char           *buf;	// the buffer
-    int             buf_capacity;	// chars in buffer
-    int             buf_position;	// next char to read in buffer
+	FILE           *fp;		// file to read if buffer exhausted
+	char           *buf;	// the buffer
+	int             buf_capacity;	// chars in buffer
+	int             buf_position;	// next char to read in buffer
 }               FBUFFER;
 
 // Axis properties
 typedef enum {
-    gr_axis_BOTTOM = 1,
-    gr_axis_TOP = 0,
-    gr_axis_LEFT = 1,
-    gr_axis_RIGHT = 0,
-    gr_axis_LOG = 0,
-    gr_axis_LINEAR = 1
+	gr_axis_BOTTOM = 1,
+	gr_axis_TOP = 0,
+	gr_axis_LEFT = 1,
+	gr_axis_RIGHT = 0,
+	gr_axis_LOG = 0,
+	gr_axis_LINEAR = 1
 }               gr_axis_properties;
 
 typedef struct {
-    double          width_pt;	/* width of pen */
+	double          width_pt;	/* width of pen */
 }               gr_pen;
 
 // Font numbers.  To add new fonts, use 'extract_font_widths' perlscript to
@@ -90,77 +90,77 @@ typedef struct {
 // DO NOT change the =0 below, or you'll mess everything up in grstring (esp in
 // the gr_drawstring() function).
 typedef enum {
-    gr_font_Courier = 0,	// Courier
-    gr_font_CourierOblique,	// Courier-Oblique
-    gr_font_CourierBold,	// Courier-Bold
-    gr_font_CourierBoldOblique,	// Courier-BoldOblique
-    gr_font_Helvetica,		// Helvetica
-    gr_font_HelveticaOblique,	// Helvetica-Oblique
-    gr_font_HelveticaBold,	// Helvetica-Bold
-    gr_font_HelveticaBoldOblique,	// Helvetica-BoldOblique
-    gr_font_PalatinoRoman,	// Palatino-Roman
-    gr_font_PalatinoItalic,	// Palatino-Italic
-    gr_font_PalatinoBold,	// Palatino-Bold
-    gr_font_PalatinoBoldItalic,	// Palatino-BoldItalic
-    gr_font_Symbol,		// Symbol
-    gr_font_TimesRoman,		// Times-Roman
-    gr_font_TimesItalic,	// Times-Italic
-    gr_font_TimesBold,		// Times-Bold
-    gr_font_TimesBoldItalic,	// Times-BoldItalic
-    gr_font_end_of_list
+	gr_font_Courier = 0,	// Courier
+	gr_font_CourierOblique,	// Courier-Oblique
+	gr_font_CourierBold,	// Courier-Bold
+	gr_font_CourierBoldOblique,	// Courier-BoldOblique
+	gr_font_Helvetica,		// Helvetica
+	gr_font_HelveticaOblique,	// Helvetica-Oblique
+	gr_font_HelveticaBold,	// Helvetica-Bold
+	gr_font_HelveticaBoldOblique,	// Helvetica-BoldOblique
+	gr_font_PalatinoRoman,	// Palatino-Roman
+	gr_font_PalatinoItalic,	// Palatino-Italic
+	gr_font_PalatinoBold,	// Palatino-Bold
+	gr_font_PalatinoBoldItalic,	// Palatino-BoldItalic
+	gr_font_Symbol,		// Symbol
+	gr_font_TimesRoman,		// Times-Roman
+	gr_font_TimesItalic,	// Times-Italic
+	gr_font_TimesBold,		// Times-Bold
+	gr_font_TimesBoldItalic,	// Times-BoldItalic
+	gr_font_end_of_list
 }               gr_fontID;
 
 
 
 typedef struct {
-    gr_fontID       id;
-    char           *name;
+	gr_fontID       id;
+	char           *name;
 } gr_font_info;	// used grstring.c:63 for font_list
 enum gr_font_encoding { font_encoding_standard, font_encoding_isolatin1};
 typedef struct {
-    gr_fontID        id;
-    gr_font_encoding encoding;
-    double           size_pt;
+	gr_fontID        id;
+	gr_font_encoding encoding;
+	double           size_pt;
 } gr_font;
 
 // Symbol numbers
 enum gr_symbol_type {
-    gr_unknown_symbol = -1,
-    gr_plus_symbol,
-    gr_times_symbol,
-    gr_box_symbol,
-    gr_circ_symbol,
-    gr_diamond_symbol,
-    gr_triangleup_symbol,
-    gr_triangleright_symbol,
-    gr_triangledown_symbol,
-    gr_triangleleft_symbol,
-    gr_asterisk_symbol,
-    gr_star_symbol,
-    gr_filledbox_symbol,
-    gr_bullet_symbol,
-    gr_filleddiamond_symbol,
-    gr_filledtriangleup_symbol,
-    gr_filledtriangleright_symbol,
-    gr_filledtriangledown_symbol,
-    gr_filledtriangleleft_symbol,
-    gr_filledhalfmoonup_symbol,
-    gr_filledhalfmoondown_symbol
+	gr_unknown_symbol = -1,
+	gr_plus_symbol,
+	gr_times_symbol,
+	gr_box_symbol,
+	gr_circ_symbol,
+	gr_diamond_symbol,
+	gr_triangleup_symbol,
+	gr_triangleright_symbol,
+	gr_triangledown_symbol,
+	gr_triangleleft_symbol,
+	gr_asterisk_symbol,
+	gr_star_symbol,
+	gr_filledbox_symbol,
+	gr_bullet_symbol,
+	gr_filleddiamond_symbol,
+	gr_filledtriangleup_symbol,
+	gr_filledtriangleright_symbol,
+	gr_filledtriangledown_symbol,
+	gr_filledtriangleleft_symbol,
+	gr_filledhalfmoonup_symbol,
+	gr_filledhalfmoondown_symbol
 };
 
 // Color.  Is this used??
 typedef enum {
-    bw_model, rgb_model, hsb_model
+	bw_model, rgb_model, hsb_model
 }               gr_color_model;
 
 typedef struct {
-    double          red;
-    double          green;
-    double          blue;
-    double          hue;
-    double          saturation;
-    double          brightness;
-    gr_color_model  color_model;
+	double          red;
+	double          green;
+	double          blue;
+	double          hue;
+	double          saturation;
+	double          brightness;
+	gr_color_model  color_model;
 }               gr_color;
 
 

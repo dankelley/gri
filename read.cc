@@ -2875,11 +2875,11 @@ get_next_data_word()
 void
 set_eof_flag_on_data_file()
 {
-    PUT_VAR("..eof..", 1.0);
+	PUT_VAR("..eof..", 1.0);
 }
 
 void
 clear_eof_flag_on_data_file()
 {
-    PUT_VAR("..eof..", 0.0);
+	PUT_VAR("..eof..", 0.0);
 }

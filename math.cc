@@ -3,8 +3,6 @@
 #include	"extern.hh"
 #include	"image_ex.hh"
 
-//int             i, n;
-
 bool            mathCmd();
 static bool     column_math(double *Ptr, int n, int operator_position = 1);
 static bool     image_math(void);
@@ -15,11 +13,11 @@ extern void     lowpass_image(void);
 bool
 mathCmd()
 {
-	double          number, old_value = 0.0;
 	if (_nword < 3) {
 		err("Proper format: `.x. = 10.0', `.x. *= 2', or `.x. = { rpn ... }'");
 		return false;
 	}
+	double          number, old_value = 0.0;
 	// Variable
 	if (is_var(_word[0])) {
 		if (!getdnum(_word[2], &number))
@@ -130,8 +128,6 @@ static bool
 column_math(double *Ptr, int n, int operator_position /*= 1*/)
 {
 	Require(n > 0, gr_Error("Trying to do column-math on non-existent column."));
-	double          number;
-	int i;
 	// Ensure enough space
 	if      (word_is(0, "x"))	  {_colX.setDepth(n);     Ptr = _colX.begin();}
 	else if (word_is(0, "y"))	  {_colY.setDepth(n);     Ptr = _colY.begin();}
@@ -143,20 +139,21 @@ column_math(double *Ptr, int n, int operator_position /*= 1*/)
 
 	// special case of `y = x...'
 	if (_nword == 3 && word_is(0, "y") && word_is(1, "=") && word_is(2, "x")) {
-		for (i = 0; i < n; i++)
+		for (int i = 0; i < n; i++)
 			_colY[i] = _colX[i];
 		if (word_is(0, "y") && _need_y_axis && !_user_set_y_axis)
 			create_y_scale();
 		return true;
 	}
 
+	double          number;
 	if (!getdnum(_word[operator_position + 1], &number))
 		return false;
     
 	// Special case of assignment
 	if (word_is(operator_position, "=")) {
 		// Make sure column can hold the data
-		for (i = 0; i < n; i++, Ptr++) {
+		for (int i = 0; i < n; i++, Ptr++) {
 			if (!gr_missing(*Ptr)) {
 				*Ptr = number;
 			}
@@ -168,22 +165,32 @@ column_math(double *Ptr, int n, int operator_position /*= 1*/)
 
 	// Do modification (OP=) cases
 	if (word_is(operator_position, "+=")) {
-		for (i = 0; i < n; i++, Ptr++)	if (!gr_missing(*Ptr))	*Ptr += number;
+		for (int i = 0; i < n; i++, Ptr++) 
+			if (!gr_missing(*Ptr))
+				*Ptr += number;
 	} else if (word_is(operator_position, "-=")) {
-		for (i = 0; i < n; i++, Ptr++)	if (!gr_missing(*Ptr))	*Ptr -= number;
+		for (int i = 0; i < n; i++, Ptr++)
+			if (!gr_missing(*Ptr))	
+				*Ptr -= number;
 	} else if (word_is(operator_position, "*=")) {
-		for (i = 0; i < n; i++, Ptr++)	if (!gr_missing(*Ptr))	*Ptr *= number;
+		for (int i = 0; i < n; i++, Ptr++)
+			if (!gr_missing(*Ptr))
+				*Ptr *= number;
 	} else if (word_is(operator_position, "/=")) {
-		for (i = 0; i < n; i++, Ptr++)	if (!gr_missing(*Ptr))	*Ptr /= number;
+		for (int i = 0; i < n; i++, Ptr++)
+			if (!gr_missing(*Ptr))	
+				*Ptr /= number;
 	} else if (word_is(operator_position, "^=")) {
-		for (i = 0; i < n; i++, Ptr++)	if (!gr_missing(*Ptr))	*Ptr = pow(*Ptr, number);
+		for (int i = 0; i < n; i++, Ptr++)
+			if (!gr_missing(*Ptr))
+				*Ptr = pow(*Ptr, number);
 	} else if (word_is(operator_position, "_=")) {
 		if (number < 0.0) {
 			err("Cannot do log to negative base");
 			return false;
 		}
 		double lbase = log(number);
-		for (i = 0; i < n; i++, Ptr++)
+		for (int i = 0; i < n; i++, Ptr++)
 			if (!gr_missing(*Ptr) && *Ptr > 0.0)
 				*Ptr = log(*Ptr) / lbase;
 			else

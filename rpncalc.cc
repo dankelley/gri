@@ -1,5 +1,5 @@
 // Do rpn math
-#define STRING_END(S,N) ((S) + strlen((S)) - 1 - (N))
+#define STRING_END(S) ((S) + strlen((S)) - 1)
 #include	<string>
 #include	<ctype.h>
 #include	<stdio.h>
@@ -1017,8 +1017,8 @@ do_operation(operator_name oper)
 			FILE           *pipefile;
 			// double duty for this 
 			strcpy(output_lines, 1 + NAME(1));
-			if (*STRING_END(output_lines, 0) == '"')
-				*STRING_END(output_lines, 0) = '\0';
+			if (*STRING_END(output_lines) == '"')
+				*STRING_END(output_lines) = '\0';
 			pipefile = (FILE *) popen(output_lines, "r");
 			if (!pipefile) {
 				err("Sorry, cannot do `system' in RPN; failed popen() call");
@@ -1029,8 +1029,8 @@ do_operation(operator_name oper)
 			while (NULL != fgets(thisline, LineLength_1, pipefile))
 				strcat(output_lines, thisline);
 			pclose(pipefile);
-			if (*STRING_END(output_lines, 0) == '\n') {
-				*STRING_END(output_lines, 0) = '\0';
+			if (*STRING_END(output_lines) == '\n') {
+				*STRING_END(output_lines) = '\0';
 			}
 			string tmp("\"");
 			tmp.append(output_lines);
@@ -1065,8 +1065,8 @@ do_operation(operator_name oper)
 		if (!unadorned) OUT_OF_MEMORY;
 		strcpy(unadorned, 1 + NAME(1));
 		// Remove quote (check, although MUST be there 
-		if (*STRING_END(unadorned, 0) == '"')
-			*STRING_END(unadorned, 0) = '\0';
+		if (*STRING_END(unadorned) == '"')
+			*STRING_END(unadorned) = '\0';
 		switch (TYPE(2)) {
 		case NUMBER:
 			if (is_var(unadorned)) {

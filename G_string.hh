@@ -8,15 +8,15 @@
 class G_string : public string
 {
 public:
-    bool line_from_FILE(FILE *fp); // Get Line from file, true if EOF
+	bool line_from_FILE(FILE *fp); // Get Line from file, true if EOF
 #if 0
-    bool word_from_FILE(FILE *fp); // Get a word from file, true if EOF
+	bool word_from_FILE(FILE *fp); // Get a word from file, true if EOF
 #endif
 #if 0
-    void draw(double xcm, double ycm, gr_textStyle s, double angle) const;
+	void draw(double xcm, double ycm, gr_textStyle s, double angle) const;
 #endif
 #if 0
-    void sed(const char *cmd);	  // Modify by (limited) sed command
+	void sed(const char *cmd);	  // Modify by (limited) sed command
 #endif
 };
 #endif

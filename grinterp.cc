@@ -10,11 +10,11 @@ int             number_good_xyz(double x[], double y[], double f[], int n);
 int
 number_good_xyz(double *x, double *y, double *f, int n)
 {
-    int             i, good = 0;
-    for (i = 0; i < n; i++)
-	if (!gr_missingx(x[i]) && !gr_missingy(y[i]) && !gr_missing(f[i]))
-	    good++;
-    return good;
+	int             i, good = 0;
+	for (i = 0; i < n; i++)
+		if (!gr_missingx(x[i]) && !gr_missingy(y[i]) && !gr_missing(f[i]))
+			good++;
+	return good;
 }
 
 /*
@@ -73,108 +73,108 @@ gr_grid1(double *x, double *y, double *f,
 	 int enlargements,
 	 double *fOut)
 {
-    double          dx, dy;
-    int             enlarge = 0;
-    unsigned int    i;
-    unsigned int    nn, num_in_rect;
-    double          d2;	/* squared distance */
-    double          sumw;	/* sum of weights */
-    double          sumfw;	/* sum of weighted values */
-    double          w;		/* weight of f[i] */
-    /* Check for obvious errors */
-    if (n <= 0 || neighbors == 0) {
-	*fOut = _grMissingValue;
-	return 0;
-    }
-    nn = number_good_xyz(x, y, f, n);
-    if (neighbors > nn)
-	neighbors = nn;
-    /*
-     * Search the rectangle, increasing its size if necessary.
-     */
-    do {
-	num_in_rect = 0;
-	sumw = sumfw = 0.0;
-	switch (method) {
-	case 0:
-	    for (i = 0; i < n; i++) {
-		dx = x0 - x[i];
-		if (-xr <= dx && dx <= xr) {
-		    dy = y0 - y[i];
-		    if (-yr <= dy && dy <= yr) {
-			sumw += 1.0;
-			sumfw += f[i];
-			num_in_rect++;
-		    }
-		}
-	    }
-	    break;
-	case 1:
-	    for (i = 0; i < n; i++) {
-		dx = GRI_ABS(x0 - x[i]);
-		if (dx <= xr) {
-		    dy = GRI_ABS(y0 - y[i]);
-		    if (dy <= yr) {
-			dx /= xr;
-			dy /= yr;
-			d2 = dx * dx + dy * dy;	/* note 0<=d2<=2 */
-			w = (2.0 - d2) / (2.0 + d2);
-			sumw += w;
-			sumfw += f[i] * w;
-			num_in_rect++;
-		    }
-		}
-	    }
-	    break;
-	case 2:
-	    for (i = 0; i < n; i++) {
-		dx = GRI_ABS(x0 - x[i]);
-		if (dx <= xr) {
-		    dy = GRI_ABS(y0 - y[i]);
-		    if (dy <= yr) {
-			dx /= xr;
-			dy /= yr;
-			d2 = dx * dx + dy * dy;	/* note 0<=d2<=2 */
-			w = (2.0 - d2) / (2.0 + d2);
-			w *= w;
-			sumw += w;
-			sumfw += f[i] * w;
-			num_in_rect++;
-		    }
-		}
-	    }
-	    break;
-	case 3:
-	    for (i = 0; i < n; i++) {
-		dx = GRI_ABS(x0 - x[i]);
-		if (dx <= xr) {
-		    dy = GRI_ABS(y0 - y[i]);
-		    if (dy <= yr) {
-			dx /= xr;
-			dy /= yr;
-			d2 = dx * dx + dy * dy;	/* note 0<=d2<=2 */
-			w = (2.0 - d2) / (2.0 + d2);
-			w *= w;
-			w *= w;
-			sumw += w;
-			sumfw += f[i] * w;
-			num_in_rect++;
-		    }
-		}
-	    }
-	    break;
-	default:
-	    return 0;		/* unknown method! */
+	double          dx, dy;
+	int             enlarge = 0;
+	unsigned int    i;
+	unsigned int    nn, num_in_rect;
+	double          d2;	/* squared distance */
+	double          sumw;	/* sum of weights */
+	double          sumfw;	/* sum of weighted values */
+	double          w;		/* weight of f[i] */
+	/* Check for obvious errors */
+	if (n <= 0 || neighbors == 0) {
+		*fOut = _grMissingValue;
+		return 0;
 	}
-	xr *= root_of_2;
-	yr *= root_of_2;
-    } while ((++enlarge <= enlargements || enlargements < 0)
-	     && num_in_rect < neighbors);
-    if (num_in_rect > 0) {
-	*fOut = sumfw / sumw;
-	return num_in_rect;
-    } else {
-	*fOut = _grMissingValue;
-	return 0;
-    }
+	nn = number_good_xyz(x, y, f, n);
+	if (neighbors > nn)
+		neighbors = nn;
+	/*
+	 * Search the rectangle, increasing its size if necessary.
+	 */
+	do {
+		num_in_rect = 0;
+		sumw = sumfw = 0.0;
+		switch (method) {
+		case 0:
+			for (i = 0; i < n; i++) {
+				dx = x0 - x[i];
+				if (-xr <= dx && dx <= xr) {
+					dy = y0 - y[i];
+					if (-yr <= dy && dy <= yr) {
+						sumw += 1.0;
+						sumfw += f[i];
+						num_in_rect++;
+					}
+				}
+			}
+			break;
+		case 1:
+			for (i = 0; i < n; i++) {
+				dx = GRI_ABS(x0 - x[i]);
+				if (dx <= xr) {
+					dy = GRI_ABS(y0 - y[i]);
+					if (dy <= yr) {
+						dx /= xr;
+						dy /= yr;
+						d2 = dx * dx + dy * dy;	/* note 0<=d2<=2 */
+						w = (2.0 - d2) / (2.0 + d2);
+						sumw += w;
+						sumfw += f[i] * w;
+						num_in_rect++;
+					}
+				}
+			}
+			break;
+		case 2:
+			for (i = 0; i < n; i++) {
+				dx = GRI_ABS(x0 - x[i]);
+				if (dx <= xr) {
+					dy = GRI_ABS(y0 - y[i]);
+					if (dy <= yr) {
+						dx /= xr;
+						dy /= yr;
+						d2 = dx * dx + dy * dy;	/* note 0<=d2<=2 */
+						w = (2.0 - d2) / (2.0 + d2);
+						w *= w;
+						sumw += w;
+						sumfw += f[i] * w;
+						num_in_rect++;
+					}
+				}
+			}
+			break;
+		case 3:
+			for (i = 0; i < n; i++) {
+				dx = GRI_ABS(x0 - x[i]);
+				if (dx <= xr) {
+					dy = GRI_ABS(y0 - y[i]);
+					if (dy <= yr) {
+						dx /= xr;
+						dy /= yr;
+						d2 = dx * dx + dy * dy;	/* note 0<=d2<=2 */
+						w = (2.0 - d2) / (2.0 + d2);
+						w *= w;
+						w *= w;
+						sumw += w;
+						sumfw += f[i] * w;
+						num_in_rect++;
+					}
+				}
+			}
+			break;
+		default:
+			return 0;		/* unknown method! */
+		}
+		xr *= root_of_2;
+		yr *= root_of_2;
+	} while ((++enlarge <= enlargements || enlargements < 0)
+		 && num_in_rect < neighbors);
+	if (num_in_rect > 0) {
+		*fOut = sumfw / sumw;
+		return num_in_rect;
+	} else {
+		*fOut = _grMissingValue;
+		return 0;
+	}
 }

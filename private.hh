@@ -26,16 +26,16 @@
 
 // Image storage.
 typedef struct {
-    int             ras_magic;	// magic number
-    unsigned int    ras_width;	// width (pixels) of image
-    unsigned int    ras_height;	// height (pixels) of image
-    unsigned int    ras_depth;	// depth (1, 8, or 24 bits) of pixel
-    unsigned int    ras_length;	// length (bytes) of image
-    int             ras_type;	// type of file; see RT_* below
-    int             ras_maptype;// type of colormap; see RMT_* below
-    unsigned int    ras_maplength; // length (bytes) of following map
-    unsigned char  *map;	   // map
-    unsigned char  *image;	   // image
+	int             ras_magic;	// magic number
+	unsigned int    ras_width;	// width (pixels) of image
+	unsigned int    ras_height;	// height (pixels) of image
+	unsigned int    ras_depth;	// depth (1, 8, or 24 bits) of pixel
+	unsigned int    ras_length;	// length (bytes) of image
+	int             ras_type;	// type of file; see RT_* below
+	int             ras_maptype;// type of colormap; see RMT_* below
+	unsigned int    ras_maplength; // length (bytes) of following map
+	unsigned char  *map;	   // map
+	unsigned char  *image;	   // image
 }               IMAGE;
 
 // From Sun's /usr/include/rasterfile.h

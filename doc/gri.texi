@@ -14342,7 +14342,7 @@ The next sections outline the changes made in Gri.
 @comment  node-name,  next,  previous,  up
 @subsection Version 2.6
 @table @emph
-@item 2.6.0 [2000-Jul-15]
+@item 2.6.0 [2000-Jul-16]
 
 @sp 1
 Put source on the
@@ -14406,7 +14406,6 @@ examples, provide access to all the indices, use Jpeg format, et.).
 @sp 1
 
 Add several new features to @code{gri-mode.el}:
-
 
 1) Add a menubar pull-down menu listing all Gri commands,
       allowing the user to get @code{Help} or @code{Info} on any command or
@@ -15108,27 +15107,27 @@ some of the lines in the files into two lines in this list.)
 
 @enumerate
 
-@item Copy the above script (called @file{test.gri}) into the Gri source directory, and 
-the script into an Emacs buffer.  @b{Note:} all the following steps are
-done within Emacs, and the items in parentheses are the Emacs keys to
-get the indicated actions.
+@item Copy the above script (called @file{test.gri}) into the Gri source 
+directory, and the script into an Emacs buffer.  @b{Note:} all the
+following steps are done within Emacs, and the items in parentheses are
+the Emacs keys to get the indicated actions.
 
 @item If you're working from a pre-compiled version, you'll need to get the
 source first and do a compile yourself (@ref{Uncompiled Unix}).  Then do
 a @code{make tags} command (type this to the unix shell) to create a
 so-called "tag" table.
 
-@item Run Gri in this emacs buffer (@kbd{C-cC-r}) noting from the postscript window
-that pops up that the colors are, indeed, mixed up.
+@item Run Gri in this emacs buffer (@kbd{C-cC-r}) noting from the 
+postscript window that pops up that the colors are, indeed, mixed up.
 
 @item Load up the @code{gdb} debugger by typing @kbd{M-x gdb gri}.  This
 will open a new Emacs buffer in which you may type commands.  We'll be
 switching back and forth between this buffer and various source files.
 
-@item Reasoning that the error probably occurs at @code{set color} or @code{draw box},
-try replacing the latter by @code{draw label "hi" at 3 3 cm"}.  The
-color is still wrong, indicating that it's the @code{set color} command
-that has the problem.
+@item Reasoning that the error probably occurs at @code{set color} or
+@code{draw box}, try replacing the latter by a command such as
+@code{draw label "hi" at 3 3 cm"}.  The color is still wrong, indicating
+that it's the @code{set color} command that has the problem.
 
 @item Next, we must find where the C++ code corresponding to the
 @code{set color} command resides.  As it turns out, all @code{set}
@@ -15209,8 +15208,8 @@ As it turns out, Gri outputs all colors to the PostScript file in RGB
 format, so the we may well suspect that the problem is in the
 @code{gr_hsv2rgb()} line. 
 
-@item We have an idea where to look now, so let's go to the line just after it, 
-in the editor, and insert a "breakpoint" there by typing
+@item We have an idea where to look now, so let's go to the line just after 
+it, in the editor, and insert a "breakpoint" there by typing
 @kbd{C-x SPC}.  Then move to the @code{gdb} buffer and re-run Gri
 by typing 
 @example
@@ -15269,6 +15268,18 @@ textbook to see just what I'm doing in @code{gr_hsv2rgb}, but suffice it
 to say that the problem in the (older) version of Gri was that @code{i}
 could take the value 6 if the hue was exactly equal to 1, and that was
 erroneous.
+
+In reading the code, you may notice that it is formatted in a uniform
+way.  I use the Emacs indentation feature, with 
+@example
+(c-set-style "K&R")
+(setq c-basic-offset 8)
+@end example
+If you submit patches, please bear this in mind.  I'm reluctant to just
+blindly apply patches, and my procedure is to examine them by eye before
+trying to do the patch.  Therefore, if you re-indent the source-code,
+please do it as I have indicated above, so that the patch-file length
+will be as small as it can be.
 
 
 

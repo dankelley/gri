@@ -4,17 +4,17 @@
 class GriTimer
 {
 public:
-    GriTimer();
-    ~GriTimer() {};
-    char *now_ascii();
-    double elapsed_time();
+	GriTimer();
+	~GriTimer() {};
+	char *now_ascii();
+	double elapsed_time();
 private:
 #if defined(HAVE_POSIX_TIMES)
-    clock_t start;
+	clock_t start;
 #elif defined(HAVE_FTIME) && !defined(FTIME_BROKEN)
-    struct timeb start;
+	struct timeb start;
 #else
-    time_t start;
+	time_t start;
 #endif
 };
 #endif // _GriTimer_hh

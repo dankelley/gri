@@ -140,11 +140,11 @@ extern bool     _use_default_for_query;
 // Command stack
 #define	COMMAND_STACK_SIZE	1000
 typedef struct {
-    char           *syntax;	// The 'name' of command
-    char           *help;	// Help, if any
-    char           *procedure;	// Commands to do
-    char           *filename;	// Where defined
-    int             fileline;	// Where defined
+	char           *syntax;	// The 'name' of command
+	char           *help;	// Help, if any
+	char           *procedure;	// Commands to do
+	char           *filename;	// Where defined
+	int             fileline;	// Where defined
 }               GRI_COMMAND;
 extern GRI_COMMAND _command[COMMAND_STACK_SIZE];
 

@@ -12,108 +12,108 @@ static bool     test_is_true(const char *s);
 bool
 whileCmd(void)
 {
-    int             loop_level = 1;
-    int             lines = 0;
-    string test(6 + strstr(_cmdLine, "while"));
-    if (re_compare(test.c_str(), " *")) {
-	err("`while .test.|{rpn ...}' missing the test part");
-	return false;
-    }
-    test_is_true(test.c_str()); // to catch syntax errors on this line
-    // Store lines until end while into the buffer
-    string buffer;
-    while (1) {
-	if (!get_command_line()) {
-	    err("Missing `end while'");
-	    return false;
+	int             loop_level = 1;
+	int             lines = 0;
+	string test(6 + strstr(_cmdLine, "while"));
+	if (re_compare(test.c_str(), " *")) {
+		err("`while .test.|{rpn ...}' missing the test part");
+		return false;
 	}
-	lines++;
-	// Search for matching end while
-	if (re_compare(_cmdLine, "\\s*while.*")) {
-	    loop_level++;
-	} else {
-	    // Search for `end while', but first make a copy
-	    // without the source_indicator
-	    char *copy = new char [1 + strlen(_cmdLine)];
-	    if (!copy) OUT_OF_MEMORY;
-	    strcpy(copy, _cmdLine);
-	    int len = strlen(copy);
-	    for (int i = 0; i < len; i++) {
-		if (copy[i] == PASTE_CHAR) {
-		    copy[i] = '\0';
-		    break;
+	test_is_true(test.c_str()); // to catch syntax errors on this line
+	// Store lines until end while into the buffer
+	string buffer;
+	while (1) {
+		if (!get_command_line()) {
+			err("Missing `end while'");
+			return false;
 		}
-	    }
-	    if (re_compare(copy, "\\s*end\\s+while\\s*")) {
-		loop_level--;
-		if (loop_level < 1) {
-		    break;
+		lines++;
+		// Search for matching end while
+		if (re_compare(_cmdLine, "\\s*while.*")) {
+			loop_level++;
+		} else {
+			// Search for `end while', but first make a copy
+			// without the source_indicator
+			char *copy = new char [1 + strlen(_cmdLine)];
+			if (!copy) OUT_OF_MEMORY;
+			strcpy(copy, _cmdLine);
+			int len = strlen(copy);
+			for (int i = 0; i < len; i++) {
+				if (copy[i] == PASTE_CHAR) {
+					copy[i] = '\0';
+					break;
+				}
+			}
+			if (re_compare(copy, "\\s*end\\s+while\\s*")) {
+				loop_level--;
+				if (loop_level < 1) {
+					break;
+				}
+			}
+			delete [] copy;
 		}
-	    }
-	    delete [] copy;
+		buffer.append(_cmdLine);
+		buffer.append("\n");
 	}
-	buffer.append(_cmdLine);
-	buffer.append("\n");
-    }
-    perform_while_block(buffer.c_str(), test.c_str(), lines);
-    return true;
+	perform_while_block(buffer.c_str(), test.c_str(), lines);
+	return true;
 }
 
 const int NOTIFY = 1000;
 bool
 perform_while_block(const char *buffer, const char *test, int lines)
 {
-    string          filename;
-    int             fileline;
-    int             passes = 0;
-    while (test_is_true(test)) {
-	// Check to see if test is now false
-	if (block_level() > 0) {
-	    filename.assign(block_source_file());
-	    fileline = block_source_line() + 2;
+	string          filename;
+	int             fileline;
+	int             passes = 0;
+	while (test_is_true(test)) {
+		// Check to see if test is now false
+		if (block_level() > 0) {
+			filename.assign(block_source_file());
+			fileline = block_source_line() + 2;
 #ifdef DEBUG_WHILE
-	    printf("Register while AT BLOCKLEVEL = %d at %s:%d lines=%d\n",
-		   block_level(),
-		   block_source_file(),
-		   block_source_line() + 2,
-		   block_line());
+			printf("Register while AT BLOCKLEVEL = %d at %s:%d lines=%d\n",
+			       block_level(),
+			       block_source_file(),
+			       block_source_line() + 2,
+			       block_line());
 #endif
-	} else {
-	    filename.assign(what_file());
-	    fileline = what_line() - lines + 1;
+		} else {
+			filename.assign(what_file());
+			fileline = what_line() - lines + 1;
 #ifdef DEBUG_WHILE
-	    printf("Register OUT OF BLOCK while at %s:%d\n",
-		   what_file(),
-		   what_line() - lines + 1);
+			printf("Register OUT OF BLOCK while at %s:%d\n",
+			       what_file(),
+			       what_line() - lines + 1);
 #endif
+		}
+		if (!perform_block(buffer, filename.c_str(), fileline)) {
+			// got break
+			break;
+		}
+		passes++;
+		if (_chatty > 0 && !(passes % NOTIFY)) {
+			char msg[100];
+			sprintf(msg, "`while' performed %d passes\n", passes);
+			gr_textput(msg);
+		}
 	}
-	if (!perform_block(buffer, filename.c_str(), fileline)) {
-	    // got break
-	    break;
-	}
-	passes++;
-	if (_chatty > 0 && !(passes % NOTIFY)) {
-	    char msg[100];
-	    sprintf(msg, "`while' performed %d passes\n", passes);
-	    gr_textput(msg);
-	}
-    }
 #ifdef DEBUG_WHILE
-    printf("\nFINISHED WITH LOOP\n");
+	printf("\nFINISHED WITH LOOP\n");
 #endif
-    return true;
+	return true;
 }
 
 static bool
 test_is_true(const char *s)
 {
-    char            res[100];
-    double          value;
-    substitute_rpn_expressions(s, res);
-    if (is_var(res)) {
-	getdnum(res, &value);
-    } else {
-	sscanf(res, "%lf", &value);
-    }
-    return ((value != 0.0) ? true : false);
+	char            res[100];
+	double          value;
+	substitute_rpn_expressions(s, res);
+	if (is_var(res)) {
+		getdnum(res, &value);
+	} else {
+		sscanf(res, "%lf", &value);
+	}
+	return ((value != 0.0) ? true : false);
 }

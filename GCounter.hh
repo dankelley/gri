@@ -4,13 +4,13 @@
 class GriCounter
 {
 public:	
-    GriCounter()                { count = 0; }
-    GriCounter(const GriCounter& c) { count = c.getCount(); }
-    ~GriCounter()		{;}
-    void incrementCount()	{count++;}
-    void decrementCount()	{if (count) count--;}
-    unsigned getCount() const	{return count;}
+	GriCounter()                    { count = 0;		}
+	GriCounter(const GriCounter& c)	{ count = c.getCount(); }
+	~GriCounter()			{ ;			}
+	void incrementCount()		{ count++;		}
+	void decrementCount()		{ if (count) count--;	}
+	unsigned getCount() const	{ return count;		}
 private:
-    unsigned count;
+	unsigned count;
 };
 #endif

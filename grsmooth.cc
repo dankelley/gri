@@ -47,195 +47,195 @@ gr_smootharray(double dx,
 	       int ny,
 	       int method)
 {
-    register int    i, j;
-    double          sum;
-    int             good;	// number data used per gridpoint
-    int             nx_1, ny_1;
-    // Test for errors
-    if (nx <= 0 || ny <= 0)
-	return false;
-    nx_1 = nx - 1;
-    ny_1 = ny - 1;
-    dx = dy = dt = 0.0;		// Kill warning on non-use
-    switch (method) {
-    case 0:
-	for (i = 0; i < nx; i++) {
-	    for (j = 0; j < ny; j++) {
-		good = 0;
-		sum = 0.0;
-		// Datum at centre
-		if (legit(i, j) == true) {
-		    sum += 0.5 * z(i, j);
-		    good++;
+	register int    i, j;
+	double          sum;
+	int             good;	// number data used per gridpoint
+	int             nx_1, ny_1;
+	// Test for errors
+	if (nx <= 0 || ny <= 0)
+		return false;
+	nx_1 = nx - 1;
+	ny_1 = ny - 1;
+	dx = dy = dt = 0.0;		// Kill warning on non-use
+	switch (method) {
+	case 0:
+		for (i = 0; i < nx; i++) {
+			for (j = 0; j < ny; j++) {
+				good = 0;
+				sum = 0.0;
+				// Datum at centre
+				if (legit(i, j) == true) {
+					sum += 0.5 * z(i, j);
+					good++;
+				}
+				// Datum to left
+				if (i == 0) {
+					// Left edge: interpolate
+					if (legit(i + 1, j) == true
+					    && legit(i, j) == true) {
+						sum += 0.125 * (2.0 * z(i, j) - z(i + 1, j));
+						good++;
+					}
+				} else {
+					// Interior
+					if (legit(i - 1, j) == true) {
+						sum += 0.125 * z(i - 1, j);
+						good++;
+					}
+				}
+				// Datum to right
+				if (i == nx_1) {
+					// Right edge: interpolate
+					if (legit(i - 1, j) == true
+					    && legit(i, j) == true) {
+						sum += 0.125 * (2.0 * z(i, j) - z(i - 1, j));
+						good++;
+					}
+				} else {
+					// Interior
+					if (legit(i + 1, j) == true) {
+						sum += 0.125 * z(i + 1, j);
+						good++;
+					}
+				}
+				// Datum below
+				if (j == 0) {
+					// Bottom: interpolate
+					if (legit(i, j + 1) == true
+					    && legit(i, j) == true) {
+						sum += 0.125 * (2.0 * z(i, j) - z(i, j + 1));
+						good++;
+					}
+				} else {
+					if (legit(i, j - 1) == true) {
+						sum += 0.125 * z(i, j - 1);
+						good++;
+					}
+				}
+				// Datum above
+				if (j == ny_1) {
+					// Top: interpolate
+					if (legit(i, j - 1) == true
+					    && legit(i, j) == true) {
+						sum += 0.125 * (2.0 * z(i, j) - z(i, j - 1));
+						good++;
+					}
+				} else {
+					if (legit(i, j + 1) == true) {
+						sum += 0.125 * z(i, j + 1);
+						good++;
+					}
+				}
+				if (good == 5) {
+					zS(i, j) = sum;
+					legitS(i, j) = true;
+				} else {
+					zS(i, j) = z(i, j);	// won't be used anyway
+					legitS(i, j) = false;
+				}
+			}
 		}
-		// Datum to left
-		if (i == 0) {
-		    // Left edge: interpolate
-		    if (legit(i + 1, j) == true
-			&& legit(i, j) == true) {
-			sum += 0.125 * (2.0 * z(i, j) - z(i + 1, j));
-			good++;
-		    }
-		} else {
-		    // Interior
-		    if (legit(i - 1, j) == true) {
-			sum += 0.125 * z(i - 1, j);
-			good++;
-		    }
+		break;
+	case 1:			// smooth across x
+		for (i = 0; i < nx; i++) {
+			for (j = 0; j < ny; j++) {
+				sum = 0.0;
+				good = 0;
+				// Datum at centre
+				if (legit(i, j) == true) {
+					sum += 0.5 * z(i, j);
+					good++;
+				}
+				// Datum to left
+				if (i == 0) {
+					// Left edge: interpolate
+					if (legit(i + 1, j) == true
+					    && legit(i, j) == true) {
+						sum += 0.25 * (2.0 * z(i, j) - z(i + 1, j));
+						good++;
+					}
+				} else {
+					// Interior
+					if (legit(i - 1, j) == true) {
+						sum += 0.25 * z(i - 1, j);
+						good++;
+					}
+				}
+				// Datum to right
+				if (i == nx_1) {
+					// Right edge: interpolate
+					if (legit(i - 1, j) == true
+					    && legit(i, j) == true) {
+						sum += 0.25 * (2.0 * z(i, j) - z(i - 1, j));
+						good++;
+					}
+				} else {
+					// Interior
+					if (legit(i + 1, j) == true) {
+						sum += 0.25 * z(i + 1, j);
+						good++;
+					}
+				}
+				if (good == 5) {
+					zS(i, j) = sum;
+					legitS(i, j) = true;
+				} else {
+					zS(i, j) = z(i, j);	// won't be used anyway
+					legitS(i, j) = false;
+				}
+			}
 		}
-		// Datum to right
-		if (i == nx_1) {
-		    // Right edge: interpolate
-		    if (legit(i - 1, j) == true
-			&& legit(i, j) == true) {
-			sum += 0.125 * (2.0 * z(i, j) - z(i - 1, j));
-			good++;
-		    }
-		} else {
-		    // Interior
-		    if (legit(i + 1, j) == true) {
-			sum += 0.125 * z(i + 1, j);
-			good++;
-		    }
+		break;
+	case 2:			// smooth across y
+		for (i = 0; i < nx; i++) {
+			for (j = 0; j < ny; j++) {
+				sum = 0.0;
+				good = 0;
+				// Datum at centre
+				if (legit(i, j) == true) {
+					sum += 0.5 * z(i, j);
+					good++;
+				}
+				// Datum below
+				if (j == 0) {
+					// Bottom: interpolate
+					if (legit(i, j + 1) == true
+					    && legit(i, j) == true) {
+						sum += 0.25 * (2.0 * z(i, j) - z(i, j + 1));
+						good++;
+					}
+				} else {
+					if (legit(i, j - 1) == true) {
+						sum += 0.25 * z(i, j - 1);
+						good++;
+					}
+				}
+				// Datum above
+				if (j == ny_1) {
+					// Top: interpolate
+					if (legit(i, j - 1) == true
+					    && legit(i, j) == true) {
+						sum += 0.25 * (2.0 * z(i, j) - z(i, j - 1));
+						good++;
+					}
+				} else {
+					if (legit(i, j + 1) == true) {
+						sum += 0.25 * z(i, j + 1);
+						good++;
+					}
+				}
+				if (good == 5) {
+					zS(i, j) = sum;
+					legitS(i, j) = true;
+				} else {
+					zS(i, j) = z(i, j);	// won't be used anyway
+					legitS(i, j) = false;
+				}
+			}
 		}
-		// Datum below
-		if (j == 0) {
-		    // Bottom: interpolate
-		    if (legit(i, j + 1) == true
-			&& legit(i, j) == true) {
-			sum += 0.125 * (2.0 * z(i, j) - z(i, j + 1));
-			good++;
-		    }
-		} else {
-		    if (legit(i, j - 1) == true) {
-			sum += 0.125 * z(i, j - 1);
-			good++;
-		    }
-		}
-		// Datum above
-		if (j == ny_1) {
-		    // Top: interpolate
-		    if (legit(i, j - 1) == true
-			&& legit(i, j) == true) {
-			sum += 0.125 * (2.0 * z(i, j) - z(i, j - 1));
-			good++;
-		    }
-		} else {
-		    if (legit(i, j + 1) == true) {
-			sum += 0.125 * z(i, j + 1);
-			good++;
-		    }
-		}
-		if (good == 5) {
-		    zS(i, j) = sum;
-		    legitS(i, j) = true;
-		} else {
-		    zS(i, j) = z(i, j);	// won't be used anyway
-		    legitS(i, j) = false;
-		}
-	    }
+		break;
+	default:
+		return false;		// unknown
 	}
-	break;
-    case 1:			// smooth across x
-	for (i = 0; i < nx; i++) {
-	    for (j = 0; j < ny; j++) {
-		sum = 0.0;
-		good = 0;
-		// Datum at centre
-		if (legit(i, j) == true) {
-		    sum += 0.5 * z(i, j);
-		    good++;
-		}
-		// Datum to left
-		if (i == 0) {
-		    // Left edge: interpolate
-		    if (legit(i + 1, j) == true
-			&& legit(i, j) == true) {
-			sum += 0.25 * (2.0 * z(i, j) - z(i + 1, j));
-			good++;
-		    }
-		} else {
-		    // Interior
-		    if (legit(i - 1, j) == true) {
-			sum += 0.25 * z(i - 1, j);
-			good++;
-		    }
-		}
-		// Datum to right
-		if (i == nx_1) {
-		    // Right edge: interpolate
-		    if (legit(i - 1, j) == true
-			&& legit(i, j) == true) {
-			sum += 0.25 * (2.0 * z(i, j) - z(i - 1, j));
-			good++;
-		    }
-		} else {
-		    // Interior
-		    if (legit(i + 1, j) == true) {
-			sum += 0.25 * z(i + 1, j);
-			good++;
-		    }
-		}
-		if (good == 5) {
-		    zS(i, j) = sum;
-		    legitS(i, j) = true;
-		} else {
-		    zS(i, j) = z(i, j);	// won't be used anyway
-		    legitS(i, j) = false;
-		}
-	    }
-	}
-	break;
-    case 2:			// smooth across y
-	for (i = 0; i < nx; i++) {
-	    for (j = 0; j < ny; j++) {
-		sum = 0.0;
-		good = 0;
-		// Datum at centre
-		if (legit(i, j) == true) {
-		    sum += 0.5 * z(i, j);
-		    good++;
-		}
-		// Datum below
-		if (j == 0) {
-		    // Bottom: interpolate
-		    if (legit(i, j + 1) == true
-			&& legit(i, j) == true) {
-			sum += 0.25 * (2.0 * z(i, j) - z(i, j + 1));
-			good++;
-		    }
-		} else {
-		    if (legit(i, j - 1) == true) {
-			sum += 0.25 * z(i, j - 1);
-			good++;
-		    }
-		}
-		// Datum above
-		if (j == ny_1) {
-		    // Top: interpolate
-		    if (legit(i, j - 1) == true
-			&& legit(i, j) == true) {
-			sum += 0.25 * (2.0 * z(i, j) - z(i, j - 1));
-			good++;
-		    }
-		} else {
-		    if (legit(i, j + 1) == true) {
-			sum += 0.25 * z(i, j + 1);
-			good++;
-		    }
-		}
-		if (good == 5) {
-		    zS(i, j) = sum;
-		    legitS(i, j) = true;
-		} else {
-		    zS(i, j) = z(i, j);	// won't be used anyway
-		    legitS(i, j) = false;
-		}
-	    }
-	}
-	break;
-    default:
-	return false;		// unknown
-    }
-    return true;
+	return true;
 }
