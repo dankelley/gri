@@ -67,7 +67,12 @@ show_expression_or_stringCmd()
 			if (gr_missing(value)) {
 				ShowStr("missing_value_code");
 			} else {
-				sprintf(_grTempString, "%g", value);
+				// Use integer format if that's valid
+				if (value == double(int(value))) {
+					sprintf(_grTempString, "%d", int(value));
+				} else {
+					sprintf(_grTempString, "%g", value);
+				}
 				ShowStr(_grTempString);
 			}
 		} else {
