@@ -32,7 +32,7 @@ gri (2.6.0-1) unstable; urgency=low
   * Updated to Standards-Version 3.2.1 with DEB_BUILD_OPTIONS variable
     (Default build no longer complies with debugging symbols, -g)
 
- --
+ -- Peter S Galbraith <psg@debian.org>  Mon, 29 Jan 2001 12:43:02 -0500
 
 gri (2.4.2-1) frozen unstable; urgency=low
 
