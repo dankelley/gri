@@ -2,4 +2,7 @@
  Copyright (c) 2001 Dan E. Kelley.
 
  Type `help' to view list of commands, or type `show license' to view license.
- Access `gri' INFO node for the online manual.
+ Access the `gri' INFO node for the online manual, or
+ install the package gri-html-doc for an HTML version.
+
+ Visit http://gri.sourceforge.net for updates and resources.
