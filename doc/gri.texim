@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.119 2001/07/24 13:46:36 dankelley Exp $
+@c $Id: gri.texim,v 1.120 2001/07/24 14:13:53 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -4754,7 +4754,7 @@ Draw x-y axes frame labelled at left and bottom
 @item @code{.style. = 1}
 Draw axes without tics at top and right
 @item @code{.style. = 2}
-Draw axes frame with no tics or labels
+Draw axes frame with no tics or labels; same as @code{draw axes frame}
 @end itemize
 
 With the keyword @code{frame} specified, draw axes frame with no tics or
