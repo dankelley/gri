@@ -155,6 +155,8 @@ start_up(int argc, char **argv)
 	PUT_VAR("..image_height..", 0.0);
 	last_optional_arg = interpret_optional_arguments(argc, argv);
 
+	//printf("DEBUG1 last_optional_arg= %d\n", last_optional_arg);
+
 	// Get name of PostScript file if it was provided.  Must do this before
 	// getting cmd file because of demands of gr_setup.  Also, check here for
 	// input_simulation words.
@@ -208,6 +210,7 @@ first argument looks like a PostScript filename.  Older versions\n\
 		gr_setup_ps_filename(psname.c_str());
 	}
 
+	//printf("DEBUG2 separator= %d\n", separator);
 	get_input_simulation(argc, argv, separator);
 
 	insert_creator_name_in_PS(argc, argv, psname);
@@ -393,7 +396,8 @@ get_input_simulation(int argc, char *argv[], int separator)
 		return;
 	// Save the words following SEPARATOR into the stdin io buffer.
 	extern vector<char*> _argv;
-	for (int i = separator + 1; i < argc; i++) {
+	for (int i = separator; i < argc; i++) {
+		//printf("\t push %d <%s>\n",i,argv[i]);
 		gr_textsave(argv[i]);
 		_argv.push_back(argv[i]);
 	}
