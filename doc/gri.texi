@@ -1791,6 +1791,7 @@ by the user and @emph{Builtin synonyms} which are pre-defined by Gri.
 * About Synonyms::              What synonyms are used for, and how
 * User Synonyms::               Defining your own synonyms
 * Built-in Synonyms::           Built-in synonyms pre-defined by Gri
+* De-referenced Synonyms::      Accessing by reference
 @end menu
 
 @node   About Synonyms, Synonym Names, Synonyms, Synonyms
@@ -2151,7 +2152,7 @@ check @file{gri.cmd} to see how a full
 command does checking of the calling syntax
 (@ref{Invoking Gri}).
 
-@node   Global Synonyms, If Statements, Local Synonyms, Built-in Synonyms
+@node   Global Synonyms, De-referenced Synonyms, Local Synonyms, Built-in Synonyms
 @comment  node-name,  next,  previous,  up
 @subsubsection Global synonyms
 @cindex synonyms, global
@@ -2210,9 +2211,93 @@ in @code{draw title} commands to indicate in which directory the gri job
 was run.  Some commands set @code{\.return_value.} to non-blank; the
 meaning of the return value varies from command to command.
 
+
+@node   De-referenced Synonyms, If Statements, Global Synonyms, Synonyms
+@comment  node-name,  next,  previous,  up
+@subsection De-referenced Synonyms
+@cindex synonyms, de-referenced
+@cindex de-referenced synonyms
+@cindex call-by-reference, synonyms
+
+@emph{NOTE: THE SYNTAX OF THIS SECTION IS _NOT_ CODED YET <2000-oct-16>}
+
+Many programming languages support two types of arguments to
+subroutines: "call by value" and "call by reference."  In the "by value"
+scheme, the @emph{value} of the argument is passed to the subroutine,
+and the subroutine is unable to modify the value the object has in the
+calling program.  In the "by reference" scheme, the subroutine can alter
+the value.  Naturally, this distinction only makes sense if the object
+is a variable, as opposed to a numerical/textual constant.
+
+In Fortran, all subroutines use the "by reference" scheme, and so any
+subroutine may alter the values of any variables that are passed to it.
+This is a bit dangerous since it means that the programmer must be fully
+aware of all the subroutines that are called in a piece of code, and of
+all the subroutines that those subroutines might call!  I'm just
+guessing about history here, but I speculate that this may be why more
+modern languages provide a choice.  In C, you may call be either value
+or by reference, and you can be sure that if you call by value, that the
+original value may not be altered.  The C++ language adds extra
+subtleties.
+
+In Gri, the equivalent of the subroutine is the "new command".
+Arguments to new command are provided within the commands as the
+synonyms named @code{\.word0.}, @code{\.word1.}, etc.; for more on this
+see @ref{Local Synonyms} above.  But these items are just textual copies
+of the words on the calling line, so that the syntax
+@example
+`foo .value.'
+@{
+    show "\.word0."
+@}
+.x. = 10
+foo .x.
+@end example
+displays the value of @code{.x.}, but has no way to modify this value.  
+
+Gri provides a way to modify values in such a context - or in any
+context - by means of "de-referenced synonyms".  
+
+The syntax is simple.  Suppose that some synonym, @code{\syn} say, holds
+as its value the @emph{name} of another synonym, or the name of a
+variable.  Then the syntax @code{\@@syn} provides @emph{a reference to}
+the @emph{named} item.  This reference may be used to the left of an
+equals sign (in which case you may assign to the named item) or to the
+right (in which case you may access the value of the named item).  Thus,
+we could write code to double a variable in the following way:
+@example
+`double .value.'
+@{
+    \@@.word0. = @{rpn \@@.word0. 2 *@}  # de-reference
+@}
+.x. = 10
+double .x.
+@end example
+which would cause @code{.x.} to equal @code{20}.
+
+Another example, perhaps more useful, might be to "complete" filenames, 
+by prepending a directory name:
+@example
+`complete \fname.'
+@{
+    \@@.word0. = "/data/\@@.word0."  # de-reference
+@}
+\file = "myfile.dat"
+complete \\file
+open \file # uses "/data/myfile.dat"
+@end example
+
+Please note something important, in the second-last line: you must
+provide the @emph{name} of the synonym holding the filename, not the
+synonym itself.  Why?  Because if Gri reads @code{complete \file}, then
+it will interpolate the @code{\file} value into the line before
+executing it, and the code would then be @code{complete "myfile.dat"},
+and Gri will have no idea how to de-reference that!
+ 
+
 @c HTML <!-- newfile IfStatements.html "Gri: if statements" "Programming Gri" -->
 
-@node   If Statements, Loops, Global Synonyms, Programming
+@node   If Statements, Loops, De-referenced Synonyms, Programming
 @comment  node-name,  next,  previous,  up
 @section If Statements
 @cindex programming, if statements
