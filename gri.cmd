@@ -4711,3 +4711,46 @@ rpnfunction pi 3.14159265358979323846
 rpnfunction linear_slope     exch roll_right - roll_right exch - /
 
 rpnfunction linear_intercept exch dup roll_left roll_left roll_left dup roll_right - roll_right exch - / roll_left * -
+
+
+# /----------------------------------------------------------------\
+# |The following material is for the benefit of the Emacs gri mode |
+# \----------------------------------------------------------------/
+#
+# @variable ..num_col_data..          number of column data
+# @variable ..num_col_data_missing..  number of missing column data
+# @variable ..arrowsize..             size of arrow heads @unit cm @default 0.2
+# @variable ..batch..                 is Gri in batch mode? @default 0
+# @variable ..debug..                 debugging flag @default 0
+# @variable ..fontsize..              size of font @unit point @default 12
+# @variable ..graylevel..             graylevel of pen (0 means black) @default 0
+# @variable ..linewidth..             width of curves @unit point @default 0.709
+# @variable ..linewidthaxis..         width of axis lines @unit point @default 0.369
+# @variable ..linewidthsymbol..       width of symbol lines @unit point @default 0.369
+# @variable ..missingvalue..          missing value @default 1e+22
+# @variable ..symbolsize..            size of symbols @unit point @default 0.1
+# @variable ..superuser..             superuser flag @default 0
+# @variable ..trace..                 are executed commands printed? @default 0
+# @variable ..tic_direction..         direction of tics (0 means out and 1 means in) @default 0
+# @variable ..tic_size..              size of tic marks @unit cm @default 0.2
+# @variable ..xmargin..               margin to left of axis area @unit cm @default 6
+# @variable ..xsize..                 width of axis area @unit cm @default 10
+# @variable ..ymargin..               margin below axis area @unit cm @default 6
+# @variable ..ysize..                 height of axis area @unit cm @default 10
+# @variable ..red..                   red-ness of pen (0 to 1) @default 0
+# @variable ..blue..                  blue-ness of pen (0 to 1) @default 0
+# @variable ..green..                 green-ness of pen (0 to 1) @default 0
+# @variable ..exit_status..           exit status used for OS @default 0
+# @variable ..xleft..                 x-value at left of axis area @default 0
+# @variable ..xright..                x-value at right of axis area @default 10
+# @variable ..ybottom..               y-value at bottom of axis area @default 0
+# @variable ..ytop..                  y-value at top of axis area @default 10
+# @variable ..use_default_for_query.. use default for query statements? (0 or 1) @default 0
+# @variable ..words_in_dataline..     number of words in data line @default 0
+# @variable ..eof..                   at end of data file yet? (0 or 1) @default 0
+# @variable ..landscape..             is the graph in landscape mode? (0 or 1) @default 0
+# @variable ..publication..           use publication quality? (0 or 1) @default 0
+# @variable ..xlast..                 last value of x column @default 0
+# @variable ..ylast..                 last value of y column @default 0
+# @variable ..image_width..           pixel width of image @default 0
+# @variable ..image_height..          pixel height of image @default 0
