@@ -1829,8 +1829,21 @@ This is not a PGM file, since the first 2 characters\n\
 	printf("DEBUG: %s:%d image_width=%d  image_height=%d\n",__FILE__,__LINE__,im->ras_width,im->ras_height);
 #endif
 	if (file_type == P2_type) {
-		err("*** SORRY, 'read image pgm' cannot read type 'P2' at this time.  Please email to author at Dan.Kelley@Dan.Ca, supplying him with a sample 'P2' file, since he doesn't know how to make one ***");
-		return false;
+		for (int j = int(im->ras_height - 1); j > -1; j--) {
+			for (int i = 0; i < int(im->ras_width); i++) {
+				int tmp_int;
+				if (1 != fscanf(fp, "%d", &tmp_int)) {
+					printf("Cannot read datum at i=%d and j=%d (i.e. the %d-th point)\n", i, j, i*j);
+					err("Cannot read P2 image");
+					return false;
+				}
+				*(im->image + i * im->ras_height + j) = tmp_int;
+#ifdef DEBUG_READ
+				if (j==(im->ras_height-1) && i< 25) {printf("Debug test: datum[%d][%d] is %d\n", i, j, tmp_int);}
+#endif
+			}
+		}
+		return true;
 	}  else if (file_type == P5_type) {
 		for (int j = int(im->ras_height - 1); j > -1; j--) {
 			for (int i = 0; i < int(im->ras_width); i++) {
