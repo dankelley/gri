@@ -121,8 +121,9 @@ while(get_a_line()) {
 	#print "<img src=\"$1.gif\" border=\"1\">\n";
 	next;
     }
-    # Ignore all other comments
     next if /^\@top\s/;
+    next if /^\@include\s*/;
+    # Ignore all other comments
     next if /^\@c\s/;
     next if /^\@comment\s*/;
     # Ignore unnumbered, since special case (see Makefile)
