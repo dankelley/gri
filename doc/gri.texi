@@ -191,6 +191,7 @@ The Gri web homepage is at
 * Handling Data::               Dealing with oddly-configured data
 * Commands::                    COMPLETE list of Gri commands
 * Extras::                      Extra programs provided with Gri
+* Emacs Editing Mode::          Editing Gri code inside Emacs
 * Evolution::                   How Gri has changed over time
 * Accessing::                   How to access/install Gri
 * Bugs::                        List of bugs, and how to report more
@@ -413,32 +414,12 @@ PostScript file called @file{example1.ps}.  For details on running Gri
 The output PostScript file is called @file{example1.ps}.
 
 @c HTML It looks something like the miniature shown above.
-@c HTML <A HREF="./examples/example1.gif">
-@c HTML <IMG ALT="Example 1" SRC="./examples/example1-tiny.gif">
+@c HTML <A HREF="./examples/example1.jpg">
+@c HTML <IMG ALT="Example 1" SRC="./examples/example1-tiny.jpg">
 @c HTML </A>
 @c HTML Click the plot to enlarge it.)
 @c HTML <P>
 
-@c HTML <!--
-@ifinfo
-Here is a very crude preview of the plot:
-@example
-                                  Example 1              
-                 20 ************************************ 
-                    *        *                         * 
-                 18 *       * **                       * 
-                    *      *    *                      * 
-                    *      *     **                    * 
-                 y6 *     *        **                  * 
-                    *    *           ***********       * 
-                    *   *                       **     * 
-                 14 *   *                         **   * 
-                    *  *                            ** * 
-                 12  *********************************** 
-                    0     .2     .4  x  .6     .8     1  
-@end example
-@end ifinfo
-@cindex example 1, linegraph using data in a separate file
 @comment OLD @tex
 @comment OLD {
 @comment OLD \midinsert
@@ -451,8 +432,7 @@ Here is a very crude preview of the plot:
 @comment OLD }
 @comment OLD @end tex
 @image{./examples/example1}
-
-@c HTML -->
+@cindex example 1, linegraph using data in a separate file
 
 To view Gri output, use your favorite PostScript previewer;
 @xref{Viewing}.
@@ -460,11 +440,6 @@ To view Gri output, use your favorite PostScript previewer;
 Note that in the above example, Gri automatically chose reasonable
 scales for the axes, based on the range of the data.  The next chapter
 illustrates that Gri also gives you control over such things.
-
-
-
-
-
 
 @c HTML <!-- newfile FancyExample.html "Gri: fancy example" "Fancy example" -->
 
@@ -506,11 +481,11 @@ For more details on controlling these things, @pxref{Axes}.
 
 
 
-@c HTML <A HREF="./examples/example3.gif">
-@c HTML <IMG ALT="Example 3" SRC="./examples/example3-tiny.gif"
+@c HTML <A HREF="./examples/example3.jpg">
+@c HTML <IMG ALT="Example 3" SRC="./examples/example3-tiny.jpg"
 @c HTML ALIGN=top> 
 @c HTML </A>
-@c HTML <A HREF="./examples/example3.gri">The command-file.</A> <P>
+@c HTML <A HREF="example3.html">The command-file.</A> <P>
 
 @comment OLD @tex
 @comment OLD {
@@ -3010,14 +2985,14 @@ putting the following in your @file{~/.emacs} file:
 (standard-display-european t)
 @end example
 Loading this package defines three ways of entering the non-ASCII
-printable characters with codes above 127: the prefix @key{C-x 8}, or
+printable characters with codes above 127: the prefix @kbd{C-x 8}, or
 the @key{Alt} key, or a dead accent key.  For example, you can enter
-uppercase A-umlaut as @key{C-x 8 " A} or @key{Alt-" A} (if you have an
-Alt key) or @key{umlaut A} (if you have an umlaut/diaeresis key).
+uppercase A-umlaut as @kbd{C-x 8 " A} or @kbd{Alt-" A} (if you have an
+Alt key) or @kbd{umlaut A} (if you have an umlaut/diaeresis key).
 
 A more recently introduced method is to enter the mode which allows
 quick insertion of iso-latin-1 characters. Do the Emacs command 
-@key{M-x iso-accents-mode} (either manually, or in a hook that's done
+@code{M-x iso-accents-mode} (either manually, or in a hook that's done
 automatically). Now, suppose the x-axis is to represent temperature. All
 you'd have to do is type in the command
 @example
@@ -4221,8 +4196,8 @@ The following Gri commands will draw a linegraph.  For the output graph
 
 This plots a simple linegraph.
 
-@c HTML <A HREF="./examples/example1.gif">
-@c HTML <IMG ALT="Example 1" SRC="./examples/example1-tiny.gif"
+@c HTML <A HREF="./examples/example1.jpg">
+@c HTML <IMG ALT="Example 1" SRC="./examples/example1-tiny.jpg"
 @c HTML ALIGN=top>
 @c HTML </A>
 
@@ -4537,11 +4512,11 @@ data, with full control of axes, etc, do something like this:
 @cindex drawing contours of pregridded data
 @cindex example 4 (contouring pregridded data)
 
-@c HTML <A HREF="./examples/example4.gif">
-@c HTML <IMG ALT="Example 4" SRC="./examples/example4-tiny.gif"
+@c HTML <A HREF="./examples/example4.jpg">
+@c HTML <IMG ALT="Example 4" SRC="./examples/example4-tiny.jpg"
 @c HTML ALIGN=top>
 @c HTML </A>
-@c HTML <A HREF="./examples/example4.gri">The command-file.</A> <P>
+@c HTML <A HREF="example4.html">The command-file.</A> <P>
 
 @comment OLD @tex
 @comment OLD {
@@ -4660,11 +4635,11 @@ anlaysis scheme for use with satellite and conventional data,'', J.
 Climate Appl.  Met., vol 22, p. 1487-1503.  Readers should compare
 Figures 5 and 6 of that paper to the results shown here.
 
-@c HTML <A HREF="./examples/example5.gif">
-@c HTML <IMG ALT="Example 5" SRC="./examples/example5-tiny.gif"
+@c HTML <A HREF="./examples/example5.jpg">
+@c HTML <IMG ALT="Example 5" SRC="./examples/example5-tiny.jpg"
 @c HTML ALIGN=top>
 @c HTML </A>
-@c HTML <A HREF="./examples/example5.gri">The command-file.</A> <P>
+@c HTML <A HREF="example5.html">The command-file.</A> <P>
 
 
 @comment OLD @tex
@@ -4903,11 +4878,11 @@ Examples are shown for linear mapping and histogram mapping.
 @cindex drawing image plots
 @cindex drawing satellite images
 
-@c HTML <A HREF="./examples/example6.gif">
-@c HTML <IMG ALT="Example 6" SRC="./examples/example6-tiny.gif"
+@c HTML <A HREF="./examples/example6.jpg">
+@c HTML <IMG ALT="Example 6" SRC="./examples/example6-tiny.jpg"
 @c HTML ALIGN=top>
 @c HTML </A>
-@c HTML <A HREF="./examples/example6.gri">The command-file.</A> <P>
+@c HTML <A HREF="example6.html">The command-file.</A> <P>
 
 
 @comment OLD @tex
@@ -4937,7 +4912,7 @@ Examples are shown for linear mapping and histogram mapping.
 @image{./examples/example6histogram}
 @cindex example 6, plot IR image of Gulf of Maine
 
-@c HTML <A HREF="./examples/example6.gri">Click to see code</A>
+@c HTML <A HREF="example6.html">Click to see code</A>
 
 
 @c HTML <!--
@@ -5072,11 +5047,11 @@ inter-quartile ranges beyond q1 and q3, and in closed circles beyond
 that.  Below is an example that uses a "new command" to define each box
 plot @xref{New Commands}.
 
-@c HTML <A HREF="./examples/example7.gif">
-@c HTML <IMG ALT="Example 7" SRC="./examples/example7-tiny.gif"
+@c HTML <A HREF="./examples/example7.jpg">
+@c HTML <IMG ALT="Example 7" SRC="./examples/example7-tiny.jpg"
 @c HTML ALIGN=top>
 @c HTML </A>
-@c HTML <A HREF="./examples/example7.gri">The command-file.</A> <P>
+@c HTML <A HREF="example7.html">The command-file.</A> <P>
 
 
 @comment OLD @tex
@@ -5154,11 +5129,11 @@ There are some other useful tricks in this example, such as calling
 carriage return, yielding the defaults; the @code{-p} flag was specified
 on execution, so the time stamp was not drawn.)
 
-@c HTML <A HREF="./examples/example8.gif">
-@c HTML <IMG ALT="Example 8" SRC="./examples/example8-tiny.gif"
+@c HTML <A HREF="./examples/example8.jpg">
+@c HTML <IMG ALT="Example 8" SRC="./examples/example8-tiny.jpg"
 @c HTML ALIGN=top>
 @c HTML </A>
-@c HTML <A HREF="./examples/example8.gri">The command-file.</A> <P>
+@c HTML <A HREF="example8.html">The command-file.</A> <P>
 
 
 @comment OLD @tex
@@ -5327,11 +5302,11 @@ carriage return, yielding the defaults; the @code{-p} flag was specified
 on execution, so the time stamp was not drawn.)
 @cindex axes, automatic drawing of
 
-@c HTML <A HREF="./examples/example9.gif">
-@c HTML <IMG ALT="Example 9" SRC="./examples/example9-tiny.gif"
+@c HTML <A HREF="./examples/example9.jpg">
+@c HTML <IMG ALT="Example 9" SRC="./examples/example9-tiny.jpg"
 @c HTML ALIGN=top>
 @c HTML </A>
-@c HTML <A HREF="./examples/example9.gri">The command-file.</A> <P>
+@c HTML <A HREF="example9.html">The command-file.</A> <P>
 
 @comment OLD @tex
 @comment OLD {
@@ -5468,11 +5443,11 @@ carriage return, yielding the defaults; the @code{-p} flag was specified
 on execution, so the time stamp was not drawn.)
 @cindex example 10 (image plot with contours)
 
-@c HTML <A HREF="./examples/example10.gif">
-@c HTML <IMG ALT="Example 10" SRC="./examples/example10-tiny.gif"
+@c HTML <A HREF="./examples/example10.jpg">
+@c HTML <IMG ALT="Example 10" SRC="./examples/example10-tiny.jpg"
 @c HTML ALIGN=top>
 @c HTML </A>
-@c HTML <A HREF="./examples/example10.gri">The command-file.</A> <P>
+@c HTML <A HREF="example10.html">The command-file.</A> <P>
 
 @comment OLD @tex
 @comment OLD {
@@ -5534,7 +5509,7 @@ A color version of this is available as @file{example10color.gri}
 (results not shown here) @xref{Set Image Colorscale}.
 @cindex example 10color, draw color image plot
 
-@c HTML <A HREF="./examples/example10color.gri">Click to see code</A>
+@c HTML <A HREF="example10color.html">Click to see code</A>
 
 @c HTML <!--
 @example
@@ -5616,11 +5591,11 @@ The following code shows a fancy plot with lots of bells and whistles.
 @cindex labels, example
 @cindex graylevel for lines, example
 
-@c HTML <A HREF="./examples/example11.gif">
-@c HTML <IMG ALT="Example 11" SRC="./examples/example11-tiny.gif"
+@c HTML <A HREF="./examples/example11.jpg">
+@c HTML <IMG ALT="Example 11" SRC="./examples/example11-tiny.jpg"
 @c HTML ALIGN=top>
 @c HTML </A>
-@c HTML <A HREF="./examples/example11.gri">The command-file.</A> <P>
+@c HTML <A HREF="example11.html">The command-file.</A> <P>
 
 
 
@@ -5835,11 +5810,11 @@ quit
 The following example shows how to handle annotated curves and legends. 
 
 
-@c HTML <A HREF="./examples/example12.gif">
-@c HTML <IMG ALT="Example 12" SRC="./examples/example12-tiny.gif"
+@c HTML <A HREF="./examples/example12.jpg">
+@c HTML <IMG ALT="Example 12" SRC="./examples/example12-tiny.jpg"
 @c HTML ALIGN=top>
 @c HTML </A>
-@c HTML <A HREF="./examples/example12.gri">The command-file.</A> <P>
+@c HTML <A HREF="example12.html">The command-file.</A> <P>
 
 @comment OLD @tex
 @comment OLD {
@@ -6014,11 +5989,11 @@ Here is how you might draw an oceanographic "TS" (temperature salinity)
 diagram: 
 @cindex example 13, TS diagram, with isopycnals
 
-@c HTML <A HREF="./examples/example13.gif">
-@c HTML <IMG ALT="Example 13" SRC="./examples/example13-tiny.gif"
+@c HTML <A HREF="./examples/example13.jpg">
+@c HTML <IMG ALT="Example 13" SRC="./examples/example13-tiny.jpg"
 @c HTML ALIGN=top>
 @c HTML </A>
-@c HTML <A HREF="./examples/example13.gri">The command-file.</A>
+@c HTML <A HREF="example13.html">The command-file.</A>
 
 
 @comment OLD @tex
@@ -6478,7 +6453,7 @@ for ($i = 1; $i < $max_elem; $i++) @{
 @end example
 
 @c HTML The resultant image is below.
-@c HTML <IMG ALT="FEM image" SRC="./examples/FEM.gif">
+@c HTML <IMG ALT="FEM image" SRC="./examples/FEM.jpg">
 
 
 
@@ -13129,7 +13104,6 @@ command.
 * gri_unpage::                  Separate multipage doc into separate files
 * gri_curve::                   Extract data from Gri PostScript file
 * Updating Program::            Converts old Gri code to new
-* Emacs Editing Mode::          Editing Gri code inside Emacs
 * Fig To Gri Translator::       Translate Fig output to Gri
 * Extractor Of Images::         Program to extract image from PostScript
 @end menu
@@ -13217,7 +13191,7 @@ PostScript files, in user units.  It is mostly used by the author; see
 comments in the script.
 
 
-@node   Updating Program, Emacs Editing Mode, gri_curve, Extras
+@node   Updating Program, Fig To Gri Translator, gri_curve, Extras
 @comment  node-name,  next,  previous,  up
 @section Updating Program
 @cindex updating Gri
@@ -13243,125 +13217,9 @@ illustrated in the following before/after comparison.
 @end itemize
 
 
-@c HTML <!-- newfile Emacs.html "Gri: Emacs editing mode" "Gri Extras" -->
-
-@node   Emacs Editing Mode,  Fig To Gri Translator, Updating Program, Extras
-@comment  node-name,  next,  previous,  up
-@section Editing Gri Files in GNU Emacs
-
-@cindex gri code, editing
-@cindex editing Gri code with Emacs
-@cindex emacs, editing mode for Gri
-@cindex gri-mode, editing in emacs
-
-If you use the GNU Emacs text editor, writing Gri command files is made
-easier by using the Gri editing mode.
-
-The Emacs gri-mode was written by Peter S. Galbraith
-@c HTML <A HREF="mailto:psg@debian.org">
-(at email address @code{psg@@debian.org}.
-@c HTML </A>
-
-Here is an overview of the gri-mode features:
-@itemize @bullet
-@item
-It @emph{indents} if statements, loops, and so on
-(@code{gri-indent-line}, @key{TAB}).
-@item
-It can @emph{complete} partially typed commands (@code{gri-complete},
-@key{M-TAB}) and help you edit the syntax that was thus inserted for you
-(@code{gri-option-select}, @key{C-C C-o}).
-@item
-It can provide a short help synopsis (@code{gri-help-this-command},
-@key{C-C C-h}), or load the info manual at the location where the command
-is described (@code{gri-info-this-command}, @key{C-C C-i}), or help regarding
-any command (@code{gri-help}, @key{C-C M-h}) and provide completion
-of command name at the prompt (@key{TAB}), or help you
-find an unknown command by listing all containing a given word
-(@code{gri-help-apropos}, @key{C-C C-a}).
-@item
-It can let you run Gri and view its output without leaving the editor 
-(@code{gri-run}, @key{C-C C-r}).  If an error is encountered, Emacs will 
-rearrange the buffer so the cursor is on the bad line of the Gri command-file.
-@item
-If you've already run Gri, and therefore have a PostScript output file,
-the mode will let you view that file (@code{gri-view}, @key{C-C C-v})
-even if that file is compressed.
-@end itemize
-
-@noindent
-Thus one never has to leave Emacs; type @key{C-C C-r} to run Gri, and if
-there is no error, the graph comes up automatically.  If there was an error,
-gri-mode will move editing point to the line with the error and display
-the error message. Given that the mode can complete partially typed commands, 
-this means a substantial saving in development time.
-
-@cindex emacs-mode FTP site
-
-@c HTML <A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri">Click here
-@c HTML to get to Gri FTP site, where the mode is stored as
-@c HTML gri-mode.el</A> <P>  
-
-
-To install gri-mode in your emacs, the only emacs variable you @emph{need}
-to set in your .emacs file (and this only if your gri installation departs 
-from default parameters) is @emph{gri*directory-tree} or @emph{gri*path}.  
-
-@itemize @bullet
-@item
-If your @code{gri} and @file{gri.cmd} reside in the @emph{same}
-directory (this is the standard Gri installation scheme before version
-2.040), then you need to set the variable @code{gri*path} before you
-load @code{gri-mode.el}.  For example, if both files are in
-@file{/usr/local/bin}, you add the following to your @file{~/.emacs}
-file:
-@example
-(setq gri*path "/usr/local/bin/")
-@end example
-@item
-If you use a gri directory tree (as is the standard since Gri version
-2.040), then do not set @code{gri*path}.  Instead, set
-@code{gri*directory-tree} to the root of this tree.  For example, if
-your gri files reside in directories like named
-@file{/usr/bin/gri}
-and 
-@file{/usr/share/gri/gri.cmd},
-then you'd use:
-@example
-(setq gri*directory-tree "/usr/share/gri")
-@end example
-@end itemize
-
-To access the Gri editing mode, put the file @file{gri-mode.el} in the
-appropriate place (e.g., @file{/usr/local/share/emacs/19.31/site-lisp}
-or some other file named in your Emacs ``load-path''), and then put
-lines like the following in your @file{~/.emacs} file:
-@example
-(setq gri*WWW-page "file:/usr/doc/gri-@value{GRI-VERSION}/html/index.html")
-(setq gri*directory-tree "/usr/share/gri")
-(autoload 'gri-mode "gri-mode" "Enter Gri-mode." t)
-(setq auto-mode-alist 
-   (cons '("\\.gri$" . gri-mode) auto-mode-alist))
-@end example
-
-If you have multiple versions of Gri on your system, the
-directory-tree line will look more like the following
-
-@example
- (setq gri*directory-tree '("/usr/lib/gri/" "/opt/gri/"))
-@end example
-
-
-The mode controls indentation in much the same way as other modes do.
-Emacs will enter the Gri mode whenever you edit a file ending in the
-characters @file{.gri}, or if you run the command @code{gri-mode}.
-
-Inside Gri mode, type @kbd{C-h m} for help on the mode.
-
-
 @c HTML <!-- newfile Fig2Gri.html "Gri: Fig To Gri Translator" "Gri Extras" -->
 
-@node   Fig To Gri Translator, Extractor Of Images, Emacs Editing Mode, Extras
+@node   Fig To Gri Translator, Extractor Of Images, Updating Program, Extras
 @comment  node-name,  next,  previous,  up
 @section Fig to Gri Translator
 @cindex fig translator
@@ -13379,7 +13237,7 @@ and presently does only text and polyline items.  I welcome additions to
 
 
 @c HTML <!-- newfile ImageExt.html "Gri: Image Extractor" "Gri Extras" -->
-@node   Extractor Of Images, Evolution, Fig To Gri Translator, Extras
+@node   Extractor Of Images, Emacs Editing Mode, Fig To Gri Translator, Extras
 @comment  node-name,  next,  previous,  up
 @section Image extractor
 @cindex images, extracting from PostScript
@@ -13411,12 +13269,698 @@ GS> (foo) ppm1run
 GS> quit
 @end example
 
+@c HTML <!-- newfile Emacs.html "Gri: Emacs editing mode" "Emacs editing mode" -->
+
+@node   Emacs Editing Mode, Gri-mode screenshots, Extractor Of Images, Top
+@comment  node-name,  next,  previous,  up
+@chapter Editing Gri Files in GNU Emacs
+
+@cindex gri code, editing
+@cindex editing Gri code with Emacs
+@cindex emacs, editing mode for Gri
+@cindex gri-mode, editing in emacs
+
+If you use the GNU Emacs (or XEmacs) text editor, writing Gri command
+files is made easier by using the Gri editing mode (gri-mode.el),
+written by Peter S. Galbraith
+@c HTML <A HREF="mailto:Peter S Galbraith <psg@debian.org>">
+@code{<psg@@debian.org>}.
+@c HTML </A>
+
+Here's a brief overview of gri-mode features:
+@itemize @bullet
+@item
+It can @emph{complete} partially typed commands (@code{gri-complete},
+@key{M-Tab}) and help you edit the syntax that was thus inserted for you
+(@code{gri-option-select}, @kbd{C-c C-o}; @code{gri-option-kill}, 
+@kbd{C-c C-k}).
+@item
+It can provide a short help synopsis concerning the command on the
+current line (@code{gri-help-this-command}, @kbd{C-c C-h}), or load the
+info manual for that command (@code{gri-info-this-command}, @kbd{C-c
+C-i}).  It knows the list of all Gri commands, and can provide help or
+info regarding any of them (@code{gri-help}, @kbd{C-c M-h};
+@code{gri-info}, @kbd{C-c M-i}) using command name completion at the
+prompt (@key{Tab}). 
+@item
+All Gri commands are listed in a pull-down menu from the menubar, which
+you can use to either enter the text of the selected command, or obtain
+help or info about it.
+@item
+It can help you find an unknown command by listing all
+containing a given word (@code{gri-apropos}, @kbd{C-c C-a}).
+@item
+It fontifies your Gri code using colour coding.
+@item
+It @emph{indents} if statements, loops, and so on
+(@code{gri-indent-line}, @key{Tab}).
+@item
+It can let you run Gri and view its output without leaving the editor 
+(@code{gri-run}, @kbd{C-c C-r}).  If an error is encountered, Emacs will 
+rearrange the buffer so the cursor is on the bad line of the Gri command-file.
+@item
+If you've already run Gri, and therefore have a PostScript output file,
+the mode will let you view that file (@code{gri-view}, @kbd{C-c C-v})
+even if that file is compressed.
+@end itemize
+
+@noindent
+Thus one never has to leave Emacs; type @kbd{C-c C-r} to run Gri, and if
+there is no error, the graph comes up automatically.  If there was an error,
+gri-mode will move editing point to the line with the error and display
+the error message. Given that the mode can complete partially typed commands, 
+this means a substantial saving in development time.
+
+Inside gri-mode, type @kbd{C-h m} for help on the mode, including a list
+of all commands and key definitions.
+
+@menu
+* Gri-mode screenshots::                  What it looks like.
+* Installing gri-mode.el::                The nuts and bolts.
+* Major Gri-mode commands::               It knows about Gri commands.
+* Dealing with many Gri versions::        gri-mode handles it.
+@end menu
+
+@node   Gri-mode screenshots, Installing gri-mode.el, Emacs Editing Mode, Emacs Editing Mode
+@comment  node-name,  next,  previous,  up
+@section Gri-mode screenshots, what it looks like.
+@cindex gri-mode, screenshots
+
+@comment First handle Info version
+@c HTML <!--
+@ifinfo
+Screenshots are not available in this Info version of the gri manual,
+however the HTML and PostScript versions have them.  You might want to
+look up @file{http://www.phys.ocean.dal.ca/~kelley/gri/Emacs.html} on the
+web and check it out.
+@end ifinfo
+@c HTML -->
+
+@comment Now handle PostScript version
+@iftex
+In the first screenshot, the user has entered the text
+@code{set font} and has pressed @key{M-Tab} twice
+to see the list of possible completions.  The
+@file{*Completions*} buffer is displayed in a separate
+frame because the user is using the @file{framepop.el}
+add-on package.  A similar effect can be obtained using
+@code{special buffers} in Emacs.
+
+@image{./screenshots/gri-screenshot-1}
+
+Here, the user has selected the command @code{set font to} and,
+forgetting what valid font name could be used, then invoked @kbd{C-c
+C-h} to get help about that command. The user found the needed
+information and finished typing in `Helvetica'.
+
+@image{./screenshots/gri-screenshot-2}
+
+Here we see the user cascading through the Gri commands pull-down menu
+until @code{draw axes frame} is reached.
+
+@image{./screenshots/gri-screenshot-3}
+
+With the output previewed in a @code{gv} window after pressing @kbd{C-c
+C-v}, the user is ready to print the file using a pull-down menu.
+
+@image{./screenshots/gri-screenshot-4}
+@end iftex
+
+@comment Now handle more complicated HTML version
+@ifhtml
+
+@comment First the index images pointing to new HTML files.
+@c HTML <p>
+@c HTML <A HREF="ScreenShot1.html">
+@c HTML <IMG ALT="Possible completions to `set font'." 
+@c HTML SRC="./screenshots/gri-screenshot-1-tiny.jpg" ALIGN=top></A>
+@c HTML gri-mode displays possible completions to entered text.
+@c HTML <p>
+@c HTML <A HREF="ScreenShot2.html">
+@c HTML <IMG ALT="Displaying Help about current command." 
+@c HTML SRC="./screenshots/gri-screenshot-2-tiny.jpg" ALIGN=top></A>
+@c HTML gri-mode display help about the current command.
+@c HTML <p>
+@c HTML <A HREF="ScreenShot3.html">
+@c HTML <IMG ALT="Cascading the command pull-down menu." 
+@c HTML SRC="./screenshots/gri-screenshot-3-tiny.jpg" ALIGN=top></A>
+@c HTML The pull-down menu listing all gri commands.
+@c HTML <p>
+@c HTML <A HREF="ScreenShot4.html">
+@c HTML <IMG ALT="Getting set to print the PostScript output." 
+@c HTML SRC="./screenshots/gri-screenshot-4-tiny.jpg" ALIGN=top></A>
+@c HTML The `Perform' menu to run gri, preview, print...
+
+@comment Next, genarate these new HTML files (sneaky).
+
+@c HTML <!-- newfile ScreenShot1.html "Gri: Screenshot 1" "Screenshot 1" -->
+@node   Screenshot 1, Installing gri-mode.el, Gri-mode screenshots, Gri-mode screenshots
+@comment  node-name,  next,  previous,  up
+@subsection Screenshot 1
+
+In the first screenshot, the user has entered the text @code{set font}
+and has pressed @key{M-Tab} twice to see the list of possible
+completions.  The @file{*Completions*} buffer is displayed in a
+separate frame because the user is using the @file{framepop.el} add-on
+package.  A similar effect can be obtained using @code{special
+buffers} in Emacs.
+
+@c HTML <IMG SRC="./screenshots/gri-screenshot-1.jpg"></A>
+
+@c HTML <!-- newfile ScreenShot2.html "Gri: Screenshot 2" "Screenshot 2" -->
+@node   Screenshot 2, Screenshot 3, Screenshot 1, Gri-mode screenshots
+@comment  node-name,  next,  previous,  up
+@subsection Screenshot 2
+
+Here, the user has selected the command @code{set font to} and,
+forgetting what valid font name could be used, then invoked @kbd{C-c
+C-h} to get help about that command. The user found the needed
+information and finished typing in `Helvetica'.
+
+@c HTML <IMG SRC="./screenshots/gri-screenshot-2.jpg"></A>
+
+@c HTML <!-- newfile ScreenShot3.html "Gri: Screenshot 3" "Screenshot 3" -->
+@node   Screenshot 3, Screenshot 4, Screenshot 2, Gri-mode screenshots
+@comment  node-name,  next,  previous,  up
+@subsection Screenshot 3
+
+Here we see the user cascading through the Gri commands pull-down menu
+until @code{draw axes frame} is reached.
+
+@c HTML <IMG SRC="./screenshots/gri-screenshot-3.jpg"></A>
+
+@c HTML <!-- newfile ScreenShot4.html "Gri: Screenshot 4" "Screenshot 4" -->
+@node   Screenshot 4, Installing gri-mode.el, Screenshot 3, Gri-mode screenshots
+@comment  node-name,  next,  previous,  up
+@subsection Screenshot 4
+
+With the output previewed in a @code{gv} window after
+pressing @kbd{C-c C-v}, the user is ready to print the
+file using a pull-down menu.
+
+@c HTML <IMG SRC="./screenshots/gri-screenshot-4.jpg"></A>
+@end ifhtml
+
+@c HTML <!-- newfile Emacs2.html "Gri: Installing Emacs Mode" "Installing Emacs Mode" -->
+@node   Installing gri-mode.el, Step 1, Gri-mode screenshots, Emacs Editing Mode
+@comment  node-name,  next,  previous,  up
+@section Installing gri-mode.el, the nuts and bolts.
+@cindex gri-mode, installing
+
+The Emacs @file{gri-mode.el} file is now bundled with gri, so odds are
+you already have it.  If not, you will find it at gri's ftp home
+@c HTML <A HREF="ftp://ftp.phys.ocean.dal.ca/users/kelley/gri">
+ftp://ftp.phys.ocean.dal.ca/users/kelley/gri
+@c HTML </A>
+
+The following installation steps appear a @emph{bit} complicated.
+That's only because gri has changed how it gets installed a few times,
+and gri-mode.el works with all of these various methods.  If you use gri
+from a Linux package (Debian or Red Hat) or compiled yourself using the
+default configuration, you won't need to do much.
+
+To install @file{gri-mode.el}, follow these 4 steps:
+
+@menu
+* Step 1::  Placing gri-mode.el where Emacs can find it.
+* Step 2::  Configuring gri-mode to where gri lives on your system.
+* Step 3::  Telling emacs to load gri-mode..
+* Step 4::  Extra user configuration of gri-mode.
+@end menu
+
+@node   Step 1, Step 2, Installing gri-mode.el, Installing gri-mode.el
+@comment  node-name,  next,  previous,  up
+@subsection Placing gri-mode.el where Emacs can find it.
+@cindex gri-mode, Placing gri-mode.el where Emacs can find it.
+
+(Those using gri from gri's @emph{RPM} package, a @emph{Debian} package
+or a @emph{Red Hat Powertools} package users can skip this, as it's done
+for them)
+
+Extra @file{.el} files like gri-mode.el that are not part of Emacs
+should be stored in a directory where Emacs will find them when you ask
+it to load them.  The files should therefore be found in Emacs'
+@emph{load-path}.  To see the directory list currently in the load-path,
+do this in Emacs:
+
+@example
+    C-h v load-path
+@end example
+
+If you have access to system directories, put gri-mode.el in a
+@emph{site-lisp} directory, such as
+@file{/usr/local/share/emacs/site-lisp/} That way all users will have
+access to the files.
+
+If you don't have access to a site-lisp directory (e.g. you have only a
+user account), then create a directory where your extra @file{.el} files
+will be stored and add it to Emacs' load-path.  For example, say you
+created the directory @file{~/emacs} and stored gri-mode.el there, you would
+then put this near the top of your @file{~/.emacs} file:
+
+@example
+    (setq load-path (cons "~/emacs" load-path))
+@end example
+
+@node   Step 2, Step 3, Step 1, Installing gri-mode.el
+@comment  node-name,  next,  previous,  up
+@subsection Configuring gri-mode to where gri lives on your system:
+@cindex gri-mode, Configuring gri-mode to where gri lives on your system
+
+(Those using gri from gri's @emph{RPM} package, a @emph{Debian} package
+or a @emph{Red Hat Powertools} package users can skip this, as it's done
+for them)
+
+You may skip this section if gri is installed on your system as
+@file{/usr/local/bin/gri} and @file{/usr/local/share/gri/gri.cmd} (the
+default when compiling gri yourself).  If not, then you need to set the
+Emacs variable @code{gri*directory-tree} in a startup file such as in
+your @file{~/.emacs} file.
+
+The Emacs variable @code{gri*directory-tree} is used to configure
+gri-mode to tell it where Gri is installed on your system.  If you have
+only one version of gri installed on your system, gri-mode expects to
+find gri.cmd and the gri executable like so:
+
+@example
+   @code{gri*directory-tree}/gri.cmd 
+   and the gri executable in the PATH
+@end example
+or
+@example
+   @code{gri*directory-tree}/lib/gri.cmd 
+   and the gri executable in the PATH
+@end example
+or
+@example
+   @code{gri*directory-tree}/bin/gri
+   @code{gri*directory-tree}/lib/gri.cmd
+@end example
+
+However, gri-mode was designed to support, and ease the use of,
+@strong{multiple installed versions} of gri.  To use this feature, you
+must use the gri version number as a directory name under the
+@code{gri*directory-tree} path, like this:
+
+@example
+   @code{gri*directory-tree}/VERSION/bin/gri
+   @code{gri*directory-tree}/VERSION/lib/gri.cmd
+@end example
+
+(e.g. @file{/opt/gri/2.040/bin/gri} and
+@file{/opt/gri/2.040/lib/gri.cmd} with @code{gri*directory-tree} set to
+@code{"/opt/gri"})
+
+or without the @emph{lib} and @emph{bin} subdirectories if the executable is
+found in the PATH named like @file{gri-VERSION} (This is the way Debian
+packages are set up):
+
+@example
+   @code{gri*directory-tree}/VERSION/gri.cmd
+   and the @file{gri-VERSION} executable in the PATH
+@end example
+
+(e.g. @file{/usr/share/gri/2.1.17/gri.cmd} and
+@file{/usr/bin/gri-2.1.17} with @code{gri*directory-tree} set to
+@code{"/usr/share/gri"})
+
+@strong{Important note:} You may have more than one tree and make a list
+of them:
+
+@example
+  (setq gri*directory-tree '("/opt/gri/" "/usr/share/gri/"))
+@end example
+
+@strong{Examples:}
+
+@enumerate
+@item
+ If you had multiple versions of Gri installed like so: 
+@example
+  /opt/gri/2.040/bin/gri
+  /opt/gri/2.040/lib/gri.cmd
+  /opt/gri/2.041/bin/gri
+  /opt/gri/2.041/lib/gri.cmd
+@end example
+
+then you'd use:
+@example
+  (setq gri*directory-tree "/opt/gri/")
+@end example
+
+@item
+ If you use a Debian GNU/Linux installation like:
+ @example
+  /usr/bin/gri -> /usr/bin/gri-2.1.17
+  /usr/share/gri/2.1.17/gri.cmd
+ @end example
+ then you'd use:
+ @example
+  (setq gri*directory-tree "/usr/share/gri/")
+ @end example
+ Note that since there is no @file{/usr/share/gri/2.1.17/bin/} directory (a
+ similar structure to @file{opt/gri} above), all gri binaries with version
+ number suffixes must exist in the path (e.g. @file{gri-2.1.17})
+
+@item
+ If you use a RedHat Powertool package (or Gri's owm packaged RPM)
+ installed like:
+ @example
+  /usr/bin/gri
+  /usr/share/gri/gri.cmd
+ @end example
+ then you'd also use:
+ @example
+  (setq gri*directory-tree "/usr/share/gri/")
+ @end example
+ but gri-mode would know of only one installed version of gri.
+@end enumerate
+
+@node   Step 3, Step 4, Step 2, Installing gri-mode.el
+@comment  node-name,  next,  previous,  up
+@subsection Telling emacs to load gri-mode
+@cindex gri-mode, Telling emacs to load gri-mode
+
+(Those using a @emph{Debian} package can skip this, as it's done
+for them)
+
+To tell emacs to use this mode with @file{.gri} files, you can load
+gri-mode whenever a new emacs session is starting by adding the
+following line to your @file{~/.emacs} file:
+
+@example
+ (require 'gri-mode)
+@end example
+
+This is a good method when you only start emacs once a week and
+use it for every file you edit (as you should).  
+
+If you startup a fresh emacs every time you edit (bad scientist!)  then
+you probably only want to load gri-mode into emacs when you need it.  In
+that case, instead of the @code{require} statement above, add the following
+lines to your @file{~/.emacs} file:
+
+@example
+ (autoload 'gri-mode "gri-mode" "Enter Gri-mode." t)
+ (setq auto-mode-alist (cons '("\\.gri$" . gri-mode) auto-mode-alist))
+@end example
+
+The first line tells Emacs that it will find out what it needs to know
+about running the command @code{M-x gri-mode} by loading the file
+@file{gri-mode.el}.  The second line tells it to run the command
+@code{M-x gri-mode} when a file with extension @file{.gri} is visited
+(thus using gri-mode with all those files).
+
+@node   Step 4, Major Gri-mode commands, Step 3, Installing gri-mode.el
+@comment  node-name,  next,  previous,  up
+@subsection Extra user configuration of gri-mode
+@cindex gri-mode, Extra user configuration of gri-mode
+
+@strong{All users should do this at some time.}
+
+At this point, gri-mode should start up when you edit a gri file.  You
+may optionally customize gri-mode by:
+
+@enumerate
+@item 
+ using the Custom interface (see the Help or Gri-Help menu or run the
+ command @code{M-x gri-customize}), or
+@item 
+ manually setting variables in your @file{~/.emacs} file.  These are
+ briefly described by typing @kbd{C-h m} while in gri-mode.  Then, for
+ further infomation, use emacs' @code{describe-variable} command, bound
+ to @kbd{C-h v}.  For example, for more information about the
+ @code{gri*WWW-program} variable, you'd type @code{C-h v gri*WWW-program}
+ (note that emacs does @key{Tab} completion, so pressing the
+ @key{Tab} key after typing-in gri will display all gri related
+ variables.)
+@end enumerate
+
+@c HTML <!-- newfile Emacs3.html "Gri: Major Emacs Mode Commands" "Major Emacs Mode Commands" -->
+@node   Major Gri-mode commands, Command completion, Step 4, Emacs Editing Mode
+@comment  node-name,  next,  previous,  up
+@section Major Gri-mode commands.
+@cindex gri-mode, major commands
+
+This section describes the major gri-mode commands, briefly showing how
+they can increase your productivity.
 
 
+@menu
+* Command completion::   To type them in faster, with proper syntax.
+* Gri command names::    How gri-mode names all gri commands.
+* Possible completions:: A list of all valid commands matching so far.
+* Editing the syntax::   What to do after gri-complete.
+* User commands::        gri-mode knows about ~/.grirc.
+* Gri code fragments::   Use them as short-cuts.
+* Info interface::       Getting help about the current command.
+@end menu
+
+@node   Command completion, Gri command names, Major Gri-mode commands, Major Gri-mode commands
+@comment  node-name,  next,  previous,  up
+@subsection Command completion while editing in gri-mode
+@cindex gri-mode, command completion
+
+The command @code{gri-complete} is bound to @key{M-tab}. It completes a
+gri command as much as possible, then indents it.
+
+It works one word at a time, for example typing-in "dr"
+and then pressing @key{M-tab}:
+@example
+  dr@key{M-tab}
+@end example
+expands the "dr" to "draw".
+
+It also works with many words at a time, e.g. 
+@example
+  dr x a@key{M-tab}
+@end example
+expands it to:
+@example
+  draw x axis [at bottom|top|@{.y. [cm]@} [lower|upper]]
+@end example
+
+@node   Gri command names, Possible completions, Command completion, Major Gri-mode commands
+@comment  node-name,  next,  previous,  up
+@subsection Gri command names; How gri-mode names them.
+@cindex gri-mode, gri command names
+@cindex gri-mode, how it names gri commands
+
+To go further, one needs to understand how gri-mode decides to name gri
+commands.  A name is determined by removing bracketed options from the
+syntax line of a given command.  This is different than what the gri
+parser does.  In this way, the gri command
+
+@example
+  draw label "\string" [centered|rightjustified] at .x. .y. [cm] [rotated .deg.]
+@end example
+
+is named by gri-mode simply @code{draw label at}.  Note how the `at'
+stays in the name because it is not optional.  So when you see
+@code{draw label at} in gri-mode's menus or prompts, you are more likely
+to associate the name with what the command actually does.
+
+@node   Possible completions, Editing the syntax, Gri command names, Major Gri-mode commands
+@comment  node-name,  next,  previous,  up
+@subsection Possible completions of gri command names
+@cindex gri-mode, possible completions
+
+When you press @key{M-tab} to complete a command name, gri-mode will
+expand it as much as it can and do nothing further.  If you type in
+nothing more and insist by using @code{gri-complete} (@key{M-tab})
+again, gri-mode will respond by showing all possible completions in the
+@file{*completions*} buffer.  In this way you can use
+@code{gri-complete} word-by-word to abbreviate commands without ever
+displaying completions, like you would for file completion in emacs or
+bash.
+
+If a completion is ambiguous, but could be exact, invoke
+gri-complete a second time to complete it. e.g.
+@example
+  sh@key{M-tab}
+@end example
+expands to
+@example
+  show
+@end example
+and informs you that 12 possible completions exists; then
+@example
+  show@key{M-tab}
+@end example
+will display these completions in the completions buffer; then typing
+@key{M-tab} again forces completion to a complete but not unique
+possibility:
+@example
+  show .value.|@{rpn ...@}|"\text" [.value.|@{rpn ...@}|text [...]]
+@end example
+
+Completions are shown immediately (without invoking gri-complete again)
+if the completions window is already displayed or if there are 3
+possbilities or less.  In this case they are displayed in the
+minibuffer.
+
+The @file{*completions*} window is deleted after a command is fully
+completed.  @code{gri-complete} uses its own @file{*completions*}
+buffer, which is not displayed in the buffer-list to avoid clutter.
+
+@node   Editing the syntax, User commands, Possible completions, Major Gri-mode commands
+@comment  node-name,  next,  previous,  up
+@subsection Editing the syntax output by gri-complete
+@cindex gri-mode, editing gri syntax
+
+You might wonder what to do with all the bracketed code left behind by
+@code{gri-complete}.  It certianly won't go through the gri parser
+without error, so you have to edit it out.
+ 
+The tools provided in gri-mode are @code{gri-option-select} (@kbd{C-C
+C-o}) and @code{gri-kill-option} (@kbd{C-C C-k}) to narrow in on a
+particular gri command, given a syntax description left on the line by
+@code{gri-complete}.  The cursor location is used to decide which gri
+command(s) to narrow to.
+
+For example, if @code{gri-complete} is used on the line `dr x a', the
+result will be a line like 
+
+@example
+draw x axis [at bottom|top|@{.y. [cm]@} [lower|upper]]
+@end example
+
+This is the gri way of describing many commands at once.  The above
+syntax description is a shortcut formaulation for all of:
+@example
+  draw x axis
+  draw x axis at bottom
+  draw x axis at bottom top
+  draw x axis at bottom bottom
+  draw x axis at top
+  draw x axis at top top
+  draw x axis at top bottom
+  draw x axis at .y. cm
+  draw x axis at .y. cm lower
+  draw x axis at .y. cm upper
+@end example
+
+The @code{gri-option-select} (@kbd{C-C C-o}) command provides easy
+navigation to select one of these commands.  The narrowing process is
+governed by the cursor position.  For example, to get the command
+narrowed down to
+@example
+  draw x axis at bottom [lower|upper]
+@end example
+place the cursor somewhere in the word `bottom' and invoke
+@code{gri-option-select}.  To complete the narrowing process, selecting
+@example
+  draw x axis at bottom lower
+@end example
+move the cursor to some place in the word `lower' and invoke
+@code{gri-option-select again}.  On the other hand, to get
+@example
+  draw x axis at bottom
+@end example
+you would have put the cursor over either the word `lower' or `upper',
+and invoke @code{gri-kill-option} (@kbd{C-C C-k}) instead.
+
+@strong{NOTE:} you might want to practice using this example to learn
+how to do it.  If you make a mistake, note that the normal Emacs undo
+works.
+
+@node   User commands, Gri code fragments, Editing the syntax, Major Gri-mode commands
+@comment  node-name,  next,  previous,  up
+@subsection User commands with gri-mode
+@cindex gri-mode, user-defined commands
+
+User gri commands defined in @file{~/.grirc} (@xref{Resource File}) or at
+the beginning of a gri file can also be used with @code{gri-complete}.
+Note that user commands are added from the current buffer whenever
+`gri-mode' is invoked.  They may override previous user commands, but
+not gri system commands.
+
+@node   Gri code fragments, Info interface, User commands, Major Gri-mode commands
+@comment  node-name,  next,  previous,  up
+@subsection Inserting gri code fragments using short-cuts with gri-mode
+@cindex gri-mode, gri code fragments
+@cindex gri-mode, enter chunks of code with short-cuts
+
+Since gri version 1.063, gri has special commands that begin with
+a question mark `?'.  These special commands have no options, and
+are composed only of standard gri commands.  Their purpose is to
+provide a short-cut for entering many lines of gri at once (e.g.
+bits of sample code about contouring grids, or your own preamble
+which you use at the time to set fonts and line widths).
+
+@code{gri-complete} acts in a special way with these commands, by
+replacing the abbreviated name which you are completing by all the lines
+contained within the gri command.
+
+The user is allowed to define new fragments in @file{~/.grirc}, and also
+to override the gri system fragments.  You can therefore fine-tune gri's
+fragments to your taste.  To see the names of all gri fragments, type in
+a question mark at the beginning of a line in a gri buffer and press
+@key{M-Tab} twice to @code{gri-complete} it and display possible
+choices.  The gri commands used to replace them is found in the
+@file{*gri-syntax*} buffer.
+
+@node   Info interface, Dealing with many Gri versions, Gri code fragments, Major Gri-mode commands
+@comment  node-name,  next,  previous,  up
+@subsection Info interface to get help on the command currently edited.
+@cindex gri-mode, Info interface
+
+The Info system is built into Emacs (@kbd{C-h i}), and provides an easy
+method of navigation on-line help (including this manual).  We suggest
+that you install the gri info files on your system (they are already
+installed with packaged versions of gri in Debian or Red Hat formats).
+
+Not only will Info (@kbd{C-h i}) be able to navigate through all of
+gri's inline manual, but gri-mode's function
+@code{gri-info-this-command} (@kbd{C-c C-i}) will display the correct
+info page about the gri command being edited on the current line.
+
+Additionally, gri-mode has the command @code{gri-info} (@kbd{C-c M-i})
+which will prompt you (using @key{tab} completion) for any command to
+list Info about.  There's also a menu-bar pull-down menu which lists all
+gri commands, and you can get to Info from that too.
+
+@c HTML <!-- newfile Emacs4.html "Gri: Dealing with many Gri versions" "Emacs Mode: Dealing with many Gri versions" -->
+@node   Dealing with many Gri versions, Evolution, Info interface, Emacs Editing Mode
+@comment  node-name,  next,  previous,  up
+@section Dealing with many Gri versions, gri-mode handles it.
+@cindex gri-mode, handling multiple Gri versions
+
+Earlier we explained that you might have many versions of gri installed
+on your system (@xref{Installing gri-mode.el}).  You may use gri-mode to
+access these various versions with the following gri-mode commands:
+
+@itemize @bullet
+@item
+@strong{@code{gri-set-version}}: 
+Tells gri-mode to use a given version as the default for all your gri
+files.  Tab completion is available listing all available versions (if
+they are not all listed, that means that the Emacs variable
+@code{gri*directory-tree} is not correctly set.  See @xref{Installing
+gri-mode.el}).  Your selection is stored in the file
+@file{~/.gri-using-version} and is remembered across editing
+sessions. If you select @emph{default} as your answer, gri-mode reverts
+to using the default version of gri as installed on your system (which
+may change after you update it) and deletes the
+@file{~/.gri-using-version} file.
+
+@item
+@strong{@code{gri-set-local-version}}: 
+Tells gri-mode to use a given version of gri this @emph{this} gri file
+(the one currently being edited when you invoke the command).  Tab
+completion is again available to list all available versions.  Your
+selection overrides the default version selected by
+@code{gri-set-version} for this file, and is stored as an Emacs variable
+at the bottom of the gri file.  It is remembered across editing
+sessions. If you select @emph{default} as your answer, gri-mode reverts
+to using the default version of gri as selected by
+@code{gri-set-version} and deletes the Emacs variable setting at the
+bottom of the gri file.
+@end itemize
 
 @c HTML <!-- newfile Evolution.html "Gri: Evolution of Gri" "Evolution of Gri" -->
 
-@node   Evolution, Distribution versions, Extractor Of Images, Top
+@node   Evolution, Distribution versions, Dealing with many Gri versions, Top
 @comment  node-name,  next,  previous,  up
 @chapter Evolution of Gri
 
