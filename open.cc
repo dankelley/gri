@@ -98,6 +98,23 @@ open_file(DataFile::type type)
 			err("Missing quote on end of file/pipe name.");
 			return false;
 		}
+		// Check for URL
+		if (!strncmp(_word[1], "\"http://", 8)) {
+			std::string cmd("wget ");
+			cmd.append(_word[1] + 1);
+			cmd.STRINGERASE(cmd.size() - 1);
+			cmd.append(" --output-document=");
+			std::string tmpfile_name(tmp_file_name());
+			cmd.append(tmpfile_name);
+			cmd.append(" --output-file=/dev/null");
+			//printf("WILL RUN <%s>\n", cmd.c_str());
+			call_the_OS(cmd.c_str(), __FILE__, __LINE__);
+			if (!push_data_file(tmpfile_name.c_str(), type, "r", true)) {
+				err("`open' can't find file `\\", tmpfile_name.c_str(), "'", "\\");
+				return false;
+			}
+			return true;
+		}
 		// Now check for a pipe
 		for (int i = len - 2; i > -1; i--) {
 			if (*(_word[1] + i) == '|') {
