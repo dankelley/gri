@@ -51,7 +51,9 @@ public:
 	unsigned int    superuser() const		{return the_superuser;		}
 	bool	        trace() const			{return the_trace;		}
 #ifdef DASH
-	const std::vector<double> dash() const   {return the_dash;}
+	const std::vector<double> dash() const   {
+		//printf("DEBUG: GriState returning dash of length %d\n",the_dash.size());
+		return the_dash;}
 #endif
 private:
 	double		the_linewidth_axis;

@@ -1079,6 +1079,8 @@ gr_set_dash(const std::vector<double> dash)
 	for (unsigned int i = 0; i < dash.size(); i++)
 		fprintf(_grPS, "%.3f ", dash[i] * PT_PER_CM);
 	fprintf(_grPS, "] %d d\n", int(dash.size()));
+	_griState.set_dash(dash);
+	//printf("DEBUG: gr_set_dash() stored a dash of length %ud\n",dash.size());
 	return true;
 }
 

@@ -96,6 +96,8 @@ then
 fi
 
 %changelog
+* Mon Mar 29 2004 <Dan.Kelley@Dal.Ca>
+- fix SF bug 923719 ('draw curve overlying' ignored effect of 'set dash')
 * Thu Mar 11 2004 <Dan.Kelley@Dal.Ca>
 - fix SF bug 914125 (all offpage points reported to have been drawn by 'draw curve')
 * Thu Jan 15 2004 <Dan.Kelley@Dal.Ca>

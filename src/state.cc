@@ -40,6 +40,7 @@ stateCmd()
 bool
 state_save()
 {
+	//printf("state_save() before push, the dash is size %d\n",_dash.size());
 	stateStack.push_back(_griState);
 	return true;
 }

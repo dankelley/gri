@@ -1,4 +1,4 @@
-// #define DEBUG_DASH
+//#define DEBUG_DASH 1
 #include <string>
 #include "GriColor.hh"
 #include "GriState.hh"
@@ -95,8 +95,11 @@ GriState& GriState::operator=(const GriState& n)
 	the_superuser        = n.superuser();
 	the_trace            = n.trace();
 	the_dash.erase(the_dash.begin(), the_dash.end());
-	for (unsigned int i = 0; i < (n.the_dash).size(); i++)
-		the_dash.push_back(n.the_dash[i]);
+//	for (unsigned int i = 0; i < (n.the_dash).size(); i++)
+//		the_dash.push_back(n.the_dash[i]);
+	std::vector<double> n_dash(n.dash());
+	for (unsigned int i = 0; i < n_dash.size(); i++)
+		the_dash.push_back(n_dash[i]);
 #ifdef DEBUG_DASH
 	printf("GriState ASSIGNMENT CONSTRUCTOR LEAVING dash: ");
 	for (unsigned int i = 0; i < (n.the_dash).size(); i++) 
