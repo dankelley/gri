@@ -17,6 +17,14 @@ mathCmd()
 		err("Proper format: `.x. = 10.0', `.x. *= 2', or `.x. = { rpn ... }'");
 		return false;
 	}
+#if 1				// TRIAL CODE [2000-oct-14]
+	// Process e.g.
+	//     &.a. = 10
+	if (*_word[0] == '&') {
+		_word[0]++;
+	}
+#endif
+
 	double          number, old_value = 0.0;
 	// Variable
 	if (is_var(_word[0])) {

@@ -347,8 +347,24 @@ perform_command_line(FILE *fp, bool is_which)
 				return true;
 			}
 		}
-		// Handle math command specially. Examples: `x += 1', `grid data +=
-		// 1', `image += 1', `.var. += 1'
+#if 1				// TRIAL CODE [2000-oct-14]
+		// Process e.g.
+		//     &\\j = "hello"
+		if (*_word[0] == '&' && *(_word[0]+1) == '\\') {
+			if (_nword >= 3 && !strcmp(_word[1], "=")) {
+				assign_synonym();
+				return true;
+			}
+		}
+#endif
+
+		// Handle math command, e.g.
+		//     .var. = 1
+		//     x += 1
+		//     grid data += 1
+		//     image += 1
+		// etc., permitting various assignment operators,
+		// including '=', '+=', etc.
 		if (word_is(0, "x")
 		    || word_is(0, "y")
 		    || word_is(0, "z")
@@ -356,7 +372,11 @@ perform_command_line(FILE *fp, bool is_which)
 		    || word_is(0, "v")
 		    || word_is(0, "image")
 		    || word_is(0, "grid")
-		    || is_var(_word[0])) {
+		    || is_var(_word[0])
+#if 1				// TRIAL CODE [2000-oct-14]
+		    || (*_word[0] == '&' && is_var(1 + _word[0]))
+#endif
+			    ) {
 			if (_nword == 3) {
 				if(word_is(1, "=") 
 				   || word_is(1, "-=")

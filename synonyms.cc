@@ -426,10 +426,11 @@ substitute_synonyms(const char *s, string& sout, bool allow_math)
 			sout.append("$");
 			continue;
 		}
+
 		// If not start of synonym, just paste character onto end of string
 		// and continue. (This also applies to apparent synonyms, if they are
 		// during math mode.)
-		if (s[i] != '\\' || inmath) {
+		if (s[i] != '\\'|| inmath) {
 			sout += s[i];
 			continue;
 		}
