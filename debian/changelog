@@ -1,18 +1,26 @@
 gri (2.8.0-1) unstable; urgency=low
 
   * New upstream version.
-    - Enhancements to gri-mode: meta-tab completion of builtin variables
-      and synonyms, etc.
-    - Add `unlink' command.
-    - Add `make source-arch-indep' target in sources.
-    - Add `default' possibility for the `set x name and the `set y name'
-      commands.
-    - Add Perl-like ability to put underscores in numerical constants
-      (`.v. = 1_000' and `.v. = 1000' are completely equivalent).
-    - Add `set page size command.
-    - Add `substr' RPN operator.
+     New command syntax:
+     - Add `unlink' command as a unix-familiar way to delete files.
+     - Add `set page size' command to clip to a given page size.
+     - Add `substr' RPN operator to permit extraction of sub-strings.
+     - Add `default' for the `set x name' and the `set y name' commands.
+     - Add Perl-like ability to put underscores in numerical constants
+        (`.v. = 1_000' and `.v. = 1000' are completely equivalent).
+     Emacs mode:
+     - <M-Tab> completes builtin variables and synonyms as well as commands.
+     - "idle-timer help" displays defaults for builtin variables under cursor.
+     - fontification of builtin variables _only_ if spelled correctly.
+     Developer changes:
+     - Add `make source-arch-indep' target in sources.  This will build a
+       source tar file in which all the architecture-independent material
+       (documentation in HTML, postscript and Info formats) is pre-made.
+       This makes it easier to install gri on a host that doesn't have
+       TeX and ImageMagick installed.
   * Move gri-html-doc and gri-ps-doc documentation files to /usr/share/doc/gri
-
+  * Complies with Standards-Version: 3.5.5 without changes.
+  
  -- Peter S Galbraith <psg@debian.org>  Mon, 23 Jul 2001 20:54:15 -0400
 
 gri (2.6.4-1) unstable; urgency=low
