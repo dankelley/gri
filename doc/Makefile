@@ -200,7 +200,7 @@ gri.ps: gri.texi
 	tex gri.texi
 	dvips -o gri.ps gri.dvi
 
-gri.pdf: gri.ps
+gri.pdf: gri.texi
 	cd examples    ; make pdf
 	cd screenshots ; make pdf
 	cd tst_suite   ; make texi

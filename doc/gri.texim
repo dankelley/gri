@@ -15378,6 +15378,31 @@ the instructions for unix.
 List of known bugs:
 @itemize @bullet
 @item
+The PDF version of the manual, created by @code{make gri.pdf},
+won't work unless the following patch is applied to one of
+the files of TexInfo, version 1999-03-26.17):
+@example
+*** /usr/share/texmf/pdftex/texinfo/pdftexinfo.tex	Wed Dec 20 11:54:04 2000
+--- /usr/share/texmf/pdftex/texinfo/pdftexinfo.tex~	Mon Mar 29 06:17:02 1999
+***************
+*** 5481,5487 ****
+        \fi
+      \endgroup
+    \else
+!     \centerline{\pdfimage {#1.pdf}}%
+    \fi
+  }
+  
+--- 5481,5487 ----
+        \fi
+      \endgroup
+    \else
+!     \centerline{\pdfimage #1.pdf}%
+    \fi
+  }
+@end example
+
+@item
 Polar (r-theta) graphs do not work.
 @item
 The EPSF bounding-box defaults to an 8.5 by 11 inch page, if
