@@ -1,5 +1,5 @@
 \input texinfo 
-@c $Id: gri.texim,v 1.170 2002/04/14 15:14:51 dankelley Exp $
+@c $Id: gri.texim,v 1.171 2002/04/20 20:59:55 dankelley Exp $
 @c
 @comment *** Start of HTML stuff ***
 @comment # HTML support, via comments in texinfo:
@@ -16872,6 +16872,14 @@ Make the @code{-chatty} commandline option require a value (@ref{Invoking Gri}).
 
 
 @itemize
+
+@item
+Fix SourceForge bug
+@c HTML <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=546109&group_id=5511&atid=105511">
+#546109
+@c HTML </a>
+(bounding box wrong if postscript clipping used)
+@c HTML </a>
 
 @item
 Fix SourceForge bug

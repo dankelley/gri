@@ -403,7 +403,7 @@ GriPath::trim()			// remove junk
 
 }
 
-// Return bounding box for this path, in units of cm on page
+// Return bounding box for this path (in cm on page).
 // Assume already did trim()
 rectangle
 GriPath::bounding_box(units u)
@@ -414,24 +414,34 @@ GriPath::bounding_box(units u)
 		if (gr_missingx(x[i]) || gr_missingy(y[i]))
 			continue;
 		double xx, yy;
-		if (u == units_user) {
-			gr_usertocm(x[i], y[i], &xx, &yy);
-		} else if (u == units_pt) {
-			xx = x[i] / PT_PER_CM;
-			yy = y[i] / PT_PER_CM;
-		} else {
-			xx = x[i];
-			yy = y[i];
-		}
+		xy_to_cm(x[i], y[i], u, &xx, &yy);
 		if (first) {
 			r->set(xx, yy, xx, yy);
 			first = false;
 		} else {
-			if (xx       < r->llx())	r->set_llx(xx);
-			if (r->urx() < xx      )	r->set_urx(xx);
-			if (yy       < r->lly())	r->set_lly(yy);
-			if (r->ury() < yy      )	r->set_ury(yy);
+			if (xx < r->llx())
+				r->set_llx(xx);
+			if (r->urx() < xx)
+				r->set_urx(xx);
+			if (yy < r->lly())
+				r->set_lly(yy);
+			if (r->ury() < yy )
+				r->set_ury(yy);
 		}
 	}
+	if (_clipping_postscript 
+	    && _clip_ps_xleft != _clip_ps_xright
+	    && _clip_ps_ybottom != _clip_ps_ytop) {
+		//printf("BEFORE BBOX ll=(%f %f)  ur=(%f %f)\n",r->llx(), r->lly(), r->urx(), r->ury());
+		if (r->llx() < (_clip_ps_xleft / PT_PER_CM))
+			r->set_llx(_clip_ps_xleft / PT_PER_CM);
+		if (r->urx() > (_clip_ps_xright / PT_PER_CM))
+			r->set_urx(_clip_ps_xright / PT_PER_CM);
+		if (r->lly() < (_clip_ps_ybottom / PT_PER_CM))
+			r->set_lly(_clip_ps_ybottom / PT_PER_CM);
+		if (r->ury() > (_clip_ps_ytop / PT_PER_CM))
+			r->set_ury(_clip_ps_ytop / PT_PER_CM);
+	}
+	//printf("test BBOX ll=(%f %f)  ur=(%f %f)\n",r->llx(), r->lly(), r->urx(), r->ury());
 	return *r;
 }

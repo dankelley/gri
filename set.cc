@@ -13,7 +13,6 @@
 #include        "GriState.hh"
 
 static inline bool between(double x, double lim0, double lim1);
-bool            postscript_clipping_on = false; // used in endup.m also
 extern char     _grTempString[];
 void            reset_top_of_plot(void);
 bool            ignore_initial_newline(void);
@@ -36,7 +35,7 @@ bool            _input_data_window_x_exists = false;
 bool            _input_data_window_y_exists = false;
 static bool     already_landscape = false;
 static double   xleft, xright, xinc, ybottom, ytop, yinc;
-static double   tmp, tmp2, xpt, ypt;
+static double   tmp, tmp2;
 
 static inline bool between(double x, double lim0, double lim1)
 {
@@ -354,7 +353,7 @@ set_clipCmd()
 			warning("`set clip to curve' noticed that curve's x and y lengths disagree");
 			return true;
 		}
-		if (postscript_clipping_on) {
+		if (_clipping_postscript) {
 			fprintf(_grPS, "S Q %% `set clip to curve' first must turn remnant clipping off\n");
 			check_psfile();
 		}
@@ -383,7 +382,7 @@ set_clipCmd()
 		fprintf(_grPS, "n %% turn clipping on\n");
 
 		check_psfile();
-		postscript_clipping_on = true;
+		_clipping_postscript = true;
 		_clipData = -1;     // KEEP??
 
 		return true;
@@ -395,27 +394,16 @@ set_clipCmd()
 				return false;
 			}
 			if (!strcmp(_word[3], "off")) {
-				if (!postscript_clipping_on) {
-				// Ignore if already off
-					return true;
-				}
-				fprintf(_grPS, "S Q %% turn clipping off\n");
-				check_psfile();
-				postscript_clipping_on = false;
+				gr_set_clip_ps_off();
 				return true;
 			} else if (!strcmp(_word[3], "on")) {
 				double xl, xr, yb, yt;
-				if (postscript_clipping_on) {
-					fprintf(_grPS, "S Q %% turn clipping off\n");
-					check_psfile();
-				}
-				if (_nword == 4) {
-				// set clip postscript on
+				if (_nword == 4) { // set clip postscript on
 					xl = _xleft;
 					xr = _xright;
 					yb = _ybottom;
 					yt = _ytop;
-				} else if (_nword == 8) {
+				} else if (_nword == 8) { // set clip postscript on .llx. ...
 					if (!getdnum(_word[4], &xl)) {
 						demonstrate_command_usage();
 						err("Can't read .xleft. in `\\", _word[4], "'.", "\\");
@@ -442,19 +430,10 @@ set_clipCmd()
 					return false;
 				}
 				set_environment();
-				fprintf(_grPS, "q n %% turn clipping on\n");
-				gr_usertopt(xl, yb, &xpt, &ypt);
-				fprintf(_grPS, "%f %f moveto\n", xpt, ypt);
-				gr_usertopt(xr, yb, &xpt, &ypt);
-				fprintf(_grPS, "%f %f lineto\n", xpt, ypt);
-				gr_usertopt(xr, yt, &xpt, &ypt);
-				fprintf(_grPS, "%f %f lineto\n", xpt, ypt);
-				gr_usertopt(xl, yt, &xpt, &ypt);
-				fprintf(_grPS, "%f %f lineto\n", xpt, ypt);
-				fprintf(_grPS, "h W\n");
-				fprintf(_grPS, "n %% turn clipping on\n");
-				check_psfile();
-				postscript_clipping_on = true;
+				double llx, lly, urx, ury;
+				gr_usertopt(xl, yb, &llx, &lly);
+				gr_usertopt(xr, yt, &urx, &ury);
+				gr_set_clip_ps_rect(llx, lly, urx, ury);
 				return true;
 			}
 		} else if (!strcmp(_word[2], "on")) {
@@ -494,9 +473,7 @@ set_clipCmd()
 			} else
 				err("`set clip on' takes 4 parameters");
 		} else if (!strcmp(_word[2], "off")) {
-			if (postscript_clipping_on) {
-				fprintf(_grPS, "S Q %% `set clip off' turning PostScript clipping off\n");
-			}
+			gr_set_clip_ps_off();
 			_clipData = 0;
 		} else {
 			err("Must specify `set clip on' or `set clip off'");

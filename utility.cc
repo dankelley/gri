@@ -2308,3 +2308,40 @@ gri_version_exceeds(unsigned int n1, unsigned int n2, unsigned int n3)
 	double v = n1 + n2 / 100.0 + n3 / 100000.0;
 	return _version > v;
 }
+
+bool
+xy_to_pt(double xin, double yin, units u, double *xout, double *yout)
+{
+	if (u == units_user) {
+		gr_usertopt(xin, yin, xout, yout);
+	} else if (u == units_cm) {
+		*xout = xin * PT_PER_CM;
+		*yout = yin * PT_PER_CM;
+	} else if (u == units_pt) {
+		*xout = xin;
+		*yout = yin;
+	} else {		// impossible????
+		*xout = xin;
+		*yout = yin;
+	}
+	return true;
+}
+
+bool
+xy_to_cm(double xin, double yin, units u, double *xout, double *yout)
+{
+	if (u == units_user) {
+		gr_usertocm(xin, yin, xout, yout);
+	} else if (u == units_pt) {
+		*xout = xin / PT_PER_CM;
+		*yout = yin / PT_PER_CM;
+	} else if (u == units_cm) {
+		*xout = xin;
+		*yout = yin;
+	} else {		// impossible??
+		*xout = xin;
+		*yout = yin;
+	}
+	return true;
+}
+

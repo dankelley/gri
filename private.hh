@@ -257,5 +257,6 @@ bool            well_ordered(double min, double max, double inc);
 bool            inc_with_range(double min, double max, double inc);
 bool            word_is(int i, const char *word);
 void            write_prompt(void);
-
+bool            xy_to_cm(double xin, double yin, units u, double *xout, double *yout);
+bool            xy_to_pt(double xin, double yin, units u, double *xout, double *yout);
 #endif				// not _private_

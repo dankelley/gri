@@ -76,6 +76,8 @@ char            _grNumFormat_x[LEN_num];	 // format for x axis
 char            _grNumFormat_y[LEN_num];	 // format for y axis
 char            grTempString[_grTempStringLEN];	 // local scratch string
 char            grTempString2[_grTempStringLEN]; // local scratch string
+double 	_clip_ps_xleft = 0.0, _clip_ps_ybottom = 0.0, _clip_ps_xright = 0.0, _clip_ps_ytop = 0.0;
+bool    _clipping_postscript = false;
 
 /*
  * stdin buffer
@@ -1687,4 +1689,36 @@ gr_usertopt(double x, double y, double *x_pt, double *y_pt)
 	default:
 		gr_Error("unknown y transform");
 	}
+}
+
+void
+gr_set_clip_ps_off()
+{
+	if (_clipping_postscript) {
+		fprintf(_grPS, "S Q %% turn clipping off\n");
+		check_psfile();
+		_clipping_postscript = false;
+	}
+}
+
+void
+gr_set_clip_ps_rect(double ll_x_pt, double ll_y_pt, double ur_x_pt, double ur_y_pt)
+{
+	if (_clipping_postscript) {
+		fprintf(_grPS, "S Q %% turn existing clipping off since user forgot to\n");
+		check_psfile();
+	}
+	_clip_ps_xleft = ll_x_pt;
+	_clip_ps_ybottom = ll_y_pt;
+	_clip_ps_xright = ur_x_pt;
+	_clip_ps_ytop = ur_y_pt;
+	fprintf(_grPS, "q n\n");
+	fprintf(_grPS, "%f %f moveto\n", _clip_ps_xleft, _clip_ps_ybottom);
+	fprintf(_grPS, "%f %f lineto\n", _clip_ps_xright, _clip_ps_ybottom);
+	fprintf(_grPS, "%f %f lineto\n", _clip_ps_xright, _clip_ps_ytop);
+	fprintf(_grPS, "%f %f lineto\n", _clip_ps_xleft, _clip_ps_ytop);
+	fprintf(_grPS, "h W\n");
+	fprintf(_grPS, "n %% turn clipping on\n");
+	check_psfile();
+	_clipping_postscript = true;
 }

@@ -53,8 +53,10 @@ extern bool     _vscale_exists;
 extern bool     _columns_exist;
 extern std::string   _xFmt;
 extern std::string   _yFmt;
+extern double _clipxleft, _clipxright, _clipybottom, _clipytop;
+extern double _clip_ps_xleft, _clip_ps_xright, _clip_ps_ybottom, _clip_ps_ytop;
+extern bool   _clipping_postscript;
 // Axes
-extern double   _clipxleft, _clipxright, _clipybottom, _clipytop;
 extern double   _cm_per_u;
 extern double   _cm_per_v;
 extern gr_axis_properties _xtype;
