@@ -18,29 +18,29 @@ public:
 		name.assign("stdin");
 		if (_cmdFILE.size() > 0) {
 			fp = _cmdFILE.end()->get_fp();
- 			if (((unsigned) superuser()) & FLAG_AUT1)printf("\n\n***DataFile() %s:%d got fp from cmdFILE.  it is %x\n", __FILE__,__LINE__,int(fp));
+ 			if (superuser() & FLAG_AUT1)printf("\n\n***DataFile() %s:%d got fp from cmdFILE.  it is %x\n", __FILE__,__LINE__,int(fp));
 		} else {
- 			if (((unsigned) superuser()) & FLAG_AUT1)printf("\n\n***DataFile() %s:%d setting fp to %x since cmdFILE is empty  Hm.************\n",__FILE__,__LINE__,int(stdin));
+ 			if (superuser() & FLAG_AUT1)printf("\n\n***DataFile() %s:%d setting fp to %x since cmdFILE is empty  Hm.************\n",__FILE__,__LINE__,int(stdin));
 			fp = stdin;
 		}
 		if (!fp) {printf("DataFile() %s:%d: INVALID fp=0****\n",__FILE__,__LINE__);exit(1);}
 		the_type = from_cmdfile;
 		line = 0;
 		delete_when_close = false;
-		if (((unsigned) superuser()) & FLAG_AUT1)printf("DEBUG: %s:%d DataFile::DataFile() named '%s' has fp at %x.  this %x\n",__FILE__,__LINE__, name.c_str(), int(fp),int(this));
+		if (superuser() & FLAG_AUT1)printf("DEBUG: %s:%d DataFile::DataFile() named '%s' has fp at %x.  this %x\n",__FILE__,__LINE__, name.c_str(), int(fp),int(this));
 	}
 	DataFile(const DataFile& d) {
 		name.assign(d.get_name());
 		fp = d.get_fp();
 		if (fp == (FILE*)NULL) {
-			if (((unsigned) superuser()) & FLAG_AUT1)printf("%s:%d somehow DataFile copy null  '%s'  from %x    this %x\n",__FILE__,__LINE__,name.c_str(),int(&d),int(this));
+			if (superuser() & FLAG_AUT1)printf("%s:%d somehow DataFile copy null  '%s'  from %x    this %x\n",__FILE__,__LINE__,name.c_str(),int(&d),int(this));
 			exit(1);
 		}
 		netCDF_id = d.get_netCDF_id();
 		the_type = d.get_type();
 		line = d.get_line();
 		delete_when_close = d.get_delete_when_close();
-		if (((unsigned) superuser()) & FLAG_AUT1)printf("DEBUG: %s:%d COPYCONSTRUCT DataFile(%x) '%s'   fp %x   this %x\n",__FILE__,__LINE__,int(&d),name.c_str(),int(fp),int(this));
+		if (superuser() & FLAG_AUT1)printf("DEBUG: %s:%d COPYCONSTRUCT DataFile(%x) '%s'   fp %x   this %x\n",__FILE__,__LINE__,int(&d),name.c_str(),int(fp),int(this));
 	}
 	DataFile(FILE* a_fp, const char* a_name, int a_netCDF_id, type a_the_type, bool a_delete_when_close) {
 		fp = a_fp;
@@ -51,7 +51,7 @@ public:
 		delete_when_close = a_delete_when_close;
 	}
 	~DataFile() {
-		if (((unsigned) superuser()) & FLAG_AUT1)printf("DEBUG: %s:%d DataFile::~DataFile()    '%s'    fp %x    this %x\n",__FILE__,__LINE__, name.c_str(), int(fp), int(this));
+		if (superuser() & FLAG_AUT1)printf("DEBUG: %s:%d DataFile::~DataFile()    '%s'    fp %x    this %x\n",__FILE__,__LINE__, name.c_str(), int(fp), int(this));
 		name.string::~string();
 	}
 	DataFile& operator=(const DataFile& d) {
@@ -65,7 +65,7 @@ public:
 		the_type = d.get_type();
 		line = d.get_line();
 		delete_when_close = d.get_delete_when_close();
-		if (((unsigned) superuser()) & FLAG_AUT1)printf("DEBUG: %s:%d DataFile::operator= for file '%s' has fp at %x\n",__FILE__,__LINE__, name.c_str(), int(fp));
+		if (superuser() & FLAG_AUT1)printf("DEBUG: %s:%d DataFile::operator= for file '%s' has fp at %x\n",__FILE__,__LINE__, name.c_str(), int(fp));
 		return *this;
 	}
 	void set_line(int new_line)         {line = new_line > 1 ? new_line : 1;}

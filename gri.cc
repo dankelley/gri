@@ -36,7 +36,7 @@ bool            _warn_offpage;
 vector<double>       _dash;
 vector<DataFile>     _dataFILE;
 vector<CmdFile>      _cmdFILE;
-
+vector<char*>        _argv;
 
 
 char            _input_data_separator; // ' ' (general whitespace) or '\t'
@@ -131,18 +131,19 @@ GriColumn _colR;
 GriColumn _colTHETA;
 GriColumn _colWEIGHT;
 
-
 // Command stack
 #define	COMMAND_STACK_SIZE	1000
 typedef struct {
-	char           *syntax;	// The 'name' of command
-	char           *help;	// Help, if any
+	char           *syntax;	        // The 'name' of command
+	char           *help;           // Help, if any
 	char           *procedure;	// Commands to do
 	char           *filename;	// Where defined
 	int             fileline;	// Where defined
-}               GRI_COMMAND;	// 
+}               GRI_COMMAND;
 GRI_COMMAND     _command[COMMAND_STACK_SIZE];
+
 
+
 int
 main(int argc, char **argv)
 {
@@ -151,8 +152,6 @@ main(int argc, char **argv)
 		do_command_line();
 	while (!_done);
 	warning("\\\\");		// notify of pending repeated warnings
-	if (((unsigned) superuser()) & FLAG_AUT1)printf("\n** about to end_up()...\n");
 	end_up();
-	if (((unsigned) superuser()) & FLAG_AUT1)printf("\n\t... did the end_up() OK\n");
 	return _exit_value;
 }

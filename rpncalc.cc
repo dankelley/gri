@@ -104,7 +104,9 @@ typedef enum {
 	RAND,
 	NOT_OPERATOR,
 	DIRECTORY_EXISTS,
-	FILE_EXISTS
+	FILE_EXISTS,
+	ARGC,
+	ARGV
 }               operator_name;
 
 // Rpn functions.
@@ -194,6 +196,8 @@ RPN_DICT        rpn_dict[] =
 	{"size", SIZE},
 	{"directory_exists", DIRECTORY_EXISTS},
 	{"file_exists", FILE_EXISTS},
+	{"argc", ARGC},
+	{"argv", ARGV},
 	{"width", STRINGWIDTH},
 	{"ascent", STRINGASCENT},
 	{"descent", STRINGDESCENT},
@@ -225,6 +229,7 @@ static bool     do_operation(operator_name oper);
 int
 rpn(int nw, char **w, char ** result)
 {
+	//printf("--- rpn(%d,%s,...)\n",nw,w[0]);
 	unsigned int    i, NW;
 	char           *W[MAX_nword];
 	operator_name   oper;
@@ -234,16 +239,16 @@ rpn(int nw, char **w, char ** result)
 	RpnError = 0;
 	// Dump into new array (so can manipulate for funtions)
 	NW = nw;
-	if (NW < MAX_nword) {
-		for (i = 0; i < NW; i++) {
+	if (NW < MAX_nword)
+		for (i = 0; i < NW; i++)
 			W[i] = w[i];
-		}
-	} else {
+	else 
 		return OUT_OF_STORAGE;
-	}
+
 	// Now, scan through list, pushing operands onto stack and obeying
 	// operators immediately.
 	for (i = 0; i < NW; i++) {
+		//printf(" ^^^^^^^^ '%s'\n",W[i]);
 		if (NOT_OPERATOR != (oper = is_oper((const char*)W[i]))) {
 			// Do indicated operation.
 			do_operation(oper);
@@ -573,6 +578,7 @@ SET(1, "", num, NUMBER);						\
 static          bool
 do_operation(operator_name oper)
 {
+	//printf("do_operation(%d) vs %d\n",int(oper),int(ARGV));
 	int             index;
 	if (oper == NOT_OPERATOR) {
 		RpnError = BAD_WORD;
@@ -1270,6 +1276,33 @@ do_operation(operator_name oper)
 		}
 		return true;
 	}
+	if (oper == ARGC) {
+		extern vector<char*>_argv;
+		RpnItem item;
+		item.set("", double(_argv.size()), NUMBER);
+		rS.push_back(item);
+		return true;
+	}
+	if (oper == ARGV) {
+		NEED_ON_STACK(1);
+		NEED_IS_TYPE(1, NUMBER);
+		int index = int(VALUE(1));
+		if (index < 0) {
+			printf("'argv' needs index >= 0\n");
+			RpnError = NEED_GT_1;
+			return false;
+		}
+		extern vector<char*>_argv;
+		if (index >= int(_argv.size())) {
+			SET(1, "\" \"", 0.0, STRING);
+			return true;
+		}
+		string rv("\"");
+		rv.append(_argv[index]);
+		rv.append("\"");
+		SET(1, rv.c_str(), 0.0, STRING);
+		return true;
+	} 
 	if (oper == FILE_EXISTS) {
 		NEED_ON_STACK(1);
 		if (TYPE(1) != STRING) {

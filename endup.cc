@@ -16,9 +16,6 @@ end_up()
 	extern FILE *_grPS;
 	if (postscript_clipping_on)
 		fprintf(_grPS, "Q %% turn clipping off (user forgot to)\n");
-	if (((unsigned) superuser()) & FLAG_AUT1)printf("IN end_up, about to close...\n");
 	close_data_files();
-	if (((unsigned) superuser()) & FLAG_AUT1)printf("... IN end_up, close went OK.  Next gr_end.\n");
 	gr_end("!");
-	if (((unsigned) superuser()) & FLAG_AUT1)printf("gr_end was ok\n");
 }

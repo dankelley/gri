@@ -211,7 +211,7 @@ bool            string_is_blank(const char *s);
 bool            substitute_rpn_expressions(const char *cmdline, char *cmdlinecopy);
 bool            substitute_synonyms_cmdline(const char *s, char *sout, bool allow_math);
 bool            substitute_synonyms(const char *s, char *sout, bool allow_math);
-int             superuser(void);
+unsigned int    superuser(void);
 void            swap(double& a, double& b);
 bool            systemCmd(void);
 char*           tmp_file_name();

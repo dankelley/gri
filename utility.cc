@@ -776,14 +776,14 @@ fatal_err(const char *string,...)
 	//
 	// Print file:line so emacs mode can locate error
 	//
-	if (((unsigned) superuser()) & FLAG_AUT1) {
+	if (superuser() & FLAG_AUT1) {
 		// Remove quotes around source indicator
 		extern char source_indicator[];
 		sprintf(msg, " Error detected at %s\n", source_indicator);
 	} else {
 		if (block_level() > 0) {
 			if (block_source_file() != NULL) {
-				if (((unsigned) superuser()) & FLAG_AUT1)printf("DEBUG utility.cc:fatal_err(): block_source_line()=%d\n",block_source_line());
+				if (superuser() & FLAG_AUT1)printf("DEBUG utility.cc:fatal_err(): block_source_line()=%d\n",block_source_line());
 				sprintf(msg,
 					" Error detected at %s:%d\n",
 					block_source_file(),
@@ -1168,7 +1168,7 @@ batch()
 		return false;
 }
 
-int
+unsigned int
 superuser()
 {
 	return _griState.superuser();

@@ -38,6 +38,7 @@ template void  sort(vector<double>::iterator, vector<double>::iterator);
 #pragma define_template vector<float>
 #pragma define_template vector<int>
 #pragma define_template vector<unsigned char>
+#pragma define_template vector<char*>
 #pragma define_template vector<string>
 #pragma define_template GriMatrix<bool>
 #pragma define_template GriMatrix<double>
@@ -61,6 +62,7 @@ template class vector<double>;
 template class vector<float>;
 template class vector<int>;
 template class vector<unsigned char>;
+template class vector<char*>;
 template class vector<string>;
 template class GriMatrix<bool>;
 template class GriMatrix<double>;

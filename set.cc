@@ -3253,6 +3253,10 @@ This computer can't `\\synonym = system ...' since no popen() subroutine.");
 #endif
 	} else {
 		// `\synonym = "..."'
+		//printf("%d words...\n",_nword);
+		//printf("0 <<%s>>\n",_word[0]);
+		//printf("1 <<%s>>\n",_word[1]);
+		//printf("2 <<%s>>\n",_word[2]);
 		if (!ExtractQuote(_errorMsg, _cmdLine)) {
 			err("Can't extract value for synonym '\\",
 			    _word[0],

@@ -212,7 +212,17 @@ massage_command_line(char *cmd)
 		return true;
 	}
 	// For `\syn = ...' do not substitute to left of the "=".
+#if 0				// 2.5.5
 	if (*(cmd + skip_space(cmd)) == '\\') {
+#if 1
+		printf("\n");
+		printf("SYN assignment BEFORE. '%s'\n",cmd);
+		while (substitute_rpn_expressions(cmd, _cmdLineCOPY)) {
+			strcpy(cmd, _cmdLineCOPY);
+		}
+		printf("AFTER. '%s'\n",cmd);
+#endif
+
 		strcpy(_cmdLineCOPY, "");	// ensure null-terminated
 
 		substitute_synonyms_cmdline(cmd + skip_space(cmd), _cmdLineCOPY, false);
@@ -221,8 +231,10 @@ massage_command_line(char *cmd)
 		// Chop into words.  Note: chop_into_words() destroys it's string, so
 		// use a copy.
 		chop_into_words(_cmdLineCOPY, _word, &_nword, MAX_nword);
+		printf("DEBUG: is now '%s'\n",cmd);
 		return true;
 	}
+#endif
 	// Don't massage further if it's a `create new command' or a `postscript'
 	// command.
 	if (is_create_new_command(cmd)) {
@@ -236,7 +248,7 @@ massage_command_line(char *cmd)
 	    && !re_compare(_cmdLine, "\\s*ls\\s*.*")
 	    && !re_compare(_cmdLine, "\\s*insert\\s*.*")
 	    && !re_compare(_cmdLine, "\\s*close\\s*.*")
-	    && !re_compare(_cmdLine, "\\s*open\\s*.*")
+				// removed 2.5.5 && !re_compare(_cmdLine, "\\s*open\\s*.*")
 	    && !re_compare(_cmdLine, "\\s*postscript\\s*.*") ) {
 		expand_blanks(cmd);
 	}
@@ -295,8 +307,9 @@ massage_command_line(char *cmd)
 	if (!re_compare(_cmdLine, "\\s*postscript\\s*.*")
 	    && !re_compare(_cmdLine, "\\s*new\\s*.*")
 	    && !re_compare(_cmdLine, "\\s*while\\s*.*") ) {
-		while (substitute_rpn_expressions(cmd, _cmdLineCOPY))
+		while (substitute_rpn_expressions(cmd, _cmdLineCOPY)) {
 			strcpy(cmd, _cmdLineCOPY);
+		}
 		remove_trailing_blanks(cmd);
 		if (strlen(cmd) < 1)
 			return true;
@@ -671,6 +684,7 @@ check_usage(const char *s)
 {
 	if (s[0] == '`')
 		return;			// defining new command
+#if 0				// 2.5.5 allows e.g \.argv[0].
 	register int    i, len;
 	int             inquote = 0;
 	len = strlen(s);
@@ -696,6 +710,7 @@ except inside system calls\n\
 			ShowStr(_grTempString);	    
 		}
 	}
+#endif
 }
 
 #if USE_BACKTIC

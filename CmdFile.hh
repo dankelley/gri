@@ -6,7 +6,7 @@
 #include "types.hh"
 #include "macro.hh"
 #include "superus.hh"
-int superuser(void);
+unsigned int superuser(void);
 
 class CmdFile
 {
@@ -16,7 +16,6 @@ public:
 		fp = (FILE*)NULL;		// for now anyway
 		interactive = true;
 		line = 0;
-		if (((unsigned) superuser()) & FLAG_AUT1)printf("%s:%d CONSTRUCT CmdFile fp= %x  this= %x\n",__FILE__,__LINE__,int(fp),int(this));
 	}
 	CmdFile(const CmdFile& c) {
 		name.assign(c.get_name());
@@ -27,10 +26,8 @@ public:
 		}
 		interactive = c.get_interactive();
 		line = c.get_line();
-		if (((unsigned) superuser()) & FLAG_AUT1)printf("DEBUG %s:%d COPYCONSTRUCT CmdFile(%x)   '%s'  fp %x  this %x\n",__FILE__,__LINE__,int(&c),name.c_str(),int(fp),int(this));
 	}
 	~CmdFile() {
-		if (((unsigned) superuser()) & FLAG_AUT1)printf("DEBUG: %s:%d  CmdFile::~CmdFile()    '%s'    fp %x    this %d\n",__FILE__,__LINE__,name.c_str(), int(fp), int(this));
 		name.string::~string();
 	}
 	CmdFile& operator=(const CmdFile& c) {
@@ -42,7 +39,6 @@ public:
 		}
 		interactive = c.get_interactive();
 		line = c.get_line();
-		if (((unsigned) superuser()) & FLAG_AUT1)printf("%s:%d CmdFile operator=   fp= %x  this= %x\n",__FILE__,__LINE__,int(fp),int(this));
 		return *this;
 	}
 	void set(const char *n, FILE *f, bool i, int l) {
@@ -54,22 +50,12 @@ public:
 		}
 		interactive = i;
 		line = l;
-		if (((unsigned) superuser()) & FLAG_AUT1)printf("%s:%d CmdFile set  fp= %x  this= %x\n",__FILE__,__LINE__,int(fp),int(this));
 	}
-	void increment_line()               {line++;}
-
-	const char *get_name() const       {return name.c_str();}
-	FILE *get_fp()         const        {
-		if (((unsigned) superuser()) & FLAG_AUT1) {
-			printf("... broken next\n");
-			printf("%s:%d ... broken next\n",__FILE__,__LINE__);
-			//printf("%s:%d about to return fp %x\n",__FILE__,__LINE__,int(fp));
-			printf("%s:%d about to return this %x\n",__FILE__,__LINE__,int(this));
-		}
-		return fp;
-	}
-	bool get_interactive() const        {return interactive;}
-	int  get_line()        const        {return line;}
+	void increment_line()			{ line++;		}
+	const char *get_name() const		{ return name.c_str();	}
+	FILE *get_fp()         const		{ return fp;		}
+	bool get_interactive() const		{ return interactive;	}
+	int  get_line()        const		{ return line;		}
 private:
 	FILE           *fp;
 	string          name;

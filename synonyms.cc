@@ -408,8 +408,8 @@ substitute_synonyms(const char *s, char *sout, bool allow_math)
 		}
 		//printf("DEBUG ** found backslash\n");
 
-	// Now know that s[i] is backslash, and not inmath.
-	// Pass a few escape strings through directly. 
+		// Now know that s[i] is backslash, and not inmath.
+		// Pass a few escape strings through directly. 
 		if (s[i + 1] == '$'
 #if 0				// 2.2.3
 		    || s[i + 1] == '['
@@ -442,6 +442,39 @@ substitute_synonyms(const char *s, char *sout, bool allow_math)
 				else
 					break;
 			}
+#if 0				// 2.5.5. not sure if I want to do this but keep in case
+			// Check for e.g. \.argv[0]. (starting in version 2.5.5).
+			// BUG: only permits integer \.argv[]. indices
+			printf("dotty: '%s'\n",s+i);
+			if (dots_in_name == 1) {
+				printf("one dot in name '%s'.  checking '%s'\n",s+i,s+i+1);
+				if (!strncmp(s + i + 1, ".argv[", 6)) {
+					int ends_at = -1;
+					for (int ii = i; ii < int(strlen(s)) - 1; ii++) {
+						if (s[ii] == ']') {
+							if (s[ii + 1] == '.')
+								ends_at = ii + 1;
+							else
+								fatal_err("Cannot parse `\\", s + i, "'", "\\");
+							break;
+						}
+					}
+					printf("'%s' it ends at %d, trailer '%s'\n",s+i,ends_at,s+ends_at);
+					int the_index;
+					if (1 != sscanf(s + i + 1, ".argv[%d].", &the_index)) {
+						fatal_err("ERROR: cannot figure out argv[] index at `", s + 1 + i, "'", "\\");
+					}
+					//printf("YUP.  matches index=%d\n", the_index);
+					extern vector<char*> _argv;
+					if (the_index < _argv.size()) {
+						strcat(sout, _argv[the_index]);
+					}
+					//strcat(sout, "TEST_OF_ARGV");
+					//fprintf(stderr, "argc %d\n",_argv.size());
+					i = ends_at + 1;
+				}
+			}
+#endif
 		} else if (s[i + 1] == '[') {
 			// See if indexing a word within synonym
 			int index_length = -1;
@@ -476,7 +509,7 @@ substitute_synonyms(const char *s, char *sout, bool allow_math)
 		}
 		trailing_dots_in_name = 0;
 		if (strlen(s + i) > _grTempStringLEN) {
-			fatal_err("Not enough space for string ``\\", s + i, "'", "\\");
+			fatal_err("Not enough space for string `\\", s + i, "'", "\\");
 		}
 		strcpy(sname, "\\");
 		strcat(sname, s + i + 1);

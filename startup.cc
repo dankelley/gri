@@ -182,10 +182,10 @@ start_up(int argc, char **argv)
 	// the searching for the gri.cmd file.
 	bool tmp = _store_cmds_in_ps;
 	_store_cmds_in_ps = false;
-	if (((unsigned) superuser()) & FLAG_AUT2)
+	if (superuser() & FLAG_AUT2)
 		printf("Processing gri.cmd ...");
 	create_commands(GRI_COMMANDS_FILE);
-	if (((unsigned) superuser()) & FLAG_AUT2)
+	if (superuser() & FLAG_AUT2)
 		printf(" done\n");
 	create_builtin_colors();
 	// Do user's ~/.grirc file.
@@ -200,21 +200,25 @@ start_up(int argc, char **argv)
 	PUT_VAR("..trace..", trace_old);
 
 	// DataFile stack
-	if (((unsigned) superuser()) & FLAG_AUT1) {
+	if (superuser() & FLAG_AUT1) {
 		printf("DEBUG: %s:%d about to create a new datafile\n",__FILE__,__LINE__);
 		printf("DEBUG: cmdfile length is %d\n",_cmdFILE.size());
 	}
 	DataFile new_data_file;
-	if (((unsigned) superuser()) & FLAG_AUT1)printf("DEBUG: %s:%d pushing back a datafile at address %x\n",__FILE__,__LINE__,int(&new_data_file));
+	if (superuser() & FLAG_AUT1)printf("DEBUG: %s:%d pushing back a datafile at address %x\n",__FILE__,__LINE__,int(&new_data_file));
 	_dataFILE.push_back(new_data_file);
+
+	//printf("last optional arg @ %d\n",last_optional_arg);
+	//printf("last optional arg is '%s'\n",argv[last_optional_arg]);
+	//printf("1+last optional arg is '%s'\n",argv[1+last_optional_arg]);
 
 	// Figure out if there was a cmdfile supplied on options line.
 	if (argc < 2 + last_optional_arg) {
 		// There was no cmdfile given, so take commands from stdin
 		_margin.assign("  ");
 		push_cmd_file("stdin", batch() ? false : true, true, "r");
-	} else if (argc == 2 + last_optional_arg
-		   || argc == 3 + last_optional_arg) {
+	} else if (argc >= 2 + last_optional_arg
+		   || argc >= 3 + last_optional_arg) {
 		// Command-file name given, but no postscript-file given
 		string fname(argv[1 + last_optional_arg]);
 		// Ensure that it's not a 'gre' commandfile
@@ -249,7 +253,6 @@ start_up(int argc, char **argv)
 	}
 	_first = true;
 	_bounding_box.set(0., 0., 0., 0.);
-	if (((unsigned) superuser()) & FLAG_AUT1)printf("++++++++++++++ DEBUG: left scope of first datafile\n");
 	return true;
 }
 
@@ -399,12 +402,14 @@ file_in_list(const char *name, bool show_nonlocal_files, bool show_local_files)
 static void
 get_input_simulation(int argc, char *argv[], int separator)
 {
-	int             i;
-	if (separator == argc)
+	if (separator >= argc)
 		return;
 	// Save the words following SEPARATOR into the stdin io buffer.
-	for (i = separator + 1; i < argc; i++)
+	extern vector<char*> _argv;
+	for (int i = separator + 1; i < argc; i++) {
 		gr_textsave(argv[i]);
+		_argv.push_back(argv[i]);
+	}
 }
 #undef SEPARATOR
 
@@ -696,7 +701,12 @@ interpret_optional_arguments(int argc, char *argv[])
 				} else if (!strcmp(argv[i], "-directory")) {
 					number_optional_arg++;
 					i++;
-					_lib_directory.assign(argv[i]);
+					if (i < argc - 1)
+						_lib_directory.assign(argv[i]);
+					else {
+						err("`-directory' needs an argument.");
+						gri_exit(1);
+					}
 				} else if (!strcmp(argv[i], "-directory_default")) {
 					gr_textput(_lib_directory.c_str());
 					gr_textput("\n");
