@@ -178,6 +178,10 @@ force:
 doc: force
 	cd doc; make info html
 
+TAGS:
+	etags *.cc *.hh
+tags:
+	etags *.cc *.hh
 etags:
 	etags *.cc *.hh
 

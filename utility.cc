@@ -751,7 +751,7 @@ fatal_err(const char *string,...)
 	va_list         ap;
 	if (!_error_in_cmd && _beep)
 		gr_textput("\007");
-	/* Have standard args */
+
 	if (string != NULL) {
 		va_start(ap, string);
 		strcpy(msg, string);
@@ -788,30 +788,29 @@ fatal_err(const char *string,...)
 					" Error detected at %s:%d\n",
 					block_source_file(),
 					block_source_line() + block_offset_line() - 1);
-			} else {
-				strcat(msg, "");
+				gr_textput(msg);
 			}
 		} else {
-			if (what_file() != NULL)
+			if (what_file() != NULL) {
 				sprintf(msg,
 					" Error detected at %s:%d\n",
 					what_file(),
 					what_line());
-			else
-				strcat(msg, "");
+				gr_textput(msg);
+			}
 		}
 	}
-	gr_textput(msg);
-	if (_error_action == 1) {
+	if (_error_action == 1)
 		gri_abort();
-	} else {
+	else
 		gri_exit(1);
-	}
 }
 
 const char *
 what_file()
 {
+	if (_cmdFILE.size() == 0)
+		return NULL;
 	if (block_level() > 0) {
 		if (_cmd_being_done < 1) {
 			return NULL;
