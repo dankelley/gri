@@ -115,7 +115,8 @@ install_linux_debian: gri
 	install -d         $(debian)/usr/bin
 	install -m 755 gri $(debian)/usr/bin/gri-$(VERSION)
 	(cd $(debian)/usr/bin; ln -fs gri-$(VERSION) gri)
-	install -m 644 gri.cmd $(debian-lib)/gri.cmd
+	install -m 644 gri.cmd  $(debian-lib)/gri.cmd
+	install -m 644 logo.dat $(debian-lib)/logo.dat
 	if test -f gri_merge; then install -m 755 gri_merge $(debian)/usr/bin; else echo "WARNING: no gri_merge file!"; fi;	
 	if test -f gri_unpage; then install -m 755 gri_unpage $(debian)/usr/bin; else echo "WARNING: no gri_unpage file!";fi;
 	install -d $(debian)/usr/share/emacs/site-lisp
@@ -124,7 +125,8 @@ install_linux_debian: gri
 install_linux_debian_grionly: gri
 	echo "Installing into '$(debian)' directory"
 	install -d             $(debian-lib)
-	install -m 644 gri.cmd $(debian-lib)/gri.cmd
+	install -m 644 gri.cmd  $(debian-lib)/gri.cmd
+	install -m 644 logo.dat $(debian-lib)/logo.dat
 	if test -f startup.debian; then sed -e s,VSN,${VERSION}, startup.debian > $(debian-lib)/startup.msg; else echo "WARNING: no startup.debian file!"; fi;
 	install -d         $(debian)/usr/bin
 	install -m 755 gri $(debian)/usr/bin/gri-$(VERSION)
@@ -144,6 +146,7 @@ install_linux_redhat:
 	/usr/bin/install -m 755  gri_merge                     $(DESTDIR)$(prefix)/bin/gri_merge
 	/usr/bin/install -m 755  gri_unpage                    $(DESTDIR)$(prefix)/bin/gri_unpage
 	/usr/bin/install -m 644  gri.cmd                       $(DESTDIR)$(prefix)/share/gri/gri.cmd
+	/usr/bin/install -m 644  logo.dat                      $(DESTDIR)$(prefix)/share/gri/logo.dat
 	/usr/bin/install -m 644  license.txt                   $(DESTDIR)$(prefix)/share/gri/license.txt
 	#
 	# gri mode (tweaked a bit for redhat since debian goes to web to see manual)
@@ -165,6 +168,7 @@ install: all
 	$(INSTALL_DATA) tmp $(prefix)/share/gri/startup.msg
 	rm -f tmp
 	$(INSTALL_DATA)         gri.cmd         $(prefix)/share/gri/gri.cmd
+	$(INSTALL_DATA)         logo.dat        $(prefix)/share/gri/logo.dat
 	$(INSTALL_DATA)         license.txt     $(prefix)/share/gri/license.txt
 	$(INSTALL_PROGRAM) -d                   $(prefix)/bin
 	$(INSTALL_PROGRAM)      gri             $(prefix)/bin/gri
@@ -204,8 +208,8 @@ source:
 	#
 	# Copy source
 	-cp $(SRC_DIR)/ChangeLog \
-	    $(SRC_DIR)/*.cc $(SRC_DIR)/*.hh $(SRC_DIR)/gri.cmd \
-	    $(SRC_DIR)/license.txt \
+	    $(SRC_DIR)/*.cc $(SRC_DIR)/*.hh \
+	    $(SRC_DIR)/gri.cmd $(SRC_DIR)/logo.dat $(SRC_DIR)/license.txt \
 	    $(SRC_DIR)/Makefile.in $(SRC_DIR)/Makefile.dj2\
 	    $(SRC_DIR)/configure $(SRC_DIR)/configure.in \
 	    $(SRC_DIR)/install-sh \
@@ -217,8 +221,7 @@ source:
 	    $(SRC_DIR)/gri-*.spec\
 	    $(SRC_DIR)/grilogo.gif\
 	$(SOURCE_NAME)
-	-chmod a+r $(SOURCE_NAME)/gri.cmd
-	-chmod a+r $(SOURCE_NAME)/license.txt
+	-chmod a+r $(SOURCE_NAME)/gri.cmd $(SOURCE_NAME)/logo.dat $(SOURCE_NAME)/license.txt
 	# 
 	# Copy documentation
 	mkdir $(SOURCE_NAME)/doc
@@ -265,6 +268,6 @@ README-ftp:
 	chmod a+r README-ftp
 
 what_is_new:
-	@for f in *.spec gri.cmd *cc *hh Makefile.in configure.in doc/gri.texi doc/Makefile;\
+	@for f in *.spec gri.cmd logo.dat *cc *hh Makefile.in configure.in doc/gri.texi doc/Makefile;\
 		do diff --brief $$f ../$$f;\
 	done

@@ -8088,14 +8088,29 @@ draw essay "Line 2, below top line"
 @cindex @code{draw gri logo} command
 @cindex logo, how to draw
 @example
-`draw gri logo [size .fontsize. at .xcm. .ycm.]'
+`draw gri logo .x_cm. .y_cm. .height_cm. .style. \fgcolor \bgcolor'
 @end example
 @noindent
-Draw gri logo at specified location, in specified fontsize, or at a
-default location at the top-right of the page.
-NOTE (26 NOV 94): THIS COMMAND UNDER CONSTRUCTION; SYNTAX AND OUTPUT MAY
-CHANGE. 
-
+Draw a Gri logo at given location with given style and colors.  The
+lower-left corner of the logo will be @code{.x_cm.} centimeters from the
+left-hand side of the page and @code{.y_cm.} centimeters from the bottom
+of the page.  The logo will be @code{.height_cm.} centimeters tall.  The
+textual parameters @code{\fgcolor} and @code{\bgcolor} give the foreground and
+background colors, respectively, and these are used in styles as noted
+in the table below.
+@example
+.style.    style
+=======    ===================
+   0       stroke curve
+   1       fill with color \fgcolor, no background
+   2       fill with color \fgcolor it in tight box of color \bgcolor
+   3       as 2 but in square box
+   4       draw in \fgcolor on top of shifted copy in \bgcolor
+@end example
+An example is given below
+@example
+draw gri logo 1 1 3 4 blue green
+@end example
 
 @node   Draw Grid, Draw Image Histogram, Draw Gri Logo, Draw
 @comment  node-name,  next,  previous,  up
