@@ -35,7 +35,7 @@ contour
 <a href="./gridoc/html/Images.html">
 image
 </a>
-graphs, in PostScript and (soon) SVG formats.
+graphs, in PostScript and (someday) SVG formats.
 Control is provided over all aspects of drawing,
 e.g. line widths, colors, and fonts.  A TeX-like syntax provides 
 common mathematical symbols.
