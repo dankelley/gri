@@ -21,14 +21,14 @@ create_variable(const char *name, double value)
 bool
 show_variablesCmd()
 {
-	const int variables_per_line = 2; // how many columns?
+	const int variables_per_line = 1; // how many columns?
 	int             line_break = 0;
 	bool            have_some = false;
 	ShowStr("Variables...\n");
 	vector<GriVariable>::iterator i;
 	for (i = variableStack.begin(); i < variableStack.end(); i++) {
 		extern char     _grTempString[];
-		sprintf(_grTempString, "%25s=%-5g", i->getName(), i->getValue());
+		sprintf(_grTempString, "    %-25s = %g", i->getName(), i->getValue());
 		ShowStr(_grTempString);
 		if (!(++line_break % variables_per_line)) {
 			ShowStr("\n");

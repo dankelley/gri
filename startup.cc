@@ -174,6 +174,7 @@ start_up(int argc, char **argv)
 	insert_creator_name_in_PS(argc, argv, psname);
 	// Finally, ready to begin plot.
 	gr_begin(1);
+	put_syn("\\.ps_file.", gr_currentPSfilename(), true);
 	// Disable tracing during startup phase, unless in superuser mode.
 	double          trace_old;
 	get_var("..trace..", &trace_old);
@@ -881,7 +882,6 @@ insert_creator_name_in_PS(int argc, char *argv[], const string& psname)
 		// No commandfile supplied on cmdline.
 		Require2(put_syn("\\.command_file.", "stdin", true), OUT_OF_MEMORY);
 		Require2(put_syn("\\.readfrom_file.", "stdin", true), OUT_OF_MEMORY);
-		Require2(put_syn("\\.ps_file.", "gri-??.ps", true), OUT_OF_MEMORY);
 	}
 }
 

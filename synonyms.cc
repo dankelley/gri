@@ -27,8 +27,8 @@ show_synonymsCmd()
 	vector<GriSynonym>::iterator i;
 	for (i = synonymStack.begin(); i < synonymStack.end(); i++) {
 		extern char     _grTempString[];
-		sprintf(_grTempString, "%s=\"%s\"\n", 
-			unbackslash(i->getName()), i->getValue());
+		sprintf(_grTempString, "    \\\\%-25s = \"%s\"\n", 
+			i->getName(), i->getValue());
 		ShowStr(_grTempString);
 		have_some = true;
 	}
