@@ -1,0 +1,10 @@
+gri-cookbook (0.1.4-0slink1) unstable; urgency=low
+
+  * Initial Release.  This is an unofficial package.
+
+ -- Peter S Galbraith <psg@debian.org>  Thu, 25 May 2000 20:56:24 -0400
+
+Local variables:
+mode: debian-changelog
+add-log-mailing-address: "psg@debian.org"
+End:

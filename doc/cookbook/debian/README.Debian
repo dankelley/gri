@@ -1,0 +1,40 @@
+gri-cookbook for Debian
+-----------------------
+
+This is an unofficial package (it's not part of the Debian distribution;
+don't file bug reports there).
+
+This is an HTML cookbook that shows examples of what you can do with Gri
+with few explanations.  This manual is available on the web via:
+
+  http://www.phys.ocean.dal.ca/~kelley/gri/cookbook/
+
+--
+
+Once installed on your system, it's available at
+
+  http://localhost/doc/gri-cookbook/
+or
+  file:/usr/doc/gri-cookbook/index.html
+
+or via the `dhelp' package with its command line interface `dhelp' or 
+
+  http://localhost/doc/HTML/math/index.html
+
+or via the dwww package with its command line interface `dwww' or
+
+  http://localhost/dwww
+specifically:
+  http://mixing.qc.dfo.ca/dwww/menu.html
+
+or via the doc-central package with its command line interface `doccentral' or
+
+  http://localhost/dc/
+
+--
+
+For updates to this package, check out:
+
+  ftp://ftp.phys.ocean.dal.ca/users/kelley/gri/linux-debian
+
+Peter S Galbraith <psg@debian.org>
