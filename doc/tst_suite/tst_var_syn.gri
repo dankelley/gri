@@ -27,9 +27,9 @@ assert {rpn "\\v" defined !}            " failed test 2.5"
 
 # Multi-word synonyms
 \h = "Hi there buddy"
-assert {rpn  \[]h    3      ==}         " falied test 3.1"
+assert {rpn  \[]h    3      ==}         " failed test 3.1"
 .i. = \[]h
-assert {rpn  .i.     3      ==}         " falied test 3.2"
+assert {rpn  .i.     3      ==}         " failed test 3.2"
 assert {rpn "\[0]h" "Hi"    ==}         " failed test 3.3"
 assert {rpn "\[1]h" "there" ==}         " failed test 3.4"
 assert {rpn "\[2]h" "buddy" ==}         " failed test 3.5"
