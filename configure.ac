@@ -18,7 +18,7 @@ AC_PROG_CXXCPP
 AC_LANG_CPLUSPLUS
 
 dnl	See if uses string::remove or string::erase
-AC_DEFUN(CHECK_OLD_STRING,
+AC_DEFUN([CHECK_OLD_STRING],
 AC_MSG_CHECKING(for old C++ subroutine called string::remove)
 AC_CACHE_VAL(gri_cv_have_old_string, [
     AC_TRY_COMPILE([
@@ -79,7 +79,7 @@ dnl above.  But now, this seems not to be needed, at least
 dnl on intel (linux), with g++-2.96 and g++-3.0
 
 dnl On DEC computers, with cxx compiler, need something special
-AC_DEFUN(DEK_IS_DECCXX,
+AC_DEFUN([DEK_IS_DECCXX],
 AC_MSG_CHECKING(for DEC cxx compiler)
 AC_CACHE_VAL(gri_cv_is_deccxx, [
 AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([$0], [AC_HEADER_EGREP])AC_BEFORE([$0], [AC_TEST_CPP])AC_EGREP_CPP(yes,
@@ -96,7 +96,7 @@ AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([
 dnl
 DEK_IS_DECCXX
 
-AC_DEFUN(DEK_IS_APPLE_OSX,
+AC_DEFUN([DEK_IS_APPLE_OSX],
 AC_MSG_CHECKING(for for apple computer assumed running OSX)
 AC_CACHE_VAL(gri_cv_os_is_apple_osx, [
 AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([$0], [AC_HEADER_EGREP])AC_BEFORE([$0], [AC_TEST_CPP])AC_EGREP_CPP(yes,
@@ -113,7 +113,7 @@ AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([
 dnl
 dnl DEK_IS_APPLE_OSX
 
-AC_DEFUN(IS_THIS_AN_ALPHA_SYSTEM,
+AC_DEFUN([IS_THIS_AN_ALPHA_SYSTEM],
 AC_MSG_CHECKING(for DEC alpha computer)
 AC_CACHE_VAL(gri_cv_is_dec_alpha, [
 AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([$0], [AC_HEADER_EGREP])AC_BEFORE([$0], [AC_TEST_CPP])AC_EGREP_CPP(yes,
@@ -129,7 +129,7 @@ AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([
 dnl
 IS_THIS_AN_ALPHA_SYSTEM
 
-AC_DEFUN(IS_THIS_A_BEOS_SYSTEM,
+AC_DEFUN([IS_THIS_A_BEOS_SYSTEM],
 AC_MSG_CHECKING(for BeOS environment)
 AC_CACHE_VAL(gri_cv_is_beos, [
 AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([$0], [AC_HEADER_EGREP])AC_BEFORE([$0], [AC_TEST_CPP])AC_EGREP_CPP(yes,
@@ -147,7 +147,7 @@ IS_THIS_A_BEOS_SYSTEM
 
 
 dnl     See if HPUX system
-AC_DEFUN(IS_THIS_AN_HPUX_SYSTEM,
+AC_DEFUN([IS_THIS_AN_HPUX_SYSTEM],
 AC_MSG_CHECKING(for HPUX environment)
 AC_CACHE_VAL(gri_cv_is_hpux, [
 AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([$0], [AC_HEADER_EGREP])AC_BEFORE([$0], [AC_TEST_CPP])AC_EGREP_CPP(yes,
@@ -166,7 +166,7 @@ IS_THIS_AN_HPUX_SYSTEM
 
 
 dnl     See if SUN computer
-AC_DEFUN(DEK_IS_SUN,
+AC_DEFUN([DEK_IS_SUN],
 AC_MSG_CHECKING(for for Sun Microsystems computer)
 AC_CACHE_VAL(gri_cv_is_sun, [
 AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([$0], [AC_HEADER_EGREP])AC_BEFORE([$0], [AC_TEST_CPP])AC_EGREP_CPP(yes,
@@ -185,7 +185,7 @@ DEK_IS_SUN
 dnl     See if IBM AIX with IBM compiler.  Note
 dnl	that an IBM running GNU compiler won't
 dnl	fall into this category.
-AC_DEFUN(DEK_IS_AIX_WITH_IBM,
+AC_DEFUN([DEK_IS_AIX_WITH_IBM],
 AC_MSG_CHECKING(for for IBM AIX computer with IBM compiler)
 AC_CACHE_VAL(gri_cv_is_aix_with_ibm, [
 AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([$0], [AC_HEADER_EGREP])AC_BEFORE([$0], [AC_TEST_CPP])AC_EGREP_CPP(yes,
@@ -203,7 +203,7 @@ DEK_IS_AIX_WITH_IBM
 
 
 dnl     See if mingw32
-AC_DEFUN(DEK_IS_MINGW32,
+AC_DEFUN([DEK_IS_MINGW32],
 AC_MSG_CHECKING(for for mingw32 system)
 AC_CACHE_VAL(gri_cv_is_mingw32, [
 AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([$0], [AC_HEADER_EGREP])AC_BEFORE([$0], [AC_TEST_CPP])AC_EGREP_CPP(yes,
@@ -224,7 +224,7 @@ dnl find anything in the docs that told me to do that, but it was the only
 dnl I could find to make the code, created in "configure", to have the
 dnl required brackets.  I tried the quoting macros as described in the docs
 dnl but couldn't get it working.
-AC_DEFUN(GRI_DETERMINE_ENDIAN,
+AC_DEFUN([GRI_DETERMINE_ENDIAN],
 	AC_MSG_CHECKING(to see whether this machine is big endian or little endian)
 	AC_CACHE_VAL(gri_cv_endian_type, [
 	AC_LANG_C
