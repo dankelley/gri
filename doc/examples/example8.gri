@@ -42,8 +42,8 @@ Set up axes
 `Read Data'
 {
     # Read x-locations
-    system \.awk. '{print $2}' < \locn > TMP
-    system wc TMP | \.awk. '{print $1}' > NUM
+    system awk '{print $2}' < \locn > TMP
+    system wc TMP | awk '{print $1}' > NUM
     open NUM
     read .gridx_number.
     close
