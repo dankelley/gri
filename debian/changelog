@@ -1,10 +1,26 @@
 gri (2.12.2-1) unstable; urgency=low
 
   * New upstream version
-    Bug Fix:
+    Bug Fixes:
+    - Fix SourceForge bug #647234 (Source file draw.cc will not compile on
+       MAC OS X 10.1.5 at optimization level 2, so drop the level to no
+       optimization, as a temporary measure.)
+    - Fix SourceForge bug #671022 (`flip image x|y' did not flip images
+       correctly, except in special circumstances.)
+    - Fix SourceForge bug #669603 (`skip backward .n.' erroneously skipped
+       forward)
+    - Fix SourceForge bug #667754 (`read image pgm' segfaults on memory if an
+       image has already been created by `convert grid to image')
+    - Fix SourceForge bug #664388 (`read image pgm' fails if an image already
+       exists)
+    - Fix SourceForge bug #654129 (ignoring ~/.grirc file)
+    - Fix SourceForge bug #654127 (configure scripts are broken)
+    - Fix SourceForge bug #649132 (removed unused LDFLAGS phrase from Makefile)
+    - Fix SourceForge bug #649134 (tweak gcc optimization)
+    - Fix SourceForge bug #649136 (examples 8 and 9 broken)
     - Fix SourceForge bug #641406 (RPN too aggressive on missing values)
 
- -- Peter S Galbraith <psg@debian.org>  Mon, 25 Nov 2002 09:32:59 -0500
+ -- Peter S Galbraith <psg@debian.org>  Mon, 27 Jan 2003 15:01:03 -0500
 
 gri (2.12.1-2) unstable; urgency=low
 
