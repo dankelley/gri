@@ -955,6 +955,9 @@ one by one.  In addition, the tokens are available with the RPN
 operators @code{argc}, a solitary operator which yields the number of
 tokens (@ref{Solitary Operators}), and @code{argv}, a unary operator
 which yields a numbered token from the list (@ref{Unary Operators}).
+For usage within the Emacs gri-mode, see 
+@ref{Filename arguments when running gri}.
+
 
 @emph{Details of command-line options}
 @cindex options on Gri command-line
@@ -2746,6 +2749,9 @@ then the output would be
 argument 0 is file1.dat
 argument 1 is file2.dat
 @end example
+
+For usage within the Emacs gri-mode, see 
+@ref{Filename arguments when running gri}.
 
 @item @{rpn "hi" ascent@}
 @cindex @code{ascent} rpn operator
@@ -13784,6 +13790,7 @@ of all commands and key definitions.
 * Installing gri-mode.el::                The nuts and bolts.
 * Major Gri-mode commands::               It knows about Gri commands.
 * Dealing with many Gri versions::        gri-mode handles it.
+* Filename arguments when running gri::   gri-set-command-postarguments.
 @end menu
 
 @node   Gri-mode screenshots, Installing gri-mode.el, Emacs Mode, Emacs Mode
@@ -14400,7 +14407,7 @@ list Info about.  There's also a menu-bar pull-down menu which lists all
 gri commands, and you can get to Info from that too.
 
 @c HTML <!-- newfile Emacs4.html "Gri: Dealing with many Gri versions" "Emacs Mode: Dealing with many Gri versions" -->
-@node   Dealing with many Gri versions, History, Info interface, Emacs Mode
+@node   Dealing with many Gri versions, Filename arguments when running gri, Info interface, Emacs Mode
 @comment  node-name,  next,  previous,  up
 @section Dealing with many Gri versions, gri-mode handles it.
 @cindex gri-mode, handling multiple Gri versions
@@ -14437,9 +14444,41 @@ to using the default version of gri as selected by
 bottom of the gri file.
 @end itemize
 
+@c HTML <!-- newfile Emacs5.html "Gri: Filename arguments when running gri" "Emacs Mode: Filename arguments when running gri" -->
+@node Filename arguments when running gri, History, Dealing with many Gri versions, Emacs Mode
+@comment  node-name,  next,  previous,  up
+@section Filename arguments when running gri, the gri-set-command-postarguments command.
+@cindex gri-mode, handling filename command arguments
+@cindex gri-mode, handling argv and argc
+
+Usually, gri is run specifying only a gri command file to process, which
+lends itself well to the gri-mode command @code{gri-run}.  But Gri can
+be also invoked from the command line using optional arguments, usually
+filenames but not necessarily, e.g.
+@example
+$ gri somefile.gri datafile.dat datafile2.dat ...
+@end example
+or
+@example
+$ gri somefile.gri *.dat
+@end example
+The arguments are accessed with RPN operators @file{argc} and
+@file{argv} (@ref{Unary Operators}).
+
+It's possible to edit such a gri script using gri-mode and test it using
+@code{gri-run}.  The way this done is by setting default arguments which
+be locally-defined in a specific gri command file while editing in
+gri-mode.  Use the gri-mode command @code{gri-set-command-postarguments}
+to setup a string that gri-mode will use, and the gri-mode command
+@code{gri-unset-command-postarguments} to unset it.  The string will be
+stored in the locally-defined (aka buffer-local) variable
+@code{gri-command-postarguments} and will be written within a gri
+comment at the bottom of the file such that Emacs remembers it across
+editing sessions.
+
 @c HTML <!-- newfile History.html "Gri: History Gri" "History of Gri Versions" -->
 
-@node   History, Distribution versions, Dealing with many Gri versions, Top
+@node   History, Distribution versions, Filename arguments when running gri, Top
 @comment  node-name,  next,  previous,  up
 @chapter History of Gri Versions
 
