@@ -106,14 +106,17 @@ typedef enum {
 	DIRECTORY_EXISTS,
 	FILE_EXISTS,
 	ARGC,
-	ARGV
+	ARGV,
+	WORDC,
+	WORDV
 }               operator_name;
 
 // Rpn functions.
 typedef struct {
-	char *            op_name;
+	char *op_name;
+	unsigned int chars;	// for speeding lookup
 	operator_name   op_id;
-}               RPN_DICT;
+} RPN_DICT;
 #define RPN_FCN_CAPACITY 100
 #define RPN_W_CAPACITY   100
 unsigned int    rpn_fcn_filled = 0;
@@ -121,91 +124,94 @@ typedef struct {
 	char *            name;
 	char *            w[RPN_W_CAPACITY];
 	unsigned int    nw;
-}               RPN_FCN;
+} RPN_FCN;
 RPN_FCN         rpn_fcn[RPN_FCN_CAPACITY];
 
+// Operators, with common (algebraic) ones first to speed lookup.
 RPN_DICT        rpn_dict[] =
 {
-	{"+", ADD},
-	{"-", SUBTRACT},
-	{".", MULTIPLY},
-	{"*", MULTIPLY},
-	{"/", DIVIDE},
-	{"power", POWER},
-	{"asin", ASINE},
-	{"acos", ACOSINE},
-	{"atan", ATANGENT},
-	{"sin", SINE},
-	{"cos", COSINE},
-	{"tan", TANGENT},
-	{"asinh", ASINH},
-	{"acosh", ACOSH},
-	{"atanh", ATANH},
-	{"cosh", COSH},
-	{"sinh", SINH},
-	{"tanh", TANH},
-	{"sqrt", SQRT},
-	{"log", LOG},
-	{"ln", LN},
-	{"exp", EXP},
-	{"exp10", EXP10},
-	{"ceil", CEIL},
-	{"floor", FLOOR},
-	{"remainder", REMAINDER},
-	{"abs", ABS},
-	{"<", LESS_THAN},
-	{"<=", LESS_THAN_EQUAL},
-	{">", GREATER_THAN},
-	{">=", GREATER_THAN_EQUAL},
-	{"==", EQUAL},
-	{"!=", NOT_EQUAL},
-	{"&", AND},
-	{"|", OR},
-	{"!", NOT},
-	{"cmtopt", CMTOPT},
-	{"pttocm", PTTOCM},
-	{"dup", DUP},
-	{"pop", POP},
-	{"exch", EXCH},
-	{"roll_left",  ROLL_LEFT},
-	{"roll_right", ROLL_RIGHT},
-	{"pstack", PSTACK},
-	{"strcat", STRCAT},
-	{"atof", ATOF},
-	{"system", SYSTEM},
-	{"sup", SUP},
-	{"inf", INF},
-	{"=", ASSIGN},
-	{"xcmtouser", XCMTOUSER},
-	{"xpttouser", XPTTOUSER},
-	{"xycmtouser", XYCMTOUSER},
-	{"xyusertocm", XYUSERTOCM},
-	{"xusertocm", XUSERTOCM},
-	{"xusertopt", XUSERTOPT},
-	{"ycmtouser", YCMTOUSER},
-	{"ypttouser", YPTTOUSER},
-	{"yusertocm", YUSERTOCM},
-	{"yusertopt", YUSERTOPT},
-	{"area", AREA},
-	{"@", VAL},
-	{"min", MIN},
-	{"max", MAX},
-	{"median", MEDIAN},
-	{"mean", MEAN},
-	{"stddev", STDDEV},
-	{"size", SIZE},
-	{"directory_exists", DIRECTORY_EXISTS},
-	{"file_exists", FILE_EXISTS},
-	{"argc", ARGC},
-	{"argv", ARGV},
-	{"width", STRINGWIDTH},
-	{"ascent", STRINGASCENT},
-	{"descent", STRINGDESCENT},
-	{"defined", DEFINED},
-	{"ismissing", ISMISSING},
-	{"interpolate", INTERPOLATE},
-	{"rand", RAND},
-	{NULL, NOT_OPERATOR}
+	{"+", 1, ADD},
+	{"-", 1, SUBTRACT},
+	{".", 1, MULTIPLY},
+	{"*", 1, MULTIPLY},
+	{"/", 1, DIVIDE},
+	{"power", 5, POWER},
+	{"asin", 4, ASINE},
+	{"acos", 4, ACOSINE},
+	{"atan", 4, ATANGENT},
+	{"sin", 3, SINE},
+	{"cos", 3, COSINE},
+	{"tan", 3, TANGENT},
+	{"asinh", 5, ASINH},
+	{"acosh", 5, ACOSH},
+	{"atanh", 5, ATANH},
+	{"cosh", 4, COSH},
+	{"sinh", 4, SINH},
+	{"tanh", 4, TANH},
+	{"sqrt", 4, SQRT},
+	{"log", 3, LOG},
+	{"ln", 2, LN},
+	{"exp", 3, EXP},
+	{"exp10", 5, EXP10},
+	{"ceil", 4, CEIL},
+	{"floor", 5, FLOOR},
+	{"remainder", 9, REMAINDER},
+	{"abs", 3, ABS},
+	{"<", 1, LESS_THAN},
+	{"<=", 2, LESS_THAN_EQUAL},
+	{">", 1, GREATER_THAN},
+	{">=", 2, GREATER_THAN_EQUAL},
+	{"==", 2, EQUAL},
+	{"!=", 2, NOT_EQUAL},
+	{"&", 1, AND},
+	{"|", 1, OR},
+	{"!", 1, NOT},
+	{"cmtopt", 6, CMTOPT},
+	{"pttocm", 6, PTTOCM},
+	{"dup", 3, DUP},
+	{"pop", 3, POP},
+	{"exch", 4, EXCH},
+	{"roll_left",  9, ROLL_LEFT},
+	{"roll_right", 10, ROLL_RIGHT},
+	{"pstack", 6, PSTACK},
+	{"strcat", 6, STRCAT},
+	{"atof", 4, ATOF},
+	{"system", 6, SYSTEM},
+	{"sup", 3, SUP},
+	{"inf", 3, INF},
+	{"=", 1, ASSIGN},
+	{"xcmtouser", 9, XCMTOUSER},
+	{"xpttouser", 9, XPTTOUSER},
+	{"xycmtouser", 10, XYCMTOUSER},
+	{"xyusertocm", 10, XYUSERTOCM},
+	{"xusertocm", 9, XUSERTOCM},
+	{"xusertopt", 9, XUSERTOPT},
+	{"ycmtouser", 9, YCMTOUSER},
+	{"ypttouser", 9, YPTTOUSER},
+	{"yusertocm", 9, YUSERTOCM},
+	{"yusertopt", 9, YUSERTOPT},
+	{"area", 4, AREA},
+	{"@", 1, VAL},
+	{"min", 3, MIN},
+	{"max", 3, MAX},
+	{"median", 6, MEDIAN},
+	{"mean", 4, MEAN},
+	{"stddev", 6, STDDEV},
+	{"size", 4, SIZE},
+	{"directory_exists", 16, DIRECTORY_EXISTS},
+	{"file_exists", 11, FILE_EXISTS},
+	{"argc", 4, ARGC},
+	{"argv", 4, ARGV},
+	{"width", 5, STRINGWIDTH},
+	{"ascent", 6, STRINGASCENT},
+	{"descent", 7, STRINGDESCENT},
+	{"defined", 7, DEFINED},
+	{"ismissing", 9, ISMISSING},
+	{"interpolate", 11, INTERPOLATE},
+	{"rand", 4, RAND},
+	{"wordc", 5, WORDC},
+	{"wordv", 5, WORDV},
+	{NULL, 0, NOT_OPERATOR}
 };
 
 
@@ -339,9 +345,20 @@ rpn(int nw, char **w, char ** result)
 static          operator_name
 is_oper(const char *w)
 {
-	int             i = 0;
+	int i;
+#if 0
+	i = 0;
 	while (rpn_dict[i].op_name) {
-		if (!strcmp(rpn_dict[i].op_name, w))
+		if (strlen(rpn_dict[i].op_name) != rpn_dict[i].chars) {
+			printf("ERROR in rpn_dict on '%s' ... %d vs %d\n",rpn_dict[i].op_name, strlen(rpn_dict[i].op_name), rpn_dict[i].chars);
+		}
+		i++;
+	}
+#endif
+	i = 0;
+	unsigned int chars_in_w = strlen(w); // checking first speeds a bit
+	while (rpn_dict[i].op_name) {
+		if (chars_in_w == rpn_dict[i].chars && !strcmp(rpn_dict[i].op_name, w))
 			return (operator_name) (rpn_dict[i].op_id);
 		i++;
 	}
@@ -407,7 +424,7 @@ rpn_which_function(const char *name)
 
 #define NEED_ON_STACK(num)						\
 {									\
-    if (rS.size() < num) {						\
+    if (rS.size() < (num)) {						\
         RpnError = STACK_UNDERFLOW;					\
         return false;							\
     }									\
@@ -579,7 +596,6 @@ static          bool
 do_operation(operator_name oper)
 {
 	//printf("do_operation(%d) vs %d\n",int(oper),int(ARGV));
-	int             index;
 	if (oper == NOT_OPERATOR) {
 		RpnError = BAD_WORD;
 		return false;
@@ -1276,6 +1292,59 @@ do_operation(operator_name oper)
 		}
 		return true;
 	}
+	if (oper == WORDC) {
+		extern int      _num_command_word;
+		extern char    *_command_word[MAX_cmd_word];
+		extern char    *_command_word_separator;
+		int cmd;
+		for (cmd = _num_command_word - 1; cmd > -1; cmd--)
+			if (!strcmp(_command_word[cmd], _command_word_separator))
+				break;
+		//printf("DEBUG cmd %d  num %d   stacksize %d\n",cmd,_num_command_word,rS.size());
+		RpnItem item;
+		if (cmd > -1)
+			item.set("", double(_num_command_word - cmd - 1), NUMBER);
+		else 
+			item.set("", 0.0, NUMBER);
+		rS.push_back(item);
+		return true;
+	}
+	if (oper == WORDV) {
+		if (rS.size() < 1) {
+			err("`wordv' needs an argument, e.g. {rpn 0 wordv} gives first word of command\n.");
+			return false;
+		}
+		NEED_IS_TYPE(1, NUMBER);
+		int index = int(VALUE(1));
+		if (index < 0) {
+			printf("`wordv' needs index >= 0\n");
+			RpnError = NEED_GT_1;
+			return false;
+		}
+		extern int      _num_command_word;
+		extern char    *_command_word[MAX_cmd_word];
+		extern char    *_command_word_separator;
+		int cmd;
+		// Trace back through the stack until at next level deep, then
+		// move forward to indicated word.
+		for (cmd = _num_command_word - 1; cmd > -1; cmd--) {
+			//printf("\t%d of %d <%s>\n",cmd,_num_command_word,_command_word[cmd]);
+			if (!strcmp(_command_word[cmd], _command_word_separator))
+				break;
+		}
+		//printf("cmd is %d max is %d ... value '%s'\n",cmd,_num_command_word,_command_word[cmd+index+1]);
+		string rv;
+		if (*_command_word[cmd + index + 1] == '\"') { 
+			rv.append(_command_word[cmd + index + 1]);
+		} else {
+			rv.append("\"");
+			rv.append(_command_word[cmd + index + 1]);
+			rv.append("\"");
+		}
+		SET(1, rv.c_str(), 0.0, STRING);
+		//printf("\t\trv is '%s'\n",rv.c_str());
+		return true;
+	}
 	if (oper == ARGC) {
 		extern vector<char*>_argv;
 		RpnItem item;
@@ -1409,7 +1478,7 @@ do_operation(operator_name oper)
 		extern char     _grTempString[];
 		NEED_ON_STACK(2);
 		NEED_IS_TYPE(2, COLUMN_NAME);
-		index = (int) (floor(0.5 + VALUE(1)));
+		int index = (int) (floor(0.5 + VALUE(1)));
 		if (index < 0) {
 			err("Can't take negative index of the `\\",
 			    NAME(1),

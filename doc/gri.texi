@@ -2169,13 +2169,16 @@ only from within the local Gri command.  They are not listed by
 @itemize @bullet
 @item
 Within any new Gri command, the number of words in the line that called
-the command is available in @code{\.words.}.
+the command is available in @code{\.words.}.  The RPN operator @code{wordc} 
+also yields the same value (@ref{Solitary Operators}).
 @item
 The first word in the calling line is @code{\.word0.}, the second
 @code{\.word1.}, etc.  (Note that this is the C convention, @emph{not} the
 FORTRAN convention.  If @code{\.words.} is 2, then @code{\.word0.} and
 @code{\.word1.} are defined, but @code{\.word2.}, which FORTRAN programmers
-expect, will not be defined.)
+expect, will not be defined.)  If you don't know the place of the synonym
+in advance (i.e. 0 versus 1, for @code{\.word0.} versus @code{\.word1.}), 
+then use the RPN operator @code{wordv} instead (@ref{Unary Operators}).
 @item
 Within any new Gri command, the proper calling usage is available in
 @code{\.proper_usage.}.  This is useful in tests of syntax 
@@ -3018,6 +3021,29 @@ Calculate hyperbolic tangent of 2, yielding 0.964028.
 Determine width of this string (in cm), in the present font and fontsize.
 (See also @code{ascent} and @code{descent}.)
 
+@item @{rpn 0 wordv@}
+@cindex RPN operator @code{wordv}
+@cindex @code{wordv} RPN operator
+Returns the first word used in invoking the present command.  Similar
+to the @code{\\.word0.} synonym (@ref{Local Synonyms}).  Example:
+@example
+`let us test .it.'
+@{
+  .w. = 0
+  while @{rpn .w. wordc >@}
+    show "The " .w. "-th word is `" @{rpn .w. wordv@} "'."
+    .w. += 1
+  end while
+@}
+let us test "this thing"
+let us test "this" "thing"
+let us test "Pi is" @{rpn 3.14@}
+@end example
+If you are using this to parse options given to the command, it's up to
+you to skip the non-optional words in the command.  In this case, for
+example, we skipped the first three words (@code{let}, @code{us}, and
+@code{test}).
+
 @item @{rpn 1 xusertocm@}
 @cindex @code{xusertocm} rpn operator
 @cindex rpn operator @code{xusertocm}
@@ -3043,6 +3069,7 @@ page, corresponding to a user-value of x=1.  (Opposite of
 @cindex rpn operator @code{ycmtouser}
 Calculate y value, in user units, for a point that is 1 centimeter from
 the bottom edge of the paper.  (Opposite of @code{yusertocm}.)
+
 
 @end table
 
@@ -3091,6 +3118,24 @@ Yields Pi, i.e. @code{3.141}...
 Generate a random number in the range 0 to 1, using the C subroutine
 @code{drand48()} if it is available, otherwise the less well-distributed
 @code{rand()} subroutine.
+
+@item @{rpn wordc@}
+@cindex RPN operator @code{wordc}
+@cindex @code{wordc} RPN operator
+Returns number of words used in invoking the present command.  Similar
+to the @code{\\.words.} synonym (@ref{Local Synonyms}).  Example:
+@example
+`let us test .it.'
+@{
+  show "This command has " @{rpn wordc@} " words"
+@}
+let us test 10
+let us test @{rpn 3 1 +@}
+let us test "this"
+let us test "this thing"
+@end example
+The operator @code{wordv} may be used to extract the words of the
+command (@ref{Unary Operators}).
 @end table
 
 
@@ -14282,9 +14327,14 @@ The next sections outline the changes made in Gri.
 @item 2.6.0 [2000-Jun-23]
 
 @sp 1
+Add RPN operators @code{wordc} (@ref{Solitary Operators}) and
+@code{wordv} (@ref{Unary Operators}) for accessing the words in the
+present Gri command.
+
+@sp 1
 Add RPN operators @code{argc} (@ref{Solitary Operators}) and
 @code{argv} (@ref{Unary Operators}) for accessing the command-line
-arguments.  
+arguments used when Gri was invoked from the operating system.
 
 @sp 1
 Add automatic support for compressed data files.  So far, this only
