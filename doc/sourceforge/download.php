@@ -20,9 +20,9 @@ at Debian</a><br>
 manual</a><br>
 <br>
 <b>Other OS</b><br>
-- <A HREF=<?php print "$ftp_site/gri-$gri_stable_version-SunOS5.tar.gz";		?>">SunOS		</a><br>
-- <A HREF=<?php print "http://gnuwin32.sourceforge.net/packages/gri.htm";		?>">Windows		</a><br>
-- <A HREF=<?php print "http://fink.sourceforge.net/pdb/package.php/gri";		?>">Apple OS-X		</a><br>
+- <A HREF="<?php print "$ftp_site/gri-$gri_stable_version-SunOS5.tar.gz";		?>">SunOS		</a><br>
+- <A HREF="<?php print "http://gnuwin32.sourceforge.net/packages/gri.htm";		?>">Windows		</a><br>
+- <A HREF="<?php print "http://fink.sourceforge.net/pdb/package.php/gri";		?>">Apple OS-X		</a><br>
 <br><br>
 <b>Any OS/version</b><br>
 - <A HREF="<?php print "$sf_url/project/showfiles.php?group_id=$gri_group_id";		?>">list		</a><br>
@@ -59,14 +59,16 @@ the standard woody Debian package
 , and
 <A HREF="<?php print "$ftp_site/gri-${gri_stable_version}static_2.10.1-1_i386.deb";?>">
 an unofficial statically linked package
-</a>
-made to live alongside other releases of the regular gri package, yielding
-backwards compatibility. It does not contain Info files or the Emacs 
-gri-mode; install a regular version of the Gri package to get those.
+</a>.  The unofficial package is
+for installation alongside other Gri releases, yielding
+backwards compatibility, and therefore it lacks Info files or the Emacs 
+gri-mode.  
+<font color="green">
 To distinguish this package from the regular gri package, it is named 
 <i>
 <?php print "gri-${gri_stable_version}static";?>
 </i> as opposed to <i>gri</i>.
+</font>
 Consult the
 <a href="http://packages.debian.org/unstable/science/gri.html">
 Gri page at Debian</a> for packages available for each Debian release as well

@@ -11,8 +11,8 @@ set_up_lhs();
 - <A HREF="<?php print "./gri.pdf";			?>"> PDF		</A><br>
 <br>
 <b>Reference Cards</b><br>
-- <A HREF=<?php print "./refcard.pdf";			?>"> general		</A><br>
-- <A HREF=<?php print "./cmdrefcard.pdf";		?>"> command list	</A><br>
+- <A HREF="<?php print "./refcard.pdf";			?>"> general		</A><br>
+- <A HREF="<?php print "./cmdrefcard.pdf";		?>"> command list	</A><br>
 <br>
 <b>Other</b><br>
 - <A HREF="<?php print "gridoc/html/FAQ.html";		?>"> FAQ		</A><br>
