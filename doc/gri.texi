@@ -105,7 +105,7 @@ Dan Kelley at email address
 
 Licensing follows the GNU Public License; @xref{License}.
 
-Gri is an extensible plotting program designed for scientists.  It can
+Gri is an extensible plotting language designed for scientists.  It can
 draw x-y plots, contour plots, and image plots, and has rudimentary
 programming capabilities.  It is not mouse driven, nor gui-based; it is
 a language.  Users regard it as an analogue to the latex document
