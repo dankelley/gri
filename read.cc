@@ -1795,13 +1795,19 @@ This is not a PGM file, since the first 2 characters\n\
 		return false;
 	}
 	skip_hash_headers(fp);
+	max_gray = 255;
 	if (file_type == P2_type || file_type == P5_type) {
 		if (1 != fscanf(fp, "%d", &max_gray)) {
 			err("Cannot read `maximum-gray-value' of pgm file");
 			return false;
 		}
-	} else {
-		max_gray = 255;
+		if (_image_color_model != bw_model) {
+			warning("'read image pgm' is switching from a color scale to a black/white scale.\n    If you issue a 'read image colorscale' or 'set image colorscale'\n    command after the present command, though, you can over-ride this\n    and get a color image.");
+		}
+		for (unsigned int i = 0; i < 256; i++)
+			_imageTransform[i] = (unsigned char)floor(0.5 + i*255/max_gray);
+		_imageTransform_exists = true;
+		_image_color_model = bw_model;
 	}
 	skip_hash_headers(fp);
 	if (max_gray != 255) {
