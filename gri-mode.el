@@ -383,7 +383,9 @@
 ;;   gri-build-command-alist: skip over variables in syntax buffer.
 ;;   gri-menubar-cmds-build: (gri-lookat-syntax-file 3)
 ;;   gri-build-expansion-regex: stop at \.synonym.
-;;   gri-perform-completion: needed to regexp-quote the serach string
+;;   gri-perform-completion: needed to regexp-quote the search string
+;; V2.52 15Jul01 RCS 1.77
+;;   Add set/unset-command-postarguments to Perform menubar.
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -866,6 +868,15 @@ edit the gri file."
                  (progn (forward-line 1)(looking-at "# End:")))
             (delete-region (progn (end-of-line)(point))
                            (progn (forward-line -1) (point))))))))
+
+(defun gri-menu-set-command-postarguments ()
+  "Set filename arguments to use for this script when running gri
+
+This adds an emacs local-variable at the end of your file as a gri comment,
+locally setting the gri-mode variable `gri-command-postarguments'."
+  (interactive)
+  (let ((args (read-string "Arguments: ")))
+    (gri-set-command-postarguments args)))
 
 (defun gri-set-command-postarguments (args)
   "Set filename arguments to use for this script when running gri
@@ -3913,6 +3924,11 @@ Any output (errors?) is put in the buffer `gri-WWW-manual'."
       ["-no_bounding_box" (gri-run-setting-toggle "-no_bounding_box")
        :style toggle :selected (member "-no_bounding_box" gri*run-settings)]
 ;; -superuser ?
+      "-"
+      ["set filename arguments" (gri-menu-set-command-postarguments)
+       :visible (not gri-command-postarguments)]
+      ["clear filename arguments" (gri-unset-command-postarguments)
+       :visible gri-command-postarguments]
       )
      ["View existing PostScript"      gri-view  t]
      ("gv scale selection"
@@ -3954,7 +3970,7 @@ Any output (errors?) is put in the buffer `gri-WWW-manual'."
       )
      ["Print existing PostScript"     gri-print t]
      ["Set gri version to use"        gri-set-version t]
-     ["Set gri version to use locally" gri-set-local-version t]
+     ["Set gri version for this file" gri-set-local-version t]
      ))
   (easy-menu-define
    gri-mode-menu1 gri-mode-map "Menu keymap for gri-mode."
