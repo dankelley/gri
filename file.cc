@@ -39,6 +39,7 @@ push_cmd_file(const char* fname, bool interactive, bool allow_warning, const cha
 	return true;
 }
 
+#if !defined(MSDOS)
 static bool
 is_compressed_file(string& fname)
 {
@@ -49,6 +50,7 @@ is_compressed_file(string& fname)
 		return true;
 	return false;
 }
+#endif
 
 // Push a new data file onto the stack.
 // The 'delete_when_close' is just a suggestion (true for output
@@ -141,8 +143,8 @@ push_data_file(const char* name, DataFile::type the_type, const char* status, bo
 #endif
 			}
 		}
-	}
 #endif
+	}
 	update_readfrom_file_name();
 	return true;
 }
