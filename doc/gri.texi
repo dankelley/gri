@@ -14101,15 +14101,17 @@ since the syntax became pretty firm about that time.
 
 Still, disk costs are so cheap that you would be well advised to keep a
 backup version of Gri, whenever you update.  This is pretty simple.  You
-need to copy the executable (normally called @file{/usr/bin/gri}) and
-the startup file (normally called @file{/usr/share/gri/gri.cmd}) to some
-location.  Let's say, for convenience, that this location is the
-directory @file{/usr/share/gri/@value{GRI-VERSION}}.  Then, just
-create a shellscript named @code{/usr/bin/gri-@value{GRI-VERSION}} that
-reads
+need to copy the executable (normally called @file{/usr/local/bin/gri})
+and the startup file (normally called
+@file{/usr/local/share/gri/gri.cmd}) to some location (Gri RPM or Debian
+packages will have these files under /usr/share rather than under
+/usr/local/share) .  Let's say, for convenience, that this location is
+the directory @file{/usr/local/share/gri/@value{GRI-VERSION}}.  Then,
+just create a shellscript named @code{/usr/local/bin/gri-@value{GRI-VERSION}}
+that reads
 @example
 #!/usr/bin/sh
-/usr/share/gri/@value{GRI-VERSION}/gri -directory /usr/share/gri/@value{GRI-VERSION}
+/usr/local/share/gri/@value{GRI-VERSION}/gri -directory /usr/local/share/gri/@value{GRI-VERSION}
 @end example
 
 The next sections outline the changes made in Gri.
