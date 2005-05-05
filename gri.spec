@@ -96,6 +96,8 @@ then
 fi
 
 %changelog
+* Mon May 5 2005 <Dan.Kelley@Dal.Ca>
+Fix SourceForge bug 1196115 (gri_merge and gri_unpage mis-installed)
 * Mon Mar 2 2005 <Dan.Kelley@Dal.Ca>
 Fix SourceForge bug 1153209 (Emacs mode incompatible with new version of 'gv'
 * Sat Jan  8 2005 <Dan.Kelley@Dal.Ca>
