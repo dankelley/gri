@@ -16472,6 +16472,11 @@ only in the fixing of bugs.
 
 @item
 Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=1196115&group_id=5511&atid=105511,#1196115}
+@dots{} @code{gri_unpage} and @code{gri_merge} mis-installed
+
+@item
+Fix SourceForge bug
 @uref{http://sourceforge.net/tracker/index.php?func=detail&aid=1153209&group_id=5511&atid=105511,#1153209}
 @dots{} Emacs mode incompatible with new version of @code{gv} PostScript viewer
 
