@@ -1,6 +1,6 @@
+//#define DEBUG_LABELS 1
 #include <string>
 #include <string.h>
-
 #if !defined(IS_MINGW32)
 #include <strings.h>
 #else
@@ -124,9 +124,9 @@ gr_drawxaxis(double y, double xl, double xinc, double xr, gr_axis_properties sid
 {
 #if 1				// 2.9.x
 	bool user_gave_labels = (_x_labels.size() != 0);
-#if 0				// debugging
+#ifdef DEBUG_LABELS
 	if (user_gave_labels) {
-		printf("DEBUG: x axis should have labels [");
+		printf("DEBUG: %s:%d x axis should have labels [", __FILE__,__LINE__);
 		for (unsigned int i = 0; i < _x_labels.size(); i++)
 			printf("'%s' ", _x_labels[i].c_str());
 		printf("] at positions [");
@@ -141,6 +141,9 @@ gr_drawxaxis(double y, double xl, double xinc, double xr, gr_axis_properties sid
 	extern char     _xtype_map;
 	double          CapHeight = gr_currentCapHeight_cm();
 	double          angle = 0.0;	// angle of axis tics, labels, etc
+#ifdef DEBUG_LABELS
+	printf("DEBUG: %s:%d at top of gr_drawxaxis(), angle is %f\n",__FILE__,__LINE__,angle);
+#endif
 	bool            increasing = ((xr > xl) ? true : false);
 	double          tic, tic_sml;	// length of tic marks
 	double          xcm, ycm;	// tmp
@@ -204,7 +207,7 @@ gr_drawxaxis(double y, double xl, double xinc, double xr, gr_axis_properties sid
 			switch (_grTransform_x) {
 			case gr_axis_LINEAR:
 			case gr_axis_LOG:
-				angle = atan2(1.0, 0.0);
+			        //angle = atan2(1.0, 0.0); /* Why was this done? REF: SF bug 1198341 */
 				break;
 			default:
 				gr_Error("unknown axis type (internal error)");
@@ -275,7 +278,10 @@ gr_drawxaxis(double y, double xl, double xinc, double xr, gr_axis_properties sid
 						*_grTempString = '\0';
 					}
 					// Text is rotated
-					angle -= 90.0 / DEG_PER_RAD;
+					//angle -= 90.0 / DEG_PER_RAD; /* why was this here? REF: SF bug 1198341 */
+#ifdef DEBUG_LABELS
+					printf("DEBUG: %s:%d after the loop, angle is %f\n",__FILE__,__LINE__,angle);
+#endif
 					if (!user_gave_labels) {
 						slabel.assign(_grTempString);
 						fix_negative_zero(slabel);
@@ -294,6 +300,9 @@ gr_drawxaxis(double y, double xl, double xinc, double xr, gr_axis_properties sid
 			present = next;
 		}
 		if (user_gave_labels) {
+#ifdef DEBUG_LABELS
+		        printf("DEBUG: %s:%d at end of loop, and since user_gave_labels, angle is %f\n",__FILE__,__LINE__,angle);
+#endif
 			for (unsigned int i = 0; i < _x_labels.size(); i++) {
 				label.fromSTR(_x_labels[i].c_str()); // BUG: should interpolate into this string
 				gr_usertocm(_x_label_positions[i], y, &xcm, &ycm);
