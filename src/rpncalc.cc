@@ -273,7 +273,8 @@ rpn(unsigned int nw, char **w, char ** result)
 	char           *W[MAX_nword];
 	operator_name   oper;
 	double          operand_value;
-	*result = "";
+	*result = new char[1];
+	strcpy(*result, "");
 	if (nw < 1) {
 		if (((unsigned) superuser()) & FLAG_RPN) printf("rpn() go stack underflow\n");
 		return STACK_UNDERFLOW;
