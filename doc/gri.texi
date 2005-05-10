@@ -16472,6 +16472,11 @@ only in the fixing of bugs.
 
 @item
 Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=1199280&group_id=5511&atid=105511,#1199280}
+@dots{} warning about @code{malloc} for RPN assignments
+
+@item
+Fix SourceForge bug
 @uref{http://sourceforge.net/tracker/index.php?func=detail&aid=1196115&group_id=5511&atid=105511,#1196115}
 @dots{} @code{gri_unpage} and @code{gri_merge} mis-installed
 
