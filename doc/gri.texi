@@ -12895,7 +12895,7 @@ described above.
 Assign the value @code{"hello"} to the synonym @code{\greeting}.  See
 notes at the above item.
 
-@item @{rpn 3.14159 0 x =@}
+@item @{rpn 3.14159 0 "x" =@}
 Assign the value Pi to the first element (at index @code{0}) 
 of the @code{x} column.  All columns may be assigned to in this way, e.g.
 the following is a technique for plotting a quadratic function:
