@@ -1472,7 +1472,6 @@ beep_terminal()
 		fprintf(stderr, "\007");
 }
 
-#define BETWEEN(l,r,m)  ( (l)<(r) ? (m)<=(r)&&(l)<=(m) : (r)<=(m)&&(m)<=(l) )
 /* matrix_limits() - find min/max of matrix */
 void
 matrix_limits(double *min, double *max)

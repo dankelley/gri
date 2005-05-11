@@ -2,6 +2,8 @@
 #if !defined(_macro_hh_)
 #define _macro_h_
 
+#define BETWEEN(l,r,m)  ( (l)<(r) ? (m)<=(r)&&(l)<=(m) : (r)<=(m)&&(m)<=(l) )
+
 #define strEQ(s1, s2) (!strcmp((s1), (s2)))
 #define strNE(s1, s2) ( strcmp((s1), (s2)))
 

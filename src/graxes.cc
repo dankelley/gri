@@ -1,4 +1,4 @@
-#define DEBUG_LABELS 1
+//#define DEBUG_LABELS 1
 #include <string>
 #include <string.h>
 #if !defined(IS_MINGW32)
@@ -300,17 +300,23 @@ gr_drawxaxis(double y, double xl, double xinc, double xr, gr_axis_properties sid
 			present = next;
 		}
 		if (user_gave_labels) {
-#ifdef DEBUG_LABELS
-		        printf("DEBUG: %s:%d at end of loop, and since user_gave_labels, angle is %f\n",__FILE__,__LINE__,angle);
-#endif
 			for (unsigned int i = 0; i < _x_labels.size(); i++) {
-				label.fromSTR(_x_labels[i].c_str()); // BUG: should interpolate into this string
-				gr_usertocm(_x_label_positions[i], y, &xcm, &ycm);
-				//printf("'%s' xcm=%f   ycm=%f  offset=%f  y=%f\n", _x_labels[i].c_str(),xcm,ycm,offset,y);
-				label.draw(xcm - offset * sin(angle),
-					   ycm + offset * cos(angle),
-					   TEXT_CENTERED,
-					   DEG_PER_RAD * angle);
+				if (BETWEEN(xl, xr, _x_label_positions[i])) {
+					label.fromSTR(_x_labels[i].c_str()); // BUG: should interpolate into this string
+					gr_usertocm(_x_label_positions[i], y, &xcm, &ycm);
+					//printf("'%s' xcm=%f   ycm=%f  offset=%f  y=%f\n", _x_labels[i].c_str(),xcm,ycm,offset,y);
+					label.draw(xcm - offset * sin(angle),
+						   ycm + offset * cos(angle),
+						   TEXT_CENTERED,
+						   DEG_PER_RAD * angle);
+#ifdef DEBUG_LABELS
+					printf("DEBUG: %s:%d drawing %d-th label '%s' at x=%f (angle is %f)\n",__FILE__,__LINE__,i,_x_labels[i].c_str(),_x_label_positions[i],angle);
+#endif
+				} else {
+#ifdef DEBUG_LABELS
+					printf("DEBUG: %s:%d SKIPPING %d-th label '%s' since x=%f\n",__FILE__,__LINE__,i,_x_labels[i].c_str(),_x_label_positions[i]);
+#endif
+				}
 			}
 		}
 		// Finish by drawing to end of axis (in case there was no tic there).
