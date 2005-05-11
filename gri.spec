@@ -97,6 +97,7 @@ fi
 
 %changelog
 * Tue May 11 2005 <Dan.Kelley@Dal.Ca>
+Fix SourceForge bug 1196613 (user-supplied x-axis labels can run offscale)
 Fix SourceForge bug 1198341 (x-axis labels sometimes rotated)
 * Mon May 5 2005 <Dan.Kelley@Dal.Ca>
 Fix SourceForge bug 1196115 (gri_merge and gri_unpage mis-installed)
