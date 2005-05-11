@@ -57,6 +57,7 @@ DISTCLEANFILES = $(png_files) $(eps_files) $(html_files) $(txt_files)
 
 %.txt : %.gri
 	echo "$<" | cat >$@
+	chmod +w $@
 %.eps : %.ps
 	cp $< $@
 	chmod +w $@
