@@ -1,4 +1,4 @@
-//#define DEBUG_LABELS 1
+#define DEBUG_LABELS 1
 #include <string>
 #include <string.h>
 #if !defined(IS_MINGW32)

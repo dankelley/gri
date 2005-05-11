@@ -96,10 +96,14 @@ then
 fi
 
 %changelog
+* Tue May 11 2005 <Dan.Kelley@Dal.Ca>
+Fix SourceForge bug 1198341 (x-axis labels sometimes rotated)
 * Mon May 5 2005 <Dan.Kelley@Dal.Ca>
 Fix SourceForge bug 1196115 (gri_merge and gri_unpage mis-installed)
 * Mon Mar 2 2005 <Dan.Kelley@Dal.Ca>
 Fix SourceForge bug 1153209 (Emacs mode incompatible with new version of 'gv'
+* Wed Jan 12 2005 <Dan.Kelley@Dal.Ca>
+- Fix SourceForge bug 1101172 ('gri -help' incorrectly stated meaning of last argument(s))
 * Sat Jan  8 2005 <Dan.Kelley@Dal.Ca>
 Fix SourceForge bug 835711 ('draw gri logo' fails)
 * Sat Jan  8 2005 <Dan.Kelley@Dal.Ca>
