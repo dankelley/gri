@@ -99,12 +99,14 @@ fi
 * Tue May 11 2005 <Dan.Kelley@Dal.Ca>
 Fix SourceForge bug 1196613 (user-supplied x-axis labels can run offscale)
 Fix SourceForge bug 1198341 (x-axis labels sometimes rotated)
+* Tue May 10 2005 <Dan.Kelley@Dal.Ca>
+Fix SourceForge bug 1199280 (malloc warning for RPN assignment)
 * Mon May 5 2005 <Dan.Kelley@Dal.Ca>
 Fix SourceForge bug 1196115 (gri_merge and gri_unpage mis-installed)
 * Mon Mar 2 2005 <Dan.Kelley@Dal.Ca>
 Fix SourceForge bug 1153209 (Emacs mode incompatible with new version of 'gv'
 * Wed Jan 12 2005 <Dan.Kelley@Dal.Ca>
-- Fix SourceForge bug 1101172 ('gri -help' incorrectly stated meaning of last argument(s))
+Fix SourceForge bug 1101172 ('gri -help' incorrectly stated meaning of last argument(s))
 * Sat Jan  8 2005 <Dan.Kelley@Dal.Ca>
 Fix SourceForge bug 835711 ('draw gri logo' fails)
 * Sat Jan  8 2005 <Dan.Kelley@Dal.Ca>
