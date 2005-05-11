@@ -59,6 +59,7 @@ DISTCLEANFILES = $(png_files) $(eps_files) $(html_files) $(txt_files)
 	echo "$<" | cat >$@
 %.eps : %.ps
 	cp $< $@
+	chmod +w $@
 %.png : %.ps
 	convert $< $@
 %-tiny.png : %.png
