@@ -16472,6 +16472,11 @@ only in the fixing of bugs.
 
 @item
 Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=1198341&group_id=5511&atid=105511,#1198341}
+@dots{} x-axis labels incorrectly rotated (sometimes)
+
+@item
+Fix SourceForge bug
 @uref{http://sourceforge.net/tracker/index.php?func=detail&aid=1199280&group_id=5511&atid=105511,#1199280}
 @dots{} warning about @code{malloc} for RPN assignments
 
