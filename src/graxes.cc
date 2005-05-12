@@ -207,7 +207,7 @@ gr_drawxaxis(double y, double xl, double xinc, double xr, gr_axis_properties sid
 			switch (_grTransform_x) {
 			case gr_axis_LINEAR:
 			case gr_axis_LOG:
-			        //angle = atan2(1.0, 0.0); /* Why was this done? REF: SF bug 1198341 */
+			        angle = atan2(1.0, 0.0); // angle for tics
 				break;
 			default:
 				gr_Error("unknown axis type (internal error)");
@@ -278,7 +278,7 @@ gr_drawxaxis(double y, double xl, double xinc, double xr, gr_axis_properties sid
 						*_grTempString = '\0';
 					}
 					// Text is rotated
-					//angle -= 90.0 / DEG_PER_RAD; /* why was this here? REF: SF bug 1198341 */
+					angle -= 90.0 / DEG_PER_RAD; // rotate text by tics
 #ifdef DEBUG_LABELS
 					printf("DEBUG: %s:%d after the loop, angle is %f\n",__FILE__,__LINE__,angle);
 #endif
