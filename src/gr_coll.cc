@@ -328,8 +328,7 @@ GriString::draw(double xcm, double ycm, gr_textStyle s, double angle) const
 	double width, ascent, descent;
 	gr_stringwidth(value, &width, &ascent, &descent);
 #if 0
-	printf("DEBUG: GriString::Draw with value `%s' xcm=%.1f ycm=%.1f width=%.1f ascent=%.1f descent=%.1f angle=%.1f\n",
-	       value, xcm,ycm,width,ascent, descent, angle);
+	printf("DEBUG: %s:%d GriString::Draw with value `%s' xcm=%.1f ycm=%.1f width=%.1f ascent=%.1f descent=%.1f angle=%.1f\n",__FILE__,__LINE__,value, xcm,ycm,width,ascent, descent, angle);
 #endif
 	double tmpx[4], tmpy[4];	// 0123 from lower-left anticlockwise
 	switch (s) {

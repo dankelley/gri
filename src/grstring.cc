@@ -93,6 +93,10 @@ gr_font_info    font_list[] =
 void
 gr_show_at(/*const*/ char *s, double xcm, double ycm, gr_textStyle style, double angle_deg)
 {
+#if 0
+        printf("DEBUG %s:%d gr_show_at(%s,xcm,ycm,style,%f)\n",__FILE__,__LINE__,s,angle_deg);
+        fprintf(_grPS,"\n%%DEBUG %s:%d gr_show_at(%s,xcm,ycm,style,%f)\n",__FILE__,__LINE__,s,angle_deg);
+#endif
 	if (0.0 == gr_currentfontsize_pt() || !strlen(s)) {
 		return;
 	}
@@ -113,7 +117,6 @@ gr_show_at(/*const*/ char *s, double xcm, double ycm, gr_textStyle style, double
 	_griState.color_text().getRGB(&r, &g, &b);
 	switch (_output_file_type) {
 	case  postscript:
-		fprintf(_grPS, "%% gr_show_at() BEGIN\n");
 		break;
 	case svg: 
 #if 1
@@ -152,8 +155,6 @@ gr_show_at(/*const*/ char *s, double xcm, double ycm, gr_textStyle style, double
 	if (_output_file_type == svg) {
 		fprintf(stderr, "%s:%d approximating drawing of '%s' NOTE: subscripts, etc won't work\n", __FILE__, __LINE__, s);
 	}
-
-
 	void set_ps_color(char what);
 	set_ps_color('t');
 	gr_setfontsize_pt(oldfontsize_pt);
@@ -219,6 +220,7 @@ gr_show_at(/*const*/ char *s, double xcm, double ycm, gr_textStyle style, double
 	case TEXT_CENTERED:
 		if (_output_file_type == postscript) {
 			if (_grWritePS) {
+			        //fprintf(_grPS, "%% DEBUG %s:%d '%s' at angle %f\n",__FILE__,__LINE__,s,angle_deg);
 				fprintf(_grPS, "%.1f %.1f m ",
 					PT_PER_CM * (xcm - 0.5 * width_cm * cos(angle_deg / DEG_PER_RAD)),
 					PT_PER_CM * (ycm - 0.5 * width_cm * sin(angle_deg / DEG_PER_RAD)));
@@ -253,7 +255,7 @@ gr_show_at(/*const*/ char *s, double xcm, double ycm, gr_textStyle style, double
 			if (fabs(angle_deg) > 0.1)
 				fprintf(_grPS, "%.2f rotate ", -angle_deg);
 			check_psfile();
-			fprintf(_grPS, "%% gr_show_at() END\n");
+			//fprintf(_grPS, "%% gr_show_at() END\n");
 		}
 		break;
 	case svg:
