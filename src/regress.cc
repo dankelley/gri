@@ -144,6 +144,7 @@ x = %g + %g y; chi2=%g; R^2=%g (%d good data)\n",
 		err("proper: regress y vs x [linear] or regress x vs y [linear]");
 		return false;
 	}
+	return true; // bug: is it actually ok to be here???
 }
 
 // Compute Pearson correlation coefficient, R.
