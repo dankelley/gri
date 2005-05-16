@@ -150,13 +150,6 @@ last_name(char *s)
 bool
 start_up(int argc, char **argv)
 {
-#ifdef OSX_BUNDLE
-	{
-		char wd[1024];char*ptr=wd;
-		ptr=getcwd(ptr,1023);
-		printf("DEBUG/OSX directory \"%s\"\n",ptr);
-	}
-#endif
 	extern rectangle _page_size;
 	_page_size.set(0.0, 0.0, 0.0, 0.0);
 /*
@@ -203,7 +196,7 @@ start_up(int argc, char **argv)
 	PUT_VAR("..image_width..", 0.0);
 	PUT_VAR("..image_height..", 0.0);
 
-#if 0 //def OSX_BUNDLE
+#ifdef OSX_BUNDLE
         extern std::string _lib_directory;
         _lib_directory.assign(argv[0]);
 	std::string::size_type last_slash = _lib_directory.rfind("/");
@@ -213,6 +206,7 @@ start_up(int argc, char **argv)
 		fatal_err("OSX error: cannot find slash in argv[0]\n");
         }
         printf("%s:%d: _lib_directory '%s' in OSX bundle\n", __FILE__, __LINE__, _lib_directory.c_str());
+		  printf("%s:%d: NOTE: this isnt in the right place.\n",__FILE__,__LINE__);
         // BUG: the above is the wrong dir; I don't know yet how to do bundles.
 #endif
 
