@@ -28,9 +28,9 @@
 #if STDC_HEADERS
 #include        <stdlib.h>
 #else
-#ifndef MSDOS
+#if !defined(MSDOS) && !defined(IS_FREEBSD)
 #include        <malloc.h>
-#endif				// not MSDOS
+#endif
 #endif				// Doesn't have stdlib
 
 // Should not really need these, but on gcc 2.5.8 on my sparc
@@ -357,7 +357,7 @@ double lapse_rate(double S, double t, double p);
 #endif
 
 // Time type (time_t, int, or long) varies per machine (ug).
-#if defined(VMS) || defined(MSDOS) || defined(IS_DEC_ALPHA) || defined(AIX)
+#if defined(VMS) || defined(MSDOS) || defined(IS_DEC_ALPHA) || defined(AIX) || defined(IS_FREEBSD)
 #define SECOND_TYPE time_t
 #else
 #if defined(__DECCXX)
