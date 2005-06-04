@@ -172,9 +172,9 @@ startup.msg-tmp: $(the_startup_file)
 all-local: gri.cmd startup.msg-tmp
 
 install-exec-local:
-	mkdir -m 755 -p                                  $(DESTDIR)$(prefix)/bin
-	$(INSTALL_PROGRAM) $(srcdir)/gri_unpage          $(DESTDIR)$(prefix)/bin/gri_unpage
-	$(INSTALL_PROGRAM) $(srcdir)/gri_merge           $(DESTDIR)$(prefix)/bin/gri_merge
+	mkdir -m 755 -p                                 $(DESTDIR)$(prefix)/bin
+	$(INSTALL_SCRIPT) $(srcdir)/gri_unpage          $(DESTDIR)$(prefix)/bin/gri_unpage
+	$(INSTALL_SCRIPT) $(srcdir)/gri_merge           $(DESTDIR)$(prefix)/bin/gri_merge
 
 install-data-local:
 if OS_IS_FINK
