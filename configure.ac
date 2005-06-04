@@ -282,7 +282,6 @@ define(CHECK_FOR_NETCDF, [
 	AM_CXXFLAGS="$AM_CXXFLAGS -I/opt/netcdf/include"
         EXTRA_CFLAGS_TEMPLATE="$EXTRA_CFLAGS_TEMPLATE -I/opt/netcdf/include"
         DEFS="$DEFS -I/opt/netcdf/include"
-dnl BUG: FIX THIS BY DUPLICATING BELOW; ALSO REMOVE EXTRA_CFLAGS
         LIBS="$LIBS -L/opt/netcdf/lib -lnetcdf"
 	if test $gri_cv_is_sun = yes ; then
 	    LIBS="$LIBS -lnsl"
@@ -304,7 +303,7 @@ dnl BUG: FIX THIS BY DUPLICATING BELOW; ALSO REMOVE EXTRA_CFLAGS
 	    # Linux/debian often has it here.
 	    if test -f /usr/include/netcdf.h ; then
                 AM_CXXFLAGS="$AM_CXXFLAGS -I/usr/include/netcdf"
-                EXTRA_CFLAGS_TEMPLATE="$EXTRA_CFLAGS_TEMPLATE -I/opt/netcdf/include"
+                EXTRA_CFLAGS_TEMPLATE="$EXTRA_CFLAGS_TEMPLATE -I/usr/include"
                 LIBS="$LIBS -L/usr/lib/netcdf -lnetcdf"
                 if test $gri_cv_is_sun = yes ; then
                     LIBS="$LIBS -lnsl"
@@ -314,7 +313,7 @@ dnl BUG: FIX THIS BY DUPLICATING BELOW; ALSO REMOVE EXTRA_CFLAGS
             else
 		if test -f /boot/home/lib/netcdf ; then
 		    AM_CXXFLAGS="$AM_CXXFLAGS -I/boot/home/include/netcdf"
-                    EXTRA_CFLAGS_TEMPLATE="$EXTRA_CFLAGS_TEMPLATE -I/opt/netcdf/include"
+                    EXTRA_CFLAGS_TEMPLATE="$EXTRA_CFLAGS_TEMPLATE -I/boot/home/include/netcdf"
 		    LIBS="$LIBS -L/boot/home/lib/netcdf -lnetcdf"
                     if test $gri_cv_is_sun = yes ; then
 			LIBS="$LIBS -lnsl"
