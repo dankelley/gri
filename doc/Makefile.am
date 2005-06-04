@@ -98,7 +98,7 @@ html-install:
 	$(INSTALL_DATA) $(srcdir)/examples/*.dat      $(EXAMPLES_DIR)
 	$(INSTALL_DATA) $(srcdir)/examples/*.gri      $(EXAMPLES_DIR)
 	$(INSTALL_DATA) $(srcdir)/examples/e*.ps      $(EXAMPLES_DIR)
-	$(INSTALL_PROGRAM) $(srcdir)/examples/FEM.pl  $(EXAMPLES_DIR)
+	$(INSTALL_SCRIPT) $(srcdir)/examples/FEM.pl  $(EXAMPLES_DIR)
 	(cd $(HTML_DIR); rm -rf examples ; ln -sf ../examples)
 
 # Sun Jun  8 11:40:52 UTC 2003  [Dan Kelley]
