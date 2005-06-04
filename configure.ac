@@ -292,7 +292,7 @@ dnl BUG: FIX THIS BY DUPLICATING BELOW; ALSO REMOVE EXTRA_CFLAGS
     else
 	if test -f /usr/local/include/netcdf.h ; then
 	    AM_CXXFLAGS="$AM_CXXFLAGS -I/usr/local/include"
-            EXTRA_CFLAGS_TEMPLATE="$EXTRA_CFLAGS_TEMPLATE -I/opt/netcdf/include"
+            EXTRA_CFLAGS_TEMPLATE="$EXTRA_CFLAGS_TEMPLATE -I/usr/local/include"
 	    LIBS="$LIBS -L/usr/local/lib -lnetcdf"
             if test $gri_cv_is_sun = yes ; then
 		LIBS="$LIBS -lnsl"
