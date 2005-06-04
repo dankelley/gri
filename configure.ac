@@ -181,6 +181,22 @@ dnl
 IS_THIS_AN_HPUX_SYSTEM
 
 
+dnl     See if NetBSD computer
+AC_DEFUN([DEK_IS_NETBSD],
+AC_MSG_CHECKING(for NetBSD system)
+AC_CACHE_VAL(gri_cv_is_netbsd, [
+AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([$0], [AC_HEADER_EGREP])AC_BEFORE([$0], [AC_TEST_CPP])AC_EGREP_CPP(yes,
+[#ifdef __NetBSD__
+  yes
+#endif
+], gri_cv_is_netbsd=yes, gri_cv_is_netbsd=no)])
+    AC_MSG_RESULT($gri_cv_is_netbsd)
+    if test $gri_cv_is_netbsd = yes; then
+        AC_DEFINE(IS_NETBSD)
+    fi
+)dnl
+dnl
+DEK_IS_NETBSD
 
 dnl     See if SUN computer
 AC_DEFUN([DEK_IS_SUN],
