@@ -145,6 +145,23 @@ AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([
 dnl
 IS_THIS_A_BEOS_SYSTEM
 
+dnl     See if FreeBSD computer
+AC_DEFUN([DEK_IS_FREEBSD],
+AC_MSG_CHECKING(for FreeBSD system)
+AC_CACHE_VAL(gri_cv_is_freebsd, [
+AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([$0], [AC_HEADER_EGREP])AC_BEFORE([$0], [AC_TEST_CPP])AC_EGREP_CPP(yes,
+[#ifdef __FreeBSD__
+  yes
+#endif
+], gri_cv_is_freebsd=yes, gri_cv_is_freebsd=no)])
+    AC_MSG_RESULT($gri_cv_is_freebsd)
+    if test $gri_cv_is_freebsd = yes; then
+        AC_DEFINE(IS_FREEBSD)
+    fi
+)dnl
+dnl
+DEK_IS_FREEBSD
+
 
 dnl     See if HPUX system
 AC_DEFUN([IS_THIS_AN_HPUX_SYSTEM],
