@@ -21,9 +21,25 @@ What Gri is
 Compiling and Installing Gri
 ============================
  
-See full instructions at the URL:
+The normal case is to have received the Gri source as a so-called
+"tarball".  If that is how you got Gri, then you should type
+	./configure
+	make
+	make install
+at the shell to create and install Gri.  The first two steps are
+likely to take a little while.
 
-  http://gri.sourceforge.net/gridoc/html/Access.html#Installation
+A less normal case is to have received Gri from the CVS server.  This
+is the method used by co-developers or packagers, and also by folks
+who are testing pre-release versions.  In this case, you need to type
+	aclocal
+	autoconf
+	automake
+first to create some configuration files, and then you type
+	./configure
+	make
+	make install
+as usual.
 
 
 Copyright restrictions
