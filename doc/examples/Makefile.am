@@ -83,9 +83,9 @@ GRI = gri -y -p
 #	$(GRI) $<
 
 old_all_target:
-	make eps
-	make html
-	make png
+	${MAKE} eps
+	${MAKE} html
+	${MAKE} png
 
 pdf: FEM.pdf example1.pdf example2.pdf example3.pdf example4.pdf \
  example5.pdf example6.pdf example6histogram.pdf \
