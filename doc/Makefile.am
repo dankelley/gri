@@ -51,8 +51,8 @@ EXTRA_DIST = \
  mdate-sh
 
 html: $(srcdir)/gri.texi
-	cd examples ; make
-	cd tst_suite ; make
+	cd examples ; ${MAKE}
+	cd tst_suite ; ${MAKE}
 # 	Make the info page (even if rewritten later) to get indices ...
 	$(MAKEINFO) $(AM_MAKEINFOFLAGS) $(MAKEINFOFLAGS) -I$(srcdir) gri.texi
 #	... but this is clumsy and should be done with a dependency.
@@ -74,7 +74,7 @@ install-refcards:
 	$(INSTALL_DATA) cmdrefcard.ps $(CARD_DIR)
 
 html-tar:
-	make html-install DOC_DIR=./gridoc
+	${MAKE} html-install DOC_DIR=./gridoc
 	tar -c -f gridoc.tar ./gridoc
 	gzip -f --best gridoc.tar
 
@@ -133,9 +133,9 @@ cmdrefcard.ps: cmdrefcard.tex
 	dvips -o cmdrefcard.ps -t landscape -t letter cmdrefcard.dvi
 
 gri.ps: gri.texi
-	cd examples    ; make eps
-	cd screenshots ; make eps
-	cd tst_suite   ; make texi
+	cd examples    ; ${MAKE} eps
+	cd screenshots ; ${MAKE} eps
+	cd tst_suite   ; ${MAKE} texi
 	tex gri.texi
 	texindex gri.cp
 	texindex gri.fn
@@ -152,9 +152,9 @@ gri.ps: gri.texi
 #	$(INSTALL) -m 644 gri.ps $(DOC_DIR)
 
 gri.pdf: gri.texi
-	cd examples    ; make pdf
-	cd screenshots ; make pdf
-	cd tst_suite   ; make texi
+	cd examples    ; ${MAKE} pdf
+	cd screenshots ; ${MAKE} pdf
+	cd tst_suite   ; ${MAKE} texi
 	pdftex gri.texi
 	texindex gri.cp
 	texindex gri.fn
@@ -166,7 +166,7 @@ gri.pdf: gri.texi
 
 # Add to some of the automake-created targets.
 all-local: refcard.ps cmdrefcard.ps
-	make html
+	${MAKE} html
 if OS_IS_LINUX_REDHAT
 gri_manpage_name = gri-manpage-redhat.1
 else
@@ -174,7 +174,7 @@ gri_manpage_name = gri-manpage.1
 endif
 
 install-data-local:
-	make html-install
+	${MAKE} html-install
 	$(INSTALL) -m 644 $(srcdir)/../license.txt         $(DOC_DIR)
 if !OS_IS_LINUX_REDHAT
 #       This is handled by gri.spec [2003-may-31 Dan Kelley]
