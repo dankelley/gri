@@ -286,11 +286,8 @@ GRI_DETERMINE_ENDIAN
 AC_CHECK_HEADERS(unistd.h)
 
 
-dnl     Check for netcdf library.  It might be
-dnl	in one of several places, so check
-dnl	several locations, reporting location
-dnl	if found.
-AC_MSG_CHECKING(for netcdf library)
+dnl Check for netcdf library.  It might be in one of several places,
+dnl so check several locations, reporting the location if found.
 define(CHECK_FOR_NETCDF, [
   AC_MSG_CHECKING(for netcdf library)
   for d in /opt/netcdf /usr/local /usr; do
@@ -303,9 +300,10 @@ define(CHECK_FOR_NETCDF, [
 	    LIBS="$LIBS -lnsl"
 	 fi
 	 AC_DEFINE(HAVE_LIBNETCDF)
-	 AC_MSG_RESULT("yes, in $d/include/netcdf.h and $d/lib/libnetcdf.a")
+	 AC_MSG_RESULT(yes, in $d/include/netcdf.h and $d/lib/libnetcdf.a)
       fi
   done
+  AC_MSG_RESULT(done)
 ])dnl
 dnl
 CHECK_FOR_NETCDF
