@@ -5,17 +5,15 @@ What Gri is
  I mean that it is a command-driven application, as opposed to a
  click/point application.  It is analogous to latex or tex, and shares
  the property that extensive power is the reward for tolerating a
- modest learning curve.  Gri output is in industry-standard PostScript,
- suitable for incorporation in documents prepared by various text
- processors.
+ learning curve.  Gri output is in PostScript, suitable for 
+ incorporation in documents prepared by various text processors.
 
  Gri can make x-y graphs, contour-graphs, and image graphs.  In
  addition to high-level capabilities, it has enough low-level
  capabilities to allow users to achieve a high degree of customization.
- Precise control is extended to all aspects of drawing, including
- line-widths, colors, and fonts.  Text includes a subset of the tex
- language, so that it is easy to incorporate Greek letters and
- mathematical symbols in labels.
+ Control is extended to all aspects of drawing, including
+ line widths, colors, and fonts.  Text includes a subset of the tex
+ language for letters and mathematical symbols in labels.
 
 
 Compiling and Installing Gri
@@ -26,10 +24,9 @@ The normal case is to have received the Gri source as a so-called
 	./configure
 	make
 	make install
-at the shell to create and install Gri.  The first two steps are
-likely to take a little while.
+at the shell to create and install Gri.  
 
-A less normal case is to have received Gri from the CVS server.  This
+A less common case is to have received Gri from the CVS server.  This
 is the method used by co-developers or packagers, and also by folks
 who are testing pre-release versions.  In this case, you need to type
 	aclocal
@@ -46,10 +43,10 @@ Copyright restrictions
 ======================
 
  The Gri programming languages, and all manuals and online help-files,
- are (c) 1991-2004 Dan E. Kelley <Dan.Kelley@Dal.CA>.
+ are (c) 1991-2005 Dan E. Kelley <Dan.Kelley@Dal.CA>.
 
  Gri includes a pared-down form of the popt library which in its
- original form is (c) 1998 Red Had Software and distrubuted under the
+ original form is (c) 1998 Red Had Software and distributed under the
  X license.
 
  The Gri Emacs mode (gri-mode.el) is (c) 1994-2005 Peter S. Galbraith
