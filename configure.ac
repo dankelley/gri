@@ -303,7 +303,7 @@ define(CHECK_FOR_NETCDF, [
 	    LIBS="$LIBS -lnsl"
 	 fi
 	 AC_DEFINE(HAVE_LIBNETCDF)
-	 echo "yes (in $d/include/netcdf.h and $d/lib/libnetcdf.a)"
+	 AC_MSG_RESULT("yes, in $d/include/netcdf.h and $d/lib/libnetcdf.a")
       fi
   done
 ])dnl
