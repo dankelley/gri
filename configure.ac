@@ -292,9 +292,7 @@ dnl	several locations, reporting location
 dnl	if found.
 AC_MSG_CHECKING(for netcdf library)
 define(CHECK_FOR_NETCDF, [
-
-
-+ AC_MSG_CHECKING(for netcdf library)
+  AC_MSG_CHECKING(for netcdf library)
   for d in /opt/netcdf /usr/local /usr; do
       if test -f $d/include/netcdf.h; then
 	 AM_CXXFLAGS="$AM_CXXFLAGS -I$d/include"
