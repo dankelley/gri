@@ -16471,6 +16471,10 @@ only in the fixing of bugs.
 @itemize @bullet
 
 @item
+Port to the @uref{http://www.freebsd.org/,FreeBSD} operating system,
+with help from Christopher Illies and Roman Neuhauser.
+
+@item
 Fix SourceForge bug
 @uref{http://sourceforge.net/tracker/index.php?func=detail&aid=1196613&group_id=5511&atid=105511,#1196613}
 @dots{} user-supplied x-axis labels can run offscale (fix for y-axis later...)
@@ -18946,6 +18950,9 @@ Peter Galbraith,
 Dave Hebert,
 @cindex Dave Hebert (contributer)
 @cindex contributer, Dave Hebert
+Christopher Illies,
+@cindex Christopher Illies (contributer)
+@cindex contributer, Christopher Illies
 Alejandro López-Valencia,
 @cindex Alejandro Lopez-Valencia (contributer)
 @cindex contributer, Alejandro Lopez-Valencia
@@ -18961,6 +18968,9 @@ Brian May,
 Ed Nather,
 @cindex Ed Nather (contributer)
 @cindex contributer, Ed Nather
+Roman Neuhauser,
+@cindex Roman Neuhauser (contributer)
+@cindex contributer, Roman Neuhauser
 Carl Osterwisch,
 @cindex Carl Osterwisch (contributer)
 @cindex contributer, Carl Osterwisch
