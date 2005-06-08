@@ -292,56 +292,22 @@ dnl	several locations, reporting location
 dnl	if found.
 AC_MSG_CHECKING(for netcdf library)
 define(CHECK_FOR_NETCDF, [
-    if test -d /opt/netcdf/include ; then
-	#
-	# Solaris often has it here
-	AM_CXXFLAGS="$AM_CXXFLAGS -I/opt/netcdf/include"
-        EXTRA_CFLAGS_TEMPLATE="$EXTRA_CFLAGS_TEMPLATE -I/opt/netcdf/include"
-        DEFS="$DEFS -I/opt/netcdf/include"
-        LIBS="$LIBS -L/opt/netcdf/lib -lnetcdf"
-	if test $gri_cv_is_sun = yes ; then
+
+
++ AC_MSG_CHECKING(for netcdf library)
+  for d in /opt/netcdf /usr/local /usr; do
+      if test -f $d/include/netcdf.h; then
+	 AM_CXXFLAGS="$AM_CXXFLAGS -I$d/include"
+	 EXTRA_CFLAGS_TEMPLATE="$EXTRA_CFLAGS_TEMPLATE -I$d/include"
+	 DEFS="$DEFS -I$d/include"
+	 LIBS="$LIBS -L$d/lib -lnetcdf"
+	 if test $gri_cv_is_sun = yes ; then
 	    LIBS="$LIBS -lnsl"
-	fi
-	AC_DEFINE(HAVE_LIBNETCDF)
-        echo "yes (in /opt/netcdf/include/netcdf.h and /opt/netcdf/lib/libnetcdf.a)"
-    else
-	if test -f /usr/local/include/netcdf.h ; then
-	    AM_CXXFLAGS="$AM_CXXFLAGS -I/usr/local/include"
-            EXTRA_CFLAGS_TEMPLATE="$EXTRA_CFLAGS_TEMPLATE -I/usr/local/include"
-	    LIBS="$LIBS -L/usr/local/lib -lnetcdf"
-            if test $gri_cv_is_sun = yes ; then
-		LIBS="$LIBS -lnsl"
-	    fi
-	    AC_DEFINE(HAVE_LIBNETCDF)
-            echo "yes (in /usr/local/include/netcdf.h and /usr/local/lib/libnetcdf.a)"
-	else
-	    #
-	    # Linux/debian often has it here.
-	    if test -f /usr/include/netcdf.h ; then
-                AM_CXXFLAGS="$AM_CXXFLAGS -I/usr/include/netcdf"
-                EXTRA_CFLAGS_TEMPLATE="$EXTRA_CFLAGS_TEMPLATE -I/usr/include"
-                LIBS="$LIBS -L/usr/lib/netcdf -lnetcdf"
-                if test $gri_cv_is_sun = yes ; then
-                    LIBS="$LIBS -lnsl"
-                fi
-                AC_DEFINE(HAVE_LIBNETCDF)
-                echo "yes (in /usr/include/netcdf.h and /usr/lib/libnetcdf.a)"
-            else
-		if test -f /boot/home/lib/netcdf ; then
-		    AM_CXXFLAGS="$AM_CXXFLAGS -I/boot/home/include/netcdf"
-                    EXTRA_CFLAGS_TEMPLATE="$EXTRA_CFLAGS_TEMPLATE -I/boot/home/include/netcdf"
-		    LIBS="$LIBS -L/boot/home/lib/netcdf -lnetcdf"
-                    if test $gri_cv_is_sun = yes ; then
-			LIBS="$LIBS -lnsl"
-		    fi
-                    echo "yes (in /boot/home/netcdf)"
-		    AC_DEFINE(HAVE_LIBNETCDF)
-		else
-	            echo "no"
-		fi
-            fi
-        fi
-    fi
+	 fi
+	 AC_DEFINE(HAVE_LIBNETCDF)
+	 echo "yes (in $d/include/netcdf.h and $d/lib/libnetcdf.a)"
+      fi
+  done
 ])dnl
 dnl
 CHECK_FOR_NETCDF
