@@ -16477,6 +16477,11 @@ with help from Christopher Illies and Roman Neuhauser.
 
 @item
 Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=1217273&group_id=5511&atid=105511,#1217273}
+@dots{} missing some version numbers within docs
+
+@item
+Fix SourceForge bug
 @uref{http://sourceforge.net/tracker/index.php?func=detail&aid=1196613&group_id=5511&atid=105511,#1196613}
 @dots{} user-supplied x-axis labels can run offscale (fix for y-axis later...)
 
