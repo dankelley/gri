@@ -90,6 +90,14 @@ Copyright @copyright{} 1991-2005 Dan Kelley
 @comment node-name, next, previous, up
 @top Gri
 @c HTML <!--
+
+Gri is an extensible plotting language designed for scientists.  It can
+draw x-y plots, contour plots, and image plots, and has rudimentary
+programming capabilities.  It is not mouse driven, nor gui-based;
+rather, it is an interpreted scriping language.  Users regard it as an
+analogue to the latex document formatting language: users gain
+considerable power, at the price of a moderate learning curve.
+
 This manual describes Gri version
 @value{VERSION} @c , updated @value{UPDATED},
 (c) 1991-2005, 
@@ -98,14 +106,7 @@ Dan Kelley at email address
 @value{AUTHOR-EMAIL}
 @c HTML </A>
 
-Licensing follows the GNU Public License (@ref{License}).
-
-Gri is an extensible plotting language designed for scientists.  It can
-draw x-y plots, contour plots, and image plots, and has rudimentary
-programming capabilities.  It is not mouse driven, nor gui-based;
-rather, it is an interpreted scriping language.  Users regard it as an
-analogue to the latex document formatting language: users gain
-considerable power, at the price of a moderate learning curve.
+Gri is released with the GNU Public License (@ref{License}).
 
 @c HTML -->
 
