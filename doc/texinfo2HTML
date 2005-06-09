@@ -80,18 +80,21 @@ $last_was_node = 0;
 print "<!-- Created automatically from texinfo source -->\n";
 print "<!-- $date -->\n";
 sub get_a_line() {
-    $_ = <>;
-    s/\@noindent//;
-    if (/^\@c\s*HTML\s*<!--\s*$/) {
-	while(<>) {
-	    #print STDERR "SKIPPING $_";
-	    if (/^\@c\s*HTML\s*-->\s*$/) {
-		$_ = <>;
-		return $_;
+    if ($_=<>) {
+	s/\@noindent//;
+	if (/^\@c\s*HTML\s*<!--\s*$/) {
+	    while(<>) {
+		#print STDERR "SKIPPING $_";
+		if (/^\@c\s*HTML\s*-->\s*$/) {
+		    $_ = <>;
+		    return $_;
+		}
 	    }
 	}
+	return $_;
+    } else {
+	return "";
     }
-    return $_;
 }
 while(get_a_line()) {
     $line++ if $debug;
