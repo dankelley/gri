@@ -99,7 +99,7 @@ analogue to the latex document formatting language: users gain
 considerable power, at the price of a moderate learning curve.
 
 This manual describes Gri version
-@value{VERSION} @c , updated @value{UPDATED},
+@value{GRI-VERSION} @c , updated @value{UPDATED},
 (c) 1991-2005, 
 Dan Kelley at email address 
 @c HTML <A HREF="mailto:Dan.Kelley@Dal.CA"> 
@@ -125,7 +125,7 @@ Gri is released with the GNU Public License (@ref{License}).
 @c HTML <A HREF="ContourPlots.html">contour plots</A>, and
 @c HTML <A HREF="Images.html">image plots</A>.
 @c HTML <p>
-@c HTML This document describes Gri @value{VERSION},
+@c HTML This document describes Gri @value{GRI-VERSION},
 @c HTML <br>(c) 1991-2005 <A HREF="http://www.phys.ocean.dal.ca/~kelley"> Dan Kelley.</A>
 @comment HTML Gri is distributed
 @comment HTML with a <A HREF="License.html">license</A> that permits 
@@ -298,12 +298,12 @@ When you launch Gri interactively (without naming a commandfile, i.e. by
 just typing @code{gri} at the unix prompt), you'll see something like
 
 @example
- gri - scientific graphic program (version @value{VERSION})
+ gri - scientific graphic program (version @value{GRI-VERSION})
  GPL Copyright 2005 by Dan E. Kelley.
 
  Type `help' for an overview of Gri commands, or see the
  full manual at
-     /usr/share/doc/gri-@value{VERSION}/html/index.html
+     /usr/share/doc/gri-@value{GRI-VERSION}/html/index.html
  and its text-only version in the 'gri' INFO node.  
 
  Visit http://gri.sourceforge.net for updates and resources.
@@ -590,7 +590,7 @@ report an error and die if it cannot find this file.)  If this switch is
 not provided -- and it is normally not -- then Gri looks for
 @file{gri.cmd} in a standard system directory (sometimes,
 but not always,
-@file{/usr/local/share/gri/@value{VERSION}}) which was specified 
+@file{/usr/local/share/gri/@value{GRI-VERSION}}) which was specified 
 during the compilation of the Gri program itself.  For more on how Gri looks
 for @file{gri.cmd}, see the subsection below.
 
@@ -15827,8 +15827,8 @@ or a @strong{Red Hat} package users can skip this, as it is done
 for them)
 
 You may skip this section if gri is installed on your system as
-@file{/usr/local/bin/gri-@value{VERSION}} and
-@file{/usr/local/share/gri/@value{VERSION}/gri.cmd} (the default
+@file{/usr/local/bin/gri-@value{GRI-VERSION}} and
+@file{/usr/local/share/gri/@value{GRI-VERSION}/gri.cmd} (the default
 when compiling gri yourself).  If not, then you may need to set the Emacs
 variable @code{gri*directory-tree} in a startup file such as in your
 @file{~/.emacs} file.
@@ -15837,8 +15837,8 @@ The Emacs variable @code{gri*directory-tree} is used to configure
 gri-mode to tell it where Gri is installed on your system. For the
 default gri installation paths used in this gri release, gri-mode
 expects to find the gri executable and the file gri.cmd as:
-@code{gri*directory-tree/@value{VERSION}/gri.cmd}
-and @code{/usr/local/bin/gri-}@value{VERSION}
+@code{gri*directory-tree/@value{GRI-VERSION}/gri.cmd}
+and @code{/usr/local/bin/gri-}@value{GRI-VERSION}
 where @code{gri*directory-tree} is by default set to
 @file{/usr/local/share/gri/}.
 
@@ -17817,19 +17817,19 @@ to write a tiny shellscript that calls this particular executable with
 this particular library file.  For example, you might do the following
 
 @example
-mkdir -m 755 -p           /usr/local/share/gri/@value{VERSION}
-cp /usr/bin/gri           /usr/local/share/gri/@value{VERSION}
-cp /usr/share/gri/gri.cmd /usr/local/share/gri/@value{VERSION}
+mkdir -m 755 -p           /usr/local/share/gri/@value{GRI-VERSION}
+cp /usr/bin/gri           /usr/local/share/gri/@value{GRI-VERSION}
+cp /usr/share/gri/gri.cmd /usr/local/share/gri/@value{GRI-VERSION}
 @end example
 
 @noindent
 and then create a shellscript called
-@file{/usr/local/bin/gri-@value{VERSION}} containing
+@file{/usr/local/bin/gri-@value{GRI-VERSION}} containing
 
 @example
 #!/usr/bin/sh
-/usr/local/share/gri/@value{VERSION}/gri \
-    -directory /usr/local/share/gri/@value{VERSION} \
+/usr/local/share/gri/@value{GRI-VERSION}/gri \
+    -directory /usr/local/share/gri/@value{GRI-VERSION} \
     "$@@"
 @end example
 
@@ -17878,14 +17878,14 @@ switch when you see that you can install Gri by clicking an icon in a
 window, or by typing, e.g. in RedHat linux:
 
 @example
-rpm -i gri-@value{VERSION}
+rpm -i gri-@value{GRI-VERSION}
 @end example
 
 Debian-linux installation may be done with any of several GUI-based
 tools, or with the following system command:
 
 @example
-dkpg -i gri_@value{VERSION}-1_i386.deb
+dkpg -i gri_@value{GRI-VERSION}-1_i386.deb
 @end example
 
 @noindent
@@ -17904,12 +17904,12 @@ apt-get install gri
 @subsection Pre-compiled unix versions
 Pre-compiled versions of Gri exist for various computers, e.g. SPARC
 (both sunOS and solaris), IBM-RS, Sequent, and Linux.  The following
-instructions, which assume a version number @value{VERSION}, and a
+instructions, which assume a version number @value{GRI-VERSION}, and a
 SPARC solaris machine, show how to install these.
 
 The compressed tar file, with a name like
-@file{gri-binary-SunOS5-@value{VERSION}.tar.gz} (in this example a
-Sun OS 5 binary is assumed, with gri version number @value{VERSION})
+@file{gri-binary-SunOS5-@value{GRI-VERSION}.tar.gz} (in this example a
+Sun OS 5 binary is assumed, with gri version number @value{GRI-VERSION})
 contains a directory which holds the executable Gri file, @file{gri},
 the library file @file{gri.cmd}, an instructions file, @file{README},
 and a Makefile to install Gri.
@@ -17921,19 +17921,19 @@ Here's how to install Gri, starting with this tar file:
 First, uncompress (unzip) the file, and un-tar it, by doing
 
 @example
-gunzip -c gri-binary-SunOS5-@value{VERSION}.tar.gz | tar xvf -
+gunzip -c gri-binary-SunOS5-@value{GRI-VERSION}.tar.gz | tar xvf -
 @end example
 
 @noindent
 or
 
 @example
-zcat gri-binary-SunOS5-@value{VERSION}.tar.gz | tar xvf -
+zcat gri-binary-SunOS5-@value{GRI-VERSION}.tar.gz | tar xvf -
 @end example
 
 @noindent
 This will yield a new directory, with a name like
-@file{gri-binary-SunOS5-@value{VERSION}}, which contains the
+@file{gri-binary-SunOS5-@value{GRI-VERSION}}, which contains the
 indicated files.
 @item
 Follow the instructions in the @file{README} file to install Gri.
@@ -17973,20 +17973,20 @@ directory, to which you must add the package @file{build-essential}.
 Type 
 
 @example
-gunzip gri-@value{VERSION}.tgz
-tar xvf gri-@value{VERSION}.tar
+gunzip gri-@value{GRI-VERSION}.tgz
+tar xvf gri-@value{GRI-VERSION}.tar
 @end example
 
 @noindent
 (or similar commands) to uncompress and untar the contents.  This will
-yield a new directory named @file{gri-@value{VERSION}} which
+yield a new directory named @file{gri-@value{GRI-VERSION}} which
 contains many files.
 
 
 @item Move to the Gri directory
 
 @example
-cd gri-@value{VERSION}
+cd gri-@value{GRI-VERSION}
 @end example
 
 
@@ -18024,7 +18024,7 @@ ignore these results.
 As an example, typing @code{./configure} without a @code{--prefix}
 option yields the directory tree (@code{...} indicates several files not
 displayed in this list, for brevity).  In this example,
-the most up-to-date version is @value{VERSION}, but a previous
+the most up-to-date version is @value{GRI-VERSION}, but a previous
 version @value{GRI-PREVIOUS-VERSION} has also been retained.  (Note that
 only one copy of the documentation is retained; this is all that's
 needed, since old versions are documented there as well as new
@@ -18033,8 +18033,8 @@ versions.)
 @example
 /usr/local
 |-- bin
-|   |-- gri -> gri-@value{VERSION}
-|   |-- gri-@value{VERSION}
+|   |-- gri -> gri-@value{GRI-VERSION}
+|   |-- gri-@value{GRI-VERSION}
 |   |-- gri-@value{GRI-PREVIOUS-VERSION}
 |   |-- gri_merge
 |   `-- gri_unpage
