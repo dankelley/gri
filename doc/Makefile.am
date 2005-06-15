@@ -25,11 +25,19 @@ if OS_IS_FINK
            HTML_DIR = $(DOC_DIR)/html
        EXAMPLES_DIR = $(DOC_DIR)/examples
 else
+if OS_IS_FREEBSD
+            MAN_DIR = $(DESTDIR)$(prefix)/man/man1
+           INFO_DIR = $(DESTDIR)$(prefix)/info
+            DOC_DIR = $(DESTDIR)$(prefix)/share/doc/gri
+           HTML_DIR = $(DOC_DIR)/html
+       EXAMPLES_DIR = $(DESTDIR)$(prefix)/share/examples/gri
+else
             MAN_DIR = $(DESTDIR)$(prefix)/share/man/man1
            INFO_DIR = $(DESTDIR)$(prefix)/share/info
             DOC_DIR = $(DESTDIR)$(prefix)/share/gri/doc
            HTML_DIR = $(DOC_DIR)/html
        EXAMPLES_DIR = $(DOC_DIR)/examples
+endif
 endif
 endif
 endif
