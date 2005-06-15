@@ -381,6 +381,16 @@ AC_ARG_ENABLE(OSX,
 esac],[debug=false])
 AM_CONDITIONAL(OS_IS_APPLE_OSX, test x$OSX = xtrue)
 
+dnl See if the user did   "configure --enable-FreeBSD"
+AC_ARG_ENABLE(FreeBSD,
+[  --enable-FreeBSD    Build for FreeBSD],
+[case "${enableval}" in
+  yes) FreeBSD=true ;;
+  no)  FreeBSD=false ;;
+  *) AC_MSG_ERROR(bad value ${enableval} for --enable-FreeBSD) ;;
+esac],[debug=false])
+AM_CONDITIONAL(OS_IS_FREEBSD, test x$FreeBSD = xtrue)
+
 dnl See if the user did   "configure --enable-FINK"
 AC_ARG_ENABLE(FINK,
 [  --enable-FINK    Build for FINK],
