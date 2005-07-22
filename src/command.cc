@@ -262,8 +262,8 @@ void
 no_gri_cmd(const char *msg_postscript)
 {
 	std::string msg("ERROR: Gri can't locate the `gri.cmd' file\n");
-	msg.append("You need to tell Gri the directory containing this file,\n");
-	msg.append("  and there are three ways to do this:\n");
+	msg.append("You need to tell Gri the directory containing this file.\n");
+	msg.append("Three ways to do this:\n");
 	msg.append("    (1) Name the directory when you invoke Gri, e.g.\n");
 	msg.append("            gri -directory /usr/share/gri/lib\n");
 	msg.append("    (2) Set an environment variable named GRI_DIRECTORY_LIBRARY\n");
@@ -275,7 +275,7 @@ no_gri_cmd(const char *msg_postscript)
 	msg.append(");\n");
 	char wd[1024], *ptr = wd;
 	ptr = getcwd(ptr,1023);
-	msg.append("DEBUG INFOR FOR DEVELOPER: working direstory is '");	msg.append(ptr);msg.append("'\n");
+	msg.append("DEBUG INFO FOR DEVELOPER: working direstory is '");	msg.append(ptr);msg.append("'\n");
 	gr_textput(msg.c_str());
 	gri_exit(1);
 }
