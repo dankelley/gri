@@ -8,10 +8,19 @@ CASE 1: (gri sources that came from a "tarball")
         make
         make check
         make install
-    Note that you will require root privileges for the installation step.
+
     If you wish to control the location in which Gri is installed, use a
     "prefix" command at the configure stage, e.g.
         ./configure --prefix=/opt
+
+    There are also some special flags; read the configure.ac file to
+    learn about them.  One that the author is working on lately
+    is exemplified
+        --enable-OSX_BUNDLE
+    which is used to cause Gri to look for gri.cmd in the same directory
+    as the executable.  This is the first step to a proper OSX bundle.
+    Later on
+
 
 CASE 2: (gri sources from the "CVS" server at http://gri.sourceforge.net)
     Do the following:

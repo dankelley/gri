@@ -158,6 +158,10 @@ start_up(int argc, char **argv)
 	for (int i = 0; i < argc; i++) printf("DEBUG:                     '%s'\n", argv[i]);
 #endif
 */
+#ifdef OSX_BUNDLE
+	//printf("%s:%d IS AN OSX BUNDLE\n",__FILE__,__LINE__);
+#endif
+
 	_output_file_type = postscript;
 	// Record version number
 	int major_version, minor_version, minor_minor_version;
@@ -205,8 +209,8 @@ start_up(int argc, char **argv)
         } else {
 		fatal_err("OSX error: cannot find slash in argv[0]\n");
         }
-        printf("%s:%d: _lib_directory '%s' in OSX bundle\n", __FILE__, __LINE__, _lib_directory.c_str());
-		  printf("%s:%d: NOTE: this isnt in the right place.\n",__FILE__,__LINE__);
+        //printf("%s:%d: _lib_directory '%s' in OSX bundle\n", __FILE__, __LINE__, _lib_directory.c_str());
+	//printf("%s:%d: NOTE: this is not in the right place.\n",__FILE__,__LINE__);
         // BUG: the above is the wrong dir; I don't know yet how to do bundles.
 #endif
 
@@ -709,7 +713,9 @@ interpret_optional_arguments(int argc, char *argv[])
 	poptReadDefaultConfig(optCon, 0); // for aliasing ... this seems broken though
 	int arg;
 	extern char _gri_number[];
+#ifndef OSX_BUNDLE
 	_lib_directory.assign(DEFAULT_GRI_DIR);
+#endif
 	while ((arg = poptGetNextOpt(optCon)) > 0) {
 		const char *optArg = poptGetOptArg(optCon);
 		int ival;
@@ -875,7 +881,9 @@ interpret_optional_arguments(int argc, char *argv[])
 	// BUG: REMOVE THIS (LONG) BLOCK WHEN POPT IS FINALLY WORKING!
 	extern char     _gri_number[];
 	int             number_optional_arg = 0;
+#ifndef OSX_BUNDLE
 	_lib_directory.assign(DEFAULT_GRI_DIR);
+#endif
 	// Interpret optional [-] arguments if they exist.
 	if (argc > 1) {
 		int             i;

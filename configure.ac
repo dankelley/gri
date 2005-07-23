@@ -381,6 +381,17 @@ AC_ARG_ENABLE(OSX,
 esac],[debug=false])
 AM_CONDITIONAL(OS_IS_APPLE_OSX, test x$OSX = xtrue)
 
+
+dnl See if the user did   "configure --enable-OSX_BUNDLE"
+AC_ARG_ENABLE(OSX_BUNDLE,
+[  --enable-OSX_BUNDLE    Build for an OSX BUNDLE],
+[case "${enableval}" in
+  yes) OSX_BUNDLE=true ;;
+  no)  OSX_BUNDLE=false ;;
+  *) AC_MSG_ERROR(bad value ${enableval} for --enable-OSX_BUNDLE) ;;
+esac],[debug=false])
+AM_CONDITIONAL(OS_IS_OSX_BUNDLE, test x$OSX_BUNDLE = xtrue)
+
 dnl See if the user did   "configure --enable-FreeBSD"
 AC_ARG_ENABLE(FreeBSD,
 [  --enable-FreeBSD    Build for FreeBSD],
@@ -391,6 +402,7 @@ AC_ARG_ENABLE(FreeBSD,
 esac],[debug=false])
 AM_CONDITIONAL(OS_IS_FREEBSD, test x$FreeBSD = xtrue)
 
+>>>>>>> 1.25
 dnl See if the user did   "configure --enable-FINK"
 AC_ARG_ENABLE(FINK,
 [  --enable-FINK    Build for FINK],

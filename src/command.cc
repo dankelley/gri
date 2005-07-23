@@ -261,21 +261,23 @@ perform_new_command(const char *s)
 void
 no_gri_cmd(const char *msg_postscript)
 {
-	std::string msg("ERROR: Gri can't locate the `gri.cmd' file\n");
-	msg.append("You need to tell Gri the directory containing this file.\n");
-	msg.append("Three ways to do this:\n");
-	msg.append("    (1) Name the directory when you invoke Gri, e.g.\n");
-	msg.append("            gri -directory /usr/share/gri/lib\n");
-	msg.append("    (2) Set an environment variable named GRI_DIRECTORY_LIBRARY\n");
-	msg.append("        to the name of the directory.\n");
-	msg.append("    (3) Recompile Gri so it will know where to look by default (see\n");
-	msg.append("        the INSTALL file in the source directory for instructions).\n");
-	msg.append("DEBUG INFO FOR DEVELOPER: call was: no_gri_cmd(");
+	std::string msg;
+	msg.append("ERROR: Gri cannot locate the `gri.cmd' file.\n");
+	msg.append("       This file was expected to be at path\n           ");
 	msg.append(msg_postscript);
-	msg.append(");\n");
-	char wd[1024], *ptr = wd;
-	ptr = getcwd(ptr,1023);
-	msg.append("DEBUG INFO FOR DEVELOPER: working direstory is '");	msg.append(ptr);msg.append("'\n");
+	msg.append("\n");
+	msg.append("       This problem may be solved in 3 ways.\n");
+	msg.append("       (1) Name the directory when you invoke Gri, e.g.\n");
+	msg.append("              gri -directory /usr/share/gri/lib\n");
+	msg.append("       (2) Set an environment variable named GRI_DIRECTORY_LIBRARY\n");
+	msg.append("           to the name of the directory.\n");
+	msg.append("       (3) Recompile Gri so it will know where to look; see the\n");
+	msg.append("           INSTALL file in the source directory for instructions).\n");
+	//char wd[1024], *ptr = wd;
+	//ptr = getcwd(ptr,1023);
+	//msg.append("DEBUG INFO FOR DEVELOPER: in no_gri_cmd() the working directory is '");
+	//msg.append(ptr);
+	//msg.append("'\n");
 	gr_textput(msg.c_str());
 	gri_exit(1);
 }
@@ -302,10 +304,13 @@ create_commands(const char *filename, bool user_gave_directory)
 #ifdef OS_IS_OSX // MAC OSX
 	fullfilename = "/Applications/Gri/gri.cmd";
 #endif
-//	printf("DEBUG: looking for gri.cmd as <%s>\n",fullfilename.c_str());
+	//printf("DEBUG:%s:%d looking for gri.cmd as <%s>\n",__FILE__,__LINE__,fullfilename.c_str());
+	//printf("DEBUG:%s:%d user_gave_directory = %d\n",__FILE__,__LINE__,user_gave_directory);
+	//printf("DEBUG:%s:%d _lib_directory '%s'\n",__FILE__,__LINE__,_lib_directory.c_str());
 	if (!push_cmd_file(fullfilename.c_str(), false, false, "r")) {
-		if (user_gave_directory)
+		if (user_gave_directory) {
 			no_gri_cmd(fullfilename.c_str()); // exits
+		}
 		char *gri_directory_library = egetenv("GRI_DIRECTORY_LIBRARY");
 		if (*gri_directory_library == '\0')
 			no_gri_cmd(fullfilename.c_str()); // exits
