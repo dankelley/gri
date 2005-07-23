@@ -402,7 +402,6 @@ AC_ARG_ENABLE(FreeBSD,
 esac],[debug=false])
 AM_CONDITIONAL(OS_IS_FREEBSD, test x$FreeBSD = xtrue)
 
->>>>>>> 1.25
 dnl See if the user did   "configure --enable-FINK"
 AC_ARG_ENABLE(FINK,
 [  --enable-FINK    Build for FINK],
