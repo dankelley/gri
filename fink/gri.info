@@ -4,7 +4,7 @@ Revision: 1
 BuildDepends: imagemagick, tetex
 Depends:
 Source: mirror:sourceforge:%n/%n-%v.tgz
-Source-MD5: 975e7de4809dbcc3f7cfd5fca32d6161
+Source-MD5: 71ca51f765db91d4d45369f915585a42
 DocFiles: README doc/*html
 InfoDocs: gri.info gri.info-1 gri.info-2 gri.info-3
 Description: Scientific graphics language
