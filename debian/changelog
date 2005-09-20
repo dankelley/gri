@@ -1,7 +1,12 @@
-gri (2.12.10-1) UNRELEASED; urgency=low
+gri (2.12.10-1) unstable; urgency=low
 
   * New upstream release
     Bug Fixes:
+    - Fix SourceForge bug #1217273 (missing some version numbers within docs)
+    - Fix SourceForge bug #1196613 (user-supplied x-axis labels can run
+       offscale)
+    - Fix SourceForge bug #1198341 (x-axis labels incorrectly rotated)
+    - Fix SourceForge bug #1199280 (warning about `malloc' for RPN assignments)
     - Fix SourceForge bug #1101172 (`gri -help' incorrectly stated meaning
       of last argument(s)) (Closes: #290101)
     - Fix SourceForge bug #835711 (`draw gri logo' fails)
@@ -11,7 +16,7 @@ gri (2.12.10-1) UNRELEASED; urgency=low
     - Fix SourceForge bug #867515 (problem with junk appearing in images.)
     - Fix SourceForge bug #875881 (problem compiling with gcc 2.95.3 compiler)
 
- -- Peter S Galbraith <psg@debian.org>  Tue,  1 Mar 2005 22:40:38 -0500
+ -- Peter Galbraith <psg@debian.org>  Tue, 20 Sep 2005 11:30:48 -0400
 
 gri (2.12.9-2) unstable; urgency=low
 
