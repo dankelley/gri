@@ -209,7 +209,7 @@ start_up(int argc, char **argv)
         } else {
 		fatal_err("OSX error: cannot find slash in argv[0]\n");
         }
-        //printf("%s:%d: _lib_directory '%s' in OSX bundle\n", __FILE__, __LINE__, _lib_directory.c_str());
+        printf("%s:%d: _lib_directory '%s' in OSX bundle\n", __FILE__, __LINE__, _lib_directory.c_str());
 	//printf("%s:%d: NOTE: this is not in the right place.\n",__FILE__,__LINE__);
         // BUG: the above is the wrong dir; I don't know yet how to do bundles.
 #endif
