@@ -159,7 +159,7 @@ start_up(int argc, char **argv)
 #endif
 */
 #ifdef OSX_BUNDLE
-	//printf("%s:%d IS AN OSX BUNDLE\n",__FILE__,__LINE__);
+	printf("%s:%d IS AN OSX BUNDLE\n",__FILE__,__LINE__);
 #endif
 
 	_output_file_type = postscript;
