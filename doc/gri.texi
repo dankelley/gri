@@ -16472,6 +16472,11 @@ only in the fixing of bugs.
 @itemize @bullet
 
 @item
+Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=12851803&group_id=5511&atid=105511,#1285180}
+@dots{} NaN was mishandled.  (The bug may have arisen in version 2.12.7 or thereabouts.)
+
+@item
 Port to the @uref{http://www.freebsd.org/,FreeBSD} operating system,
 with help from Christopher Illies and Roman Neuhauser.
 

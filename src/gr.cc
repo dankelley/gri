@@ -1011,17 +1011,25 @@ gr_hsv2rgb(double h, double s, double v, double *r, double *g, double *b)
 bool
 gr_missing(double x)
 {
+        //printf("gr_missing(%lf) ... ",x);
 	if (_grMissingValueUsed) {
+	        //printf("GRI MISSING VALUE USED ... ");
 		if (_grMissingValue == 0.0)	// ignore tolerance if 0
 			return (x == 0.0);
-		if (x == _grMissingValue)	// speed up (?)
+		if (x == _grMissingValue) {	// speed up (?)
+		        //printf("GRI MISSING VALUE was exact match\n");
 			return true;
+		}
 		x = GRI_ABS(x - _grMissingValue);
-		if (x < _grMissingValue_tolerance)
+		if (x < _grMissingValue_tolerance) {
+		        //printf("GRI MISSING VALUE was match within tolerance\n");
 			return true;
-		else
+		} else {
+		        //printf("GRI MISSING VALUE no  match within tolerance\n");
 			return false;
+		}
 	} else {
+	        //printf("GRI MISSING VALUE no missing value used\n");
 		return false;
 	}
 }
@@ -1308,6 +1316,7 @@ gr_set_missing_value(double x)
 void
 gr_set_missing_value_none()
 {
+        printf("%s:%d TURNING OFF missing value.\n",__FILE__,__LINE__);
 	_grMissingValueUsed = false;
 }
 

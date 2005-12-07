@@ -1254,6 +1254,7 @@ draw_axes(int type, double loc, gr_axis_properties side, bool allow_offset)
 bool
 draw_curveCmd()
 {
+        //printf("%s:%d draw_curveCmd()...\n",__FILE__,__LINE__);
 	if (!_columns_exist) {
 		warning("`draw curve' noticed that no column data exist.");
 		return true;

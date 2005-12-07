@@ -8,11 +8,12 @@ bool
 create_x_scale()
 {
 	int nsegs;
-	double min, max;
+	double min, mint, max;
 	if (_need_x_axis && !_user_set_x_axis) {
-		if (!gr_missing(_colX.min())) {
-			min = _colX.min();
+		if (!gr_missing(mint = _colX.min())) {
+			min = mint;
 			max = _colX.max();
+			//printf("%s:%d min= %lf   max= %lf\n",__FILE__,__LINE__,min,max);
 		} else {
 			if (_xgrid_exists) {
 				min = max = _xmatrix[0];
@@ -73,10 +74,10 @@ bool
 create_y_scale()
 {
 	int nsegs;
-	double min, max;
+	double min, mint, max;
 	if (_need_y_axis && !_user_set_y_axis) {
-		if (!gr_missing(_colY.min())) {
-			min = _colY.min();
+		if (!gr_missing(mint = _colY.min())) {
+			min = mint;
 			max = _colY.max();
 		} else {
 			if (_ygrid_exists) {

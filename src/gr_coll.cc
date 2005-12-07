@@ -457,11 +457,14 @@ double& GriDvector::operator[](unsigned int offset)
 }
 double GriDvector::min()
 {
+        //printf("%s:%d\n",__FILE__,__LINE__);
 	bool first = true;
 	double the_min = gr_currentmissingvalue();
 	for (unsigned int i = 0; i < the_depth; i++) {
 		double tmp = contents[i];
+		//printf("%s:%d contents[%d] = %lf ... ",__FILE__,__LINE__,i,tmp);
 		if (!gr_missing(tmp)) {
+		        //printf("NOT MISSING\n");
 			if (first) {
 				the_min = tmp;
 			} else {
@@ -470,8 +473,11 @@ double GriDvector::min()
 				}
 			}
 			first = false;
-		}
+		}// else {
+		//  printf("MISSING\n");
+		//}
 	}
+	//printf("%s:%d the_min = %lf\n",__FILE__,__LINE__,the_min);
 	return the_min;
 }
 double GriDvector::max()
@@ -480,7 +486,9 @@ double GriDvector::max()
 	double the_max = gr_currentmissingvalue();
 	for (unsigned int i = 0; i < the_depth; i++) {
 		double tmp = contents[i];
+		//printf("tmp= %lf   ",tmp);
 		if (!gr_missing(tmp)) { 
+		        //printf("NOT MISSING.\n");
 			if (first) {
 				the_max = tmp;
 			} else {
@@ -489,8 +497,11 @@ double GriDvector::max()
 				}
 			}
 			first = false;
-		}
+		}// else {
+		       //printf("MISSING\n");
+		//}
 	}
+	//printf("%s:%d the_max = %lf\n",__FILE__,__LINE__,the_max);
 	return the_max;
 }
 double GriDvector::median()

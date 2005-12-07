@@ -420,8 +420,9 @@ read_columnsCmd()
 			}
 #endif
 
-			//printf("DEBUG %s:%d.  'read columns' got [%s]\n",__FILE__,__LINE__,inLine.getValue());
-
+#if 0
+			printf("DEBUG %s:%d.  'read columns' got [%s]\n",__FILE__,__LINE__,inLine.getValue());
+#endif
 			//unsigned int this_line_len = strlen(inLine.getValue()) + 1;
 
 #ifdef REMOVE_COMMENTS_FROM_DATA
@@ -462,6 +463,7 @@ read_columnsCmd()
 						continue;
 					}
 					_colX.push_back(tmpf);
+					//printf("pushing back %lf (missing= %lf)\n",tmpf,missing);
 				}
 			}
 			if (coly > 0) {
@@ -691,6 +693,7 @@ read_columnsCmd()
 	}
 	if (_colX.size() > 0) {
 		_columns_exist = true;
+		//printf("%s:%d _xscale_exists= %d\n",__FILE__,__LINE__,_xscale_exists);
 		if (!_xscale_exists) {
 			if (!create_x_scale()) {
 				warning("Problem autoscaling -- no data or all x values equal");
