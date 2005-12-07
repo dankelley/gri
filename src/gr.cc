@@ -1316,7 +1316,7 @@ gr_set_missing_value(double x)
 void
 gr_set_missing_value_none()
 {
-        printf("%s:%d TURNING OFF missing value.\n",__FILE__,__LINE__);
+        //printf("%s:%d TURNING OFF missing value.\n",__FILE__,__LINE__);
 	_grMissingValueUsed = false;
 }
 
