@@ -301,12 +301,16 @@ create_commands(const char *filename, bool user_gave_directory)
 #endif
 #endif
 	fullfilename += filename;
-#ifdef OS_IS_OSX // MAC OSX
-	fullfilename = "/Applications/Gri/gri.cmd";
-#endif
+
+#ifdef OSX_BUNDLE
+	//fullfilename = "/Applications/Gri/gri.cmd";
+        extern std::string _lib_directory;
+	fullfilename = _lib_directory;
+	fullfilename.append("/gri.cmd");
 	//printf("DEBUG:%s:%d looking for gri.cmd as <%s>\n",__FILE__,__LINE__,fullfilename.c_str());
 	//printf("DEBUG:%s:%d user_gave_directory = %d\n",__FILE__,__LINE__,user_gave_directory);
-	//printf("DEBUG:%s:%d _lib_directory '%s'\n",__FILE__,__LINE__,_lib_directory.c_str());
+	printf("DEBUG:%s:%d OSX_BUNDLE looking for %s'\n",__FILE__,__LINE__,fullfilename.c_str());
+#endif
 	if (!push_cmd_file(fullfilename.c_str(), false, false, "r")) {
 		if (user_gave_directory) {
 			no_gri_cmd(fullfilename.c_str()); // exits
