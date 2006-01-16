@@ -96,6 +96,8 @@ then
 fi
 
 %changelog
+* Mon Jan 16 2006 <Dan.Kelley@Dal.Ca>
+Add -private and -no_private commandline options
 * Tue May 11 2005 <Dan.Kelley@Dal.Ca>
 Fix SourceForge bug 1196613 (user-supplied x-axis labels can run offscale)
 Fix SourceForge bug 1198341 (x-axis labels sometimes rotated)
