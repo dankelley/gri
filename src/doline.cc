@@ -79,33 +79,36 @@ do_command_line()
 void
 insert_cmd_in_ps(const char *cmd, const char *note)
 {
-	extern bool     _store_cmds_in_ps;	// DEFINED IN startup.c
-	if (!_store_cmds_in_ps)
-		return;
-	unsigned int first_nonwhite = 0;
-	while (isspace(*(cmd + first_nonwhite)))
-		first_nonwhite++;
+	extern bool _private;
+	if (!_private) {
+		extern bool     _store_cmds_in_ps;	// DEFINED IN startup.c
+		if (!_store_cmds_in_ps)
+			return;
+		unsigned int first_nonwhite = 0;
+		while (isspace(*(cmd + first_nonwhite)))
+			first_nonwhite++;
 #if 0				// removed 2001-feb-22 for SF bug #133135
-	if (!strncmp(cmd + first_nonwhite, "insert", 6))
-		return;		// don't want 'insert' commands (confusing eh)
+		if (!strncmp(cmd + first_nonwhite, "insert", 6))
+			return;		// don't want 'insert' commands (confusing eh)
 #endif
-	strcpy(_grTempString, "gri:");
-	int ii = 4;			// where to start insert
-	int len = strlen(cmd);
-	for (int i = 0; i < len; i++) {
-		if (cmd[i] == PASTE_CHAR)
-			break;
-		if (cmd[i] != char(12))	// newpage
-			_grTempString[ii++] = cmd[i];
+		strcpy(_grTempString, "gri:");
+		int ii = 4;			// where to start insert
+		int len = strlen(cmd);
+		for (int i = 0; i < len; i++) {
+			if (cmd[i] == PASTE_CHAR)
+				break;
+			if (cmd[i] != char(12))	// newpage
+				_grTempString[ii++] = cmd[i];
+		}
+		_grTempString[ii] = '\0';
+		if (_grTempString[strlen(_grTempString) - 1] == '\n')
+			_grTempString[strlen(_grTempString) - 1] = '\0';
+		if (*note != '\0') {
+			strcat(_grTempString, " # ");
+			strcat(_grTempString, note);
+		}
+		gr_comment(_grTempString);
 	}
-	_grTempString[ii] = '\0';
-	if (_grTempString[strlen(_grTempString) - 1] == '\n')
-		_grTempString[strlen(_grTempString) - 1] = '\0';
-	if (*note != '\0') {
-		strcat(_grTempString, " # ");
-		strcat(_grTempString, note);
-	}
-	gr_comment(_grTempString);
 }
 
 #if 1				// used only if -s256 set

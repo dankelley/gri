@@ -74,9 +74,10 @@ extern char     _grTempString[];
 bool            display_colors();
 static void     create_builtin_colors(void);
 bool            _no_startup_message = false;
-bool            _contour_label_rotated = false;   // <-> draw.c set.c
-bool            _contour_label_whiteunder = true; // <-> draw.c set.c
-bool            _store_cmds_in_ps = true;	  // <-> read.c
+bool            _contour_label_rotated = false;   	// <-> draw.c set.c
+bool            _contour_label_whiteunder = true;	// <-> draw.c set.c
+bool            _store_cmds_in_ps = true;	  		// <-> read.c
+bool 			_private = true; 					// "-private" and "-no_private" commandline options
 
 bool            initialize_image(); 
 bool            initialize_imageMask(); 
@@ -283,23 +284,24 @@ first argument looks like a PostScript filename.  Older versions\n\
 	gr_begin(1);
 
 	// Embed info on how gri was invoked.
-	extern FILE *_grPS;
-	char host[BUFSIZ];
+	if (!_private) {
+		extern FILE *_grPS;
+		char host[BUFSIZ];
 #if defined(HAVE_GETHOSTNAME)
-	if (0 != gethostname(host, BUFSIZ - 1))
-		strcpy(host, "unknown");
+		if (0 != gethostname(host, BUFSIZ - 1))
+			strcpy(host, "unknown");
 #else
-	strcpy(host, "unknown");
+		strcpy(host, "unknown");
 #endif
-	fprintf(_grPS, "%%gri:# Gri was invoked by user named\n%%gri:#     %s\n%%gri:# on host named\n%%gri:#     %s\n%%gri:# using the command\n%%gri:#   ",  egetenv("USER"), host);
-	for (int i = 0; i < argc; i++)
-		fprintf(_grPS, " %s", argv[i]);
-	SECOND_TYPE sec;
-	time(&sec);
-	sprintf(_grTempString, "%s", asctime(localtime(&sec)));
-	_grTempString[-1 + strlen(_grTempString)] = '\0'; // trim newline
-	fprintf(_grPS, "\n%%gri:# at local time %s.\n", _grTempString);
-
+		fprintf(_grPS, "%%gri:# Gri was invoked by user named\n%%gri:#     %s\n%%gri:# on host named\n%%gri:#     %s\n%%gri:# using the command\n%%gri:#   ",  egetenv("USER"), host);
+		for (int i = 0; i < argc; i++)
+			fprintf(_grPS, " %s", argv[i]);
+		SECOND_TYPE sec;
+		time(&sec);
+		sprintf(_grTempString, "%s", asctime(localtime(&sec)));
+		_grTempString[-1 + strlen(_grTempString)] = '\0'; // trim newline
+		fprintf(_grPS, "\n%%gri:# at local time %s.\n", _grTempString);
+	}
 	put_syn("\\.ps_file.", gr_currentPSfilename(), true);
 	// Disable tracing during startup phase, unless in superuser mode.
 	double          trace_old;
@@ -693,6 +695,8 @@ interpret_optional_arguments(int argc, char *argv[])
 		{ "no_cmd_in_ps",      '\0', POPT_ARG_NONE   | POPT_ARGFLAG_ONEDASH, NULL, FLAG_NO_CMD_IN_PS     },
 		{ "no_startup_message",'\0', POPT_ARG_NONE   | POPT_ARGFLAG_ONEDASH, NULL, FLAG_NO_STARTUP_MESSAGE},
 		{ "no_warn_offpage",   '\0', POPT_ARG_NONE   | POPT_ARGFLAG_ONEDASH, NULL, FLAG_NO_WARN_OFFPAGE  },
+		{ "private",           '\0', POPT_ARG_NONE   | POPT_ARGFLAG_ONEDASH, NULL, FLAG_PRIVATE          },
+		{ "no_private",        '\0', POPT_ARG_NONE   | POPT_ARGFLAG_ONEDASH, NULL, FLAG_NO_PRIVATE       },
 		{ "publication",       '\0', POPT_ARG_NONE   | POPT_ARGFLAG_ONEDASH, NULL, FLAG_PUBLICATION      },
 		{ "superuser",         '\0', POPT_ARG_STRING | POPT_ARGFLAG_ONEDASH, NULL, FLAG_SUPERUSER        },
 		{ "trace",             't',  POPT_ARG_NONE   | POPT_ARGFLAG_ONEDASH, NULL, 't'                   },
@@ -824,6 +828,12 @@ interpret_optional_arguments(int argc, char *argv[])
 			break;
 		case FLAG_NO_WARN_OFFPAGE:
 			_warn_offpage = false;
+			break;
+		case FLAG_PRIVATE:
+			_private = true;
+			break;
+		case FLAG_NO_PRIVATE:
+			_private = false;
 			break;
 		case FLAG_PUBLICATION:
 			PUT_VAR("..publication..", 1.0);
@@ -997,6 +1007,10 @@ interpret_optional_arguments(int argc, char *argv[])
 				} else if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "-help")) {
 					give_help();
 					gri_exit(0);
+				} else if (!strcmp(argv[i], "-private")) {
+					_private = true;
+				} else if (!strcmp(argv[i], "-no_private")) {
+					_private = false;
 				} else if (!strcmp(argv[i], "-p") || !strcmp(argv[i], "-publication")) {
 					PUT_VAR("..publication..", 1.0);
 				} else if (!strncmp(argv[i], "-c", 2)) {
@@ -1171,7 +1185,10 @@ insert_creator_name_in_PS(int argc, char *argv[], const std::string& psname)
 	gr_setup_creatorname(_gri_number);
 	gr_setup_creatorname(" (released ");
 	gr_setup_creatorname(_gri_release_time);
-	gr_setup_creatorname(").  User=");
+	if (_private)
+		gr_setup_creatorname(")");
+	else
+		gr_setup_creatorname(").  User=");
 	if (egetenv("USER"))
 		gr_setup_creatorname(egetenv("USER"));
 #if 0				// SF bug 711354

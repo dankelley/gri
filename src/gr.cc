@@ -28,7 +28,7 @@
 
 static void     close_ps_file(FILE * fp);
 static void     handle_landscape_scale(FILE * fp);
-static void     insert_ps_header(FILE * fp);
+static void     insert_ps_header(FILE * fp, bool privacy);
 static void     skip_ps_header(FILE * PSfile);
 static void     create_font_encoding(const char *fontname);
 
@@ -38,7 +38,7 @@ static char     ps_filename[256] = "gri.ps";	/* basename */
 static char     ps_filename_used[256] = "";	/* actual name used */
 static bool     user_gave_ps_filename = false;	/* did user give the name? */
 static int      which_page = 0;	/* page counter */
-
+
 bool            _no_bounding_box = false;
 
 
@@ -331,7 +331,7 @@ Cannot open output PostScript file named\n\t`%s'\nin this directory.  Do you hav
 	// write some header stuff in postscript file
 	_grWritePS = true;
 	// define postscript abbreviations
-	insert_ps_header(_grPS);
+	insert_ps_header(_grPS, true);
 	if (specifications == 1)
 		set_page_characteristics();
 }
@@ -360,14 +360,17 @@ static void set_page_characteristics()
 }
 
 static void
-insert_ps_header(FILE * fp)
+insert_ps_header(FILE * fp, bool privacy)
 {
 	/*
 	 * write conforming postscript prolog
 	 */
 	/* fprintf(fp, "%%!PS-Adobe-1.0\n"); */
 	fprintf(fp, "%%!PS-Adobe-2.0 EPSF-1.2\n");
-	fprintf(fp, "%%%%Creator: %s\n", creator_name);
+	if (privacy)
+	  fprintf(fp, "%%%%Creator: %s\n", "");
+	else
+	  fprintf(fp, "%%%%Creator: %s\n", creator_name);
 	fprintf(fp, "%%%%Title: %s\n", ps_filename_used);
 	SECOND_TYPE sec;
 	time(&sec);
@@ -1252,13 +1255,13 @@ gr_save_postscript(const char *PS_name, int normal_scale)
 		_grMagy = 1.0;
 		_grOriginx = 0.0;
 		_grOriginy = 0.0;
-		insert_ps_header(PS_file);
+		insert_ps_header(PS_file, true);
 		_grMagx = old_grMagx;
 		_grMagy = old_grMagy;
 		_grOriginx = old_grOriginx;
 		_grOriginy = old_grOriginy;
 	} else
-		insert_ps_header(PS_file);
+		insert_ps_header(PS_file, true);
 	while (!feof(_grPS)) {
 		fgets(grTempString, _grTempStringLEN, _grPS);
 		if (feof(_grPS))
