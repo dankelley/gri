@@ -478,6 +478,8 @@ or more of the following (explained below):
 [-no_cmd_in_ps]
 [-no_startup_message]
 [-output PS_file_name]
+[-private]
+[-no_private]
 [-publication] 
 [-p]
 [-superuser N]
@@ -635,6 +637,25 @@ interactive use, it will have a name like @file{gri-00.ps}, or
 @cindex startup message
 @cindex @code{-no_startup_message} command-line option
 Stops Gri from printing the startup message.
+
+
+@item  @code{-private}
+@cindex @code{-private} command-line option
+@cindex private, command-line flag
+Prevents inserting any information about the user into the PostScript
+file (see @code{-no_private}, next).  As of version 2.12.10, 
+this privacy option is assumed by default.
+
+@item  @code{-no_private}
+@cindex @code{-no_private} command-line option
+@cindex no_private, command-line flag
+Instructs Gri to include comments in the PostScript file that identify
+the user, state the commandline arguments used in invoking Gri, and
+that list all the commands that were executed.  This information can
+be recovered by calling Gri on the PostScript file, with the
+@code{-creator} commandline argument.  Until version 2.12.10,
+the default was to include this information, but a change was
+made out of privacy concerns.
 
 @item  @code{-publication} or @code{-p}
 @cindex @code{-publication} command-line option
