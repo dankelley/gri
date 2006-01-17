@@ -1098,7 +1098,10 @@ give_help()
         gr_textput("\n");
         gr_textput("     There are 3 special forms that do no graphing:\n");
         gr_textput("       `gri -creator postscript_file'\n");
-        gr_textput("         Extracts the Gri commands that created the Gri PostScript file.\n");
+        gr_textput("         Extracts the Gri commands that created the Gri PostScript file,\n");
+		gr_textput("         but only if the Gri invocation that created the PostScript file\n");
+		gr_textput("         had used the -no_private commandline option, or if the version of\n");
+		gr_textput("         Gri that produced the file was earlier than 2.12.10.\n");
         gr_textput("       `gri -help' or `gri -h'\n");
         gr_textput("         Prints this help message.\n");
         gr_textput("       `gri -version' or `gri -v'\n");
@@ -1128,22 +1131,41 @@ give_help()
 
         gr_textput("     -no_bounding_box\n");
         gr_textput("             Make bounding-box be full page.\n");
+
         gr_textput("     -no_expecting\n");
         gr_textput("             Prevent warning message if `expecting version .n.'\n");
         gr_textput("             command is missing.\n");
+
         gr_textput("     -no_startup_message\n");
         gr_textput("             Stops printing of startup message.\n");
+
         gr_textput("     -output file_name\n");
         gr_textput("             Specify the name of the file to hold the graphical output.  If\n");
         gr_textput("             this flag is not specified, the file will be PostScript,\n");
-	gr_textput("             and its name will be derived from the name of the\n");
-	gr_textput("             commandfile, e.g. `mygraph.gri'\n");
+		gr_textput("             and its name will be derived from the name of the\n");
+		gr_textput("             commandfile, e.g. `mygraph.gri'\n");
         gr_textput("             will produce `mygraph.ps'), or, for interactive use,\n");
         gr_textput("             it will have a name like `gri-00.ps', or\n");
         gr_textput("             `gri-01.ps' if the former file exists, etc.\n");
+
+       	gr_textput("     -private\n");
+		gr_textput("             Prevents inserting any information about the user into\n");
+	  	gr_textput("             the PostScript file (see -no_private, next).  As of\n");
+	    gr_textput("             version 2.12.10, this privacy option is assumed by default.\n");
+
+       	gr_textput("     -no_private\n");
+  		gr_textput("             Instructs Gri to include comments in the PostScript file that\n"); 
+		gr_textput("             identify the user, state the commandline arguments used in\n"); 
+		gr_textput("             invoking Gri, and that list all the commands that were executed.\n"); 
+		gr_textput("             This information can be recovered by calling Gri on the\n"); 
+		gr_textput("             PostScript file, with the -creator commandline argument.\n"); 
+		gr_textput("             Until version 2.12.10, the default was to include this \n"); 
+		gr_textput("             information, but a change was made out of privacy concerns.\n"); 
+
         gr_textput("     -publication or -p\n");
         gr_textput("             Sets the builtin variable ..publication.. to 1; normally it is 0.\n");
         gr_textput("             One might use if statements (`if !..publication..' ...) on drafts.\n");
+
         gr_textput("     -superuser\n");
         gr_textput("             Used mainly by Gri programmers (who can check the value with the\n");
         gr_textput("             C function `superuser()'.)  An optional value can be supplied\n");
