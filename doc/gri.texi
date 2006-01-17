@@ -73,11 +73,11 @@
 
 @subtitle A Program to Make Science Graphs
 @subtitle Version @value{GRI-VERSION}
-@subtitle 2005
+@subtitle 2006
 @author Dan E. Kelley (@value{AUTHOR-EMAIL})
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 1991-2005 Dan Kelley
+Copyright @copyright{} 1991-2006 Dan Kelley
 @sp 2
 @end titlepage
 
@@ -16482,7 +16482,7 @@ only in the fixing of bugs.
 
 @comment ADD-NEW-BUG-FIXES-HERE
 
-@subsubsection Version 2.12.10 [2005 xxx x]
+@subsubsection Version 2.12.10 [2006 xxx x]
 @strong{Bug Fixes}
 @itemize @bullet
   
