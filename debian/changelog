@@ -18,6 +18,13 @@ gri (2.12.10-1) unstable; urgency=low
 
  -- Peter Galbraith <psg@debian.org>  Tue, 20 Sep 2005 11:30:48 -0400
 
+gri (2.12.9-3) unstable; urgency=low
+
+  * Bug fix: "gri(GNU/k*BSD): FTBFS: out of date config.sub/config.guess",
+    thanks to Petr Salinger (Closes: #342414).
+
+ -- Peter S Galbraith <psg@debian.org>  Sat, 14 Jan 2006 16:19:19 -0500
+
 gri (2.12.9-2) unstable; urgency=low
 
   * Bug fix: "gri-el: incompatible with new version of gv", thanks to
