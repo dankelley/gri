@@ -2,6 +2,14 @@ gri (2.12.10-1) unstable; urgency=low
 
   * New upstream release
     Bug Fixes:
+    - Fix Debian Bug #348351 (PostScript file contained private
+       information.  This was fixed by adding new commandline arguments
+       `-private' and `-no_private', the former of which (the new default)
+       means to not include the user's name, the invocation arguments, or the
+       command-file contents. Thanks to Falk Hueffner for reporting it
+       (Closes: #348351).
+    - Fix SourceForge bug #1285180 (NaN was mishandled.  The bug may have
+       arisen in version 2.12.7 or thereabouts.)
     - Fix SourceForge bug #1217273 (missing some version numbers within docs)
     - Fix SourceForge bug #1196613 (user-supplied x-axis labels can run
        offscale)
