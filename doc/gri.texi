@@ -16482,7 +16482,7 @@ only in the fixing of bugs.
 
 @comment ADD-NEW-BUG-FIXES-HERE
 
-@subsubsection Version 2.12.10 [2006 xxx x]
+@subsubsection Version 2.12.10 [2006 Jan 26 (Australia Day)]
 @strong{Bug Fixes}
 @itemize @bullet
   

@@ -12,5 +12,5 @@ char _gri_number[] = PACKAGE_VERSION;
 //
 char _gri_number[] = PACKAGE_VERSION;
 #endif
-char _gri_release_time[] = "2005 Jun 4";
-char _gri_date[] = "2005";
+char _gri_release_time[] = "2006 Jan 6"; // Australia Day
+char _gri_date[] = "2006";
