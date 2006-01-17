@@ -16491,6 +16491,14 @@ only in the fixing of bugs.
 @subsubsection Version 2.12.10 [2005 xxx x]
 @strong{Bug Fixes}
 @itemize @bullet
+  
+@item
+Fix Debian bug
+@uref{http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=348351,#348351}
+@dots{} PostScript file contained private information.  This was fixed by adding
+new commandline arguments @code{-private} and @code{-no_private}, the
+former of which (the new default) means to not include the user's name,
+the invocation arguments, or the command-file contents. See @ref{Invoking Gri}.
 
 @item
 Fix SourceForge bug
