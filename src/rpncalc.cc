@@ -272,7 +272,7 @@ rpn(unsigned int nw, char **w, char ** result)
 	unsigned int    NW;
 	char           *W[MAX_nword];
 	operator_name   oper;
-	double          operand_value = 0.0; # should be set below, actually
+	double          operand_value = 0.0; // should be set below, actually (remove warning)
 	*result = new char[1];
 	strcpy(*result, "");
 	if (nw < 1) {

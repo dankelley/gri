@@ -379,8 +379,8 @@ write_image_maskCmd(const char *filename, int image_type)
 		im.ras_maptype = RMT_NONE;
 		im.ras_maplength = 0;
 		im.storage_exists = true; // has no effect (just get rid of warning on ia64/debian)
-		im.image = (char*)NULL;	  // has no effect (just get rid of warning on ia64/debian)
-		im.map = (char*)NULL;	  // has no effect (just get rid of warning on ia64/debian)
+		im.image = (unsigned char*)NULL; // has no effect (just get rid of warning on ia64/debian)
+		im.map = (unsigned char*)NULL; // has no effect (just get rid of warning on ia64/debian)
 		write_image_header(im, fp);
 	}
 	break;
