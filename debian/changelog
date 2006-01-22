@@ -24,7 +24,7 @@ gri (2.12.10-1) unstable; urgency=low
     - Fix SourceForge bug #867515 (problem with junk appearing in images.)
     - Fix SourceForge bug #875881 (problem compiling with gcc 2.95.3 compiler)
 
- -- Peter Galbraith <psg@debian.org>  Tue, 17 Jan 2006 10:30:38 -0500
+ -- Peter S Galbraith <psg@debian.org>  Sun, 22 Jan 2006 10:04:07 -0500
 
 gri (2.12.9-3) unstable; urgency=low
 
