@@ -22,7 +22,7 @@ public:
 		name.assign(c.get_name());
 		fp = c.get_fp();
 		if (fp == (FILE*)NULL) {
-			printf("ERROR at %s:%d -- try to CmdFile copy null  '%s'  from %x    this %x\n",__FILE__,__LINE__,name.c_str(),int(&c),int(this));
+			printf("ERROR at %s:%d -- try to CmdFile copy null  '%s'  from %x    this %x\n",__FILE__,__LINE__,name.c_str(),(unsigned int)(&c),(unsigned int)this);
 			exit(1);
 		}
 		interactive = c.get_interactive();
