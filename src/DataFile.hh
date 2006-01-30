@@ -18,9 +18,9 @@ public:
 		name.assign("stdin");
 		if (_cmdFILE.size() > 0) {
 			fp = _cmdFILE.end()->get_fp();
- 			if (superuser() & FLAG_AUT1)printf("    DEBUG: %s:%d construct from cmdFILE  fp= %x  ",__FILE__,__LINE__,(unsigned int)(fp));
+ 			if (superuser() & FLAG_AUT1)printf("    DEBUG: %s:%d construct from cmdFILE  fp= %lx  ",__FILE__,__LINE__,(long unsigned int)(fp));
 		} else {
- 			if (superuser() & FLAG_AUT1)printf("    DEBUG: %s:%d construct from stdin    fp= %x  ",__FILE__,__LINE__,(unsigned int)(stdin));
+ 			if (superuser() & FLAG_AUT1)printf("    DEBUG: %s:%d construct from stdin    fp= %lx  ",__FILE__,__LINE__,(long unsigned int)(stdin));
 			fp = stdin;
 		}
 		if (fp == (FILE*)NULL) {printf("ERROR.  Null fp [blank-constructor phase] %s:%d\n",__FILE__, __LINE__);}
