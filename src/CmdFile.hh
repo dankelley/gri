@@ -39,7 +39,7 @@ public:
 		name.assign(c.get_name());
 		fp = c.get_fp();
 		if (fp == (FILE*)NULL) {
-			printf("%s:%d try to CmdFile operator= null file this %x\n",__FILE__,__LINE__,int(this));
+			printf("%s:%d try to CmdFile operator= null file this %lx\n",__FILE__,__LINE__,(long unsigned int)this);
 			exit(1);
 		}
 		interactive = c.get_interactive();
