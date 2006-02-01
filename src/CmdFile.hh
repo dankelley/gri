@@ -51,7 +51,7 @@ public:
 		name.assign(n);
 		fp = f;
 		if (fp == (FILE*)NULL) {
-			printf("ERROR at %s:%d -- try to CmdFile set null file this %x\n",__FILE__,__LINE__,int(this));
+			printf("ERROR at %s:%d -- try to CmdFile set null file this %lx\n",__FILE__,__LINE__,(long unsigned int)this);
 			exit(1);
 		}
 		interactive = i;
