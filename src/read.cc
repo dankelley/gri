@@ -1838,7 +1838,7 @@ This is not a PGM file, since the first 2 characters\n\
 		imMask->storage_exists = false;
 	}
 	if (imMask->storage_exists) {
-		printf("%s:%d freeing imageMask storage at %x\n",__FILE__,__LINE__,(int)imMask->image);
+		printf("%s:%d freeing imageMask storage at %lx\n",__FILE__,__LINE__,(long unsigned int)imMask->image);
 		free(imMask->image);
 		imMask->storage_exists = false;
 	}

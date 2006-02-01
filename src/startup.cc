@@ -337,7 +337,7 @@ first argument looks like a PostScript filename.  Older versions\n\
 
 	// DataFile stack
 	DataFile new_data_file;
-	if (superuser() & FLAG_AUT1)printf("\nDEBUG: %s:%d pushing back a datafile at address %x\n",__FILE__,__LINE__,int(&new_data_file));
+	if (superuser() & FLAG_AUT1)printf("\nDEBUG: %s:%d pushing back a datafile at address %lx\n",__FILE__,__LINE__,(long unsigned int)(&new_data_file));
 	_dataFILE.push_back(new_data_file);
 
 	_first = true;
