@@ -178,7 +178,7 @@ push_data_file_to_top(const char* filename)
 bool
 pop_data_file(int file)
 {
-	if (((unsigned) superuser()) & FLAG_AUT1)printf("\n  DEBUG: %s:%d pop_data_file(file= %3d) fp= %x   stack_len= %d\n",__FILE__,__LINE__,file, int(_dataFILE[file].get_fp()), int(_dataFILE.size()));
+	if (((unsigned) superuser()) & FLAG_AUT1)printf("\n  DEBUG: %s:%d pop_data_file(file= %3d) fp= %lx   stack_len= %d\n",__FILE__,__LINE__,file, (long unsigned int)_dataFILE[file].get_fp(), int(_dataFILE.size()));
 	if (file < 0) {
 		err("No such data file exists");
 		return false;
@@ -241,7 +241,7 @@ display_data_stack(const char* s)
 	else {
 		printf("Data file stack is as follows:\n");
 		for (unsigned int i = 0; i < n; i++)
-			printf("   file name= '%s' type= %d delete_when_close= %d  fp= %x\n", _dataFILE[i].get_name(), int(_dataFILE[i].get_type()),int(_dataFILE[i].get_delete_when_close()), int(_dataFILE[i].get_fp()));
+			printf("   file name= '%s' type= %d delete_when_close= %d  fp= %lx\n", _dataFILE[i].get_name(), int(_dataFILE[i].get_type()),int(_dataFILE[i].get_delete_when_close()), (unsigned long int)_dataFILE[i].get_fp());
 	}
 }
 
