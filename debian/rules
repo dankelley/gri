@@ -5,7 +5,7 @@
 
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
-export DH_COMPAT=3
+export DH_COMPAT=4
 
 #version=$(shell expr `pwd` : '.*-\([0-9.]*\)')
 #version := $(shell grep ^VERSION Makefile | cut -d" " -f3)
@@ -43,6 +43,7 @@ clean:
 	dh_clean
 	rm -fR debian/gri-$(version)static
 	rm -f  debian/README.Debian debian/gri.1 debian/copyright
+	chmod u+w debian/changelog
 
 install: gri
 	dh_testdir
@@ -81,13 +82,10 @@ binary-indep: build-indep
 	rm -f debian/*debhelper
 	dh_installdocs -i -A README debian/README.Debian
 	dh_installexamples -i
-#	dh_installmenu -i
 	dh_installemacsen -i
 	dh_installchangelogs -i 
 	dh_compress -i -X.jpg -Xlogo.gri
-#	find debian -name "logo.gri.gz" -exec gunzip '{}' \;
 	dh_fixperms -i
-#	dh_suidregister -i
 	dh_installdeb -i
 	dh_gencontrol -i
 	dh_md5sums -i
@@ -101,17 +99,15 @@ binary-arch: build-arch install
 	rm -f debian/*debhelper
 	dh_installdocs -a README doc/refcard.ps doc/cmdrefcard.ps
 	dh_installexamples -a
-#	dh_installmenu -a
 	dh_installemacsen -a
 	dh_installinfo doc/gri.info*
-	dh_installmanpages -a doc/gri-manpage*.1 doc/*.1-skel
+	dh_installman -a doc/gri-manpage*.1 doc/*.1-skel
 	dh_installchangelogs -a 
         ifdef STRIPIT
 		dh_strip -a
         endif
 	dh_compress -a
 	dh_fixperms -a
-#	dh_suidregister -a
 	dh_installdeb -a
 	dh_shlibdeps -a
 	dh_gencontrol -a
@@ -152,7 +148,6 @@ binary-arch-unofficial:    debian/copyright build-arch
         endif
 	dh_compress -a
 	dh_fixperms -a
-#	dh_suidregister -a
 	dh_installdeb -a
 	dh_shlibdeps -a
 	dh_gencontrol -a

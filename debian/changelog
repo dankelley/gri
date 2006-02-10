@@ -1,3 +1,13 @@
+gri (2.12.10-6) unstable; urgency=high
+
+  * Bug fix: "gri: Please rebuild with current netcdf.", thanks to Daniel
+    Kobras (Closes: #352219).
+  * Set permissions to user writable on debian/changelog for binary-only
+    rebuilds.
+  * Switch to debhelper 4.
+
+ -- Peter S Galbraith <psg@debian.org>  Fri, 10 Feb 2006 11:02:42 -0500
+
 gri (2.12.10-5) unstable; urgency=low
 
   * Fix compilation bugs on ia64 and alpha, fourth attempt tested on a
