@@ -101,7 +101,7 @@ binary-arch: build-arch install
 	dh_installexamples -a
 	dh_installemacsen -a
 	dh_installinfo doc/gri.info*
-	dh_installman -a doc/gri-manpage*.1 doc/*.1-skel
+	dh_installman debian/gri.1
 	dh_installchangelogs -a 
         ifdef STRIPIT
 		dh_strip -a
