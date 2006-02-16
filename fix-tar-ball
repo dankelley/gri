@@ -1,0 +1,29 @@
+#!/bin/bash
+# Usage:
+#  ./fix-tar-ball gri-2.12.10.tar.gz
+#
+TARBALL=$1
+if [ -z "$1" ] ; then
+    echo "Usage: ./fix-tar-ball gri-2.12.10.tar.gz"
+    echo "   Missing argument"
+    exit 0
+fi
+DIRECTORY=$(echo ${TARBALL} | perl -ne 'if (/(gri-[0-9.]+).t/){print $1}')
+
+# extract TARBALL into DIRECTORY
+tar zxf ${TARBALL}
+
+# fix permissions
+chmod -R u+w ${DIRECTORY}
+
+# fix debian/changelog if broken
+if test -e "${DIRECTORY}/debian/ChangeLog"; then
+    echo "Fixing debian/ChangeLog"
+    mv -f ${DIRECTORY}/debian/ChangeLog ${DIRECTORY}/debian/changelog
+fi
+
+# rebuild tar ball
+tar cf ${DIRECTORY}.tar ${DIRECTORY}/
+mv -f ${TARBALL} ${TARBALL}.old
+gzip --best ${DIRECTORY}.tar
+rm -fR ${DIRECTORY}
