@@ -3002,11 +3002,17 @@ set_x_gridCmd()
 	// set up x grid 
 	for (i = 0, x = xmin; i < nx; i++, x += xinc)
 		_xmatrix[i] = x;
+	// Use grid for axis scale, if the latter does not exist yet
+	if (!_xscale_exists) {
+		_xleft = xmin;
+		_xright = xmax;
+		_xinc = xinc;
+		_xscale_exists = true;
+		//printf("creating x scale %f to %f by %f\n",_xleft, _xright, _xinc);
+	}
 	// Override any existing scale
 	define_image_scales(_xmatrix[0], 0.0, _xmatrix[nx - 1], 0.0);
 	_xgrid_exists = true;
-	if (!_xscale_exists)
-		create_x_scale();
 	if (_xmatrix[1] > _xmatrix[0])
 		_xgrid_increasing = true;
 	else
@@ -3078,11 +3084,17 @@ set_y_gridCmd()
 	// set up y grid
 	for (i = 0, y = ymin; i < ny; i++, y += yinc)
 		_ymatrix[i] = y;
+	// Use grid for axis scale, if the latter does not exist yet
+	if (!_yscale_exists) {
+		_ybottom = ymin;
+		_ytop = ymax;
+		_yinc = yinc;
+		_yscale_exists = true;
+		//printf("creating y scale %f to %f by %f\n",_ybottom, _ytop, _yinc);
+	}
 	// Override any existing scale
 	define_image_scales(0.0, _ymatrix[0], 0.0, _ymatrix[ny - 1]);
 	_ygrid_exists = true;
-	if (!_yscale_exists)
-		create_y_scale();
 	if (_ymatrix[1] > _ymatrix[0])
 		_ygrid_increasing = true;
 	else

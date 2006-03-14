@@ -16482,6 +16482,17 @@ only in the fixing of bugs.
 
 @comment ADD-NEW-BUG-FIXES-HERE
 
+@subsubsection Version 2.12.11 [not yet released]
+@strong{Bug Fixes}
+@itemize @bullet
+  
+@item
+Fix SourceForge bug
+@uref{https://sourceforge.net/tracker/index.php?func=detail&aid=1449546&group_id=5511&atid=105511,#1449546}
+@dots{} x axis limits not correctly inferred from @code{set x grid} (same for y).
+
+@end itemize
+
 @subsubsection Version 2.12.10 [2006 Jan 26 (Australia Day)]
 @strong{Bug Fixes}
 @itemize @bullet

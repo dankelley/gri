@@ -9,6 +9,7 @@ create_x_scale()
 {
 	int nsegs;
 	double min, mint, max;
+	//printf("in create_x_scale()\n");
 	if (_need_x_axis && !_user_set_x_axis) {
 		if (!gr_missing(mint = _colX.min())) {
 			min = mint;
