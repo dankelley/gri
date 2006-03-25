@@ -53,8 +53,8 @@
 @comment %**start of header
 @setfilename gri.info
 @settitle Gri
-@set GRI-VERSION 2.12.10
-@set GRI-PREVIOUS-VERSION 2.12.9
+@set GRI-VERSION 2.12.11
+@set GRI-PREVIOUS-VERSION 2.12.10
 @set AUTHOR-EMAIL dankelley@@users.sourceforge.net
 @include version.texi
 @c %**end of header
@@ -16482,7 +16482,7 @@ only in the fixing of bugs.
 
 @comment ADD-NEW-BUG-FIXES-HERE
 
-@subsubsection Version 2.12.11 [not yet released]
+@subsubsection Version 2.12.11 [2006 Mar 30 (Hindi New Year)]
 @strong{Bug Fixes}
 @itemize @bullet
   
