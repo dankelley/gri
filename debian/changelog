@@ -1,3 +1,14 @@
+gri (2.12.11-1) unstable; urgency=low
+
+  * New upstream release
+    Bug Fixes:
+    - Debian Bug fix: "Please update config.* (again)", thanks to Martin
+      Michlmayr (Closes: #357181).
+    - Fix SourceForge bug #1449546 (x axis limits not correctly inferred
+      from `set x grid'; same for y).
+
+ -- Peter S Galbraith <psg@debian.org>  Fri, 24 Mar 2006 21:46:59 -0500
+
 gri (2.12.10-6) unstable; urgency=high
 
   * Bug fix: "gri: Please rebuild with current netcdf.", thanks to Daniel
