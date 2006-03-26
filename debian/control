@@ -11,7 +11,7 @@ Section: science
 Architecture: any
 Depends: ${shlibs:Depends}
 Suggests: gri-html-doc, gri-ps-doc, gri-el
-Description: a language for scientific illustration.
+Description: a language for scientific illustration
  Gri is an open-source language for scientific graphics programming. It is
  command-driven, as opposed to point/click. Some users consider Gri similar
  to LaTeX, since both provide extensive power as a reward for tolerating a
@@ -40,7 +40,7 @@ Section: science
 Architecture: all
 Depends: gri (>= 2.12.1-2), emacs21 | emacsen
 Conflicts: gri (<= 2.12.1-1)
-Description: Emacs major-mode for gri, a language for scientific graphics.
+Description: Emacs major-mode for gri, a language for scientific graphics
  Gri is an open-source language for scientific graphics programming.
  .
  This is the Emacs major-mode for gri.
@@ -50,7 +50,7 @@ Section: doc
 Architecture: all
 Depends: ${shlibs:Depends}
 Suggests: doc-base
-Description: HTML manual for gri, a language for scientific graphics.
+Description: HTML manual for gri, a language for scientific graphics
  Gri is a command-driven application for making x-y graphs, 
  contour-graphs, and image graphs.
  .
@@ -68,7 +68,7 @@ Package: gri-ps-doc
 Section: doc
 Architecture: all
 Depends: ${shlibs:Depends}
-Description: PostScript manual for gri, a language for scientific graphics.
+Description: PostScript manual for gri, a language for scientific graphics
  Gri is a command-driven application for making x-y graphs, contour-graphs,
  and image graphs.
  .
