@@ -1,5 +1,5 @@
 Summary: A language for scientific illustration
-%define griversion 2.12.10
+%define griversion 2.12.11
 Name: gri
 Version: %{griversion}
 Release: 1
@@ -96,6 +96,10 @@ then
 fi
 
 %changelog
+* Sat Mar 25 23:14:04 AST 2006
+-Fix SourceForge bug #1449546 (x/y axis limits not correctly inferred from 'set x/ grid').
+-Fix SourceForge bug #1285180 (NaN was mishandled in recent versions).
+-Port to FreeBSD.  (Thanks to Christopher Illies and Roman Neuhauser for helping.)
 * Mon Jan 16 2006 <Dan.Kelley@Dal.Ca>
 Add -private and -no_private commandline options
 * Tue May 11 2005 <Dan.Kelley@Dal.Ca>
