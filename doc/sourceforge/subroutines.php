@@ -115,12 +115,7 @@ function set_up_navigation_tabs($this_url) {
 	print "<link rel=\"stylesheet\" href=\"gri.css\" type=\"text/css\">\n";
         print "</head>\n";
 	print "<body bgcolor=\"#FFFFFF\" link=\"0000ee\" vlink=\"#0000ee\">\n";
-	#print "<center><font size=\"+1\">RFC for CMOS-2005 Budget</font></center>\n";
-	#print "<hr><center><p>This is an <i>invitation-only</i>, password-protected, website.</p></center>\n";
-
-#	print "<center><table border=\"0\" bgcolor=\"#FFFFCC\"><tr><td>The next budget draft will be provided no sooner than <b>$next_draft</b></td></tr></table></center>\n";
 	print "<br>\n";
-#	print "<center>\n";
 	print "<table border=0 cellspacing=0 cellpadding=0>\n";
 	print "<tr>\n";
 	$i = 0;
@@ -165,7 +160,7 @@ function footer()
 	print "<td valign=\"top\" bgcolor=\"#FFFFFF\">\n";
 	print "<center>\n";
 	print "<small>\n";
-	print "Copyright &copy; 2002-2005 by\n";
+	print "Copyright &copy; 2002-2006 by\n";
         global $sf_url;
 	print "<a href=\"$sf_url/users/dankelley\">Dan Kelley</a>\n";
 	print " and ";
