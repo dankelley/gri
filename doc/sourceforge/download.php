@@ -2,12 +2,16 @@
 require("subroutines.php");
 set_up_navigation_tabs("download");
 set_up_lhs();
-?>
+$RH_uptodate = 0;
+if ($RH_uptodate) {
+	print "
 <b>Redhat Linux</b>
 <br>
-- <A HREF="<?php print "$ftp_site/gri-$gri_stable_version-1.i386.rpm";			?>">binary		</a><br>
-- <A HREF="<?php print "$ftp_site/gri-$gri_stable_version-1.src.rpm";			?>">source		</a><br>
-<br>
+- <A HREF=\"$ftp_site/gri-$gri_stable_version-1.i386.rpm\">binary		</a><br>
+- <A HREF=\"$ftp_site/gri-$gri_stable_version-1.src.rpm\">source		</a><br>
+<br>";
+}
+?>
 <b>Debian/GNU Linux</b><br>
 - <A HREF="<?php print "$ftp_site/gri_2.8.6-0potato1_i386.deb";				?>">potato [old]	</a><br>
 - <A HREF="<?php print "$ftp_site/gri_$gri_stable_version-0woody1_i386.deb";			?>">woody		</a><br>
@@ -37,17 +41,25 @@ manual</a><br>
 <?php set_up_rhs(); ?>
 
 <h1>Pre-compiled Packages</h1>
-<p>
-Packages are provided for <b>RedHat Linux</b>, in 
+<p> 
+<?php
+if ($RH_uptodate) {
+	print "
+Up-to-date packages are provided for <b>RedHat Linux</b>, in 
 both
-<A HREF="<?php print "$ftp_site/gri-$gri_stable_version-1.i386.rpm";?>">
+<A HREF=\"$ftp_site/gri-$gri_stable_version-1.i386.rpm\">
 binary
 </a>
 and
-<A HREF="<?php print "$ftp_site/gri-$gri_stable_version-1.src.rpm";?>">
+<A HREF=\"$ftp_site/gri-$gri_stable_version-1.src.rpm\">
 source
 </a>
-forms.
+forms."; 
+}  else {
+	print "The present release is not available for RedHat linux, but previous releases are; see the 
+	<a href=\"$sf_url/project/showfiles.php?group_id=$gri_group_id\">file list</a> for details.";
+}
+?>
 
 
 <p> Packages are available for
