@@ -100,7 +100,7 @@ considerable power, at the price of a moderate learning curve.
 
 This manual describes Gri version
 @value{GRI-VERSION} @c , updated @value{UPDATED},
-(c) 1991-2005, 
+(c) 1991-2006, 
 Dan Kelley at email address 
 @c HTML <A HREF="mailto:Dan.Kelley@Dal.CA"> 
 @value{AUTHOR-EMAIL}
@@ -126,7 +126,7 @@ Gri is released with the GNU Public License (@ref{License}).
 @c HTML <A HREF="Images.html">image plots</A>.
 @c HTML <p>
 @c HTML This document describes Gri @value{GRI-VERSION},
-@c HTML <br>(c) 1991-2005 <A HREF="http://www.phys.ocean.dal.ca/~kelley"> Dan Kelley.</A>
+@c HTML <br>(c) 1991-2006 <A HREF="http://www.phys.ocean.dal.ca/~kelley"> Dan Kelley.</A>
 @comment HTML Gri is distributed
 @comment HTML with a <A HREF="License.html">license</A> that permits 
 @comment HTML sharing in an OpenSource way.
@@ -299,7 +299,7 @@ just typing @code{gri} at the unix prompt), you'll see something like
 
 @example
  gri - scientific graphic program (version @value{GRI-VERSION})
- GPL Copyright 2005 by Dan E. Kelley.
+ GPL Copyright 2006 by Dan E. Kelley.
 
  Type `help' for an overview of Gri commands, or see the
  full manual at
@@ -16482,7 +16482,7 @@ only in the fixing of bugs.
 
 @comment ADD-NEW-BUG-FIXES-HERE
 
-@subsubsection Version 2.12.11 [2006 Mar 30 (Hindi New Year)]
+@subsubsection Version 2.12.11 [2006 Mar 30 (Hindu New Year)]
 @strong{Bug Fixes}
 @itemize @bullet
   
