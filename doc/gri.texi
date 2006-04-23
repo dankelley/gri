@@ -11090,10 +11090,16 @@ end while
 @end example
 
 @item
-Repeatedly read two numbers, and plot a bullet at the indicated
-location.  If (or, hopefully, ``when'') the end of the file is
-encountered, break out of the loop; otherwise continue plotting forever.
-
+Read number pairs from a file, plotting bullets at 
+the indicated locations.  Note the use of an infinite
+loop, with a break condition following an
+end-of-file test.  (Do not be tempted to write 
+such loops as @code{while !..eof..} because that
+would not catch the end of file until the next
+time through the loop.  The result would be
+to draw the last bullet twice, since the @code{read}
+will not update the variables when the end of
+file is encountered.)
 @example
 while 1
   read .x. .y.
