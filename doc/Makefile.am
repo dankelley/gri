@@ -47,6 +47,10 @@ endif
      HTML_LONG_NAME = gri-long
 #   INFO_DIR_SOLARIS = $(DESTDIR)$(prefix)/info
 
+TEX = ${SHELL} ../missing --run tex
+TEXINDEX = ${SHELL} ../missing --run texindex
+
+
 SUBDIRS = examples resources screenshots tst_suite
 EXTRA_DIST = \
  refcard.tex cmdrefcard.tex\
@@ -133,25 +137,25 @@ html-install:
 #	chmod 644 $(INFO_DIR_SOLARIS)/gri.info*
 
 refcard.ps: refcard.tex
-	tex $(srcdir)/refcard.tex
+	$(TEX) $(srcdir)/refcard.tex
 	dvips -o refcard.ps -t landscape -t letter refcard.dvi
 
 cmdrefcard.ps: cmdrefcard.tex
-	tex $(srcdir)/cmdrefcard.tex
+	$(TEX) $(srcdir)/cmdrefcard.tex
 	dvips -o cmdrefcard.ps -t landscape -t letter cmdrefcard.dvi
 
 gri.ps: gri.texi
 	cd examples    ; ${MAKE} eps
 	cd screenshots ; ${MAKE} eps
 	cd tst_suite   ; ${MAKE} texi
-	tex gri.texi
-	texindex gri.cp
-	texindex gri.fn
-	texindex gri.ky
-	texindex gri.pg
-	texindex gri.tp
-	texindex gri.vr
-	tex gri.texi
+	$(TEX) gri.texi
+	$(TEXINDEX) gri.cp
+	$(TEXINDEX) gri.fn
+	$(TEXINDEX) gri.ky
+	$(TEXINDEX) gri.pg
+	$(TEXINDEX) gri.tp
+	$(TEXINDEX) gri.vr
+	$(TEX) gri.texi
 	dvips -o gri.ps -t letter gri.dvi
 
 #ps-install: gri.ps
@@ -164,12 +168,12 @@ gri.pdf: gri.texi
 	cd screenshots ; ${MAKE} pdf
 	cd tst_suite   ; ${MAKE} texi
 	pdftex gri.texi
-	texindex gri.cp
-	texindex gri.fn
-	texindex gri.ky
-	texindex gri.pg
-	texindex gri.tp
-	texindex gri.vr
+	$(TEXINDEX) gri.cp
+	$(TEXINDEX) gri.fn
+	$(TEXINDEX) gri.ky
+	$(TEXINDEX) gri.pg
+	$(TEXINDEX) gri.tp
+	$(TEXINDEX) gri.vr
 	pdftex gri.texi
 
 # Add to some of the automake-created targets.
