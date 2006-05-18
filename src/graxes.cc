@@ -122,296 +122,310 @@ gr_drawxyaxes(double xl, double xinc, double xr, double yb, double yinc, double 
 void
 gr_drawxaxis(double y, double xl, double xinc, double xr, gr_axis_properties side)
 {
-  bool user_gave_labels = (_x_labels.size() != 0);
+	bool user_gave_labels = (_x_labels.size() != 0);
 #ifdef DEBUG_LABELS
-  if (user_gave_labels) {
-    printf("DEBUG: %s:%d x axis should have labels [", __FILE__,__LINE__);
-    for (unsigned int i = 0; i < _x_labels.size(); i++)
-      printf("'%s' ", _x_labels[i].c_str());
-    printf("] at positions [");
-    for (unsigned int i = 0; i < _x_label_positions.size(); i++)
-      printf("%f ", _x_label_positions[i]);
-    printf("]\n");
-  }
+	if (user_gave_labels) {
+		printf("DEBUG: %s:%d x axis should have labels [", __FILE__,__LINE__);
+		for (unsigned int i = 0; i < _x_labels.size(); i++)
+			printf("'%s' ", _x_labels[i].c_str());
+		printf("] at positions [");
+		for (unsigned int i = 0; i < _x_label_positions.size(); i++)
+			printf("%f ", _x_label_positions[i]);
+		printf("]\n");
+	}
 #endif	
-  GriString label;
-  std::string slabel;
-  extern char     _xtype_map;
-  double          CapHeight = gr_currentCapHeight_cm();
-  double          angle = 0.0;	// angle of axis tics, labels, etc
+	GriString label;
+	std::string slabel;
+	extern char     _xtype_map;
+	double          CapHeight = gr_currentCapHeight_cm();
+	double          angle = 0.0;	// angle of axis tics, labels, etc
 #ifdef DEBUG_LABELS
-  printf("DEBUG: %s:%d at top of gr_drawxaxis(), angle is %f\n", __FILE__, __LINE__, angle);
+	printf("DEBUG: %s:%d at top of gr_drawxaxis(), angle is %f\n", __FILE__, __LINE__, angle);
 #endif
-  bool            increasing = ((xr > xl) ? true : false);
-  double          tic, tic_sml;	// length of tic marks
-  double          xcm, ycm;	// tmp
-  double          offset;	// for numbers
-  double          present, next, final = xr, smallinc = 0.0;
-  int             decade_between_labels;	// for log axes
-  double          tmp1, tmp2;
-  GriPath         axis_path;
-  // XREF -- axis transform
-  // Calculate size of large and small tic marks.
-  extern bool     _grTicsPointIn;
-  tic = ((side == gr_axis_LEFT && _grTicsPointIn == false)
-	 || (side == gr_axis_RIGHT && _grTicsPointIn == true))
-    ? -_grTicSize_cm : _grTicSize_cm;
-  if (_grTransform_x == gr_axis_LOG && _xsubdiv < 0)
-    tic_sml = 0.0;
-  else
-    tic_sml = TIC_RATIO * tic;
-  // Calculate offset = space for numbers.
-  offset = 0.0;
-  int old_linecap = _griState.line_cap();
-  int old_linejoin = _griState.line_join();
-  _griState.set_line_cap(0);
-  _griState.set_line_join(0);
-  switch (_grTransform_x) {
-  case gr_axis_LINEAR:
-  case gr_axis_LOG:
-    if (side == gr_axis_BOTTOM) {
-      if (strlen(_grNumFormat_x))
-	offset -= 1.75 * CapHeight;
-      offset -= ((_grTicsPointIn == false) ? _grTicSize_cm : 0.0);
-    } else {
-      if (strlen(_grNumFormat_x))
-	offset += 0.75 * CapHeight;
-      offset += ((_grTicsPointIn == false) ? _grTicSize_cm : 0.0);
-    }
-    break;
-  default:
-    gr_Error("unknown axis type (internal error)");
-  }
-  // Draw axis, moving from tic to tic.  Tics are advanced by smallinc for
-  // linear axes and by something appropriate for log axes. Whenever the
-  // current location should be a big tic, such a tic is drawn along with a
-  // label.
-  double xl_cm, y_cm;
-  switch (_grTransform_x) {
-  case gr_axis_LINEAR:
-    smallinc = xinc / _grNumSubDiv_x;
-    // Twiddle axes to extend a bit beyond the requested
-    // region, to prevent rounding problems.
-    present = xl - xinc / 1.0e3;
-    final   = xr + xinc / 1.0e3;
-    // Draw x-axis, moving from tic to tic.  Tics are advanced by
-    // smallinc for linear axes and by something appropriate for log
-    // axes. Whenever the current location should be a big tic, such a
-    // tic is drawn along with a label.
-    gr_usertocm(xl, y, &xl_cm, &y_cm);
-    axis_path.push_back(xl_cm, y_cm, 'm');
-    while (next_tic(&next, present, final, smallinc, _grTransform_x, increasing)) {
-      // Determine angle of x-axis tics, for non-rectangular axes
-      switch (_grTransform_x) {
-      case gr_axis_LINEAR:
-      case gr_axis_LOG:
-	angle = atan2(1.0, 0.0); // angle for tics
-	break;
-      default:
-	gr_Error("unknown axis type (internal error)");
-	break;
-      }
-      gr_usertocm(next, y, &xcm, &ycm);
-      axis_path.push_back(xcm, ycm, 'l');
-      // Detect large tics on x axis
-      if (gr_multiple(next, xinc, 0.01 * smallinc)) {
-				// draw large tic
-	axis_path.push_back(xcm + tic * cos(angle), ycm + tic * sin(angle), 'l');
-	if (gr_currentfontsize_pt() > SMALLFONTSIZE) {
-	  if (_xtype_map != ' ') {
-	    // It's a map, so figure the deg/min/seconds;
-	    // over-ride any existing format
-	    int             hour, min, sec;
-	    if (gr_multiple(next, 1.0, 1.0e-6)) {
-	      hour = (int)floor(1.0e-4 + fabs(next));
-	      if (next >= 0.0) 
-		sprintf(_grTempString,"%d$\\circ$%c",hour,_xtype_map);
-	      else
-		sprintf(_grTempString,"-%d$\\circ$%c",hour,_xtype_map);
-	    } else if (gr_multiple(next, 1.0 / 60.0, 1.0e-7)) {
-	      hour = (int)floor(1.0e-4 + fabs(next));
-	      min = (int)floor(1e-5 + 60.0 * (fabs(next) - hour));
-	      if (next >= 0.0)
-		sprintf(_grTempString,"%d$\\circ$%d'%c",hour,min,_xtype_map);
-	      else 
-		sprintf(_grTempString,"-%d$\\circ$%d'%c",hour,min,_xtype_map);
-	    } else if (gr_multiple(next, 1.0 / 3600.0, 1.0e-8)) {
-	      hour = (int)floor(1.0e-4 + fabs(next));
-	      min = (int)floor(1e-5 + 60.0 * (fabs(next) - hour));
-	      sec = (int)floor(1e-5 + 3600.0 * (fabs(next) - hour - min / 60.0));
-	      if (next >= 0.0)
-		sprintf(_grTempString, "%d$\\circ$%d'%d\"%c",hour,min,sec,_xtype_map);
-	      else 
-		sprintf(_grTempString, "-%d$\\circ$%d'%d\"%c",hour,min,sec,_xtype_map);
-	    } else {
-	      sprintf(_grTempString,"%f$\\circ$%c",next,_xtype_map);
-	    }
-	  } else if (strlen(_grNumFormat_x)) {
-	    sprintf(_grTempString, _grNumFormat_x, next);
-	    if (get_flag("emulate_gre")) {
-	      char *e = index(_grTempString, int('E'));
-	      if (e != NULL) {
-		std::string gs(_grTempString);
-		size_t chop;
-		if (STRING_NPOS != (chop = gs.find("E+0"))) {
-		  gs.replace(chop, 3, "$\\times10^{");
-		  gs.append("}$");
-		} else if (STRING_NPOS != (chop = gs.find("E-0"))) {
-		  gs.replace(chop, 3, "$\\times10^{-");
-		  gs.append("}$");
-		} else if (STRING_NPOS != (chop = gs.find("E+"))) {
-		  gs.replace(chop, 2, "$\\times10^{");
-		  gs.append("}$");
-		} else if (STRING_NPOS != (chop = gs.find("E-"))) {
-		  gs.replace(chop, 2, "$\\times10^{-");
-		  gs.append("}$");
-		} else if (STRING_NPOS != (chop = gs.find("E"))) {
-		  gs.replace(chop, 1, "$\\times10^{");
-		  gs.append("}$");
+	bool            increasing = ((xr > xl) ? true : false);
+	double          tic, tic_sml;	// length of tic marks
+	double          xcm, ycm;	// tmp
+	double          offset;	// for numbers
+	double          present, next, final = xr, smallinc = 0.0;
+	int             decade_between_labels;	// for log axes
+	double          tmp1, tmp2;
+	GriPath         axis_path;
+	// XREF -- axis transform
+	// Calculate size of large and small tic marks.
+	extern bool     _grTicsPointIn;
+	tic = ((side == gr_axis_LEFT && _grTicsPointIn == false)
+	       || (side == gr_axis_RIGHT && _grTicsPointIn == true))
+		? -_grTicSize_cm : _grTicSize_cm;
+	if (_grTransform_x == gr_axis_LOG && _xsubdiv < 0)
+		tic_sml = 0.0;
+	else
+		tic_sml = TIC_RATIO * tic;
+	// Calculate offset = space for numbers.
+	offset = 0.0;
+	int old_linecap = _griState.line_cap();
+	int old_linejoin = _griState.line_join();
+	_griState.set_line_cap(0);
+	_griState.set_line_join(0);
+	switch (_grTransform_x) {
+	case gr_axis_LINEAR:
+	case gr_axis_LOG:
+		if (side == gr_axis_BOTTOM) {
+			if (strlen(_grNumFormat_x))
+				offset -= 1.75 * CapHeight;
+			offset -= ((_grTicsPointIn == false) ? _grTicSize_cm : 0.0);
+		} else {
+			if (strlen(_grNumFormat_x))
+				offset += 0.75 * CapHeight;
+			offset += ((_grTicsPointIn == false) ? _grTicSize_cm : 0.0);
 		}
-		strcpy(_grTempString, gs.c_str());
-	      }
-	    }
-	  } else {
-	    *_grTempString = '\0';
-	  }
-	  angle = 0;
-#ifdef DEBUG_LABELS
-	  printf("DEBUG: %s:%d after the loop, angle is %f\n", __FILE__, __LINE__, angle);
-#endif
-	  if (!user_gave_labels) {
-	    slabel.assign(_grTempString);
-	    fix_negative_zero(slabel);
-	    label.fromSTR(slabel.c_str());
-	    label.draw(xcm - offset * sin(angle),
-		       ycm + offset * cos(angle),
-		       TEXT_CENTERED,
-		       DEG_PER_RAD * angle);
-	  }
+		break;
+	default:
+		gr_Error("unknown axis type (internal error)");
 	}
-      } else {
-	// Small tic
-	axis_path.push_back(xcm + tic_sml * cos(angle), ycm + tic_sml * sin(angle), 'l');
-      }
-      axis_path.push_back(gr_usertocm_x(next, y), gr_usertocm_y(next, y), 'l');
-      present = next;
-    }
-    if (user_gave_labels) {
-      angle = 0;
-      for (unsigned int i = 0; i < _x_labels.size(); i++) {
-	if (BETWEEN(xl, xr, _x_label_positions[i])) {
-	  label.fromSTR(_x_labels[i].c_str()); // BUG: should interpolate into this string
-	  gr_usertocm(_x_label_positions[i], y, &xcm, &ycm);
+	// Draw axis, moving from tic to tic.  Tics are advanced by smallinc for
+	// linear axes and by something appropriate for log axes. Whenever the
+	// current location should be a big tic, such a tic is drawn along with a
+	// label.
+	double xl_cm, y_cm;
+	switch (_grTransform_x) {
+	case gr_axis_LINEAR:
+		smallinc = xinc / _grNumSubDiv_x;
+		// Twiddle axes to extend a bit beyond the requested
+		// region, to prevent rounding problems.
+		present = xl - xinc / 1.0e3;
+		final   = xr + xinc / 1.0e3;
+		// Draw x-axis, moving from tic to tic.  Tics are advanced by
+		// smallinc for linear axes and by something appropriate for log
+		// axes. Whenever the current location should be a big tic, such a
+		// tic is drawn along with a label.
+		gr_usertocm(xl, y, &xl_cm, &y_cm);
+		axis_path.push_back(xl_cm, y_cm, 'm');
+		while (next_tic(&next, present, final, smallinc, _grTransform_x, increasing)) {
+			// Determine angle of x-axis tics, for non-rectangular axes
+			switch (_grTransform_x) {
+			case gr_axis_LINEAR:
+			case gr_axis_LOG:
+				angle = atan2(1.0, 0.0); // angle for tics
+				break;
+			default:
+				gr_Error("unknown axis type (internal error)");
+				break;
+			}
+			gr_usertocm(next, y, &xcm, &ycm);
+			axis_path.push_back(xcm, ycm, 'l');
+			// Detect large tics on x axis
+			if (gr_multiple(next, xinc, 0.01 * smallinc)) {
+				// draw large tic
+				axis_path.push_back(xcm + tic * cos(angle), ycm + tic * sin(angle), 'l');
+				if (gr_currentfontsize_pt() > SMALLFONTSIZE) {
+					if (_xtype_map != ' ') {
+						// It's a map, so figure the deg/min/seconds;
+						// over-ride any existing format
+						int             hour, min, sec;
+						if (gr_multiple(next, 1.0, 1.0e-6)) {
+							hour = (int)floor(1.0e-4 + fabs(next));
+							if (next >= 0.0) 
+								sprintf(_grTempString,"%d$\\circ$%c",hour,_xtype_map);
+							else
+								sprintf(_grTempString,"-%d$\\circ$%c",hour,_xtype_map);
+						} else if (gr_multiple(next, 1.0 / 60.0, 1.0e-7)) {
+							hour = (int)floor(1.0e-4 + fabs(next));
+							min = (int)floor(1e-5 + 60.0 * (fabs(next) - hour));
+							if (next >= 0.0)
+								sprintf(_grTempString,"%d$\\circ$%d'%c",hour,min,_xtype_map);
+							else 
+								sprintf(_grTempString,"-%d$\\circ$%d'%c",hour,min,_xtype_map);
+						} else if (gr_multiple(next, 1.0 / 3600.0, 1.0e-8)) {
+							hour = (int)floor(1.0e-4 + fabs(next));
+							min = (int)floor(1e-5 + 60.0 * (fabs(next) - hour));
+							sec = (int)floor(1e-5 + 3600.0 * (fabs(next) - hour - min / 60.0));
+							if (next >= 0.0)
+								sprintf(_grTempString, "%d$\\circ$%d'%d\"%c",hour,min,sec,_xtype_map);
+							else 
+								sprintf(_grTempString, "-%d$\\circ$%d'%d\"%c",hour,min,sec,_xtype_map);
+						} else {
+							sprintf(_grTempString,"%f$\\circ$%c",next,_xtype_map);
+						}
+					} else if (strlen(_grNumFormat_x)) {
+						sprintf(_grTempString, _grNumFormat_x, next);
+						if (get_flag("emulate_gre")) {
+							char *e = index(_grTempString, int('E'));
+							if (e != NULL) {
+								std::string gs(_grTempString);
+								size_t chop;
+								if (STRING_NPOS != (chop = gs.find("E+0"))) {
+									gs.replace(chop, 3, "$\\times10^{");
+									gs.append("}$");
+								} else if (STRING_NPOS != (chop = gs.find("E-0"))) {
+									gs.replace(chop, 3, "$\\times10^{-");
+									gs.append("}$");
+								} else if (STRING_NPOS != (chop = gs.find("E+"))) {
+									gs.replace(chop, 2, "$\\times10^{");
+									gs.append("}$");
+								} else if (STRING_NPOS != (chop = gs.find("E-"))) {
+									gs.replace(chop, 2, "$\\times10^{-");
+									gs.append("}$");
+								} else if (STRING_NPOS != (chop = gs.find("E"))) {
+									gs.replace(chop, 1, "$\\times10^{");
+									gs.append("}$");
+								}
+								strcpy(_grTempString, gs.c_str());
+							}
+						}
+					} else {
+						*_grTempString = '\0';
+					}
+					angle = 0;
 #ifdef DEBUG_LABELS
-	  printf("DEBUG: %s:%d drawing %d-th label '%s' at x=%f angle=%f\n",__FILE__,__LINE__,i,_x_labels[i].c_str(),_x_label_positions[i],angle);
+					printf("DEBUG: %s:%d after the loop, angle is %f\n", __FILE__, __LINE__, angle);
 #endif
-	  label.draw(xcm - offset * sin(angle),
-		     ycm + offset * cos(angle),
-		     TEXT_CENTERED,
-		     DEG_PER_RAD * angle);
-	} else {
+					if (!user_gave_labels) {
+						slabel.assign(_grTempString);
+						fix_negative_zero(slabel);
+						label.fromSTR(slabel.c_str());
+						label.draw(xcm - offset * sin(angle),
+							   ycm + offset * cos(angle),
+							   TEXT_CENTERED,
+							   DEG_PER_RAD * angle);
+					}
+				}
+			} else {
+				// Small tic
+				axis_path.push_back(xcm + tic_sml * cos(angle), ycm + tic_sml * sin(angle), 'l');
+			}
+			axis_path.push_back(gr_usertocm_x(next, y), gr_usertocm_y(next, y), 'l');
+			present = next;
+		}
+		if (user_gave_labels) {
+			angle = 0;
+			for (unsigned int i = 0; i < _x_labels.size(); i++) {
+				if (BETWEEN(xl, xr, _x_label_positions[i])) {
+					label.fromSTR(_x_labels[i].c_str()); // BUG: should interpolate into this string
+					gr_usertocm(_x_label_positions[i], y, &xcm, &ycm);
 #ifdef DEBUG_LABELS
-	  //printf("DEBUG: %s:%d SKIPPING %d-th label '%s' since x=%f\n",__FILE__,__LINE__,i,_x_labels[i].c_str(),_x_label_positions[i]);
+					printf("DEBUG: %s:%d drawing %d-th label '%s' at x=%f angle=%f\n",__FILE__,__LINE__,i,_x_labels[i].c_str(),_x_label_positions[i],angle);
 #endif
-	}
-      }
-    }
-    // Finish by drawing to end of axis (in case there was no tic there).
-    axis_path.push_back(gr_usertocm_x(final, y), gr_usertocm_y(final, y), 'l');
-    axis_path.stroke(units_cm, _griState.linewidth_axis());
-    break;
-  case gr_axis_LOG:
-    decade_between_labels = (int) floor(0.5 + xinc);
-    gr_usertocm(xl, y, &xcm, &ycm);
-    gr_cmtouser(xcm - AXIS_TWIDDLE, ycm, &tmp1, &tmp2);
-    present = tmp1;
-    axis_path.push_back(present, y, 'm');
-    while (next_tic(&next, present, final, smallinc, _grTransform_x, increasing)) {
-      double          tmp, next_log;
-      double xuser, yuser;
-      axis_path.push_back(next, y, 'l');
-      next_log = log10(next);
-      tmp = next_log - floor(next_log);
-      gr_usertocm(next, y, &xcm, &ycm);
-      if (-0.01 < tmp && tmp < 0.01) {
+					label.draw(xcm - offset * sin(angle),
+						   ycm + offset * cos(angle),
+						   TEXT_CENTERED,
+						   DEG_PER_RAD * angle);
+				} else {
+#ifdef DEBUG_LABELS
+					//printf("DEBUG: %s:%d SKIPPING %d-th label '%s' since x=%f\n",__FILE__,__LINE__,i,_x_labels[i].c_str(),_x_label_positions[i]);
+#endif
+				}
+			}
+		}
+		// Finish by drawing to end of axis (in case there was no tic there).
+		axis_path.push_back(gr_usertocm_x(final, y), gr_usertocm_y(final, y), 'l');
+		axis_path.stroke(units_cm, _griState.linewidth_axis());
+		break;
+	case gr_axis_LOG:
+		decade_between_labels = (int) floor(0.5 + xinc);
+		gr_usertocm(xl, y, &xcm, &ycm);
+		gr_cmtouser(xcm - AXIS_TWIDDLE, ycm, &tmp1, &tmp2);
+		present = tmp1;
+		axis_path.push_back(present, y, 'm');
+		while (next_tic(&next, present, final, smallinc, _grTransform_x, increasing)) {
+			double          tmp, next_log;
+			double xuser, yuser;
+			axis_path.push_back(next, y, 'l');
+			next_log = log10(next);
+			tmp = next_log - floor(next_log);
+			gr_usertocm(next, y, &xcm, &ycm);
+			if (-0.01 < tmp && tmp < 0.01) {
 				// large tic & number
-	gr_cmtouser(xcm, ycm+tic, &xuser, &yuser);
-	axis_path.push_back(xuser, yuser, 'l');
-	gr_cmtouser(xcm, ycm+offset, &xuser, &yuser);
-	tmp = next_log
-	  - decade_between_labels * floor(next_log / decade_between_labels);
-	if (gr_currentfontsize_pt() > SMALLFONTSIZE
-	    && -0.01 < tmp / xinc && tmp / xinc < 0.01
-	    && strlen(_grNumFormat_x)) {
-	  // Draw "1" as a special case
-	  if (0.99 < next && next < 1.01)
-	    sprintf(_grTempString, "1");
-	  else
-	    sprintf(_grTempString, "$10^{%.0f}$", log10(next));
-	  slabel.assign(_grTempString);
-	  fix_negative_zero(slabel);
-	  label.fromSTR(slabel.c_str());
-	  label.draw(xcm, ycm + offset, TEXT_CENTERED, 0.0);
-	}
-      } else {
+				gr_cmtouser(xcm, ycm+tic, &xuser, &yuser);
+				axis_path.push_back(xuser, yuser, 'l');
+				gr_cmtouser(xcm, ycm+offset, &xuser, &yuser);
+				tmp = next_log - decade_between_labels * floor(next_log / decade_between_labels);
+				if (!user_gave_labels && gr_currentfontsize_pt() > SMALLFONTSIZE && -0.01 < tmp / xinc && tmp / xinc < 0.01 && strlen(_grNumFormat_x)) {
+					// Draw "1" as a special case
+					if (0.99 < next && next < 1.01)
+						sprintf(_grTempString, "1");
+					else
+						sprintf(_grTempString, "$10^{%.0f}$", log10(next));
+					slabel.assign(_grTempString);
+					fix_negative_zero(slabel);
+					label.fromSTR(slabel.c_str());
+					label.draw(xcm, ycm + offset, TEXT_CENTERED, 0.0);
+				}
+			} else {
 				// small tic
-	gr_cmtouser(xcm, ycm+tic_sml,&xuser, &yuser);
-	axis_path.push_back(xuser, yuser, 'l');
-      }
-      axis_path.push_back(next, y, 'm');
-      present = next;
-    }
-    // Finish by drawing to end of axis (in case there was no tic there).
-    axis_path.push_back(final, y, 'l');
-    axis_path.stroke(units_user, _griState.linewidth_axis());
-    break;
-  default:
-    gr_Error("unknown axis type (internal error)");
-  }
-  // Draw axis title.
-  if (gr_currentfontsize_pt() > SMALLFONTSIZE) {
-    label.fromSTR(_grXAxisLabel);
-    switch (_grTransform_x) {
-    case gr_axis_LINEAR:
-      if (side == gr_axis_TOP) {
-	double          xcm, ycm;
-	gr_usertocm(0.5 * (xl + final), y, &xcm, &ycm);
-	label.draw(xcm,
-		   ycm + offset + 1.75 * CapHeight,
-		   TEXT_CENTERED,
-		   0.0);
-      } else {
-	double          xcm, ycm;
-	gr_usertocm(0.5 * (xl + final), y, &xcm, &ycm);
-	label.draw(xcm,
-		   ycm + offset - 1.75 * CapHeight,
-		   TEXT_CENTERED,
-		   0.0);
-      }
-      break;
-    case gr_axis_LOG:
-      if (side == gr_axis_TOP) {
-	double          xcm, ycm;
-	gr_usertocm(sqrt(xl * final), y, &xcm, &ycm);
-	label.draw(xcm,
-		   ycm + offset + (1.75 + 0.75) * CapHeight,
-		   TEXT_CENTERED,
-		   0.0);
-      } else {
-	double          xcm, ycm;
-	gr_usertocm(sqrt(xl * final), y, &xcm, &ycm);
-	label.draw(xcm,
-		   ycm + offset - 1.75 * CapHeight,
-		   TEXT_CENTERED,
-		   0.0);
-      }
-      break;
-    default:
-      gr_Error("unknown axis type (internal error)");
-    }
-  }
-  _griState.set_line_cap(old_linecap);
-  _griState.set_line_join(old_linejoin);
+				gr_cmtouser(xcm, ycm+tic_sml,&xuser, &yuser);
+				axis_path.push_back(xuser, yuser, 'l');
+			}
+			axis_path.push_back(next, y, 'm');
+			present = next;
+		}
+		if (user_gave_labels) {
+			angle = 0;
+			for (unsigned int i = 0; i < _x_labels.size(); i++) {
+				if (BETWEEN(xl, xr, _x_label_positions[i])) {
+					label.fromSTR(_x_labels[i].c_str()); // BUG: should interpolate into this string
+					gr_usertocm(_x_label_positions[i], y, &xcm, &ycm);
+#ifdef DEBUG_LABELS
+					printf("DEBUG: %s:%d drawing %d-th label '%s' at x=%f angle=%f\n",__FILE__,__LINE__,i,_x_labels[i].c_str(),_x_label_positions[i],angle);
+#endif
+					label.draw(xcm - offset * sin(angle), ycm + offset * cos(angle), TEXT_CENTERED, DEG_PER_RAD * angle);
+				} else {
+#ifdef DEBUG_LABELS
+					//printf("DEBUG: %s:%d SKIPPING %d-th label '%s' since x=%f\n",__FILE__,__LINE__,i,_x_labels[i].c_str(),_x_label_positions[i]);
+#endif
+				}
+			}
+		}
+		// Finish by drawing to end of axis (in case there was no tic there).
+		axis_path.push_back(final, y, 'l');
+		axis_path.stroke(units_user, _griState.linewidth_axis());
+		break;
+	default:
+		gr_Error("unknown axis type (internal error)");
+	}
+	// Draw axis title.
+	if (gr_currentfontsize_pt() > SMALLFONTSIZE) {
+		label.fromSTR(_grXAxisLabel);
+		switch (_grTransform_x) {
+		case gr_axis_LINEAR:
+			if (side == gr_axis_TOP) {
+				double          xcm, ycm;
+				gr_usertocm(0.5 * (xl + final), y, &xcm, &ycm);
+				label.draw(xcm,
+					   ycm + offset + 1.75 * CapHeight,
+					   TEXT_CENTERED,
+					   0.0);
+			} else {
+				double          xcm, ycm;
+				gr_usertocm(0.5 * (xl + final), y, &xcm, &ycm);
+				label.draw(xcm,
+					   ycm + offset - 1.75 * CapHeight,
+					   TEXT_CENTERED,
+					   0.0);
+			}
+			break;
+		case gr_axis_LOG:
+			if (side == gr_axis_TOP) {
+				double          xcm, ycm;
+				gr_usertocm(sqrt(xl * final), y, &xcm, &ycm);
+				label.draw(xcm,
+					   ycm + offset + (1.75 + 0.75) * CapHeight,
+					   TEXT_CENTERED,
+					   0.0);
+			} else {
+				double          xcm, ycm;
+				gr_usertocm(sqrt(xl * final), y, &xcm, &ycm);
+				label.draw(xcm,
+					   ycm + offset - 1.75 * CapHeight,
+					   TEXT_CENTERED,
+					   0.0);
+			}
+			break;
+		default:
+			gr_Error("unknown axis type (internal error)");
+		}
+	}
+	_griState.set_line_cap(old_linecap);
+	_griState.set_line_join(old_linejoin);
 }
 
 #define FACTOR 1.35		// Kludge to scale fonts up
@@ -568,11 +582,11 @@ gr_drawyaxis(double x, double yb, double yinc, double yt, gr_axis_properties sid
 		}
 #if 1				// 2.9.x
 		if (user_gave_labels) {
-			//printf("labels...\n");
+		  //printf("labels...\n");
 			for (unsigned int i = 0; i < _y_labels.size(); i++) {
 				label.fromSTR(_y_labels[i].c_str()); // BUG: should interpolate into this string
 				gr_usertocm(x, _y_label_positions[i], &xcm, &ycm);
-				labelx_cm = xcm;
+				labelx_cm = xcm + offset * cos(angle);
 				labely_cm = ycm + offset * sin(angle) - 0.5 * CapHeight;
 				//printf("%f %f %f %f\n", ycm, offset*sin(angle),CapHeight, labely_cm);
 				if (side == gr_axis_LEFT)
@@ -608,7 +622,7 @@ gr_drawyaxis(double x, double yb, double yinc, double yt, gr_axis_properties sid
 				axis_path.push_back(xuser, yuser, 'l');
 				gr_cmtouser(xcm2 + tic, ycm2 - 0.5 * FACTOR * CapHeight, &xuser, &yuser);
 				tmp = next_log - decade_between_labels * floor(next_log / decade_between_labels);
-				if (gr_currentfontsize_pt() > SMALLFONTSIZE
+				if (!user_gave_labels && gr_currentfontsize_pt() > SMALLFONTSIZE
 				    && -0.01 < tmp / yinc && tmp / yinc< 0.01
 				    && strlen(_grNumFormat_y)) {
 					// Draw "1" as a special case
@@ -637,6 +651,29 @@ gr_drawyaxis(double x, double yb, double yinc, double yt, gr_axis_properties sid
 			}
 			axis_path.push_back(x, next, 'l');
 			present = next;
+		}
+		if (user_gave_labels) {
+			angle = 0;
+			for (unsigned int i = 0; i < _y_labels.size(); i++) {
+				if (BETWEEN(yb, yt, _y_label_positions[i])) {
+					label.fromSTR(_y_labels[i].c_str()); // BUG: should interpolate into this string
+					gr_usertocm(x, _y_label_positions[i], &xcm, &ycm);
+					labelx_cm = xcm + offset * cos(angle);
+					labely_cm = ycm + offset * sin(angle) - 0.5 * CapHeight;
+
+#ifdef DEBUG_LABELS
+					printf("DEBUG: %s:%d drawing %d-th label '%s' at y=%f angle=%f\n",__FILE__,__LINE__,i,_y_labels[i].c_str(),_y_label_positions[i],angle);
+#endif
+					if (side == gr_axis_LEFT)
+						label.draw(labelx_cm, labely_cm, TEXT_RJUST, DEG_PER_RAD * angle);
+					else
+						label.draw(labelx_cm, labely_cm, TEXT_LJUST, DEG_PER_RAD * angle);
+				} else {
+#ifdef DEBUG_LABELS
+					//printf("DEBUG: %s:%d SKIPPING %d-th label '%s' since x=%f\n",__FILE__,__LINE__,i,_y_labels[i].c_str(),_y_label_positions[i]);
+#endif
+				}
+			}
 		}
 		// Finish by drawing to end of axis (in case there was no tic there).
 		axis_path.push_back(x, final, 'l');
