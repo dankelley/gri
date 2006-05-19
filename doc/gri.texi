@@ -53,8 +53,8 @@
 @comment %**start of header
 @setfilename gri.info
 @settitle Gri
-@set GRI-VERSION 2.12.11
-@set GRI-PREVIOUS-VERSION 2.12.10
+@set GRI-VERSION 2.12.12
+@set GRI-PREVIOUS-VERSION 2.12.11
 @set AUTHOR-EMAIL dankelley@@users.sourceforge.net
 @include version.texi
 @c %**end of header
@@ -16487,6 +16487,18 @@ only in the fixing of bugs.
 @cindex version 2.12
 
 @comment ADD-NEW-BUG-FIXES-HERE
+
+
+@subsubsection Version 2.12.12 [not released yet]
+@strong{Bug Fixes}
+@itemize @bullet
+@item
+Fix SourceForge bug
+@uref{https://sourceforge.net/tracker/index.php?func=detail&aid=1491105&group_id=5511&atid=105511,#1491105}
+@dots{} @code{set x axis labels} had no affect for log axes (same for y)
+
+@end itemize
+
 
 @subsubsection Version 2.12.11 [2006 Mar 30 (Hindu New Year)]
 @strong{Bug Fixes}
