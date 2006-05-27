@@ -160,7 +160,7 @@ start_up(int argc, char **argv)
 #endif
 */
 #ifdef OSX_BUNDLE
-	printf("%s:%d OSX_BUNDLE being used\n",__FILE__,__LINE__);
+//	printf("%s:%d OSX_BUNDLE being used\n",__FILE__,__LINE__);
 #endif
 
 	_output_file_type = postscript;
@@ -210,11 +210,8 @@ start_up(int argc, char **argv)
         } else {
 		fatal_err("OSX error: cannot find slash in argv[0]\n");
         }
-        printf("%s:%d: OSX_BUNDLE using _lib_directory '%s'\n", __FILE__, __LINE__, _lib_directory.c_str());
-	//printf("%s:%d: NOTE: this is not in the right place.\n",__FILE__,__LINE__);
-        // BUG: the above is the wrong dir; I don't know yet how to do bundles.
+//        printf("%s:%d: OSX_BUNDLE using _lib_directory '%s'\n", __FILE__, __LINE__, _lib_directory.c_str());
 #endif
-
 	// Get leftover (non-optional) arguments
 	argv_leftover = interpret_optional_arguments(argc, argv);
 	unsigned int argc_leftover = 0;
