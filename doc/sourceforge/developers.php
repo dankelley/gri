@@ -48,7 +48,7 @@ print "[<A HREF=\"$sf_url/pm/task.php?group_project_id=8706&amp;group_id=$gri_gr
 print "<br>";
 print "CVS:\n";
 print "[<A HREF=\"$sf_url/cvs/?group_id=$gri_group_id\">Get CVS source</a>]\n";
-print "[<A HREF=\"http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/gri/gri/\">View CVS history</a>].\n";
+print "[<A HREF=\"http://gri.cvs.sourceforge.net/gri/gri/\">View CVS history</a>].\n";
 ?>
 
 <?php
