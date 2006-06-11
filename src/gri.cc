@@ -150,9 +150,8 @@ GRI_COMMAND     _command[COMMAND_STACK_SIZE];
 int _function_indent = 4;
 
 
-
 int
-main(int argc, char **argv)
+gri_main(int argc, char **argv)
 {
 	start_up(argc, argv);
 	do {

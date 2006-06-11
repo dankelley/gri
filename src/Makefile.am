@@ -11,7 +11,7 @@ gridir = $(datadir)/gri
 #gri_DATA = gri.cmd
 nodist_gri_SOURCES = startup.debian startup.redhat 
 
-gri_SOURCES = G_string.cc GriColor.cc GriPath.cc GriState.cc assert.cc\
+gri_SOURCES = main.cc G_string.cc GriColor.cc GriPath.cc GriState.cc assert.cc\
  chopword.cc close.cc command.cc convert.cc debug.cc delete.cc differ.cc\
  doline.cc draw.cc endup.cc expect.cc file.cc filter.cc flip.cc\
  gr.cc gr_coll.cc graxes.cc grcntour.cc gri.cc grimage.cc grinterp.cc\
