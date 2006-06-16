@@ -1134,8 +1134,8 @@ gr_rgb2cmyk(double r, double g, double b, double *c, double *m, double *y, doubl
 {
 	double Cp = 1.0 - r, Mp = 1.0 - g, Yp = 1.0 - b;
 	*k = Cp;
-	if (Mp > *k) *k = Mp;
-	if (Yp > *k) *k = Yp;
+	if (Mp < *k) *k = Mp;
+	if (Yp < *k) *k = Yp;
 	if (*k == 1.0) {
 		*c = 0.0; *m = 0.0; *y = 0.0;
 	} else {
