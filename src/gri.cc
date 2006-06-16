@@ -153,6 +153,12 @@ int _function_indent = 4;
 int
 gri_main(int argc, char **argv)
 {
+#if 0 // testing types
+	GriColor::type hi_dan;
+	hi_dan = GriColor::rgb;
+	printf("type of hi_dan is %d (NB rgb is %d)\n",hi_dan,GriColor::rgb);
+#endif
+
 	start_up(argc, argv);
 	do {
 		do_command_line();
