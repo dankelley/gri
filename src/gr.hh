@@ -253,6 +253,7 @@ double          gr_quad_cm();	// width of "M"
 void            gr_record_handle(double x_cm, double y_cm);
 void            gr_record_scale(void);
 bool            gr_reopen_postscript(const char *new_name);
+void            gr_rgb2cmyk(double r, double g, double b, double *c, double *m, double *y, double *k);
 void            gr_rgb2hsb(double r, double g, double b, double *h, double *s, double *br);
 void            gr_rmoveto_cm(double rx_cm, double ry_cm);
 void            gr_rmoveto_pt(double rx_pt, double ry_pt);
