@@ -8,7 +8,7 @@
 class GriColor
 {
 public:
-	enum type {rgb, hsv};
+	enum type {rgb, hsv, cmyk};
 	GriColor() { t = rgb; transparency = a = b = c = 0.0;};
 	GriColor(const GriColor& c);
 	~GriColor() {};
