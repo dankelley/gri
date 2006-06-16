@@ -1128,7 +1128,23 @@ gr_record_scale()
 		_grTransform_x, _grxl_pt, _grxl, _grPtPerUser_x,
 		_grTransform_y, _gryb_pt, _gryb, _grPtPerUser_y);
 }
-
+// rgb values each in range 0 to 1; result in same range
+void
+gr_rgb2cmyk(double r, double g, double b, double *c, double *m, double *y, double *k)
+{
+	double Cp = 1.0 - r, Mp = 1.0 - g, Yp = 1.0 - b;
+	*k = Cp;
+	if (Mp > *k) *k = Mp;
+	if (Yp > *k) *k = Yp;
+	if (*k == 1.0) {
+		*c = 0.0; *m = 0.0; *y = 0.0;
+	} else {
+		*c = (Cp - *k) / (1.0 - *k);
+		*m = (Mp - *k) / (1.0 - *k);
+		*y = (Yp - *k) / (1.0 - *k);
+	}
+}
+
 /*
  * (red, green, blue) in range from 0 to 1 is translated to (hue, saturation,
  * brightness) in same range.
