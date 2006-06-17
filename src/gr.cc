@@ -1128,20 +1128,28 @@ gr_record_scale()
 		_grTransform_x, _grxl_pt, _grxl, _grPtPerUser_x,
 		_grTransform_y, _gryb_pt, _gryb, _grPtPerUser_y);
 }
+
 // rgb values each in range 0 to 1; result in same range
 void
-gr_rgb2cmyk(double r, double g, double b, double *c, double *m, double *y, double *k)
+gr_rgb2cmyk(double R[], double G[], double B[], 
+	unsigned int n,
+	double c[], double m[], double y[], double k[])
 {
-	double Cp = 1.0 - r, Mp = 1.0 - g, Yp = 1.0 - b;
-	*k = Cp;
-	if (Mp < *k) *k = Mp;
-	if (Yp < *k) *k = Yp;
-	if (*k == 1.0) {
-		*c = 0.0; *m = 0.0; *y = 0.0;
-	} else {
-		*c = (Cp - *k) / (1.0 - *k);
-		*m = (Mp - *k) / (1.0 - *k);
-		*y = (Yp - *k) / (1.0 - *k);
+	double Cp, Mp, Yp;
+	for( unsigned int i = 0; i < n; i += 1 ) {
+		Cp = 1.0 - R[i];
+		Mp = 1.0 - G[i];
+		Yp = 1.0 - B[i];
+		k[i] = Cp; if (Mp < k[i]) k[i] = Mp; if (Yp < k[i]) k[i] = Yp; // min
+		if (k[i] == 1.0) {
+			c[i] = 0.0;
+			m[i] = 0.0;
+			y[i] = 0.0;
+		} else {
+			c[i] = (Cp - k[i]) / (1.0 - k[i]);
+			m[i] = (Mp - k[i]) / (1.0 - k[i]);
+			y[i] = (Yp - k[i]) / (1.0 - k[i]);
+		}
 	}
 }
 

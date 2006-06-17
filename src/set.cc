@@ -1455,7 +1455,8 @@ set_image_colorscaleCmd()
 	double           r, g, b, h, s, br;
 	double           valA, valB, indexA, indexB, inc, delta_image = 0.0;
 	int             i, levels = 0;
-	bool            used_rgb = false, gave_increment = false;
+	GriColor::type color_model; // rgb hsv cmyk (GriColor.hh)
+	bool            gave_increment = false;
 	// check number of words, for the 2 forms and with/without increment
 	if (_nword != 13 && _nword != 15 && _nword != 7 && _nword != 9) {
 		demonstrate_command_usage();
@@ -1482,10 +1483,10 @@ set_image_colorscaleCmd()
 		if (!getdnum(_word[6], &valB))
 			return false;
 		gave_increment = false;
-		used_rgb = true;		// that's how I'll blend them
+		color_model = GriColor::rgb; // default
 	} else if (_nword == 9) {
-// `set image colorscale \name .im_value. \name .im_value. increment
-// .im_value.
+                // `set image colorscale \name .im_value. \name .im_value. increment
+                // .im_value.
 		if (!look_up_color(_word[3], &rA, &gA, &bA)) {
 			err("Unknown colorname `\\", _word[3], "'.  Use command `show colornames' to see available colors.", "\\");
 			return false;
@@ -1501,8 +1502,8 @@ set_image_colorscaleCmd()
 		if (!getdnum(_word[8], &inc))
 			return false;
 		gave_increment = true;
-		used_rgb = true;		// that's how I'll blend them
-	} else {
+		color_model = GriColor::rgb; // default
+	} else {		// BUG: will need to check word number if add cmyk
 		// Didn't give named color.  Must be rgb or hsb specification
 		if (word_is(3, "rgb")) {
 			if (!getdnum(_word[4], &rA))
@@ -1513,7 +1514,7 @@ set_image_colorscaleCmd()
 				return false;
 			if (!getdnum(_word[7], &valA))
 				return false;
-			used_rgb = true;
+			color_model = GriColor::rgb;
 		} else if (word_is(3, "hsb")) {
 			if (!getdnum(_word[4], &hA))
 				return false;
@@ -1523,16 +1524,16 @@ set_image_colorscaleCmd()
 				return false;
 			if (!getdnum(_word[7], &valA))
 				return false;
-			used_rgb = false;
+			color_model = GriColor::hsv;
 		} else {
-			err("Cannot understand first rgb/hsb specification");
+			err("Cannot understand first color specification `\\", _word[3], "'.", "\\");
 			return false;
 		}
 		// Insist that rgb and hsb not be intermixed, since that's how to
 		// decide on the blending algorithm
 		if (word_is(8, "rgb")) {
-			if (!used_rgb) {
-				err("Cannot mix `rgb' and `hsb' color specifications");
+			if (color_model != GriColor::rgb) {
+				err("Cannot mix color specifications, e.g. `rgb' with `hsb'");
 				return false;
 			}
 			if (!getdnum(_word[9], &rB))
@@ -1550,8 +1551,8 @@ set_image_colorscaleCmd()
 				return false;
 			}
 		} else if (word_is(8, "hsb")) {
-			if (used_rgb) {
-				err("Cannot mix `hsb' and `rgb' color specifications.");
+			if (color_model != GriColor::hsv) {
+				err("Cannot mix color specifications, e.g. `rgb' with `hsb'");
 				return false;
 			}
 			if (!getdnum(_word[9], &hB))
@@ -1569,7 +1570,7 @@ set_image_colorscaleCmd()
 				return false;
 			}
 		} else {
-			err("Cannot understand second rgb/hsb specification");
+			err("Cannot understand color specification `\\", _word[3], "'.", "\\");
 			return false;
 		}
 		// Get increment value if it exists.
@@ -1604,8 +1605,7 @@ set_image_colorscaleCmd()
 	//
 	indexA = 255.0 * (valA - _image0) / (_image255 - _image0);
 	indexB = 255.0 * (valB - _image0) / (_image255 - _image0);
-	if (used_rgb) {
-		// Used rgb
+	if (color_model == GriColor::rgb) {
 		double           delta_r = delta_image * fabs(rA - rB);
 		double           delta_g = delta_image * fabs(gA - gB);
 		double           delta_b = delta_image * fabs(bA - bB);
@@ -1644,8 +1644,7 @@ set_image_colorscaleCmd()
 			_imageTransform[256 + 255] = (unsigned char) (255.0 * gA);
 			_imageTransform[512 + 255] = (unsigned char) (255.0 * bA);
 		}
-	} else {
-		// Used hsb
+	} else if (color_model == GriColor::hsv) {
 		double           delta_h = delta_image * fabs(hA - hB);
 		double           delta_s = delta_image * fabs(sA - sB);
 		double           delta_br = delta_image * fabs(brA - brB);
@@ -1685,6 +1684,9 @@ set_image_colorscaleCmd()
 			_imageTransform[256 + 255] = (unsigned char) (255.0 * gA);
 			_imageTransform[512 + 255] = (unsigned char) (255.0 * bA);
 		}
+	} else {
+		err("Cannot handle this color model.  Only `rgb' and `hsb' are known at this time");
+		return false;
 	}
 	// All done.  Everything was OK.
 	_imageTransform_exists = true;
