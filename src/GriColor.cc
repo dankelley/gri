@@ -20,6 +20,12 @@ GriColor& GriColor::operator=(const GriColor& color)
 		b = color.getS();
 		c = color.getV();
 		break;
+	case cmyk:
+		a = color.getC();
+		b = color.getM();
+		c = color.getY();
+		d = color.getK();
+		break;
 	default:
 		fprintf(stderr, "GriColor::operator= cannot handle this (%d) GriColor type\n", (int)t);
 		exit(1);
@@ -41,6 +47,12 @@ GriColor::GriColor(const GriColor& color)
 		a = color.getH();
 		b = color.getS();
 		c = color.getV();
+		break;
+	case cmyk:
+		a = color.getC();
+		b = color.getM();
+		c = color.getY();
+		d = color.getK();
 		break;
 	default:
 		fprintf(stderr, "GriColor::GriColor cannot handle this (%d) GriColor type\n", t);
@@ -65,13 +77,21 @@ void GriColor::setHSV(double H, double S, double V)
 	transparency = 0.0;
 	t = hsv;
 }
-
+void GriColor::setCMYK(double C, double M, double Y, double K)
+{
+	a = pin0_1(C);
+	b = pin0_1(M);
+	c = pin0_1(Y);
+	d = pin0_1(K);
+	transparency = 0.0;
+	t = cmyk;
+}
 GriNamedColor::GriNamedColor()
 {
 	name = new char [1];
 	if (!name) OUT_OF_MEMORY;
 	name[0] = '\0';
-	a = b = c = 0.0;
+	a = b = c = d = 0.0;
 	transparency = 0.0;
 	t = rgb;
 }
@@ -107,6 +127,12 @@ GriNamedColor::GriNamedColor(const GriNamedColor& color)
 		b = color.getS();
 		c = color.getV();
 		break;
+	case cmyk:
+		a = color.getC();
+		b = color.getM();
+		c = color.getY();
+		d = color.getK();
+		break;
 	default:
 		fprintf(stderr, "GriNamedColor::GriNamedColor cannot handle this (%d) GriColor type\n", t);
 		exit(1);
@@ -139,6 +165,12 @@ GriNamedColor& GriNamedColor::operator=(const GriNamedColor& color)
 		a = color.getH();
 		b = color.getS();
 		c = color.getV();
+		break;
+	case cmyk:
+		a = color.getC();
+		b = color.getM();
+		c = color.getY();
+		d = color.getK();
 		break;
 	default:
 		fprintf(stderr, "GriNamedColor::operator= cannot handle this (%d) GriColor type\n", t);
