@@ -16,14 +16,11 @@ The present stable version is numbered <?php print $gri_stable_version; ?>.
 
 <h1>What Gri is</h1>
 
-<p>
-Gri is a language for scientific graphics programming.  The word
-"language" is important: Gri is command-driven, not point/click. 
+<p> Gri is a language for scientific graphics programming. The word
+"language" is important: Gri is command-driven, not point/click.</p>
 
-<p> Some
-users consider Gri similar to LaTeX, since both 
-provide extensive
-power in exchange for patience in learning syntax.
+<p> Some users liken Gri to LaTeX, since both provide extensive power in
+exchange for patience in learning syntax.</p>
 
 <p>
 Gri can make 
@@ -39,7 +36,7 @@ image
 graphs, in PostScript and (someday) SVG formats.
 Control is provided over all aspects of drawing,
 e.g. line widths, colors, and fonts.  A TeX-like syntax provides 
-common mathematical symbols.
+common mathematical symbols.</p>
 
 <h1>Starting to use Gri</h1>
 
