@@ -16492,6 +16492,17 @@ only in the fixing of bugs.
 @subsubsection Version 2.12.12 [not released yet]
 @strong{Bug Fixes}
 @itemize @bullet
+
+@item
+Fix SourceForge bug
+@uref{https://sourceforge.net/tracker/index.php?func=detail&aid=1523033&group_id=5511&atid=105511,#1523033}
+@dots{} Malloc error (freeing something already freed?)
+
+@item
+Fix SourceForge bug
+@uref{https://sourceforge.net/tracker/index.php?func=detail&aid=1523032&group_id=5511&atid=105511,#1523032}
+@dots{} @code{create columns from function} bug, if there is an existing directory called @code{tmp}.
+
 @item
 Fix SourceForge bug
 @uref{https://sourceforge.net/tracker/index.php?func=detail&aid=1491105&group_id=5511&atid=105511,#1491105}
