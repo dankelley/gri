@@ -62,7 +62,7 @@ DISTCLEANFILES = $(png_files) $(eps_files) $(html_files) $(txt_files)
 	cp $< $@
 	chmod +w $@
 %.png : %.ps
-	convert $< $@
+	-convert $< $@
 %-tiny.png : %.png
 	-convert -geometry 90x999 $< $@
 %.pdf : %.ps
