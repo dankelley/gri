@@ -19010,6 +19010,9 @@ Luke Blaikie,
 Dave Brickman,
 @cindex Dave Brickman (contributer)
 @cindex contributer, Dave Brickman
+Steve Cayford,
+@cindex Steve Cayford (contributor)
+@cindex contributor, Steve Cayford
 Clyde Clements,
 @cindex Clyde Clements (contributer)
 @cindex contributer, Clyde Clements
