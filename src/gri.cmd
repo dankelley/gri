@@ -436,25 +436,22 @@ vax machines, but probably no Macintoshes.
         \xinc = "0.1"
         .must_clean_up_xinc. = 1
     end if
+    \tmp = "tmpname"
     if {"\.system." == "unix"}
         system awk           \
             'BEGIN {for(x = \xmin; x <= \xmax; x += \xinc) {print (x, \function)} \
             } '                 \
-            > tmp
+            > \tmp
     else if {"\.system." == "vax"}
         system awk/COMMANDS =\
             "BEGIN { for (x = \xmin; x <= \xmax; x += \xinc) {print (x, \function)} \
             } "                 \
-            /OUTPUT=TMP NL:
+            /OUTPUT=\tmp NL:
     end if
-    open tmp
+    open \tmp
     read columns x y
-    close tmp
-    if {"\.system." == "unix"}
-	system rm tmp
-    else if {"\.system." == "vax"}
-        system DELETE TMP.*;*
-    end if
+    close \tmp
+    unlink \tmp
     if .must_clean_up_xmin.
         delete \xmin
     end if
