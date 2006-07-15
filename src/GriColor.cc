@@ -88,9 +88,7 @@ void GriColor::setCMYK(double C, double M, double Y, double K)
 }
 GriNamedColor::GriNamedColor()
 {
-	name = new char [1];
-	if (!name) OUT_OF_MEMORY;
-	name[0] = '\0';
+	name = "";
 	a = b = c = d = 0.0;
 	transparency = 0.0;
 	t = rgb;
@@ -98,9 +96,7 @@ GriNamedColor::GriNamedColor()
 
 GriNamedColor::GriNamedColor(const char *n, double R, double G, double B)
 {
-	name = new char [1 + strlen(n)];
-	if (!name) OUT_OF_MEMORY;
-	strcpy(name, n);
+	name = n;
 	a = R;
 	b = G;
 	c = B;
@@ -110,10 +106,10 @@ GriNamedColor::GriNamedColor(const char *n, double R, double G, double B)
 
 GriNamedColor::GriNamedColor(const GriNamedColor& color) 
 {
-	char *cp = color.getName();	// prevent fcn call
-	name = new char[1 + strlen(cp)];
-	if (!name) OUT_OF_MEMORY;
-	strcpy(name, cp);
+#if defined(DEBUG_GRICOLOR)
+	printf("GriNamedColor(const color) ENTER (assigning from '%s')\n",color.get_name().c_str());
+#endif
+	name.assign(color.get_name());
 	t = color.get_type();
 	transparency = 0.0;
 	switch (t) {
@@ -137,22 +133,22 @@ GriNamedColor::GriNamedColor(const GriNamedColor& color)
 		fprintf(stderr, "GriNamedColor::GriNamedColor cannot handle this (%d) GriColor type\n", t);
 		exit(1);
 	}
+#if defined(DEBUG_GRICOLOR)
+	printf("GriNamedColor(const color) EXIT\n");
+#endif
 }
 
 GriNamedColor::~GriNamedColor()
 {
-	delete [] name;
+	;
 }
 
 GriNamedColor& GriNamedColor::operator=(const GriNamedColor& color)
 {
-	char *cp = color.getName();	// prevent fcn call
-	if (strlen(cp) > strlen(name)) {
-		delete [] name;
-		name = new char[1 + strlen(cp)];
-		if (!name) OUT_OF_MEMORY;
-	}
-	strcpy(name, cp);
+#if defined(DEBUG_GRICOLOR)
+	printf("GriNamedColor::operator= ENTER (source '%s'\n",color.get_name().c_str());
+#endif
+	name.assign(color.get_name());
 	t = color.get_type();
 	transparency = 0.0;
 	switch (t) {
@@ -176,17 +172,15 @@ GriNamedColor& GriNamedColor::operator=(const GriNamedColor& color)
 		fprintf(stderr, "GriNamedColor::operator= cannot handle this (%d) GriColor type\n", t);
 		exit(1);
 	}
+#if defined(DEBUG_GRICOLOR)
+	printf("GriNamedColor::operator= EXIT\n");
+#endif
 	return *this;
 }
 
 void GriNamedColor::setNameRGB(const char *newName, double R, double G, double B)
 {
-	if (strlen(newName) > strlen(name)) {
-		delete [] name;
-		name = new char[1 + strlen(newName)];
-		if (!name) OUT_OF_MEMORY;
-	}
-	strcpy (name, newName);
+	name = newName;
 	t = rgb;
 	transparency = 0.0;
 	a = pin0_1(R);

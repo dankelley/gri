@@ -54,8 +54,8 @@ public:
 	GriNamedColor(const GriNamedColor& C); 
 	GriNamedColor& operator=(const GriNamedColor& C);
 	void setNameRGB(const char *n, double R, double G, double B);
-	char *getName() const {return name;}
+	const std::string get_name(void) const {return name;}
 private:
-	char *name;
+	std::string name;
 };
 #endif

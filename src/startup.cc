@@ -99,9 +99,9 @@ int             last_optional_arg = 0;
 bool
 look_up_color(const char *name, double *red, double *green, double *blue)
 {
-	int             i = 0, num = colorStack.size();
+	int i, num = colorStack.size();
 	for (i = 0; i < num; i++) {
-		if (!strcmp(name, colorStack[i].getName())) {
+		if (!strcmp(name, colorStack[i].get_name().c_str())) {
 			*red   = colorStack[i].getR();
 			*green = colorStack[i].getG();
 			*blue  = colorStack[i].getB();
@@ -385,7 +385,7 @@ display_colors()
 	char msg[200];
 	for (unsigned int i = 0; i < colorStack.size(); i++) {
 		sprintf(msg, "Color `%s' has RGB = (%f,%f,%f)\n",
-			colorStack[i].getName(),
+			colorStack[i].get_name().c_str(),
 			colorStack[i].getR(),
 			colorStack[i].getG(),
 			colorStack[i].getB());
