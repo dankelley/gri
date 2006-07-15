@@ -942,16 +942,6 @@ gr_error(const char *lab)
 void
 abort_gri()
 {
-	gr_textput("\
-             Suggestion: in unix system with `gdb' command, type\n");
-	gr_textput("\
-                         gdb gri core\n");
-	gr_textput("\
-                         where\n");
-	gr_textput("\
-                         quit\n");
-	gr_textput("\
-             to get a traceback for use in a bug report.\n\n");
 	abort();
 }
 
