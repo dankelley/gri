@@ -16258,7 +16258,7 @@ draw x axis at bottom
 you would have put the cursor over either the word `lower' or `upper',
 and invoke @code{gri-kill-option} (@kbd{C-C C-k}) instead.
 
-@strong{NOTE:} you might want to practice using this example to learn
+You might want to practice using this example to learn
 how to do it.  If you make a mistake, note that the normal Emacs undo
 works.
 
