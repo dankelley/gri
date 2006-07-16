@@ -4,7 +4,7 @@
  Type `help' to view list of commands.
  Type `show license' to view license. 
 
- Examples at:     PREFIX/share/doc/gri/examples
- Manual at:       PREFIX/share/doc/gri/html/index.html
+ Examples at:     PREFIX/share/gri/doc/examples
+ Manual at:       PREFIX/share/gri/doc/html/index.html
  Info Manual at:  gri
  Resources at:    http://gri.sourceforge.net
