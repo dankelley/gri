@@ -1,0 +1,21 @@
+# $Id: Portfile,v 1.1 2006/07/16 22:26:39 dankelley Exp $
+PortSystem        1.0
+name              gri
+version           2.12.11
+categories        graphics
+maintainers       dan.kelley@dal.ca
+description       scientific graphics
+long_description  A language for scientific graphics
+platforms         darwin
+homepage          http://gri.sourceforge.net/
+master_sites      sourceforge:${name}
+checksums         ${name}-${version}.tar.gz md5 293963f8546482ca36c446897fdd0f60
+patchfiles        patch-doc.diff \
+                    patch-doc-examples.diff \
+                    patch-gritexi.diff \
+                    patch-startup.diff
+destroot.target   install
+depends_build     bin:ImageMagick:ImageMagick \
+                    port:teTeX \
+                    bin:gs:ghostscript \
+                    bin:perl:perl

@@ -1,0 +1,11 @@
+--- ./doc/examples/Makefile.am.orig	2006-07-15 21:02:01.000000000 -0300
++++ ./doc/examples/Makefile.am	2006-07-15 21:02:19.000000000 -0300
+@@ -62,7 +62,7 @@
+ 	cp $< $@
+ 	chmod +w $@
+ %.png : %.ps
+-	convert $< $@
++	-convert $< $@
+ %-tiny.png : %.png
+ 	-convert -geometry 90x999 $< $@
+ %.pdf : %.ps

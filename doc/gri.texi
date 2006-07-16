@@ -16489,7 +16489,7 @@ only in the fixing of bugs.
 @comment ADD-NEW-BUG-FIXES-HERE
 
 
-@subsubsection Version 2.12.12 [not released yet]
+@subsubsection Version 2.12.12 [2006 July 16: @uref{http://en.wikipedia.org/wiki/Yellow_Pig%27s_Day,Yellow Pigs Day}]
 @strong{Bug Fixes}
 @itemize @bullet
 
@@ -16511,7 +16511,7 @@ Fix SourceForge bug
 @end itemize
 
 
-@subsubsection Version 2.12.11 [2006 Mar 30 (Hindu New Year)]
+@subsubsection Version 2.12.11 [2006 Mar 30: Hindu New Year]
 @strong{Bug Fixes}
 @itemize @bullet
   
@@ -16522,7 +16522,7 @@ Fix SourceForge bug
 
 @end itemize
 
-@subsubsection Version 2.12.10 [2006 Jan 26 (Australia Day)]
+@subsubsection Version 2.12.10 [2006 Jan 26: Australia Day]
 @strong{Bug Fixes}
 @itemize @bullet
   

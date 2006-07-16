@@ -1,0 +1,53 @@
+--- ./doc/Makefile.am.orig	2006-07-15 21:16:52.000000000 -0300
++++ ./doc/Makefile.am	2006-07-15 21:18:22.000000000 -0300
+@@ -132,26 +132,29 @@
+ #	cp gri.info* $(INFO_DIR_SOLARIS)
+ #	chmod 644 $(INFO_DIR_SOLARIS)/gri.info*
+ 
++TEX=/usr/local/teTeX/bin/powerpc-apple-darwin-current/tex
++PDFTEX=/usr/local/teTeX/bin/powerpc-apple-darwin-current/pdftex
++
+ refcard.ps: refcard.tex
+-	tex $(srcdir)/refcard.tex
++	$(TEX) $(srcdir)/refcard.tex
+ 	dvips -o refcard.ps -t landscape -t letter refcard.dvi
+ 
+ cmdrefcard.ps: cmdrefcard.tex
+-	tex $(srcdir)/cmdrefcard.tex
++	$(TEX) $(srcdir)/cmdrefcard.tex
+ 	dvips -o cmdrefcard.ps -t landscape -t letter cmdrefcard.dvi
+ 
+ gri.ps: gri.texi
+ 	cd examples    ; ${MAKE} eps
+ 	cd screenshots ; ${MAKE} eps
+ 	cd tst_suite   ; ${MAKE} texi
+-	tex gri.texi
++	$(TEX) gri.texi
+ 	texindex gri.cp
+ 	texindex gri.fn
+ 	texindex gri.ky
+ 	texindex gri.pg
+ 	texindex gri.tp
+ 	texindex gri.vr
+-	tex gri.texi
++	$(TEX) gri.texi
+ 	dvips -o gri.ps -t letter gri.dvi
+ 
+ #ps-install: gri.ps
+@@ -163,14 +166,14 @@
+ 	cd examples    ; ${MAKE} pdf
+ 	cd screenshots ; ${MAKE} pdf
+ 	cd tst_suite   ; ${MAKE} texi
+-	pdftex gri.texi
++	$(PDFTEX) gri.texi
+ 	texindex gri.cp
+ 	texindex gri.fn
+ 	texindex gri.ky
+ 	texindex gri.pg
+ 	texindex gri.tp
+ 	texindex gri.vr
+-	pdftex gri.texi
++	$(PDFTEX) gri.texi
+ 
+ # Add to some of the automake-created targets.
+ all-local: refcard.ps cmdrefcard.ps

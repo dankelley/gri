@@ -96,6 +96,10 @@ then
 fi
 
 %changelog
+* Sat Jul 15 10:31:00 AST 2006
+-Fix SourceForge bug #1523033 (malloc warning)
+-Fix SourceForge bug #1523032 ('create columns from function' fails if existing local 'tmp' directory)
+-Fix SourceForge bug #1491105 ('set x axis labels' had no effect for log axes; same for y axis)
 * Sat Mar 25 23:14:04 AST 2006
 -Fix SourceForge bug #1449546 (x/y axis limits not correctly inferred from 'set x/ grid').
 -Fix SourceForge bug #1285180 (NaN was mishandled in recent versions).
