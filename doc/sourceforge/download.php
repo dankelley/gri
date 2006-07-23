@@ -40,7 +40,7 @@ manual</a><br>
 <br>
 <?php set_up_rhs(); ?>
 
-<h1>Pre-compiled Packages</h1>
+<h1>Packages</h1>
 <p> 
 <?php
 if ($RH_uptodate) {
@@ -84,32 +84,25 @@ called
 <a href="http://packages.debian.org/unstable/science/gri-el.html">gri-el</a>.<br>
 </p>
 
-<p>For <b>Macintosh OSX</b>, a 
-<A HREF="http://fink.sourceforge.net/pdb/package.php/gri">Fink</a>  package
-is available, and a OS-X bundle will be prepared given
-sufficient interest.  For <b>MS Windows</b> a 
-a 
-<a href="http://gnuwin32.sourceforge.net/packages/gri.htm">
+<p>For <b>Macintosh OSX</b>, <A HREF="http://fink.sourceforge.net/pdb/package.php/gri">Fink</a>
+and <A HREF="http://www.darwinports.org/">DarwinPort</A> packages are available, and a
+TexShop-like wrapper is in development. 
+
+For <b>MS Windows</b> a a <a href="http://gnuwin32.sourceforge.net/packages/gri.htm">
 gnuwin32</a> package is available.</p>
 
-<p>Upon request, versions may be provided 
-for <b>other platforms</b>, e.g. Solaris, etc.</p>
-
 <h1>Source Code</h1>
-<p>
-A
-<A HREF="<?php print "$ftp_site/gri-$gri_stable_version.tgz";?>">
-tarball</a>
-provides the Gri source in a standard way, i.e. with the usual steps
-of <tt>./configure</tt> followed by <tt>make</tt> and then
-<tt>make install</tt>.  (Other standard targets exist also, such as <tt>make check</tt>, etc.)
-</p>
+
+<p> A <A HREF="<?php print "$ftp_site/gri-$gri_stable_version.tgz";?>"> tarball</a> provides
+the Gri source in a standard way, i.e. with the usual steps of <tt>./configure</tt> followed by
+<tt>make</tt> and then <tt>make install</tt>. (Other standard targets exist also, such as
+<tt>make check</tt>, etc.) </p>
 
 <p> If you're adventurous and/or interested in helping with Gri development,
 you might want to try building the
 <A HREF="<?php print "$sf_url/cvs/?group_id=$gri_group_id";?>">CVS version</a>,
    which is the very latest version.  Please note, however, that this may not even compile; 
-the developer's sandbox can be messy!
+a developer's sandbox can be messy!
 </p>
 
 <?php
