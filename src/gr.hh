@@ -114,6 +114,7 @@ typedef enum {
 	gr_font_PalatinoBold,	// Palatino-Bold
 	gr_font_PalatinoBoldItalic, // Palatino-BoldItalic
 	gr_font_Symbol,		// Symbol
+	gr_font_NewCenturySchoolbook,
 	gr_font_TimesRoman,	// Times-Roman
 	gr_font_TimesItalic,	// Times-Italic
 	gr_font_TimesBold,	// Times-Bold

@@ -86,6 +86,7 @@ gr_font_info    font_list[] =
 	{gr_font_TimesItalic, "Times-Italic"},
 	{gr_font_TimesBold, "Times-Bold"},
 	{gr_font_TimesBoldItalic, "Times-BoldItalic"},
+	{gr_font_NewCenturySchoolbook, "NewCenturySchoolbook"},
 	{gr_font_end_of_list, ""}
 };
 
@@ -135,11 +136,15 @@ gr_show_at(/*const*/ char *s, double xcm, double ycm, gr_textStyle style, double
 			fn_svg = "Times";
 			warning("SVG cannot handle Palatino font yet");
 			break;
-		case gr_font_Symbol:             fn_svg = "Symbol";           break;
-		case gr_font_TimesRoman:         fn_svg = "Times";            break;
-		case gr_font_TimesItalic:        fn_svg = "Times-Italic";     break;
-		case gr_font_TimesBold:          fn_svg = "Times-Bold";       break;
-		case gr_font_TimesBoldItalic:    fn_svg = "Times-BoldItalic"; break;
+		case gr_font_Symbol:               fn_svg = "Symbol";               break;
+		case gr_font_TimesRoman:           fn_svg = "Times";                break;
+		case gr_font_TimesItalic:          fn_svg = "Times-Italic";         break;
+		case gr_font_TimesBold:            fn_svg = "Times-Bold";           break;
+		case gr_font_TimesBoldItalic:      fn_svg = "Times-BoldItalic";     break;
+		case gr_font_NewCenturySchoolbook: 
+			fn_svg = "Times";
+			warning("SVG cannot handle NewCenturySchoolbook font yet");
+			break;
 		default: 
 			fn_svg = "Times";
 			warning("SVG defaulting to Times font");
@@ -1242,6 +1247,43 @@ struct font_metric {
 // perlscript from Font Metric file `/usr/openwin/lib/X11/fonts/F3/afm/Courier.afm'.
 // All measurement in centimetres, given a pointsize of 1.0
 //
+
+// Created by Perl script get_font_metrics.pl
+struct font_metric NewCenturySchoolbook_Roman = {
+    0.016369, // XHeight
+    0.025471, // CapHeight
+    0.026000, // Ascender
+    -0.007232, // Descender
+    { // Widths of first 128 characters
+        0.0000000, 0.0000000, 0.0000000, 0.0000000, 0.0000000, 
+        0.0000000, 0.0000000, 0.0000000, 0.0000000, 0.0000000, 
+        0.0000000, 0.0000000, 0.0000000, 0.0000000, 0.0000000, 
+        0.0000000, 0.0000000, 0.0000000, 0.0000000, 0.0000000, 
+        0.0000000, 0.0000000, 0.0000000, 0.0000000, 0.0000000, 
+        0.0000000, 0.0000000, 0.0000000, 0.0000000, 0.0000000, 
+        0.0000000, 0.0000000, 0.0098072, 0.0104422, 0.0137231, 
+        0.0196144, 0.0196144, 0.0293864, 0.0287514, 0.0071967, 
+        0.0117475, 0.0117475, 0.0176389, 0.0213783, 0.0098072, 
+        0.0117475, 0.0098072, 0.0098072, 0.0196144, 0.0196144, 
+        0.0196144, 0.0196144, 0.0196144, 0.0196144, 0.0196144, 
+        0.0196144, 0.0196144, 0.0196144, 0.0098072, 0.0098072, 
+        0.0213783, 0.0213783, 0.0213783, 0.0156633, 0.0259997, 
+        0.0254706, 0.0254706, 0.0254706, 0.0274461, 0.0254706, 
+        0.0235303, 0.0274461, 0.0293864, 0.0143581, 0.0196144, 
+        0.0274461, 0.0235303, 0.0333022, 0.0287514, 0.0274461, 
+        0.0235303, 0.0274461, 0.0254706, 0.0222250, 0.0235303, 
+        0.0287514, 0.0254706, 0.0346075, 0.0248356, 0.0248356, 
+        0.0215547, 0.0117475, 0.0213783, 0.0117475, 0.0213783, 
+        0.0176389, 0.0071967, 0.0196144, 0.0196144, 0.0156633, 
+        0.0202494, 0.0176389, 0.0117475, 0.0189442, 0.0215547, 
+        0.0111125, 0.0104422, 0.0209197, 0.0111125, 0.0313619, 
+        0.0215547, 0.0176389, 0.0202494, 0.0196144, 0.0156633, 
+        0.0163336, 0.0137231, 0.0215547, 0.0189442, 0.0274461, 
+        0.0189442, 0.0189442, 0.0169686, 0.0117475, 0.0213783, 
+        0.0117475, 0.0213783, 0.0000000
+    }
+};
+
 struct font_metric Courier = {
 	0.015028,	// XHeight   
 	0.019826,	// CapHeight 

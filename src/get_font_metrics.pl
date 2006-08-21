@@ -1,10 +1,11 @@
+# works 2006-08-21 Macintosh OSX
 require PostScript::Fontmetrics;
 sub get_fm($);
+$dir = "/Applications/OpenOffice.org 2.0.app/Contents/MacOS/share/psprint/fontmetric/";
 
 sub get_fm($) {
     my ($name) = @_;
     my $s = 1 / (72 / 2.54 * 1000); # or 28.35??
-    my $dir = "/Applications/OpenOffice.org1.1.2/share/psprint/fontmetric";
     my $fm = new PostScript::FontMetrics("$dir/$name.afm");
     printf("// Created by Perl script get_font_metrics.pl\nstruct font_metric %s = {
     %.6f, // XHeight
@@ -20,12 +21,12 @@ sub get_fm($) {
     %c <- $fm->CharWidthData;
     printf("        ");
     for ($i = 0; $i < 128; $i++) {
-	$c = sprintf("%c", $i);
-        #printf("'%s'=%.7f", $c, $fm->stringwidth($c)*$s);
-	printf("%.7f", $fm->stringwidth($c)*$s);
-        printf(", ") if $i != 127;
-        printf("\n        ") if !(($i+1) % 5);
-    }
+		$c = sprintf("%c", $i);
+    	#printf("'%s'=%.7f", $c, $fm->stringwidth($c)*$s);
+		printf("%.7f", $fm->stringwidth($c)*$s);
+    	printf(", ") if $i != 127;
+    	printf("\n        ") if !(($i+1) % 5);
+	}
     printf("\n    }\n};\n");
     #print $fm->MetricsData;
 }

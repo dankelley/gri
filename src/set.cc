@@ -954,7 +954,8 @@ set_font_toCmd()
 		gr_setfont(gr_font_PalatinoRoman);
 	else if (!strcmp(_word[3], "Symbol"))
 		gr_setfont(gr_font_Symbol);
-
+	else if (!strcmp(_word[3], "NewCenturySchoolbook"))
+		gr_setfont(gr_font_NewCenturySchoolbook);	
 	else if (!strcmp(_word[3], "Times"))
 		gr_setfont(gr_font_TimesRoman);
 	else if (!strcmp(_word[3], "TimesRoman"))
@@ -968,7 +969,7 @@ set_font_toCmd()
 		return false;
 	} else {
 		demonstrate_command_usage();
-		err("Unknown font `\\", _word[3], "'.\n  Available fonts: Courier, Helvetica, HelveticaBold, Palatino, PalatinoRoman, Symbol, Times, TimesRoman, TimesBold", "\\");
+		err("Unknown font `\\", _word[3], "'.\n  Available fonts: Courier, Helvetica, HelveticaBold, Palatino, PalatinoRoman, Symbol, Times, TimesRoman, TimesBold", "NewCenturySchoolbook", "\\");
 		return false;
 	}
 	return true;
