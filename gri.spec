@@ -1,5 +1,5 @@
 Summary: A language for scientific illustration
-%define griversion 2.12.12
+%define griversion 2.12.13
 Name: gri
 Version: %{griversion}
 Release: 1
@@ -96,6 +96,8 @@ then
 fi
 
 %changelog
+* Tue Aug 22 09:51:03 ADT 2006
+-Add Century font
 * Sat Jul 15 10:31:00 AST 2006
 -Fix SourceForge bug #1523033 (malloc warning)
 -Fix SourceForge bug #1523032 ('create columns from function' fails if existing local 'tmp' directory)
