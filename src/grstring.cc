@@ -86,7 +86,7 @@ gr_font_info    font_list[] =
 	{gr_font_TimesItalic, "Times-Italic"},
 	{gr_font_TimesBold, "Times-Bold"},
 	{gr_font_TimesBoldItalic, "Times-BoldItalic"},
-	{gr_font_NewCenturySchoolbook, "NewCenturySchoolbook"},
+	{gr_font_Century, "Century"},
 	{gr_font_end_of_list, ""}
 };
 
@@ -141,10 +141,7 @@ gr_show_at(/*const*/ char *s, double xcm, double ycm, gr_textStyle style, double
 		case gr_font_TimesItalic:          fn_svg = "Times-Italic";         break;
 		case gr_font_TimesBold:            fn_svg = "Times-Bold";           break;
 		case gr_font_TimesBoldItalic:      fn_svg = "Times-BoldItalic";     break;
-		case gr_font_NewCenturySchoolbook: 
-			fn_svg = "Times";
-			warning("SVG cannot handle NewCenturySchoolbook font yet");
-			break;
+		case gr_font_Century:     	   fn_svg = "Century";  	    break;
 		default: 
 			fn_svg = "Times";
 			warning("SVG defaulting to Times font");
@@ -330,6 +327,10 @@ gr_drawstring(const char *s)
 		break;
 	case gr_font_PalatinoBold:
 		slant_font = gr_font_PalatinoBoldItalic;
+		know_slant_font = true;
+		break;
+        case gr_font_Century:
+                slant_font = gr_font_TimesItalic; // BUG: should be Century Italic
 		know_slant_font = true;
 		break;
 	default:
@@ -632,7 +633,7 @@ gr_currentfontsize_pt()
 /*
  * gr_setfont() --  set new font. SYNOPSIS void	gr_setfont(int new_font)
  * DESCRIPTION:  Sets the font for future string drawing to 'new_font'. These
- * fonts are predefined: Times_Roman Helvetica Courier Symbol Palatino-Roman
+ * fonts are predefined: TimesRoman Helvetica Courier Symbol Palatino-Roman
  * Palatino-Italic.
  * 
  */
@@ -1249,7 +1250,7 @@ struct font_metric {
 //
 
 // Created by Perl script get_font_metrics.pl
-struct font_metric NewCenturySchoolbook_Roman = {
+struct font_metric CenturyRoman = {
     0.016369, // XHeight
     0.025471, // CapHeight
     0.026000, // Ascender
@@ -1440,7 +1441,7 @@ struct font_metric Helvetica_Bold = {
 // perlscript from Font Metric file `/usr/openwin/lib/X11/fonts/F3/afm/Palatino-Roman.afm'.
 // All measurement in centimetres, given a pointsize of 1.0
 //
-struct font_metric Palatino_Roman = {
+struct font_metric PalatinoRoman = {
 	0.016545,	// XHeight   
 	0.024412,	// CapHeight 
 	0.025612,	// Ascender  
@@ -1474,6 +1475,81 @@ struct font_metric Palatino_Roman = {
 		0.0117475, 0.0213783, 0.0000000
 	}
 };
+// Created by Perl script get_font_metrics.pl
+struct font_metric PalatinoItalic = {
+    0.017004, // XHeight
+    0.024412, // CapHeight
+    0.025859, // Ascender
+    -0.009737, // Descender
+    { // Widths of first 128 characters
+        0.0000000, 0.0000000, 0.0000000, 0.0000000, 0.0000000, 
+        0.0000000, 0.0000000, 0.0000000, 0.0000000, 0.0000000, 
+        0.0000000, 0.0000000, 0.0000000, 0.0000000, 0.0000000, 
+        0.0000000, 0.0000000, 0.0000000, 0.0000000, 0.0000000, 
+        0.0000000, 0.0000000, 0.0000000, 0.0000000, 0.0000000, 
+        0.0000000, 0.0000000, 0.0000000, 0.0000000, 0.0000000, 
+        0.0000000, 0.0000000, 0.0088194, 0.0117475, 0.0176389, 
+        0.0176389, 0.0176389, 0.0313619, 0.0274461, 0.0098072, 
+        0.0117475, 0.0117475, 0.0137231, 0.0213783, 0.0088194, 
+        0.0117475, 0.0088194, 0.0104422, 0.0176389, 0.0176389, 
+        0.0176389, 0.0176389, 0.0176389, 0.0176389, 0.0176389, 
+        0.0176389, 0.0176389, 0.0176389, 0.0088194, 0.0088194, 
+        0.0213783, 0.0213783, 0.0213783, 0.0176389, 0.0263525, 
+        0.0254706, 0.0215547, 0.0235303, 0.0274461, 0.0215547, 
+        0.0196144, 0.0254706, 0.0274461, 0.0117475, 0.0117475, 
+        0.0235303, 0.0196144, 0.0333022, 0.0274461, 0.0274461, 
+        0.0215547, 0.0274461, 0.0235303, 0.0196144, 0.0215547, 
+        0.0274461, 0.0254706, 0.0333022, 0.0254706, 0.0235303, 
+        0.0235303, 0.0117475, 0.0213783, 0.0117475, 0.0213783, 
+        0.0176389, 0.0098072, 0.0156633, 0.0163336, 0.0143581, 
+        0.0176389, 0.0137231, 0.0098072, 0.0176389, 0.0176389, 
+        0.0098072, 0.0098072, 0.0156633, 0.0098072, 0.0274461, 
+        0.0196144, 0.0156633, 0.0176389, 0.0163336, 0.0137231, 
+        0.0137231, 0.0117475, 0.0196144, 0.0176389, 0.0254706, 
+        0.0176389, 0.0176389, 0.0156633, 0.0117475, 0.0213783, 
+        0.0117475, 0.0213783, 0.0000000
+    }
+};
+
+
+
+// Created by Perl script get_font_metrics.pl
+struct font_metric PalatinoBold = {
+    0.016616, // XHeight
+    0.024024, // CapHeight
+    0.025400, // Ascender
+    -0.009102, // Descender
+    { // Widths of first 128 characters
+        0.0000000, 0.0000000, 0.0000000, 0.0000000, 0.0000000, 
+        0.0000000, 0.0000000, 0.0000000, 0.0000000, 0.0000000, 
+        0.0000000, 0.0000000, 0.0000000, 0.0000000, 0.0000000, 
+        0.0000000, 0.0000000, 0.0000000, 0.0000000, 0.0000000, 
+        0.0000000, 0.0000000, 0.0000000, 0.0000000, 0.0000000, 
+        0.0000000, 0.0000000, 0.0000000, 0.0000000, 0.0000000, 
+        0.0000000, 0.0000000, 0.0088194, 0.0098072, 0.0141817, 
+        0.0176389, 0.0176389, 0.0313619, 0.0293864, 0.0098072, 
+        0.0117475, 0.0117475, 0.0156633, 0.0213783, 0.0088194, 
+        0.0117475, 0.0088194, 0.0104422, 0.0176389, 0.0176389, 
+        0.0176389, 0.0176389, 0.0176389, 0.0176389, 0.0176389, 
+        0.0176389, 0.0176389, 0.0176389, 0.0088194, 0.0088194, 
+        0.0213783, 0.0213783, 0.0213783, 0.0156633, 0.0263525, 
+        0.0274461, 0.0235303, 0.0254706, 0.0293864, 0.0215547, 
+        0.0196144, 0.0293864, 0.0293864, 0.0137231, 0.0137231, 
+        0.0274461, 0.0215547, 0.0352778, 0.0293864, 0.0293864, 
+        0.0215547, 0.0293864, 0.0254706, 0.0215547, 0.0235303, 
+        0.0274461, 0.0274461, 0.0352778, 0.0235303, 0.0235303, 
+        0.0235303, 0.0117475, 0.0213783, 0.0117475, 0.0213783, 
+        0.0176389, 0.0098072, 0.0176389, 0.0215547, 0.0156633, 
+        0.0215547, 0.0176389, 0.0137231, 0.0196144, 0.0215547, 
+        0.0117475, 0.0117475, 0.0215547, 0.0117475, 0.0313619, 
+        0.0215547, 0.0196144, 0.0215547, 0.0215547, 0.0137231, 
+        0.0156633, 0.0117475, 0.0215547, 0.0196144, 0.0293864, 
+        0.0176389, 0.0196144, 0.0176389, 0.0109361, 0.0213783, 
+        0.0109361, 0.0213783, 0.0000000
+    }
+};
+
+
 //
 // Following font metric generated by `get_font_metrics'
 // perlscript from Font Metric file `/usr/openwin/lib/X11/fonts/F3/afm/Symbol.afm'.
@@ -1518,7 +1594,7 @@ struct font_metric Symbol = {
 // perlscript from Font Metric file `/usr/openwin/lib/X11/fonts/F3/afm/Times-Roman.afm'.
 // All measurement in centimetres, given a pointsize of 1.0
 //
-struct font_metric Times_Roman = {
+struct font_metric TimesRoman = {
 	0.015875,	// XHeight   
 	0.023354,	// CapHeight 
 	0.024095,	// Ascender  
@@ -1572,7 +1648,7 @@ gr_charwidth_cm(int c, int font, double fontsize_pt)
 						 * anyway */
 	switch (font) {
 	case gr_font_TimesRoman:
-		return fontsize_pt * Times_Roman.width[i];
+		return fontsize_pt * TimesRoman.width[i];
 	case gr_font_Courier:
 		return fontsize_pt * 0.0211663;	/* Courier has fixed width */
 	case gr_font_Symbol:
@@ -1582,7 +1658,9 @@ gr_charwidth_cm(int c, int font, double fontsize_pt)
 	case gr_font_HelveticaBold:
 		return fontsize_pt * Helvetica_Bold.width[i];
 	case gr_font_PalatinoRoman:
-		return fontsize_pt * Palatino_Roman.width[i];
+		return fontsize_pt * PalatinoRoman.width[i];
+	case gr_font_Century:
+                return fontsize_pt * CenturyRoman.width[i];
 	default:
 		break;
 		/* Guess similar size to Helvetica */
@@ -1601,7 +1679,15 @@ gr_current_descender()		// descender, in positive cm
 	case gr_font_Symbol:
 		return(-CurrentFont.size_pt * Symbol.Descender);
 	case gr_font_TimesRoman:
-		return(-CurrentFont.size_pt * Times_Roman.Descender);
+		return(-CurrentFont.size_pt * TimesRoman.Descender);
+	case gr_font_Century:
+		return(-CurrentFont.size_pt * CenturyRoman.Descender);
+	case gr_font_PalatinoRoman:
+		return(-CurrentFont.size_pt * PalatinoRoman.Descender);
+	case gr_font_PalatinoItalic:
+		return(-CurrentFont.size_pt * PalatinoItalic.Descender);
+	case gr_font_PalatinoBold:
+		return(-CurrentFont.size_pt * PalatinoBold.Descender);
 	default:
 		break;
 	}
@@ -1625,7 +1711,19 @@ gr_currentCapHeight_cm()
 		height_cm = (CurrentFont.size_pt * Symbol.CapHeight);
 		break;
 	case gr_font_TimesRoman:
-		height_cm = (CurrentFont.size_pt * Times_Roman.CapHeight);
+		height_cm = (CurrentFont.size_pt * TimesRoman.CapHeight);
+		break;
+	case gr_font_Century:
+	        height_cm = (CurrentFont.size_pt * CenturyRoman.CapHeight);
+		break;
+	case gr_font_PalatinoRoman:
+	        height_cm = (CurrentFont.size_pt * PalatinoRoman.CapHeight);
+		break;
+	case gr_font_PalatinoItalic:
+	        height_cm = (CurrentFont.size_pt * PalatinoItalic.CapHeight);
+		break;
+	case gr_font_PalatinoBold:
+	        height_cm = (CurrentFont.size_pt * PalatinoBold.CapHeight);
 		break;
 	default:
 		/*

@@ -400,6 +400,7 @@ insert_ps_header(FILE * fp, bool privacy)
 	create_font_encoding("Palatino-Bold");
 	create_font_encoding("Palatino-BoldItalic");
 	create_font_encoding("Symbol");
+	create_font_encoding("Century");
 	create_font_encoding("Times-Roman");
 	create_font_encoding("Times-Italic");
 	create_font_encoding("Times-Bold");
