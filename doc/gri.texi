@@ -53,8 +53,8 @@
 @comment %**start of header
 @setfilename gri.info
 @settitle Gri
-@set GRI-VERSION 2.12.12
-@set GRI-PREVIOUS-VERSION 2.12.11
+@set GRI-VERSION 2.12.13
+@set GRI-PREVIOUS-VERSION 2.12.12
 @set AUTHOR-EMAIL dankelley@@users.sourceforge.net
 @include version.texi
 @c %**end of header
@@ -19031,6 +19031,9 @@ Dave Hebert,
 Christopher Illies,
 @cindex Christopher Illies (contributer)
 @cindex contributer, Christopher Illies
+Thomas Larsen,
+@cindex Thomas Larsen (contributer)
+@cindex contributer, Thomas Larsen
 Alejandro López-Valencia,
 @cindex Alejandro Lopez-Valencia (contributer)
 @cindex contributer, Alejandro Lopez-Valencia

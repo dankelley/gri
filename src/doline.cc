@@ -14,7 +14,7 @@ void            display_cmd_being_done_stack(void);
 
 extern char     _grTempString[];
 extern char    *_griVersion_name;
-
+
 #if USE_BACKTIC
 static          bool sub_backtic(const char *n, char *out);
 #endif
@@ -1130,7 +1130,7 @@ get_cmd(char *buf, int max, FILE *fp)
 				continue;
 			} else {
 				// 2006-11-15 (thanks to SL for the patch)
-#if defined(OPENBSD)
+#if defined(IS_OPENBSD)
 				*(buf + i) = '\0';
 #else
 				if (*(buf + i - 1) == '\r') { // fix DOS
