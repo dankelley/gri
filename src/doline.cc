@@ -1129,11 +1129,16 @@ get_cmd(char *buf, int max, FILE *fp)
 				_cmdFILE.back().increment_line();
 				continue;
 			} else {
+				// 2006-11-15 (thanks to SL for the patch)
+#if defined(OPENBSD)
+				*(buf + i) = '\0';
+#else
 				if (*(buf + i - 1) == '\r') { // fix DOS
 					*(buf + i - 1) = '\0';
 				} else {
 					*(buf + i) = '\0';
 				}
+#endif
 				if (((unsigned) superuser()) & FLAG_AUT2) printf("%s:%d get_cmd IN MIDDLE returning FALSE with [%s]\n",__FILE__,__LINE__,buf);
 				return false;
 			}
