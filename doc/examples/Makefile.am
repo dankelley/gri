@@ -33,6 +33,11 @@ png_files = FEM.png example1.png example2.png example3.png example4.png \
  example13-tiny.png logo.png
 
 EXTRA_DIST = \
+ example1.txt example2.txt example3.txt example4.txt example5.txt\
+ example6histogram.txt example6.txt\
+ example7.txt example8.txt example9.txt\
+ example10color.txt example10.txt\
+ example11.txt example12.txt example13.txt  FEM.txt\
  example1.gri example2.gri example3.gri example4.gri example5.gri\
  example6.gri example6histogram.gri example7.gri example8.gri\
  example9.gri example10.gri example10color.gri example11.gri\
