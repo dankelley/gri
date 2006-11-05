@@ -162,6 +162,23 @@ AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([
 dnl
 DEK_IS_FREEBSD
 
+dnl     See if OpenBSD computer
+AC_DEFUN([DEK_IS_OPENBSD],
+AC_MSG_CHECKING(for OPENBSD system)
+AC_CACHE_VAL(gri_cv_is_openbsd, [
+AC_BEFORE([$0], [AC_COMPILE_CHECK])AC_BEFORE([$0], [AC_TEST_PROGRAM])AC_BEFORE([$0], [AC_HEADER_EGREP])AC_BEFORE([$0], [AC_TEST_CPP])AC_EGREP_CPP(yes,
+[#ifdef __OpenBSD__
+  yes
+#endif
+], gri_cv_is_openbsd=yes, gri_cv_is_openbsd=no)])
+    AC_MSG_RESULT($gri_cv_is_openbsd)
+    if test $gri_cv_is_openbsd = yes; then
+        AC_DEFINE(IS_OPENBSD)
+    fi
+)dnl
+dnl
+DEK_IS_OPENBSD
+
 
 dnl     See if HPUX system
 AC_DEFUN([IS_THIS_AN_HPUX_SYSTEM],
