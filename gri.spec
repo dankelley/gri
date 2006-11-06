@@ -96,7 +96,9 @@ then
 fi
 
 %changelog
-* Tue Aug 22 09:51:03 ADT 2006
+* Mon Nov 6 14:23:03 ADT 2006
+-Fix SourceForge bug 1591475 (to compile in Solaris CC)
+-Fix SourceForge bug 1591062 (to compile in OpenBSD)
 -Add Century font
 * Sat Jul 15 10:31:00 AST 2006
 -Fix SourceForge bug #1523033 (malloc warning)

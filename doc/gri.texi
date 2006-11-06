@@ -16488,6 +16488,21 @@ only in the fixing of bugs.
 
 @comment ADD-NEW-BUG-FIXES-HERE
 
+@subsubsection Version 2.12.13 [2006 Nov 06: @uref{http://en.wikipedia.org/wiki/Public_holidays_in_Tajikistan, Constitution Day (Tajikistan)}]
+@strong{Bug Fixes}
+@itemize @bullet
+
+@item
+Fix SourceForge bug
+@uref{https://sourceforge.net/tracker/index.php?func=detail&aid=1591475&group_id=5511&atid=105511,#1591475}
+@dots{} Fix to compile in Solaris CC
+
+@item
+Fix SourceForge bug
+@uref{https://sourceforge.net/tracker/index.php?func=detail&aid=1591062&group_id=5511&atid=105511,#1591062}
+@dots{} Fix to compile in OpenBSD
+
+@end itemize
 
 @subsubsection Version 2.12.12 [2006 July 16: @uref{http://en.wikipedia.org/wiki/Yellow_Pig%27s_Day,Yellow Pigs Day}]
 @strong{Bug Fixes}
