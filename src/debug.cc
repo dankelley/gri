@@ -6,7 +6,7 @@
 #include	"debug.hh"
 #include	"extern.hh"
 
-int
+bool
 debugCmd()
 {
 	int             debug;

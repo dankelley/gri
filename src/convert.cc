@@ -80,7 +80,7 @@ static int create_grid_neighborCmd(const std::vector<double> &xgood,
 				   const std::vector<double> &ygood,
 				   const std::vector<double> &zgood);
 
-int convert_col_to_gridCmd(void);
+bool convert_col_to_gridCmd(void);
 bool convert_col_to_splineCmd(void);
 bool convert_grid_to_columnsCmd(void);
 bool convert_grid_to_imageCmd(void);

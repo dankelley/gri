@@ -81,7 +81,7 @@ bool 			_private = true; 					// "-private" and "-no_private" commandline option
 
 bool            initialize_image(); 
 bool            initialize_imageMask(); 
-int             create_arrays(void);
+bool            create_arrays(void);
 static void     create_builtin_variables(void);
 static void     create_builtin_synonyms(void);
 static void     set_defaults(void);
