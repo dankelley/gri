@@ -160,7 +160,7 @@ create_default_ygrid()
 }
 #undef DEFAULT_GRID_LENGTH
 
-int
+bool
 convert_col_to_gridCmd()
 {
 	int             found = 0;
