@@ -1,3 +1,13 @@
+gri (2.12.13-1) unstable; urgency=low
+
+  * New upstream release
+    Bug Fixes:
+    - Fix SourceForge bug #1591475 (Fix to compile in Solaris CC)
+    - Fix SourceForge bug #1591062 (Fix to compile in OpenBSD)
+  * debian/control: Standards-Version 3.7.2
+
+ -- Peter S Galbraith <psg@debian.org>  Tue,  7 Nov 2006 18:45:30 -0500
+
 gri (2.12.12-1) unstable; urgency=low
 
   * New upstream release
