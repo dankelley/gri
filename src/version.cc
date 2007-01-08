@@ -12,5 +12,5 @@ char _gri_number[] = PACKAGE_VERSION;
 //
 char _gri_number[] = PACKAGE_VERSION;
 #endif
-char _gri_release_time[] = "2006 XXX XX";
-char _gri_date[] = "2006";
+char _gri_release_time[] = "2006-01-08";
+char _gri_date[] = "2007";

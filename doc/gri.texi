@@ -53,8 +53,8 @@
 @comment %**start of header
 @setfilename gri.info
 @settitle Gri
-@set GRI-VERSION 2.12.13
-@set GRI-PREVIOUS-VERSION 2.12.12
+@set GRI-VERSION 2.12.14
+@set GRI-PREVIOUS-VERSION 2.12.13
 @set AUTHOR-EMAIL dankelley@@users.sourceforge.net
 @include version.texi
 @c %**end of header
@@ -73,11 +73,11 @@
 
 @subtitle A Program to Make Science Graphs
 @subtitle Version @value{GRI-VERSION}
-@subtitle 2006
+@subtitle 2007
 @author Dan E. Kelley (@value{AUTHOR-EMAIL})
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 1991-2006 Dan Kelley
+Copyright @copyright{} 1991-2007 Dan Kelley
 @sp 2
 @end titlepage
 
@@ -16487,6 +16487,16 @@ only in the fixing of bugs.
 @cindex version 2.12
 
 @comment ADD-NEW-BUG-FIXES-HERE
+@subsubsection Version 2.12.14 [2007 Jan 08: @uref{http://en.wikipedia.org/wiki/Seijin_shiki, Coming-of-Age Day (Japan)}]
+@strong{Bug Fixes}
+@itemize @bullet
+
+@item
+Fix SourceForge bug
+@uref{https://sourceforge.net/tracker/index.php?func=detail&aid=1630768&group_id=5511&atid=105511,#1630768}
+@dots{} Fix to segfault in clipped images (a bug that may have developed after version 2.13.3)
+@end itemize
+
 
 @subsubsection Version 2.12.13 [2006 Nov 06: @uref{http://en.wikipedia.org/wiki/Public_holidays_in_Tajikistan, Constitution Day (Tajikistan)}]
 @strong{Bug Fixes}

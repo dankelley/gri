@@ -2083,9 +2083,11 @@ draw_imageCmd()
 		return false;
 	}
 	set_environment();
+	//printf("DEBUG [draw_imageCmd() %s:%d]  _image_llx=%lf  _image_lly=%lf  _image_urx=%lf   _image_ury=%lf\n",__FILE__,__LINE__,_image_llx,_image_lly,_image_urx,_image_ury);
 	gr_usertocm(_image_llx, _image_lly, &llx_cm, &lly_cm);
 	gr_usertocm(_image_urx, _image_ury, &urx_cm, &ury_cm);
 	if (_imageMask.storage_exists) {
+		//printf("DEBUG [draw_imageCmd() %s:%d]  llx_cm=%lf  lly_cm=%lf  urx_cm=%lf   ury_cm=%lf\n",__FILE__,__LINE__,llx_cm,lly_cm,urx_cm,ury_cm);
 		extern double   _image_missing_color_red; // in set.c
 		extern double   _image_missing_color_green; // in set.c
 		extern double   _image_missing_color_blue; // in set.c

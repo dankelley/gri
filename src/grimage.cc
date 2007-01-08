@@ -121,6 +121,7 @@ gr_drawimage(unsigned char *im,
 	int             perlineMAX;
 	if (!_grWritePS)
 		return;
+	printf("DEBUG [gr_drawimage() %s:%d] xl=%lf  xr=%lf  yb=%lf  yt=%lf\n",__FILE__,__LINE__,xl,xr,yb,yt);
 	/* Figure out about mask */
 	have_mask = (mask == NULL) ? false : true;
 	// Convert cm to pt

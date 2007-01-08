@@ -9,9 +9,12 @@ create_x_scale()
 {
 	int nsegs;
 	double min, mint, max;
-	//printf("in create_x_scale()\n");
+	//printf("DEBUG [create_x_scale() %s:%d] _need_x_axis=%d  _user_set_x_axis=%d\n",__FILE__,__LINE__,_need_x_axis,_user_set_x_axis);
 	if (_need_x_axis && !_user_set_x_axis) {
-		if (!gr_missing(mint = _colX.min())) {
+		//extern double _grMissingValue;
+		//extern bool _grMissingValueUsed;
+		//printf("DEBUG [create_x_scale %s:%d] gr_missing(%le)=%d _grMissingValue=%le  _grMissingValueUsed=%d\n",__FILE__,__LINE__,_colX.min(),gr_missing(_colX.min()),_grMissingValue,_grMissingValueUsed);
+		if (_colX.size() > 0 && !gr_missing(mint = _colX.min())) {
 			min = mint;
 			max = _colX.max();
 			//printf("%s:%d min= %lf   max= %lf\n",__FILE__,__LINE__,min,max);
@@ -77,7 +80,7 @@ create_y_scale()
 	int nsegs;
 	double min, mint, max;
 	if (_need_y_axis && !_user_set_y_axis) {
-		if (!gr_missing(mint = _colY.min())) {
+		if (_colY.size() > 0 && !gr_missing(mint = _colY.min())) {
 			min = mint;
 			max = _colY.max();
 		} else {

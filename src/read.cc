@@ -919,6 +919,7 @@ Grid width %d disagrees with existing x-grid (%d); first `delete grid'",
 		_num_xmatrix_data = i;
 	}
 	// All done reading.
+	//printf("DEBUG [read_grid_xCmd() %s:%d] _xscale_exists=%d\n",__FILE__,__LINE__,_xscale_exists);
 	if (!_xscale_exists)
 		if (!create_x_scale()) {
 			warning("Problem autoscaling -- no data or all x values equal");

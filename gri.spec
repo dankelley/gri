@@ -1,5 +1,5 @@
 Summary: A language for scientific illustration
-%define griversion 2.12.13
+%define griversion 2.12.14
 Name: gri
 Version: %{griversion}
 Release: 1
@@ -96,7 +96,9 @@ then
 fi
 
 %changelog
-* Mon Nov 6 14:23:03 ADT 2006
+* Mon Jan  8 15:17:49 AST 2007
+- Fix SourceForge bug 1630768 (segfault with clipped images)
+* Mon Nov  6 14:23:03 ADT 2006
 -Fix SourceForge bug 1591475 (to compile in Solaris CC)
 -Fix SourceForge bug 1591062 (to compile in OpenBSD)
 -Add Century font

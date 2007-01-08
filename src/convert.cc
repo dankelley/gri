@@ -1407,11 +1407,14 @@ convert_grid_to_imageCmd()
 	}
 	// Determine image scales, either from 'box' keyword or from the limits
 	// of the data
+	//printf("DEBUG [convert_grid_to_imageCmd() %s:%d] \n",__FILE__,__LINE__);
 	switch (get_cmd_values(_word, _nword, "box", 4, _dstack)) {
 	case 4:
 		define_image_scales(_dstack[0], _dstack[1], _dstack[2], _dstack[3]);
 		break;
 	case 0:
+		//printf("DEBUG [convert_grid_to_imageCmd() %s:%d] _num_xmatrix_data=%d\n",__FILE__,__LINE__,_num_xmatrix_data);
+		//printf("DEBUG [convert_grid_to_imageCmd() %s:%d] _xmatrix[0]=%lf\n",__FILE__,__LINE__,_xmatrix[0]);
 		define_image_scales(_xmatrix[0],
 				    _ymatrix[0],
 				    _xmatrix[_num_xmatrix_data - 1],
