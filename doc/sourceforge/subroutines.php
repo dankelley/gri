@@ -5,7 +5,7 @@ $development_site = "http://gri.sourceforge.net";
 $development_site_name = "SourceForge";
 $gri_stable_version_major = "2"; // !!!
 $gri_stable_version_intermediate = "12"; // !!!
-$gri_stable_version_minor = "13"; // !!!
+$gri_stable_version_minor = "14"; // !!!
 $gri_stable_version = "$gri_stable_version_major.$gri_stable_version_intermediate.$gri_stable_version_minor";
 $gri_group_id = "5511";
 $sf_url = "http://sourceforge.net";
@@ -65,9 +65,11 @@ function age() {
 # Vsn 2.12.11 2006-03-29 0725 Halfifax time 0325 SF time
 #	$diff = time() - mktime(03, 25, 00, 3, 29, 2006); // !!!
 # Vsn 2.12.12 2006-07-17 1044 Halfifax time 0644 SF time
-	$diff = time() - mktime(06, 44, 00, 7, 17, 2006); // !!!
+#	$diff = time() - mktime(06, 44, 00, 7, 17, 2006); // !!!
 # Vsn 2.12.13 2006-11-06 1541 Halfifax time 1141 SF time
-		$diff = time() - mktime(11, 41, 00, 11, 6, 2006); // !!!
+#		$diff = time() - mktime(11, 41, 00, 11, 6, 2006); // !!!
+# Vsn 2.12.14 2007-01-08 1626 Halfifax time 1226 SF time
+		$diff = time() - mktime(12, 26, 00, 01, 8, 2007); // !!!
 
 # REF: mktime(hour,minute,second,month,day,year)
 
@@ -165,7 +167,7 @@ function footer()
 	print "<td valign=\"top\" bgcolor=\"#FFFFFF\">\n";
 	print "<center>\n";
 	print "<small>\n";
-	print "Copyright &copy; 2002-2006 by\n";
+	print "Copyright &copy; 2002-2007 by\n";
         global $sf_url;
 	print "<a href=\"$sf_url/users/dankelley\">Dan Kelley</a>\n";
 	print " and ";
