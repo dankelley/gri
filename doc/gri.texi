@@ -11198,7 +11198,6 @@ example
 
 @example
 write contour 10 to contour.out
-write contour 20 to contour.out
 open contour.out
 read .contour_value. .missing.
 set missing value .missing.
