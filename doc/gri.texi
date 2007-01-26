@@ -100,7 +100,7 @@ considerable power, at the price of a moderate learning curve.
 
 This manual describes Gri version
 @value{GRI-VERSION} @c , updated @value{UPDATED},
-(c) 1991-2006, 
+(c) 1991-2007, 
 Dan Kelley at email address 
 @c HTML <A HREF="mailto:Dan.Kelley@Dal.CA"> 
 @value{AUTHOR-EMAIL}
