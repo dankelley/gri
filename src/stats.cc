@@ -75,6 +75,9 @@ histogram_stats(const double* x,
 		*q2 = array_at_i(xcopy, 0.50 * (ngood - 1), ngood);
 		*q3 = array_at_i(xcopy, 0.75 * (ngood - 1), ngood);
 	}
+	PUT_VAR("..q1..", *q1);
+	PUT_VAR("..q2..", *q2);
+	PUT_VAR("..q3..", *q3);
 }
 
 static double

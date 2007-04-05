@@ -200,6 +200,9 @@ start_up(int argc, char **argv)
 	PUT_VAR("..ylast..", 0.0);
 	PUT_VAR("..image_width..", 0.0);
 	PUT_VAR("..image_height..", 0.0);
+	PUT_VAR("..q1..",0.0);
+	PUT_VAR("..q2..",0.0);
+	PUT_VAR("..q3..",0.0);
 
 #ifdef OSX_BUNDLE
         extern std::string _lib_directory;

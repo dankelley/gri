@@ -53,8 +53,8 @@
 @comment %**start of header
 @setfilename gri.info
 @settitle Gri
-@set GRI-VERSION 2.12.14
-@set GRI-PREVIOUS-VERSION 2.12.13
+@set GRI-VERSION 2.12.15
+@set GRI-PREVIOUS-VERSION 2.12.14
 @set AUTHOR-EMAIL dankelley@@users.sourceforge.net
 @include version.texi
 @c %**end of header
@@ -5966,7 +5966,8 @@ and q3.  Beyond the whiskers, all outliers are shown: open circles are
 used for data within a distance of 3 inter-quartile ranges beyond q1 and
 q3, and in closed circles beyond that.
 
-
+As a side effect, this command stores q1, q2, and q3 
+into variables @code{..q1..}, @code{..q2..}, and @code{..q3..}.
 
 
 @itemize @bullet
@@ -6043,6 +6044,9 @@ x=@code{.x.} and of default width 0.5 cm.
 Draw Tukey's box plot, spreading in the y direction, centered at
 x=@code{.x.} and of width @code{.cm.} centimetres.
 @end itemize
+
+As a side effect, this command stores q1, q2, and q3 
+into variables @code{..q1..}, @code{..q2..}, and @code{..q3..}.
 
 
 
