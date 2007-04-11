@@ -468,10 +468,12 @@ gr_drawyaxis(double x, double yb, double yinc, double yt, gr_axis_properties sid
 		} else {
 			offset = -0.5 * FACTOR * CapHeight - _grTicSize_cm;
 		}
-	} else if (_grTicsPointIn == true) {
-		offset = 0.5 * FACTOR * CapHeight;
 	} else {
-		offset = 0.5 * FACTOR * CapHeight + _grTicSize_cm;
+		if (_grTicsPointIn == true) {
+			offset = 0.5 * FACTOR * CapHeight;
+		} else {
+			offset = 0.5 * FACTOR * CapHeight + _grTicSize_cm;
+		}
 	}
 	int old_linecap = _griState.line_cap();
 	int old_linejoin = _griState.line_join();
@@ -716,7 +718,7 @@ gr_drawyaxis(double x, double yb, double yinc, double yt, gr_axis_properties sid
 					   ycm,
 					   TEXT_CENTERED, angle);
 			} else {
-				label.draw(xcm + max_num_width_cm + FACTOR * CapHeight,
+				label.draw(xcm + max_num_width_cm,
 					   ycm,
 					   TEXT_CENTERED, angle - 180);
 			}
