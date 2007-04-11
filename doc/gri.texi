@@ -16490,6 +16490,18 @@ only in the fixing of bugs.
 @cindex version 2.12
 
 @comment ADD-NEW-BUG-FIXES-HERE
+
+@subsubsection Version 2.12.15 [not yet officially released]
+@strong{Bug Fixes}
+@itemize @bullet
+@item
+FixSourceForge bug
+@uref{https://sourceforge.net/tracker/index.php?func=detail&aid=1630768&group_id=5511&atid=105511,#1698116}
+@dots{} poorly-positioned name of RHS y-axis
+
+@end itemize
+
+
 @subsubsection Version 2.12.14 [2007 Jan 08: @uref{http://en.wikipedia.org/wiki/Seijin_shiki, Coming-of-Age Day (Japan)}]
 @strong{Bug Fixes}
 @itemize @bullet
