@@ -16494,8 +16494,11 @@ only in the fixing of bugs.
 @subsubsection Version 2.12.15 [not yet officially released]
 @strong{Bug Fixes}
 @itemize @bullet
-@item
-FixSourceForge bug
+
+Fix Debian bug #417217
+@dots{} will not compile in GCC 4.3
+
+Fix SourceForge bug
 @uref{https://sourceforge.net/tracker/index.php?func=detail&aid=1630768&group_id=5511&atid=105511,#1698116}
 @dots{} poorly-positioned name of RHS y-axis
 
