@@ -2854,11 +2854,13 @@ draw_x_box_plotCmd()
 	upper = q3 + 1.5 * iqr;	// upper fence 
 	lower = q1 - 1.5 * iqr;	// lower fence 
 	for (unsigned int i = 0; i < _colX.size(); i++) {
-		double           x = _colX[i];
-		if (x > q3 && x < upper && x > upper_adjacent_value)
-			upper_adjacent_value = x;
-		if (x < q1 && x > lower && x < lower_adjacent_value)
-			lower_adjacent_value = x;
+		double x = _colX[i];
+		if (!gr_missingx(x)) {
+			if (x > q3 && x < upper && x > upper_adjacent_value)
+				upper_adjacent_value = x;
+			if (x < q1 && x > lower && x < lower_adjacent_value)
+				lower_adjacent_value = x;
+		 }
 	}
 	set_line_width_symbol();
 	gr_setsymbolsize_cm(FRAC * size_cm);
@@ -2882,13 +2884,15 @@ draw_x_box_plotCmd()
 	lower = q3 + 1.5 * iqr;
 	upper = q3 + 3.0 * iqr;
 	for (unsigned int i = 0; i < _colX.size(); i++) {
-		double           val = _colX[i];
-		if (val > lower) {
-			gr_usertocm(val, y, &xcm, &ycm);
-			if (val <= upper)	// minor outlier 
-				gr_drawsymbol(xcm, ycm, gr_circ_symbol);
-			else		// major outlier 
-				gr_drawsymbol(xcm, ycm, gr_bullet_symbol);
+		double val = _colX[i];
+		if (!gr_missingx((double)val)) {
+			if (val > lower) {
+				gr_usertocm(val, y, &xcm, &ycm);
+				if (val <= upper)	// minor outlier 
+					gr_drawsymbol(xcm, ycm, gr_circ_symbol);
+				else		// major outlier 
+					gr_drawsymbol(xcm, ycm, gr_bullet_symbol);
+			}
 		}
 	}
 	// draw outliers < q1
@@ -2896,12 +2900,14 @@ draw_x_box_plotCmd()
 	upper = q1 - 1.5 * iqr;
 	for (unsigned int i = 0; i < _colX.size(); i++) {
 		double val = _colX[i];
-		if (val < upper) {
-			gr_usertocm(val, y, &xcm, &ycm);
-			if (val >= lower)	// minor outlier 
-				gr_drawsymbol(xcm, ycm, gr_circ_symbol);
-			else		// major outlier 
-				gr_drawsymbol(xcm, ycm, gr_bullet_symbol);
+		if (!gr_missingx((double)val)) {
+			if (val < upper) {
+				gr_usertocm(val, y, &xcm, &ycm);
+				if (val >= lower)	// minor outlier 
+					gr_drawsymbol(xcm, ycm, gr_circ_symbol);
+				else		// major outlier 
+					gr_drawsymbol(xcm, ycm, gr_bullet_symbol);
+			}
 		}
 	}
 	_drawingstarted = true;
@@ -3008,10 +3014,12 @@ draw_y_box_plotCmd()
 	lower = q1 - 1.5 * iqr;	   // lower fence 
 	for (unsigned int i = 0; i < _colY.size(); i++) {
 		double y = _colY[i];
-		if (y > q3 && y < upper && y > upper_adjacent_value)
-			upper_adjacent_value = y;
-		if (y < q1 && y > lower && y < lower_adjacent_value)
-			lower_adjacent_value = y;
+		if (!gr_missingy(y)) {
+			if (y > q3 && y < upper && y > upper_adjacent_value)
+				upper_adjacent_value = y;
+			if (y < q1 && y > lower && y < lower_adjacent_value)
+				lower_adjacent_value = y;
+		}
 	}
 	gr_setsymbolsize_cm(FRAC * size_cm);
 	set_line_width_symbol();
@@ -3037,12 +3045,14 @@ draw_y_box_plotCmd()
 	gr_setsymbolsize_cm(FRAC * size_cm);
 	for (unsigned int i = 0; i < _colY.size(); i++) {
 		double val = _colY[i];
-		if (val > lower) {
-			gr_usertocm(x, val, &xcm, &ycm);
-			if (val <= upper)	// minor outlier 
-				gr_drawsymbol(xcm, ycm, gr_circ_symbol);
-			else		// major outlier 
-				gr_drawsymbol(xcm, ycm, gr_bullet_symbol);
+		if (!gr_missingy((double)val)) {
+			if (val > lower) {
+			   gr_usertocm(x, val, &xcm, &ycm);
+			   if (val <= upper)	// minor outlier 
+				   gr_drawsymbol(xcm, ycm, gr_circ_symbol);
+			   else		// major outlier 
+				   gr_drawsymbol(xcm, ycm, gr_bullet_symbol);
+			}
 		}
 	}
 	// Draw outliers < q1
@@ -3050,12 +3060,14 @@ draw_y_box_plotCmd()
 	upper = q1 - 1.5 * iqr;
 	for (unsigned int i = 0; i < _colY.size(); i++) {
 		double val = _colY[i];
-		if (val < upper) {
-			gr_usertocm(x, val, &xcm, &ycm);
-			if (val >= lower)	// minor outlier 
-				gr_drawsymbol(xcm, ycm, gr_circ_symbol);
-			else		// major outlier 
-				gr_drawsymbol(xcm, ycm, gr_bullet_symbol);
+		if (!gr_missingy((double)val)) {
+			if (val < upper) {
+				gr_usertocm(x, val, &xcm, &ycm);
+				if (val >= lower)	// minor outlier 
+					gr_drawsymbol(xcm, ycm, gr_circ_symbol);
+				else		// major outlier 
+					gr_drawsymbol(xcm, ycm, gr_bullet_symbol);
+			}
 		}
 	}
 	_drawingstarted = true;

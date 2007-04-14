@@ -1,5 +1,5 @@
 Summary: A language for scientific illustration
-%define griversion 2.12.14
+%define griversion 2.12.15
 Name: gri
 Version: %{griversion}
 Release: 1
@@ -96,6 +96,10 @@ then
 fi
 
 %changelog
+* Sat Apr 14 09:37:33 AST 2007
+- Fix SourceForge bug 1698924 (box plots show missing data)
+- Fix Debian bug 417217 (will not compile in GCC 4.3)
+- Fix SourceForge bug 1698116 (poorly-positioned name of RHS y-axis)
 * Mon Jan  8 15:17:49 AST 2007
 - Fix SourceForge bug 1630768 (segfault with clipped images)
 * Mon Nov  6 14:23:03 ADT 2006
