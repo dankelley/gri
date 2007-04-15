@@ -114,6 +114,7 @@ function set_up_navigation_tabs($this_url) {
 	print "<!doctype HTML public \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
 	print "<html lang=\"en\">\n";
 	print "<head>\n";
+	print "<link rel=\"search\" type=\"application/opensearchdescription+xml\" title=\"Gri\" href=\"firefoxsearch.xml\">";
 	print "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=US-ASCII\">\n";
 	print "<title> $title</title>\n";
 	print "<meta name=\"Author\" content=\"Dan Kelley, Dan.Kelley@Dal.Ca\">\n";
