@@ -16491,9 +16491,15 @@ only in the fixing of bugs.
 
 @comment ADD-NEW-BUG-FIXES-HERE
 
-@subsubsection Version 2.12.15 [not yet officially released]
+@subsubsection Version 2.12.15 [2007 Apr 16 @uref{http://en.wikipedia.org/wiki/Mawlid, Mawlid}, celebration of birthday of Muhammad]
+
 @strong{Bug Fixes}
 @itemize @bullet
+
+@item
+Fix SourceForge bug
+@uref{https://sourceforge.net/tracker/index.php?func=detail&aid=1700978&group_id=5511&atid=105511,#1700978}
+@dots{} html concept index mostly broken
 
 @item
 Fix SourceForge bug

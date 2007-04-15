@@ -96,7 +96,8 @@ then
 fi
 
 %changelog
-* Sat Apr 14 09:37:33 AST 2007
+* Sun Apr 15 11:00:00 AST 2007
+- Fix SourceForge bug #1700978 (html concept index mostly broken)
 - Fix SourceForge bug 1698924 (box plots show missing data)
 - Fix Debian bug 417217 (will not compile in GCC 4.3)
 - Fix SourceForge bug 1698116 (poorly-positioned name of RHS y-axis)
