@@ -41,7 +41,7 @@ for ($i = 0; $i < $n; $i++) {
 # Ullman (2001) p33 
 $search_for = trim($search_for); # remove start/end whitespace
 print("Return to <a href=\"http://gri.sourceforge.net\">Gri homepage</a>.<p>\n");
-print("The following items from the Gri index match your search for <font color=#6666DD>`$search_for'</font>:\n");
+print("Results for search on <font color=#6666DD>&ldquo;$search_for&rdquo;</font>:\n");
 $first = 1;
 for ($i = $start + 2; $i < $n; $i++) {
     if (eregi($search_for, $items[$i]) 
