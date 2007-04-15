@@ -40,7 +40,7 @@ for ($i = 0; $i < $n; $i++) {
 }
 # Ullman (2001) p33 
 $search_for = trim($search_for); # remove start/end whitespace
-print("Return to <a href=\"http://gri.sourceforge.net\">Gri homepage</a>.<p>\n");
+print("Return to <a href=\"http://gri.sourceforge.net/docs.php\">Gri homepage</a>.<p>\n");
 print("Results for search on <font color=#6666DD>&ldquo;$search_for&rdquo;</font>:\n");
 $first = 1;
 for ($i = $start + 2; $i < $n; $i++) {
