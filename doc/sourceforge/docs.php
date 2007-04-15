@@ -56,7 +56,7 @@ The form below may be used to search the index of the gri manual.<br>
 <center>
 <form action="search_concept.php">
 <input type=TEXT name=search_for size=30>
-<input type=SUBMIT name="Submit" value="Submit"> 
+<input type=SUBMIT>
 </form>
 </center>
 
