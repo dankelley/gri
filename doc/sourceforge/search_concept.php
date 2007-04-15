@@ -12,7 +12,8 @@
 
 <?php
 
-$index_name = "http://gri.sourceforge.net/gridoc/html/ConceptIndex.html";
+#$index_name = "http://gri.sourceforge.net/gridoc/html/ConceptIndex.html";
+$index_name = "gridoc/html/ConceptIndex.html";
 $rel = "gridoc/html/";
 
 # See Ullman (2001, p163) on files.  However, he seems
