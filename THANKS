@@ -1,18 +1,15 @@
-Developing Gri was made easier by suggestions and bug reports from
-many users, among whom are: Ivo Alxneit, Karin Bryan, Sara Bennett,
-Luke Blaikie, Dave Brickman, Clyde Clements, Pierre Flament, Peter
-Galbraith, Dave Hebert, Alejandro López-Valencia, Kawamura Masao,
-Steve Matheson, Ed Nather, Carl Osterwisch, Richard Andrew Miles
-Outerbridge, Brian May, Jinyu Sheng, Toru Suzuki, Keith Thompson,
-David Trueman, and George White.
+Developing Gri was made easier by suggestions and bug reports from many
+users, among whom are: Ivo Alxneit, Karin Bryan, Sara Bennett, Luke
+Blaikie, Dave Brickman, Clyde Clements, Pierre Flament, Peter
+Galbraith, Dave Hebert, Alejandro López-Valencia, Kawamura Masao, Steve
+Matheson, Ed Nather, Carl Osterwisch, Richard Andrew Miles Outerbridge,
+Brian May, Jinyu Sheng, Toru Suzuki, Keith Thompson, David Trueman, and
+George White. The Gri manual provides a fuller list, and the fact that
+it grows monthly is a testament to the power of the open-source
+movement.
 
-Some of these folks also suggested detailed improvements to the C++
-code of Gri, not an easy task given the complexity and length of the
-code.
-
-Throughout Gri development, Peter Galbraith has been a steady partner
-and advisor.  Gri, in its present open-source form, would not exist
-without Peter.
+Throughout Gri development, Peter Galbraith has been a steady
+collaborator, supporter, and advisor. Gri would not exist without him.
 
 All of these, and many users with whom I've interacted over the years,
 I thank warmly.
