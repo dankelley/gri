@@ -1,6 +1,7 @@
 #!/usr/local/bin/perl
 # Create HTML index from index of pre-installed info page.
 # Bug: the @code{} items get lost, too bad.
+$debug = 0; # change to 1 to get some debugging output
 open(IN, "info -f ./gri.info 'Concept Index' | ") 
     ||  die "Cannot get 'Concept Index'\n";
 
@@ -17,14 +18,25 @@ print "
 \@itemize \@bullet
 ";
 
+# Skip header ... this may be brittle, since how do we know how it's defined?
 while(<IN>) {
-    next if (/\*\s*Menu:\s*$/);
-    if (/\* .*\./) {
-        s/\* //;
-        s/\.$//;
-        s/:\s*/\n ... \@xref{/;
-        s/$/}./;
-        print "\@item\n $_";
-    }
+	chop;
+	#print "SKIPPING ($_)\n";
+	last if /Menu:/;
+}
+
+# Process the body.
+while(<IN>) {
+	chop;
+	print "BEFORE [$_]\n" if $debug;
+	s/\s*\((line)\s*[0-9]+\)\s*//;
+	s/\s*$//;
+	print "AFTER  [$_]\n" if $debug;
+	next if /^$/; # ignores "(line #)" lines, which occur for long items.
+	s/\* //;
+	s/\.$//;
+	s/:\s*/\n ... \@xref{/;
+	s/$/}/;
+	print "\@item\n $_\n";
 }
 print "\@end itemize\n";
