@@ -19051,8 +19051,10 @@ Japanese with English abstract)
 @chapter Acknowledgments
 @cindex user input to Gri
 @cindex acknowledgments
-Developing Gri was made easier by suggestions and bug reports from many
-users, among whom are: 
+
+Over the years, many Gri users have been kind enough to help in its development. Some
+have done so by sending in bug reports, others by requesting features, others by
+submitting patches.  A few of their names are:
 Ivo Alxneit,
 @cindex contributor, Ivo Alxneit
 @cindex Ivo Alxneit (contributor)
@@ -19144,13 +19146,10 @@ and George White.
 @cindex George White (contributor)
 @cindex contributor, George White
 
-Some of these folks also suggested detailed improvements to the C++ code
-of Gri, not an easy task given the complexity and length of the code.
+Prime among these is Peter Galbraith, who has been a close collaborator in Gri
+development and in my scientific work, for well over a decade.
 
-All of these, and many users with whom I've interacted over the years,
-I thank warmly.
-
-
+To all, thanks.
 
 
 @c HTML <!-- newfile License.html  "Gri: License" "License" -->
