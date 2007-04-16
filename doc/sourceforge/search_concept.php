@@ -1,7 +1,7 @@
 <html>
   <head>
     <title>Gri Index Search</title>
-    <meta name="Copyright" content="2001 Dan Kelley, Dalhousie University, Halifax, Nova Scotia, Canada">
+    <meta name="Copyright" content="2007 Dan Kelley, Dalhousie University, Halifax, Nova Scotia, Canada">
     <meta name="Author" content="Dan Kelley, Dan.Kelley@Dal.Ca">
     <meta name="keywords" content="Gri, graphics, Scientific Computing">
     <LINK rel="stylesheet" href="./gri.css" type="text/css">
@@ -41,33 +41,30 @@ for ($i = 0; $i < $n; $i++) {
 }
 # Ullman (2001) p33 
 $search_for = trim($search_for); # remove start/end whitespace
-print("Return to <a href=\"http://gri.sourceforge.net/docs.php\">Gri docs page</a>.<p>\n");
-print("Results for search on <font color=#6666DD>&ldquo;$search_for&rdquo;</font>:\n");
+print("<p>[<a href=\"http://gri.sourceforge.net/docs.php\">Return to Gri docs page</a>.]</p>\n");
+print("<p>Results for search on <font color=#6666DD>&ldquo;$search_for&rdquo;</font>:</p>\n");
 $first = 1;
 for ($i = $start + 2; $i < $n; $i++) {
-    if (eregi($search_for, $items[$i]) 
-	and !eregi("href=\"", $items[$i])) {
-	if ($first) {
-	    print("<ul>\n");
-	    $first = 0;
-	}
-	print($items[$i-1]);  # <li>
-	print($items[$i]);    # the line that was searched
-	# The next line, which contains the link, must be edited
-        # to point to the right place.
-	$the_ref = $items[$i+1];
-	$the_ref = ereg_replace("href=\"", "href=\"$rel/", $the_ref);
-	print($the_ref);
-	$i++;			# avoid searching on the href line
-    }
+   	if (eregi($search_for, $items[$i]) 	and !eregi("href=\"", $items[$i])) {
+		if ($first) {
+    		print("<ul>\n");
+    		$first = 0;
+		}
+		print($items[$i-1]);  # <li>
+		print($items[$i]);    # the line that was searched
+		# The next line, which contains the link, must be edited
+       	# to point to the right place.
+		$the_ref = $items[$i+1];
+		$the_ref = ereg_replace("href=\"", "href=\"$rel/", $the_ref);
+		print($the_ref);
+		$i++;			# avoid searching on the href line
+   	}
 }
-if (!$first) {
-    print("</ul>\n");
+if ($first) {
+	print("<p>&nbsp;&nbsp;... nothing was found, sorry.</p>\n");
+} else {
+   	print("</ul>\n");
 }
-
-
 ?>
-
 </body>
-
 </html>
