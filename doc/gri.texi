@@ -18983,6 +18983,8 @@ abstract)
 
 @item @strong{Marine Ecology Progress Series}
 
+@item @strong{Monthly Weather Review}
+
 @item @strong{Oceanography}
 
 @item @strong{Paleoceanography}
@@ -19052,92 +19054,95 @@ Japanese with English abstract)
 Developing Gri was made easier by suggestions and bug reports from many
 users, among whom are: 
 Ivo Alxneit,
-@cindex contributer, Ivo Alxneit
-@cindex Ivo Alxneit (contributer)
+@cindex contributor, Ivo Alxneit
+@cindex Ivo Alxneit (contributor)
 Karin Bryan,
-@cindex Karin Bryan (contributer)
-@cindex contributer, Karin Bryan
+@cindex Karin Bryan (contributor)
+@cindex contributor, Karin Bryan
 Sara Bennett,
-@cindex Sara Bennett (contributer)
-@cindex contributer, Sara Bennett
+@cindex Sara Bennett (contributor)
+@cindex contributor, Sara Bennett
 Luke Blaikie,
-@cindex Luke Blaikie (contributer)
-@cindex contributer, Luke Blaikie
+@cindex Luke Blaikie (contributor)
+@cindex contributor, Luke Blaikie
 Dave Brickman,
-@cindex Dave Brickman (contributer)
-@cindex contributer, Dave Brickman
+@cindex Dave Brickman (contributor)
+@cindex contributor, Dave Brickman
 Steve Cayford,
 @cindex Steve Cayford (contributor)
 @cindex contributor, Steve Cayford
 Clyde Clements,
-@cindex Clyde Clements (contributer)
-@cindex contributer, Clyde Clements
+@cindex Clyde Clements (contributor)
+@cindex contributor, Clyde Clements
 Andrew Collier,
-@cindex Andrew Collier (contributer)
-@cindex contributer, Andrew Collier
+@cindex Andrew Collier (contributor)
+@cindex contributor, Andrew Collier
 Pierre Flament,
-@cindex Pierre Flament (contributer)
-@cindex contributer, Pierre Flament
+@cindex Pierre Flament (contributor)
+@cindex contributor, Pierre Flament
 Peter Galbraith,
-@cindex Peter Galbraith (contributer)
-@cindex contributer, Peter Galbraith
+@cindex Peter Galbraith (contributor)
+@cindex contributor, Peter Galbraith
 Dave Hebert,
-@cindex Dave Hebert (contributer)
-@cindex contributer, Dave Hebert
+@cindex Dave Hebert (contributor)
+@cindex contributor, Dave Hebert
 Christopher Illies,
-@cindex Christopher Illies (contributer)
-@cindex contributer, Christopher Illies
+@cindex Christopher Illies (contributor)
+@cindex contributor, Christopher Illies
+Cody Kirkpatrick,
+@cindex Cody Kirkpatrick (contributor)
+@cindex contributor, Cody Kirkpatrick
 Thomas Larsen,
-@cindex Thomas Larsen (contributer)
-@cindex contributer, Thomas Larsen
+@cindex Thomas Larsen (contributor)
+@cindex contributor, Thomas Larsen
 Alejandro López-Valencia,
-@cindex Alejandro Lopez-Valencia (contributer)
-@cindex contributer, Alejandro Lopez-Valencia
+@cindex Alejandro Lopez-Valencia (contributor)
+@cindex contributor, Alejandro Lopez-Valencia
 Kawamura Masao,
-@cindex Kawamura Masao (contributer)
-@cindex contributer, Kawamura Masao
+@cindex Kawamura Masao (contributor)
+@cindex contributor, Kawamura Masao
 Steve Matheson,
-@cindex Steve Matheson (contributer)
-@cindex contributer, Steve Matheson
+@cindex Steve Matheson (contributor)
+@cindex contributor, Steve Matheson
 Brian May,
-@cindex Brian May, contributer
-@cindex contributer, Brian May
+@cindex Brian May, contributor
+@cindex contributor, Brian May
 Ed Nather,
-@cindex Ed Nather (contributer)
-@cindex contributer, Ed Nather
+@cindex Ed Nather (contributor)
+@cindex contributor, Ed Nather
 Roman Neuhauser,
-@cindex Roman Neuhauser (contributer)
-@cindex contributer, Roman Neuhauser
+@cindex Roman Neuhauser (contributor)
+@cindex contributor, Roman Neuhauser
 Carl Osterwisch,
-@cindex Carl Osterwisch (contributer)
-@cindex contributer, Carl Osterwisch
+@cindex Carl Osterwisch (contributor)
+@cindex contributor, Carl Osterwisch
 Richard Andrew Miles Outerbridge,
-@cindex Richard Andrew Miles Outerbridge (contributer)
-@cindex contributer, Richard Andrew Miles Outerbridge
+@cindex Richard Andrew Miles Outerbridge (contributor)
+@cindex contributor, Richard Andrew Miles Outerbridge
 Tim Powers,
-@cindex Tim Powers (contributer)
-@cindex contributer, Tim Powers
+@cindex Tim Powers (contributor)
+@cindex contributor, Tim Powers
 Jinyu Sheng,
-@cindex Jinyu Sheng (contributer)
-@cindex contributer, Jinyu Sheng
+@cindex Jinyu Sheng (contributor)
+@cindex contributor, Jinyu Sheng
 Toru Suzuki,
-@cindex Toru Suzuki (contributer)
-@cindex contributer, Toru Suzuki
+@cindex Toru Suzuki (contributor)
+@cindex contributor, Toru Suzuki
 Keith Thompson,
-@cindex Keith Thompson (contributer)
-@cindex contributer, Keith Thompson
+@cindex Keith Thompson (contributor)
+@cindex contributor, Keith Thompson
 David Trueman,
-@cindex David Trueman (contributer)
-@cindex contributer, David Trueman
+@cindex David Trueman (contributor)
+@cindex contributor, David Trueman
 Wolfgang Voegeli,
-@cindex contributer and bug-fixer, Wolfgang Voegeli
-@cindex Wolfgang Voegeli (contributer and bug fixer)
+@cindex contributor and bug-fixer, Wolfgang Voegeli
+@cindex Wolfgang Voegeli (contributor and bug fixer)
 Jeff Whitaker,
-@cindex Jeff Whitaker (contributer)
-@cindex contributer, Jeff Whitaker
+@cindex Jeff Whitaker (contributor)
+@cindex contributor, Jeff Whitaker
 and George White.
-@cindex George White (contributer)
-@cindex contributer, George White
+@cindex George White (contributor)
+@cindex contributor, George White
 
 Some of these folks also suggested detailed improvements to the C++ code
 of Gri, not an easy task given the complexity and length of the code.
