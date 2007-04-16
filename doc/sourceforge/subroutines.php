@@ -5,7 +5,7 @@ $development_site = "http://gri.sourceforge.net";
 $development_site_name = "SourceForge";
 $gri_stable_version_major = "2"; // !!!
 $gri_stable_version_intermediate = "12"; // !!!
-$gri_stable_version_minor = "14"; // !!!
+$gri_stable_version_minor = "15"; // !!!
 $gri_stable_version = "$gri_stable_version_major.$gri_stable_version_intermediate.$gri_stable_version_minor";
 $gri_group_id = "5511";
 $sf_url = "http://sourceforge.net";
@@ -62,14 +62,16 @@ function age() {
 #	$diff = time() - mktime(8, 03, 0, 1, 6, 2005); // !!!
 # Vsn 2.12.10: 2006-01-26 10:00 Halifax time, 06:00 SF time
 #	$diff = time() - mktime(06, 00, 00, 1, 26, 2006); // !!!
-# Vsn 2.12.11 2006-03-29 0725 Halfifax time 0325 SF time
+# Vsn 2.12.11 2006-03-29 0725 Halifax time 0325 SF time
 #	$diff = time() - mktime(03, 25, 00, 3, 29, 2006); // !!!
-# Vsn 2.12.12 2006-07-17 1044 Halfifax time 0644 SF time
+# Vsn 2.12.12 2006-07-17 1044 Halifax time 0644 SF time
 #	$diff = time() - mktime(06, 44, 00, 7, 17, 2006); // !!!
 # Vsn 2.12.13 2006-11-06 1541 Halfifax time 1141 SF time
 #		$diff = time() - mktime(11, 41, 00, 11, 6, 2006); // !!!
-# Vsn 2.12.14 2007-01-08 1626 Halfifax time 1226 SF time
-		$diff = time() - mktime(12, 26, 00, 01, 8, 2007); // !!!
+# Vsn 2.12.14 2007-01-08 1626 Halifax time 1226 SF time
+#		$diff = time() - mktime(12, 26, 00, 01, 8, 2007); // !!!
+# Vsn 2.12.15 2007-04-16 1016 Halifax time 0616 SF time
+		$diff = time() - mktime(06, 16, 00, 04, 16, 2007); // !!!
 
 # REF: mktime(hour,minute,second,month,day,year)
 
