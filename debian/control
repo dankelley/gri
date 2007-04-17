@@ -3,8 +3,8 @@ Section: science
 Priority: optional
 Maintainer: Peter S Galbraith <psg@debian.org>
 Build-Depends: debhelper, netcdfg-dev, tetex-bin, texinfo, imagemagick, info, gs, gsfonts
-Build-Depends-Indep: debhelper, tetex-bin, texinfo, imagemagick, info, gs, gsfonts
-Standards-Version: 3.6.2
+Build-Depends-Indep: debhelper, texlive-generic-recommended, texinfo, imagemagick, info, gs, gsfonts
+Standards-Version: 3.7.2
 
 Package: gri
 Section: science
