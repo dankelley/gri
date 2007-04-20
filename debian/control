@@ -2,8 +2,8 @@ Source: gri
 Section: science
 Priority: optional
 Maintainer: Peter S Galbraith <psg@debian.org>
-Build-Depends: debhelper, netcdfg-dev, texlive-generic-recommended, texinfo, imagemagick, info, gs, gsfonts
-Build-Depends-Indep: debhelper, texlive-generic-recommended, texinfo, imagemagick, info, gs, gsfonts
+Build-Depends: debhelper, netcdfg-dev, texlive-latex-base, texlive-generic-recommended, texinfo, imagemagick, info, gs, gsfonts
+Build-Depends-Indep: debhelper, texlive-latex-base, texlive-generic-recommended, texinfo, imagemagick, info, gs, gsfonts
 Standards-Version: 3.7.2
 
 Package: gri
