@@ -31,7 +31,7 @@ gri (2.12.15-1) unstable; urgency=low
 
  -- Peter S Galbraith <psg@debian.org>  Sat, 14 Apr 2007 22:04:29 -0400
 
-gri  (2.12.14-1) unstable; urgency=low
+gri (2.12.14-1) unstable; urgency=low
 
    * New upstream release
      Bug Fixes:
