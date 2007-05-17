@@ -39,6 +39,10 @@ clean:
 	dh_testdir
 	dh_testroot
 	-make distclean
+	mv doc/FAQ.html doc/FAQ.html.KEEP
+	-rm -f config.log config.status debian/Makefile doc/*.html
+	-rm -f doc/gri.info* doc/*.dvi doc/*.ps doc/*.log doc/html
+	mv doc/FAQ.html.KEEP doc/FAQ.html
 
 	dh_clean
 	rm -fR debian/gri-$(version)static

@@ -1,3 +1,10 @@
+gri (2.12.15-5) unstable; urgency=low
+
+  * Bug fix: "gri: FTBFS if built twice in a row", thanks to Bernd Zeimetz
+    (Closes: #424371).
+
+ -- Peter S Galbraith <psg@debian.org>  Wed, 16 May 2007 20:35:23 -0400
+
 gri (2.12.15-4) unstable; urgency=low
 
   * Added texlive-latex-base to build dependencies for missing lcircle10
