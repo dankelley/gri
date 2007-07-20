@@ -16503,6 +16503,11 @@ Fix Debian bug
 @uref{http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=130802,#130802}
 @dots{} postscript problem in landscape mode, refreshed in gv viewer
 
+@item
+Fix Debian bug
+@uref{http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=434010,#434010}
+@dots{} @code{set page landscape} requires @code{set page size} first, but it should really default to something reasonable instead.
+
 @end itemize
 
 

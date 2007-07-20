@@ -99,6 +99,7 @@ fi
 * Fri Jul 20 18:25:47 ADT 2007
 - release 2.12.16
 - Fix Debian bug #130802 (postscript problem in landscape mode, refreshed in gv viewer)
+- Fix Debian bug #434010 ('set page landscape' requires 'set page size' first, but it should really default to something reasonable instead)
 * Sun Apr 15 11:00:00 AST 2007
 - Fix SourceForge bug #1700978 (html concept index mostly broken)
 - Fix SourceForge bug 1698924 (box plots show missing data)
