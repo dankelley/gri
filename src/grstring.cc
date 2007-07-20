@@ -47,7 +47,7 @@ static const double SubMoveDown =0.375;	// Move down for sub = 3/8
 
 
 
-#define PS_showpage     "showpage\n"
+#define PS_showpage     "grestore\nshowpage\n"
 #define PS_stroke       "s\n"
 
 extern FILE    *_grPS;

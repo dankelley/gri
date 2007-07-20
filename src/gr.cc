@@ -407,7 +407,7 @@ insert_ps_header(FILE * fp, bool privacy)
 	create_font_encoding("Times-BoldItalic");
 	fprintf(fp, "%%%%EndProlog\n");
 	which_page++;
-	fprintf(_grPS, "%%%%Page: %d %d\n", which_page, which_page);
+	fprintf(_grPS, "%%%%Page: %d %d\ngsave\n", which_page, which_page);
 }
 
 static void
@@ -1677,7 +1677,7 @@ gr_showpage()
 	fprintf(_grPS, PS_showpage);
 	handle_landscape_scale(_grPS);
 	which_page++;
-	fprintf(_grPS, "%%%%Page: %d %d\n", which_page, which_page);
+	fprintf(_grPS, "%%%%Page: %d %d\ngsave\n", which_page, which_page);
 #if 0                           // as per PSG change, 98-oct-1
 	fprintf(_grPS, "/Helvetica findfont 12.00 sc sf\n"); // need some font (guess this one)!
 #endif
