@@ -17,7 +17,7 @@
 #define	PS_setgray		"%.3f g\n"
 #define	PS_setlinewidth		"%.3f w\n"
 #define	PS_showc		"(%c) sh\n"
-#define	PS_showpage		"showpage\n"
+#define	PS_showpage		"grestore\nshowpage\n"
 #define	PS_stroke		"S\n"
 
 // Commands to retire, when get a chance to recode next:
