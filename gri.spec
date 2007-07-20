@@ -1,5 +1,5 @@
 Summary: A language for scientific illustration
-%define griversion 2.12.15
+%define griversion 2.12.16
 Name: gri
 Version: %{griversion}
 Release: 1
@@ -96,6 +96,9 @@ then
 fi
 
 %changelog
+* Fri Jul 20 18:25:47 ADT 2007
+- release 2.12.16
+- Fix Debian bug #130802 (postscript problem in landscape mode, refreshed in gv viewer)
 * Sun Apr 15 11:00:00 AST 2007
 - Fix SourceForge bug #1700978 (html concept index mostly broken)
 - Fix SourceForge bug 1698924 (box plots show missing data)

@@ -53,8 +53,8 @@
 @comment %**start of header
 @setfilename gri.info
 @settitle Gri
-@set GRI-VERSION 2.12.15
-@set GRI-PREVIOUS-VERSION 2.12.14
+@set GRI-VERSION 2.12.16
+@set GRI-PREVIOUS-VERSION 2.12.15
 @set AUTHOR-EMAIL dankelley@@users.sourceforge.net
 @include version.texi
 @c %**end of header
@@ -16490,6 +16490,21 @@ only in the fixing of bugs.
 @cindex version 2.12
 
 @comment ADD-NEW-BUG-FIXES-HERE
+
+
+@subsubsection Version 2.12.16 [2007 Jul 20 @uref{http://en.wikipedia.org/wiki/Apollo_11, anniversary}
+of the first moon landing, in 1969]
+
+@strong{Bug Fixes}
+@itemize @bullet
+
+@item
+Fix Debian bug
+@uref{http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=130802,#130802}
+@dots{} postscript problem in landscape mode, refreshed in gv viewer
+
+@end itemize
+
 
 @subsubsection Version 2.12.15 [2007 Apr 16 @uref{http://en.wikipedia.org/wiki/Mawlid, Mawlid}, celebration of birthday of Muhammad]
 
