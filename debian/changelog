@@ -2,8 +2,11 @@ gri (2.12.16-1) unstable; urgency=low
 
   * Bug fix: "gri: landscape produces interdependent pages", thanks to
     Bernhard R. Link for outlining the fix (Closes: #130802).
+  * Bug fix: "gri: 'set page landscape' requires 'set page size' first,
+    but it should really default to something reasonable instead
+    (Closes: #434010).
 
- -- Peter S Galbraith <psg@debian.org>  Fri, 20 Jul 2007 17:47:57 -0400
+ -- Peter S Galbraith <psg@debian.org>  Fri, 20 Jul 2007 18:52:34 -0400
 
 gri (2.12.15-5) unstable; urgency=low
 
