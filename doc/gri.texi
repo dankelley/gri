@@ -18422,14 +18422,14 @@ Darwinports, the two popular packaging systems on OS X.  If you use OS
 X and do not have Fink or Darwinports installed, then you should
 probably install one, or both.  Unfortunately, the author is not able
 to give a firm recommendation between the two.  Each distribution has
-strengths, and each has weaknesses.  The example below is in
-Darwinports, simply because that is what the author was using most at
-the time when this part of the text was written.
+strengths, and each has weaknesses.  Neither distribution 
+appears to the Gri author to be as strong as the popular
+linux distributions, when it comes to 
+package dependencies.
 
 If you'd like to build a local Darwinports version of Gri, to get the
 latest version instead of whatever version is provided by Darwinports,
-it's easy, provided that you are reasonably familiarity with unix,
-e.g.  that the @code{sudo} command doesn't scare you.
+follow these steps:
 
 @itemize @bullet
 
