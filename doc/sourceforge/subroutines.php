@@ -72,22 +72,19 @@ function age() {
 #		$diff = time() - mktime(12, 26, 00, 01, 8, 2007); // !!!
 # Vsn 2.12.15 2007-04-16 1016 Halifax time 0616 SF time
 #		$diff = time() - mktime(06, 16, 00, 04, 16, 2007); // !!!
-# Vsn 2.12.16 2007-07-21 1016 Halifax time 0616 SF time
-		$diff = time() - mktime(07, 38, 00, 07, 21, 2007); // !!!
-
-# REF: mktime(hour,minute,second,month,day,year)
-
+# Vsn 2.12.16 2007-07-20 1138 Halifax time 0738 SF time
+	$diff = time() - mktime(07, 38, 00, 07, 20, 2007); // !!!
+	# REF: mktime(hour,minute,second,month,day,year)
 	$days = floor($diff / 24 / 60 / 60);
 	$weeks = floor($days / 7);
 	$months = floor($days / 7 / 4);
 	$hours = floor(($diff - $days * 24) / 60 / 60);
 	$minutes = floor(floor($diff - $days * 24*60*60 - $hours*60*60) / 60);
 	$seconds = floor($diff - $days*24*60*60 - $hours*60*60 - $minutes*60);
+	#return "$diff $days $hours $minutes $seconds";
 # Below I break up into intervals that make sense, e.g.
 # only switching to months if it's been 3 or more.
-	if ($months > 2) {
-	    return "$months months";
-        } else if ($weeks > 4) {
+    if ($weeks > 4) {
 	    return "$weeks weeks";
 	} else if ($days > 1) {
 	    return "$days days";
@@ -97,7 +94,7 @@ function age() {
 	    return "$minutes minutes";
 	} else {
 	    return "$seconds seconds";
-        }
+    }
 }
 
 function set_up_lhs() {
