@@ -126,7 +126,7 @@ Gri is released with the GNU Public License (@ref{License}).
 @c HTML <A HREF="Images.html">image plots</A>.
 @c HTML <p>
 @c HTML This document describes Gri @value{GRI-VERSION},
-@c HTML <br>(c) 1991-2006 <A HREF="http://www.phys.ocean.dal.ca/~kelley"> Dan Kelley.</A>
+@c HTML <br>(c) 1991-2007 <A HREF="http://www.phys.ocean.dal.ca/~kelley"> Dan Kelley.</A>
 @comment HTML Gri is distributed
 @comment HTML with a <A HREF="License.html">license</A> that permits 
 @comment HTML sharing in an OpenSource way.
@@ -299,7 +299,7 @@ just typing @code{gri} at the unix prompt), you'll see something like
 
 @example
  gri - scientific graphic program (version @value{GRI-VERSION})
- GPL Copyright 2006 by Dan E. Kelley.
+ GPL Copyright 2007 by Dan E. Kelley.
 
  Type `help' for an overview of Gri commands, or see the
  full manual at
@@ -18408,24 +18408,31 @@ account for whether the netCDF library is installed, etc.
 
 @node   Mac-install, Beos-install, OS2-install, Installation
 @comment  node-name,  next,  previous,  up
-@section Compilation under Macintosh Unix
-@cindex compilation under Macintosh Unix
+@section Compilation in Macintosh OS X
+@cindex compilation in Macintosh OS X
 @cindex macintosh unix compilation
+@cindex darwinport
+@cindex fink
 
-The OS X system provides a BSD unix that suites Gri very well.  With the (free)
-developer package, it also provides a very up-to-date version 
-of the @code{gcc} compiler.  Thus, installing Gri on Macintosh
-can be done using the normal Unix instructions.
+The OS X system provides a BSD unix that suites Gri very well. With the (free)
+developer package, it also provides a very up-to-date version of the @code{gcc}
+compiler. Thus, installing Gri on Macintosh can be done using the normal Unix
+instructions.
 
-But there are also easier ways.  Gri is compatible with Fink and
-Darwinports, the two popular packaging systems on OS X.  If you use OS
-X and do not have Fink or Darwinports installed, then you should
-probably install one, or both.  Unfortunately, the author is not able
-to give a firm recommendation between the two.  Each distribution has
-strengths, and each has weaknesses.  Neither distribution 
-appears to the Gri author to be as strong as the popular
-linux distributions, when it comes to 
-package dependencies.
+But there are also easier ways. Gri is compatible with Fink and Darwinports, the
+two popular packaging systems on OS X. If you use OS X and do not have Fink or
+Darwinports installed, then you should probably install one, or both. Each
+distribution has strengths, and each has weaknesses, and it is difficult to
+provide a firm recommendation between the two.
+
+@emph{Caveat.} As of mid-2007, neither distribution appears to handle package
+dependencies as well as is done by popular linux distributions. For example, in
+working through the steps listed below, the author found that his Darwinports
+system had a problem with a system library that handles internationalization. The
+"update" operation of the system was insufficient to solve the problem, and so it
+was necessary to do some web searching to find a patch. The patch failed, but
+another search revealed a second (hand-edit) patch that got it working. In excess
+4 CPU hours were required to rebuild the packages that were broken.
 
 If you'd like to build a local Darwinports version of Gri, to get the
 latest version instead of whatever version is provided by Darwinports,
@@ -18442,10 +18449,13 @@ sudo port -d -v build
 @end example
 to build it. This will take several minutes, during which you
 may find it helpful to do a search on "darwinport build". For example, the 
-@url{http://www.oreillynet.com/pub/a/mac/2004/04/09/darwinports.html?page=3,O'Reilly page} is good.  Note that you will be
+O'Reilly page
+(@url{http://www.oreillynet.com/pub/a/mac/2004/04/09/darwinports.html?page=3},
+last checked in July 2007)
+is very good.  Note that you will be
 building from the source that is stored on SourceForge, not from the Darwinports
 source. That's the trick of issuing the @code{build version} of the @code{port}
-command.) 
+command.
 
 @item Do a "destroot" operation:
 @example
