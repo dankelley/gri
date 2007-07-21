@@ -18412,10 +18412,57 @@ account for whether the netCDF library is installed, etc.
 @cindex compilation under Macintosh Unix
 @cindex macintosh unix compilation
 
-The MachTen version of unix for Macintosh acts like a normal unix.
-Provided that the associated @code{gcc} compiler is sufficiently
-up-to-date, Gri can be compiled following the normal unix
-instructions.
+The OS X system provides a BSD unix that suites Gri very well.  With the (free)
+developer package, it also provides a very up-to-date version 
+of the @code{gcc} compiler.  Thus, installing Gri on Macintosh
+can be done using the normal Unix instructions.
+
+But there are also easier ways.  Gri is compatible with Fink and
+Darwinports, the two popular packaging systems on OS X.  If you use OS
+X and do not have Fink or Darwinports installed, then you should
+probably install one, or both.  Unfortunately, the author is not able
+to give a firm recommendation between the two.  Each distribution has
+strengths, and each has weaknesses.  The example below is in
+Darwinports, simply because that is what the author was using most at
+the time when this part of the text was written.
+
+If you'd like to build a local Darwinports version of Gri, to get the
+latest version instead of whatever version is provided by Darwinports,
+it's easy, provided that you are reasonably familiarity with unix,
+e.g.  that the @code{sudo} command doesn't scare you.
+
+@itemize @bullet
+
+@item Download the source from CVS at SourceForge. (If you don't know what the previous
+sentence means, you will quite likely have difficulties with the other steps.)
+
+@item Visit the @code{darwinports} directory of the newly-created directory tree, and type
+@example
+sudo port -d -v build
+@end example
+to build it. This will take several minutes, during which you
+may find it helpful to do a search on "darwinport build". For example, the 
+@url{http://www.oreillynet.com/pub/a/mac/2004/04/09/darwinports.html?page=3,O'Reilly page} is good.  Note that you will be
+building from the source that is stored on SourceForge, not from the Darwinports
+source. That's the trick of issuing the @code{build version} of the @code{port}
+command.) 
+
+@item Do a "destroot" operation:
+@example
+sudo port -d -v destroot
+@end example
+
+@item Install it:
+@example
+sudo port -d -v install
+@end example
+Note: if you already have an older version of Gri in the Darwinports system, you must first
+issue the command
+@example
+sudo port deactivate gri
+@end example
+
+@end itemize
 
 
 @c HTML <!-- newfile Beos-install.html "Gri: bugs" "Gri Bugs" -->
