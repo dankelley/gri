@@ -1,5 +1,5 @@
 Summary: A language for scientific illustration
-%define griversion 2.12.16
+%define griversion 2.12.17
 Name: gri
 Version: %{griversion}
 Release: 1
@@ -96,6 +96,9 @@ then
 fi
 
 %changelog
+* tba
+- release 2.12.17
+- Fix SourceForge bug #1761562 (y axis name is upside down, for log axis with decreasing values)
 * Fri Jul 20 18:25:47 ADT 2007
 - release 2.12.16
 - Fix Debian bug #130802 (postscript problem in landscape mode, refreshed in gv viewer)
