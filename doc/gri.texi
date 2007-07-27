@@ -53,8 +53,8 @@
 @comment %**start of header
 @setfilename gri.info
 @settitle Gri
-@set GRI-VERSION 2.12.16
-@set GRI-PREVIOUS-VERSION 2.12.15
+@set GRI-VERSION 2.12.17
+@set GRI-PREVIOUS-VERSION 2.12.16
 @set AUTHOR-EMAIL dankelley@@users.sourceforge.net
 @include version.texi
 @c %**end of header
@@ -16490,6 +16490,18 @@ only in the fixing of bugs.
 @cindex version 2.12
 
 @comment ADD-NEW-BUG-FIXES-HERE
+
+@subsubsection Version 2.12.17 [not released yet]
+
+@strong{Bug Fixes}
+@itemize @bullet
+
+@item
+Fix SourceForge bug
+@uref{https://sourceforge.net/tracker/index.php?func=detail&aid=1761562&group_id=5511&atid=105511,#1761562}
+@dots{} y axis name printed upside down, for log axes in which user specified a high values at the bottom end of the axis
+
+@end itemize
 
 
 @subsubsection Version 2.12.16 [2007 Jul 20 @uref{http://en.wikipedia.org/wiki/Apollo_11, anniversary}
