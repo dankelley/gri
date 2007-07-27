@@ -694,7 +694,7 @@ gr_drawyaxis(double x, double yb, double yinc, double yt, gr_axis_properties sid
 			double          x_cm, xx_cm, y_cm, yy_cm;
 			gr_usertocm(x, sqrt(yb * yt), &x_cm, &y_cm);
 			gr_usertocm(x, 0.001 + sqrt(yb * yt), &xx_cm, &yy_cm);
-			angle = DEG_PER_RAD * atan2(yy_cm - y_cm, xx_cm - x_cm);
+			angle = fabs(DEG_PER_RAD * atan2(yy_cm - y_cm, xx_cm - x_cm)); // abs() ensures from bottom to top
 		} else {
 			double          x_cm, xx_cm, y_cm, yy_cm;
 			gr_usertocm(x, 0.5 * (yb + yt), &x_cm, &y_cm);
