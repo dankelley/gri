@@ -1,3 +1,9 @@
+gri (2.12.16-2) UNRELEASED; urgency=low
+
+  * gri-el: Prefer emacs22 instead of emacs21.
+
+ -- Peter S Galbraith <psg@debian.org>  Mon, 13 Aug 2007 20:50:46 -0400
+
 gri (2.12.16-1) unstable; urgency=low
 
   * Bug fix: "gri: landscape produces interdependent pages", thanks to

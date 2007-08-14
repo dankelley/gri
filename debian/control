@@ -38,7 +38,7 @@ Description: a language for scientific illustration
 Package: gri-el
 Section: science
 Architecture: all
-Depends: gri (>= 2.12.1-2), emacs21 | emacsen
+Depends: gri (>= 2.12.1-2), emacs22 | emacsen
 Conflicts: gri (<= 2.12.1-1)
 Description: Emacs major-mode for gri, a language for scientific graphics
  Gri is an open-source language for scientific graphics programming.
