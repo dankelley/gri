@@ -2,4 +2,5 @@
     (message "Package gri-el is not installed.  Skipping setup.")
   (setq gri*directory-tree "/usr/share/gri/")
   (autoload 'gri-mode "gri-mode" "Enter Gri-mode." t)
-  (setq auto-mode-alist (cons '("\\.gri$" . gri-mode) auto-mode-alist)))
+  (setq auto-mode-alist (cons '("\\.gri\\'" . gri-mode) auto-mode-alist)))
+
