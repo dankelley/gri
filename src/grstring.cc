@@ -1,3 +1,4 @@
+//#define DEBUG 1
 #include        <string>
 #include        <math.h>
 #include        <stdio.h>
@@ -339,6 +340,9 @@ gr_drawstring(const char *s)
 	// Scan through whole string.
 	START_NEW_TEXT;
 	while (*s != '\0') {
+#ifdef DEBUG
+		printf("DEBUG(%s:%d) *s= '%c'\n",__FILE__,__LINE__,*s);
+#endif
 		if (*s == '-' && CurrentFont.encoding == font_encoding_isolatin1) {
 			// Use a different character to avoid looking like underscore.
 			if (_grWritePS) {
@@ -393,6 +397,9 @@ gr_drawstring(const char *s)
 				} else if (*s == '{') {
 					// Several characters to superscript
 					pstack[istack++] = Superscript;
+#ifdef DEBUG
+					printf("DEBUG(%s:%d) pushing superscript=%d onto stack to make length %d\n",__FILE__,__LINE__,Superscript, istack);
+#endif
 					MoveUp();
 				} else if (*s == '\\') {
 					// Math character to superscript
@@ -416,6 +423,9 @@ gr_drawstring(const char *s)
 					}
 				} else {
 					// Single character to superscript
+#ifdef DEBUG
+					printf("DEBUG(%s:%d) pushing superscript=%d onto stack to make length %d\n",__FILE__,__LINE__,Superscript, istack);
+#endif
 					pstack[istack++] = Superscript;
 					MoveUp();
 					// Draw single character in math mode.  If it's a digit,
@@ -495,10 +505,10 @@ gr_drawstring(const char *s)
 					}
 					PopStack();
 				}
-			} else if (*s == '{') {
+			} else if (*s == '{') { // BUG: shouldn't we push something on the stack??
 				;		// EMPTY
 			} else if (*s == '}') {	// finished with super/sub in math
-				PopStack();
+				PopStack();	// BUG: but what if stack has nothing, e.g. "{a}"
 			} else if (*s == '\\') {
 				// Substitute math symbol, unless it's
 				// an escaped string
@@ -941,11 +951,10 @@ static char    *
 symbol_in_math(const char *sPtr, int *inc)
 {
 	/* handle greek letter or symbol in math mode */
-	int             i;
 	sPtr++;
 	*inc = 0;
-	for (i = 0; i < NCODES; i++) {
-		int             len = strlen(symbol_code[i][0]);
+	for (int i = 0; i < NCODES; i++) {
+		int len = strlen(symbol_code[i][0]);
 		if (!strncmp(sPtr, symbol_code[i][0], len)) {
 			*inc = len;
 			return symbol_code[i][1];
@@ -957,16 +966,24 @@ symbol_in_math(const char *sPtr, int *inc)
 static void
 PopStack()
 {
-	if (istack > 0 && pstack[istack - 1] == Superscript)
-		MoveDown();
-	else if (istack > 0 && pstack[istack - 1] == Subscript)
-		MoveUp();
-	istack--;
+#ifdef DEBUG
+	printf("DEBUG(%s:%d) in PopStack. istack=%d pstack[istack-1]=%d  Superscript=%d  Subscript=%d\n",__FILE__,__LINE__,istack,pstack[istack-1],Superscript,Subscript);
+#endif
+	if (istack > 0) {
+		if (pstack[istack - 1] == Superscript)
+			MoveDown();
+		else if (pstack[istack - 1] == Subscript)
+			MoveUp();
+		istack--;
+	}
 }
 
 static void
 ClearStack()
 {
+#ifdef DEBUG
+	printf("DEBUG(%s:%d) ClearStack, previously istack=%d\n",__FILE__,__LINE__,istack);
+#endif
 	istack = 0;
 }
 
@@ -1153,7 +1170,7 @@ gr_stringwidth(const char *s, double *w, double *a, double *d)
 				used_supers = true;
 			else if (*s == '_')	// handle subscript
 				used_subs = true;
-			else if (*s == '{')	// ignore groups
+			else if (*s == '{')	// ignore groups while computing string length
 				;		// EMPTY
 			else if (*s == '}')	// ignore groups
 				;		// EMPTY
