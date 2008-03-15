@@ -16498,6 +16498,11 @@ only in the fixing of bugs.
 
 @item
 Fix SourceForge bug
+@uref{https://sourceforge.net/tracker/?func=detail&atid=105511&aid=1913577&group_id=5511,#1913577}
+@dots{} superscripts did not end correctly, if preceeded by an inline @code{@{@}} block.
+
+@item
+Fix SourceForge bug
 @uref{https://sourceforge.net/tracker/index.php?func=detail&aid=1761562&group_id=5511&atid=105511,#1761562}
 @dots{} y axis name printed upside down, for log axes in which user specified a high values at the bottom end of the axis
 
