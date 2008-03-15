@@ -1,5 +1,5 @@
-#         gri - scientific graphic program (version 2.12.16)
-#              GPL Copyright 1991-2007 Dan E. Kelley.
+#         gri - scientific graphic program (version 2.12.17)
+#              GPL Copyright 1991-2008 Dan E. Kelley.
 #
 # NOTE: The linkages to `extern "C"' routines makes use a list of C 
 # functions defined in the file tags.hh.
