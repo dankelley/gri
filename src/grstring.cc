@@ -1,5 +1,6 @@
 //#define DEBUG 1
 #include        <string>
+#include        <stack>
 #include        <math.h>
 #include        <stdio.h>
 #include        <ctype.h>
@@ -37,7 +38,8 @@ static gr_font  CurrentFont = {
 }
 
 
-enum position {Superscript, Subscript};	// Indicator
+enum position {Superscript, Subscript, Inline};	// Baseline indicator
+static std::stack<position> pstack;   // baseline position stack
 
 // Use spacing patterned on results of a TeX example (using Large font). All
 // quantities are multiples of Mspace.
@@ -62,8 +64,6 @@ static int      index_for_math_symbol(char *s);	// base routine
 static double   gr_charwidth_cm(int c, int font, double fontsize_pt);
 static void     gr_DrawChar(const char *c);
 static void     gr_setfont_fontsize(gr_fontID newID, bool force = false);
-static void     ClearStack(void);
-static void     PopStack(void);
 static void     MoveDown(void);
 static void     MoveUp(void);
 static void     MoveHorizontally(double em_distance);
@@ -278,8 +278,6 @@ gr_show_at(/*const*/ char *s, double xcm, double ycm, gr_textStyle style, double
 }
 
 // gr_drawstring() -- draw string, including font changes &super/subscripts
-static position pstack[100];
-static int      istack = 0;
 static void
 gr_drawstring(const char *s)
 {
@@ -295,7 +293,6 @@ gr_drawstring(const char *s)
 		return;
 	if (0.0 == gr_currentfontsize_pt())
 		return;
-	ClearStack();
 	// Figure out slant font, if there is an appropriate one
 	switch (original_font) {
 	case gr_font_TimesRoman:
@@ -359,6 +356,11 @@ gr_drawstring(const char *s)
 		// not.
 		if (*s == '$' && slast != '\\') {
 			if (inmath) {
+#ifdef DEBUG
+				printf("DEBUG(%s:%d) got $ so leave math mode\n",__FILE__,__LINE__);
+				printf("DEBUG(%s:%d) pstack size is %d\n",__FILE__,__LINE__,int(pstack.size()));
+#endif
+					
 				// Were in math; now go back to original font.
 				inmath = false;
 				if (current_font != original_font) {
@@ -368,6 +370,9 @@ gr_drawstring(const char *s)
 					START_NEW_TEXT;
 				}
 			} else {
+#ifdef DEBUG
+				printf("DEBUG(%s:%d) got $ so enter math mode\n",__FILE__,__LINE__);
+#endif
 				// Go to Italic/Oblique font, as case may be.  Unfortunately,
 				// PostScript uses different names for this slanted font.
 				inmath = true;
@@ -396,9 +401,9 @@ gr_drawstring(const char *s)
 					return;
 				} else if (*s == '{') {
 					// Several characters to superscript
-					pstack[istack++] = Superscript;
+					pstack.push(Superscript);
 #ifdef DEBUG
-					printf("DEBUG(%s:%d) pushing superscript=%d onto stack to make length %d\n",__FILE__,__LINE__,Superscript, istack);
+					printf("DEBUG(%s:%d) pushed superscript=%d onto stack to make length %d\n",__FILE__,__LINE__,Superscript, int(pstack.size()));
 #endif
 					MoveUp();
 				} else if (*s == '\\') {
@@ -408,7 +413,8 @@ gr_drawstring(const char *s)
 					insert = symbol_in_math(s, &inc);
 					if (inc) {
 						gr_fontID       oldfontID = gr_currentfont();
-						pstack[istack++] = Superscript;
+						pstack.push(Superscript);
+						printf("DEBUG(%s:%d) pushed subscript=%d onto stack to make length %d\n",__FILE__,__LINE__,Superscript, int(pstack.size()));
 						MoveUp();
 						STOP_OLD_TEXT;
 						gr_setfont(gr_font_Symbol);
@@ -419,14 +425,18 @@ gr_drawstring(const char *s)
 						gr_setfont(oldfontID);
 						START_NEW_TEXT;
 						s += inc;
-						PopStack();
+#ifdef DEBUG
+						printf("DEBUG(%s:%d) about to pop stack (was %d) to make length %d\n",__FILE__,__LINE__,pstack.top(), int(pstack.size())-1);
+#endif
+						MoveDown();
+						pstack.pop();
 					}
 				} else {
 					// Single character to superscript
+					pstack.push(Superscript);
 #ifdef DEBUG
-					printf("DEBUG(%s:%d) pushing superscript=%d onto stack to make length %d\n",__FILE__,__LINE__,Superscript, istack);
+					printf("DEBUG(%s:%d) pushed subscript=%d onto stack to make length %d\n",__FILE__,__LINE__,Subscript, int(pstack.size()));
 #endif
-					pstack[istack++] = Superscript;
 					MoveUp();
 					// Draw single character in math mode.  If it's a digit,
 					// do not do in italics!
@@ -445,7 +455,11 @@ gr_drawstring(const char *s)
 					} else {
 						gr_DrawChar(s);
 					}
-					PopStack();
+					MoveDown();
+#ifdef DEBUG
+					printf("DEBUG(%s:%d) about to pop stack (was %d) to make length %d\n",__FILE__,__LINE__,pstack.top(), int(pstack.size())-1);
+#endif
+					pstack.pop();
 				}
 			} else if (*s == '_') {
 				// Handle subscript
@@ -460,7 +474,10 @@ gr_drawstring(const char *s)
 					return;
 				} else if (*s == '{') {
 					// Several characters to subscript
-					pstack[istack++] = Subscript;
+					pstack.push(Subscript);
+#ifdef DEBUG
+					printf("DEBUG(%s:%d) pushed subscript=%d onto stack to make length %d\n",__FILE__,__LINE__,Subscript, int(pstack.size()));
+#endif
 					MoveDown();
 				} else if (*s == '\\') {
 					// Math character to subscript
@@ -469,7 +486,10 @@ gr_drawstring(const char *s)
 					insert = symbol_in_math(s, &inc);
 					if (inc) {
 						gr_fontID       oldfontID = gr_currentfont();
-						pstack[istack++] = Subscript;
+						pstack.push(Subscript);
+#ifdef DEBUG
+						printf("DEBUG(%s:%d) pushed subscript=%d onto stack to make length %d\n",__FILE__,__LINE__,Subscript, int(pstack.size()));
+#endif
 						MoveDown();
 						STOP_OLD_TEXT;
 						gr_setfont(gr_font_Symbol);
@@ -480,11 +500,18 @@ gr_drawstring(const char *s)
 						gr_setfont(oldfontID);
 						START_NEW_TEXT;
 						s += inc;
-						PopStack();
+						MoveUp();
+#ifdef DEBUG
+						printf("DEBUG(%s:%d) about to pop stack (was %d) to make length %d\n",__FILE__,__LINE__,pstack.top(), int(pstack.size())-1);
+#endif
+						pstack.pop();
 					}
 				} else {
 					// Single character to subscript
-					pstack[istack++] = Subscript;
+					pstack.push(Subscript);
+#ifdef DEBUG
+					printf("DEBUG(%s:%d) pushed subscript=%d onto stack to make length %d\n",__FILE__,__LINE__,Subscript, int(pstack.size()));
+#endif
 					MoveDown();
 					// Draw single character in math mode.  If it's a digit,
 					// do not do in italics!
@@ -503,12 +530,33 @@ gr_drawstring(const char *s)
 					} else {
 						gr_DrawChar(s);
 					}
-					PopStack();
+					MoveUp();
+#ifdef DEBUG
+					printf("DEBUG(%s:%d) about to pop stack (was %d) to make length %d\n",__FILE__,__LINE__,pstack.top(), int(pstack.size())-1);
+#endif
+					pstack.pop();
 				}
-			} else if (*s == '{') { // BUG: shouldn't we push something on the stack??
-				;		// EMPTY
-			} else if (*s == '}') {	// finished with super/sub in math
-				PopStack();	// BUG: but what if stack has nothing, e.g. "{a}"
+			} else if (*s == '{') { // just a grouping, not a baseline shift
+				pstack.push(Inline);
+#ifdef DEBUG
+				printf("DEBUG(%s:%d) pushed Inline=%d onto stack to make length %d\n",__FILE__,__LINE__,Inline,int(pstack.size()));
+#endif
+
+			} else if (*s == '}') {	// finished with Superscript/Subscript/Inline
+				if (pstack.size() > 0) {
+					position p = pstack.top();
+					if (p == Superscript) {
+						MoveDown();
+					} else if (p == Subscript) {
+						MoveUp();
+					} // ignore inline
+#ifdef DEBUG
+					printf("DEBUG(%s:%d) about to pop stack (was %d) to make length %d\n",__FILE__,__LINE__,pstack.top(), int(pstack.size())-1);
+#endif
+					pstack.pop();
+				} else {
+					warning("unmatched \"}\" in a string");
+				}
 			} else if (*s == '\\') {
 				// Substitute math symbol, unless it's
 				// an escaped string
@@ -593,6 +641,15 @@ gr_drawstring(const char *s)
 	gr_setfontsize_pt(original_fontsize);
 	gr_setfont(original_font);
 	_drawingstarted = true;
+	if (pstack.size() != 0) {
+		warning("a text string ended without completing a mathematical grouping (superscript, subscript, or {block})");
+		for (unsigned int s=0;s<pstack.size();s++) {
+#ifdef DEBUG
+			printf("\t%d\n",pstack.top());
+#endif
+			pstack.pop();
+		}
+	}
 	return;
 }
 
@@ -963,30 +1020,6 @@ symbol_in_math(const char *sPtr, int *inc)
 	return NULL;
 }
 
-static void
-PopStack()
-{
-#ifdef DEBUG
-	printf("DEBUG(%s:%d) in PopStack. istack=%d pstack[istack-1]=%d  Superscript=%d  Subscript=%d\n",__FILE__,__LINE__,istack,pstack[istack-1],Superscript,Subscript);
-#endif
-	if (istack > 0) {
-		if (pstack[istack - 1] == Superscript)
-			MoveDown();
-		else if (pstack[istack - 1] == Subscript)
-			MoveUp();
-		istack--;
-	}
-}
-
-static void
-ClearStack()
-{
-#ifdef DEBUG
-	printf("DEBUG(%s:%d) ClearStack, previously istack=%d\n",__FILE__,__LINE__,istack);
-#endif
-	istack = 0;
-}
-
 // Move left/right by indicated number of M spaces
 static void
 MoveHorizontally(double em_distance)
@@ -1002,18 +1035,22 @@ MoveHorizontally(double em_distance)
 static void
 MoveUp()
 {
+#ifdef DEBUG
+	printf("DEBUG(%s:%d) moving text position up one level\n", __FILE__,__LINE__);
+#endif
 	STOP_OLD_TEXT;
 	// See if already in subscript.
-	if ((istack > 0) && pstack[istack - 1] == Subscript) {
+	position p = pstack.top();
+	if (p == Subscript) {
 		// Moving up from subscript, so enlarge font, then undo last move
 		// down.
 		gr_setfontsize_pt(gr_currentfontsize_pt() / SubSize);
 		gr_rmoveto_pt(0.0, SubMoveDown * gr_currentCapHeight_cm() * PT_PER_CM);
 	} else {
-		// Moving up for superscript, so move up, then reduce font.
+		// Moving up from inline or superscript, so move up, then reduce font.
 		gr_rmoveto_pt(0.0, SuperMoveUp * gr_currentCapHeight_cm() * PT_PER_CM);
 		gr_setfontsize_pt(gr_currentfontsize_pt() * SuperSize);
-	}
+	} // ignore Inline
 	START_NEW_TEXT;
 }
 
@@ -1021,15 +1058,18 @@ MoveUp()
 static void
 MoveDown()
 {
+#ifdef DEBUG
+	printf("DEBUG(%s:%d) moving text position down one level\n", __FILE__,__LINE__);
+#endif
 	STOP_OLD_TEXT;
+	position p = pstack.top();
 	// See if already in superscript.
-	if ((istack > 0) && pstack[istack - 1] == Superscript) {
-		// Moving down from superscript, so enlarge font, then undo last move
-		// up.
+	if (p == Superscript) {
+		// Moving down from superscript, so enlarge font, then undo last move up.
 		gr_setfontsize_pt(gr_currentfontsize_pt() / SuperSize);
 		gr_rmoveto_pt(0.0, -SuperMoveUp * gr_currentCapHeight_cm() * PT_PER_CM);
 	} else {
-		// Moving down for subscript, so move down, then reduce font.
+		// Moving down from inline or subscript, so move down, then reduce font.
 		gr_rmoveto_pt(0.0, -SubMoveDown * gr_currentCapHeight_cm() * PT_PER_CM);
 		gr_setfontsize_pt(gr_currentfontsize_pt() * SubSize);
 	}
