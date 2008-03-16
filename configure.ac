@@ -365,6 +365,9 @@ dnl	I should skip the compilation of my local
 dnl	popt if there is a version online.
 AC_CHECK_LIB(popt, poptReadConfigFile, AM_CONDITIONAL(OS_HAS_POPT, test 1=1), AM_CONDITIONAL(OS_HAS_POPT, test 0=1))
 
+dnl     check for readline library
+AC_CHECK_LIB(readline, readline, [], [])
+
 dnl     checks for typedefs
 AC_TYPE_PID_T
 
