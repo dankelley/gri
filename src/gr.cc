@@ -15,6 +15,8 @@
 #include        <math.h>
 #include        <stdio.h>
 #include        <stdlib.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 
 // Local includes
 #include	"gr.hh"
@@ -223,9 +225,29 @@ gr_buffgets(char *s, unsigned int most, FBUFFER * fbuf)
 		s[i + 1] = '\0';
 		//printf("DEBUG buf provided <%s>\n",s); 
 	} else {
+#ifdef HAVE_LIBREADLINE
+		char *line;
+		line = readline("gri: ");
+		if (line) {
+			if (strlen(line) > 0) {
+				add_history(line);
+			}
+		} else {
+			return true;
+		}
+		// Tack a newline on end
+		strcpy(s, line);
+		int n = strlen(s);
+		s[n] = '\n';
+		s[n+1] = '\0';
+		free(line);
+		if (feof(stdin))
+			return true;
+#else
 		fgets(s, most, (FILE *) fbuf->fp);
 		if (feof(fbuf->fp))
 			return true;
+#endif		
 	}
 	return false;
 }

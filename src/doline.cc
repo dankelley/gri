@@ -131,7 +131,9 @@ insert_source_indicator(char *cl)
 bool
 get_command_line(void)
 {
+#ifndef HAVE_LIBREADLINE
 	write_prompt();
+#endif
 	stop_replay_if_error();
 	// get a line from a file.
 	if (_cmdFILE.back().get_interactive()) {
