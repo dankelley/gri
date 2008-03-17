@@ -64,6 +64,7 @@ static int      index_for_math_symbol(char *s);	// base routine
 static double   gr_charwidth_cm(int c, int font, double fontsize_pt);
 static void     gr_DrawChar(const char *c);
 static void     gr_setfont_fontsize(gr_fontID newID, bool force = false);
+static void     pstack_erase();
 static void     MoveDown(void);
 static void     MoveUp(void);
 static void     MoveHorizontally(double em_distance);
@@ -369,6 +370,10 @@ gr_drawstring(const char *s)
 					gr_setfont(current_font);
 					START_NEW_TEXT;
 				}
+				if (!pstack.empty()) {
+					warning("a text string ended without completing a mathematical grouping (superscript, subscript, or {block})");
+					pstack_erase();
+				}
 			} else {
 #ifdef DEBUG
 				printf("DEBUG(%s:%d) got $ so enter math mode\n",__FILE__,__LINE__);
@@ -381,6 +386,10 @@ gr_drawstring(const char *s)
 					STOP_OLD_TEXT;
 					gr_setfont(current_font);
 					START_NEW_TEXT;
+				}
+				if (!pstack.empty()) {
+					warning("a text string started without an empty mathematical grouping (superscript, subscript, or {block})");
+					pstack_erase();
 				}
 			}
 			slast = *s++;
@@ -555,7 +564,7 @@ gr_drawstring(const char *s)
 #endif
 					pstack.pop();
 				} else {
-					warning("unmatched \"}\" in a string");
+					warning("unmatched \"}\" in a mathematicsal string");
 				}
 			} else if (*s == '\\') {
 				// Substitute math symbol, unless it's
@@ -641,14 +650,9 @@ gr_drawstring(const char *s)
 	gr_setfontsize_pt(original_fontsize);
 	gr_setfont(original_font);
 	_drawingstarted = true;
-	if (pstack.size() != 0) {
+	if (!pstack.empty()) {
 		warning("a text string ended without completing a mathematical grouping (superscript, subscript, or {block})");
-		for (unsigned int s=0;s<pstack.size();s++) {
-#ifdef DEBUG
-			printf("\t%d\n",pstack.top());
-#endif
-			pstack.pop();
-		}
+		pstack_erase();
 	}
 	return;
 }
@@ -1020,6 +1024,26 @@ symbol_in_math(const char *sPtr, int *inc)
 	return NULL;
 }
 
+// Clear the position stack (doesn't STL do this??)
+static void
+pstack_erase()
+{
+	while (!pstack.empty()) {
+		position p = pstack.top();
+		if (p == Superscript) {
+			MoveDown();
+		} else if (p == Subscript) {
+			MoveUp();
+		} // ignore inline
+#ifdef DEBUG
+		if (p == Superscript)
+			printf("\tcleared Superscript from position stack\n");
+		else if (p == Subscript)
+			printf("\tcleared Subscript from position stack\n");
+#endif
+		pstack.pop();
+	}
+}
 // Move left/right by indicated number of M spaces
 static void
 MoveHorizontally(double em_distance)
