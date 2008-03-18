@@ -98,6 +98,8 @@ fi
 %changelog
 * tba
 - release 2.12.17
+- Add history and editing of commands in interactive mode
+- Fix SourceForge bug 1913577 (superscripts did not end correctly, if preceded by a {} block)
 - Fix SourceForge bug #1761562 (y axis name is upside down, for log axis with decreasing values)
 * Fri Jul 20 18:25:47 ADT 2007
 - release 2.12.16
