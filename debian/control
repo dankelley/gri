@@ -4,13 +4,13 @@ Priority: optional
 Maintainer: Peter S Galbraith <psg@debian.org>
 Build-Depends: debhelper, netcdfg-dev, texlive-latex-base, texlive-generic-recommended, texinfo, imagemagick, info, gs, gsfonts
 Build-Depends-Indep: debhelper, texlive-latex-base, texlive-generic-recommended, texinfo, imagemagick, info, gs, gsfonts
-Standards-Version: 3.7.2
+Standards-Version: 3.7.3
 
 Package: gri
 Section: science
 Architecture: any
 Depends: ${shlibs:Depends}
-Suggests: gri-html-doc, gri-ps-doc, gri-el
+Suggests: gri-html-doc, gri-ps-doc, gri-el, gv
 Description: a language for scientific illustration
  Gri is an open-source language for scientific graphics programming. It is
  command-driven, as opposed to point/click. Some users consider Gri similar
@@ -39,6 +39,7 @@ Package: gri-el
 Section: science
 Architecture: all
 Depends: gri (>= 2.12.1-2), emacs22 | emacsen
+Recommends: gv
 Conflicts: gri (<= 2.12.1-1)
 Description: Emacs major-mode for gri, a language for scientific graphics
  Gri is an open-source language for scientific graphics programming.
