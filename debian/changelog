@@ -1,3 +1,20 @@
+gri (2.12.17-1) UNRELEASED; urgency=low
+
+  * New upstream release
+  New Features
+   Add GNU readline support so that interactive mode will have history,
+   command editing, etc.
+  Bug Fixes:
+  - Fix SourceForge bug #1913577 (superscripts did not end correctly, if
+    preceeded by an inline { block).
+  - Fix SourceForge bug #1761562 (y axis name printed upside down, for log
+    axes in which user specified a high values at the bottom end of the
+    axis)
+  * Bug fix: "gri-el: bashism ("&>") in emacsen install script", thanks to
+    Aaron M. Ucko (Closes: #467639).
+
+ -- Peter S Galbraith <psg@debian.org>  Thu, 27 Mar 2008 15:00:15 -0400
+
 gri (2.12.16-2) unstable; urgency=low
 
   * gri-el: Prefer emacs22 instead of emacs21.

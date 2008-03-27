@@ -32,7 +32,7 @@ then
     # Byte compile them 
     cd ${destination}
     echo ${flavour} ${flags} ${files} >> ${LOG}
-    ${flavour} ${flags} ${files} >> ${LOG} &> ${LOG} 
+    ${flavour} ${flags} ${files} >> ${LOG} 2>&1
     rm ${files}
 else
     echo install/${package}: Ignoring emacsen flavour ${flavour}
