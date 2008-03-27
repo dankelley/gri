@@ -13,30 +13,35 @@ flavour=$1
 
 package=gri
 files="gri-mode.el"
-source=/usr/share/emacs/site-lisp/
-destination=/usr/share/${flavour}/site-lisp/
-flags="-q --no-site-file -no-site-file --batch -f batch-byte-compile"
+ELCDIR=/usr/share/${flavour}/site-lisp/gri-el
+flags="-q --no-site-file -no-site-file --batch -l path.el -f batch-byte-compile"
 LOG=`tempfile -pelc_ -s.log -m644`
 
 if [ ${flavour} != emacs ]
 then
     echo install/${package}: Handling ${flavour}, logged in ${LOG}
 
-    # Copy the temp .el files into the destination directory
-    install -c -m 0755 -d ${destination}
+    # link the source .el files into the ELCDIR directory
+    install -c -m 0755 -d ${ELCDIR}
+    cd ${ELCDIR}
     for i in $files
     do 
-	cp $source/$i $destination
+	ln -fs /usr/share/emacs/site-lisp/$i
     done
 
-    # Byte compile them 
-    cd ${destination}
+    # Byte-compile
+    cat << EOF > path.el
+(setq load-path (cons "." load-path) byte-compile-warnings nil)
+EOF
+
     echo ${flavour} ${flags} ${files} >> ${LOG}
     ${flavour} ${flags} ${files} >> ${LOG} 2>&1
-    rm ${files}
+    rm -f path.el
+    egrep -s -e "While compiling|\*\*" ${LOG} || /bin/true
+    echo install/${package}: Deleting ${LOG}
+    rm -f ${LOG}
 else
     echo install/${package}: Ignoring emacsen flavour ${flavour}
 fi
 
 exit 0;
-

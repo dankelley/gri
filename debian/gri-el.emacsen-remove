@@ -13,14 +13,14 @@ set -e
 flavour=$1
 
 package=gri
-source=/usr/share/emacs/site-lisp/
-destination=/usr/share/${flavour}/site-lisp/
+ELCDIR=/usr/share/${flavour}/site-lisp/gri-el
 
 if [ ${flavour} != emacs ]
 then
     echo remove/${package}: Purging byte-compiled files for flavour ${flavour}
-    rm -f ${destination}/gri-mode.elc
-    rm -f ${destination}/gri-mode.CompilationLog.gz
+    rm -f ${ELCDIR}/gri-mode.elc
+    rm -f ${ELCDIR}/gri-mode.el
+    rmdir --ignore-fail-on-non-empty ${ELCDIR}
 else
     echo remove/${package}: Ignoring emacsen flavour ${flavour}
 fi
