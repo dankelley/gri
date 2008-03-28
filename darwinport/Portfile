@@ -1,4 +1,4 @@
-# $Id: Portfile,v 1.5 2008/03/18 12:35:42 dankelley Exp $ 
+# $Id: Portfile,v 1.6 2008/03/28 17:13:29 dankelley Exp $ 
 PortSystem        1.0
 name              gri
 version           2.12.17
@@ -7,7 +7,7 @@ maintainers       dan.kelley@dal.ca
 description       scientific graphics
 long_description  A language for scientific graphics
 platforms         darwin
-homepage          http://gri.sourceforge.net/
+homepage          http://gri.sourceforge.net
 master_sites      sourceforge:${name}
 checksums         ${name}-${version}.tar.gz md5 5ffa1541c59677974533f2262a158767
 destroot.target   install
