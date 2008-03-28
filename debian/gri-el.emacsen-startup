@@ -1,5 +1,7 @@
-(if (not (file-exists-p "/usr/share/emacs/site-lisp/gri-mode.el"))
+(if (not (file-exists-p "/usr/share/emacs/site-lisp/gri-el/gri-mode.el"))
     (message "Package gri-el is not installed.  Skipping setup.")
+  (debian-pkg-add-load-path-item
+   (concat "/usr/share/" (symbol-name debian-emacs-flavor) "/site-lisp/gri-el"))
   (setq gri*directory-tree "/usr/share/gri/")
   (autoload 'gri-mode "gri-mode" "Enter Gri-mode." t)
   (setq auto-mode-alist (cons '("\\.gri\\'" . gri-mode) auto-mode-alist)))

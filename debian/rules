@@ -78,8 +78,8 @@ build-indep: debian/copyright Makefile
 binary-indep: build-indep
 	dh_testdir -i
 	dh_testroot -i
-	install -d debian/gri-el/usr/share/emacs/site-lisp
-	install -m 644 src/gri-mode.el debian/gri-el/usr/share/emacs/site-lisp/
+	install -d debian/gri-el/usr/share/emacs/site-lisp/gri-el
+	install -m 644 src/gri-mode.el debian/gri-el/usr/share/emacs/site-lisp/gri-el
 	install -d debian/gri-ps-doc/usr/share/doc/gri
 	cd doc; make gri.ps
 	install -m 644 doc/gri.ps debian/gri-ps-doc/usr/share/doc/gri

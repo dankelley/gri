@@ -26,7 +26,7 @@ then
     cd ${ELCDIR}
     for i in $files
     do 
-	ln -fs /usr/share/emacs/site-lisp/$i
+	ln -fs /usr/share/emacs/site-lisp/gri-el/$i
     done
 
     # Byte-compile
