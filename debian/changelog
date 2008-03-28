@@ -1,4 +1,4 @@
-gri (2.12.17-1) UNRELEASED; urgency=low
+gri (2.12.17-1) unstable; urgency=low
 
   * New upstream release
   New Features
@@ -10,12 +10,17 @@ gri (2.12.17-1) UNRELEASED; urgency=low
   - Fix SourceForge bug #1761562 (y axis name printed upside down, for log
     axes in which user specified a high values at the bottom end of the
     axis)
+
+ -- Peter S Galbraith <psg@debian.org>  Thu, 27 Mar 2008 21:16:15 -0400
+
+gri (2.12.16-3) unstable; urgency=low
+
   * Bug fix: "gri-el: bashism ("&>") in emacsen install script", thanks to
-    Aaron M. Ucko (Closes: #467639).
+    Aaron M. Ucko (Closes: #467639). Modernize gri-el byte-compilation.
   * Bug fix: "gri-el: Relies on gv, but does not recommend it", thanks to
     Javier Kohen (Closes: #470504).
 
- -- Peter S Galbraith <psg@debian.org>  Thu, 27 Mar 2008 15:06:43 -0400
+ -- Peter S Galbraith <psg@debian.org>  Thu, 27 Mar 2008 21:02:21 -0400
 
 gri (2.12.16-2) unstable; urgency=low
 
