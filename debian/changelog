@@ -10,6 +10,7 @@ gri (2.12.17-1) unstable; urgency=low
   - Fix SourceForge bug #1761562 (y axis name printed upside down, for log
     axes in which user specified a high values at the bottom end of the
     axis)
+  * control: Added libreadline5-dev to Build-Depends.
 
  -- Peter S Galbraith <psg@debian.org>  Thu, 27 Mar 2008 21:16:15 -0400
 
