@@ -5,7 +5,6 @@
 
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
-export DH_COMPAT=4
 
 #version=$(shell expr `pwd` : '.*-\([0-9.]*\)')
 #version := $(shell grep ^VERSION Makefile | cut -d" " -f3)
