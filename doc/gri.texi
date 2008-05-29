@@ -16491,13 +16491,12 @@ only in the fixing of bugs.
 
 @comment ADD-NEW-BUG-FIXES-HERE
 
-@subsubsection Version 2.12.17 [not released yet]
+@subsubsection Version 2.12.17 [2008 May 29 @uref{http://en.wikipedia.org/wiki/Oak_Apple_Day, Oak Apple Day, England}]
 
 @strong{New Features}
 @itemize @bullet
 
-@item  Add GNU readline support so that interactive mode will have history,
-command editing, etc.
+@item  Add GNU readline support so that interactive mode will have history, command editing, etc.
 
 @end itemize
 
