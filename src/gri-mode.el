@@ -1,16 +1,16 @@
 ;; gri-mode.el - major mode for Gri, a scientific graphics programming language
 
-;; Copyright (C) 1994-2005 Peter S. Galbraith
+;; Copyright (C) 1994-2008 Peter S. Galbraith
  
 ;; Author:    Peter S. Galbraith <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.68 (01 Mar 2005)
+;; Version:   2.69 (28 May 2008)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
 
-;; This package is free software; you can redistribute it and/or modify
-;; it under the terms of the GNU General Public License version 2 as 
+;; This package is free software; you can redistribute it and/or modify it
+;; under the terms of the GNU General Public License version 2 or later as
 ;; published by the Free Software Foundation.
 
 ;; This package is distributed in the hope that it will be useful,
@@ -401,7 +401,10 @@
 ;;   number.
 ;; V2.68 01mar2005
 ;;  gri-view: Adapt to new gv options. (Closes: #296692)
-;; ----------------------------------------------------------------------------
+;; V2.69 28may2008
+;;  current-menubar: test if bound first.  Guess this applied to XEmacs and
+;;  now this code is being run in Emacs.
+;;  ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
 
@@ -4652,12 +4655,14 @@ PLANNED ADDITIONS:
   (and (boundp 'gri-menubar)
        gri-menubar
        (fboundp 'add-submenu)     ;Insurance for emacs
-       (set-buffer-menubar (copy-sequence current-menubar))
+       (if (boundp 'current-menubar)
+           (set-buffer-menubar (copy-sequence current-menubar)))
        (add-submenu nil gri-menubar))
   (and (boundp 'gri-mode-menu1)
        gri-mode-menu1
        (fboundp 'add-submenu)     ;Insurance for emacs
-       (set-buffer-menubar (copy-sequence current-menubar))
+       (if (boundp 'current-menubar)
+           (set-buffer-menubar (copy-sequence current-menubar)))
        (if (and (boundp 'gri-commands-menu) gri-commands-menu)
 	   (add-submenu nil gri-commands-menu))
        (add-submenu nil gri-mode-menu1)
