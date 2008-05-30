@@ -1,4 +1,4 @@
-# $Id: Portfile,v 1.6 2008/03/28 17:13:29 dankelley Exp $ 
+# $Id: Portfile,v 1.7 2008/05/30 17:49:25 dankelley Exp $ 
 PortSystem        1.0
 name              gri
 version           2.12.17
@@ -9,9 +9,9 @@ long_description  A language for scientific graphics
 platforms         darwin
 homepage          http://gri.sourceforge.net
 master_sites      sourceforge:${name}
-checksums         ${name}-${version}.tar.gz md5 5ffa1541c59677974533f2262a158767
+checksums         md5 235c32be7dca8db9ab56cb8ee9162f39
 destroot.target   install
 depends_build     bin:ImageMagick:ImageMagick \
-                    port:teTeX \
+                    port:texlive \
                     bin:gs:ghostscript \
                     bin:perl:perl
