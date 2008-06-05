@@ -53,8 +53,8 @@
 @comment %**start of header
 @setfilename gri.info
 @settitle Gri
-@set GRI-VERSION 2.12.17
-@set GRI-PREVIOUS-VERSION 2.12.16
+@set GRI-VERSION 2.12.18
+@set GRI-PREVIOUS-VERSION 2.12.17
 @set AUTHOR-EMAIL dankelley@@users.sourceforge.net
 @include version.texi
 @c %**end of header
@@ -15899,8 +15899,8 @@ found in the PATH named like @file{gri-VERSION} (This is the way Debian
 packages are set up):
 the file @file{gri*directory-tree/VERSION/gri.cmd}
 and the @file{gri-VERSION} executable in the PATH
-(e.g. @file{/usr/share/gri/2.1.17/gri.cmd} and
-@file{/usr/bin/gri-2.1.17} with @code{gri*directory-tree} set to
+(e.g. @file{/usr/share/gri/2.1.18/gri.cmd} and
+@file{/usr/bin/gri-2.1.18} with @code{gri*directory-tree} set to
 @code{"/usr/share/gri"})
 
 @strong{Important note:} You may have more than one tree and make a list
@@ -15935,8 +15935,8 @@ then you'd also use:
  If you use a Debian GNU/Linux installation like:
 
 @example
-/usr/bin/gri -> /usr/bin/gri-2.1.17
-/usr/share/gri/2.1.17/gri.cmd
+/usr/bin/gri -> /usr/bin/gri-2.1.18
+/usr/share/gri/2.1.18/gri.cmd
 @end example
 
 @noindent
@@ -15947,8 +15947,8 @@ then you'd use:
 @end example
 
  Note that all gri binaries must exist in the path with version number
- suffixes (e.g. @file{gri-2.1.17}) since there is no
- @file{/usr/share/gri/2.1.17/bin/} directory (using a similar structure
+ suffixes (e.g. @file{gri-2.1.18}) since there is no
+ @file{/usr/share/gri/2.1.18/bin/} directory (using a similar structure
  to @file{opt/gri} below) where gri-mode can find the binary
  corresponding to a given version number.
 
@@ -16490,6 +16490,26 @@ only in the fixing of bugs.
 @cindex version 2.12
 
 @comment ADD-NEW-BUG-FIXES-HERE
+
+@subsubsection Version 2.12.18 [2008, probably in late June]
+
+@strong{New Features}
+@itemize @bullet
+
+@item  -
+
+@end itemize
+
+@strong{Bug Fixes}
+@itemize @bullet
+
+@item
+Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=1985862&group_id=5511&atid=105511,#1985862}
+@dots{} SVG output had axis linewidth equal to curve line width.
+
+@end itemize
+
 
 @subsubsection Version 2.12.17 [2008 May 29 @uref{http://en.wikipedia.org/wiki/Oak_Apple_Day, Oak Apple Day, England}]
 
