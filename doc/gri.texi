@@ -16493,13 +16493,6 @@ only in the fixing of bugs.
 
 @subsubsection Version 2.12.18 [2008, probably in late June]
 
-@strong{New Features}
-@itemize @bullet
-
-@item  -
-
-@end itemize
-
 @strong{Bug Fixes}
 @itemize @bullet
 
@@ -16511,7 +16504,7 @@ Fix SourceForge bug
 @end itemize
 
 
-@subsubsection Version 2.12.17 [2008 May 29 @uref{http://en.wikipedia.org/wiki/Oak_Apple_Day, Oak Apple Day, England}]
+@subsubsection Version 2.12.17 [2008 May 29 @uref{http://en.wikipedia.org/wiki/Oak_Apple_Day, Oak Apple Day (England)}]
 
 @strong{New Features}
 @itemize @bullet
@@ -16536,8 +16529,7 @@ Fix SourceForge bug
 @end itemize
 
 
-@subsubsection Version 2.12.16 [2007 Jul 20 @uref{http://en.wikipedia.org/wiki/Apollo_11, anniversary}
-of the first moon landing, in 1969]
+@subsubsection Version 2.12.16 [2007 Jul 20 @uref{http://en.wikipedia.org/wiki/Apollo_11, anniversary of the first moon landing}]
 
 @strong{Bug Fixes}
 @itemize @bullet
@@ -16555,7 +16547,7 @@ Fix Debian bug
 @end itemize
 
 
-@subsubsection Version 2.12.15 [2007 Apr 16 @uref{http://en.wikipedia.org/wiki/Mawlid, Mawlid}, celebration of birthday of Muhammad]
+@subsubsection Version 2.12.15 [2007 Apr 16 @uref{http://en.wikipedia.org/wiki/Mawlid, celebration of birthday of Muhammad}]
 
 @strong{Bug Fixes}
 @itemize @bullet
