@@ -126,7 +126,7 @@ ps_begin_path(double width)	// Q: what's with this width=-1 condition??
 			int(255.0*_griState.color_line().getR()),
 			int(255.0*_griState.color_line().getG()),
 			int(255.0*_griState.color_line().getB()),
-			_griState.linewidth_line(),
+			(width==-1) ? _griState.linewidth_line() : width,
 			1.0 - _griState.color_line().getT(),
 			_griState.line_join() == 0 ? "sharp" : (_griState.line_join() == 1 ? "round" : "bevel"),
 			_griState.line_cap()  == 0 ? "butt"  : (_griState.line_cap()  == 1 ? "round" : "square"));
