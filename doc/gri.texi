@@ -477,7 +477,7 @@ or more of the following (explained below):
 [-no_bounding_box]
 [-no_cmd_in_ps]
 [-no_startup_message]
-[-output PS_file_name]
+[-output PS_file_name|SVG_file_name]
 [-private]
 [-no_private]
 [-publication] 
@@ -632,6 +632,24 @@ PostScript filename is derived from the name of the commandfile
 (e.g. @file{mygraph.gri} produces @file{mygraph.ps}), or, for
 interactive use, it will have a name like @file{gri-00.ps}, or
 @file{gri-01.ps} if the former file exists, etc.
+
+@item @code{-output SVG_file_name}
+@cindex specifying the SVG file name
+@cindex SVG file name, specifying
+@cindex commandline option @code{-output SVG_file_name}
+@cindex -output SVG_file_name commandline option
+Specify the SVG filename.  This is a pre-feature, as of version 2.12.x,
+meaning that SVG output is not working properly yet.  If you specify an
+SVG file name, you will see a long list of warnings.  These are
+debugging messages, and are not specific to your actual Gri script.  For
+example, you will see warnings about centring strings, even if you are
+not centering any strings.  This manual does not contain a list of
+working features (or broken features) for SVG output; the idea is that a
+discussion of such things be done using the bug-reporting system of the
+Gri website @ref{Reporting Bugs}.  In addition to bugs, the author is
+interested in users' opinions on the scheme of the SVG, especially the
+hieararchy of groupings of graphical elements.  It is because such
+things are being altered that this is designated a pre-feature.
 
 @item  @code{-no_startup_message}
 @cindex startup message
