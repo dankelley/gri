@@ -113,11 +113,8 @@ check:
 	@cp $(srcdir)/../doc/tst_suite/tst_IO_2.dat .
 	@./gri -directory . -c 0 tst_IO.gri
 	@rm -f tst_IO.gri tst_IO_1.dat tst_IO_2.dat
-#	@cat $(srcdir)/version.cc    | perl -ane 'if(/_number/)             {$$v=$$F[3]; $$v=~s/[^"]*"//; $$v=~s/".*//; die "ERROR: version number in version.cc is $$v, which disagrees with the version in the Makefile, $(PACKAGE_VERSION).  You MUST fix this.\n" if ("$$v" ne "$(PACKAGE_VERSION)"); print "Version number in version.cc       ... is OK\n";}'
-#	@cat $(srcdir)/gri.cmd       | perl -ane 'if(/\(version ([^)]*)\)/) {$$v=$$1; die "ERROR: Version in gri.cmd is $$v, which disagrees with the version in the Makefile, $(PACKAGE_VERSION).  You MUST fix this.\n" if ("$$v" ne "$(PACKAGE_VERSION)"); print "Version number in gri.cmd          ... is OK\n";}'
-#	@cat $(srcdir)/../doc/gri.texi  | perl -ane 'if(/GRI-VERSION (.*)/)    {$$v=$$1; die "ERROR: Version in ../doc/gri.texi is $$v, which disagrees with the version in the Makefile, $(PACKAGE_VERSION).  You MUST fix this.\n" if ("$$v" ne "$(PACKAGE_VERSION)"); print "Version number in ../doc/gri.texi    ... is OK\n";}'
-	@cat $(srcdir)/../gri.spec      | perl -ane 'if(/griversion (.*)/)     {$$v=$$1; if ("$$v" ne "$(PACKAGE_VERSION)") {print "WARNING: Version in gri.spec is $$v, which disagrees with the version in the Makefile, $(PACKAGE_VERSION).\n"} else { print "Version number in gri.spec         ... is OK\n";}}'
-	@cat $(srcdir)/../debian/changelog | perl -ne 'if (($$. == 1)&&(/\(([^-]+)-/)) {if ("$$1" ne "$(PACKAGE_VERSION)") {print "WARNING: Version in debian/changelog is $$1, which disagrees with the version in the Makefile, $(PACKAGE_VERSION).\n"} else { print "Version number in debian/changelog ... is OK\n";}}'
+	@cat $(srcdir)/../gri.spec      | perl -ane 'if(/griversion (.*)/)     {$$v=$$1; if ("$$v" ne "$(PACKAGE_VERSION)") {print "** Version in gri.spec ($$v) disagrees with $(PACKAGE_VERSION) in Makefile.\n"} else { print "Version number in gri.spec    ... is OK\n";}}'
+	@cat $(srcdir)/../debian/changelog | perl -ne 'if (($$. == 1)&&(/\(([^-]+)-/)) {if ("$$1" ne "$(PACKAGE_VERSION)") {print "** Version in debian/changelog ($$1) disagrees with $(PACKAGE_VERSION) in Makefile.\n"} else { print "Version number in debian/changelog ... is OK\n";}}'
 #	@echo ""
 #	@echo "    /-----------------------------------------------------\\"
 #	@echo "    | NOTE: Developers should do 'make author_check' next |"
