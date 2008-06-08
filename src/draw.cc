@@ -1299,7 +1299,11 @@ draw_curveCmd()
 	double          lastx = gr_currentmissingvalue();
 	double          lasty = gr_currentmissingvalue();
 	bool            first = true, last_OK = true;
+	extern FILE *_grSVG;
 	unsigned int i_max = _colX.size();
+	if (_output_file_type == svg) {
+		fprintf(_grSVG, "<g> <!-- %s -->\n", _cmdLine);
+	}
 	set_environment();
 	set_line_width_curve();
 	GriPath  path(i_max);
@@ -1336,6 +1340,9 @@ draw_curveCmd()
 	PUT_VAR("..ylast..", lasty);
 	_drawingstarted = true;
 	draw_axes_if_needed();
+	if (_output_file_type == svg) {
+		fprintf(_grSVG, "</g> <!-- %s -->\n", _cmdLine);
+	}
 	return true;
 }
 

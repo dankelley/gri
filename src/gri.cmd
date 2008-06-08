@@ -1,4 +1,4 @@
-#         gri - scientific graphic program (version 2.12.17)
+#         gri - scientific graphic program (version 2.12.18)
 #              GPL Copyright 1991-2008 Dan E. Kelley.
 #
 # NOTE: The linkages to `extern "C"' routines makes use a list of C 

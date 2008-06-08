@@ -187,6 +187,16 @@ void GriNamedColor::setNameRGB(const char *newName, double R, double G, double B
 	b = pin0_1(G);
 	c = pin0_1(B);
 }
+std::string
+GriColor::get_hexcolor() const
+{
+	char hex_color[8];	// result is 7 chars long
+	double r, g, b;
+	getRGB(&r, &g, &b);
+	sprintf(hex_color, "#%02x%02x%02x", int(r*255),int(g*255),int(b*255));
+	return(std::string(hex_color));
+}
+
 void
 GriColor::getRGB(double *R, double *G, double *B) const
 {

@@ -795,12 +795,12 @@ interpret_optional_arguments(int argc, char *argv[])
 					if (!_grSVG) {
 						fatal_err("Cannot open SVG file named `\\", o.c_str(), "'", "\\");
 					}
-					fprintf(_grSVG, "<?xml version=\"1.0\" standalone=\"yes\"?>\n");
+					fprintf(_grSVG, "<?xml version=\"1.0\" standalone=\"no\"?>\n<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\"\n\"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n");
 					//fprintf(stderr, "%s:%d: SVG error: assuming height and width both 500 pixels, for now\n", __FILE__,__LINE__);
 					extern rectangle _page_size;
 					_page_size.set(0.0, 0.0, 8.5, 11.0); // BUG: SVG setting fixed paper size
 					_page_size.scale(CM_PER_IN);
-					fprintf(_grSVG, "<svg width=\"%d\" height=\"%d\">\n", int(8.5*PT_PER_IN), int(11.0*PT_PER_IN));
+					fprintf(_grSVG, "<svg width=\"%d\" height=\"%d\" xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">\n", int(8.5*PT_PER_IN), int(11.0*PT_PER_IN));
 				} else {
 					warning("Sorry, cannot determine type of output file; using default postscript filename instead");
 				}
@@ -976,18 +976,18 @@ interpret_optional_arguments(int argc, char *argv[])
 								_output_file_type = gif;
 							} else if (strEQ(o.c_str() + suffix_index, ".svg")) {
 								extern FILE *_grSVG;
-								fprintf(stderr, "%s:%d: warning: SVG output is rudimentary.  Note the warnings below.\n\tAlso, the following fail completely:\n\t\tfilled curves\n\t\timages\n\t\t...\n", __FILE__,__LINE__);
+								//fprintf(stderr, "%s:%d: warning: SVG output is rudimentary.  Note the warnings below.\n\tAlso, the following fail completely:\n\t\tfilled curves\n\t\timages\n\t\t...\n", __FILE__,__LINE__);
 								_output_file_type = svg;
 								_grSVG = fopen(o.c_str(), "w");
 								if (!_grSVG) {
 									fatal_err("Cannot open SVG file named `\\", o.c_str(), "'", "\\");
 								}
-								fprintf(_grSVG, "<?xml version=\"1.0\" standalone=\"yes\"?>\n");
+								fprintf(_grSVG, "<?xml version=\"1.0\" standalone=\"no\"?>\n<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n");
 								//fprintf(stderr, "%s:%d: SVG error: assuming height and width both 500 pixels, for now\n", __FILE__,__LINE__);
 								extern rectangle _page_size;
 								_page_size.set(0.0, 0.0, 8.5, 11.0); // BUG: SVG setting fixed paper size
 								_page_size.scale(CM_PER_IN);
-								fprintf(_grSVG, "<svg width=\"%d\" height=\"%d\">\n", int(8.5*PT_PER_IN), int(11.0*PT_PER_IN));
+								fprintf(_grSVG, "<svg width=\"%d\" height=\"%d\" xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">\n", int(8.5*PT_PER_IN), int(11.0*PT_PER_IN));
 							} else {
 								warning("Sorry, cannot determine type of output file; using default postscript filename instead");
 							}

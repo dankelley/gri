@@ -1,768 +1,15 @@
 //#define DEBUG 1
-#include        <string>
-#include        <stack>
-#include        <math.h>
-#include        <stdio.h>
-#include        <ctype.h>
-#include        "gr.hh"
-#include	"extern.hh"
-#include        "GriPath.hh"
-#include        "superus.hh"
-#include	"defaults.hh"
-double gr_current_descender(void);
-
-
-#define	default_fontID		gr_font_Helvetica
-#define default_encoding        font_encoding_isolatin1
-#define	default_fontsize_pt	12.0
-
-static gr_font  CurrentFont = {
-	default_fontID,
-	default_encoding,				
-	default_fontsize_pt
-};
-
-// Q: should this be done in Moveup() routine? [then what about $N$N though]
-#define START_NEW_TEXT {\
-    if (_output_file_type == postscript && _grWritePS) { \
-	fprintf(_grPS, "(");\
-	check_psfile();\
-    }\
-}
-
-#define STOP_OLD_TEXT {\
-    if (_output_file_type == postscript && _grWritePS) {\
-        fprintf(_grPS, ") sh\n");\
-        check_psfile();\
-    }\
-}
-
-
-enum position {Superscript, Subscript, Inline};	// Baseline indicator
-static std::stack<position> pstack;   // baseline position stack
-
-// Use spacing patterned on results of a TeX example (using Large font). All
-// quantities are multiples of Mspace.
-static const double SubSize = 0.75; // relative height of subscripts = 6/8
-static const double SuperSize = 0.75; // relative height of superscripts = 6/8 
-static const double SuperMoveUp =0.625;	// Move up for super = 5/8
-static const double SubMoveDown =0.375;	// Move down for sub = 3/8 
-
-
-
-#define PS_showpage     "grestore\nshowpage\n"
-#define PS_stroke       "s\n"
-
-extern FILE    *_grPS;
-extern FILE    *_grSVG;
-extern bool     _grNeedBegin;
-extern bool     _grPathExists;
-extern bool     _grWritePS;
-
-static void     gr_drawstring(const char *s);
-static int      index_for_math_symbol(char *s);	// base routine
-static double   gr_charwidth_cm(int c, int font, double fontsize_pt);
-static void     gr_DrawChar(const char *c);
-static void     gr_setfont_fontsize(gr_fontID newID, bool force = false);
-static void     pstack_erase();
-static void     MoveDown(void);
-static void     MoveUp(void);
-static void     MoveHorizontally(double em_distance);
-static char    *symbol_in_math(const char *sPtr, int *inc);
-
-gr_font_info    font_list[] =
-{
-	{gr_font_Courier, "Courier"},
-	{gr_font_CourierOblique, "Courier-Oblique"},
-	{gr_font_CourierBold, "Courier-Bold"},
-	{gr_font_CourierBoldOblique, "Courier-BoldOblique"},
-	{gr_font_Helvetica, "Helvetica"},
-	{gr_font_HelveticaBold, "Helvetica-Bold"},
-	{gr_font_HelveticaOblique, "Helvetica-Oblique"},
-	{gr_font_PalatinoRoman, "Palatino-Roman"},
-	{gr_font_PalatinoItalic, "Palatino-Italic"},
-	{gr_font_PalatinoBold, "Palatino-Bold"},
-	{gr_font_PalatinoBoldItalic, "Palatino-BoldItalic"},
-	{gr_font_Symbol, "Symbol"},
-	{gr_font_TimesRoman, "Times-Roman"},
-	{gr_font_TimesItalic, "Times-Italic"},
-	{gr_font_TimesBold, "Times-Bold"},
-	{gr_font_TimesBoldItalic, "Times-BoldItalic"},
-	{gr_font_Century, "Century"},
-	{gr_font_end_of_list, ""}
-};
-
-// Draw text at specified location.
-void
-gr_show_at(/*const*/ char *s, double xcm, double ycm, gr_textStyle style, double angle_deg)
-{
-#if 0
-        printf("DEBUG %s:%d gr_show_at(%s,xcm,ycm,style,%f)\n",__FILE__,__LINE__,s,angle_deg);
-        fprintf(_grPS,"\n%%DEBUG %s:%d gr_show_at(%s,xcm,ycm,style,%f)\n",__FILE__,__LINE__,s,angle_deg);
-#endif
-	if (0.0 == gr_currentfontsize_pt() || !strlen(s)) {
-		return;
-	}
-	double          oldfontsize_pt = gr_currentfontsize_pt();
-	gr_fontID       oldfontID = gr_currentfont();
-	double          width_cm, ascent_cm, descent_cm;
-	rectangle box;
-	extern bool _warn_offpage;
-	if (_warn_offpage 
-	    && ( xcm < OFFPAGE_LEFT 
-		 || xcm > OFFPAGE_RIGHT
-		 || ycm < OFFPAGE_BOTTOM
-		 || ycm > OFFPAGE_TOP)) {
-		warning("Drawing text at a location that is offpage.");
-	}
-	char *fn_svg = NULL;
-	double r, g, b;
-	_griState.color_text().getRGB(&r, &g, &b);
-	switch (_output_file_type) {
-	case  postscript:
-		break;
-	case svg: 
-#if 1
-		switch (CurrentFont.id) {
-		case gr_font_Courier:            fn_svg = "Courier";            break;
-		case gr_font_CourierOblique:     fn_svg = "Courier-Italic";     break;
-		case gr_font_CourierBold:        fn_svg = "Courier-Bold";       break;
-		case gr_font_CourierBoldOblique: fn_svg = "Courier-BoldItalic"; break;
-		case gr_font_Helvetica:          fn_svg = "Helvetica";          break;
-		case gr_font_HelveticaOblique:   fn_svg = "Helvetica-Italic";   break;
-		case gr_font_HelveticaBold:      fn_svg = "Helvetica-Bold";     break;
-		case gr_font_PalatinoRoman: 
-		case gr_font_PalatinoItalic:
-		case gr_font_PalatinoBold:
-		case gr_font_PalatinoBoldItalic:
-			fn_svg = "Times";
-			warning("SVG cannot handle Palatino font yet");
-			break;
-		case gr_font_Symbol:               fn_svg = "Symbol";               break;
-		case gr_font_TimesRoman:           fn_svg = "Times";                break;
-		case gr_font_TimesItalic:          fn_svg = "Times-Italic";         break;
-		case gr_font_TimesBold:            fn_svg = "Times-Bold";           break;
-		case gr_font_TimesBoldItalic:      fn_svg = "Times-BoldItalic";     break;
-		case gr_font_Century:     	   fn_svg = "Century";  	    break;
-		default: 
-			fn_svg = "Times";
-			warning("SVG defaulting to Times font");
-			break;
-#endif
-		}
-		break;
-	case  gif:
-		fprintf(stderr, "INTERNAL error at %s:%d -- nothing known for GIF\n\n", __FILE__, __LINE__);
-		exit(99);
-		break;
-	}
-	if (_output_file_type == svg) {
-		fprintf(stderr, "%s:%d approximating drawing of '%s' NOTE: subscripts, etc won't work\n", __FILE__, __LINE__, s);
-	}
-	void set_ps_color(char what);
-	set_ps_color('t');
-	gr_setfontsize_pt(oldfontsize_pt);
-	gr_setfont(oldfontID);
-	gr_stringwidth(s, &width_cm, &ascent_cm, &descent_cm);
-	switch (style) {
-	case TEXT_LJUST:
-		gr_moveto_cm(xcm, ycm);
-		if (_output_file_type == postscript) {
-			if (_grWritePS) {
-				if (fabs(angle_deg) > 0.1)
-					fprintf(_grPS, "%.2f rotate ", angle_deg);
-				gr_drawstring(s);
-			}
-		} else if (_output_file_type == svg) {
-			fprintf(_grSVG, "<text\nx=\"%.3f\"\ny=\"%.3f\"\nstyle=\"font-family:%s; font-size:%.2f; fill:#%02x%02x%02x; font-style:normal;\">\n",
-				xcm * PT_PER_CM,
-				gr_page_height_pt() - ycm * PT_PER_CM, 
-				fn_svg,
-				gr_currentfontsize_pt(), int(255*r+0.5), int(255*g+0.5), int(255*b+0.5));
-			if (fabs(angle_deg) > 0.1)
-				fprintf(stderr, "%s:%d: SVG cannot rotate text\n",__FILE__,__LINE__);
-			fprintf(_grSVG, "%s\n", s);
-		} else {
-			fprintf(stderr, "%s:%d unknown file output type\n",__FILE__,__LINE__);
-		}
-		// This box not tested specifically
-		box.set(0, -descent_cm, width_cm, ascent_cm);
-		box.rotate(angle_deg);
-		box.shift_x(xcm);
-		box.shift_y(ycm);
-		break;
-	case TEXT_RJUST:
-		if (_output_file_type == postscript) {
-			if (_grWritePS) {
-				fprintf(_grPS, "%.1f %.1f m ",
-					PT_PER_CM * (xcm - width_cm * cos(angle_deg / DEG_PER_RAD)),
-					PT_PER_CM * (ycm - width_cm * sin(angle_deg / DEG_PER_RAD)));
-				if (fabs(angle_deg) > 0.1)
-					fprintf(_grPS, "%.2f rotate ", angle_deg);
-				gr_drawstring(s);
-			}
-		} else if (_output_file_type == svg) {
-			fprintf(_grSVG, "<text\nx=\"%.3f\"\ny=\"%.3f\"\nstyle=\"font-family:%s; font-size:%.2f; fill:#%02x%02x%02x; font-style:normal;\">\n", 
-				PT_PER_CM * (xcm - width_cm * cos(angle_deg / DEG_PER_RAD)),
-				gr_page_height_pt() - PT_PER_CM * (ycm - width_cm * sin(angle_deg / DEG_PER_RAD)),
-				fn_svg,
-				gr_currentfontsize_pt(), 
-				int(255*r+0.5), int(255*g+0.5), int(255*b+0.5));
-			if (fabs(angle_deg) > 0.1)
-				fprintf(stderr, "%s:%d: SVG cannot rotate text\n",__FILE__,__LINE__);
-			fprintf(_grSVG, "%s\n", s);
-		} else {
-			fprintf(stderr, "%s:%d unknown file output type\n",__FILE__,__LINE__);
-		}
-
-		// This box not tested specifically
-		box.set(-width_cm, -descent_cm, 0.0, ascent_cm);
-		box.rotate(angle_deg);
-		box.shift_x(xcm);
-		box.shift_y(ycm);
-		break;
-	case TEXT_CENTERED:
-		if (_output_file_type == postscript) {
-			if (_grWritePS) {
-			        //fprintf(_grPS, "%% DEBUG %s:%d '%s' at angle %f\n",__FILE__,__LINE__,s,angle_deg);
-				fprintf(_grPS, "%.1f %.1f m ",
-					PT_PER_CM * (xcm - 0.5 * width_cm * cos(angle_deg / DEG_PER_RAD)),
-					PT_PER_CM * (ycm - 0.5 * width_cm * sin(angle_deg / DEG_PER_RAD)));
-				if (fabs(angle_deg) > 0.1)
-					fprintf(_grPS, "%.2f rotate ", angle_deg);
-				gr_drawstring(s);
-			}
-		} else if (_output_file_type == svg) {
-			fprintf(_grSVG, "<text\nx=\"%.3f\"\ny=\"%.3f\"\nstyle=\"font-family:%s; font-size:%.2f; fill:#%02x%02x%02x; font-style:normal;\">\n", 
-				PT_PER_CM * (xcm - 0.5 * width_cm * cos(angle_deg / DEG_PER_RAD)),
-				gr_page_height_pt() - PT_PER_CM * (ycm - 0.5 * width_cm * sin(angle_deg / DEG_PER_RAD)),
-				fn_svg,
-				gr_currentfontsize_pt(),
-				int(255*r+0.5), int(255*g+0.5), int(255*b+0.5));
-			if (fabs(angle_deg) > 0.1)
-				fprintf(stderr, "%s:%d: SVG cannot rotate text\n",__FILE__,__LINE__);
-			fprintf(_grSVG, "%s\n", s);
-		} else {
-			fprintf(stderr, "%s:%d unknown file output type\n",__FILE__,__LINE__);
-		}
-		box.set(-width_cm/2, -descent_cm, width_cm/2, ascent_cm);
-		box.rotate(angle_deg);
-		box.shift_x(xcm);
-		box.shift_y(ycm);
-		break;
-	default:
-		warning("gr_show_at type is UNKNOWN\n");
-	}
-	switch (_output_file_type) {
-	case  postscript:
-		if (_grWritePS) {
-			if (fabs(angle_deg) > 0.1)
-				fprintf(_grPS, "%.2f rotate ", -angle_deg);
-			check_psfile();
-			//fprintf(_grPS, "%% gr_show_at() END\n");
-		}
-		break;
-	case svg:
-		fprintf(_grSVG, "</text>\n");
-		break;
-	case gif:
-		fprintf(stderr, "INTERNAL error at %s:%d -- nothing known for GIF\n\n", __FILE__, __LINE__);
-		exit(99);
-		break;
-	default:
-		fprintf(stderr, "%s:%d unknown file output type\n",__FILE__,__LINE__);
-		break;		// BUG: should check filetype here
-	}
-	// Update bounding box
-	bounding_box_update(box);
-	_drawingstarted = true;
-}
-
-// gr_drawstring() -- draw string, including font changes &super/subscripts
-static void
-gr_drawstring(const char *s)
-{
-        char slast = '\0';
-	int             slen = strlen(s);
-	bool            inmath = false;
-	gr_fontID       original_font = gr_currentfont();
-	gr_fontID       current_font = original_font;
-	gr_fontID       slant_font = original_font;	// prevent compiler warning
-	double          original_fontsize = gr_currentfontsize_pt();
-	bool            know_slant_font = false;
-	if (slen <= 0)
-		return;
-	if (0.0 == gr_currentfontsize_pt())
-		return;
-	// Figure out slant font, if there is an appropriate one
-	switch (original_font) {
-	case gr_font_TimesRoman:
-		slant_font = gr_font_TimesItalic;
-		know_slant_font = true;
-		break;
-	case gr_font_TimesBold:
-		slant_font = gr_font_TimesBoldItalic;
-		know_slant_font = true;
-		break;
-	case gr_font_Helvetica:
-		slant_font = gr_font_HelveticaOblique;
-		know_slant_font = true;
-		break;
-	case gr_font_HelveticaBold:
-		slant_font = gr_font_HelveticaBoldOblique;
-		know_slant_font = true;
-		break;
-	case gr_font_Courier:
-		slant_font = gr_font_CourierOblique;
-		know_slant_font = true;
-		break;
-	case gr_font_CourierBold:
-		slant_font = gr_font_CourierBoldOblique;
-		know_slant_font = true;
-		break;
-	case gr_font_PalatinoRoman:
-		slant_font = gr_font_PalatinoItalic;
-		know_slant_font = true;
-		break;
-	case gr_font_PalatinoBold:
-		slant_font = gr_font_PalatinoBoldItalic;
-		know_slant_font = true;
-		break;
-        case gr_font_Century:
-                slant_font = gr_font_TimesItalic; // BUG: should be Century Italic
-		know_slant_font = true;
-		break;
-	default:
-		know_slant_font = false;
-	}
-	// Scan through whole string.
-	START_NEW_TEXT;
-	while (*s != '\0') {
-#ifdef DEBUG
-		printf("DEBUG(%s:%d) *s= '%c'\n",__FILE__,__LINE__,*s);
-#endif
-		if (*s == '-' && CurrentFont.encoding == font_encoding_isolatin1) {
-			// Use a different character to avoid looking like underscore.
-			if (_grWritePS) {
-				STOP_OLD_TEXT;
-				fprintf(_grPS, "(\\255) sh\n");	// endash
-				check_psfile();
-				START_NEW_TEXT;
-			}
-			s++;
-			continue;
-		}
-		// Figure out whether entering or leaving math mode; enter/leave if
-		// find $ without preceeding \.  Thus a$b$ has math but a\$b\$ does
-		// not.
-		if (*s == '$' && slast != '\\') {
-			if (inmath) {
-#ifdef DEBUG
-				printf("DEBUG(%s:%d) got $ so leave math mode\n",__FILE__,__LINE__);
-				printf("DEBUG(%s:%d) pstack size is %d\n",__FILE__,__LINE__,int(pstack.size()));
-#endif
-					
-				// Were in math; now go back to original font.
-				inmath = false;
-				if (current_font != original_font) {
-					current_font = original_font;
-					STOP_OLD_TEXT;
-					gr_setfont(current_font);
-					START_NEW_TEXT;
-				}
-				if (!pstack.empty()) {
-					warning("a text string ended without completing a mathematical grouping (superscript, subscript, or {block})");
-					pstack_erase();
-				}
-			} else {
-#ifdef DEBUG
-				printf("DEBUG(%s:%d) got $ so enter math mode\n",__FILE__,__LINE__);
-#endif
-				// Go to Italic/Oblique font, as case may be.  Unfortunately,
-				// PostScript uses different names for this slanted font.
-				inmath = true;
-				if (know_slant_font) {
-					current_font = slant_font;
-					STOP_OLD_TEXT;
-					gr_setfont(current_font);
-					START_NEW_TEXT;
-				}
-				if (!pstack.empty()) {
-					warning("a text string started without an empty mathematical grouping (superscript, subscript, or {block})");
-					pstack_erase();
-				}
-			}
-			slast = *s++;
-			continue;
-		}
-		// Handle math mode.  This code is a little kludgy, so be carefull.
-		if (inmath) {
-			if (*s == '^') {
-				// Handle superscripts
-				slast = *s++;
-				if (*s == '\0') {
-					// Odd -- nothing to superscript
-					if (current_font != original_font) {
-						STOP_OLD_TEXT;
-						gr_setfontsize_pt(original_fontsize);
-						gr_setfont(original_font);
-					}
-					return;
-				} else if (*s == '{') {
-					// Several characters to superscript
-					pstack.push(Superscript);
-#ifdef DEBUG
-					printf("DEBUG(%s:%d) pushed superscript=%d onto stack to make length %d\n",__FILE__,__LINE__,Superscript, int(pstack.size()));
-#endif
-					MoveUp();
-				} else if (*s == '\\') {
-					// Math character to superscript
-					int             inc;
-					char *            insert;
-					insert = symbol_in_math(s, &inc);
-					if (inc) {
-						gr_fontID       oldfontID = gr_currentfont();
-						pstack.push(Superscript);
-						printf("DEBUG(%s:%d) pushed subscript=%d onto stack to make length %d\n",__FILE__,__LINE__,Superscript, int(pstack.size()));
-						MoveUp();
-						STOP_OLD_TEXT;
-						gr_setfont(gr_font_Symbol);
-						if (_grWritePS) {
-							fprintf(_grPS, "(%s) sh\n", insert);
-							check_psfile();
-						}
-						gr_setfont(oldfontID);
-						START_NEW_TEXT;
-						s += inc;
-#ifdef DEBUG
-						printf("DEBUG(%s:%d) about to pop stack (was %d) to make length %d\n",__FILE__,__LINE__,pstack.top(), int(pstack.size())-1);
-#endif
-						MoveDown();
-						pstack.pop();
-					}
-				} else {
-					// Single character to superscript
-					pstack.push(Superscript);
-#ifdef DEBUG
-					printf("DEBUG(%s:%d) pushed subscript=%d onto stack to make length %d\n",__FILE__,__LINE__,Subscript, int(pstack.size()));
-#endif
-					MoveUp();
-					// Draw single character in math mode.  If it's a digit,
-					// do not do in italics!
-					if (isdigit(*s) || ispunct(*s)) {
-						if (*s == '/' && !isdigit(slast)) {
-							gr_DrawChar(s);
-						} else {
-							STOP_OLD_TEXT;
-							gr_setfont(original_font);
-							START_NEW_TEXT;
-							gr_DrawChar(s);
-							STOP_OLD_TEXT;
-							gr_setfont(slant_font);
-							START_NEW_TEXT;
-						}
-					} else {
-						gr_DrawChar(s);
-					}
-					MoveDown();
-#ifdef DEBUG
-					printf("DEBUG(%s:%d) about to pop stack (was %d) to make length %d\n",__FILE__,__LINE__,pstack.top(), int(pstack.size())-1);
-#endif
-					pstack.pop();
-				}
-			} else if (*s == '_') {
-				// Handle subscript
-				slast = *s++;
-				if (*s == '\0') {
-					// Odd -- nothing to subscript
-					if (current_font != original_font) {
-						STOP_OLD_TEXT;
-						gr_setfontsize_pt(original_fontsize);
-						gr_setfont(original_font);
-					}
-					return;
-				} else if (*s == '{') {
-					// Several characters to subscript
-					pstack.push(Subscript);
-#ifdef DEBUG
-					printf("DEBUG(%s:%d) pushed subscript=%d onto stack to make length %d\n",__FILE__,__LINE__,Subscript, int(pstack.size()));
-#endif
-					MoveDown();
-				} else if (*s == '\\') {
-					// Math character to subscript
-					int             inc;
-					char *            insert;
-					insert = symbol_in_math(s, &inc);
-					if (inc) {
-						gr_fontID       oldfontID = gr_currentfont();
-						pstack.push(Subscript);
-#ifdef DEBUG
-						printf("DEBUG(%s:%d) pushed subscript=%d onto stack to make length %d\n",__FILE__,__LINE__,Subscript, int(pstack.size()));
-#endif
-						MoveDown();
-						STOP_OLD_TEXT;
-						gr_setfont(gr_font_Symbol);
-						if (_grWritePS) {
-							fprintf(_grPS, "(%s) sh\n", insert);
-							check_psfile();
-						}
-						gr_setfont(oldfontID);
-						START_NEW_TEXT;
-						s += inc;
-						MoveUp();
-#ifdef DEBUG
-						printf("DEBUG(%s:%d) about to pop stack (was %d) to make length %d\n",__FILE__,__LINE__,pstack.top(), int(pstack.size())-1);
-#endif
-						pstack.pop();
-					}
-				} else {
-					// Single character to subscript
-					pstack.push(Subscript);
-#ifdef DEBUG
-					printf("DEBUG(%s:%d) pushed subscript=%d onto stack to make length %d\n",__FILE__,__LINE__,Subscript, int(pstack.size()));
-#endif
-					MoveDown();
-					// Draw single character in math mode.  If it's a digit,
-					// do not do in italics!
-					if (isdigit(*s) || ispunct(*s)) {
-						if (*s == '/' && !isdigit(slast)) {
-							gr_DrawChar(s);
-						} else {
-							STOP_OLD_TEXT;
-							gr_setfont(original_font);
-							START_NEW_TEXT;
-							gr_DrawChar(s);
-							STOP_OLD_TEXT;
-							gr_setfont(slant_font);
-							START_NEW_TEXT;
-						}
-					} else {
-						gr_DrawChar(s);
-					}
-					MoveUp();
-#ifdef DEBUG
-					printf("DEBUG(%s:%d) about to pop stack (was %d) to make length %d\n",__FILE__,__LINE__,pstack.top(), int(pstack.size())-1);
-#endif
-					pstack.pop();
-				}
-			} else if (*s == '{') { // just a grouping, not a baseline shift
-				pstack.push(Inline);
-#ifdef DEBUG
-				printf("DEBUG(%s:%d) pushed Inline=%d onto stack to make length %d\n",__FILE__,__LINE__,Inline,int(pstack.size()));
-#endif
-
-			} else if (*s == '}') {	// finished with Superscript/Subscript/Inline
-				if (pstack.size() > 0) {
-					position p = pstack.top();
-					if (p == Superscript) {
-						MoveDown();
-					} else if (p == Subscript) {
-						MoveUp();
-					} // ignore inline
-#ifdef DEBUG
-					printf("DEBUG(%s:%d) about to pop stack (was %d) to make length %d\n",__FILE__,__LINE__,pstack.top(), int(pstack.size())-1);
-#endif
-					pstack.pop();
-				} else {
-					warning("unmatched \"}\" in a mathematicsal string");
-				}
-			} else if (*s == '\\') {
-				// Substitute math symbol, unless it's
-				// an escaped string
-				int inc;
-				char *insert;
-				if (*(s + 1) == '$') {
-					slast = *s++;
-				} else if (*(s + 1) == ',') {
-					slast = *s++;
-					MoveHorizontally(0.1666666);	// thinspace
-				} else if (*(s + 1) == '!') {
-					slast = *s++;
-					MoveHorizontally(-0.1666666);	// neg thinspace
-				} else if (*(s + 1) == '"') {
-					slast = *s++;
-				} else if (*(s + 1) == '\\') {
-					slast = *s++;
-				} else if (*(s + 1) == '{' || *(s + 1) == '}') {
-					STOP_OLD_TEXT;
-					gr_setfont(original_font);
-					START_NEW_TEXT;
-					gr_DrawChar(s + 1);
-					STOP_OLD_TEXT;
-					gr_setfont(slant_font);
-					START_NEW_TEXT;
-					slast = *s++;
-				} else {
-					insert = symbol_in_math(s, &inc);
-					if (inc) {
-						// math symbol in symbol font
-						gr_fontID oldfontID = gr_currentfont();
-						STOP_OLD_TEXT;
-						gr_setfont(gr_font_Symbol);
-						if (_grWritePS) {
-							fprintf(_grPS, "(%s) sh\n", insert);
-							check_psfile();
-						}
-						gr_setfont(oldfontID);
-						START_NEW_TEXT;
-						s += inc;
-					} else {
-						// Not a known math-mode symbol, so just 
-						// draw it.  Is this the right thing to do?
-						gr_DrawChar(s + 1);
-					}
-				}
-			} else {
-				// Draw single character in math mode.
-				// If it's a digit, do not use italics.
-				if (isdigit(*s) || ispunct(*s)) {
-					if (*s == '/' && !isdigit(slast)) {
-						gr_DrawChar(s);
-					} else {
-						STOP_OLD_TEXT;
-						gr_setfont(original_font);
-						START_NEW_TEXT;
-						gr_DrawChar(s);
-						STOP_OLD_TEXT;
-						gr_setfont(slant_font);
-						START_NEW_TEXT;
-					}
-				} else {
-					gr_DrawChar(s);
-				}
-			}
-		} else {
-			// draw simple character outside math mode
-			if (*s == '\\') {
-				if (*(s + 1) == '$') {
-					slast = *s++;
-				} else if (*(s + 1) == '"') {
-					slast = *s++;
-				} else if (*(s + 1) == '\\') {
-					slast = *s++;
-				}
-			}
-			gr_DrawChar(s);
-		}
-		slast = *s++;
-	}
-	STOP_OLD_TEXT;
-	gr_setfontsize_pt(original_fontsize);
-	gr_setfont(original_font);
-	_drawingstarted = true;
-	if (!pstack.empty()) {
-		warning("a text string ended without completing a mathematical grouping (superscript, subscript, or {block})");
-		pstack_erase();
-	}
-	return;
-}
-
-// set fontsize in points
-void
-gr_setfontsize_pt(double fontsize_pt)
-{
-	if (fontsize_pt < 0.0)
-		CurrentFont.size_pt = default_fontsize_pt;
-	else
-		CurrentFont.size_pt = fontsize_pt;
-	gr_setfont_fontsize(CurrentFont.id);
-}
-
-// Set font encoding
-void
-gr_set_font_encoding(gr_font_encoding encoding)
-{
-	CurrentFont.encoding = encoding;
-}
-// Get font encoding
-gr_font_encoding
-gr_current_font_encoding()
-{
-	return CurrentFont.encoding;
-}
-
-/*
- * gr_currentfont() -- find current font synopsis int gr_currentfont()
- * description:  gets the current font,as set by gr_setfont(). return value:
- * current font number.
- */
-gr_fontID
-gr_currentfont()
-{
-	return CurrentFont.id;
-}
-
-/*
- * gr_currentfontsize_pt() -- return current fontsize in points
- */
-double
-gr_currentfontsize_pt()
-{
-	return CurrentFont.size_pt;
-}
-
-/*
- * gr_setfont() --  set new font. SYNOPSIS void	gr_setfont(int new_font)
- * DESCRIPTION:  Sets the font for future string drawing to 'new_font'. These
- * fonts are predefined: TimesRoman Helvetica Courier Symbol Palatino-Roman
- * Palatino-Italic.
- * 
- */
-void
-gr_setfont(gr_fontID newID, bool force /* default false */)
-{
-	gr_setfont_fontsize(newID, force);
-}
-
-static void
-gr_setfont_fontsize(gr_fontID newID, bool force)
-{
-	int             i = 0;
-	static bool     have_set_font = false;
-	static gr_font  last_font;
-	/* Search the font list */
-	while (font_list[i].id != gr_font_end_of_list) {
-		if (newID == font_list[i].id) {
-			/* Found the font, but ignore request if no change */
-			if (force
-			    || (!have_set_font
-				|| newID != last_font.id
-				|| CurrentFont.encoding != last_font.encoding
-				|| CurrentFont.size_pt != last_font.size_pt)) {
-				CurrentFont.id = newID;
-				if (!_grNeedBegin) {
-					/*
-					 * Don't try to write if haven't done gr_begin() yet,
-					 * since then will ruin things like
-					 * gr_setup_ps_filename();
-					 */
-					if (_grWritePS) {
-						switch (CurrentFont.encoding) {
-						case font_encoding_standard:
-							fprintf(_grPS, "/%s findfont ", font_list[i].name);
-							break;
-						case font_encoding_isolatin1:
-							if (CurrentFont.id == gr_font_Symbol) 
-								fprintf(_grPS, "/%s findfont ", font_list[i].name);
-							else
-								fprintf(_grPS, "/%s-ISOLatin1 findfont ", font_list[i].name);
-							break;
-						}
-						fprintf(_grPS, "%.2f sc sf\n", CurrentFont.size_pt);
-					}
-					have_set_font = true;
-					last_font.id = newID;
-					last_font.encoding = CurrentFont.encoding;
-					last_font.size_pt = CurrentFont.size_pt;
-				}
-			}
-			return;
-		}
-		i++;
-	}
-	warning("Ignoring request for unknown font.");
-}
-
+#include <vector>
+#include <string>
+#include <stack>
+#include <math.h>
+#include <stdio.h>
+#include <ctype.h>
+#include "gr.hh"
+#include "extern.hh"
+#include "GriPath.hh"
+#include "superus.hh"
+#include "defaults.hh"
 #define NCODES 100
 // symbol_code (p 604 new PostScript book): (1) define name, (2) Postscript
 // code, (3) symbol-font crossref code (used for estimage of symbol
@@ -1007,9 +254,1012 @@ static char    *symbol_code[NCODES][3] = {
 // Downarrow SEE ABOVE
 // Updownarrow SEE ABOVE
 };
+double gr_current_descender(void);
+std::vector<std::string> part_string(const std::string &s)
+{
+	using namespace std;
+	string::size_type i, lasti = 0, len = s.size();
+	bool inmath = false;
+	vector<string> parts;
+	for (i = 0; i < len; i++) {
+		if (s[i] == '$') {
+			// \$ escapes but not \\$
+			if (i > 0 && s[i-1] == '\\') {
+				if (!(i > 1 && s[i-2] == '\\'))
+					continue;
+			}
+			if (inmath) i++; // keep the $ at the end
+			parts.push_back(s.substr(lasti, i-lasti));
+			inmath = !inmath;
+			lasti = i;
+		}
+	}
+	parts.push_back(s.substr(lasti, len-lasti));
+#if 0
+	printf("\n\"%s\"\n", s.c_str());
+	for (unsigned int l = 0; l < parts.size(); l++)
+		printf("    \"%s\"\n", parts[l].c_str());
+#endif
+	return parts;
+}
+
+char* gr_fontname_from_id(int id);
+
+#define	default_fontID		gr_font_Helvetica
+#define default_encoding        font_encoding_isolatin1
+#define	default_fontsize_pt	12.0
+
+static gr_font  CurrentFont = {
+	default_fontID,
+	default_encoding,				
+	default_fontsize_pt
+};
+
+// Q: should this be done in Moveup() routine? [then what about $N$N though]
+#define START_NEW_TEXT {\
+    if (_output_file_type == postscript && _grWritePS) { \
+	fprintf(_grPS, "(");\
+	check_psfile();\
+    }\
+}
+
+#define STOP_OLD_TEXT {\
+    if (_output_file_type == postscript && _grWritePS) {\
+        fprintf(_grPS, ") sh\n");\
+        check_psfile();\
+    }\
+}
 
-static char    *
-symbol_in_math(const char *sPtr, int *inc)
+
+enum position {Superscript, Subscript, Inline};	// Baseline indicator
+static std::stack<position> pstack;   // baseline position stack
+
+// Use spacing patterned on results of a TeX example (using Large font). All
+// quantities are multiples of Mspace.
+static const double SubSize = 0.75; // relative height of subscripts = 6/8
+static const double SuperSize = 0.75; // relative height of superscripts = 6/8 
+static const double SuperMoveUp =0.625;	// Move up for super = 5/8
+static const double SubMoveDown =0.375;	// Move down for sub = 3/8 
+
+
+
+#define PS_showpage     "grestore\nshowpage\n"
+#define PS_stroke       "s\n"
+
+extern FILE    *_grPS;
+extern FILE    *_grSVG;
+extern bool     _grNeedBegin;
+extern bool     _grPathExists;
+extern bool     _grWritePS;
+
+static void     gr_drawstring(const char *s);
+static void     gr_drawstring_svg(const char *s, double xcm, double ycm, double angle);
+static int      index_for_math_symbol(const char *s);	// base routine
+static double   gr_charwidth_cm(int c, int font, double fontsize_pt);
+static void     gr_DrawChar(const char *c);
+static void     gr_setfont_fontsize(gr_fontID newID, bool force = false);
+static void     pstack_erase();
+static void     MoveDown(void);
+static void     MoveUp(void);
+static void     MoveUp_svg(double *xcm, double *ycm);
+static void     MoveDn_svg(double *xcm, double *ycm);
+static void     MoveHorizontally(double em_distance);
+static char    *symbol_in_math(const char *sPtr, int *inc);
+
+gr_font_info    font_list[] =
+{
+	{gr_font_Courier, "Courier"},
+	{gr_font_CourierOblique, "Courier-Oblique"},
+	{gr_font_CourierBold, "Courier-Bold"},
+	{gr_font_CourierBoldOblique, "Courier-BoldOblique"},
+	{gr_font_Helvetica, "Helvetica"},
+	{gr_font_HelveticaBold, "Helvetica-Bold"},
+	{gr_font_HelveticaOblique, "Helvetica-Oblique"},
+	{gr_font_PalatinoRoman, "Palatino-Roman"},
+	{gr_font_PalatinoItalic, "Palatino-Italic"},
+	{gr_font_PalatinoBold, "Palatino-Bold"},
+	{gr_font_PalatinoBoldItalic, "Palatino-BoldItalic"},
+	{gr_font_Symbol, "Symbol"},
+	{gr_font_TimesRoman, "Times-Roman"},
+	{gr_font_TimesItalic, "Times-Italic"},
+	{gr_font_TimesBold, "Times-Bold"},
+	{gr_font_TimesBoldItalic, "Times-BoldItalic"},
+	{gr_font_Century, "Century"},
+	{gr_font_end_of_list, ""}
+};
+
+// Draw text at specified location.
+void
+gr_show_at(/*const*/ char *s, double xcm, double ycm, gr_textStyle style, double angle_deg)
+{
+#ifdef DEBUG
+        printf("DEBUG %s:%d gr_show_at(\"%s\",xcm,ycm,style,%f)\n",__FILE__,__LINE__,s,angle_deg);
+#endif
+	if (0.0 == gr_currentfontsize_pt() || !strlen(s)) {
+		return;
+	}
+	double          oldfontsize_pt = gr_currentfontsize_pt();
+	gr_fontID       oldfontID = gr_currentfont();
+	double          width_cm, ascent_cm, descent_cm;
+	rectangle box;
+	extern bool _warn_offpage;
+	if (_warn_offpage 
+	    && ( xcm < OFFPAGE_LEFT 
+		 || xcm > OFFPAGE_RIGHT
+		 || ycm < OFFPAGE_BOTTOM
+		 || ycm > OFFPAGE_TOP)) {
+		warning("Drawing text at a location that is offpage.");
+	}
+	char *fn_svg = NULL;
+	double r, g, b;
+	_griState.color_text().getRGB(&r, &g, &b);
+	switch (_output_file_type) {
+	case  postscript:
+		break;
+	case svg: 
+		switch (CurrentFont.id) {
+		case gr_font_Courier:            fn_svg = "Courier";            break;
+		case gr_font_CourierOblique:     fn_svg = "Courier-Italic";     break;
+		case gr_font_CourierBold:        fn_svg = "Courier-Bold";       break;
+		case gr_font_CourierBoldOblique: fn_svg = "Courier-BoldItalic"; break;
+		case gr_font_Helvetica:          fn_svg = "Helvetica";          break;
+		case gr_font_HelveticaOblique:   fn_svg = "Helvetica-Italic";   break;
+		case gr_font_HelveticaBold:      fn_svg = "Helvetica-Bold";     break;
+		case gr_font_PalatinoRoman: 
+		case gr_font_PalatinoItalic:
+		case gr_font_PalatinoBold:
+		case gr_font_PalatinoBoldItalic:
+			fn_svg = "Times";
+			warning("SVG cannot handle Palatino font yet");
+			break;
+		case gr_font_Symbol:               fn_svg = "Symbol";               break;
+		case gr_font_TimesRoman:           fn_svg = "Times";                break;
+		case gr_font_TimesItalic:          fn_svg = "Times-Italic";         break;
+		case gr_font_TimesBold:            fn_svg = "Times-Bold";           break;
+		case gr_font_TimesBoldItalic:      fn_svg = "Times-BoldItalic";     break;
+		case gr_font_Century:     	   fn_svg = "Century";  	    break;
+		default: 
+			fn_svg = "Times";
+			warning("SVG defaulting to Times font");
+			break;
+		}
+		break;
+	case  gif:
+		fprintf(stderr, "INTERNAL error at %s:%d -- nothing known for GIF\n\n", __FILE__, __LINE__);
+		exit(99);
+		break;
+	}
+
+//	if (_output_file_type == svg) {
+//		fprintf(stderr, "%s:%d approximating drawing of '%s' NOTE: subscripts, etc won't work\n", __FILE__, __LINE__, s);
+//	}
+
+	void set_ps_color(char what);
+	set_ps_color('t');
+	gr_setfontsize_pt(oldfontsize_pt);
+	gr_setfont(oldfontID);
+	gr_stringwidth(s, &width_cm, &ascent_cm, &descent_cm);
+	switch (style) {
+	case TEXT_LJUST:
+		gr_moveto_cm(xcm, ycm);
+		if (_output_file_type == postscript) {
+			if (_grWritePS) {
+				if (fabs(angle_deg) > 0.1)
+					fprintf(_grPS, "%.2f rotate ", angle_deg);
+				gr_drawstring(s);
+			}
+		} else if (_output_file_type == svg) {
+			gr_drawstring_svg(s, xcm, ycm, angle_deg);
+		} else {
+			fprintf(stderr, "%s:%d unknown file output type\n",__FILE__,__LINE__);
+		}
+		// This box not tested specifically
+		box.set(0, -descent_cm, width_cm, ascent_cm);
+		box.rotate(angle_deg);
+		box.shift_x(xcm);
+		box.shift_y(ycm);
+		break;
+	case TEXT_RJUST:
+		if (_output_file_type == postscript) {
+			if (_grWritePS) {
+				fprintf(_grPS, "%.1f %.1f m ",
+					PT_PER_CM * (xcm - width_cm * cos(angle_deg / DEG_PER_RAD)),
+					PT_PER_CM * (ycm - width_cm * sin(angle_deg / DEG_PER_RAD)));
+				if (fabs(angle_deg) > 0.1)
+					fprintf(_grPS, "%.2f rotate ", angle_deg);
+				gr_drawstring(s);
+			}
+		} else if (_output_file_type == svg) {
+			if (_grWritePS) {
+				gr_drawstring_svg(s, 
+						  xcm - width_cm * cos(angle_deg / DEG_PER_RAD),
+						  ycm - width_cm * sin(angle_deg / DEG_PER_RAD),
+						  angle_deg);
+			}
+		} else {
+			fprintf(stderr, "%s:%d unknown file output type\n",__FILE__,__LINE__);
+		}
+
+		// This box not tested specifically
+		box.set(-width_cm, -descent_cm, 0.0, ascent_cm);
+		box.rotate(angle_deg);
+		box.shift_x(xcm);
+		box.shift_y(ycm);
+		break;
+	case TEXT_CENTERED:
+		if (_output_file_type == postscript) {
+			if (_grWritePS) {
+#ifdef DEBUG
+			        fprintf(_grPS, "%% DEBUG %s:%d '%s' at angle %f\n",__FILE__,__LINE__,s,angle_deg);
+#endif
+				fprintf(_grPS, "%.1f %.1f m ",
+					PT_PER_CM * (xcm - 0.5 * width_cm * cos(angle_deg / DEG_PER_RAD)),
+					PT_PER_CM * (ycm - 0.5 * width_cm * sin(angle_deg / DEG_PER_RAD)));
+				if (fabs(angle_deg) > 0.1)
+					fprintf(_grPS, "%.2f rotate ", angle_deg);
+				gr_drawstring(s);
+			}
+		} else if (_output_file_type == svg) {
+			if (_grWritePS) {
+				gr_drawstring_svg(s, 
+						  xcm - 0.5 * width_cm * cos(angle_deg / DEG_PER_RAD),
+						  ycm - 0.5 * width_cm * sin(angle_deg / DEG_PER_RAD),
+						  angle_deg);
+			}
+		} else {
+			fprintf(stderr, "%s:%d unknown file output type\n",__FILE__,__LINE__);
+		}
+		box.set(-width_cm/2, -descent_cm, width_cm/2, ascent_cm);
+		box.rotate(angle_deg);
+		box.shift_x(xcm);
+		box.shift_y(ycm);
+		break;
+	default:
+		warning("gr_show_at type is UNKNOWN\n");
+	}
+	switch (_output_file_type) {
+	case  postscript:
+		if (_grWritePS) {
+			if (fabs(angle_deg) > 0.1)
+				fprintf(_grPS, "%.2f rotate ", -angle_deg);
+			check_psfile();
+			//fprintf(_grPS, "%% gr_show_at() END\n");
+		}
+		break;
+	case svg:
+		//fprintf(_grSVG, "</text>\n");
+		break;
+	case gif:
+		fprintf(stderr, "INTERNAL error at %s:%d -- nothing known for GIF\n\n", __FILE__, __LINE__);
+		exit(99);
+		break;
+	default:
+		fprintf(stderr, "%s:%d unknown file output type\n",__FILE__,__LINE__);
+		break;		// BUG: should check filetype here
+	}
+	// Update bounding box
+	bounding_box_update(box);
+	_drawingstarted = true;
+}
+
+// gr_drawstring() -- draw string, including font changes &super/subscripts
+static void
+gr_drawstring(const char *s)
+{
+        char slast = '\0';
+	int             slen = strlen(s);
+	bool            inmath = false;
+	gr_fontID       original_font = gr_currentfont();
+	gr_fontID       current_font = original_font;
+	gr_fontID       slant_font = original_font;	// prevent compiler warning
+	double          original_fontsize = gr_currentfontsize_pt();
+	bool            know_slant_font = false;
+#ifdef DEBUG
+	printf("DEBUG %s:%d gr_drawstring(\"%s\")\n",__FILE__,__LINE__,s);
+#endif
+	if (slen <= 0)
+		return;
+	if (0.0 == gr_currentfontsize_pt())
+		return;
+	// Figure out slant font, if there is an appropriate one
+	switch (original_font) {
+	case gr_font_TimesRoman:
+		slant_font = gr_font_TimesItalic;
+		know_slant_font = true;
+		break;
+	case gr_font_TimesBold:
+		slant_font = gr_font_TimesBoldItalic;
+		know_slant_font = true;
+		break;
+	case gr_font_Helvetica:
+		slant_font = gr_font_HelveticaOblique;
+		know_slant_font = true;
+		break;
+	case gr_font_HelveticaBold:
+		slant_font = gr_font_HelveticaBoldOblique;
+		know_slant_font = true;
+		break;
+	case gr_font_Courier:
+		slant_font = gr_font_CourierOblique;
+		know_slant_font = true;
+		break;
+	case gr_font_CourierBold:
+		slant_font = gr_font_CourierBoldOblique;
+		know_slant_font = true;
+		break;
+	case gr_font_PalatinoRoman:
+		slant_font = gr_font_PalatinoItalic;
+		know_slant_font = true;
+		break;
+	case gr_font_PalatinoBold:
+		slant_font = gr_font_PalatinoBoldItalic;
+		know_slant_font = true;
+		break;
+        case gr_font_Century:
+                slant_font = gr_font_TimesItalic; // BUG: should be Century Italic
+		know_slant_font = true;
+		break;
+	default:
+		know_slant_font = false;
+	}
+	// Scan through whole string.
+	START_NEW_TEXT;
+	while (*s != '\0') {
+#ifdef DEBUG
+//		printf("DEBUG(%s:%d) *s= '%c'\n",__FILE__,__LINE__,*s);
+#endif
+		if (*s == '-' && CurrentFont.encoding == font_encoding_isolatin1) {
+			// Use a different character to avoid looking like underscore.
+			if (_grWritePS) {
+				STOP_OLD_TEXT;
+				fprintf(_grPS, "(\\255) sh\n");	// endash
+				check_psfile();
+				START_NEW_TEXT;
+			}
+			s++;
+			continue;
+		}
+		// Figure out whether entering or leaving math mode; enter/leave if
+		// find $ without preceeding \.  Thus a$b$ has math but a\$b\$ does
+		// not.
+		if (*s == '$' && slast != '\\') {
+			if (inmath) {
+#ifdef DEBUG
+				printf("DEBUG(%s:%d) got $ so leave math mode\n",__FILE__,__LINE__);
+				printf("DEBUG(%s:%d) pstack size is %d\n",__FILE__,__LINE__,int(pstack.size()));
+#endif
+					
+				// Were in math; now go back to original font.
+				inmath = false;
+				if (current_font != original_font) {
+					current_font = original_font;
+					STOP_OLD_TEXT;
+					gr_setfont(current_font);
+					START_NEW_TEXT;
+				}
+				if (!pstack.empty()) {
+					warning("a text string ended without completing a mathematical grouping (superscript, subscript, or {block})");
+					pstack_erase();
+				}
+			} else {
+#ifdef DEBUG
+				printf("DEBUG(%s:%d) got $ so enter math mode\n",__FILE__,__LINE__);
+#endif
+				// Go to Italic/Oblique font, as case may be.  Unfortunately,
+				// PostScript uses different names for this slanted font.
+				inmath = true;
+				if (know_slant_font) {
+					current_font = slant_font;
+					STOP_OLD_TEXT;
+					gr_setfont(current_font);
+					START_NEW_TEXT;
+				}
+				if (!pstack.empty()) {
+					warning("a text string started without an empty mathematical grouping (superscript, subscript, or {block})");
+					pstack_erase();
+				}
+			}
+			slast = *s++;
+			continue;
+		}
+		// Handle math mode.  This code is a little kludgy, so be carefull.
+		if (inmath) {
+			if (*s == '^') {
+				// Handle superscripts
+				slast = *s++;
+				if (*s == '\0') {
+					// Odd -- nothing to superscript
+					if (current_font != original_font) {
+						STOP_OLD_TEXT;
+						gr_setfontsize_pt(original_fontsize);
+						gr_setfont(original_font);
+					}
+					return;
+				} else if (*s == '{') {
+					// Several characters to superscript
+					pstack.push(Superscript);
+#ifdef DEBUG
+					printf("DEBUG(%s:%d) pushed superscript=%d onto stack to make length %d\n",__FILE__,__LINE__,Superscript, int(pstack.size()));
+#endif
+					MoveUp();
+				} else if (*s == '\\') {
+					// Math character to superscript
+					int             inc;
+					char *            insert;
+					insert = symbol_in_math(s, &inc);
+					if (inc) {
+						gr_fontID       oldfontID = gr_currentfont();
+						pstack.push(Superscript);
+#ifdef DEBUG
+						printf("DEBUG(%s:%d) pushed subscript=%d onto stack to make length %d\n",__FILE__,__LINE__,Superscript, int(pstack.size()));
+#endif
+						MoveUp();
+						STOP_OLD_TEXT;
+						gr_setfont(gr_font_Symbol);
+						if (_grWritePS) {
+							fprintf(_grPS, "(%s) sh\n", insert);
+							check_psfile();
+						}
+						gr_setfont(oldfontID);
+						START_NEW_TEXT;
+						s += inc;
+#ifdef DEBUG
+						printf("DEBUG(%s:%d) about to pop stack (was %d) to make length %d\n",__FILE__,__LINE__,pstack.top(), int(pstack.size())-1);
+#endif
+						MoveDown();
+						pstack.pop();
+					}
+				} else {
+					// Single character to superscript
+					pstack.push(Superscript);
+#ifdef DEBUG
+					printf("DEBUG(%s:%d) pushed subscript=%d onto stack to make length %d\n",__FILE__,__LINE__,Subscript, int(pstack.size()));
+#endif
+					MoveUp();
+					// Draw single character in math mode.  If it's a digit,
+					// do not do in italics!
+					if (isdigit(*s) || ispunct(*s)) {
+						if (*s == '/' && !isdigit(slast)) {
+							gr_DrawChar(s);
+						} else {
+							STOP_OLD_TEXT;
+							gr_setfont(original_font);
+							START_NEW_TEXT;
+							gr_DrawChar(s);
+							STOP_OLD_TEXT;
+							gr_setfont(slant_font);
+							START_NEW_TEXT;
+						}
+					} else {
+						gr_DrawChar(s);
+					}
+					MoveDown();
+#ifdef DEBUG
+					printf("DEBUG(%s:%d) about to pop stack (was %d) to make length %d\n",__FILE__,__LINE__,pstack.top(), int(pstack.size())-1);
+#endif
+					pstack.pop();
+				}
+			} else if (*s == '_') {
+				// Handle subscript
+				slast = *s++;
+				if (*s == '\0') {
+					// Odd -- nothing to subscript
+					if (current_font != original_font) {
+						STOP_OLD_TEXT;
+						gr_setfontsize_pt(original_fontsize);
+						gr_setfont(original_font);
+					}
+					return;
+				} else if (*s == '{') {
+					// Several characters to subscript
+					pstack.push(Subscript);
+#ifdef DEBUG
+					printf("DEBUG(%s:%d) pushed subscript=%d onto stack to make length %d\n",__FILE__,__LINE__,Subscript, int(pstack.size()));
+#endif
+					MoveDown();
+				} else if (*s == '\\') {
+					// Math character to subscript
+					int             inc;
+					char *            insert;
+					insert = symbol_in_math(s, &inc);
+					if (inc) {
+						gr_fontID       oldfontID = gr_currentfont();
+						pstack.push(Subscript);
+#ifdef DEBUG
+						printf("DEBUG(%s:%d) pushed subscript=%d onto stack to make length %d\n",__FILE__,__LINE__,Subscript, int(pstack.size()));
+#endif
+						MoveDown();
+						STOP_OLD_TEXT;
+						gr_setfont(gr_font_Symbol);
+						if (_grWritePS) {
+							fprintf(_grPS, "(%s) sh\n", insert);
+							check_psfile();
+						}
+						gr_setfont(oldfontID);
+						START_NEW_TEXT;
+						s += inc;
+						MoveUp();
+#ifdef DEBUG
+						printf("DEBUG(%s:%d) about to pop stack (was %d) to make length %d\n",__FILE__,__LINE__,pstack.top(), int(pstack.size())-1);
+#endif
+						pstack.pop();
+					}
+				} else {
+					// Single character to subscript
+					pstack.push(Subscript);
+#ifdef DEBUG
+					printf("DEBUG(%s:%d) pushed subscript=%d onto stack to make length %d\n",__FILE__,__LINE__,Subscript, int(pstack.size()));
+#endif
+					MoveDown();
+					// Draw single character in math mode.  If it's a digit,
+					// do not do in italics!
+					if (isdigit(*s) || ispunct(*s)) {
+						if (*s == '/' && !isdigit(slast)) {
+							gr_DrawChar(s);
+						} else {
+							STOP_OLD_TEXT;
+							gr_setfont(original_font);
+							START_NEW_TEXT;
+							gr_DrawChar(s);
+							STOP_OLD_TEXT;
+							gr_setfont(slant_font);
+							START_NEW_TEXT;
+						}
+					} else {
+						gr_DrawChar(s);
+					}
+					MoveUp();
+#ifdef DEBUG
+					printf("DEBUG(%s:%d) about to pop stack (was %d) to make length %d\n",__FILE__,__LINE__,pstack.top(), int(pstack.size())-1);
+#endif
+					pstack.pop();
+				}
+			} else if (*s == '{') { // just a grouping, not a baseline shift
+				pstack.push(Inline);
+#ifdef DEBUG
+				printf("DEBUG(%s:%d) pushed Inline=%d onto stack to make length %d\n",__FILE__,__LINE__,Inline,int(pstack.size()));
+#endif
+
+			} else if (*s == '}') {	// finished with Superscript/Subscript/Inline
+				if (pstack.size() > 0) {
+					position p = pstack.top();
+					if (p == Superscript) {
+						MoveDown();
+					} else if (p == Subscript) {
+						MoveUp();
+					} // ignore inline
+#ifdef DEBUG
+					printf("DEBUG(%s:%d) about to pop stack (was %d) to make length %d\n",__FILE__,__LINE__,pstack.top(), int(pstack.size())-1);
+#endif
+					pstack.pop();
+				} else {
+					warning("unmatched \"}\" in a mathematicsal string");
+				}
+			} else if (*s == '\\') {
+				// Substitute math symbol, unless it's
+				// an escaped string
+				int inc;
+				char *insert;
+				if (*(s + 1) == '$') {
+					slast = *s++;
+				} else if (*(s + 1) == ',') {
+					slast = *s++;
+					MoveHorizontally(0.1666666);	// thinspace
+				} else if (*(s + 1) == '!') {
+					slast = *s++;
+					MoveHorizontally(-0.1666666);	// neg thinspace
+				} else if (*(s + 1) == '"') {
+					slast = *s++;
+				} else if (*(s + 1) == '\\') {
+					slast = *s++;
+				} else if (*(s + 1) == '{' || *(s + 1) == '}') {
+					STOP_OLD_TEXT;
+					gr_setfont(original_font);
+					START_NEW_TEXT;
+					gr_DrawChar(s + 1);
+					STOP_OLD_TEXT;
+					gr_setfont(slant_font);
+					START_NEW_TEXT;
+					slast = *s++;
+				} else {
+					insert = symbol_in_math(s, &inc);
+					if (inc) {
+						// math symbol in symbol font
+						gr_fontID oldfontID = gr_currentfont();
+						STOP_OLD_TEXT;
+						gr_setfont(gr_font_Symbol);
+						if (_grWritePS) {
+							fprintf(_grPS, "(%s) sh\n", insert);
+							check_psfile();
+						}
+						gr_setfont(oldfontID);
+						START_NEW_TEXT;
+						s += inc;
+					} else {
+						// Not a known math-mode symbol, so just 
+						// draw it.  Is this the right thing to do?
+						gr_DrawChar(s + 1);
+					}
+				}
+			} else {
+				// Draw single character in math mode.
+				// If it's a digit, do not use italics.
+				if (isdigit(*s) || ispunct(*s)) {
+					if (*s == '/' && !isdigit(slast)) {
+						gr_DrawChar(s);
+					} else {
+						STOP_OLD_TEXT;
+						gr_setfont(original_font);
+						START_NEW_TEXT;
+						gr_DrawChar(s);
+						STOP_OLD_TEXT;
+						gr_setfont(slant_font);
+						START_NEW_TEXT;
+					}
+				} else {
+					gr_DrawChar(s);
+				}
+			}
+		} else {
+			// draw simple character outside math mode
+			if (*s == '\\') {
+				if (*(s + 1) == '$') {
+					slast = *s++;
+				} else if (*(s + 1) == '"') {
+					slast = *s++;
+				} else if (*(s + 1) == '\\') {
+					slast = *s++;
+				}
+			}
+			gr_DrawChar(s);
+		}
+		slast = *s++;
+	}
+	STOP_OLD_TEXT;
+	gr_setfontsize_pt(original_fontsize);
+	gr_setfont(original_font);
+	_drawingstarted = true;
+	if (!pstack.empty()) {
+		warning("a text string ended without completing a mathematical grouping (superscript, subscript, or {block})");
+		pstack_erase();
+	}
+	return;
+}
+
+char* gr_fontname_from_id(int id)
+{
+	switch (id) {
+	case gr_font_Courier:            return("Courier");
+	case gr_font_CourierOblique:     return("Courier-Italic");
+	case gr_font_CourierBold:        return("Courier-Bold");
+	case gr_font_CourierBoldOblique: return("Courier-BoldItalic");
+	case gr_font_Helvetica:          return("Helvetica");
+	case gr_font_HelveticaOblique:   return("Helvetica-Italic");
+	case gr_font_HelveticaBold:      return("Helvetica-Bold");
+	case gr_font_PalatinoRoman: 
+	case gr_font_PalatinoItalic:
+	case gr_font_PalatinoBold:
+	case gr_font_PalatinoBoldItalic:
+		warning("SVG cannot handle Palatino font yet");
+		return("Times");
+	case gr_font_Symbol:               return("Symbol");
+	case gr_font_TimesRoman:           return("Times");
+	case gr_font_TimesItalic:          return("Times-Italic");
+	case gr_font_TimesBold:            return("Times-Bold");
+	case gr_font_TimesBoldItalic:      return("Times-BoldItalic");
+	case gr_font_Century:     	   return("Century");
+	}
+	warning("SVG defaulting to Times font");
+	return("Times");
+}
+
+static void gr_drawchar_svg(char c, double *xcm, double *ycm, gr_fontID font_id)
+{
+	char st[2];
+	double size = gr_currentfontsize_pt();
+	char *font_style;
+	if (pstack.size() > 0)
+		size *= SuperSize;
+	if (isdigit(c) || font_id == gr_font_Symbol)
+		font_style = "normal";
+	else
+		font_style = "italic";
+	const char *fill = _griState.color_text().get_hexcolor().c_str();
+	double transparency = _griState.color_text().getT();
+	fprintf(_grSVG, "<g><text x=\"%.1f\" y=\"%.1f\" font-family=\"%s\" font-size=\"%.1f\" font-style=\"%s\" fill=\"%s\" opacity=\"%.2f\" style=\"fill:%s\">%c</text></g>\n",
+		(*xcm) * PT_PER_CM, 
+		/*gr_page_height_pt() -*/ -(*ycm) * PT_PER_CM,
+		gr_fontname_from_id(font_id), size, font_style,
+		fill,
+		1.0 - transparency,
+		fill,
+		c);
+	gr_setfont(font_id);
+	st[0] = c; 
+	st[1] = '\0';
+	double w, a, d;
+	double oldfontsize = gr_currentfontsize_pt();
+	gr_setfontsize_pt(size);
+	gr_stringwidth(st, &w, &a, &d); // BUG: NEED TO SET FONT FIRST
+	gr_setfontsize_pt(oldfontsize);
+#ifdef DEBUG
+	printf("'%s' has width %f cm\n", st, w);
+#endif
+	*xcm += w;
+}
+static void
+gr_drawstring_svg(const char *s, double xcm, double ycm, double angle)
+{
+#ifdef DEBUG
+	printf("DEBUG %s:%d gr_drawstring_svg(s=\"%s\", xcm=%f, ycm=%f, angle=%f)\n", __FILE__,__LINE__, s, xcm, ycm, angle);
+#endif
+	int             slen = strlen(s);
+	gr_fontID       original_font = gr_currentfont();
+	gr_fontID       slant_font = original_font;	// prevent compiler warning
+	double          original_fontsize = gr_currentfontsize_pt();
+	bool            know_slant_font = false;
+	if (slen <= 0)
+		return;
+	if (0.0 == gr_currentfontsize_pt())
+		return;
+	// Figure out slant font, if there is an appropriate one
+	switch (original_font) {
+	case gr_font_TimesRoman:
+		slant_font = gr_font_TimesItalic;
+		know_slant_font = true;
+		break;
+	case gr_font_TimesBold:
+		slant_font = gr_font_TimesBoldItalic;
+		know_slant_font = true;
+		break;
+	case gr_font_Helvetica:
+		slant_font = gr_font_HelveticaOblique;
+		know_slant_font = true;
+		break;
+	case gr_font_HelveticaBold:
+		slant_font = gr_font_HelveticaBoldOblique;
+		know_slant_font = true;
+		break;
+	case gr_font_Courier:
+		slant_font = gr_font_CourierOblique;
+		know_slant_font = true;
+		break;
+	case gr_font_CourierBold:
+		slant_font = gr_font_CourierBoldOblique;
+		know_slant_font = true;
+		break;
+	case gr_font_PalatinoRoman:
+		slant_font = gr_font_PalatinoItalic;
+		know_slant_font = true;
+		break;
+	case gr_font_PalatinoBold:
+		slant_font = gr_font_PalatinoBoldItalic;
+		know_slant_font = true;
+		break;
+        case gr_font_Century:
+                slant_font = gr_font_TimesItalic; // BUG: should be Century Italic
+		know_slant_font = true;
+		break;
+	default:
+		know_slant_font = false;
+	}
+	std::vector<std::string> parts;
+	parts = part_string(s);
+	int nparts = parts.size();
+	double xxcm = xcm, yycm = ycm;
+	fprintf(_grSVG, "<g transform=\"translate(%.2f,%.2f)\">\n", xxcm*PT_PER_CM,
+		gr_page_height_pt() - yycm*PT_PER_CM);
+	xxcm = yycm = 0.0;
+	fprintf(_grSVG, "<g transform=\"rotate(%.1f)\">\n", -angle);
+	angle = 0.0;		// BUG: not sure if this is the best method
+	//printf("DEBUG (%s)\n", _griState.color_text().get_hexcolor().c_str());
+	for (int i = 0; i < nparts; i++) {
+		double w, a, d;
+		std::string p = parts[i];
+		gr_stringwidth(p.c_str(), &w, &a, &d);
+		//printf("    \"%s\" w=%f a=%f d=%f\n", parts[i].c_str(),w,a,d);
+		if (p[0] != '$') {
+			// Normal text
+			fprintf(_grSVG, "<g><text x=\"%.1f\" y=\"%.1f\" font-family=\"%s\" font-size=\"%.1f\" font-style=\"normal\" fill=\"%s\" opacity=\"%.2f\" style=\"fill:%s\">%s</text></g>\n",
+				xxcm * PT_PER_CM,
+				/*gr_page_height_pt() -*/ -yycm * PT_PER_CM,
+				gr_fontname_from_id(original_font),
+				original_fontsize,
+				_griState.color_text().get_hexcolor().c_str(),
+				1.0 - _griState.color_text().getT(),
+				_griState.color_text().get_hexcolor().c_str(),
+				p.c_str());
+			xxcm += w;
+			//FIXME: should s/\$/$/ first
+		} else {
+			// Math text
+			unsigned int ic, nc = p.size();
+//			w = gr_thinspace_cm() / 1.0; // put a bit of space before math
+//			xxcm += w;
+			if (p[nc-1] == '$') nc--;
+			fprintf(_grSVG, "<g>\n");
+			for (ic = 1; ic < nc; ic++) {
+#ifdef DEBUG
+				printf(" -- %d [%c] --\n", ic, p[ic]);
+#endif
+				if (p[ic] == '\\') { // HEREHEREHERE
+					if (p[ic+1] == '\\') {
+						gr_drawchar_svg('\\', &xxcm, &yycm, original_font);
+						ic += 1;
+						continue;
+					}
+					char *insert;
+					int inc;
+					insert = symbol_in_math(p.c_str() + ic, &inc);
+					int symbol_letter = index_for_math_symbol(insert);
+					if (inc) {
+						gr_drawchar_svg(symbol_letter, &xxcm, &yycm, gr_font_Symbol);
+						ic += inc;
+					} else {
+						gr_drawchar_svg('?', &xxcm, &yycm, gr_font_Symbol);
+					}
+				} else if (p[ic] == '{') {
+					// ignore
+					pstack.push(Inline);
+					ic++;
+					continue;
+				} else if (p[ic] == '}') {
+					if (pstack.size() > 0) {
+						position p = pstack.top();
+						if (p == Superscript) {
+							MoveDn_svg(&xxcm, &yycm);
+						} else if (p == Subscript) {
+							MoveUp_svg(&xxcm, &yycm);
+						}
+#ifdef DEBUG
+						printf("DEBUG(%s:%d) about to pop stack (was %d) to make length %d\n",__FILE__,__LINE__,pstack.top(), int(pstack.size())-1);
+#endif
+						pstack.pop();
+					} else {
+						warning("unmatched \"}\" in a mathematical string");
+					}
+				} else if (p[ic] == '_') {
+					pstack.push(Subscript);
+					MoveDn_svg(&xxcm, &yycm);
+					if (p[ic+1] != '{') { // BUG: should check for symbol
+						gr_drawchar_svg(p[ic+1], &xxcm, &yycm, original_font);
+						MoveUp_svg(&xxcm, &yycm);
+						pstack.pop();
+					}
+					ic++;
+					continue;
+				} else if (p[ic] == '^') {
+					pstack.push(Superscript);
+					MoveUp_svg(&xxcm, &yycm);
+					if (p[ic+1] != '{') { // BUG: should check for symbol
+						gr_drawchar_svg(p[ic+1], &xxcm, &yycm, original_font);
+						MoveDn_svg(&xxcm, &yycm);
+						pstack.pop();
+					}
+					ic++;
+					continue;
+				} else {
+					gr_drawchar_svg(p[ic], &xxcm, &yycm, original_font);
+				}
+			}
+			fprintf(_grSVG, "</g>\n");
+		}
+	}
+	fprintf(_grSVG, "</g>\n"); // rotate
+	fprintf(_grSVG, "</g>\n"); // translate
+	return;
+}
+
+
+// set fontsize in points
+void
+gr_setfontsize_pt(double fontsize_pt)
+{
+	if (fontsize_pt < 0.0)
+		CurrentFont.size_pt = default_fontsize_pt;
+	else
+		CurrentFont.size_pt = fontsize_pt;
+	gr_setfont_fontsize(CurrentFont.id);
+}
+
+// Set font encoding
+void
+gr_set_font_encoding(gr_font_encoding encoding)
+{
+	CurrentFont.encoding = encoding;
+}
+// Get font encoding
+gr_font_encoding
+gr_current_font_encoding()
+{
+	return CurrentFont.encoding;
+}
+
+/*
+ * gr_currentfont() -- find current font synopsis int gr_currentfont()
+ * description:  gets the current font,as set by gr_setfont(). return value:
+ * current font number.
+ */
+gr_fontID
+gr_currentfont()
+{
+	return CurrentFont.id;
+}
+
+/*
+ * gr_currentfontsize_pt() -- return current fontsize in points
+ */
+double
+gr_currentfontsize_pt()
+{
+	return CurrentFont.size_pt;
+}
+
+/*
+ * gr_setfont() --  set new font. SYNOPSIS void	gr_setfont(int new_font)
+ * DESCRIPTION:  Sets the font for future string drawing to 'new_font'. These
+ * fonts are predefined: TimesRoman Helvetica Courier Symbol Palatino-Roman
+ * Palatino-Italic.
+ * 
+ */
+void
+gr_setfont(gr_fontID newID, bool force /* default false */)
+{
+	gr_setfont_fontsize(newID, force);
+}
+
+static void
+gr_setfont_fontsize(gr_fontID newID, bool force)
+{
+	int             i = 0;
+	static bool     have_set_font = false;
+	static gr_font  last_font;
+	/* Search the font list */
+	while (font_list[i].id != gr_font_end_of_list) {
+		if (newID == font_list[i].id) {
+			/* Found the font, but ignore request if no change */
+			if (force
+			    || (!have_set_font
+				|| newID != last_font.id
+				|| CurrentFont.encoding != last_font.encoding
+				|| CurrentFont.size_pt != last_font.size_pt)) {
+				CurrentFont.id = newID;
+				if (!_grNeedBegin) {
+					/*
+					 * Don't try to write if haven't done gr_begin() yet,
+					 * since then will ruin things like
+					 * gr_setup_ps_filename();
+					 */
+					if (_grWritePS) {
+						switch (CurrentFont.encoding) {
+						case font_encoding_standard:
+							fprintf(_grPS, "/%s findfont ", font_list[i].name);
+							break;
+						case font_encoding_isolatin1:
+							if (CurrentFont.id == gr_font_Symbol) 
+								fprintf(_grPS, "/%s findfont ", font_list[i].name);
+							else
+								fprintf(_grPS, "/%s-ISOLatin1 findfont ", font_list[i].name);
+							break;
+						}
+						fprintf(_grPS, "%.2f sc sf\n", CurrentFont.size_pt);
+					}
+					have_set_font = true;
+					last_font.id = newID;
+					last_font.encoding = CurrentFont.encoding;
+					last_font.size_pt = CurrentFont.size_pt;
+				}
+			}
+			return;
+		}
+		i++;
+	}
+	warning("Ignoring request for unknown font.");
+}
+
+//here
+
+static char *symbol_in_math(const char *sPtr, int *inc)
 {
 	/* handle greek letter or symbol in math mode */
 	sPtr++;
@@ -1056,6 +1306,51 @@ MoveHorizontally(double em_distance)
 }
 
 // MoveUp() -- move up, shifting to smaller/larger size if necessary
+static void MoveUp_svg(double *xcm, double *ycm)
+{
+#ifdef DEBUG
+	printf("DEBUG(%s:%d) moving text position up one level.  Stack size on entry = %d\n", __FILE__,__LINE__,(int)pstack.size());
+#endif
+	if (!pstack.size())
+		return;
+	double dy;
+	// See if already in subscript.
+	position p = pstack.top();
+	if (p == Subscript) {
+		// Moving up from subscript, so enlarge font, then undo last move
+		// down.
+		gr_setfontsize_pt(gr_currentfontsize_pt() / SubSize);
+		dy = SubMoveDown * gr_currentCapHeight_cm();
+	} else {
+		// Moving up from inline or superscript, so move up, then reduce font.
+		dy = SuperMoveUp * gr_currentCapHeight_cm();
+		gr_setfontsize_pt(gr_currentfontsize_pt() * SuperSize);
+	} // ignore Inline
+	*ycm += dy;
+}
+// MoveDown() -- move down, shifting to smaller/larger size if necessary
+static void MoveDn_svg(double *xcm, double *ycm)
+{
+#ifdef DEBUG
+	printf("DEBUG(%s:%d) moving text position down one level\n", __FILE__,__LINE__);
+#endif
+	if (!pstack.size())
+		return;
+	double dy;
+	position p = pstack.top();
+	// See if already in superscript.
+	if (p == Superscript) {
+		// Moving down from superscript, so enlarge font, then undo last move up.
+		gr_setfontsize_pt(gr_currentfontsize_pt() / SuperSize);
+		dy = -SuperMoveUp * gr_currentCapHeight_cm();
+	} else {
+		// Moving down from inline or subscript, so move down, then reduce font.
+		dy = -SubMoveDown * gr_currentCapHeight_cm();
+		gr_setfontsize_pt(gr_currentfontsize_pt() * SubSize);
+	}
+	*ycm += dy;
+}
+
 static void
 MoveUp()
 {
@@ -1222,6 +1517,9 @@ gr_stringwidth(const char *s, double *w, double *a, double *d)
 	while (*s != '\0') {
 		// figure out whether entering or leaving math mode
 		if (*s == '$' && *(s - 1) != '\\') {
+#ifdef DEBUG
+			printf("DEBUG %s:%d toggling inmath; rest of string is \"%s\"\n",__FILE__,__LINE__,s);
+#endif
 			inmath = (inmath ? false : true);
 			s++;
 			continue;
@@ -1264,7 +1562,7 @@ gr_stringwidth(const char *s, double *w, double *a, double *d)
 					}
 				}
 			} else {
-				// We are in mathmode, but it's not a special character. Add
+				// We are in math-mode, but it's not a special character. Add
 				// appropriate amount for either super/subscript or normal
 				// character.
 				*w += gr_charwidth_cm((int) *s, CurrentFont.id, CurrentFont.size_pt);
@@ -1283,6 +1581,9 @@ gr_stringwidth(const char *s, double *w, double *a, double *d)
 #endif
 	*d = gr_current_descender() * (1 + (used_subs ? 1.0 : 0.0) *
 				       (SubSize + SubMoveDown - 1));
+#ifdef DEBUG
+	printf("DEBUG %s:%d gr_stringwidth(s=\"%s\",...) RETURNING w=%f, a=%f d=%f\n", __FILE__,__LINE__,s,*w,*a,*d);
+#endif
 	// reset fontsize ... can't do with gr_setfontsize_pt() 
 	// because that would call this function in infinite recursion.
 	CurrentFont.size_pt = oldfontsize_pt;
@@ -1291,13 +1592,20 @@ gr_stringwidth(const char *s, double *w, double *a, double *d)
 
 // return index (for size-table) for a character (given as integer)
 static int
-index_for_math_symbol(char *s)
+index_for_math_symbol(const char *s)
 {
-	for (int i = 0; i < NCODES; i++)
-		if (!strncmp(s, symbol_code[i][1], strlen(symbol_code[i][1])))
+	//printf("index_for_math_symbol(%s)\n",s);
+	if (!s) return (int)'?';
+	for (int i = 0; i < NCODES; i++) {
+		//printf("  %3d (%s) (%s)\n", i, symbol_code[i][1],symbol_code[i][2]);
+		if (!strncmp(s, symbol_code[i][1], strlen(symbol_code[i][1]))) {
+			//printf(" match\n");
 			return (int) *symbol_code[i][2];
-	// return index(M) as a guess (since later using for width)
-	return (int) 'M';
+		}
+		//printf("  no match\n");
+	}
+	//printf("index_for_math_symbol(%s) cannot find a match\n", s);
+	return (int) 'M';	// a guess, since we have no clue
 }
 
 // Return thinspace (=1/6 of width of "M" in current font), in cm

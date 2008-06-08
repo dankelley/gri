@@ -37,13 +37,14 @@ public:
 	double getM() const {return b;}
 	double getY() const {return c;}
 	double getK() const {return d;}
+	std::string get_hexcolor() const;
 protected:
 	type t;
 	double transparency;	// transparency
 	double a;		// red, hue, or cyan
 	double b;		// green, saturation, or magenta
 	double c;		// blue, brightness, or yellow
-	double d;       // k=blackness
+	double d;		// k=blackness
 };
 class GriNamedColor : public GriColor
 {
