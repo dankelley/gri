@@ -1862,6 +1862,8 @@ Note the extra word `box', and the new meaning of the last 2 parameters.");
 bool
 draw_image_paletteCmd()
 {
+	if (_output_file_type == svg)
+		err("Sorry, SVG output does not handle images yet.");
 	const double height = 1.0;	// height of box (cm)
 	const double space = 2.0;	// space of box above top of plot
 	const int LEN = 512;	// length of tmp image
@@ -2064,6 +2066,8 @@ draw_image_paletteCmd()
 bool
 draw_imageCmd()
 {
+	if (_output_file_type == svg)
+		err("Sorry, SVG output does not handle images yet.");
 	double          llx_cm, lly_cm, urx_cm, ury_cm;
 	if (!image_scales_defined()) {
 		demonstrate_command_usage();
