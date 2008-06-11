@@ -272,6 +272,7 @@ gr_drawimage_svg(unsigned char *im,
 			check_psfile();
 		} else {
 			double x, y, dx, dy, page_height_pt = gr_page_height_pt();
+			char hex[8]; // #000000 for example
 			dx = (xr - xl) / imax;
 			dy = (yt - yb) / jmax;
                         for (j = jhigh - 1; j >= jlow; j--) {
@@ -281,11 +282,12 @@ gr_drawimage_svg(unsigned char *im,
 					x = xl + i * dx;
 					value = *(im + i * jmax + j);
 					if (have_mask == true && *(mask + i * jmax + j) == 2) {
-						fprintf(_grSVG, "<rect x=\"%.2f\" y=\"%.2f\" width=\"%.2f\" height=\"%.2f\" style=\"fill:#%02X%02X%02X;stroke-width:0;fill-opacity:1\"/>\n", 
-							x, y, dx, dy, cmask_r, cmask_g, cmask_b);
+						sprintf(hex, "#%02X%02X%02X", cmask_r, cmask_g, cmask_b);
+						fprintf(_grSVG, "<rect x=\"%.2f\" y=\"%.2f\" width=\"%.2f\" height=\"%.2f\" style=\"fill:%s;stroke:%s;stroke-width:0.2;fill-opacity:1\"/>\n", x, y, dx, dy, hex, hex); // FIXME: transparency
 					} else {
-						fprintf(_grSVG, "<rect x=\"%.2f\" y=\"%.2f\" width=\"%.2f\" height=\"%.2f\" style=\"fill:#%02X%02X%02X;stroke-width:0;fill-opacity:1\"/>\n",
-							x, y, dx, dy, imTransform[value], imTransform[value + 256], imTransform[value + 512]);
+						sprintf(hex, "#%02X%02X%02X", 
+							imTransform[value], imTransform[value + 256], imTransform[value + 512]);
+						fprintf(_grSVG, "<rect x=\"%.2f\" y=\"%.2f\" width=\"%.2f\" height=\"%.2f\" style=\"fill:%s;stroke:%s;stroke-width:0.2;fill-opacity:1\"/>\n", x, y, dx, dy, hex, hex); // FIXME: transparency
 					}
 				}
 				fprintf(_grSVG, "</g>\n");
