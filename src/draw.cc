@@ -2066,8 +2066,6 @@ draw_image_paletteCmd()
 bool
 draw_imageCmd()
 {
-	if (_output_file_type == svg)
-		err("Sorry, SVG output does not handle images yet.");
 	double          llx_cm, lly_cm, urx_cm, ury_cm;
 	if (!image_scales_defined()) {
 		demonstrate_command_usage();
@@ -2075,13 +2073,8 @@ draw_imageCmd()
 		return false;
 	}
 	if (!scales_defined()) {
-#if 0				// Fix SF bug #129856 (I hope!)
-		no_scales_error();
-		return false;
-#else
 		create_x_scale();
 		create_y_scale();
-#endif
 	}
 	if (!_image.storage_exists) {
 		demonstrate_command_usage();
@@ -2107,17 +2100,39 @@ draw_imageCmd()
 		mask_g = _image_missing_color_green;
 		mask_b = _image_missing_color_blue;
 		//printf("%s:%d image mask at %x\n",__FILE__,__LINE__,(unsigned int)( _imageMask.image));
-		gr_drawimage(_image.image, _imageTransform, _image_color_model,
-			     _imageMask.image, mask_r, mask_g, mask_b,
-			     _image.ras_width, _image.ras_height,
-			     llx_cm, lly_cm, urx_cm, ury_cm,
-			     true);
+		if (_output_file_type == svg)
+			gr_drawimage_svg(_image.image,
+					 _imageTransform, 
+					 _image_color_model,
+					 _imageMask.image, mask_r, mask_g, mask_b,
+					 _image.ras_width, _image.ras_height,
+					 llx_cm, lly_cm, urx_cm, ury_cm,
+					 true);
+		else 
+			gr_drawimage(_image.image, 
+				     _imageTransform, 
+				     _image_color_model,
+				     _imageMask.image, mask_r, mask_g, mask_b,
+				     _image.ras_width, _image.ras_height,
+				     llx_cm, lly_cm, urx_cm, ury_cm,
+				     true);
 	} else {
-		gr_drawimage(_image.image, _imageTransform, _image_color_model,
-			     NULL, 0.0, 0.0, 0.0,
-			     _image.ras_width, _image.ras_height,
-			     llx_cm, lly_cm, urx_cm, ury_cm,
-			     true);
+		if (_output_file_type == svg)
+			gr_drawimage_svg(_image.image,
+					 _imageTransform, 
+					 _image_color_model,
+					 NULL, 0.0, 0.0, 0.0,
+					 _image.ras_width, _image.ras_height,
+					 llx_cm, lly_cm, urx_cm, ury_cm,
+					 true);
+		else 
+			gr_drawimage(_image.image,
+				     _imageTransform, 
+				     _image_color_model,
+				     NULL, 0.0, 0.0, 0.0,
+				     _image.ras_width, _image.ras_height,
+				     llx_cm, lly_cm, urx_cm, ury_cm,
+				     true);
 	}
 	_drawingstarted = true;
 	draw_axes_if_needed();

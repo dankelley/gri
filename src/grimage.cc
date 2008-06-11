@@ -96,6 +96,207 @@ gr_drawBWmaskedimage_pt(unsigned char missing,
 
 /*
  * Draw image, possibly color, in rectangle given in cm coords.
+
+TEMPORARY NOTE ON RELEVANT SVG SYNTAX -- 
+
+<g>
+<rect x="10" y="10" width="10" height="10" style="fill:#00aa00;stroke-width:0:fill-opacity:0.5"/>
+<rect x="20" y="10" width="10" height="10" style="fill:#aaaa00;stroke-width:0;fill-opacity:1.0"/>
+<rect x="30" y="10" width="10" height="10" style="fill:#aaaa00;stroke-width:0;fill-opacity:0.5"/>
+</g>
+
+ */
+void
+gr_drawimage_svg(unsigned char *im,
+		 unsigned char *imTransform,
+		 gr_color_model color_model,
+		 unsigned char *mask,
+		 double mask_r,
+		 double mask_g,
+		 double mask_b,
+		 int imax,		// image size
+		 int jmax,		// image size
+		 double xl,		// image lower-left-x, in cm
+		 double yb,		// image lower-left-y, in cm
+		 double xr,		// image upper-right-x, in cm
+		 double yt,		// image upper-right-y, in cm
+		 bool insert_placer)
+{
+	extern FILE *_grSVG;
+	unsigned char   cmask_r, cmask_g, cmask_b;
+	bool            have_mask;
+	unsigned char   value, mask_value = 0; // assign to calm compiler
+	register int    i, j;
+	if (!_grWritePS)
+		return;
+	/* Figure out about mask */
+	have_mask = (mask == NULL) ? false : true;
+	// Convert cm to pt
+	xl *= PT_PER_CM;
+	xr *= PT_PER_CM;
+	yb *= PT_PER_CM;
+	yt *= PT_PER_CM;
+	double xl_c = xl, xr_c = xr, yb_c = yb, yt_c = yt;
+	int ilow = 0, ihigh = imax, jlow = 0, jhigh = jmax;
+	if (_clipping_postscript && _clipping_is_postscript_rect) {
+		ilow =  int(floor(0.5 + (_clip_ps_xleft   - xl)*imax/((xr-xl))));
+		ihigh = int(floor(0.5 + (_clip_ps_xright  - xl)*imax/((xr-xl)))); // BUG: this can exceed available memory!
+		jlow =  int(floor(0.5 + (_clip_ps_ybottom - yb)*jmax/((yt-yb))));
+		jhigh = int(floor(0.5 + (_clip_ps_ytop    - yb)*jmax/((yt-yb))));
+		ilow = LARGER_ONE(ilow, 0);
+		ihigh = SMALLER_ONE(ihigh, imax);
+		jlow = LARGER_ONE(jlow, 0);
+		jhigh = SMALLER_ONE(jhigh, jmax);
+		
+		/*DEK*/
+		if (ihigh < ilow) {
+			int tmp = ihigh;
+			ihigh = ilow;
+			ilow = tmp;
+		}
+		if (jhigh < jlow) {
+			int tmp = jhigh;
+			jhigh = jlow;
+			jlow = tmp;
+		}
+		/*DEK*/
+
+		if (ilow > 0)     xl_c = xl + ilow * (xr - xl) / imax;
+		if (ihigh < imax) xr_c = xl + ihigh * (xr - xl) / imax;
+		if (jlow > 0)     yb_c = yb + jlow * (yt - yb) / jmax;
+		if (jhigh < jmax) yt_c = yb + jhigh * (yt - yb) / jmax;
+	}
+	rectangle box(xl_c/PT_PER_CM, yb_c/PT_PER_CM, xr_c/PT_PER_CM, yt_c/PT_PER_CM); // CHECK: is it only updating if it's within clip region?
+	bounding_box_update(box);
+
+	// Make image overhang the region.  This change, vsn 2.005, *finally*
+	// solves a confusion I've had for a long time about how to do
+	// images.
+	if (imax > 1) {
+		double dx = (xr_c - xl_c) / ((ihigh-ilow) - 1); // pixel width
+		xl_c -= dx / 2.0;
+		xr_c += dx / 2.0;
+	}
+	if (jmax > 1) {
+		double dy = (yt_c - yb_c) / ((jhigh-jlow) - 1); // pixel height
+		yb_c -= dy / 2.0;
+		yt_c += dy / 2.0;
+	}
+	/*
+	 * Handle BW and color differently, since PostScript handles differently.
+	 */
+	switch (color_model) {
+	default:			/* ? taken as BW */
+	case bw_model:
+		fprintf(_grSVG, "<g> <!-- BW image -->\n");
+#if 0
+		check_psfile();
+		/*
+		 * Write map to PostScript, creating a linear one if none exists
+		 */
+		fprintf(_grPS, "%% Push map onto stack, then image stuff.\n");
+		fprintf(_grPS, "[\n");
+		if (imTransform == NULL) {
+			for (i = 0; i < 256; i++) {
+				fprintf(_grPS, "%.4f ", i / 255.0);
+				if (!((i + 1) % 10))
+					fprintf(_grPS, "\n");
+			}
+		} else {
+			for (i = 0; i < 256; i++) {
+				fprintf(_grPS, "%.4f ", imTransform[i] / 255.0);
+				if (!((i + 1) % 10))
+					fprintf(_grPS, "\n");
+			}
+		}
+		fprintf(_grPS, "\n]\n");
+		if (insert_placer)
+			fprintf(_grPS, "%%BEGIN_IMAGE\n");	/* for grepping in ps file */
+		/*
+		 * Now write image.
+		 */
+		fprintf(_grPS, "%f %f %f %f %d %d im\n", xl_c, yb_c, xr_c, yt_c, (jhigh-jlow), (ihigh-ilow)); // BUG or +1?
+		if (have_mask == true) {
+			int             diff, min_diff = 256;
+			unsigned char   index = 0; // assign to calm compiler ????
+			mask_value = (unsigned char)(255.0 * mask_r);
+			/*
+			 * If there is a mapping, must (arduously) look up which image
+			 * value corresponds to this color.
+			 */
+			if (imTransform != NULL) {
+				for (i = 0; i < 256; i++) {
+					diff = (int) fabs(double(imTransform[i] - mask_value));
+					if (diff < min_diff) {
+						min_diff = diff;
+						index = i;
+					}
+				}
+				mask_value = index;
+			}
+		}
+#endif
+		for (j = jhigh - 1; j >= jlow; j--) {
+			for (i = ilow; i < ihigh; i++) {
+				value = *(im + i * jmax + j);
+				if (have_mask == true && *(mask + i * jmax + j) == 2) {
+					fprintf(_grSVG, "<rect %02x/>\n", mask_value);
+				} else {
+					fprintf(_grSVG, "<rect %02X/>\n", value);
+				}
+			}
+		}
+		fprintf(_grSVG, "</g> <!-- end of BW image -->\n");
+		break;
+	case rgb_model:
+		fprintf(_grSVG, "<g> <!-- RGB image -->\n");
+		/*DEK*/
+//		printf("DEBUG: ilow, ihigh = %d %d      jlow, jhigh = %d %d\n",ilow,ihigh,jlow,jhigh);
+
+		check_psfile();
+		cmask_r = (unsigned char)pin0_255(mask_r * 255.0);
+		cmask_g = (unsigned char)pin0_255(mask_g * 255.0);
+		cmask_b = (unsigned char)pin0_255(mask_b * 255.0);
+		if (imTransform == NULL) {
+			err("cannot handle SVG images that lack an image-transform.");
+                        for (j = jhigh - 1; j >= jlow; j--) {
+				for (i = ilow; i < ihigh; i++) {
+					value = *(im + i * jmax + j);
+					if (have_mask == true && *(mask + i * jmax + j) == 2) {
+						fprintf(_grSVG, "<rect %02X%02X%02X/>\n", cmask_r, cmask_g, cmask_b);
+					} else {
+						fprintf(_grSVG, "<rect %02X%02X%02X/>\n", value, value, value);
+					}
+				}
+			}
+			check_psfile();
+		} else {
+			double x, y, dx, dy, page_height_pt = gr_page_height_pt();
+			dx = (xr - xl) / imax;
+			dy = (yt - yb) / jmax;
+                        for (j = jhigh - 1; j >= jlow; j--) {
+				y = page_height_pt - (yb + (jhigh - j) * dy); // offset for page_height_pt ??
+				fprintf(_grSVG, "<g> <!-- j=%d -->\n", j);
+				for (i = ilow; i < ihigh; i++) {
+					x = xl + i * dx;
+					value = *(im + i * jmax + j);
+					if (have_mask == true && *(mask + i * jmax + j) == 2) {
+						fprintf(_grSVG, "<rect x=\"%.2f\" y=\"%.2f\" width=\"%.2f\" height=\"%.2f\" style=\"fill:#%02X%02X%02X;stroke-width:0;fill-opacity:1\"/>\n", 
+							x, y, dx, dy, cmask_r, cmask_g, cmask_b);
+					} else {
+						fprintf(_grSVG, "<rect x=\"%.2f\" y=\"%.2f\" width=\"%.2f\" height=\"%.2f\" style=\"fill:#%02X%02X%02X;stroke-width:0;fill-opacity:1\"/>\n",
+							x, y, dx, dy, imTransform[value], imTransform[value + 256], imTransform[value + 512]);
+					}
+				}
+				fprintf(_grSVG, "</g>\n");
+			}
+		}
+		fprintf(_grSVG, "</g> <!-- end of RGB image -->\n");
+	}				/* switch(color_model) */
+}
+
+/*
+ * Draw image, possibly color, in rectangle given in cm coords.
  */
 void
 gr_drawimage(unsigned char *im,
