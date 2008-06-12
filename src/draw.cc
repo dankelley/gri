@@ -50,29 +50,33 @@ bool            set_x_scale(void);
 void
 set_line_width_symbol()
 {
-	double          linewidthsymbol = LINEWIDTHSYMBOL_DEFAULT;
+	double linewidthsymbol = LINEWIDTHSYMBOL_DEFAULT;
 	if (!get_var("..linewidthsymbol..", &linewidthsymbol))
 		warning("Sorry ..linewidthsymbol.. undefined so using default");
 	_griState.set_linewidth_symbol(linewidthsymbol);
-	extern FILE *_grPS;
-	fprintf(_grPS, "%.3f w\n", _griState.linewidth_symbol());
+	if (_output_file_type == postscript) {
+		extern FILE *_grPS;
+		fprintf(_grPS, "%.3f w\n", _griState.linewidth_symbol());
+	}
 }
 
 void
 set_line_width_curve()
 {
-	double          linewidth = LINEWIDTH_DEFAULT;
+	double linewidth = LINEWIDTH_DEFAULT;
 	if (!get_var("..linewidth..", &linewidth))
 		warning("Sorry ..linewidth.. undefined so using default");
 	_griState.set_linewidth_line(linewidth);
-	extern FILE *_grPS;
-	fprintf(_grPS, "%.3f w\n", _griState.linewidth_line());
+	if (_output_file_type == postscript) {
+		extern FILE *_grPS;
+		fprintf(_grPS, "%.3f w\n", _griState.linewidth_line());
+	}
 }
 
 void
 set_line_width_axis()
 {
-	double          linewidthaxis = LINEWIDTHAXIS_DEFAULT;
+	double linewidthaxis = LINEWIDTHAXIS_DEFAULT;
 	if (!get_var("..linewidthaxis..", &linewidthaxis))
 		warning("Sorry ..linewidthaxis.. undefined so using default");
 	_griState.set_linewidth_axis(linewidthaxis);
@@ -1863,7 +1867,8 @@ bool
 draw_image_paletteCmd()
 {
 	if (_output_file_type == svg)
-		err("Sorry, SVG output does not handle images yet.");
+		warning("svg mode may not handle image palettes properly yet");
+	extern FILE    *_grPS;
 	const double height = 1.0;	// height of box (cm)
 	const double space = 2.0;	// space of box above top of plot
 	const int LEN = 512;	// length of tmp image
@@ -2003,14 +2008,15 @@ draw_image_paletteCmd()
 		gr_usertocm(1.0, right, &right_cm, &top_cm);
 	}
 	// Clip to this, because image overhangs
-	extern FILE    *_grPS;
-	fprintf(_grPS, "q n %% turn clipping on for image palette\n");
-	fprintf(_grPS, "%f %f moveto\n", left_cm * PT_PER_CM, bottom_cm * PT_PER_CM);
-	fprintf(_grPS, "%f %f lineto\n", right_cm * PT_PER_CM, bottom_cm * PT_PER_CM);
-	fprintf(_grPS, "%f %f lineto\n", right_cm * PT_PER_CM, top_cm * PT_PER_CM);
-	fprintf(_grPS, "%f %f lineto\n", left_cm * PT_PER_CM, top_cm * PT_PER_CM);
-	fprintf(_grPS, "%f %f lineto\n", left_cm * PT_PER_CM, bottom_cm * PT_PER_CM);
-	fprintf(_grPS, "closepath W\n");
+	if (_output_file_type == postscript) {
+		fprintf(_grPS, "q n %% turn clipping on for image palette\n");
+		fprintf(_grPS, "%f %f moveto\n", left_cm * PT_PER_CM, bottom_cm * PT_PER_CM);
+		fprintf(_grPS, "%f %f lineto\n", right_cm * PT_PER_CM, bottom_cm * PT_PER_CM);
+		fprintf(_grPS, "%f %f lineto\n", right_cm * PT_PER_CM, top_cm * PT_PER_CM);
+		fprintf(_grPS, "%f %f lineto\n", left_cm * PT_PER_CM, top_cm * PT_PER_CM);
+		fprintf(_grPS, "%f %f lineto\n", left_cm * PT_PER_CM, bottom_cm * PT_PER_CM);
+		fprintf(_grPS, "closepath W\n");
+	}
 	if (rotpal==0) {
 		gr_drawimage(gray,
 			     _imageTransform, 
@@ -2028,7 +2034,8 @@ draw_image_paletteCmd()
 			     left_cm, bottom_cm, right_cm, top_cm,
 			     false);
 	}
-	fprintf(_grPS, "Q %% turn clipping off for image palette\n");
+	if (_output_file_type == postscript)
+		fprintf(_grPS, "Q %% turn clipping off for image palette\n");
 	double actual_linewidth = _griState.linewidth_line();
 	_griState.set_linewidth_line(_griState.linewidth_axis());
 	if (rotpal==0) {
@@ -2036,7 +2043,8 @@ draw_image_paletteCmd()
 			gr_drawxaxis(0.0, left, inc, right, gr_axis_BOTTOM);
 		else
 			gr_drawxaxis(1.0, left, inc, right, gr_axis_TOP);
-		fprintf(_grPS, "%.3f w %% test\n", _griState.linewidth_axis());
+		if (_output_file_type == postscript)
+			fprintf(_grPS, "%.3f w %% test\n", _griState.linewidth_axis());
 		GriPath p(4);
 		p.push_back(left, 0.0, 'm');
 		p.push_back(left, 1.0, 'l');
@@ -2049,7 +2057,8 @@ draw_image_paletteCmd()
 			gr_drawyaxis(0.0, left, inc, right, gr_axis_LEFT);
 		else
 			gr_drawyaxis(1.0, left, inc, right, gr_axis_RIGHT);
-		fprintf(_grPS, "%.3f w\n", _griState.linewidth_axis());
+		if (_output_file_type == postscript)
+			fprintf(_grPS, "%.3f w\n", _griState.linewidth_axis());
 		GriPath p(4);
 		p.push_back(0.0, left, 'm');
 		p.push_back(1.0, left, 'l');
