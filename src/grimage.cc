@@ -256,12 +256,13 @@ gr_drawimage_svg(unsigned char *im,
 #endif
 		break;
 	case rgb_model:
-		fprintf(_grSVG, "<g> <!-- RGB image -->\n");
+		group_start("RGB image");
 		// printf("DEBUG: ilow, ihigh = %d %d      jlow, jhigh = %d %d\n",ilow,ihigh,jlow,jhigh);
 		cmask_r = (unsigned char)pin0_255(mask_r * 255.0);
 		cmask_g = (unsigned char)pin0_255(mask_g * 255.0);
 		cmask_b = (unsigned char)pin0_255(mask_b * 255.0);
 		double adx = fabs(dx), ady = fabs(dy);
+		char label[100];
 		if (imTransform == NULL) {
 			err("cannot handle SVG images that lack an image-transform.");
                         for (j = jhigh - 1; j >= jlow; j--) {
@@ -279,7 +280,8 @@ gr_drawimage_svg(unsigned char *im,
 		} else {
                         for (j = jhigh - 1; j >= jlow; j--) {
 				y = page_height_pt - (yb + (jhigh - j) * dy);
-				fprintf(_grSVG, "<g> <!-- j=%d -->\n", j);
+				sprintf(label, "j=%d", j);
+				group_start(label);
 				for (i = ilow; i < ihigh; i++) {
 					x = xl + i * dx;
 					value = *(im + i * jmax + j);
@@ -292,10 +294,10 @@ gr_drawimage_svg(unsigned char *im,
 						fprintf(_grSVG, "<rect x=\"%.2f\" y=\"%.2f\" width=\"%.2f\" height=\"%.2f\" style=\"fill:%s;stroke:%s;\"/>\n", x, y, adx, ady, hex, hex);
 					}
 				}
-				fprintf(_grSVG, "</g>\n");
+				group_end();
 			}
 		}
-		fprintf(_grSVG, "</g> <!-- end of RGB image -->\n");
+		group_end();
 	}				/* switch(color_model) */
 }
 
