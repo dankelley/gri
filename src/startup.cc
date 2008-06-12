@@ -791,6 +791,8 @@ interpret_optional_arguments(int argc, char *argv[])
 					extern FILE *_grSVG;
 					fprintf(stderr, "%s:%d: SVG output to file '%s' does not work yet\n", __FILE__,__LINE__, o.c_str());
 					_output_file_type = svg;
+					psname.assign(optArg);
+					gr_setup_ps_filename(o.c_str());
 					_grSVG = fopen(o.c_str(), "w");
 					if (!_grSVG) {
 						fatal_err("Cannot open SVG file named `\\", o.c_str(), "'", "\\");
@@ -976,12 +978,13 @@ interpret_optional_arguments(int argc, char *argv[])
 								_output_file_type = gif;
 							} else if (strEQ(o.c_str() + suffix_index, ".svg")) {
 								extern FILE *_grSVG;
-								//fprintf(stderr, "%s:%d: warning: SVG output is rudimentary.  Note the warnings below.\n\tAlso, the following fail completely:\n\t\tfilled curves\n\t\timages\n\t\t...\n", __FILE__,__LINE__);
 								_output_file_type = svg;
 								_grSVG = fopen(o.c_str(), "w");
 								if (!_grSVG) {
 									fatal_err("Cannot open SVG file named `\\", o.c_str(), "'", "\\");
 								}
+								psname.assign(o.c_str());
+								gr_setup_ps_filename(o.c_str());
 								fprintf(_grSVG, "<?xml version=\"1.0\" standalone=\"no\"?>\n<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n");
 								//fprintf(stderr, "%s:%d: SVG error: assuming height and width both 500 pixels, for now\n", __FILE__,__LINE__);
 								extern rectangle _page_size;

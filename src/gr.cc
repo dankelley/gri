@@ -282,11 +282,16 @@ bool
 delete_ps_file()
 {
 	//printf("%s:%d delete_ps_file.  _grPS at %x\n",__FILE__,__LINE__,int(_grPS));
-	if (_grPS != NULL) {
-		fclose(_grPS);
-		_grPS = NULL;
+	extern output_file_type _output_file_type;
+	if (_output_file_type == postscript) {
+		if (_grPS != NULL) {
+			fclose(_grPS);
+			_grPS = NULL;
+		}
+		return delete_file(ps_filename_used);
+	} else {
+		return true;
 	}
-	return delete_file(ps_filename_used);
 }
 
 // gr_begin() -- prepare for plotting.
@@ -295,65 +300,68 @@ delete_ps_file()
 void
 gr_begin(int specifications)
 {
-	int             version;
-	_grNeedBegin = false;
-	_grSpecifications = specifications;
-	// open gri.ps file, avoiding overwriting existing ones
-	//printf("DEBUG 1\n");
-	if (user_gave_ps_filename) {
-		//printf("DEBUG 2. '%s'\n",ps_filename);
-		strcpy(ps_filename_used, ps_filename);
-	} else {
+	extern output_file_type _output_file_type;
+	if (_output_file_type == postscript) {
+		int             version;
+		_grNeedBegin = false;
+		_grSpecifications = specifications;
+		// open gri.ps file, avoiding overwriting existing ones
+		//printf("DEBUG 1\n");
+		if (user_gave_ps_filename) {
+			//printf("DEBUG 2. '%s'\n",ps_filename);
+			strcpy(ps_filename_used, ps_filename);
+		} else {
 #if defined(VMS)
-		// On vax, just use version numbers
-		sprintf(ps_filename_used, "%s", ps_filename);
+			// On vax, just use version numbers
+			sprintf(ps_filename_used, "%s", ps_filename);
 #else
-		for (version = 0; version < 9999; version++) {
-			FILE           *trial;
-			sprintf(ps_filename_used, "gri-%02d.ps", version);
-			trial = fopen(ps_filename_used, "r");
-			if (NULL == trial)
-				break;
-			fclose(trial);
-		}
+			for (version = 0; version < 9999; version++) {
+				FILE           *trial;
+				sprintf(ps_filename_used, "gri-%02d.ps", version);
+				trial = fopen(ps_filename_used, "r");
+				if (NULL == trial)
+					break;
+				fclose(trial);
+			}
 #endif
-	}
-	_grPS = fopen(ps_filename_used, "w+");
-	//printf("%s:%d opened  _grPS at %x\n",__FILE__,__LINE__,int(_grPS));
-	// if can't open file, try again
-	if (_grPS == NULL) {
-		int             ok_after_all = false;
+		}
+		_grPS = fopen(ps_filename_used, "w+");
+		//printf("%s:%d opened  _grPS at %x\n",__FILE__,__LINE__,int(_grPS));
+		// if can't open file, try again
+		if (_grPS == NULL) {
+			int             ok_after_all = false;
 #if defined(HAVE_GETENV)
-		char            homename[100];
-		if (getenv("home")) {
-			strcpy(homename, getenv("home"));
-			strcat(homename, "/gri.ps");
-			strcpy(ps_filename_used, homename);
-			_grPS = fopen(ps_filename_used, "w+");
-			if (_grPS == NULL) {
-				sprintf(_grTempString, "\
+			char            homename[100];
+			if (getenv("home")) {
+				strcpy(homename, getenv("home"));
+				strcat(homename, "/gri.ps");
+				strcpy(ps_filename_used, homename);
+				_grPS = fopen(ps_filename_used, "w+");
+				if (_grPS == NULL) {
+					sprintf(_grTempString, "\
 Cannot open output PostScript file named\n\t`%s'\nin this directory.  Do you have write permission here?", ps_filename_used);
+					gr_textput(_grTempString);
+					gri_exit(1);
+				} else {
+					ok_after_all = 1;
+				}
+			}
+#endif
+			if (ok_after_all) {
+				sprintf(_grTempString, "Couldn't create intended postscript file, so created `%s' instead\n", ps_filename_used);
+				warning(_grTempString);
+			} else {
+				sprintf(_grTempString, "\
+Cannot open output PostScript file named\n\t`%s'\nin this directory.  Do you have write permission here?", ps_filename);
 				gr_textput(_grTempString);
 				gri_exit(1);
-			} else {
-				ok_after_all = 1;
 			}
 		}
-#endif
-		if (ok_after_all) {
-			sprintf(_grTempString, "Couldn't create intended postscript file, so created `%s' instead\n", ps_filename_used);
-			warning(_grTempString);
-		} else {
-			sprintf(_grTempString, "\
-Cannot open output PostScript file named\n\t`%s'\nin this directory.  Do you have write permission here?", ps_filename);
-			gr_textput(_grTempString);
-			gri_exit(1);
-		}
+		// write some header stuff in postscript file
+		_grWritePS = true;
+		// define postscript abbreviations
+		insert_ps_header(_grPS, true);
 	}
-	// write some header stuff in postscript file
-	_grWritePS = true;
-	// define postscript abbreviations
-	insert_ps_header(_grPS, true);
 	if (specifications == 1)
 		set_page_characteristics();
 }
@@ -384,76 +392,84 @@ static void set_page_characteristics()
 static void
 insert_ps_header(FILE * fp, bool privacy)
 {
-	/*
-	 * write conforming postscript prolog
-	 */
-	/* fprintf(fp, "%%!PS-Adobe-1.0\n"); */
-	fprintf(fp, "%%!PS-Adobe-2.0 EPSF-1.2\n");
-	if (privacy)
-	  fprintf(fp, "%%%%Creator: %s\n", "");
-	else
-	  fprintf(fp, "%%%%Creator: %s\n", creator_name);
-	fprintf(fp, "%%%%Title: %s\n", ps_filename_used);
-	SECOND_TYPE sec;
-	time(&sec);
-	fprintf(fp, "%%%%CreationDate: %s", asctime(localtime(&sec)));
-	fprintf(fp, "%%%%Pages: (atend)\n");
-	fprintf(fp, "%%%%BoundingBox: (atend)\n");
-	fprintf(fp, "%%%%TemplateBox: %d %d %d %d\n",
-		0, 0, (int) (8.5 * 72.0), (int) (11.0 * 72.0));
-	fprintf(fp, "%%%%DocumentFonts: (atend)\n");
-	fprintf(fp, "%%%%Orientation: (atend)\n");
-	fprintf(fp, "%%%%Endcomments\n");
-	int i = 0;
-	while (PS_dict[i])
-		fprintf(fp, "%s\n", PS_dict[i++]);
-	handle_landscape_scale(fp);
-	fprintf(fp, "10.0 M\n");
-	fprintf(fp, "1 j\n");
-	create_font_encoding("Courier");
-	create_font_encoding("Courier-Oblique");
-	create_font_encoding("Courier-Bold");
-	create_font_encoding("Courier-BoldOblique");
-	create_font_encoding("Helvetica");
-	create_font_encoding("Helvetica-Bold");
-	create_font_encoding("Helvetica-Oblique");
-	create_font_encoding("Palatino-Roman");
-	create_font_encoding("Palatino-Italic");
-	create_font_encoding("Palatino-Bold");
-	create_font_encoding("Palatino-BoldItalic");
-	create_font_encoding("Symbol");
-	create_font_encoding("Century");
-	create_font_encoding("Times-Roman");
-	create_font_encoding("Times-Italic");
-	create_font_encoding("Times-Bold");
-	create_font_encoding("Times-BoldItalic");
-	fprintf(fp, "%%%%EndProlog\n");
-	which_page++;
-	fprintf(_grPS, "%%%%Page: %d %d\ngsave\n", which_page, which_page);
+	extern output_file_type _output_file_type;
+	if (_output_file_type == postscript) {
+		/*
+		 * write conforming postscript prolog
+		 */
+		fprintf(fp, "%%!PS-Adobe-2.0 EPSF-1.2\n");
+		if (privacy)
+			fprintf(fp, "%%%%Creator: %s\n", "");
+		else
+			fprintf(fp, "%%%%Creator: %s\n", creator_name);
+		fprintf(fp, "%%%%Title: %s\n", ps_filename_used);
+		SECOND_TYPE sec;
+		time(&sec);
+		fprintf(fp, "%%%%CreationDate: %s", asctime(localtime(&sec)));
+		fprintf(fp, "%%%%Pages: (atend)\n");
+		fprintf(fp, "%%%%BoundingBox: (atend)\n");
+		fprintf(fp, "%%%%TemplateBox: %d %d %d %d\n",
+			0, 0, (int) (8.5 * 72.0), (int) (11.0 * 72.0));
+		fprintf(fp, "%%%%DocumentFonts: (atend)\n");
+		fprintf(fp, "%%%%Orientation: (atend)\n");
+		fprintf(fp, "%%%%Endcomments\n");
+		int i = 0;
+		while (PS_dict[i])
+			fprintf(fp, "%s\n", PS_dict[i++]);
+		handle_landscape_scale(fp);
+		fprintf(fp, "10.0 M\n");
+		fprintf(fp, "1 j\n");
+		create_font_encoding("Courier");
+		create_font_encoding("Courier-Oblique");
+		create_font_encoding("Courier-Bold");
+		create_font_encoding("Courier-BoldOblique");
+		create_font_encoding("Helvetica");
+		create_font_encoding("Helvetica-Bold");
+		create_font_encoding("Helvetica-Oblique");
+		create_font_encoding("Palatino-Roman");
+		create_font_encoding("Palatino-Italic");
+		create_font_encoding("Palatino-Bold");
+		create_font_encoding("Palatino-BoldItalic");
+		create_font_encoding("Symbol");
+		create_font_encoding("Century");
+		create_font_encoding("Times-Roman");
+		create_font_encoding("Times-Italic");
+		create_font_encoding("Times-Bold");
+		create_font_encoding("Times-BoldItalic");
+		fprintf(fp, "%%%%EndProlog\n");
+		which_page++;
+		fprintf(_grPS, "%%%%Page: %d %d\ngsave\n", which_page, which_page);
+	}
 }
 
 static void
 create_font_encoding(const char *fontname)
 {
-	fprintf(_grPS, 
-		"/%s findfont dup length dict begin\n"
-		"  {1 index /FID ne {def} {pop pop} ifelse } forall\n"
-		"  /Encoding ISOLatin1Encoding def\n"
-		"  currentdict\n"
-		"end\n"
-		"/%s-ISOLatin1 exch definefont pop\n", fontname, fontname);
+	extern output_file_type _output_file_type;
+	if (_output_file_type == postscript) {
+		fprintf(_grPS, 
+			"/%s findfont dup length dict begin\n"
+			"  {1 index /FID ne {def} {pop pop} ifelse } forall\n"
+			"  /Encoding ISOLatin1Encoding def\n"
+			"  currentdict\n"
+			"end\n"
+			"/%s-ISOLatin1 exch definefont pop\n", fontname, fontname);
+	}
 }
 
 static void
 handle_landscape_scale(FILE * fp)
 {
-	/* put landscape and scale commands in ps output file */
-	if (_grPS_Landscape) {
-		fprintf(fp, "%g 0 translate 90 rotate %% Landscape\n", 8.5 * 72.0);
-	} else {
-		;
+	extern output_file_type _output_file_type;
+	if (_output_file_type == postscript) {
+		/* put landscape and scale commands in ps output file */
+		if (_grPS_Landscape) {
+			fprintf(fp, "%g 0 translate 90 rotate %% Landscape\n", 8.5 * 72.0);
+		} else {
+			;
+		}
+		fprintf(fp, "%g %g scale\n", _grPSScale_x, _grPSScale_y);
 	}
-	fprintf(fp, "%g %g scale\n", _grPSScale_x, _grPSScale_y);
 }
 
 // gr_cmtouser() -- convert cm on page to user units.  COMPARE gr_usertopt(),
@@ -490,10 +506,10 @@ gr_cmtouser(double x_cm, double y_cm, double *x, double *y)
 
 // gr_comment() -- write message in postscript file (without inserting
 // newline)
-void
-gr_comment(const char *message)
+void gr_comment(const char *message)
 {
-	if (_grWritePS)
+	extern output_file_type _output_file_type;
+	if (_output_file_type == postscript && _grWritePS)
 		fprintf(_grPS, PS_comment, message);
 }
 
@@ -502,8 +518,7 @@ gr_comment(const char *message)
  * *gr_currentPSfilename(); DESCRIPTION Returns pointer to name of Postscript
  * file
  */
-char *
-gr_currentPSfilename()
+char *gr_currentPSfilename()
 {
 	return ps_filename_used;
 }
@@ -512,8 +527,7 @@ gr_currentPSfilename()
  * gr_currentPSFILEpointer() -- get pointer Postscript file SYNOPSIS char
  * *gr_currentPSFILEpointer(); DESCRIPTION Returns pointer to Postscript file
  */
-FILE           *
-gr_currentPSFILEpointer()
+FILE *gr_currentPSFILEpointer()
 {
 	return _grPS;
 }
@@ -522,8 +536,7 @@ gr_currentPSFILEpointer()
  * gr_current_ps_landscape() -- get present landscape mode RETURN VALUE 0 if
  * portrait; 1 if landscape
  */
-bool
-gr_current_ps_landscape()
+bool gr_current_ps_landscape()
 {
 	return _grPS_Landscape;
 }
@@ -531,8 +544,7 @@ gr_current_ps_landscape()
 /*
  * gr_currentmissingvalue() -- return current missing value
  */
-double
-gr_currentmissingvalue()
+double gr_currentmissingvalue()
 {
 	return _grMissingValue;
 }
@@ -540,8 +552,7 @@ gr_currentmissingvalue()
 /*
  * gr_currentsymbolsize_pt() -- return current symbol size in points
  */
-double
-gr_currentsymbolsize_pt()
+double gr_currentsymbolsize_pt()
 {
 	return _grSymbolSize_pt;
 }
@@ -549,38 +560,41 @@ gr_currentsymbolsize_pt()
 /*
  * gr_currentticsize_cm() -- get current axis ticsize in cm
  */
-double
-gr_currentticsize_cm()
+double gr_currentticsize_cm()
 {
 	return _grTicSize_cm;
 }
 
-void
-gr_draw_arc_cm(bool filled, double xc, double yc, double r, double angle1, double angle2)
+void gr_draw_arc_cm(bool filled, double xc, double yc, double r, double angle1, double angle2)
 {
-	extern FILE *_grPS;
-	set_environment();
-	set_ps_color('p');
-	set_line_width_curve();
-	if (filled) { 		// this block corrected by Wolfgang Voegeli, fixing SF bug 930259 
-		fprintf(_grPS, "%.1f %.1f m %.1f %.1f %.1f %.1f %.1f arc fill\n",
-			xc * PT_PER_CM + r * PT_PER_CM * cos(angle1 / DEG_PER_RAD), 
-			yc * PT_PER_CM + r * PT_PER_CM * sin(angle1 / DEG_PER_RAD),
-			xc * PT_PER_CM, yc * PT_PER_CM,
-			r * PT_PER_CM,
-			angle1, angle2);
+	extern output_file_type _output_file_type;
+	if (_output_file_type == postscript) {
+		extern FILE *_grPS;
+		set_environment();
+		set_ps_color('p');
+		set_line_width_curve();
+		if (filled) { 		// this block corrected by Wolfgang Voegeli, fixing SF bug 930259 
+			fprintf(_grPS, "%.1f %.1f m %.1f %.1f %.1f %.1f %.1f arc fill\n",
+				xc * PT_PER_CM + r * PT_PER_CM * cos(angle1 / DEG_PER_RAD), 
+				yc * PT_PER_CM + r * PT_PER_CM * sin(angle1 / DEG_PER_RAD),
+				xc * PT_PER_CM, yc * PT_PER_CM,
+				r * PT_PER_CM,
+				angle1, angle2);
+		} else {
+			fprintf(_grPS, "%.1f %.1f m %.1f %.1f %.1f %.1f %.1f arc stroke\n",
+				xc * PT_PER_CM + r * PT_PER_CM * cos(angle1 / DEG_PER_RAD), 
+				yc * PT_PER_CM + r * PT_PER_CM * sin(angle1 / DEG_PER_RAD),
+				xc * PT_PER_CM, yc * PT_PER_CM,
+				r * PT_PER_CM,
+				angle1, angle2);
+		}
+		double lw = _griState.linewidth_line() / 2.0 / PT_PER_CM;
+		rectangle bbox(xc - r - lw, yc - r - lw,
+			       xc + r + lw, yc + r + lw);
+		bounding_box_update(bbox);
 	} else {
-		fprintf(_grPS, "%.1f %.1f m %.1f %.1f %.1f %.1f %.1f arc stroke\n",
-			xc * PT_PER_CM + r * PT_PER_CM * cos(angle1 / DEG_PER_RAD), 
-			yc * PT_PER_CM + r * PT_PER_CM * sin(angle1 / DEG_PER_RAD),
-			xc * PT_PER_CM, yc * PT_PER_CM,
-			r * PT_PER_CM,
-			angle1, angle2);
+		err("Sorry, can only draw arcs in postscript files.");
 	}
-	double lw = _griState.linewidth_line() / 2.0 / PT_PER_CM;
-	rectangle bbox(xc - r - lw, yc - r - lw,
-		       xc + r + lw, yc + r + lw);
-	bounding_box_update(bbox);
 }
 
 // gr_drawarrow_cm -- Draw a stroke-line arrow
@@ -723,6 +737,9 @@ gr_drawerrorbars(double x, double xmin, double xmax, double y, double ymin, doub
 void
 gr_drawsymbol(double xcm, double ycm, gr_symbol_type symbol_name)
 {
+	extern output_file_type _output_file_type;
+	if (_output_file_type != postscript)
+		err("Sorry, can only draw symbols in postscript mode");
 	double xpt = xcm * PT_PER_CM;
 	double ypt = ycm * PT_PER_CM;
 	if (_clipping_postscript && _clipping_is_postscript_rect) {
@@ -826,11 +843,15 @@ gr_drawsymbol(double xcm, double ycm, gr_symbol_type symbol_name)
 
 //
 // gr_end() -- end this plot
-// DESCRIPTION: End current plot. If filename == "" then the window stays
-// open, and the gri-00.ps PostScript file is closed. If filename == "!" then
-// the window is closed.  If the filename is a valid filename, then the
-// window stays open, and the PostScript file is copied into the indicated
-// file. If the filename is "!" followed by a valid filename, then the window
+
+// If filename == "" then the window stays open, and the gri-00.ps PostScript 
+// file is closed.
+//
+// If filename == "!" then the window is closed.  If the filename is a valid
+// filename, then the window stays open, and the PostScript file is copied 
+// into the indicated file. 
+//
+// If the filename is "!" followed by a valid filename, then the window
 // is closed and the PostScript is copied to the indicated file.
 void
 gr_end(const char *filename)
@@ -943,6 +964,7 @@ gr_end(const char *filename)
 		}
 	} else if (_output_file_type == svg) {
 		fprintf(_grSVG, "</svg>\n");
+		// FIXME: should perhaps compress it...
 	}
 }				// gr_end()
 
@@ -1137,9 +1159,12 @@ gr_record_handle(double x_cm, double y_cm)
 void
 gr_record_scale()
 {
-	fprintf(_grPS, "%%^ scale %d %g %g %g %d %g %g %g\n",
-		_grTransform_x, _grxl_pt, _grxl, _grPtPerUser_x,
-		_grTransform_y, _gryb_pt, _gryb, _grPtPerUser_y);
+	extern output_file_type _output_file_type;
+	if (_output_file_type == postscript) {
+		fprintf(_grPS, "%%^ scale %d %g %g %g %d %g %g %g\n",
+			_grTransform_x, _grxl_pt, _grxl, _grPtPerUser_x,
+			_grTransform_y, _gryb_pt, _gryb, _grPtPerUser_y);
+	}
 }
 
 // rgb values each in range 0 to 1; result in same range
@@ -1444,7 +1469,7 @@ gr_setup_creatorname(const char *s)
 void
 gr_setup_ps_filename(const char *new_name)
 {
-	//printf("%s:%d %d\n",__FILE__,__LINE__,_grNeedBegin);
+	//printf("%s:%d gr_setup_ps_filename(%s)\n",__FILE__,__LINE__,new_name);
 	if (_grNeedBegin) {
 		user_gave_ps_filename = true;
 		if (strlen(new_name) > 0)

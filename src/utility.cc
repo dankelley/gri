@@ -428,10 +428,13 @@ word_is(int i, const char *word)
 void
 check_psfile()
 {
-	extern FILE    *_grPS;
-	if (ferror(_grPS)) {
-		/* never returns */
-		fatal_err(" IO error on PostScript output file\n");
+	extern output_file_type _output_file_type;
+	if (_output_file_type == postscript) {
+		extern FILE *_grPS;
+		if (ferror(_grPS)) {
+			/* never returns */
+			fatal_err(" IO error on PostScript output file\n");
+		}
 	}
 }
 
@@ -1983,21 +1986,24 @@ vector_max(double *v, unsigned n)
 void
 set_ps_color(char what)		// what='p' for path or 't' for text
 {
-	extern FILE *_grPS;
-	extern bool _grWritePS;
-	if (!_grWritePS)
-		return;
-	double r, g, b;
-	if (what == 'p')
-		_griState.color_line().getRGB(&r, &g, &b);
-	else
-		_griState.color_text().getRGB(&r, &g, &b);
-	if (r == g && g == b) {
-		fprintf(_grPS, "%.3g g\n", r);
-		fprintf(_grPS, "%.3g G\n", r);
-	} else {
-		fprintf(_grPS, "%.3g %.3g %.3g rg\n", r, g, b);
-		fprintf(_grPS, "%.3g %.3g %.3g RG\n", r, g, b);
+	extern output_file_type _output_file_type;
+	if (_output_file_type == postscript) {
+		extern FILE *_grPS;
+		extern bool _grWritePS;
+		if (!_grWritePS)
+			return;
+		double r, g, b;
+		if (what == 'p')
+			_griState.color_line().getRGB(&r, &g, &b);
+		else
+			_griState.color_text().getRGB(&r, &g, &b);
+		if (r == g && g == b) {
+			fprintf(_grPS, "%.3g g\n", r);
+			fprintf(_grPS, "%.3g G\n", r);
+		} else {
+			fprintf(_grPS, "%.3g %.3g %.3g rg\n", r, g, b);
+			fprintf(_grPS, "%.3g %.3g %.3g RG\n", r, g, b);
+		}
 	}
 }
 

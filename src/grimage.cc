@@ -48,63 +48,59 @@ gr_drawBWmaskedimage_pt(unsigned char missing,
 			int imax, int jmax,
 			double xlpt, double ybpt, double xrpt, double ytpt)
 {
-	register int    i, j;
-	extern FILE    *_grPS;
-	int             perline = 0;
-	int             perlineMAX = 39;
-	if (imax < perlineMAX)
-		perlineMAX = imax;
-	/* write postscript */
-	if (_grWritePS) {
-		fprintf(_grPS, "%f %f %f %f %d %d im\n",
-			xlpt, ybpt, xrpt, ytpt, jmax, imax);
-		check_psfile();
-		if (imTransform == NULL) {
-			for (j = jmax - 1; j > -1; j--) {
-				for (i = 0; i < imax; i++) {
-					if (mask != NULL && *(mask + i * jmax + j) == 2)
-						fprintf(_grPS, "%02X", missing);
-					else
-						fprintf(_grPS, "%02X", *(im + i * jmax + j));
-					if ((++perline) == perlineMAX) {
-						fprintf(_grPS, "\n");
-						perline = 0;
-					}
-				}
-			}
+	extern output_file_type _output_file_type;
+	if (_output_file_type == postscript) {
+		register int    i, j;
+		extern FILE    *_grPS;
+		int             perline = 0;
+		int             perlineMAX = 39;
+		if (imax < perlineMAX)
+			perlineMAX = imax;
+		/* write postscript */
+		if (_grWritePS) {
+			fprintf(_grPS, "%f %f %f %f %d %d im\n",
+				xlpt, ybpt, xrpt, ytpt, jmax, imax);
 			check_psfile();
-		} else {
-			/* scale contained in imTransform[] */
-			for (j = jmax - 1; j > -1; j--) {
-				for (i = 0; i < imax; i++) {
-					if (mask != NULL && *(mask + i * jmax + j) == 2)
-						fprintf(_grPS, "%02X", missing);
-					else
-						fprintf(_grPS, "%02X", imTransform[*(im + i * jmax + j)]);
-					if ((++perline) == perlineMAX) {
-						fprintf(_grPS, "\n");
-						perline = 0;
+			if (imTransform == NULL) {
+				for (j = jmax - 1; j > -1; j--) {
+					for (i = 0; i < imax; i++) {
+						if (mask != NULL && *(mask + i * jmax + j) == 2)
+							fprintf(_grPS, "%02X", missing);
+						else
+							fprintf(_grPS, "%02X", *(im + i * jmax + j));
+						if ((++perline) == perlineMAX) {
+							fprintf(_grPS, "\n");
+							perline = 0;
+						}
+					}
+				}
+				check_psfile();
+			} else {
+				/* scale contained in imTransform[] */
+				for (j = jmax - 1; j > -1; j--) {
+					for (i = 0; i < imax; i++) {
+						if (mask != NULL && *(mask + i * jmax + j) == 2)
+							fprintf(_grPS, "%02X", missing);
+						else
+							fprintf(_grPS, "%02X", imTransform[*(im + i * jmax + j)]);
+						if ((++perline) == perlineMAX) {
+							fprintf(_grPS, "\n");
+							perline = 0;
+						}
 					}
 				}
 			}
+			if (perline != 0)
+				fprintf(_grPS, "\n");
+			check_psfile();
 		}
-		if (perline != 0)
-			fprintf(_grPS, "\n");
-		check_psfile();
+	} else {
+		err("INTERNAL ERROR: gr_drawBWmaskedimage() only works for postscript files.");
 	}
 }
 
 /*
  * Draw image, possibly color, in rectangle given in cm coords.
-
-TEMPORARY NOTE ON RELEVANT SVG SYNTAX -- 
-
-<g>
-<rect x="10" y="10" width="10" height="10" style="fill:#00aa00;stroke-width:0:fill-opacity:0.5"/>
-<rect x="20" y="10" width="10" height="10" style="fill:#aaaa00;stroke-width:0;fill-opacity:1.0"/>
-<rect x="30" y="10" width="10" height="10" style="fill:#aaaa00;stroke-width:0;fill-opacity:0.5"/>
-</g>
-
  */
 void
 gr_drawimage_svg(unsigned char *im,
@@ -125,8 +121,13 @@ gr_drawimage_svg(unsigned char *im,
 	extern FILE *_grSVG;
 	unsigned char   cmask_r, cmask_g, cmask_b;
 	bool            have_mask;
-	unsigned char   value, mask_value = 0; // assign to calm compiler
+	unsigned char   value;
 	register int    i, j;
+	
+	double x, y, page_height_pt = gr_page_height_pt();
+	char hex[8]; // #000000 for example
+
+	
 	if (!_grWritePS)
 		return;
 	/* Figure out about mask */
@@ -136,6 +137,8 @@ gr_drawimage_svg(unsigned char *im,
 	xr *= PT_PER_CM;
 	yb *= PT_PER_CM;
 	yt *= PT_PER_CM;
+	double dx = (xr - xl) / imax; // FIXME: check to see the sign always works
+	double dy = (yt - yb) / jmax;
 	double xl_c = xl, xr_c = xr, yb_c = yb, yt_c = yt;
 	int ilow = 0, ihigh = imax, jlow = 0, jhigh = jmax;
 	if (_clipping_postscript && _clipping_is_postscript_rect) {
@@ -169,9 +172,7 @@ gr_drawimage_svg(unsigned char *im,
 	rectangle box(xl_c/PT_PER_CM, yb_c/PT_PER_CM, xr_c/PT_PER_CM, yt_c/PT_PER_CM); // CHECK: is it only updating if it's within clip region?
 	bounding_box_update(box);
 
-	// Make image overhang the region.  This change, vsn 2.005, *finally*
-	// solves a confusion I've had for a long time about how to do
-	// images.
+	// Make image overhang the region.
 	if (imax > 1) {
 		double dx = (xr_c - xl_c) / ((ihigh-ilow) - 1); // pixel width
 		xl_c -= dx / 2.0;
@@ -182,6 +183,11 @@ gr_drawimage_svg(unsigned char *im,
 		yb_c -= dy / 2.0;
 		yt_c += dy / 2.0;
 	}
+
+	// Optimize a bit by using style sheet to define fixed quantities.  (I had
+	// hoped to set width= and height= here, but that does not work.)
+	fprintf(_grSVG, "<defs>\n  <style type=\"text/css\"><![CDATA[\n    rect {\n      stroke-width: %.2f;\n      fill-opacity:%.2f\n    } ]]>\n  </style>\n</defs>\n", 
+		0.2, 1.0);	// FIXME: remove opacity, if add image transparency on a pixel-by-pixel basis.
 	/*
 	 * Handle BW and color differently, since PostScript handles differently.
 	 */
@@ -189,6 +195,7 @@ gr_drawimage_svg(unsigned char *im,
 	default:			/* ? taken as BW */
 	case bw_model:
 		fprintf(_grSVG, "<g> <!-- BW image -->\n");
+		err("Sorry, svg output of black/white images is not working yet");
 #if 0
 		check_psfile();
 		/*
@@ -219,7 +226,7 @@ gr_drawimage_svg(unsigned char *im,
 		if (have_mask == true) {
 			int             diff, min_diff = 256;
 			unsigned char   index = 0; // assign to calm compiler ????
-			mask_value = (unsigned char)(255.0 * mask_r);
+			unsigned char mask_value = (unsigned char)(255.0 * mask_r);
 			/*
 			 * If there is a mapping, must (arduously) look up which image
 			 * value corresponds to this color.
@@ -235,7 +242,6 @@ gr_drawimage_svg(unsigned char *im,
 				mask_value = index;
 			}
 		}
-#endif
 		for (j = jhigh - 1; j >= jlow; j--) {
 			for (i = ilow; i < ihigh; i++) {
 				value = *(im + i * jmax + j);
@@ -247,47 +253,43 @@ gr_drawimage_svg(unsigned char *im,
 			}
 		}
 		fprintf(_grSVG, "</g> <!-- end of BW image -->\n");
+#endif
 		break;
 	case rgb_model:
 		fprintf(_grSVG, "<g> <!-- RGB image -->\n");
-		/*DEK*/
-//		printf("DEBUG: ilow, ihigh = %d %d      jlow, jhigh = %d %d\n",ilow,ihigh,jlow,jhigh);
-
-		check_psfile();
+		// printf("DEBUG: ilow, ihigh = %d %d      jlow, jhigh = %d %d\n",ilow,ihigh,jlow,jhigh);
 		cmask_r = (unsigned char)pin0_255(mask_r * 255.0);
 		cmask_g = (unsigned char)pin0_255(mask_g * 255.0);
 		cmask_b = (unsigned char)pin0_255(mask_b * 255.0);
+		double adx = fabs(dx), ady = fabs(dy);
 		if (imTransform == NULL) {
 			err("cannot handle SVG images that lack an image-transform.");
                         for (j = jhigh - 1; j >= jlow; j--) {
+				y = page_height_pt - (yb + (jhigh - j) * dy); // offset for page_height_pt ??
 				for (i = ilow; i < ihigh; i++) {
+					x = xl + i * dx;
 					value = *(im + i * jmax + j);
-					if (have_mask == true && *(mask + i * jmax + j) == 2) {
-						fprintf(_grSVG, "<rect %02X%02X%02X/>\n", cmask_r, cmask_g, cmask_b);
-					} else {
-						fprintf(_grSVG, "<rect %02X%02X%02X/>\n", value, value, value);
-					}
+					if (have_mask == true && *(mask + i * jmax + j) == 2)
+						sprintf(hex, "#%02X%02X%02X", cmask_r, cmask_g, cmask_b);
+					else
+						sprintf(hex, "#%02X%02X%02X", value, value, value);
+					fprintf(_grSVG, "<rect x=\"%.2f\" y=\"%.2f\" width=\"%.2f\" height=\"%.2f\" style=\"fill:%s;stroke:%s;\"/>\n", x, y, adx, ady, hex, hex);
 				}
 			}
-			check_psfile();
 		} else {
-			double x, y, dx, dy, page_height_pt = gr_page_height_pt();
-			char hex[8]; // #000000 for example
-			dx = (xr - xl) / imax;
-			dy = (yt - yb) / jmax;
                         for (j = jhigh - 1; j >= jlow; j--) {
-				y = page_height_pt - (yb + (jhigh - j) * dy); // offset for page_height_pt ??
+				y = page_height_pt - (yb + (jhigh - j) * dy);
 				fprintf(_grSVG, "<g> <!-- j=%d -->\n", j);
 				for (i = ilow; i < ihigh; i++) {
 					x = xl + i * dx;
 					value = *(im + i * jmax + j);
 					if (have_mask == true && *(mask + i * jmax + j) == 2) {
 						sprintf(hex, "#%02X%02X%02X", cmask_r, cmask_g, cmask_b);
-						fprintf(_grSVG, "<rect x=\"%.2f\" y=\"%.2f\" width=\"%.2f\" height=\"%.2f\" style=\"fill:%s;stroke:%s;stroke-width:0.2;fill-opacity:1\"/>\n", x, y, dx, dy, hex, hex); // FIXME: transparency
+						fprintf(_grSVG, "<rect x=\"%.2f\" y=\"%.2f\" width=\"%.2f\" height=\"%.2f\" style=\"fill:%s;stroke:%s;\"/>\n", x, y, adx, ady, hex, hex);
 					} else {
 						sprintf(hex, "#%02X%02X%02X", 
 							imTransform[value], imTransform[value + 256], imTransform[value + 512]);
-						fprintf(_grSVG, "<rect x=\"%.2f\" y=\"%.2f\" width=\"%.2f\" height=\"%.2f\" style=\"fill:%s;stroke:%s;stroke-width:0.2;fill-opacity:1\"/>\n", x, y, dx, dy, hex, hex); // FIXME: transparency
+						fprintf(_grSVG, "<rect x=\"%.2f\" y=\"%.2f\" width=\"%.2f\" height=\"%.2f\" style=\"fill:%s;stroke:%s;\"/>\n", x, y, adx, ady, hex, hex);
 					}
 				}
 				fprintf(_grSVG, "</g>\n");
