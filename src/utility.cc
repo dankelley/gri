@@ -7,8 +7,10 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdarg.h>
+#include <limits.h>
 #if !defined(IS_MINGW32)
 #include <pwd.h>
+#include <paths.h>
 #endif
 #include <sys/types.h>
 
@@ -2188,6 +2190,23 @@ lapse_rate(double S, double t, double p)
 char*
 tmp_file_name()
 {
+#if defined(HAVE_MKSTEMP)
+	static char rval[PATH_MAX];
+	int fd;
+	/*
+	 * Create the file safely and let caller scribble on it. Not
+	 * perfect but better than the alternative. (One could also
+	 * change the function to return a fd or FILE * instead of a
+	 * path, but that's quite invasive.)
+	 */
+	strcpy(rval, _PATH_TMP "griXXXXXX");
+	fd = mkstemp(rval);
+	if (fd < 0) {
+		return NULL;
+	}
+	close(fd);
+	return rval;
+#else
 #if defined(HAVE_TEMPNAM)
 	//	rval = tempnam("/usr/tmp", "gri");
 	char *rval = tempnam(NULL, "gri");
@@ -2202,6 +2221,7 @@ tmp_file_name()
 	return rval;
 #else
 	return GRI_TMP_FILE;
+#endif
 #endif
 #endif
 }
