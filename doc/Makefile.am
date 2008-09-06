@@ -187,7 +187,8 @@ endif
 
 install-data-local:
 	${MAKE} html-install
-	$(INSTALL) -m 644 $(srcdir)/../license.txt         $(DOC_DIR)
+	$(MKDIR_P)                                       $(DOC_DIR)
+	$(INSTALL) -m 644 $(srcdir)/../license.txt       $(DOC_DIR)
 if !OS_IS_LINUX_REDHAT
 #       This is handled by gri.spec [2003-may-31 Dan Kelley]
 	$(INSTALL_DATA) refcard.ps                       $(DOC_DIR)
