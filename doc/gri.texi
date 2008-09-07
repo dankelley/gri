@@ -19138,6 +19138,9 @@ Peter Galbraith,
 Dave Hebert,
 @cindex Dave Hebert (contributor)
 @cindex contributor, Dave Hebert
+David A. Holland,
+@cindex David A Holland (contributor)
+@cindex contributor, David A. Holland
 Christopher Illies,
 @cindex Christopher Illies (contributor)
 @cindex contributor, Christopher Illies
