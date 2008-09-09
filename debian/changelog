@@ -1,13 +1,12 @@
 gri (2.12.18-1) unstable; urgency=low
 	
   * New upstream release	
-  New Features
-   - none
   Bug Fixes:
-  - Improve security when creating temporary files
-  - Fix SourceForge bug 1985862 (output had axis linewidth equal to curve line width)
+  - Improve security when creating temporary files.
+  - Fix SourceForge bug #1985862 (output had axis linewidth equal to curve
+    line width).
 
- -- Dan Kelley Thu, 4 Sep 2008 15:30:21 -0400
+ -- Peter S Galbraith <psg@debian.org>  Mon, 08 Sep 2008 20:46:30 -0400
 	
 gri (2.12.17-1) unstable; urgency=low
 
