@@ -73,11 +73,11 @@
 
 @subtitle A Program to Make Science Graphs
 @subtitle Version @value{GRI-VERSION}
-@subtitle 2007
+@subtitle 2008
 @author Dan E. Kelley (@value{AUTHOR-EMAIL})
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 1991-2007 Dan Kelley
+Copyright @copyright{} 1991-2008 Dan Kelley
 @sp 2
 @end titlepage
 
@@ -100,7 +100,7 @@ considerable power, at the price of a moderate learning curve.
 
 This manual describes Gri version
 @value{GRI-VERSION} @c , updated @value{UPDATED},
-(c) 1991-2007, 
+(c) 1991-2008, 
 Dan Kelley at email address 
 @c HTML <A HREF="mailto:Dan.Kelley@Dal.CA"> 
 @value{AUTHOR-EMAIL}
@@ -126,7 +126,7 @@ Gri is released with the GNU Public License (@ref{License}).
 @c HTML <A HREF="Images.html">image plots</A>.
 @c HTML <p>
 @c HTML This document describes Gri @value{GRI-VERSION},
-@c HTML <br>(c) 1991-2007 <A HREF="http://www.phys.ocean.dal.ca/~kelley"> Dan Kelley.</A>
+@c HTML <br>(c) 1991-2008 <A HREF="http://www.phys.ocean.dal.ca/~kelley"> Dan Kelley.</A>
 @comment HTML Gri is distributed
 @comment HTML with a <A HREF="License.html">license</A> that permits 
 @comment HTML sharing in an OpenSource way.
@@ -299,7 +299,7 @@ just typing @code{gri} at the unix prompt), you'll see something like
 
 @example
  gri - scientific graphic program (version @value{GRI-VERSION})
- GPL Copyright 2007 by Dan E. Kelley.
+ GPL Copyright 2008 by Dan E. Kelley.
 
  Type `help' for an overview of Gri commands, or see the
  full manual at
