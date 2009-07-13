@@ -53,8 +53,8 @@
 @comment %**start of header
 @setfilename gri.info
 @settitle Gri
-@set GRI-VERSION 2.12.18
-@set GRI-PREVIOUS-VERSION 2.12.17
+@set GRI-VERSION 2.12.19
+@set GRI-PREVIOUS-VERSION 2.12.18
 @set AUTHOR-EMAIL dankelley@@users.sourceforge.net
 @include version.texi
 @c %**end of header
@@ -73,11 +73,11 @@
 
 @subtitle A Program to Make Science Graphs
 @subtitle Version @value{GRI-VERSION}
-@subtitle 2008
+@subtitle 2009
 @author Dan E. Kelley (@value{AUTHOR-EMAIL})
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 1991-2008 Dan Kelley
+Copyright @copyright{} 1991-2009 Dan Kelley
 @sp 2
 @end titlepage
 
@@ -13416,7 +13416,8 @@ Calculate the hyperbolic sine of 2, yielding 3.62686.
 @item @{rpn "hello" strlen@}
 @cindex @code{strlen} rpn operator
 @cindex rpn operator @code{strlen}
-Determine the number of characters in string, e.g. 6 here.
+Determine the number of characters in string, including the quotation
+marks, e.g. 7 here.
 
 
 @item @{rpn "date" system@}
@@ -16508,6 +16509,42 @@ only in the fixing of bugs.
 @cindex version 2.12
 
 @comment ADD-NEW-BUG-FIXES-HERE
+
+@subsubsection Version 2.12.19 [2009 July 15 @uref{http://en.wikipedia.org/wiki/Obon, third day of Festival Obon}]
+
+@strong{Bug Fixes}
+@itemize @bullet
+
+@item
+Fix SourceForge bug
+@uref{https://sourceforge.net/forum/forum.php?thread_id=2977816&forum_id=16974,#2977816}
+@dots{} Fedora packaging requires detailed license declarations in source files.
+
+@item
+Fix SourceForge bug
+@uref{https://sourceforge.net/forum/forum.php?thread_id=3266884&forum_id=16974,#3266884}
+@dots{} error in docs for strlen.
+
+@end itemize
+
+
+
+@strong{Bug Fixes}
+@itemize @bullet
+
+@item
+Improve security of temporary-file handling.
+
+@item
+Fix SourceForge bug
+@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=1985862&group_id=5511&atid=105511,#1985862}
+@dots{} SVG output had axis linewidth equal to curve line width.
+
+@end itemize
+
+
+
+
 
 @subsubsection Version 2.12.18 [2008 Sep 8 @uref{http://en.wikipedia.org/wiki/International_Literacy_Day, International Literacy Day}]
 
