@@ -16529,23 +16529,6 @@ Fix SourceForge bug
 
 
 
-@strong{Bug Fixes}
-@itemize @bullet
-
-@item
-Improve security of temporary-file handling.
-
-@item
-Fix SourceForge bug
-@uref{http://sourceforge.net/tracker/index.php?func=detail&aid=1985862&group_id=5511&atid=105511,#1985862}
-@dots{} SVG output had axis linewidth equal to curve line width.
-
-@end itemize
-
-
-
-
-
 @subsubsection Version 2.12.18 [2008 Sep 8 @uref{http://en.wikipedia.org/wiki/International_Literacy_Day, International Literacy Day}]
 
 @strong{Bug Fixes}

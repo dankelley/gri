@@ -1,5 +1,5 @@
 Summary: A language for scientific illustration
-%define griversion 2.12.18
+%define griversion 2.12.19
 Name: gri
 Version: %{griversion}
 Release: 1
@@ -96,8 +96,13 @@ then
 fi
 
 %changelog
-* tba
-- release 2.12.17
+* 2008-jul-13 release 2.12.19
+- Fix SourceForge bug 2977816 (Fedora packaging requires detailed license declarations in source files).
+- Fix SourceForge bug 3266884 (error in docs for strlen).
+* 2008-sep-08 release 2.12.18
+- Improve security of temporary-file handling.
+- Fix SourceForge bug 1985862 (SVG output had axis linewidth equal to curve line width).
+* 2008-may-29 release 2.12.17
 - Add history and editing of commands in interactive mode
 - Fix SourceForge bug 1913577 (superscripts did not end correctly, if preceded by a {} block)
 - Fix SourceForge bug #1761562 (y axis name is upside down, for log axis with decreasing values)
