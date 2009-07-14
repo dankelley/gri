@@ -16525,7 +16525,7 @@ Fix SourceForge bug
 @item
 Fix SourceForge ``bug''
 @uref{https://sourceforge.net/forum/forum.php?thread_id=2977816&forum_id=16974,#2977816}
-@dots{} Fedora packaging requires detailed license declarations in source files.
+@dots{} Fedora packaging requires more precise license declarations.
 @end itemize
 
 
