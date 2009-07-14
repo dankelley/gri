@@ -131,9 +131,9 @@ insert_source_indicator(char *cl)
 bool
 get_command_line(void)
 {
-#ifndef HAVE_LIBREADLINE
+/*#ifndef HAVE_LIBREADLINE*/
 	write_prompt();
-#endif
+/*#endif*/
 	stop_replay_if_error();
 	// get a line from a file.
 	if (_cmdFILE.back().get_interactive()) {
@@ -626,6 +626,10 @@ systemCmd()
 static void
 show_startup_msg()
 {
+
+	printf("%s:%d\n",__FILE__,__LINE__);
+
+
 	std::string fullfilename(_lib_directory.c_str());
 	// Must check for '/' as file separator, on some machines.
 #if !defined(VMS)
@@ -642,6 +646,9 @@ show_startup_msg()
 #endif
 #endif
 	fullfilename += "startup.msg";
+
+	printf("doline.cc has '%s'\n",fullfilename.c_str());
+
 	FILE *fp = fopen(fullfilename.c_str(), "r");
 	if (fp) {
 		GriString inLine(128);
@@ -661,32 +668,14 @@ write_prompt()
 		return;
 	// Write prompt if reading from keyboard
 	if (_first == true) {
-#if 0
-		extern char _gri_number[], _gri_date[];
-		// On very first call, print the opening message. 
-		sprintf(_grTempString, "\
-           gri - scientific graphic program (version %s)\n", _gri_number);
-		gr_textput(_grTempString);
-		sprintf(_grTempString, "\
-      Copyright %s by Dan E. Kelley.  All rights reserved.\n",
-			_gri_date);
-		gr_textput("\
-            http://phys.ocean.dal.ca/~kelley/gri/gri1.html\n");
-		gr_textput(_grTempString);
-		sprintf(_grTempString, "\
-                  Type `help' for a list of commands\n");
-		gr_textput(_grTempString);
-		gr_textput(_prompt.c_str());
-#else
 		extern bool _no_startup_message;
 		if (!_no_startup_message)
 			show_startup_msg();
+		_first = false;
+	}
+#ifndef HAVE_LIBREADLINE
 		gr_textput(_prompt.c_str());
 #endif
-		_first = false;
-	} else {
-		gr_textput(_prompt.c_str());
-	}
 }
 
 

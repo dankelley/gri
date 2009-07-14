@@ -153,6 +153,7 @@ start_up(int argc, char **argv)
 {
 	extern rectangle _page_size;
 	_page_size.set(0.0, 0.0, 0.0, 0.0);
+
 /*
 #if defined(TEST_POPT)
 	printf("DEBUG: %s:%d: FYI, start_up() found the raw args to be:\n",__FILE__,__LINE__);
@@ -491,6 +492,7 @@ static void
 set_defaults()
 {
 	extern char      _xtype_map, _ytype_map;
+	
 	_contourFmt.assign(CONTOUR_FMT_DEFAULT);
 	_current_directory.assign(".");
 	// Set up various other defaults
