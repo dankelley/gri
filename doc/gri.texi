@@ -16512,20 +16512,20 @@ only in the fixing of bugs.
 
 @subsubsection Version 2.12.19 [2009 July 17 @uref{http://en.wikipedia.org/wiki/World_Day_for_International_Justice, World Day for International Justice}]
 
-@strong{Bug Fixes}
-@itemize @bullet
-@item
-Fix SourceForge bug
-@uref{https://sourceforge.net/forum/forum.php?thread_id=3266884&forum_id=16974,#3266884}
-@dots{} error in docs for strlen.
-@end itemize
-
 @strong{New Features}
 @itemize @bullet
 @item
 Fix SourceForge ``bug''
 @uref{https://sourceforge.net/forum/forum.php?thread_id=2977816&forum_id=16974,#2977816}
 @dots{} Fedora packaging requires more precise license declarations.
+@end itemize
+
+@strong{Bug Fixes}
+@itemize @bullet
+@item
+Fix SourceForge bug
+@uref{https://sourceforge.net/forum/forum.php?thread_id=3266884&forum_id=16974,#3266884}
+@dots{} error in docs for strlen.
 @end itemize
 
 
