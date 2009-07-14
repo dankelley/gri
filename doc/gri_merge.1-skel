@@ -1,4 +1,4 @@
-.TH GRI_MERGE "1" "2003" "gri_merge "
+.TH GRI_MERGE "1" "2009" "gri_merge "
 .SH NAME
 gri_merge \- merge multiple Gri output files into a single PostScript file.
 .SH "USAGE (style 1):"
