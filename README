@@ -52,5 +52,5 @@ Copyright restrictions
  The Gri Emacs mode (gri-mode.el) is (c) 1994-2005 Peter S. Galbraith
  <GalbraithP@dfo-mpo.gc.ca>
 
- Gri and gri-mode.el are distributed under the GPL, version 2.
- See the file license.txt.
+ Gri and gri-mode.el are distributed under the GPLv2+ license; see
+ the file license.txt.

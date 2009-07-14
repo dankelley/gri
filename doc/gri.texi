@@ -16510,23 +16510,23 @@ only in the fixing of bugs.
 
 @comment ADD-NEW-BUG-FIXES-HERE
 
-@subsubsection Version 2.12.19 [2009 July 15 @uref{http://en.wikipedia.org/wiki/Obon, third day of Festival Obon}]
+@subsubsection Version 2.12.19 [2009 July 17 @uref{http://en.wikipedia.org/wiki/World_Day_for_International_Justice, World Day for International Justice}]
 
 @strong{Bug Fixes}
 @itemize @bullet
-
-@item
-Fix SourceForge bug
-@uref{https://sourceforge.net/forum/forum.php?thread_id=2977816&forum_id=16974,#2977816}
-@dots{} Fedora packaging requires detailed license declarations in source files.
-
 @item
 Fix SourceForge bug
 @uref{https://sourceforge.net/forum/forum.php?thread_id=3266884&forum_id=16974,#3266884}
 @dots{} error in docs for strlen.
-
 @end itemize
 
+@strong{New Features}
+@itemize @bullet
+@item
+Fix SourceForge ``bug''
+@uref{https://sourceforge.net/forum/forum.php?thread_id=2977816&forum_id=16974,#2977816}
+@dots{} Fedora packaging requires detailed license declarations in source files.
+@end itemize
 
 
 @subsubsection Version 2.12.18 [2008 Sep 8 @uref{http://en.wikipedia.org/wiki/International_Literacy_Day, International Literacy Day}]

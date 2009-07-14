@@ -97,8 +97,8 @@ then
 fi
 
 %changelog
-* 2008-jul-13 release 2.12.19
-- Fix SourceForge bug 2977816 (Fedora packaging requires detailed license declarations in source files).
+* 2008-jul-17 release 2.12.19
+- Fix SourceForge bug 2977816 (Fedora licensing issue)
 - Fix SourceForge bug 3266884 (error in docs for strlen).
 * 2008-sep-08 release 2.12.18
 - Improve security of temporary-file handling.
