@@ -160,7 +160,7 @@ show_licenseCmd()
 {
 	extern std::string _lib_directory;
 	std::string license(_lib_directory.c_str());
-	license.append("/license.txt");
+	license.append("doc/license.txt");
 	more_file_to_terminal(license.c_str());
 	return true;
 }
