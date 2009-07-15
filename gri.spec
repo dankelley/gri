@@ -5,7 +5,7 @@ Version: %{griversion}
 Release: 1
 Copyright: distributable
 Group: Applications/Engineering
-License: GPLv2+
+License: GPLv3+
 Source: http://ftp1.sourceforge.net/gri/gri-%{griversion}.tgz
 URL: http://gri.sourceforge.net
 Packager: Dan E. Kelley <Dan.Kelley@Dal.CA>
