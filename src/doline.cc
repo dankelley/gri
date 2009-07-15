@@ -645,10 +645,6 @@ systemCmd()
 static void
 show_startup_msg()
 {
-
-	printf("%s:%d\n",__FILE__,__LINE__);
-
-
 	std::string fullfilename(_lib_directory.c_str());
 	// Must check for '/' as file separator, on some machines.
 #if !defined(VMS)
@@ -665,9 +661,6 @@ show_startup_msg()
 #endif
 #endif
 	fullfilename += "startup.msg";
-
-	printf("doline.cc has '%s'\n",fullfilename.c_str());
-
 	FILE *fp = fopen(fullfilename.c_str(), "r");
 	if (fp) {
 		GriString inLine(128);
