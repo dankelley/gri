@@ -18346,7 +18346,7 @@ make
 Type
 
 @example
-make test
+make check
 @end example
 
 @noindent
