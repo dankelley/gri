@@ -1,14 +1,9 @@
 #!/bin/sh
 #HOW TO INSTALL ON SOURCEFORGE:
 
-export CVS_RSH=ssh
-export CVSROOT=dankelley@cvs.gri.sourceforge.net:/cvsroot/gri
 export PHP="index.php bugs.php contact.php developers.php docs.php download.php subroutines.php news.php"
 export IMAGES="xml.png project-support.jpg"
 
-scp $PHP gri.css dankelley@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs
-scp $IMAGES dankelley@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs/images
-
-# pre-releases
-# scp <> dankelley@gri.sourceforge.net:/home/groups/g/gr/gri/htdocs/pre-releases
-# ssh dankelley@gri.sf.net ; cd /home/groups/g/gr/gri/htdocs ; edit stuff.
+# see https://sourceforge.net/apps/trac/sourceforge/wiki/SCP
+scp $PHP dankelley,gri@web.sourceforge.net:htdocs
+scp $IMAGES dankelley,gri@web.sourceforge.net:htdocs/images
