@@ -38,17 +38,21 @@ Control is provided over all aspects of drawing,
 e.g. line widths, colors, and fonts.  A TeX-like syntax provides 
 common mathematical symbols.</p>
 
-<h1>Starting to use Gri</h1>
+<h1>Using Gri</h1>
 
-<p>Folks who write thousand-line Gri scripts usually start with something
-as simple as the following, which produces an auto-scaled graph.<br>
+<p>People often start using Gri by writing something like the following,
+which produces an auto-scaled graph.<br>
 <pre>
    open file.dat
    read columns x y
    draw curve
 </pre>
-<p>The Gri emacs mode provides a suite of helpful features, such as
-syntax colouring, command completion, and a tight linkage to the online
+<p>As they learn that everything is controllable in Gri, users
+often start to produce complicated and specialized graphs.  For
+example, every graph and table in
+<a href="http://www.dfo-mpo.gc.ca/CSAS/Csas/Publications/ResDocs-DocRech/2009/2009_014_E.pdf">this report</a> was produced with Gri.  Writing complicated
+code is made easier by the Gri emacs mode, which 
+provides syntax colouring, command completion, and tight linkage to the online
 manual; see the 
 <a href="https://sourceforge.net/project/screenshots.php?group_id=5511">
 screenshots</a> for illustration.</p>
