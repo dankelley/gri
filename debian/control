@@ -36,7 +36,7 @@ Description: a language for scientific illustration
    http://gri.sourceforge.net/
 
 Package: gri-el
-Section: science
+Section: lisp
 Architecture: all
 Depends: gri (>= 2.12.1-2), emacs22 | emacsen
 Recommends: gv
