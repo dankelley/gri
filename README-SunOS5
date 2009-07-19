@@ -36,8 +36,8 @@ Copyright restrictions
  The Gri programming languages, and all manuals and online help-files,
  are (c) 1991-2009 Dan E. Kelley <Dan.Kelley@Dal.CA>.
 
- The Gri Emacs mode (gri-mode.el) is (c) 1994-2005 Peter S. Galbraith
+ The Gri Emacs mode (gri-mode.el) is (c) 1994-2009 Peter S. Galbraith
  <GalbraithP@dfo-mpo.gc.ca>
 
- Gri and gri-mode.el are distributed under GPLv2 license or later; see
+ Gri and gri-mode.el are distributed under GPLv3 license or later; see
  COPYING.
