@@ -402,6 +402,7 @@ convert_col_to_gridCmd()
 				fprintf(tmp, "%f %f %f %f\n", 
 					_colX[i], _colY[i], _colZ[i], gr_currentmissingvalue());
 			}
+			fclose(tmp);
 		}
 	}
 	return found;

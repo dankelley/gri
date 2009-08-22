@@ -30,7 +30,7 @@ public:
 	enum type {rgb, hsv, cmyk};
 	GriColor() { t = rgb; transparency = a = b = c = d = 0.0;};
 	GriColor(const GriColor& c);
-	~GriColor() {};
+        ~GriColor();
 	GriColor& operator=(const GriColor& c);
 	void setHSV(double H, double S, double V);
 	void setRGB(double R, double G, double B);

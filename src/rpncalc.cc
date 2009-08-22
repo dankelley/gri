@@ -1335,6 +1335,8 @@ do_operation(operator_name oper)
 			pipefile = (FILE *) popen(output_lines, "r");
 			if (!pipefile) {
 				err("Sorry, cannot do `system' in RPN; failed popen() call");
+				delete [] thisline;
+				delete [] output_lines;
 				return false;
 			}
 			strcpy(output_lines, "");

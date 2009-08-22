@@ -79,6 +79,11 @@ GriColor::GriColor(const GriColor& color)
 	}
 }
 
+GriColor::~GriColor()
+{
+	;
+}
+
 void
 GriColor::setRGB(double R, double G, double B)
 {
