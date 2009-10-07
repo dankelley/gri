@@ -1,3 +1,11 @@
+gri (2.12.19-2) unstable; urgency=low
+
+  * Bug fix: "FTBFS: Nonexistent build-dependency: netcdfg-dev", thanks to
+    Lucas Nussbaum (Closes: #549756).  Switched to libnetcdf-dev.  Also
+    switch gs to ghostscript.
+
+ -- Peter S Galbraith <psg@debian.org>  Mon, 05 Oct 2009 21:31:45 -0400
+
 gri (2.12.19-1) unstable; urgency=low
 
   * New upstream release	
