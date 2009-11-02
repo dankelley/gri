@@ -2,7 +2,7 @@ Source: gri
 Section: science
 Priority: optional
 Maintainer: Peter S Galbraith <psg@debian.org>
-Build-Depends: debhelper, libnetcdf-dev, libreadline5-dev, texlive-latex-base, texlive-generic-recommended, texinfo, imagemagick, info, ghostscript, gsfonts
+Build-Depends: debhelper, libnetcdf-dev, libreadline-dev, texlive-latex-base, texlive-generic-recommended, texinfo, imagemagick, info, ghostscript, gsfonts
 Build-Depends-Indep: debhelper, texlive-latex-base, texlive-generic-recommended, texinfo, imagemagick, info, ghostscript, gsfonts
 Standards-Version: 3.7.3
 
