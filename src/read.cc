@@ -118,51 +118,60 @@ read_colornamesCmd()
 	chars_read = 0;
 	FILE *fp;
 	char name[100];		// should be long enough ??
-	std::string fname(_word[4]);
+        std::string fname;
+        if (_nword == 4) {
+                fname = _lib_directory.c_str();
+                fname.append("rgb.txt");
+        } else 
+                fname = _word[4];
 	un_double_quote(fname);
+        //printf("fname='%s'\n", fname.c_str());
 	fp = fopen(fname.c_str(), "r");
 	Require(fp != NULL,
 		err("`read colornames' cannot open file `\\", fname.c_str(), "'", "\\"));
 	while(!feof(fp)) {
 		unsigned num;
 		char name2[100], name3[100], name4[100];
-		int rr, gg, bb;
+		int rr, gg, bb, line_len;
 		double r, g, b;
 		fgets(_grTempString, _grTempStringLEN - 1, fp);
-		if (_grTempString[skip_space(_grTempString)] != '!') {
-			//printf("<%s>\n",_grTempString);
-			num = sscanf(_grTempString, 
-				     "%d %d %d %s %s %s %s",
-				     &rr, &gg, &bb, name, name2, name3, name4);
-			switch (num - 3) {
-			case 1:
-				break;
-			case 2:
-				strcat(name, " ");
-				strcat(name, name2);
-				break;
-			case 3:
-				strcat(name, " ");
-				strcat(name, name2);
-				strcat(name, " ");
-				strcat(name, name3);
-				break;
-			case 4:
-				strcat(name, " ");
-				strcat(name, name2);
-				strcat(name, " ");
-				strcat(name, name3);
-				strcat(name, " ");
-				strcat(name, name4);
-				break;
-			default:
-				warning("`read colornames' found too many words in RGB colorname; truncating to `\\", name, "'", "\\");
-			}
-			r = rr / 255.0;
-			g = gg / 255.0;
-			b = bb / 255.0;
-			//printf("COLOR '%s' %f %f %f\n",name,r,g,b);
-			create_color(name, r, g, b);
+		if (_grTempString[skip_space(_grTempString)] != '#') { // FIXME: what does this test do?
+                        line_len = (int)strlen(_grTempString);
+                        if (line_len > 3) {
+                                num = sscanf(_grTempString,
+                                             "%d %d %d %s %s %s %s",
+                                             &rr, &gg, &bb, name, name2, name3, name4);
+                                switch (num - 3) {
+                                case 1:
+                                        break;
+                                case 2:
+                                        strcat(name, " ");
+                                        strcat(name, name2);
+                                        break;
+                                case 3:
+                                        strcat(name, " ");
+                                        strcat(name, name2);
+                                        strcat(name, " ");
+                                        strcat(name, name3);
+                                        break;
+                                case 4:
+                                        strcat(name, " ");
+                                        strcat(name, name2);
+                                        strcat(name, " ");
+                                        strcat(name, name3);
+                                        strcat(name, " ");
+                                        strcat(name, name4);
+                                        break;
+                                default:
+                                        printf("[%s] num=%d\n", _grTempString,num);
+                                        warning("`read colornames' found too many words in RGB colorname; truncating to `\\", name, "'", "\\");
+                                }
+                                r = rr / 255.0;
+                                g = gg / 255.0;
+                                b = bb / 255.0;
+                                //printf("COLOR '%s' %f %f %f\n",name,r,g,b);
+                                create_color(name, r, g, b);
+                        }
 		} else {
 			//printf("HEADER <%s>\n",_grTempString);
 		}

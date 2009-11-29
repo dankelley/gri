@@ -84,6 +84,7 @@ install_linux_debian: gri
 	install -m 755 gri $(debian)/usr/bin/gri-$(PACKAGE_VERSION)
 	(cd $(debian)/usr/bin; ln -fs gri-$(PACKAGE_VERSION) gri)
 	install -m 644 gri.cmd  $(debian_lib)/gri.cmd
+	install -m 644 rgb.txt  $(debian_lib)/rgb.txt
 	install -m 644 logo.dat $(debian_lib)/logo.dat
 	if test -f gri_merge; then install -m 755 gri_merge $(debian)/usr/bin; else echo "WARNING: no gri_merge file!"; fi;	
 	if test -f gri_unpage; then install -m 755 gri_unpage $(debian)/usr/bin; else echo "WARNING: no gri_unpage file!";fi;
@@ -94,6 +95,7 @@ install_linux_debian_grionly: gri
 	@echo "Installing into '$(debian)' directory"
 	install -d             $(debian_lib)
 	install -m 644 gri.cmd  $(debian_lib)/gri.cmd
+	install -m 644 rgb.txt  $(debian_lib)/rgb.txt
 	install -m 644 logo.dat $(debian_lib)/logo.dat
 	if test -f startup.debian; then sed -e s,VERSION,${PACKAGE_VERSION}, startup.debian > $(debian_lib)/startup.msg; else echo "WARNING: no startup.debian file!"; fi;
 	install -d         $(debian)/usr/bin
@@ -137,8 +139,8 @@ package-SunOS5:
 	-mkdir -m 755 -p $(SUNOS5_NAME)/doc/html/screenshots
 	-mkdir -m 755 -p $(SUNOS5_NAME)/doc/html/tst_suite
 	-mkdir -m 755 -p $(SUNOS5_NAME)/doc/html/examples
-	-cp -p gri                                                        $(SUNOS5_NAME)/bin
-	-cp  gri.cmd logo.dat copyright.txt license.txt gri-mode.el       $(SUNOS5_NAME)/lib
+	-cp -p gri                                                          $(SUNOS5_NAME)/bin
+	-cp  gri.cmd rgb.txt logo.dat copyright.txt license.txt gri-mode.el $(SUNOS5_NAME)/lib
 	-cat startup.msg | sed -e s,VERSION,${PACKAGE_VERSION}, | sed -e "s/DATE/`date`/" > tmp
 	-cp tmp                                                           $(SUNOS5_NAME)/lib/startup.msg
 	-cat install-SunOS5 | sed -e s,VERSION,${PACKAGE_VERSION}, > tmp
@@ -195,6 +197,7 @@ endif
 	mkdir -m 755 -p                                  $(DESTDIR)$(prefix)/share/gri
 	$(INSTALL_DATA)    startup.msg-tmp               $(DESTDIR)$(prefix)/share/gri/startup.msg
 	$(INSTALL_DATA)    gri.cmd                       $(DESTDIR)$(prefix)/share/gri/gri.cmd
+	$(INSTALL_DATA)    rgb.txt                       $(DESTDIR)$(prefix)/share/gri/rgb.txt
 	$(INSTALL_DATA)    logo.dat                      $(DESTDIR)$(prefix)/share/gri/logo.dat
 uninstall-local:
 	rm -f $(DESTDIR)$(prefix)/bin/gri_unpage
@@ -202,6 +205,7 @@ uninstall-local:
 	rm -f $(DESTDIR)$(prefix)/share/emacs/site-lisp/gri-mode.el
 	rm -f $(DESTDIR)$(prefix)/share/gri/startup.msg
 	rm -f $(DESTDIR)$(prefix)/share/gri/gri.cmd
+	rm -f $(DESTDIR)$(prefix)/share/gri/rgb.txt
 	rm -f $(DESTDIR)$(prefix)/share/gri/logo.dat
 	rm -f startup.msg-tmp
 	rm -f gri.cmd

@@ -7317,24 +7317,19 @@ decode variables and synonyms as well as simple numbers.
 @cindex X11 colors, reading
 
 @example
-`read colornames from RGB "\filename"'
+`read colornames from RGB ["\filename"]'
 @end example
 
 @noindent
-Read colornames from named file, which is in the X11 format.  This
-format has 4 or more columns, the first three giving the red, green and
-blue values in the range 0 to 255, and the last columns giving the
-colorname (which may have more than one word).  You can create colors
-yourself or read an X11 color file.  In many cases you will want to
-@code{read colornames from RGB "/usr/lib/X11/rgb.txt"}.  Full filenames
-must be used; the '~' syntax is not permitted.  Once you have read in a
-colorname table, the named colors may be used as builtin colors
-(@ref{Set Color}).  To view the colors available on your particular
-system, use the Unix command @code{xcolors} or @code{excolors}; to see
-the RGB values of all colors on your X11 system, use the @code{showrgb}
-unix command..  To view the names and RGB values of the colors Gri
-knows, including builtin ones and ones from @code{read colornames}, use
-@code{show colornames}.
+With no filename given, reads an X11-format @code{rgb.txt} file that
+is provided with gri.  Otherwise, reads the named file and tries to
+interpret it as an X11 file.  The file format has 4 or more columns,
+the first three giving the red, green and blue values in the range 0
+to 255, and the last columns giving the colorname (which may have more
+than one word). Once you have read in a colorname table, the named
+colors may be used as builtin colors (@ref{Set Color}).  To view the
+names and RGB values of the colors Gri knows, including builtin ones
+and ones from @code{read colornames}, use @code{show colornames}.
 
 This command is akin to @code{set colorname} (@ref{Set Colorname}),
 except that the latter uses the Gri notation of color constituents being
