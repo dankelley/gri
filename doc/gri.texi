@@ -4439,7 +4439,29 @@ convert columns to grid
 
 @noindent
 With no options specified, convert grid to a 128x128 image,
-using an image range as previously set by @code{set image range}.  
+using an image range as previously set by @code{set image range}, and using
+interpolation (see below).
+
+With the @code{directly} option, no interpolation is used; each grid
+point is used to calculate the colour of a single image pixel.  Since
+images are always uniform in Gri, this will only work if the grid is
+also uniform, i.e. there must be a constant distance between columns
+in the grid, and the same for the rows.  This method is useful for
+fine-grained grids, especially if they contain isolated points (e.g. a
+numerical model might have a trace of points representing a river).
+
+With the @code{size} options @code{.width.} and @code{.height.}
+specified, they set the number of rectangular patches in the image.
+Interpolation is used.
+
+With the @code{box} options specified, they set the bounding box for
+the image.  If @code{box} is not given, the image spans the same
+bounding box as the grid as set by @code{set x grid} and @code{set y
+grid}.  Again, interpolation is used in this form.
+
+Normally, missing values in the grid become white in the image, but this
+can be changed using the @code{set image missing value color to}@dots{}
+command.
 
 @cindex image, interpolation from grid
 @cindex interpolation, from grid to image
@@ -4468,26 +4490,6 @@ four neighbors.  This value is taken to be the value at the common
 vertex of the four triangles, and then bilinear interpolation is used to
 calculate the image pixel value.
 @end enumerate
-
-With the @code{directly} option, no interpolation is used; each grid
-point is used to calculate the colour of a single image pixel.  Since
-images are always uniform in Gri, this will only work if the grid is
-also uniform, i.e. there must be a constant distance between columns
-in the grid, and the same for the rows.  This method is useful for
-fine-grained grids, especially if they contain isolated points (e.g. a
-numerical model might have a trace of points representing a river).
-
-With the @code{size} options @code{.width.} and @code{.height.}
-specified, they set the number of rectanglular patches in the image.
-
-With the @code{box} options specified, they set the bounding box for the
-image.  If @code{box} is not given, the image spans the same bounding
-box as the grid as set by @code{set x grid} and @code{set y grid}.
-
-Normally, missing values in the grid become white in the image, but this
-can be changed using the @code{set image missing value color to}@dots{}
-command.
-
 
 @node   Convert Image To Grid, Create, Convert Grid To Image, Convert
 @comment  node-name,  next,  previous,  up
