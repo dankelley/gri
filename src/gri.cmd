@@ -1,4 +1,4 @@
-#         gri - scientific graphic program (version 2.12.19)
+#         gri - scientific graphic program (version 2.12.20)
 #         Copyright 2009 by Dan E. Kelley; GPLv2+ licensing.
 #
 # NOTE: The linkages to `extern "C"' routines makes use a list of C 
@@ -360,7 +360,7 @@ method as usual.
     extern "C" bool convert_grid_to_columnsCmd(void);
 }
 
-`convert grid to image [size .width. .height.] [box .xleft. .ybottom. .xright. .ytop.]'
+`convert grid to image [directly] [size .width. .height.] [box .xleft. .ybottom. .xright. .ytop.]'
 With no options specified, convert grid to a 128x128 image, using an
 image range as previously set by `set image range'.  The image will
 only be defined for those patches of the region which are spanned by
@@ -369,6 +369,14 @@ non-missing grid values will not translate into non-missing pixels.  The
 reason for this is that individual pixel values for the image are
 determined by interpolating using the four corners of the grid nearest
 the pixel.  The interpolation formula is f(x,y)=a+bx+cy+dxy.
+
+   With the `directly' option, no interpolation is used; each grid
+point is used to calculate the colour of a single image pixel.  Since images
+are always uniform in Gri, this will only work if the grid is also uniform, 
+i.e. there must be a constant distance between columns in the grid, 
+and the same for the rows.  This method is useful for fine-grained
+grids, especially if they contain isolated points (e.g. a numerical
+model might have a trace of points representing a river).
 
    With the `size' options `.width.' and `.height.' specified, they set
 the number of rectanglular patches in the image.

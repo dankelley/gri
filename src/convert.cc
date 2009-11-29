@@ -386,7 +386,7 @@ convert_col_to_gridCmd()
 				_legit_xy(i, j) = false;
 	matrix_limits(&_f_min, &_f_max);
 	if (get_flag("jinyu1")) {
-		char *name = "tmp.dat";
+		const char *name = "tmp.dat";
 		printf("Flag 'jinyu1' set, so writing x, y, z, zpredicted to file '%s'\n",
 		       name);
 		FILE *tmp = fopen (name, "w");
@@ -1375,12 +1375,13 @@ convert_grid_to_columnsCmd(void)
 bool
 convert_grid_to_imageCmd()
 {
-	//printf("%s:%d ENTER convert_grid_to_imageCmd()\n", __FILE__,__LINE__);
-	int             i, ii, j, jj, val;
+        //printf("%s:%d ENTER convert_grid_to_imageCmd()\n", __FILE__,__LINE__);
+        int             i, ii, j, jj, val;
 	int             width, height;
 	int             clipped = 0, masked = 0;
 	double          value, xx, dxx, yy, dyy;
 	double          scale;
+        bool            directly = false;
 	if (!_grid_exists) {
 		err("Cannot `convert grid to image' since no grid data exist yet");
 		return false;
@@ -1406,7 +1407,12 @@ convert_grid_to_imageCmd()
 	// See if the image size was given.
 	width = IMAGE_SIZE_WHEN_CONVERTING;
 	height = IMAGE_SIZE_WHEN_CONVERTING;
-	if (2 == get_cmd_values(_word, _nword, "size", 2, _dstack)) {
+        // convert grid to image directly
+        if (word_is(4, "directly")) {
+                width = (int)_num_xmatrix_data;
+                height = (int) _num_ymatrix_data;
+                directly = true;
+        } else if (2 == get_cmd_values(_word, _nword, "size", 2, _dstack)) {
 		width = (int) (0.5 + _dstack[0]);
 		height = (int) (0.5 + _dstack[1]);
 	}
@@ -1470,38 +1476,64 @@ convert_grid_to_imageCmd()
 	}
 	bool warned = false;
 	GriTimer t;
-	for (i = 0; i < width; i++) {
-		xx = _image_llx + i * dxx;
-		for (j = 0; j < height; j++) {
-			yy = _image_lly + j * dyy;
-			if (!locate_i_j(xx, yy, &ii, &jj)
-			    || !value_i_j(ii, jj, xx, yy, &value)) {
-				*(_image.image + _image.ras_height * i + j) = (unsigned char) _imageBLANK;
-				*(_imageMask.image + _imageMask.ras_height * i + j) = 2;
-				masked++;
-			} else {
-				// Method for converting to integer follows that in
-				// value_to_image(), but done here to speed up.  Make sure to
-				// update this if value_to_image() is updated.
-				// XREF value_to_image()
-				val = (int) floor(0.5 + scale * (value - _image0));
-				if (val < 0) {
-					val = 0;
-					clipped++;
-				} else if (val > 255) {
-					val = 255;
-					clipped++;
-				}
-				*(_image.image + _image.ras_height * i + j) = (unsigned char)
-					val;
-				*(_imageMask.image + _imageMask.ras_height * i + j) = (unsigned char) 0;
-			}
-			if (!warned) {
-				double frac = (height * (1.0 + i)) /(width * height);
-				warned = warn_if_slow(&t, frac, "convert grid to image");
-			}
-		}
-	}
+        if (directly) {
+                for (i = 0; i < width; i++) {
+                        for (j = 0; j < height; j++) {
+                                if (_legit_xy(i, j)) {
+                                        val = (int) floor(0.5 + scale * (_f_xy(i, j) - _image0));
+                                        if (val < 0) {
+                                                val = 0;
+                                                clipped++;
+                                        } else if (val > 255) {
+                                                val = 255;
+                                                clipped++;
+                                        }
+                                        *(_image.image + _image.ras_height * i + j) = (unsigned char) val;
+                                        *(_imageMask.image + _imageMask.ras_height * i + j) = (unsigned char) 0;
+                                } else {
+                                        *(_image.image + _image.ras_height * i + j) = (unsigned char) _imageBLANK;
+                                        *(_imageMask.image + _imageMask.ras_height * i + j) = 2;
+                                        masked++;
+                                }
+                                if (!warned) {
+                                        double frac = (height * (1.0 + i)) /(width * height);
+                                        warned = warn_if_slow(&t, frac, "convert grid to image");
+                                }
+                        }
+                }
+        } else {
+                for (i = 0; i < width; i++) {
+                        xx = _image_llx + i * dxx;
+                        for (j = 0; j < height; j++) {
+                                yy = _image_lly + j * dyy;
+                                if (!locate_i_j(xx, yy, &ii, &jj)
+                                    || !value_i_j(ii, jj, xx, yy, &value)) {
+                                        *(_image.image + _image.ras_height * i + j) = (unsigned char) _imageBLANK;
+                                        *(_imageMask.image + _imageMask.ras_height * i + j) = 2;
+                                        masked++;
+                                } else {
+                                        // Method for converting to integer follows that in
+                                        // value_to_image(), but done here to speed up.  Make sure to
+                                        // update this if value_to_image() is updated.
+                                        // XREF value_to_image()
+                                        val = (int) floor(0.5 + scale * (value - _image0));
+                                        if (val < 0) {
+                                                val = 0;
+                                                clipped++;
+                                        } else if (val > 255) {
+                                                val = 255;
+                                                clipped++;
+                                        }
+                                        *(_image.image + _image.ras_height * i + j) = (unsigned char) val;
+                                        *(_imageMask.image + _imageMask.ras_height * i + j) = (unsigned char) 0;
+                                }
+                                if (!warned) {
+                                        double frac = (height * (1.0 + i)) /(width * height);
+                                        warned = warn_if_slow(&t, frac, "convert grid to image");
+                                }
+                        }
+                }
+        }
 	if (_chatty > 0) {
 		if (clipped || masked) {
 			sprintf(_grTempString, "\

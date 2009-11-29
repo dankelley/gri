@@ -53,8 +53,8 @@
 @comment %**start of header
 @setfilename gri.info
 @settitle Gri
-@set GRI-VERSION 2.12.19
-@set GRI-PREVIOUS-VERSION 2.12.18
+@set GRI-VERSION 2.12.20
+@set GRI-PREVIOUS-VERSION 2.12.19
 @set AUTHOR-EMAIL dankelley@@users.sourceforge.net
 @include version.texi
 @c %**end of header
@@ -4433,7 +4433,7 @@ convert columns to grid
 @cindex @code{convert grid to image} command
 
 @example
-`convert grid to image [size .width. .height.] \
+`convert grid to image [directly] [size .width. .height.] \
     [box .xleft. .ybottom. .xright. .ytop.]'
 @end example
 
@@ -4468,6 +4468,14 @@ four neighbors.  This value is taken to be the value at the common
 vertex of the four triangles, and then bilinear interpolation is used to
 calculate the image pixel value.
 @end enumerate
+
+With the @code{directly} option, no interpolation is used; each grid
+point is used to calculate the colour of a single image pixel.  Since
+images are always uniform in Gri, this will only work if the grid is
+also uniform, i.e. there must be a constant distance between columns
+in the grid, and the same for the rows.  This method is useful for
+fine-grained grids, especially if they contain isolated points (e.g. a
+numerical model might have a trace of points representing a river).
 
 With the @code{size} options @code{.width.} and @code{.height.}
 specified, they set the number of rectanglular patches in the image.
@@ -16509,6 +16517,14 @@ only in the fixing of bugs.
 @cindex version 2.12
 
 @comment ADD-NEW-BUG-FIXES-HERE
+
+@subsubsection Version 2.12.20
+@strong{New Features}
+@itemize @bullet
+@item
+add @code{directly} option to @code{convert grid to image}
+@end itemize
+
 
 @subsubsection Version 2.12.19 [2009 July 17 @uref{http://en.wikipedia.org/wiki/World_Day_for_International_Justice, World Day for International Justice}]
 
