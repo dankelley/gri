@@ -51,8 +51,8 @@ static bool            perform_new_command(const char *s);
 
 
 // Store info about execution blocks.
-bool             get_line_in_block(const char *block, unsigned int *offset);
-char           *_command_word_separator = "-----";
+bool            get_line_in_block(const char *block, unsigned int *offset);
+const char     *_command_word_separator = "-----";
 int             _num_command_word = 0;
 char           *_command_word[MAX_cmd_word];
 static bool     have_command_word_buffer = false;

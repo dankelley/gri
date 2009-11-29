@@ -76,13 +76,13 @@ typedef struct {
 	char *action;
 } superuser_flag;
 static superuser_flag sflag[] = {
-	{FLAG_SYN,  "Print cmdline before/after sub synonyms"},
-	{FLAG_RPN,  "Print cmdline before/after sub rpn"},
-	{FLAG_NEW,  "Print new commands being defined"},
-	{FLAG_SYS,  "Print system commands before passing"},
-	{FLAG_FLOW, "Indicate program flow"},
-	{FLAG_AUT2, "Variable; for use by developers only"},
-	{FLAG_AUT1, "Variable; for use by developers only"},
+	{FLAG_SYN,  (char *)"Print cmdline before/after sub synonyms"},
+	{FLAG_RPN,  (char *)"Print cmdline before/after sub rpn"},
+	{FLAG_NEW,  (char *)"Print new commands being defined"},
+	{FLAG_SYS,  (char *)"Print system commands before passing"},
+	{FLAG_FLOW, (char *)"Indicate program flow"},
+	{FLAG_AUT2, (char *)"Variable; for use by developers only"},
+	{FLAG_AUT1, (char *)"Variable; for use by developers only"},
 	{0, NULL}
 };
 static std::string psname("");

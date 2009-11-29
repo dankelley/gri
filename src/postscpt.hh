@@ -41,7 +41,7 @@
 
 // Commands to retire, when get a chance to recode next:
 // rl rm ALL TEXT COMMANDS
-static char    *PS_dict[] =
+const static char *PS_dict[] =
 {
 	"% NOTE: The Gri postscript dictionary is being converted to the Adobe",
 	"% Illustrator 3.0 dialect of PostScript, as described in the Adobe",

@@ -2458,9 +2458,9 @@ set_pathCmd()
 	}
 	char *which_path;
 	if (strEQ(_word[5], "data")) 
-		which_path = "\\.path_data.";
+		which_path = (char *)"\\.path_data.";
 	else if (strEQ(_word[5], "commands")) 
-		which_path = "\\.path_commands.";
+		which_path = (char *)"\\.path_commands.";
 	else {
 		err("Sixth word must be `data' or `commands', not `\\", _word[5], "' as given.", "\\");
 		return false;

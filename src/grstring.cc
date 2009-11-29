@@ -33,7 +33,7 @@
 // symbol_code (p 604 new PostScript book): (1) define name, (2) Postscript
 // code, (3) symbol-font crossref code (used for estimage of symbol
 // size, by index_for_math_symbol() ... a bad idea, really).
-static char    *symbol_code[NCODES][3] = {
+static char *symbol_code[NCODES][3] = {
 	// name, code in Table E.11, p604 new ps book, char-equivalent}
 	// 
 	// Organization of list below is as in the tables in 
@@ -41,66 +41,66 @@ static char    *symbol_code[NCODES][3] = {
 	//
 	// Table 3.3 Greek Letters
 	// lowercase
-	{"alpha", "\\141", "a"},
-	{"beta", "\\142", "b"},
-	{"gamma", "\\147", "g"},
-	{"delta", "\\144", "d"},
-	{"epsilon", "\\145", "e"},
+	{(char *)"alpha", (char *)"\\141", (char *)"a"},
+	{(char *)"beta", (char *)"\\142", (char *)"b"},
+	{(char *)"gamma", (char *)"\\147", (char *)"g"},
+	{(char *)"delta", (char *)"\\144", (char *)"d"},
+	{(char *)"epsilon", (char *)"\\145", (char *)"e"},
 // varepsilon
-	{"zeta", "\\172", "z"},
-	{"eta", "\\150", "h"},
-	{"theta", "\\161", "q"},
-	{"vartheta", "\\112", "q"},
-	{"iota", "\\151", "i"},
-	{"kappa", "\\153", "k"},
-	{"lambda", "\\154", "l"},
-	{"mu", "\\155", "m"},
-	{"nu", "\\156", "n"},
-	{"xi", "\\170", "x"},
+	{(char *)"zeta", (char *)"\\172", (char *)"z"},
+	{(char *)"eta", (char *)"\\150", (char *)"h"},
+	{(char *)"theta", (char *)"\\161", (char *)"q"},
+	{(char *)"vartheta", (char *)"\\112", (char *)"q"},
+	{(char *)"iota", (char *)"\\151", (char *)"i"},
+	{(char *)"kappa", (char *)"\\153", (char *)"k"},
+	{(char *)"lambda", (char *)"\\154", (char *)"l"},
+	{(char *)"mu", (char *)"\\155", (char *)"m"},
+	{(char *)"nu", (char *)"\\156", (char *)"n"},
+	{(char *)"xi", (char *)"\\170", (char *)"x"},
 // o [not needed, really]
-	{"pi", "\\160", "p"},
-	{"varpi", "\\166", "p"},	// guess that size is same as pi
-	{"rho", "\\162", "r"},
-	{"sigma", "\\163", "s"},
-	{"varsigma", "\\126", "s"},
-	{"tau", "\\164", "t"},
-	{"upsilon", "\\165", "u"},
-	{"psi", "\\171", "y"},
-	{"chi", "\\143", "c"},
-	{"phi", "\\146", "f"},
-	{"varphi", "\\152", "f"},
-	{"omega", "\\167", "w"},
+	{(char *)"pi", (char *)"\\160", (char *)"p"},
+	{(char *)"varpi", (char *)"\\166", (char *)"p"},	// guess that size is same as pi
+	{(char *)"rho", (char *)"\\162", (char *)"r"},
+	{(char *)"sigma", (char *)"\\163", (char *)"s"},
+	{(char *)"varsigma", (char *)"\\126", (char *)"s"},
+	{(char *)"tau", (char *)"\\164", (char *)"t"},
+	{(char *)"upsilon", (char *)"\\165", (char *)"u"},
+	{(char *)"psi", (char *)"\\171", (char *)"y"},
+	{(char *)"chi", (char *)"\\143", (char *)"c"},
+	{(char *)"phi", (char *)"\\146", (char *)"f"},
+	{(char *)"varphi", (char *)"\\152", (char *)"f"},
+	{(char *)"omega", (char *)"\\167", (char *)"w"},
 //
 // Uppercase
-	{"Gamma", "\\107", "G"},
-	{"Delta", "\\104", "D"},
-	{"Theta", "\\121", "Q"},
-	{"Lambda", "\\114", "L"},
-	{"Xi", "\\130", "X"},
-	{"Pi", "\\120", "P"},
-	{"Sigma", "\\123", "S"},
-	{"Upsilon", "\\241", "Y"},	// guess that size is same as psi
-	{"Phi", "\\106", "F"},
-	{"Psi", "\\131", "Y"},
-	{"Omega", "\\127", "W"},
+	{(char *)"Gamma", (char *)"\\107", (char *)"G"},
+	{(char *)"Delta", (char *)"\\104", (char *)"D"},
+	{(char *)"Theta", (char *)"\\121", (char *)"Q"},
+	{(char *)"Lambda", (char *)"\\114", (char *)"L"},
+	{(char *)"Xi", (char *)"\\130", (char *)"X"},
+	{(char *)"Pi", (char *)"\\120", (char *)"P"},
+	{(char *)"Sigma", (char *)"\\123", (char *)"S"},
+	{(char *)"Upsilon", (char *)"\\241", (char *)"Y"},	// guess that size is same as psi
+	{(char *)"Phi", (char *)"\\106", (char *)"F"},
+	{(char *)"Psi", (char *)"\\131", (char *)"Y"},
+	{(char *)"Omega", (char *)"\\127", (char *)"W"},
 // 
 // Table 3.4: Binary Operation Symbols
-	{"pm", "\\261", "+"}, // guess that size is same as +
+	{(char *)"pm", (char *)"\\261", (char *)"+"}, // guess that size is same as +
 // mp
-	{"times", "\\264", "x"}, // guess that size is same as x
-	{"div", "\\270", "x"},	 // guess that size is same as x
-	{"ast", "\\052", "*"},
+	{(char *)"times", (char *)"\\264", (char *)"x"}, // guess that size is same as x
+	{(char *)"div", (char *)"\\270", (char *)"x"},	 // guess that size is same as x
+	{(char *)"ast", (char *)"\\052", (char *)"*"},
 // star
-	{"circ", "\\260", "."},	// guess that size is same as .
-	{"bullet", "\\267", "*"}, // guess that size is same as *
-	{"cdot", "\\327", ","},
+	{(char *)"circ", (char *)"\\260", (char *)"."},	// guess that size is same as .
+	{(char *)"bullet", (char *)"\\267", (char *)"*"}, // guess that size is same as *
+	{(char *)"cdot", (char *)"\\327", (char *)","},
 // cap
 // cup
 // uplus
 // sqcap
 // sqcup
 // vee
-	{"wedge", "\\331", "M"}, // guess that size is same as M
+	{(char *)"wedge", (char *)"\\331", (char *)"M"}, // guess that size is same as M
 // setminus
 // wr
 // diamond
@@ -112,9 +112,9 @@ static char    *symbol_code[NCODES][3] = {
 // rhd
 // unlhd
 // unrhd
-	{"oplus", "\\305", "o"},
+	{(char *)"oplus", (char *)"\\305", (char *)"o"},
 // ominus
-	{"otimes", "\\304", "o"},
+	{(char *)"otimes", (char *)"\\304", (char *)"o"},
 // oslash
 // odot
 // bigcirc
@@ -123,37 +123,37 @@ static char    *symbol_code[NCODES][3] = {
 // amalg
 //
 // Table 3.5: Relation Symbols
-	{"leq", "\\243", "<"}, // guess that size is same as <
+	{(char *)"leq", (char *)"\\243", (char *)"<"}, // guess that size is same as <
 // prec
 // preceq
 // ll
-	{"subset", "\\314", "<"}, // guess that size is same as <
-	{"subseteq", "\\315", "<"}, // guess that size is same as <
+	{(char *)"subset", (char *)"\\314", (char *)"<"}, // guess that size is same as <
+	{(char *)"subseteq", (char *)"\\315", (char *)"<"}, // guess that size is same as <
 // sqsubset
 // sqsubseteq
 // MOVE 'in' to after 'infty'
 // vdash
-	{"geq", "\\263", ">"}, // guess that size is same as >
+	{(char *)"geq", (char *)"\\263", (char *)">"}, // guess that size is same as >
 // succ
 // succeq
 // gg
-	{"supset", "\\311", ">"}, // guess that size is same as >
-	{"supseteq", "\\312", ">"}, // guess that size is same as >
+	{(char *)"supset", (char *)"\\311", (char *)">"}, // guess that size is same as >
+	{(char *)"supseteq", (char *)"\\312", (char *)">"}, // guess that size is same as >
 // sqsupset
 // sqsupseteq    
 // ni
 // dashv
-	{"equiv", "\\272", "="}, // guess that size is same as =
-	{"sim", "\\176", "~"},
+	{(char *)"equiv", (char *)"\\272", (char *)"="}, // guess that size is same as =
+	{(char *)"sim", (char *)"\\176", (char *)"~"},
 // simeq
 // asymp
-	{"approx", "\\273", "~"}, // guess that size is same as ~
-	{"cong", "\\100", "="},	  // guess that size is same as =
-	{"neq", "\\271", "="},	  // guess that size is same as =
+	{(char *)"approx", (char *)"\\273", (char *)"~"}, // guess that size is same as ~
+	{(char *)"cong", (char *)"\\100", (char *)"="},	  // guess that size is same as =
+	{(char *)"neq", (char *)"\\271", (char *)"="},	  // guess that size is same as =
 // doteq
-	{"propto", "\\265", "~"}, // guess that size is same as ~    
+	{(char *)"propto", (char *)"\\265", (char *)"~"}, // guess that size is same as ~    
 // models
-	{"perp", "\\136", "M"},
+	{(char *)"perp", (char *)"\\136", (char *)"M"},
 // mid
 // parallel
 // bowtie
@@ -162,12 +162,12 @@ static char    *symbol_code[NCODES][3] = {
 // frown
 // 
 // Table 3.6: Arrow Symbols
-	{"leftarrow", "\\254", "M"},
-	{"Leftarrow", "\\334", "M"},
-	{"rightarrow", "\\256", "M"},
-	{"Rightarrow", "\\336", "M"},
-	{"leftrightarrow", "\\253", "M"},
-	{"Leftrightarrow", "\\333", "M"},
+	{(char *)"leftarrow", (char *)"\\254", (char *)"M"},
+	{(char *)"Leftarrow", (char *)"\\334", (char *)"M"},
+	{(char *)"rightarrow", (char *)"\\256", (char *)"M"},
+	{(char *)"Rightarrow", (char *)"\\336", (char *)"M"},
+	{(char *)"leftrightarrow", (char *)"\\253", (char *)"M"},
+	{(char *)"Leftrightarrow", (char *)"\\333", (char *)"M"},
 // mapsto
 // hookleftarrow
 // leftharpoonup
@@ -184,10 +184,10 @@ static char    *symbol_code[NCODES][3] = {
 // rightharpoonup
 // rightharpoon down
 // leadsto
-	{"uparrow", "\\255", "|"}, // guess that size is same as "|"
-	{"Uparrow", "\\335", "|"}, // guess that size is same as "|"
-	{"downarrow", "\\257", "|"}, // guess that size is same as "|"
-	{"Downarrow", "\\337", "|"}, // guess that size is same as "|"
+	{(char *)"uparrow", (char *)"\\255", (char *)"|"}, // guess that size is same as "|"
+	{(char *)"Uparrow", (char *)"\\335", (char *)"|"}, // guess that size is same as "|"
+	{(char *)"downarrow", (char *)"\\257", (char *)"|"}, // guess that size is same as "|"
+	{(char *)"Downarrow", (char *)"\\337", (char *)"|"}, // guess that size is same as "|"
 // updownarrow
 // Updownarrow
 // neararrow
@@ -196,47 +196,47 @@ static char    *symbol_code[NCODES][3] = {
 // nwarrow
 //
 // Table 3.7: Miscellaneous Symbols
-	{"aleph", "\\300", "M"},
+	{(char *)"aleph", (char *)"\\300", (char *)"M"},
 // hbar
 // imath
 // jmath
 // ell
-	{"wp", "\\303", "M"},
-	{"Re", "\\302", "R"},		// guess that size is same as R
-	{"Im", "\\301", "M"},		// guess that size is same as M
+	{(char *)"wp", (char *)"\\303", (char *)"M"},
+	{(char *)"Re", (char *)"\\302", (char *)"R"},		// guess that size is same as R
+	{(char *)"Im", (char *)"\\301", (char *)"M"},		// guess that size is same as M
 // mho
-	{"prime", "\\242", "'"},
-	{"emptyset", "\\306", "M"},
-	{"nabla", "\\321", "M"},	// guess that size is same as M
-	{"surd", "\\326", "M"},		// guess that size is same as M
-	{"sqrt", "\\326", "M"},		// not in this table, but what the heck
+	{(char *)"prime", (char *)"\\242", (char *)"'"},
+	{(char *)"emptyset", (char *)"\\306", (char *)"M"},
+	{(char *)"nabla", (char *)"\\321", (char *)"M"},	// guess that size is same as M
+	{(char *)"surd", (char *)"\\326", (char *)"M"},		// guess that size is same as M
+	{(char *)"sqrt", (char *)"\\326", (char *)"M"},		// not in this table, but what the heck
 // top
-	{"bot", "\\136", "M"},
+	{(char *)"bot", (char *)"\\136", (char *)"M"},
 // |
-	{"angle", "\\320", "M"},
-	{"forall", "\\042", "M"},	// guess that size is same as M
-	{"exists", "\\044", "M"},	// guess that size is same as M
-	{"neg", "\\330", "M"},
+	{(char *)"angle", (char *)"\\320", (char *)"M"},
+	{(char *)"forall", (char *)"\\042", (char *)"M"},	// guess that size is same as M
+	{(char *)"exists", (char *)"\\044", (char *)"M"},	// guess that size is same as M
+	{(char *)"neg", (char *)"\\330", (char *)"M"},
 // flat
 // natural
 // sharp
 // backslash
-	{"partial", "\\266", "d"}, // guess that size is same as d
-	{"infty", "\\245", "M"},   // guess that size is same as M
+	{(char *)"partial", (char *)"\\266", (char *)"d"}, // guess that size is same as d
+	{(char *)"infty", (char *)"\\245", (char *)"M"},   // guess that size is same as M
 // Interpose 'int' and 'in' here to avoid clashes with 'infty'
-	{"int", "\\362", "M"}, // guess that size is same as M
-	{"in", "\\316", "<"},  // guess that size is same as <
+	{(char *)"int", (char *)"\\362", (char *)"M"}, // guess that size is same as M
+	{(char *)"in", (char *)"\\316", (char *)"<"},  // guess that size is same as <
 // Box
 // Diamond
 // triangle
-	{"clubsuit", "\\247", "M"},
-	{"diamondsuit", "\\340", "M"},
+	{(char *)"clubsuit", (char *)"\\247", (char *)"M"},
+	{(char *)"diamondsuit", (char *)"\\340", (char *)"M"},
 // heartsuit
-	{"spadesuit", "\\252", "M"},
+	{(char *)"spadesuit", (char *)"\\252", (char *)"M"},
 //
 // Table 3.8 Variable-sized symbols
-	{"sum", "\\345", "M"}, // guess that size is same as M
-	{"prod", "\\325", "M"},	// guess that size is same as M
+	{(char *)"sum", (char *)"\\345", (char *)"M"}, // guess that size is same as M
+	{(char *)"prod", (char *)"\\325", (char *)"M"},	// guess that size is same as M
 // int -- moved up to avoid name clashes
 // oint
 // bigcap
@@ -253,17 +253,17 @@ static char    *symbol_code[NCODES][3] = {
 // (
 // [
 // {
-	{"lfloor", "\\353", "M"},
-	{"lceil", "\\351", "M"},
-	{"langle", "\\341", "<"},
+	{(char *)"lfloor", (char *)"\\353", (char *)"M"},
+	{(char *)"lceil", (char *)"\\351", (char *)"M"},
+	{(char *)"langle", (char *)"\\341", (char *)"<"},
 // /
 // |
 // )
 // ]
 // }
-	{"rfloor", "\\373", "M"},
-	{"rceil", "\\371", "M"},
-	{"rangle", "\\361", ">"}
+	{(char *)"rfloor", (char *)"\\373", (char *)"M"},
+	{(char *)"rceil", (char *)"\\371", (char *)"M"},
+	{(char *)"rangle", (char *)"\\361", (char *)">"}
 // backslash SEE ABOVE
 // \|
 // uparrow SEE ABOVE
@@ -302,7 +302,7 @@ std::vector<std::string> part_string(const std::string &s)
 	return parts;
 }
 
-char* gr_fontname_from_id(int id);
+const char* gr_fontname_from_id(int id);
 
 #define	default_fontID		gr_font_Helvetica
 #define default_encoding        font_encoding_isolatin1
@@ -365,26 +365,26 @@ static void     MoveDn_svg(double *xcm, double *ycm);
 static void     MoveHorizontally(double em_distance);
 static char    *symbol_in_math(const char *sPtr, int *inc);
 
-gr_font_info    font_list[] =
+gr_font_info font_list[] =
 {
-	{gr_font_Courier, "Courier"},
-	{gr_font_CourierOblique, "Courier-Oblique"},
-	{gr_font_CourierBold, "Courier-Bold"},
-	{gr_font_CourierBoldOblique, "Courier-BoldOblique"},
-	{gr_font_Helvetica, "Helvetica"},
-	{gr_font_HelveticaBold, "Helvetica-Bold"},
-	{gr_font_HelveticaOblique, "Helvetica-Oblique"},
-	{gr_font_PalatinoRoman, "Palatino-Roman"},
-	{gr_font_PalatinoItalic, "Palatino-Italic"},
-	{gr_font_PalatinoBold, "Palatino-Bold"},
-	{gr_font_PalatinoBoldItalic, "Palatino-BoldItalic"},
-	{gr_font_Symbol, "Symbol"},
-	{gr_font_TimesRoman, "Times-Roman"},
-	{gr_font_TimesItalic, "Times-Italic"},
-	{gr_font_TimesBold, "Times-Bold"},
-	{gr_font_TimesBoldItalic, "Times-BoldItalic"},
-	{gr_font_Century, "Century"},
-	{gr_font_end_of_list, ""}
+	{gr_font_Courier, (char *)"Courier"},
+	{gr_font_CourierOblique, (char *)"Courier-Oblique"},
+	{gr_font_CourierBold, (char *)"Courier-Bold"},
+	{gr_font_CourierBoldOblique, (char *)"Courier-BoldOblique"},
+	{gr_font_Helvetica, (char *)"Helvetica"},
+	{gr_font_HelveticaBold, (char *)"Helvetica-Bold"},
+	{gr_font_HelveticaOblique, (char *)"Helvetica-Oblique"},
+	{gr_font_PalatinoRoman, (char *)"Palatino-Roman"},
+	{gr_font_PalatinoItalic, (char *)"Palatino-Italic"},
+	{gr_font_PalatinoBold, (char *)"Palatino-Bold"},
+	{gr_font_PalatinoBoldItalic, (char *)"Palatino-BoldItalic"},
+	{gr_font_Symbol, (char *)"Symbol"},
+	{gr_font_TimesRoman, (char *)"Times-Roman"},
+	{gr_font_TimesItalic, (char *)"Times-Italic"},
+	{gr_font_TimesBold, (char *)"Times-Bold"},
+	{gr_font_TimesBoldItalic, (char *)"Times-BoldItalic"},
+	{gr_font_Century, (char *)"Century"},
+	{gr_font_end_of_list, (char *)""}
 };
 
 // Draw text at specified location.
@@ -409,7 +409,7 @@ gr_show_at(/*const*/ char *s, double xcm, double ycm, gr_textStyle style, double
 		 || ycm > OFFPAGE_TOP)) {
 		warning("Drawing text at a location that is offpage.");
 	}
-	char *fn_svg = NULL;
+	const char *fn_svg = NULL;
 	double r, g, b;
 	_griState.color_text().getRGB(&r, &g, &b);
 	switch (_output_file_type) {
@@ -945,7 +945,7 @@ gr_drawstring(const char *s)
 	return;
 }
 
-char* gr_fontname_from_id(int id)
+const char* gr_fontname_from_id(int id)
 {
 	switch (id) {
 	case gr_font_Courier:            return("Courier");
@@ -976,7 +976,7 @@ static void gr_drawchar_svg(char c, double *xcm, double *ycm, gr_fontID font_id)
 {
 	char st[2];
 	double size = gr_currentfontsize_pt();
-	char *font_style;
+	const char *font_style;
 	if (pstack.size() > 0)
 		size *= SuperSize;
 	if (isdigit(c) || font_id == gr_font_Symbol)

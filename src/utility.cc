@@ -731,7 +731,7 @@ pwd()
 #if HAVE_GETCWD
 	static char msg[1024];
 	if (NULL == getcwd(msg, 1024))
-		return "";
+		return (char *)"";
 	else
 		return msg;
 #elif defined(VMS)		/* vms version braindead */
@@ -770,7 +770,7 @@ char*
 egetenv(const char *s)
 {
 #if defined(HAVE_GETENV)
-	char *rval = "";
+	char *rval = (char *)"";
 #endif
 	if (!strcmp(s, "PWD")) {
 		return (char *) pwd();
@@ -778,55 +778,55 @@ egetenv(const char *s)
 #if defined(HAVE_GETENV)
 		rval = (char *)getenv(s);
 		if (rval == NULL)
-			return "";
+			return (char *)"";
 		else
 			return rval;
 #else
-		return "unknown";
+		return (char *)"unknown";
 #endif
 	} else if (!strcmp(s, "SYSTEM")) {
 #if defined(VMS)
-		return "vax";
+		return (char *)"vax";
 #elif defined(MSDOS)
-		return "msdos";
+		return (char *)"msdos";
 #else
-		return "unix";
+		return (char *)"unix";
 #endif
 	} else if (!strcmp(s, "HOST")) {
 #if defined(HAVE_GETENV)
 		rval = (char *)getenv(s);
 		if (rval == NULL)
-			return "";
+			return (char *)"";
 		else
 			return rval;
 #else
-		return "unknown";
+		return (char *)"unknown";
 #endif
 	} else if (!strcmp(s, "HOME")) {
 #if defined(HAVE_GETENV)
 		rval = (char *)getenv(s);
 		if (rval == NULL)
-			return "";
+			return (char *)"";
 		else
 			return rval;
 #else
-		return "unknown";
+		return (char *)"unknown";
 #endif
 	} else if (!strcmp(s, "PAGER")) {
 #if defined(HAVE_GETENV)
 		rval = (char *)getenv(s);
 		if (rval == NULL)
-			return "";
+			return (char *)"";
 		else
 			return rval;
 #else
-		return "unknown";
+		return (char *)"unknown";
 #endif
 	} else if (!strcmp(s, "GRIINPUTS")) {
 #if defined(HAVE_GETENV)
 		rval = (char *)getenv(s);
 		if (rval == NULL)
-			return "";
+			return (char *)"";
 		else
 			return rval;
 #else
@@ -836,7 +836,7 @@ egetenv(const char *s)
 #if defined(HAVE_GETENV)
 		rval = (char *)getenv(s);
 		if (rval == NULL)
-			return "";
+			return (char*)"";
 		else
 			return rval;
 #else
