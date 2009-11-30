@@ -1,3 +1,10 @@
+gri (2.12.20-1) unstable; urgency=low
+
+  * New upstream release	
+  - add `directly' option to `convert grid to image'.
+
+ -- Peter S Galbraith <psg@debian.org>  Sun, 29 Nov 2009 20:14:43 -0500
+
 gri (2.12.19-3) unstable; urgency=low
 
   * Bug fix: "replacing libreadline5-dev build dependency with
