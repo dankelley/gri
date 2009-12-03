@@ -441,22 +441,25 @@ vax machines, but probably no Macintoshes.
         \xinc = "0.1"
         .must_clean_up_xinc. = 1
     end if
-    \tmp = "tmpname"
     if {"\.system." == "unix"}
         system awk           \
             'BEGIN {for(x = \xmin; x <= \xmax; x += \xinc) {print (x, \function)} \
             } '                 \
-            > \tmp
+            > tmp
     else if {"\.system." == "vax"}
         system awk/COMMANDS =\
             "BEGIN { for (x = \xmin; x <= \xmax; x += \xinc) {print (x, \function)} \
             } "                 \
-            /OUTPUT=\tmp NL:
+            /OUTPUT=TMP NL:
     end if
-    open \tmp
+    open tmp
     read columns x y
-    close \tmp
-    unlink \tmp
+    close tmp
+    if {"\.system." == "unix"}
+	system rm tmp
+    else if {"\.system." == "vax"}
+        system DELETE TMP.*;*
+    end if
     if .must_clean_up_xmin.
         delete \xmin
     end if
@@ -2257,16 +2260,20 @@ environment).
     extern "C" bool quitCmd(void);
 }
 
-`read colornames from RGB ["\filename"]'
-With no filename given, reads an X11-format `rgb.txt' file that
-is provided with gri.  Otherwise, reads the named file and tries to
-interpret it as an X11 file.  The file format has 4 or more columns,
-the first three giving the red, green and blue values in the range 0
-to 255, and the last columns giving the colorname (which may have more
-than one word). Once you have read in a colorname table, the named
-colors may be used as builtin colors.  To view the
-names and RGB values of the colors Gri knows, including builtin ones
-and ones from `read colornames', use `show colornames'.
+`read colornames from RGB {"/usr/lib/X11/rgb.txt" | \filename}'
+Read colornames from named file, which is in the X11 format.  This
+format has 4 or more columns, the first three giving the red, green
+and blue values in the range 0 to 255, and the last columns giving the
+colorname (which may have more than one word).  You can create colors
+yourself or read an X11 color file.  In many cases you will want to
+`read colornames from RGB "/usr/lib/X11/rgb.txt"'.  Full filenames
+must be used; the '~' syntax is not permitted.  Once you have read in
+a colorname table, the named colors may be used as builtin colors (see
+also `set color').  To view the colors available on your particular
+system, use the Unix command `xcolors' or `excolors'; to see the RGB
+values for all colors on your system, use the `showrgb' Unix command.
+To view the names and RGB values of the colors Gri knows, including
+builtin ones and ones from `read colornames', use `show colornames'.
 {
     extern "C" bool read_colornamesCmd(void);
 }
