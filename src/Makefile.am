@@ -29,7 +29,7 @@ gri_SOURCES = main.cc G_string.cc GriColor.cc GriPath.cc GriState.cc assert.cc\
  tags.hh types.hh Variable.hh
 
 EXTRA_DIST = Makefile.dj2 \
- gri.cmd-skel logo.dat\
+ gri.cmd-skel logo.dat rgb.txt\
  gri-mode.el gri_merge gri_unpage\
  startup.msg startup.debian startup.redhat
 
