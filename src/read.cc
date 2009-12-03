@@ -141,36 +141,38 @@ read_colornamesCmd()
                                 num = sscanf(_grTempString,
                                              "%d %d %d %s %s %s %s",
                                              &rr, &gg, &bb, name, name2, name3, name4);
-                                switch (num - 3) {
-                                case 1:
-                                        break;
-                                case 2:
-                                        strcat(name, " ");
-                                        strcat(name, name2);
-                                        break;
-                                case 3:
-                                        strcat(name, " ");
-                                        strcat(name, name2);
-                                        strcat(name, " ");
-                                        strcat(name, name3);
-                                        break;
-                                case 4:
-                                        strcat(name, " ");
-                                        strcat(name, name2);
-                                        strcat(name, " ");
-                                        strcat(name, name3);
-                                        strcat(name, " ");
-                                        strcat(name, name4);
-                                        break;
-                                default:
-                                        printf("[%s] num=%d\n", _grTempString,num);
-                                        warning("`read colornames' found too many words in RGB colorname; truncating to `\\", name, "'", "\\");
+                                if (num > 0) {
+                                        switch (num - 3) {
+                                        case 1:
+                                                break;
+                                        case 2:
+                                                strcat(name, " ");
+                                                strcat(name, name2);
+                                                break;
+                                        case 3:
+                                                strcat(name, " ");
+                                                strcat(name, name2);
+                                                strcat(name, " ");
+                                                strcat(name, name3);
+                                                break;
+                                        case 4:
+                                                strcat(name, " ");
+                                                strcat(name, name2);
+                                                strcat(name, " ");
+                                                strcat(name, name3);
+                                                strcat(name, " ");
+                                                strcat(name, name4);
+                                                break;
+                                        default:
+                                                printf("[%s] num=%d\n", _grTempString, num);
+                                                warning("`read colornames' found too many words in RGB colorname; truncating to `\\", name, "'", "\\");
+                                        }
+                                        r = rr / 255.0;
+                                        g = gg / 255.0;
+                                        b = bb / 255.0;
+                                        //printf("COLOR '%s' %f %f %f\n",name,r,g,b);
+                                        create_color(name, r, g, b);
                                 }
-                                r = rr / 255.0;
-                                g = gg / 255.0;
-                                b = bb / 255.0;
-                                //printf("COLOR '%s' %f %f %f\n",name,r,g,b);
-                                create_color(name, r, g, b);
                         }
 		} else {
 			//printf("HEADER <%s>\n",_grTempString);
