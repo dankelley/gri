@@ -1412,6 +1412,7 @@ convert_grid_to_imageCmd()
                 width = (int)_num_xmatrix_data;
                 height = (int) _num_ymatrix_data;
                 directly = true;
+                //printf("DIRECTLY method. %d by %d\n", width, height);
         } else if (2 == get_cmd_values(_word, _nword, "size", 2, _dstack)) {
 		width = (int) (0.5 + _dstack[0]);
 		height = (int) (0.5 + _dstack[1]);
@@ -1450,7 +1451,7 @@ convert_grid_to_imageCmd()
 		err("`box .xleft. .ybottom. .xright. .ytop.' needs exactly 4 parameters");
 		return false;
 	}
-	if (width < 2) { err("Can't have grid < 2 wide"); return false; }
+	if (width  < 2) { err("Can't have grid < 2 wide"); return false; }
 	if (height < 2) { err("Can't have grid < 2 tall"); return false; }
 
 	//printf("%s:%d convert_grid_to_imageCmd() ABOUT TO GET STORAGE FOR %d by %d \n", __FILE__,__LINE__,width,height);
@@ -1476,8 +1477,10 @@ convert_grid_to_imageCmd()
 	}
 	bool warned = false;
 	GriTimer t;
+        printf("width=%d height=%d _image.ras_height=%d, _image.ras_width=%d\n", width,height,_image.ras_height,_image.ras_width);
         if (directly) {
                 for (i = 0; i < width; i++) {
+                        //printf("\ni=%2d:", i);
                         for (j = 0; j < height; j++) {
                                 if (_legit_xy(i, j)) {
                                         val = (int) floor(0.5 + scale * (_f_xy(i, j) - _image0));
@@ -1490,10 +1493,12 @@ convert_grid_to_imageCmd()
                                         }
                                         *(_image.image + _image.ras_height * i + j) = (unsigned char) val;
                                         *(_imageMask.image + _imageMask.ras_height * i + j) = (unsigned char) 0;
+                                        //printf("%4d", j);
                                 } else {
                                         *(_image.image + _image.ras_height * i + j) = (unsigned char) _imageBLANK;
                                         *(_imageMask.image + _imageMask.ras_height * i + j) = 2;
                                         masked++;
+                                        //printf("_%3d", j);
                                 }
                                 if (!warned) {
                                         double frac = (height * (1.0 + i)) /(width * height);
@@ -1628,8 +1633,8 @@ convert_image_to_gridCmd()
 bool
 value_i_j(unsigned int ii, unsigned int jj, double xx, double yy, double *value)
 {
-	double          Dx, Dy;	// width/height of domain with point
-	double          f0, f1, f2, f3;
+	double Dx, Dy;          // width/height of domain with point
+	double f0, f1, f2, f3;
 	double dx;			// x - x_to_left
 	double dy;			// y - y_below
 	// Fiddle with dx,dy,Dx,Dy, to avoid looking past array

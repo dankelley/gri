@@ -17,7 +17,7 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-//#define DEBUG_STORAGE 1		// Debug
+#define DEBUG_STORAGE 1		// Debug
 
 #include        <stdio.h>
 #include	"gr.hh"
@@ -57,18 +57,14 @@ allocate_image_storage(int nx, int ny)
 	_image.ras_type = RT_STANDARD;
 	_image.ras_maptype = RMT_NONE;
 	_image.ras_maplength = 0;
-	if (_image.storage_exists) {
-#ifdef DEBUG_STORAGE
-		printf("%s:%d allocate_image_storage() freeing up storage at %X\n",__FILE__,__LINE__,(int)(_image.image));
-#endif
+	if (_image.storage_exists)
 		free(_image.image);
-	}
 	GET_STORAGE(_image.image, unsigned char, _image.ras_length);
 	if (!_image.image) OUT_OF_MEMORY;
 	_image.storage_exists = true;
 	_imageHist_exists = false;
 #ifdef DEBUG_STORAGE
-	printf("%s:%d allocate_image_storage() got storage for image %d wide and %d tall with storage at %X\n",__FILE__,__LINE__,_image.ras_width,_image.ras_height,(int)(_image.image));
+	printf("%s:%d allocate_image_storage() got storage for image %d wide and %d tall\n",__FILE__,__LINE__,_image.ras_width,_image.ras_height);
 #endif
 	return true;
 }
@@ -91,7 +87,7 @@ allocate_imageMask_storage(int nx, int ny)
 	_imageMask.ras_maplength = 0;
 	if (_imageMask.storage_exists) {
 #ifdef DEBUG_STORAGE
-		printf("%s:%d allocate_imageMask_storage() freeing up storage at %X\n",__FILE__,__LINE__,(int)(_imageMask.image));
+		printf("%s:%d allocate_imageMask_storage() freeing up storage\n",__FILE__,__LINE__);
 #endif
 		free(_imageMask.image);
 	}
@@ -102,7 +98,7 @@ allocate_imageMask_storage(int nx, int ny)
 		*(_imageMask.image + i) = 0;
 	_imageHist_exists = false;
 #ifdef DEBUG_STORAGE
-	printf("%s:%d allocate_imageMask_storage() got storage for imageMask %d wide and %d tall with storage at %X\n",__FILE__,__LINE__,_imageMask.ras_width,_imageMask.ras_height,(int)(_imageMask.image));
+	printf("%s:%d allocate_imageMask_storage() got storage for imageMask %d wide and %d tall\n",__FILE__,__LINE__,_imageMask.ras_width,_imageMask.ras_height);
 #endif
 	return true;
 }
@@ -127,7 +123,7 @@ allocate_xmatrix_storage(int cols)
 {
 	if (_xgrid_exists == true) {
 #if defined(DEBUG_STORAGE)
-		printf("allocate_xmatrix_storage(%d) deleting at %x\n", cols, (unsigned int)_xmatrix);
+		printf("allocate_xmatrix_storage(%d) deleting storage\n", cols);
 #endif
 		delete [] _xmatrix;
 	}
@@ -135,7 +131,7 @@ allocate_xmatrix_storage(int cols)
 	_xmatrix = new double [_num_xmatrix_data];
 	if (!_xmatrix) OUT_OF_MEMORY;
 #if defined(DEBUG_STORAGE)
-	printf("allocate_xmatrix_storage(%d) allocating at %x\n", cols, (unsigned int)_xmatrix);
+	printf("allocate_xmatrix_storage(%d) allocating\n", cols);
 #endif
 	_xgrid_exists = true;
 	return true;
@@ -146,7 +142,7 @@ allocate_ymatrix_storage(int rows)
 {
 	if (_ygrid_exists == true) {
 #if defined(DEBUG_STORAGE)
-		printf("allocate_ymatrix_storage(%d) deleting at %x\n", rows, (unsigned int)_ymatrix);
+		printf("allocate_ymatrix_storage(%d) deleting\n", rows);
 #endif
 		delete [] _ymatrix;
 	}
@@ -154,7 +150,7 @@ allocate_ymatrix_storage(int rows)
 	_ymatrix = new double [_num_ymatrix_data];
 	if (!_ymatrix) OUT_OF_MEMORY;
 #if defined(DEBUG_STORAGE)
-	printf("allocate_ymatrix_storage(%d) allocating at %x\n", rows, (unsigned int)_ymatrix);
+	printf("allocate_ymatrix_storage(%d) allocating\n", rows);
 #endif
 	_ygrid_exists = true;
 	return true;
