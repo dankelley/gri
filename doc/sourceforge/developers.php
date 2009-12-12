@@ -51,7 +51,7 @@ print "<br>";
 #print "[<A HREF=\"http://gri.cvs.sourceforge.net/gri/gri/\">View CVS history</a>].\n";
 print "<p>Git:\n";
 print "[<A HREF=\"http://gri.git.sourceforge.net/git/gitweb.cgi?p=gri/gri;a=summary\">summary</a>]<br>";
-print "<tt>git cvsimport -v -d:pserver:dankelley@gri.cvs.sourceforge.net:/cvsroot/gri gri</tt></p>\n";
+print "<tt>git clone ssh://dankelley@gri.git.sourceforge.net/gitroot/gri/gri</tt></p>\n";
 ?>
 
 <?php
