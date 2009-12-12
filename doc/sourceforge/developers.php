@@ -51,7 +51,13 @@ print "<br>";
 #print "[<A HREF=\"http://gri.cvs.sourceforge.net/gri/gri/\">View CVS history</a>].\n";
 print "<p>Git:\n";
 print "[<A HREF=\"http://gri.git.sourceforge.net/git/gitweb.cgi?p=gri/gri;a=summary\">summary</a>]<br>";
+print "Do this one time:<br>";
 print "<tt>git clone ssh://dankelley@gri.git.sourceforge.net/gitroot/gri/gri</tt></p>\n";
+print "Work cycle:<br>\n";
+print "<tt>git pull</tt> # pull any updates from sourceforge<br>\n";
+print "<tt>emacs ...</tt> # do some work<br>\n";
+print "<tt>git -am 'commit message'</tt> # can also do add then commit<br>\n";
+print "<tt>git push</tt> # push your own updates  back to sourceforge<br>\n";
 ?>
 
 <?php
