@@ -49,8 +49,9 @@ then <tt>make install</tt>. (Other standard targets exist also, such as <tt>make
 
 <p> If you're adventurous and/or interested in helping with Gri development,
 you might want to try building the
-<A HREF="<?php print "$sf_url/cvs/?group_id=$gri_group_id";?>">CVS version</a>,
-   which is the very latest version.  Please note, however, that this may not even compile; 
+working 
+version of the code (see "Developers" tab) ... but 
+note that this may not even compile; 
 a developer's sandbox can be messy!
 </p>
 
