@@ -46,9 +46,12 @@ print "<br> Dan Kelley:";
 print "[<a HREF=\"$sf_url/developer/diary.php?diary_user=31559\">Diary</a>]\n";
 print "[<A HREF=\"$sf_url/pm/task.php?group_project_id=8706&amp;group_id=$gri_group_id&amp;func=browse\">To-do list</A>].\n";
 print "<br>";
-print "CVS:\n";
-print "[<A HREF=\"$sf_url/cvs/?group_id=$gri_group_id\">Get CVS source</a>]\n";
-print "[<A HREF=\"http://gri.cvs.sourceforge.net/gri/gri/\">View CVS history</a>].\n";
+#print "CVS:\n";
+#print "[<A HREF=\"$sf_url/cvs/?group_id=$gri_group_id\">Get CVS source</a>]\n";
+#print "[<A HREF=\"http://gri.cvs.sourceforge.net/gri/gri/\">View CVS history</a>].\n";
+print "<p>Git:\n";
+print "[<A HREF=\"http://gri.git.sourceforge.net/git/gitweb.cgi?p=gri/gri;a=summary\">summary</a>]<br>";
+print "<tt>git cvsimport -v -d:pserver:dankelley@gri.cvs.sourceforge.net:/cvsroot/gri gri</tt></p>\n";
 ?>
 
 <?php
