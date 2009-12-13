@@ -22,10 +22,10 @@
 #include	<stdio.h>
 #include	"gr.hh"
 #include	"extern.hh"
-
+
 extern bool     _grWritePS;
 extern FILE    *_grPS;
-
+
 /*
  * gr_drawBWmaskedimage() -- draw a image of an unsigned char matrix
  * 
@@ -59,6 +59,7 @@ extern FILE    *_grPS;
  * is used.
  * 
  */
+
 void
 gr_drawBWmaskedimage_pt(unsigned char missing,
 			unsigned char *mask,
@@ -117,25 +118,22 @@ gr_drawBWmaskedimage_pt(unsigned char missing,
 		err("INTERNAL ERROR: gr_drawBWmaskedimage() only works for postscript files.");
 	}
 }
-
-/*
- * Draw image, possibly color, in rectangle given in cm coords.
- */
-void
-gr_drawimage_svg(unsigned char *im,
-		 unsigned char *imTransform,
-		 gr_color_model color_model,
-		 unsigned char *mask,
-		 double mask_r,
-		 double mask_g,
-		 double mask_b,
-		 int imax,		// image size
-		 int jmax,		// image size
-		 double xl,		// image lower-left-x, in cm
-		 double yb,		// image lower-left-y, in cm
-		 double xr,		// image upper-right-x, in cm
-		 double yt,		// image upper-right-y, in cm
-		 bool insert_placer)
+
+void gr_drawimage_svg( // Draw image, possibly color, in rectangle given in cm coords.
+                      unsigned char *im,
+                      unsigned char *imTransform,
+                      gr_color_model color_model,
+                      unsigned char *mask,
+                      double mask_r,
+                      double mask_g,
+                      double mask_b,
+                      int imax,		// image size
+                      int jmax,		// image size
+                      double xl,        // image lower-left-x, in cm
+                      double yb,        // image lower-left-y, in cm
+                      double xr,        // image upper-right-x, in cm
+                      double yt,        // image upper-right-y, in cm
+                      bool insert_placer)
 {
 	extern FILE *_grSVG;
 	unsigned char   cmask_r, cmask_g, cmask_b;
@@ -207,19 +205,15 @@ gr_drawimage_svg(unsigned char *im,
 	// hoped to set width= and height= here, but that does not work.)
 	fprintf(_grSVG, "<defs>\n  <style type=\"text/css\"><![CDATA[\n    rect {\n      stroke-width: %.2f;\n      fill-opacity:%.2f\n    } ]]>\n  </style>\n</defs>\n", 
 		0.2, 1.0);	// FIXME: remove opacity, if add image transparency on a pixel-by-pixel basis.
-	/*
-	 * Handle BW and color differently, since PostScript handles differently.
-	 */
+        // Handle BW and color differently, since PostScript handles differently.
 	switch (color_model) {
-	default:			/* ? taken as BW */
+	default:			// taken as BW
 	case bw_model:
 		fprintf(_grSVG, "<g> <!-- BW image -->\n");
 		err("Sorry, svg output of black/white images is not working yet");
 #if 0
 		check_psfile();
-		/*
-		 * Write map to PostScript, creating a linear one if none exists
-		 */
+                // Write map to PostScript, creating a linear one if none exists
 		fprintf(_grPS, "%% Push map onto stack, then image stuff.\n");
 		fprintf(_grPS, "[\n");
 		if (imTransform == NULL) {
@@ -237,19 +231,15 @@ gr_drawimage_svg(unsigned char *im,
 		}
 		fprintf(_grPS, "\n]\n");
 		if (insert_placer)
-			fprintf(_grPS, "%%BEGIN_IMAGE\n");	/* for grepping in ps file */
-		/*
-		 * Now write image.
-		 */
+			fprintf(_grPS, "%%BEGIN_IMAGE\n"); // for grepping in ps file
+                // Now write image.
 		fprintf(_grPS, "%f %f %f %f %d %d im\n", xl_c, yb_c, xr_c, yt_c, (jhigh-jlow), (ihigh-ilow)); // BUG or +1?
 		if (have_mask == true) {
 			int             diff, min_diff = 256;
 			unsigned char   index = 0; // assign to calm compiler ????
 			unsigned char mask_value = (unsigned char)(255.0 * mask_r);
-			/*
-			 * If there is a mapping, must (arduously) look up which image
-			 * value corresponds to this color.
-			 */
+			// If there is a mapping, must (arduously) look up which image
+                        // value corresponds to this color.
 			if (imTransform != NULL) {
 				for (i = 0; i < 256; i++) {
 					diff = (int) fabs(double(imTransform[i] - mask_value));
@@ -317,27 +307,25 @@ gr_drawimage_svg(unsigned char *im,
 			}
 		}
 		group_end();
-	}				/* switch(color_model) */
+	}				// switch(color_model)
 }
-
-/*
- * Draw image, possibly color, in rectangle given in cm coords.
- */
-void
-gr_drawimage(unsigned char *im,
-	     unsigned char *imTransform,
-	     gr_color_model color_model,
-	     unsigned char *mask,
-	     double mask_r,
-	     double mask_g,
-	     double mask_b,
-	     int imax,		// image size
-	     int jmax,		// image size
-	     double xl,		// image lower-left-x, in cm
-	     double yb,		// image lower-left-y, in cm
-	     double xr,		// image upper-right-x, in cm
-	     double yt,		// image upper-right-y, in cm
-	     bool insert_placer)
+
+
+void gr_drawimage( // Draw image, possibly color, in rectangle given in cm coords.
+                  unsigned char *im,
+                  unsigned char *imTransform,
+                  gr_color_model color_model,
+                  unsigned char *mask,
+                  double mask_r,
+                  double mask_g,
+                  double mask_b,
+                  int imax,		// image size
+                  int jmax,		// image size
+                  double xl,		// image lower-left-x, in cm
+                  double yb,		// image lower-left-y, in cm
+                  double xr,		// image upper-right-x, in cm
+                  double yt,		// image upper-right-y, in cm
+                  bool insert_placer)
 {
 	unsigned char   cmask_r, cmask_g, cmask_b;
 	bool            have_mask;
@@ -348,7 +336,7 @@ gr_drawimage(unsigned char *im,
 	if (!_grWritePS)
 		return;
 	//printf("DEBUG [gr_drawimage() %s:%d] xl=%lf  xr=%lf  yb=%lf  yt=%lf\n",__FILE__,__LINE__,xl,xr,yb,yt);
-	/* Figure out about mask */
+	// Figure out about mask
 	have_mask = (mask == NULL) ? false : true;
 	// Convert cm to pt
 	xl *= PT_PER_CM;
@@ -359,46 +347,47 @@ gr_drawimage(unsigned char *im,
 	int ilow = 0, ihigh = imax, jlow = 0, jhigh = jmax;
 	if (_clipping_postscript && _clipping_is_postscript_rect) {
 		ilow =  int(floor(0.5 + (_clip_ps_xleft   - xl)*imax/((xr-xl))));
-		ihigh = int(floor(0.5 + (_clip_ps_xright  - xl)*imax/((xr-xl)))); // BUG: this can exceed available memory!
+		ihigh = int(floor(0.5 + (_clip_ps_xright  - xl)*imax/((xr-xl))));
 		jlow =  int(floor(0.5 + (_clip_ps_ybottom - yb)*jmax/((yt-yb))));
 		jhigh = int(floor(0.5 + (_clip_ps_ytop    - yb)*jmax/((yt-yb))));
+                if (jhigh > jmax) jhigh = jmax;
+                if (_chatty > 1)
+                        printf("clipping postscript to rect %f < x < %f and %f < y < %f\n",
+                               _clip_ps_xleft, _clip_ps_xright,
+                               _clip_ps_ybottom, _clip_ps_ytop);
 
-#if 0
-//		printf("DEBUG: initially ilow,ihigh= %d %d      jlow,jhigh=%d %d\n",ilow,ihigh,jlow,jhigh);
-#endif
-		ilow = LARGER_ONE(ilow, 0);
-		ihigh = SMALLER_ONE(ihigh, imax);
-		jlow = LARGER_ONE(jlow, 0);
-		jhigh = SMALLER_ONE(jhigh, jmax);
-
-		/*DEK*/
 		if (ihigh < ilow) {
+                        if (_chatty > 2) printf("Interchanging ihigh (orig. %d) and ilow (orig %d)\n", ihigh, ilow);
 			int tmp = ihigh;
 			ihigh = ilow;
 			ilow = tmp;
 		}
 		if (jhigh < jlow) {
+                        if (_chatty > 2) printf("Interchanging jhigh (orig. %d) and jlow (orig %d)\n", jhigh, jlow);
 			int tmp = jhigh;
 			jhigh = jlow;
 			jlow = tmp;
 		}
-		/*DEK*/
+		ilow = LARGER_ONE(ilow, 0);
+		ihigh = SMALLER_ONE(ihigh, imax);
+		jlow = LARGER_ONE(jlow, 0);
+		jhigh = SMALLER_ONE(jhigh, jmax);
 
 		if (ilow > 0)     xl_c = xl + ilow * (xr - xl) / imax;
 		if (ihigh < imax) xr_c = xl + ihigh * (xr - xl) / imax;
 		if (jlow > 0)     yb_c = yb + jlow * (yt - yb) / jmax;
 		if (jhigh < jmax) yt_c = yb + jhigh * (yt - yb) / jmax;
-#ifdef __GNUC__
-		gri_debug_printf(1,"image clipping debugging %sn", "...");
-		gri_debug_printf(1,"image xrange (%f %f) pt\n",xl,xr);
-		gri_debug_printf(1,"image yrange (%f %f) pt\n",yb,yt);
-		gri_debug_printf(1,"clip xrange (%f %f) pt\n",_clip_ps_xleft,_clip_ps_xright);
-		gri_debug_printf(1,"clip yrange (%f %f) pt\n",_clip_ps_ybottom,_clip_ps_ytop);
-		gri_debug_printf(1,"switching i to run from %d to %d instead of 0 to %d\n",ilow,ihigh,imax);
-		gri_debug_printf(1,"switching j to run from %d to %d instead of 0 to %d\n",jlow,jhigh,jmax);
-		gri_debug_printf(1,"clipped image xrange (%f %f) pt\n",xl_c,xr_c);
-		gri_debug_printf(1,"clipped image yrange (%f %f) pt\n",yb_c,yt_c);
-#endif
+                if (_chatty > 2) {
+                        printf("image clipping debugging %sn", "...");
+                        printf("image xrange (%f %f) pt\n",xl,xr);
+                        printf("image yrange (%f %f) pt\n",yb,yt);
+                        printf("clip xrange (%f %f) pt\n",_clip_ps_xleft,_clip_ps_xright);
+                        printf("clip yrange (%f %f) pt\n",_clip_ps_ybottom,_clip_ps_ytop);
+                        printf("switching i to run from %d to %d instead of 0 to %d\n",ilow,ihigh,imax);
+                        printf("switching j to run from %d to %d instead of 0 to %d\n",jlow,jhigh,jmax);
+                        printf("clipped image xrange (%f %f) pt\n",xl_c,xr_c);
+                        printf("clipped image yrange (%f %f) pt\n",yb_c,yt_c);
+                }
 	}
 	rectangle box(xl_c/PT_PER_CM, yb_c/PT_PER_CM, xr_c/PT_PER_CM, yt_c/PT_PER_CM); // CHECK: is it only updating if it's within clip region?
 	bounding_box_update(box);
@@ -416,26 +405,15 @@ gr_drawimage(unsigned char *im,
 		yb_c -= dy / 2.0;
 		yt_c += dy / 2.0;
 	}
-#if 0				// BUG: this contradicts the one above.
-	rectangle r(xl_c / PT_PER_CM,
-		    yb_c / PT_PER_CM,
-		    xr_c / PT_PER_CM,
-		    yt_c / PT_PER_CM);
-	bounding_box_update(r);
-#endif
-	/*
-	 * Handle BW and color differently, since PostScript handles differently.
-	 */
+        // Handle BW and color differently, since PostScript handles differently.
 	switch (color_model) {
-	default:			/* ? taken as BW */
+	default:                // taken as BW
 	case bw_model:
-		perlineMAX = 39;	/* use only 78 columns so more readible */
+		perlineMAX = 39; // use only 78 columns so more readible
 		if (imax < perlineMAX)
 			perlineMAX = imax;
 		check_psfile();
-		/*
-		 * Write map to PostScript, creating a linear one if none exists
-		 */
+                // Write map to PostScript, creating a linear one if none exists
 		fprintf(_grPS, "%% Push map onto stack, then image stuff.\n");
 		fprintf(_grPS, "[\n");
 		if (imTransform == NULL) {
@@ -453,24 +431,16 @@ gr_drawimage(unsigned char *im,
 		}
 		fprintf(_grPS, "\n]\n");
 		if (insert_placer)
-			fprintf(_grPS, "%%BEGIN_IMAGE\n");	/* for grepping in ps file */
-		/*
-		 * Now write image.
-		 */
-#if 0
-		fprintf(_grPS, "%f %f %f %f %d %d im\n", xl, yb, xr, yt, jmax, imax);
-#else
+			fprintf(_grPS, "%%BEGIN_IMAGE\n"); // for grepping in ps file
+                // Now write image.
 		//printf("CASE 1a\n");
 		fprintf(_grPS, "%f %f %f %f %d %d im\n", xl_c, yb_c, xr_c, yt_c, (jhigh-jlow), (ihigh-ilow)); // BUG or +1?
-#endif
 		if (have_mask == true) {
 			int             diff, min_diff = 256;
 			unsigned char   index = 0; // assign to calm compiler ????
 			mask_value = (unsigned char)(255.0 * mask_r);
-			/*
-			 * If there is a mapping, must (arduously) look up which image
-			 * value corresponds to this color.
-			 */
+                        // If there is a mapping, must (arduously) look up which image
+                        // value corresponds to this color.
 			if (imTransform != NULL) {
 				for (i = 0; i < 256; i++) {
 					diff = (int) fabs(double(imTransform[i] - mask_value));
@@ -482,13 +452,8 @@ gr_drawimage(unsigned char *im,
 				mask_value = index;
 			}
 		}
-#if 0
-		for (j = jmax - 1; j > -1; j--) {
-			for (i = 0; i < imax; i++) {
-#else
 		for (j = jhigh - 1; j >= jlow; j--) {
 			for (i = ilow; i < ihigh; i++) {
-#endif
 				value = *(im + i * jmax + j);
 				if (have_mask == true && *(mask + i * jmax + j) == 2) {
 					fprintf(_grPS, "%02X", mask_value);
@@ -506,36 +471,25 @@ gr_drawimage(unsigned char *im,
 			fprintf(_grPS, "\n");
 		check_psfile();
 		if (insert_placer)
-			fprintf(_grPS, "%%END_IMAGE\n");	/* for grepping in ps file */
+			fprintf(_grPS, "%%END_IMAGE\n"); // for grepping in ps file
 		break;
 	case rgb_model:
-		perlineMAX = 13;	/* use only 78 columns so more readible */
+		perlineMAX = 13;	// use only 78 columns so more readible
 		if (imax < perlineMAX)
 			perlineMAX = imax;
 		if (insert_placer)
 			fprintf(_grPS, "%%BEGIN_IMAGE\n");
 		fprintf(_grPS, "%f %f %f %f %d %d cim\n", xl_c, yb_c, xr_c, yt_c, (jhigh-jlow), (ihigh-ilow)); // BUG
-		/*DEK*/
-//		printf("DEBUG: ilow, ihigh = %d %d      jlow, jhigh = %d %d\n",ilow,ihigh,jlow,jhigh);
-
+                // printf("DEBUG: ilow, ihigh = %d %d      jlow, jhigh = %d %d\n",ilow,ihigh,jlow,jhigh);
+                
 		check_psfile();
-#if 0
-		if (have_mask == true) {
-			warning("BUG in grimage.c - masking of color images not working yet");
-		}
-#endif
 		cmask_r = (unsigned char)pin0_255(mask_r * 255.0);
 		cmask_g = (unsigned char)pin0_255(mask_g * 255.0);
 		cmask_b = (unsigned char)pin0_255(mask_b * 255.0);
 		if (imTransform == NULL) {
-#if 0
-			for (j = jmax - 1; j > -1; j--) {
-				for (i = 0; i < imax; i++) {
-#else
                         for (j = jhigh - 1; j >= jlow; j--) {
-				for (i = ilow; i < ihigh; i++) {
-#endif
-					value = *(im + i * jmax + j);
+                                for (i = ilow; i < ihigh; i++) {
+                                        value = *(im + i * jmax + j);
 					if (have_mask == true && *(mask + i * jmax + j) == 2) {
 						fprintf(_grPS, "%02X%02X%02X", cmask_r, cmask_g, cmask_b);
 					} else {
@@ -548,14 +502,9 @@ gr_drawimage(unsigned char *im,
 				}
 			}
 			check_psfile();
-		} else {
-#if 0
-			for (j = jmax - 1; j > -1; j--) {
-				for (i = 0; i < imax; i++) {
-#else
+                } else {
                         for (j = jhigh - 1; j >= jlow; j--) { // BUG: should these run on max, or on 'ihigh' etc???
 				for (i = ilow; i < ihigh; i++) {
-#endif
 					value = *(im + i * jmax + j);
 					if (have_mask == true && *(mask + i * jmax + j) == 2) {
 						fprintf(_grPS, "%02X%02X%02X", cmask_r, cmask_g, cmask_b);
@@ -572,11 +521,11 @@ gr_drawimage(unsigned char *im,
 		if (perline != 0)
 			fprintf(_grPS, "\n");
 		if (insert_placer)
-			fprintf(_grPS, "%%END_IMAGE\n");	/* for grepping in ps file */
+			fprintf(_grPS, "%%END_IMAGE\n"); // for grepping in ps file
 		check_psfile();
-	}				/* switch(color_model) */
-}
-
+                        } // switch(color_model)
+                }
+
 /*
  * gr_drawBWimage_pt() -- draw a image of an unsigned char matrix
  * 

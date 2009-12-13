@@ -1477,10 +1477,10 @@ convert_grid_to_imageCmd()
 	}
 	bool warned = false;
 	GriTimer t;
-        printf("width=%d height=%d _image.ras_height=%d, _image.ras_width=%d\n", width,height,_image.ras_height,_image.ras_width);
+        if (_chatty > 1)
+                printf("width=%d height=%d _image.ras_height=%d, _image.ras_width=%d\n", width,height,_image.ras_height,_image.ras_width);
         if (directly) {
                 for (i = 0; i < width; i++) {
-                        //printf("\ni=%2d:", i);
                         for (j = 0; j < height; j++) {
                                 if (_legit_xy(i, j)) {
                                         val = (int) floor(0.5 + scale * (_f_xy(i, j) - _image0));
@@ -1493,12 +1493,10 @@ convert_grid_to_imageCmd()
                                         }
                                         *(_image.image + _image.ras_height * i + j) = (unsigned char) val;
                                         *(_imageMask.image + _imageMask.ras_height * i + j) = (unsigned char) 0;
-                                        //printf("%4d", j);
                                 } else {
                                         *(_image.image + _image.ras_height * i + j) = (unsigned char) _imageBLANK;
                                         *(_imageMask.image + _imageMask.ras_height * i + j) = 2;
                                         masked++;
-                                        //printf("_%3d", j);
                                 }
                                 if (!warned) {
                                         double frac = (height * (1.0 + i)) /(width * height);
@@ -1539,7 +1537,20 @@ convert_grid_to_imageCmd()
                         }
                 }
         }
-	if (_chatty > 0) {
+        if (_chatty > 2) {
+                printf("IMAGE:\n"); // NB. the image is flipped in y.
+                for (j = 0; j < height; j++) {
+                        for (i = 0; i < width; i++) {
+                                if (*(_imageMask.image + _imageMask.ras_height * i + j) == 2)
+                                        printf(".");
+                                else
+                                        printf("*");
+                        }
+                        printf("\n");
+                }
+        }
+
+	if (_chatty > 1) {
 		if (clipped || masked) {
 			sprintf(_grTempString, "\
 `convert grid to image':\n  Clipped %d (%.3f%%) pixels and masked %d (%.3f%%) pixels)\n",
