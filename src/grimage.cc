@@ -140,16 +140,12 @@ void gr_drawimage_svg( // Draw image, possibly color, in rectangle given in cm c
 	bool            have_mask;
 	unsigned char   value;
 	register int    i, j;
-	
 	double x, y, page_height_pt = gr_page_height_pt();
 	char hex[8]; // #000000 for example
-
-	
 	if (!_grWritePS)
 		return;
-	/* Figure out about mask */
+	// Figure out about mask
 	have_mask = (mask == NULL) ? false : true;
-	// Convert cm to pt
 	xl *= PT_PER_CM;
 	xr *= PT_PER_CM;
 	yb *= PT_PER_CM;
@@ -160,15 +156,9 @@ void gr_drawimage_svg( // Draw image, possibly color, in rectangle given in cm c
 	int ilow = 0, ihigh = imax, jlow = 0, jhigh = jmax;
 	if (_clipping_postscript && _clipping_is_postscript_rect) {
 		ilow =  int(floor(0.5 + (_clip_ps_xleft   - xl)*imax/((xr-xl))));
-		ihigh = int(floor(0.5 + (_clip_ps_xright  - xl)*imax/((xr-xl)))); // BUG: this can exceed available memory!
+		ihigh = int(floor(0.5 + (_clip_ps_xright  - xl)*imax/((xr-xl))));
 		jlow =  int(floor(0.5 + (_clip_ps_ybottom - yb)*jmax/((yt-yb))));
 		jhigh = int(floor(0.5 + (_clip_ps_ytop    - yb)*jmax/((yt-yb))));
-		ilow = LARGER_ONE(ilow, 0);
-		ihigh = SMALLER_ONE(ihigh, imax);
-		jlow = LARGER_ONE(jlow, 0);
-		jhigh = SMALLER_ONE(jhigh, jmax);
-		
-		/*DEK*/
 		if (ihigh < ilow) {
 			int tmp = ihigh;
 			ihigh = ilow;
@@ -179,16 +169,28 @@ void gr_drawimage_svg( // Draw image, possibly color, in rectangle given in cm c
 			jhigh = jlow;
 			jlow = tmp;
 		}
-		/*DEK*/
-
+		ilow = LARGER_ONE(ilow, 0);
+		ihigh = SMALLER_ONE(ihigh, imax);
+		jlow = LARGER_ONE(jlow, 0);
+		jhigh = SMALLER_ONE(jhigh, jmax);
 		if (ilow > 0)     xl_c = xl + ilow * (xr - xl) / imax;
 		if (ihigh < imax) xr_c = xl + ihigh * (xr - xl) / imax;
 		if (jlow > 0)     yb_c = yb + jlow * (yt - yb) / jmax;
 		if (jhigh < jmax) yt_c = yb + jhigh * (yt - yb) / jmax;
+                if (_chatty > 2) {
+                        printf("image clipping debugging...\n");
+                        printf("image xrange (%f %f) pt\n",xl,xr);
+                        printf("image yrange (%f %f) pt\n",yb,yt);
+                        printf("clip xrange (%f %f) pt\n",_clip_ps_xleft,_clip_ps_xright);
+                        printf("clip yrange (%f %f) pt\n",_clip_ps_ybottom,_clip_ps_ytop);
+                        printf("making i run from %d to %d instead of 0 to %d\n",ilow,ihigh,imax);
+                        printf("making j run from %d to %d instead of 0 to %d\n",jlow,jhigh,jmax);
+                        printf("clipped image xrange (%f %f) pt\n",xl_c,xr_c);
+                        printf("clipped image yrange (%f %f) pt\n",yb_c,yt_c);
+                }
 	}
 	rectangle box(xl_c/PT_PER_CM, yb_c/PT_PER_CM, xr_c/PT_PER_CM, yt_c/PT_PER_CM); // CHECK: is it only updating if it's within clip region?
 	bounding_box_update(box);
-
 	// Make image overhang the region.
 	if (imax > 1) {
 		double dx = (xr_c - xl_c) / ((ihigh-ilow) - 1); // pixel width
@@ -338,7 +340,6 @@ void gr_drawimage( // Draw image, possibly color, in rectangle given in cm coord
 	//printf("DEBUG [gr_drawimage() %s:%d] xl=%lf  xr=%lf  yb=%lf  yt=%lf\n",__FILE__,__LINE__,xl,xr,yb,yt);
 	// Figure out about mask
 	have_mask = (mask == NULL) ? false : true;
-	// Convert cm to pt
 	xl *= PT_PER_CM;
 	xr *= PT_PER_CM;
 	yb *= PT_PER_CM;
@@ -372,29 +373,25 @@ void gr_drawimage( // Draw image, possibly color, in rectangle given in cm coord
 		ihigh = SMALLER_ONE(ihigh, imax);
 		jlow = LARGER_ONE(jlow, 0);
 		jhigh = SMALLER_ONE(jhigh, jmax);
-
 		if (ilow > 0)     xl_c = xl + ilow * (xr - xl) / imax;
 		if (ihigh < imax) xr_c = xl + ihigh * (xr - xl) / imax;
 		if (jlow > 0)     yb_c = yb + jlow * (yt - yb) / jmax;
 		if (jhigh < jmax) yt_c = yb + jhigh * (yt - yb) / jmax;
                 if (_chatty > 2) {
-                        printf("image clipping debugging %sn", "...");
+                        printf("image clipping debugging...\n");
                         printf("image xrange (%f %f) pt\n",xl,xr);
                         printf("image yrange (%f %f) pt\n",yb,yt);
                         printf("clip xrange (%f %f) pt\n",_clip_ps_xleft,_clip_ps_xright);
                         printf("clip yrange (%f %f) pt\n",_clip_ps_ybottom,_clip_ps_ytop);
-                        printf("switching i to run from %d to %d instead of 0 to %d\n",ilow,ihigh,imax);
-                        printf("switching j to run from %d to %d instead of 0 to %d\n",jlow,jhigh,jmax);
+                        printf("making i run from %d to %d instead of 0 to %d\n",ilow,ihigh,imax);
+                        printf("making j run from %d to %d instead of 0 to %d\n",jlow,jhigh,jmax);
                         printf("clipped image xrange (%f %f) pt\n",xl_c,xr_c);
                         printf("clipped image yrange (%f %f) pt\n",yb_c,yt_c);
                 }
 	}
 	rectangle box(xl_c/PT_PER_CM, yb_c/PT_PER_CM, xr_c/PT_PER_CM, yt_c/PT_PER_CM); // CHECK: is it only updating if it's within clip region?
 	bounding_box_update(box);
-
-	// Make image overhang the region.  This change, vsn 2.005, *finally*
-	// solves a confusion I've had for a long time about how to do
-	// images.
+	// Make image overhang the region.
 	if (imax > 1) {
 		double dx = (xr_c - xl_c) / ((ihigh-ilow) - 1); // pixel width
 		xl_c -= dx / 2.0;
