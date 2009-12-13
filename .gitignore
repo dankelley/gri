@@ -11,3 +11,4 @@ config.status
 *.o
 history.R
 history.pdf
+gri*tar.gz
