@@ -1,0 +1,9 @@
+*info*
+*.html
+*.dvi
+*.log
+refcard.ps
+html
+stamp-vti
+version.texi
+cmdrefcard.ps
