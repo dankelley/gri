@@ -1135,19 +1135,22 @@ gr_moveto_cm(double x_cm, double y_cm)
 	double y_pt = y_cm * PT_PER_CM;
 	extern FILE    *_grPS;
 	// take care of postscript stuff
-	if (_grWritePS) {
-		if (_grPathExists) {	// a path exists
-			fprintf(_grPS, PS_stroke);
-			fprintf(_grPS, PS_weak_newpath);
-			fprintf(_grPS, PS_moveto, x_pt, y_pt);
-		} else {		// make new path
-			_grPathExists = true;
-			fprintf(_grPS, PS_weak_newpath);
-			fprintf(_grPS, PS_moveto, x_pt, y_pt);
-		}
-	}
-	_grCurrentPoint_x = x_pt;
-	_grCurrentPoint_y = y_pt;
+	extern output_file_type _output_file_type;
+	if (_output_file_type == postscript) {
+                if (_grWritePS) {
+                        if (_grPathExists) {	// a path exists
+                                fprintf(_grPS, PS_stroke);
+                                fprintf(_grPS, PS_weak_newpath);
+                                fprintf(_grPS, PS_moveto, x_pt, y_pt);
+                        } else {		// make new path
+                                _grPathExists = true;
+                                fprintf(_grPS, PS_weak_newpath);
+                                fprintf(_grPS, PS_moveto, x_pt, y_pt);
+                        }
+                }
+                _grCurrentPoint_x = x_pt;
+                _grCurrentPoint_y = y_pt;
+        }
 }
 
 // See gr_onxpage_cm() -- see if point is on the page
