@@ -290,7 +290,8 @@ void gr_drawimage_svg( // Draw image, possibly color, in rectangle given in cm c
 			}
 		} else {
                         for (j = jhigh - 1; j >= jlow; j--) {
-				y = page_height_pt - (yb + (jhigh - j) * dy);
+				//y = page_height_pt - (yb + (jhigh - j) * dy);
+				y = page_height_pt - (yb + j * dy);
 				sprintf(label, "j=%d", j);
 				group_start(label);
 				for (i = ilow; i < ihigh; i++) {
