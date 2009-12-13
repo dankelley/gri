@@ -1847,32 +1847,37 @@ gr_set_clip_ps_off()
 void
 gr_set_clip_ps_rect(double ll_x_pt, double ll_y_pt, double ur_x_pt, double ur_y_pt)
 {
-	if (_clipping_postscript) {
-		fprintf(_grPS, "S Q %% turn existing clipping off since user forgot to\n");
-		check_psfile();
-	}
-	_clip_ps_xleft = SMALLER_ONE(ll_x_pt, ur_x_pt);
-	_clip_ps_ybottom = SMALLER_ONE(ll_y_pt, ur_y_pt);
-	_clip_ps_xright = LARGER_ONE(ll_x_pt, ur_x_pt);
-	_clip_ps_ytop = LARGER_ONE(ll_y_pt, ur_y_pt);
-
-/*DEK*/	//printf("DEBUG: am setting clip to xl=%f  xr=%f  yb=%f  yt=%f\n", _clip_ps_xleft, _clip_ps_xright, _clip_ps_ybottom, _clip_ps_ytop);
-
-/*DEK*/
-// why do I not have "Q" to finish it off?
-// why do I not have "W*" to finish it off?
-/*DEK*/
-	fprintf(_grPS, "q n\n");
-	fprintf(_grPS, "%f %f moveto\n", _clip_ps_xleft, _clip_ps_ybottom);
-	fprintf(_grPS, "%f %f lineto\n", _clip_ps_xright, _clip_ps_ybottom);
-	fprintf(_grPS, "%f %f lineto\n", _clip_ps_xright, _clip_ps_ytop);
-	fprintf(_grPS, "%f %f lineto\n", _clip_ps_xleft, _clip_ps_ytop);
-	fprintf(_grPS, "h W\n");
-	fprintf(_grPS, "n %% turn clipping on\n");
-	check_psfile();
-	_clipping_is_postscript_rect = true;
-	//printf("%s:%d set RECT ps clip\n",__FILE__,__LINE__);
-	_clipping_postscript = true;
+	extern output_file_type _output_file_type;
+	if (_output_file_type == svg) {
+                warning("cannot yet clip in svg files");
+        } else if (_output_file_type == postscript) {
+                if (_clipping_postscript) {
+                        fprintf(_grPS, "S Q %% turn existing clipping off since user forgot to\n");
+                        check_psfile();
+                }
+                _clip_ps_xleft = SMALLER_ONE(ll_x_pt, ur_x_pt);
+                _clip_ps_ybottom = SMALLER_ONE(ll_y_pt, ur_y_pt);
+                _clip_ps_xright = LARGER_ONE(ll_x_pt, ur_x_pt);
+                _clip_ps_ytop = LARGER_ONE(ll_y_pt, ur_y_pt);
+                
+                /*DEK*/	//printf("DEBUG: am setting clip to xl=%f  xr=%f  yb=%f  yt=%f\n", _clip_ps_xleft, _clip_ps_xright, _clip_ps_ybottom, _clip_ps_ytop);
+                
+                /*DEK*/
+                // why do I not have "Q" to finish it off?
+                // why do I not have "W*" to finish it off?
+                /*DEK*/
+                fprintf(_grPS, "q n\n");
+                fprintf(_grPS, "%f %f moveto\n", _clip_ps_xleft, _clip_ps_ybottom);
+                fprintf(_grPS, "%f %f lineto\n", _clip_ps_xright, _clip_ps_ybottom);
+                fprintf(_grPS, "%f %f lineto\n", _clip_ps_xright, _clip_ps_ytop);
+                fprintf(_grPS, "%f %f lineto\n", _clip_ps_xleft, _clip_ps_ytop);
+                fprintf(_grPS, "h W\n");
+                fprintf(_grPS, "n %% turn clipping on\n");
+                check_psfile();
+                _clipping_is_postscript_rect = true;
+                //printf("%s:%d set RECT ps clip\n",__FILE__,__LINE__);
+                _clipping_postscript = true;
+        }
 }
 
 void

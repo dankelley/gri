@@ -34,7 +34,7 @@ extern FILE *_grPS;
 extern FILE *_grSVG;
 static const int CAPACITY_DEFAULT = 32;
 double missing_value = -999.0;	// in case not gri
-static void ps_begin_path(double width);
+static void ps_begin_path(double width, char s_or_f);
 static int straighten_curve(double *x, double *y, GriPath::type *a, unsigned int length, double allow);
 
 
@@ -119,7 +119,7 @@ unsigned GriPath::size()
 }
 
 static void
-ps_begin_path(double width)	// Q: what's with this width=-1 condition??
+ps_begin_path(double width, char s_or_f='s') // Q: what's with this width=-1 condition??
 {
 	switch (_output_file_type) {
 	case postscript:
@@ -141,9 +141,10 @@ ps_begin_path(double width)	// Q: what's with this width=-1 condition??
 		fprintf(_grPS, "] %d d\n", int(_dash.size()));
 		break;
 	case svg:
-		fprintf(_grSVG, "<g>\n<path style=\"stroke:%s; stroke-width:%.3f; fill:none;stroke-opacity:%f;stroke-linejoin:%s;stroke-linecap:%s\"\nd=\"\n",
+		fprintf(_grSVG, "<g>\n<path style=\"stroke:%s; stroke-width:%.3f; fill:%s;stroke-opacity:%f;stroke-linejoin:%s;stroke-linecap:%s\"\nd=\"\n",
 			_griState.color_line().get_hexcolor().c_str(),
 			(width == -1) ? _griState.linewidth_line() : width,
+                        (s_or_f == 's') ? "none" : _griState.color_line().get_hexcolor().c_str(),
 			1.0 - _griState.color_line().getT(),
 			_griState.line_join() == 0 ? "sharp" : (_griState.line_join() == 1 ? "round" : "bevel"),
 			_griState.line_cap()  == 0 ? "butt"  : (_griState.line_cap()  == 1 ? "round" : "square"));
@@ -239,7 +240,7 @@ void GriPath::stroke_or_fill(char s_or_f, units the_units, double width, bool cl
 			warning(msg);
 		}
 		if (length > 1) {
-			ps_begin_path(width);
+			ps_begin_path(width, 'f');
 			if (the_units == units_user) { // convert user -> cm
 				for (i = 0; i < length; i++) {
 					double xcm, ycm;
@@ -312,7 +313,7 @@ void GriPath::stroke_or_fill(char s_or_f, units the_units, double width, bool cl
 				break;
 			case svg:
 				if (s_or_f == 'f') {
-					fprintf(stderr, "%s:%d ERROR - cannot fill paths in SVG mode\n", __FILE__,__LINE__);
+					; //fprintf(stderr, "%s:%d ERROR - cannot fill paths in SVG mode\n", __FILE__,__LINE__);
 				} else {
 					if (closepath)
 						fprintf(stderr, "%s:%d ERROR - cannot close paths in SVG mode\n", __FILE__,__LINE__);
