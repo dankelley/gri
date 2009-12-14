@@ -43,239 +43,227 @@ static char *symbol_code[NCODES][4] = {
 	//
 	// Table 3.3 Greek Letters
 	// lowercase
-	{(char *)"alpha", (char *)"\\141", (char *)"a", (char *)"&#176;"},
-	{(char *)"beta", (char *)"\\142", (char *)"b", (char *)"&#176;"},
-	{(char *)"gamma", (char *)"\\147", (char *)"g", (char *)"&#176;"},
-	{(char *)"delta", (char *)"\\144", (char *)"d", (char *)"&#176;"},
-	{(char *)"epsilon", (char *)"\\145", (char *)"e", (char *)"&#176;"},
+	{(char *)"alpha", (char *)"\\141", (char *)"a", (char *)"&#945;"},
+	{(char *)"beta", (char *)"\\142", (char *)"b", (char *)"&#946;"},
+	{(char *)"gamma", (char *)"\\147", (char *)"g", (char *)"&#947;"},
+	{(char *)"delta", (char *)"\\144", (char *)"d", (char *)"&#948;"},
+	{(char *)"epsilon", (char *)"\\145", (char *)"e", (char *)"&#949;"},
 // varepsilon
-	{(char *)"zeta", (char *)"\\172", (char *)"z", (char *)"&#176;"},
-	{(char *)"eta", (char *)"\\150", (char *)"h", (char *)"&#176;"},
-	{(char *)"theta", (char *)"\\161", (char *)"q", (char *)"&#176;"},
-	{(char *)"vartheta", (char *)"\\112", (char *)"q", (char *)"&#176;"},
-	{(char *)"iota", (char *)"\\151", (char *)"i", (char *)"&#176;"},
-	{(char *)"kappa", (char *)"\\153", (char *)"k", (char *)"&#176;"},
-	{(char *)"lambda", (char *)"\\154", (char *)"l", (char *)"&#176;"},
-	{(char *)"mu", (char *)"\\155", (char *)"m", (char *)"&#176;"},
-	{(char *)"nu", (char *)"\\156", (char *)"n", (char *)"&#176;"},
-	{(char *)"xi", (char *)"\\170", (char *)"x", (char *)"&#176;"},
-// o [not needed, really]
-	{(char *)"pi", (char *)"\\160", (char *)"p", (char *)"&#176;"},
-	{(char *)"varpi", (char *)"\\166", (char *)"p", (char *)"&#176;"},	// guess that size is same as pi
-	{(char *)"rho", (char *)"\\162", (char *)"r", (char *)"&#176;"},
-	{(char *)"sigma", (char *)"\\163", (char *)"s", (char *)"&#176;"},
-	{(char *)"varsigma", (char *)"\\126", (char *)"s", (char *)"&#176;"},
-	{(char *)"tau", (char *)"\\164", (char *)"t", (char *)"&#176;"},
-	{(char *)"upsilon", (char *)"\\165", (char *)"u", (char *)"&#176;"},
-	{(char *)"psi", (char *)"\\171", (char *)"y", (char *)"&#176;"},
-	{(char *)"chi", (char *)"\\143", (char *)"c", (char *)"&#176;"},
-	{(char *)"phi", (char *)"\\146", (char *)"f", (char *)"&#176;"},
-	{(char *)"varphi", (char *)"\\152", (char *)"f", (char *)"&#176;"},
-	{(char *)"omega", (char *)"\\167", (char *)"w", (char *)"&#176;"},
+	{(char *)"zeta", (char *)"\\172", (char *)"z", (char *)"&#952;"},
+	{(char *)"eta", (char *)"\\150", (char *)"h", (char *)"&#951;"},
+	{(char *)"theta", (char *)"\\161", (char *)"q", (char *)"&#952;"},
+	{(char *)"vartheta", (char *)"\\112", (char *)"q", (char *)"&#977;"},
+	{(char *)"iota", (char *)"\\151", (char *)"i", (char *)"&#9531;"},
+	{(char *)"kappa", (char *)"\\153", (char *)"k", (char *)"&#954;"},
+	{(char *)"lambda", (char *)"\\154", (char *)"l", (char *)"&#955;"},
+	{(char *)"mu", (char *)"\\155", (char *)"m", (char *)"&#956;"},
+	{(char *)"nu", (char *)"\\156", (char *)"n", (char *)"&#957;"},
+	{(char *)"xi", (char *)"\\170", (char *)"x", (char *)"&#958;"},
+        // o [not needed, really]
+	{(char *)"pi", (char *)"\\160", (char *)"p", (char *)"&#960;"},
+	{(char *)"varpi", (char *)"\\166", (char *)"p", (char *)"&#960;"},
+	{(char *)"rho", (char *)"\\162", (char *)"r", (char *)"&#961;"},
+	{(char *)"sigma", (char *)"\\163", (char *)"s", (char *)"&#963;"}, // or 962
+	{(char *)"varsigma", (char *)"\\126", (char *)"s", (char *)"&#962;"},
+	{(char *)"tau", (char *)"\\164", (char *)"t", (char *)"&#964;"},
+	{(char *)"upsilon", (char *)"\\165", (char *)"u", (char *)"&#965;"},
+	{(char *)"psi", (char *)"\\171", (char *)"y", (char *)"&#968;"},
+	{(char *)"chi", (char *)"\\143", (char *)"c", (char *)"&#967;"},
+	{(char *)"phi", (char *)"\\146", (char *)"f", (char *)"&#966;"},
+	{(char *)"varphi", (char *)"\\152", (char *)"f", (char *)"&#966;"}, //?
+	{(char *)"omega", (char *)"\\167", (char *)"w", (char *)"&#969;"},
 //
 // Uppercase
-	{(char *)"Gamma", (char *)"\\107", (char *)"G", (char *)"&#176;"},
-	{(char *)"Delta", (char *)"\\104", (char *)"D", (char *)"&#176;"},
-	{(char *)"Theta", (char *)"\\121", (char *)"Q", (char *)"&#176;"},
-	{(char *)"Lambda", (char *)"\\114", (char *)"L", (char *)"&#176;"},
-	{(char *)"Xi", (char *)"\\130", (char *)"X", (char *)"&#176;"},
-	{(char *)"Pi", (char *)"\\120", (char *)"P", (char *)"&#176;"},
-	{(char *)"Sigma", (char *)"\\123", (char *)"S", (char *)"&#176;"},
-	{(char *)"Upsilon", (char *)"\\241", (char *)"Y", (char *)"&#176;"},	// guess that size is same as psi
-	{(char *)"Phi", (char *)"\\106", (char *)"F", (char *)"&#176;"},
-	{(char *)"Psi", (char *)"\\131", (char *)"Y", (char *)"&#176;"},
-	{(char *)"Omega", (char *)"\\127", (char *)"W", (char *)"&#176;"},
-// 
-// Table 3.4: Binary Operation Symbols
-	{(char *)"pm", (char *)"\\261", (char *)"+", (char *)"&#176;"}, // guess that size is same as +
+	{(char *)"Gamma", (char *)"\\107", (char *)"G", (char *)"&#915;"},
+	{(char *)"Delta", (char *)"\\104", (char *)"D", (char *)"&#916;"},
+	{(char *)"Theta", (char *)"\\121", (char *)"Q", (char *)"&#920;"},
+	{(char *)"Lambda", (char *)"\\114", (char *)"L", (char *)"&#923;"},
+	{(char *)"Xi", (char *)"\\130", (char *)"X", (char *)"&#926;"},
+	{(char *)"Pi", (char *)"\\120", (char *)"P", (char *)"&#928;"},
+	{(char *)"Sigma", (char *)"\\123", (char *)"S", (char *)"&#931;"},
+	{(char *)"Upsilon", (char *)"\\241", (char *)"Y", (char *)"&#933;"},
+	{(char *)"Phi", (char *)"\\106", (char *)"F", (char *)"&#934;"},
+	{(char *)"Psi", (char *)"\\131", (char *)"Y", (char *)"&#936;"},
+	{(char *)"Omega", (char *)"\\127", (char *)"W", (char *)"&#937;"},
+        // Table 3.4: Binary Operation Symbols
+	{(char *)"pm", (char *)"\\261", (char *)"+", (char *)"&#177;"}, // guess that size is same as +
 // mp
-	{(char *)"times", (char *)"\\264", (char *)"x", (char *)"&#176;"}, // guess that size is same as x
-	{(char *)"div", (char *)"\\270", (char *)"x", (char *)"&#176;"},	 // guess that size is same as x
-	{(char *)"ast", (char *)"\\052", (char *)"*", (char *)"&#176;"},
-// star
-        // degree \305 &#176;  "b0" in hex Q: what is 305, then maybe octal?  (want to work with existing)
-        // http://www.w3.org/TR/html4/sgml/entities.html#h-24.3
-	{(char *)"circ", (char *)"\\260", (char *)".", (char *)"&#176;"},	// 44: guess that size is same as .
-	{(char *)"bullet", (char *)"\\267", (char *)"*", (char *)"&#176;"}, // guess that size is same as *
-	{(char *)"cdot", (char *)"\\327", (char *)",", (char *)"&#176;"},
-// cap
-// cup
-// uplus
-// sqcap
-// sqcup
-// vee
-	{(char *)"wedge", (char *)"\\331", (char *)"M", (char *)"&#176;"}, // guess that size is same as M
-// setminus
-// wr
-// diamond
-// bigtriangleup
-// bigtriangledown
-// triangleleft
-// triangleright
-// lhd
-// rhd
-// unlhd
-// unrhd
-	{(char *)"oplus", (char *)"\\305", (char *)"o", (char *)"&#176;"},
-// ominus
-	{(char *)"otimes", (char *)"\\304", (char *)"o", (char *)"&#176;"},
-// oslash
-// odot
-// bigcirc
-// dagger
-// ddagger
-// amalg
-//
-// Table 3.5: Relation Symbols
-	{(char *)"leq", (char *)"\\243", (char *)"<", (char *)"&#176;"}, // guess that size is same as <
-// prec
-// preceq
-// ll
-	{(char *)"subset", (char *)"\\314", (char *)"<", (char *)"&#176;"}, // guess that size is same as <
-	{(char *)"subseteq", (char *)"\\315", (char *)"<", (char *)"&#176;"}, // guess that size is same as <
-// sqsubset
-// sqsubseteq
-// MOVE 'in' to after 'infty'
-// vdash
-	{(char *)"geq", (char *)"\\263", (char *)">", (char *)"&#176;"}, // guess that size is same as >
-// succ
-// succeq
-// gg
-	{(char *)"supset", (char *)"\\311", (char *)">", (char *)"&#176;"}, // guess that size is same as >
-	{(char *)"supseteq", (char *)"\\312", (char *)">", (char *)"&#176;"}, // guess that size is same as >
-// sqsupset
-// sqsupseteq    
-// ni
-// dashv
-	{(char *)"equiv", (char *)"\\272", (char *)"=", (char *)"&#176;"}, // guess that size is same as =
-	{(char *)"sim", (char *)"\\176", (char *)"~", (char *)"&#176;"},
-// simeq
-// asymp
-	{(char *)"approx", (char *)"\\273", (char *)"~", (char *)"&#176;"}, // guess that size is same as ~
-	{(char *)"cong", (char *)"\\100", (char *)"=", (char *)"&#176;"},	  // guess that size is same as =
-	{(char *)"neq", (char *)"\\271", (char *)"=", (char *)"&#176;"},	  // guess that size is same as =
-// doteq
-	{(char *)"propto", (char *)"\\265", (char *)"~", (char *)"&#176;"}, // guess that size is same as ~    
-// models
-	{(char *)"perp", (char *)"\\136", (char *)"M", (char *)"&#176;"},
-// mid
-// parallel
-// bowtie
-// join
-// smile
-// frown
-// 
-// Table 3.6: Arrow Symbols
-	{(char *)"leftarrow", (char *)"\\254", (char *)"M", (char *)"&#176;"},
-	{(char *)"Leftarrow", (char *)"\\334", (char *)"M", (char *)"&#176;"},
-	{(char *)"rightarrow", (char *)"\\256", (char *)"M", (char *)"&#176;"},
-	{(char *)"Rightarrow", (char *)"\\336", (char *)"M", (char *)"&#176;"},
-	{(char *)"leftrightarrow", (char *)"\\253", (char *)"M", (char *)"&#176;"},
-	{(char *)"Leftrightarrow", (char *)"\\333", (char *)"M", (char *)"&#176;"},
-// mapsto
-// hookleftarrow
-// leftharpoonup
-// leftharpoondown
-// rightleftharpoons
-// longleftarrow
-// Longleftarrow
-// longrightarrow
-// Longrightarrow
-// longleftrightarrow
-// Longleftrightarrow
-// longmapsto
-// hookrightarrow
-// rightharpoonup
-// rightharpoon down
-// leadsto
-	{(char *)"uparrow", (char *)"\\255", (char *)"|", (char *)"&#176;"}, // guess that size is same as "|"
-	{(char *)"Uparrow", (char *)"\\335", (char *)"|", (char *)"&#176;"}, // guess that size is same as "|"
-	{(char *)"downarrow", (char *)"\\257", (char *)"|", (char *)"&#176;"}, // guess that size is same as "|"
-	{(char *)"Downarrow", (char *)"\\337", (char *)"|", (char *)"&#176;"}, // guess that size is same as "|"
-// updownarrow
-// Updownarrow
-// neararrow
-// searrow
-// swarrow
-// nwarrow
-//
-// Table 3.7: Miscellaneous Symbols
-	{(char *)"aleph", (char *)"\\300", (char *)"M", (char *)"&#176;"},
-// hbar
-// imath
-// jmath
-// ell
-	{(char *)"wp", (char *)"\\303", (char *)"M", (char *)"&#176;"},
-	{(char *)"Re", (char *)"\\302", (char *)"R", (char *)"&#176;"},		// guess that size is same as R
-	{(char *)"Im", (char *)"\\301", (char *)"M", (char *)"&#176;"},		// guess that size is same as M
-// mho
-	{(char *)"prime", (char *)"\\242", (char *)"'", (char *)"&#176;"},
-	{(char *)"emptyset", (char *)"\\306", (char *)"M", (char *)"&#176;"},
-	{(char *)"nabla", (char *)"\\321", (char *)"M", (char *)"&#176;"},	// guess that size is same as M
-	{(char *)"surd", (char *)"\\326", (char *)"M", (char *)"&#176;"},		// guess that size is same as M
-	{(char *)"sqrt", (char *)"\\326", (char *)"M", (char *)"&#176;"},		// not in this table, but what the heck
-// top
-	{(char *)"bot", (char *)"\\136", (char *)"M", (char *)"&#176;"},
-// |
-	{(char *)"angle", (char *)"\\320", (char *)"M", (char *)"&#176;"},
-	{(char *)"forall", (char *)"\\042", (char *)"M", (char *)"&#176;"},	// guess that size is same as M
-	{(char *)"exists", (char *)"\\044", (char *)"M", (char *)"&#176;"},	// guess that size is same as M
-	{(char *)"neg", (char *)"\\330", (char *)"M", (char *)"&#176;"},
-// flat
-// natural
-// sharp
-// backslash
-	{(char *)"partial", (char *)"\\266", (char *)"d", (char *)"&#176;"}, // guess that size is same as d
-	{(char *)"infty", (char *)"\\245", (char *)"M", (char *)"&#176;"},   // guess that size is same as M
-// Interpose 'int' and 'in' here to avoid clashes with 'infty'
-	{(char *)"int", (char *)"\\362", (char *)"M", (char *)"&#176;"}, // guess that size is same as M
-	{(char *)"in", (char *)"\\316", (char *)"<", (char *)"&#176;"},  // guess that size is same as <
-// Box
-// Diamond
-// triangle
-	{(char *)"clubsuit", (char *)"\\247", (char *)"M", (char *)"&#176;"},
-	{(char *)"diamondsuit", (char *)"\\340", (char *)"M", (char *)"&#176;"},
-// heartsuit
-	{(char *)"spadesuit", (char *)"\\252", (char *)"M", (char *)"&#176;"},
-//
-// Table 3.8 Variable-sized symbols
-	{(char *)"sum", (char *)"\\345", (char *)"M", (char *)"&#176;"}, // guess that size is same as M
-	{(char *)"prod", (char *)"\\325", (char *)"M", (char *)"&#176;"},	// guess that size is same as M
-// int -- moved up to avoid name clashes
-// oint
-// bigcap
-// bigcup
-// bigsqcup
-// bigvee
-// bigwedge
-// bigodot
-// bigotimes
-// bigoplus
-// biguplus
-//
-// Table 3.10
-// (
-// [
-// {
-	{(char *)"lfloor", (char *)"\\353", (char *)"M", (char *)"&#176;"},
-	{(char *)"lceil", (char *)"\\351", (char *)"M", (char *)"&#176;"},
-	{(char *)"langle", (char *)"\\341", (char *)"<", (char *)"&#176;"},
-// /
-// |
-// )
-// ]
-// }
-	{(char *)"rfloor", (char *)"\\373", (char *)"M", (char *)"&#176;"},
-	{(char *)"rceil", (char *)"\\371", (char *)"M", (char *)"&#176;"},
-	{(char *)"rangle", (char *)"\\361", (char *)">", (char *)"&#176;"}
-// backslash SEE ABOVE
-// \|
-// uparrow SEE ABOVE
-// downarrow SEE ABOVE
-// updownarrow SEE ABOVE
-// Uparrow SEE ABOVE
-// Downarrow SEE ABOVE
-// Updownarrow SEE ABOVE
+	{(char *)"times", (char *)"\\264", (char *)"x", (char *)"&#215;"}, // guess that size is same as x
+	{(char *)"div", (char *)"\\270", (char *)"x", (char *)"&#247;"}, // guess that size is same as x
+	{(char *)"ast", (char *)"\\052", (char *)"*", (char *)"&#8727;"}, // star
+	{(char *)"circ", (char *)"\\260", (char *)".", (char *)"&#176;"}, // 44: guess that size is same as .
+	{(char *)"bullet", (char *)"\\267", (char *)"*", (char *)"&#8226;"}, // guess that size is same as *
+	{(char *)"cdot", (char *)"\\327", (char *)",", (char *)"&#183;"}, // ? Georgian comma
+        // cap
+        // cup
+        // uplus
+        // sqcap
+        // sqcup
+        // vee
+	{(char *)"wedge", (char *)"\\331", (char *)"M", (char *)"&#8743;"}, // guess that size is same as M
+        // setminus
+        // wr
+        // diamond
+        // bigtriangleup
+        // bigtriangledown
+        // triangleleft
+        // triangleright
+        // lhd
+        // rhd
+        // unlhd
+        // unrhd
+	{(char *)"oplus", (char *)"\\305", (char *)"o", (char *)"&#8853;"},
+        // ominus
+	{(char *)"otimes", (char *)"\\304", (char *)"o", (char *)"&#8855;"},
+        // oslash
+        // odot
+        // bigcirc
+        // dagger
+        // ddagger
+        // amalg
+        //
+        // Table 3.5: Relation Symbols
+	{(char *)"leq", (char *)"\\243", (char *)"<", (char *)"&#8804;"}, // guess that size is same as <
+        // prec
+        // preceq
+        // ll
+	{(char *)"subset", (char *)"\\314", (char *)"<", (char *)"&#8834;"}, // guess that size is same as <
+	{(char *)"subseteq", (char *)"\\315", (char *)"<", (char *)"&#8838;"}, // guess that size is same as <
+        // sqsubset
+        // sqsubseteq
+        // MOVE 'in' to after 'infty'
+        // vdash
+	{(char *)"geq", (char *)"\\263", (char *)">", (char *)"&#8805;"},
+        // succ
+        // succeq
+        // gg
+	{(char *)"supset", (char *)"\\311", (char *)">", (char *)"&#8835;"},
+	{(char *)"supseteq", (char *)"\\312", (char *)">", (char *)"&#8839;"},
+        // sqsupset
+        // sqsupseteq    
+        // ni
+        // dashv
+	{(char *)"equiv", (char *)"\\272", (char *)"=", (char *)"&#8801;"},
+	{(char *)"sim", (char *)"\\176", (char *)"~", (char *)"&#8764;"},
+        // simeq
+        // asymp
+	{(char *)"approx", (char *)"\\273", (char *)"~", (char *)"&#8774;"}, // ?
+	{(char *)"cong", (char *)"\\100", (char *)"=", (char *)"&#8764;"}, // ?
+	{(char *)"neq", (char *)"\\271", (char *)"=", (char *)"&#8800;"},
+        // doteq
+	{(char *)"propto", (char *)"\\265", (char *)"~", (char *)"&#8733;"},
+        // models
+	{(char *)"perp", (char *)"\\136", (char *)"M", (char *)"&#8869;"},
+        // mid
+        // parallel
+        // bowtie
+        // join
+        // smile
+        // frown
+        // 
+        // Table 3.6: Arrow Symbols
+	{(char *)"leftarrow", (char *)"\\254", (char *)"M", (char *)"&#8592;"},
+	{(char *)"Leftarrow", (char *)"\\334", (char *)"M", (char *)"&#8656;"},
+	{(char *)"rightarrow", (char *)"\\256", (char *)"M", (char *)"&#8594;"},
+	{(char *)"Rightarrow", (char *)"\\336", (char *)"M", (char *)"&#8658;"},
+	{(char *)"leftrightarrow", (char *)"\\253", (char *)"M", (char *)"&#8596;"},
+	{(char *)"Leftrightarrow", (char *)"\\333", (char *)"M", (char *)"&#8660;"},
+        // mapsto
+        // hookleftarrow
+        // leftharpoonup
+        // leftharpoondown
+        // rightleftharpoons
+        // longleftarrow
+        // Longleftarrow
+        // longrightarrow
+        // Longrightarrow
+        // longleftrightarrow
+        // Longleftrightarrow
+        // longmapsto
+        // hookrightarrow
+        // rightharpoonup
+        // rightharpoon down
+        // leadsto
+	{(char *)"uparrow", (char *)"\\255", (char *)"|", (char *)"&#8593;"},
+	{(char *)"Uparrow", (char *)"\\335", (char *)"|", (char *)"&#8657;"},
+	{(char *)"downarrow", (char *)"\\257", (char *)"|", (char *)"&#8595;"},
+	{(char *)"Downarrow", (char *)"\\337", (char *)"|", (char *)"&#8659;"},
+        // updownarrow
+        // Updownarrow
+        // neararrow
+        // searrow
+        // swarrow
+        // nwarrow
+        //
+        // Table 3.7: Miscellaneous Symbols
+	{(char *)"aleph", (char *)"\\300", (char *)"M", (char *)"&#8501;"}, // ?
+        // hbar
+        // imath
+        // jmath
+        // ell
+	{(char *)"wp", (char *)"\\303", (char *)"M", (char *)"&#;8476"}, // BUG: figure out what this is
+	{(char *)"Re", (char *)"\\302", (char *)"R", (char *)"&#;8476"},
+	{(char *)"Im", (char *)"\\301", (char *)"M", (char *)"&#8465;"},
+        // mho
+	{(char *)"prime", (char *)"\\242", (char *)"'", (char *)"&#8242;"},
+	{(char *)"emptyset", (char *)"\\306", (char *)"M", (char *)"&#;8709"},
+	{(char *)"nabla", (char *)"\\321", (char *)"M", (char *)"&#8711;"},
+	{(char *)"surd", (char *)"\\326", (char *)"M", (char *)"&#8730;"},
+	{(char *)"sqrt", (char *)"\\326", (char *)"M", (char *)"&#8730;"},
+        // top
+	{(char *)"bot", (char *)"\\136", (char *)"M", (char *)"&#;8730"}, // BUG: no idea what this is
+        // |
+	{(char *)"angle", (char *)"\\320", (char *)"M", (char *)"&#8736;"},
+	{(char *)"forall", (char *)"\\042", (char *)"M", (char *)"&#8704;"},
+	{(char *)"exists", (char *)"\\044", (char *)"M", (char *)"&#8707;"},
+	{(char *)"neg", (char *)"\\330", (char *)"M", (char *)"&#172;"},
+        // flat
+        // natural
+        // sharp
+        // backslash
+	{(char *)"partial", (char *)"\\266", (char *)"d", (char *)"&#8706;"},
+	{(char *)"infty", (char *)"\\245", (char *)"M", (char *)"&#8734;"},
+        // Interpose 'int' and 'in' here to avoid clashes with 'infty'
+	{(char *)"int", (char *)"\\362", (char *)"M", (char *)"&#8747;"},
+	{(char *)"in", (char *)"\\316", (char *)"<", (char *)"&#8712;"},
+        // Box
+        // Diamond
+        // triangle
+	{(char *)"clubsuit", (char *)"\\247", (char *)"M", (char *)"&#9827;"},
+	{(char *)"diamondsuit", (char *)"\\340", (char *)"M", (char *)"&#9830;"},
+        // heartsuit
+	{(char *)"spadesuit", (char *)"\\252", (char *)"M", (char *)"&#9829;"},
+        //
+        // Table 3.8 Variable-sized symbols
+	{(char *)"sum", (char *)"\\345", (char *)"M", (char *)"&#8721;"},
+	{(char *)"prod", (char *)"\\325", (char *)"M", (char *)"&#8719;"},
+        // int -- moved up to avoid name clashes
+        // oint
+        // bigcap
+        // bigcup
+        // bigsqcup
+        // bigvee
+        // bigwedge
+        // bigodot
+        // bigotimes
+        // bigoplus
+        // biguplus
+        //
+        // Table 3.10
+	{(char *)"lfloor", (char *)"\\353", (char *)"M", (char *)"&#8970;"},
+	{(char *)"lceil", (char *)"\\351", (char *)"M", (char *)"&#8968;"},
+	{(char *)"langle", (char *)"\\341", (char *)"<", (char *)"&#9001;"},
+	{(char *)"rfloor", (char *)"\\373", (char *)"M", (char *)"&#8971;"},
+	{(char *)"rceil", (char *)"\\371", (char *)"M", (char *)"&#8969;"},
+	{(char *)"rangle", (char *)"\\361", (char *)">", (char *)"&#9002;"}
+        // backslash SEE ABOVE
+        // \|
+        // uparrow SEE ABOVE
+        // downarrow SEE ABOVE
+        // updownarrow SEE ABOVE
+        // Uparrow SEE ABOVE
+        // Downarrow SEE ABOVE
+        // Updownarrow SEE ABOVE
 };
 double gr_current_descender(void);
 std::vector<std::string> part_string(const std::string &s)
@@ -1000,7 +988,6 @@ static void gr_drawchar_svg(char c, double *xcm, double *ycm, gr_fontID font_id)
                         1.0 - transparency,
                         fill,
                         symbol_code[int(c)][3]);
-                printf("%s:%d | BUG: using 'circ' for all math-mode symbols; need a couple of coding hours to fix that\n", __FILE__, __LINE__);
         } else {
                 fprintf(_grSVG, "<g><text x=\"%.1f\" y=\"%.1f\" font-family=\"%s\" font-size=\"%.1f\" font-style=\"%s\" fill=\"%s\" opacity=\"%.2f\" style=\"fill:%s\">%c</text></g>\n",
                         (*xcm) * PT_PER_CM, 
