@@ -48,7 +48,7 @@ static char *symbol_code[NCODES][4] = {
 	{(char *)"gamma", (char *)"\\147", (char *)"g", (char *)"&#947;"},
 	{(char *)"delta", (char *)"\\144", (char *)"d", (char *)"&#948;"},
 	{(char *)"epsilon", (char *)"\\145", (char *)"e", (char *)"&#949;"},
-// varepsilon
+        // varepsilon
 	{(char *)"zeta", (char *)"\\172", (char *)"z", (char *)"&#952;"},
 	{(char *)"eta", (char *)"\\150", (char *)"h", (char *)"&#951;"},
 	{(char *)"theta", (char *)"\\161", (char *)"q", (char *)"&#952;"},
@@ -72,8 +72,8 @@ static char *symbol_code[NCODES][4] = {
 	{(char *)"phi", (char *)"\\146", (char *)"f", (char *)"&#966;"},
 	{(char *)"varphi", (char *)"\\152", (char *)"f", (char *)"&#966;"}, //?
 	{(char *)"omega", (char *)"\\167", (char *)"w", (char *)"&#969;"},
-//
-// Uppercase
+        //
+        // Uppercase
 	{(char *)"Gamma", (char *)"\\107", (char *)"G", (char *)"&#915;"},
 	{(char *)"Delta", (char *)"\\104", (char *)"D", (char *)"&#916;"},
 	{(char *)"Theta", (char *)"\\121", (char *)"Q", (char *)"&#920;"},
@@ -87,11 +87,11 @@ static char *symbol_code[NCODES][4] = {
 	{(char *)"Omega", (char *)"\\127", (char *)"W", (char *)"&#937;"},
         // Table 3.4: Binary Operation Symbols
 	{(char *)"pm", (char *)"\\261", (char *)"+", (char *)"&#177;"}, // guess that size is same as +
-// mp
+        // mp
 	{(char *)"times", (char *)"\\264", (char *)"x", (char *)"&#215;"}, // guess that size is same as x
 	{(char *)"div", (char *)"\\270", (char *)"x", (char *)"&#247;"}, // guess that size is same as x
 	{(char *)"ast", (char *)"\\052", (char *)"*", (char *)"&#8727;"}, // star
-	{(char *)"circ", (char *)"\\260", (char *)".", (char *)"&#176;"}, // 44: guess that size is same as .
+	{(char *)"circ", (char *)"\\260", (char *)".", (char *)"&#176;"},
 	{(char *)"bullet", (char *)"\\267", (char *)"*", (char *)"&#8226;"}, // guess that size is same as *
 	{(char *)"cdot", (char *)"\\327", (char *)",", (char *)"&#183;"}, // ? Georgian comma
         // cap
@@ -979,7 +979,6 @@ static void gr_drawchar_svg(char c, double *xcm, double *ycm, gr_fontID font_id)
 	const char *fill = _griState.color_text().get_hexcolor().c_str();
 	double transparency = _griState.color_text().getT();
         if (font_id == gr_font_Symbol) {
-                // degree \305 &#176;  "b0" in hex Q: what is 305, then maybe octal?  (want to work with existing)
                 fprintf(_grSVG, "<g><text x=\"%.1f\" y=\"%.1f\" font-family=\"%s\" font-size=\"%.1f\" font-style=\"%s\" fill=\"%s\" opacity=\"%.2f\" style=\"fill:%s\">%s</text></g>\n",
                         (*xcm) * PT_PER_CM, 
                         /*gr_page_height_pt() -*/ -(*ycm) * PT_PER_CM,
