@@ -12,6 +12,7 @@ read:
 clean:
 	rm *~
 
-
-install:
+install: force
 	sh ./INSTALL
+
+force:
