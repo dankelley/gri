@@ -344,8 +344,10 @@ extern bool     _grPathExists;
 extern bool     _grWritePS;
 
 static void     gr_drawstring(const char *s);
+static void     gr_drawchar_svg(char c, double xcm, double ycm, gr_fontID font_id);
+static void     gr_drawsymbol_svg(int index, double xcm, double ycm, gr_fontID font_id);
 static void     gr_drawstring_svg(const char *s, double xcm, double ycm, double angle);
-static int      index_for_math_symbol(const char *s);	// base routine
+//static int      index_for_math_symbol(const char *s);	// base routine
 static double   gr_charwidth_cm(int c, int font, double fontsize_pt);
 static void     gr_DrawChar(const char *c);
 static void     gr_setfont_fontsize(gr_fontID newID, bool force = false);
@@ -355,7 +357,7 @@ static void     MoveUp(void);
 static void     MoveUp_svg(double *xcm, double *ycm);
 static void     MoveDn_svg(double *xcm, double *ycm);
 static void     MoveHorizontally(double em_distance);
-static char    *symbol_in_math(const char *sPtr, int *inc);
+static int      symbol_in_math(const char *sPtr, int *inc);
 
 gr_font_info font_list[] =
 {
@@ -695,9 +697,8 @@ gr_drawstring(const char *s)
 					MoveUp();
 				} else if (*s == '\\') {
 					// Math character to superscript
-					int             inc;
-					char *            insert;
-					insert = symbol_in_math(s, &inc);
+					int inc;
+					int symbol_index = symbol_in_math(s, &inc);
 					if (inc) {
 						gr_fontID       oldfontID = gr_currentfont();
 						pstack.push(Superscript);
@@ -708,7 +709,7 @@ gr_drawstring(const char *s)
 						STOP_OLD_TEXT;
 						gr_setfont(gr_font_Symbol);
 						if (_grWritePS) {
-							fprintf(_grPS, "(%s) sh\n", insert);
+							fprintf(_grPS, "(%s) sh\n", symbol_code[symbol_index][1]);
 							check_psfile();
 						}
 						gr_setfont(oldfontID);
@@ -770,11 +771,10 @@ gr_drawstring(const char *s)
 					MoveDown();
 				} else if (*s == '\\') {
 					// Math character to subscript
-					int             inc;
-					char *            insert;
-					insert = symbol_in_math(s, &inc);
-					if (inc) {
-						gr_fontID       oldfontID = gr_currentfont();
+                                        int inc;
+					int symbol_index = symbol_in_math(s, &inc);
+					if (symbol_index > -1) {
+						gr_fontID oldfontID = gr_currentfont();
 						pstack.push(Subscript);
 #ifdef DEBUG
 						printf("DEBUG(%s:%d) pushed subscript=%d onto stack to make length %d\n",__FILE__,__LINE__,Subscript, int(pstack.size()));
@@ -783,7 +783,7 @@ gr_drawstring(const char *s)
 						STOP_OLD_TEXT;
 						gr_setfont(gr_font_Symbol);
 						if (_grWritePS) {
-							fprintf(_grPS, "(%s) sh\n", insert);
+							fprintf(_grPS, "(%s) sh\n", symbol_code[symbol_index][1]);
 							check_psfile();
 						}
 						gr_setfont(oldfontID);
@@ -849,8 +849,6 @@ gr_drawstring(const char *s)
 			} else if (*s == '\\') {
 				// Substitute math symbol, unless it's
 				// an escaped string
-				int inc;
-				char *insert;
 				if (*(s + 1) == '$') {
 					slast = *s++;
 				} else if (*(s + 1) == ',') {
@@ -873,14 +871,15 @@ gr_drawstring(const char *s)
 					START_NEW_TEXT;
 					slast = *s++;
 				} else {
-					insert = symbol_in_math(s, &inc);
+                                        int inc;
+					int symbol_index = symbol_in_math(s, &inc);
 					if (inc) {
 						// math symbol in symbol font
 						gr_fontID oldfontID = gr_currentfont();
 						STOP_OLD_TEXT;
 						gr_setfont(gr_font_Symbol);
 						if (_grWritePS) {
-							fprintf(_grPS, "(%s) sh\n", insert);
+							fprintf(_grPS, "(%s) sh\n", symbol_code[symbol_index][1]);
 							check_psfile();
 						}
 						gr_setfont(oldfontID);
@@ -964,9 +963,8 @@ const char* gr_fontname_from_id(int id)
 	return("Times");
 }
 
-static void gr_drawchar_svg(char c, double *xcm, double *ycm, gr_fontID font_id)
+static void gr_drawchar_svg(char c, double xcm, double ycm, gr_fontID font_id)
 {
-	char st[2];
 	double size = gr_currentfontsize_pt();
 	const char *font_style;
         //printf("%s:%d | gr_drawchar_svg('%c', ...) decodes to '%c' font_id=.s\n", __FILE__, __LINE__, c, symbol_code[int(c)][1]);//, gr_fontID);
@@ -978,26 +976,16 @@ static void gr_drawchar_svg(char c, double *xcm, double *ycm, gr_fontID font_id)
 		font_style = "italic";
 	const char *fill = _griState.color_text().get_hexcolor().c_str();
 	double transparency = _griState.color_text().getT();
-        if (font_id == gr_font_Symbol) {
-                fprintf(_grSVG, "<g><text x=\"%.1f\" y=\"%.1f\" font-family=\"%s\" font-size=\"%.1f\" font-style=\"%s\" fill=\"%s\" opacity=\"%.2f\" style=\"fill:%s\">%s</text></g>\n",
-                        (*xcm) * PT_PER_CM, 
-                        /*gr_page_height_pt() -*/ -(*ycm) * PT_PER_CM,
-                        gr_fontname_from_id(font_id), size, font_style,
-                        fill,
-                        1.0 - transparency,
-                        fill,
-                        symbol_code[int(c)][3]);
-        } else {
-                fprintf(_grSVG, "<g><text x=\"%.1f\" y=\"%.1f\" font-family=\"%s\" font-size=\"%.1f\" font-style=\"%s\" fill=\"%s\" opacity=\"%.2f\" style=\"fill:%s\">%c</text></g>\n",
-                        (*xcm) * PT_PER_CM, 
-                        /*gr_page_height_pt() -*/ -(*ycm) * PT_PER_CM,
-                        gr_fontname_from_id(font_id), size, font_style,
-                        fill,
-                        1.0 - transparency,
-                        fill,
-                        c);
-        }
+        fprintf(_grSVG, "<g><text x=\"%.1f\" y=\"%.1f\" font-family=\"%s\" font-size=\"%.1f\" font-style=\"%s\" fill=\"%s\" opacity=\"%.2f\" style=\"fill:%s\">%c</text></g>\n",
+                xcm * PT_PER_CM, 
+                /*gr_page_height_pt() -*/ -ycm * PT_PER_CM,
+                gr_fontname_from_id(font_id), size, font_style,
+                fill,
+                1.0 - transparency,
+                fill,
+                c);
 	gr_setfont(font_id);
+	char st[2];
 	st[0] = c; 
 	st[1] = '\0';
 	double w, a, d;
@@ -1005,7 +993,50 @@ static void gr_drawchar_svg(char c, double *xcm, double *ycm, gr_fontID font_id)
 	gr_setfontsize_pt(size);
 	gr_stringwidth(st, &w, &a, &d); // BUG: NEED TO SET FONT FIRST
 	gr_setfontsize_pt(oldfontsize);
-	*xcm += w;
+	//*xcm += w;
+}
+static void gr_drawsymbol_svg(int index, double xcm, double ycm, gr_fontID font_id)
+{
+	double size = gr_currentfontsize_pt();
+	const char *font_style;
+        //printf("%s:%d | gr_drawchar_svg('%c', ...) decodes to '%c' font_id=.s\n", __FILE__, __LINE__, c, symbol_code[int(c)][1]);//, gr_fontID);
+	if (pstack.size() > 0)
+		size *= SuperSize;
+	if (font_id == gr_font_Symbol)
+		font_style = "normal";
+	else
+		font_style = "italic";
+	const char *fill = _griState.color_text().get_hexcolor().c_str();
+	double transparency = _griState.color_text().getT();
+        if (font_id == gr_font_Symbol) {
+                fprintf(_grSVG, "<g><text x=\"%.1f\" y=\"%.1f\" font-family=\"%s\" font-size=\"%.1f\" font-style=\"%s\" fill=\"%s\" opacity=\"%.2f\" style=\"fill:%s\">%s</text></g>\n",
+                        xcm * PT_PER_CM, 
+                        /*gr_page_height_pt() -*/ -ycm * PT_PER_CM,
+                        gr_fontname_from_id(font_id), size, font_style,
+                        fill,
+                        1.0 - transparency,
+                        fill,
+                        symbol_code[index][3]);
+        } else {
+                fprintf(_grSVG, "<g><text x=\"%.1f\" y=\"%.1f\" font-family=\"%s\" font-size=\"%.1f\" font-style=\"%s\" fill=\"%s\" opacity=\"%.2f\" style=\"fill:%s\">%s</text></g>\n",
+                        xcm * PT_PER_CM, 
+                        /*gr_page_height_pt() -*/ -ycm * PT_PER_CM,
+                        gr_fontname_from_id(font_id), size, font_style,
+                        fill,
+                        1.0 - transparency,
+                        fill,
+                        "?");
+        }
+	gr_setfont(font_id);
+	char st[2];
+	st[0] = 'm';            // guess at width
+	st[1] = '\0';
+	double w, a, d;
+	double oldfontsize = gr_currentfontsize_pt();
+	gr_setfontsize_pt(size);
+	gr_stringwidth(st, &w, &a, &d); // BUG: NEED TO SET FONT FIRST
+	gr_setfontsize_pt(oldfontsize);
+                                //*xcm += w; // BUG
 }
 static void
 gr_drawstring_svg(const char *s, double xcm, double ycm, double angle)
@@ -1104,19 +1135,17 @@ gr_drawstring_svg(const char *s, double xcm, double ycm, double angle)
 #endif
 				if (p[ic] == '\\') { // HEREHEREHERE
 					if (p[ic+1] == '\\') {
-						gr_drawchar_svg('\\', &xxcm, &yycm, original_font);
+						gr_drawsymbol_svg(-1, xxcm, yycm, original_font);
 						ic += 1;
 						continue;
 					}
-					char *insert;
 					int inc;
-					insert = symbol_in_math(p.c_str() + ic, &inc);
-					int symbol_letter = index_for_math_symbol(insert);
+					int symbol_index = symbol_in_math(p.c_str() + ic, &inc);
 					if (inc) {
-						gr_drawchar_svg(symbol_letter, &xxcm, &yycm, gr_font_Symbol);
+						gr_drawsymbol_svg(symbol_index, xxcm, yycm, gr_font_Symbol);
 						ic += inc;
 					} else {
-						gr_drawchar_svg('?', &xxcm, &yycm, gr_font_Symbol);
+						gr_drawstring_svg("?", xxcm, yycm, gr_font_Symbol);
 					}
 				} else if (p[ic] == '{') {
 					// ignore
@@ -1142,7 +1171,7 @@ gr_drawstring_svg(const char *s, double xcm, double ycm, double angle)
 					pstack.push(Subscript);
 					MoveDn_svg(&xxcm, &yycm);
 					if (p[ic+1] != '{') { // BUG: should check for symbol
-						gr_drawchar_svg(p[ic+1], &xxcm, &yycm, original_font);
+						gr_drawchar_svg(p[ic+1], xxcm, yycm, original_font);
 						MoveUp_svg(&xxcm, &yycm);
 						pstack.pop();
 					}
@@ -1152,14 +1181,14 @@ gr_drawstring_svg(const char *s, double xcm, double ycm, double angle)
 					pstack.push(Superscript);
 					MoveUp_svg(&xxcm, &yycm);
 					if (p[ic+1] != '{') { // BUG: should check for symbol
-						gr_drawchar_svg(p[ic+1], &xxcm, &yycm, original_font);
+						gr_drawchar_svg(p[ic+1], xxcm, yycm, original_font);
 						MoveDn_svg(&xxcm, &yycm);
 						pstack.pop();
 					}
 					ic++;
 					continue;
 				} else {
-					gr_drawchar_svg(p[ic], &xxcm, &yycm, original_font);
+					gr_drawchar_svg(p[ic], xxcm, yycm, original_font);
 				}
 			}
 			fprintf(_grSVG, "</g>\n");
@@ -1277,21 +1306,18 @@ gr_setfont_fontsize(gr_fontID newID, bool force)
 	warning("Ignoring request for unknown font.");
 }
 
-//here
-
-static char *symbol_in_math(const char *sPtr, int *inc)
+static int symbol_in_math(const char *sPtr, int *inc) // handle greek letter or symbol in math mode
 {
-	/* handle greek letter or symbol in math mode */
 	sPtr++;
 	*inc = 0;
 	for (int i = 0; i < NCODES; i++) {
 		int len = strlen(symbol_code[i][0]);
 		if (!strncmp(sPtr, symbol_code[i][0], len)) {
 			*inc = len;
-			return symbol_code[i][1];
+			return i;
 		}
 	}
-	return NULL;
+	return -1;
 }
 
 // Clear the position stack (doesn't STL do this??)
@@ -1557,8 +1583,6 @@ gr_stringwidth(const char *s, double *w, double *a, double *d)
 			else if (*s == '}')	// ignore groups
 				;		// EMPTY
 			else if (*s == '\\') {	// handle synonym
-				int             skip;
-				char *            ss;
 				// First catch thinspace commands
 				if (*(s + 1) == ',') {
 					// Thinspace = Mwidth/6
@@ -1569,12 +1593,13 @@ gr_stringwidth(const char *s, double *w, double *a, double *d)
 					*w -= gr_charwidth_cm((int)'M', CurrentFont.id, CurrentFont.size_pt) / 6.0;
 					s += 1;
 				} else {
-					ss = symbol_in_math(s, &skip); // NULL if can't find
-					if (ss != NULL) {
-						gr_fontID       oldfontID = CurrentFont.id;
-						int             C = index_for_math_symbol(ss);
-						s += skip;
-						*w += gr_charwidth_cm(C, gr_font_Symbol, CurrentFont.size_pt);
+                                        int inc;
+					int symbol_index = symbol_in_math(s, &inc);
+					if (symbol_index > -1) {
+						gr_fontID oldfontID = CurrentFont.id;
+						s += inc;
+                                                // *w += gr_charwidth_cm("m" symbol_code[symbol_index][1], gr_font_Symbol, CurrentFont.size_pt);
+                                                *w += gr_charwidth_cm('m', gr_font_Symbol, CurrentFont.size_pt); //  BUG
 						CurrentFont.id = oldfontID;
 					} else {
 						// it's not a known math symbol
@@ -1610,9 +1635,9 @@ gr_stringwidth(const char *s, double *w, double *a, double *d)
 	_grWritePS = oldWritePS;
 }
 
+#if 0
 // return index (for size-table) for a character (given as integer)
-static int
-index_for_math_symbol(const char *s)
+static int index_for_math_symbol(const char *s)
 {
 	//printf("index_for_math_symbol(%s)\n",s);
 	if (!s) return (int)'?';
@@ -1627,6 +1652,7 @@ index_for_math_symbol(const char *s)
 	//printf("index_for_math_symbol(%s) cannot find a match\n", s);
 	return (int) 'M';	// a guess, since we have no clue
 }
+#endif
 
 // Return thinspace (=1/6 of width of "M" in current font), in cm
 double
