@@ -1,10 +1,10 @@
 ;; gri-mode.el - major mode for Gri, a scientific graphics programming language
 
-;; Copyright (C) 1994-2008 Peter S. Galbraith
+;; Copyright (C) 1994-2009 Peter S. Galbraith
  
 ;; Author:    Peter S. Galbraith <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.69 (28 May 2008)
+;; Version:   2.70 (05 Dec 2009)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -404,7 +404,10 @@
 ;; V2.69 28may2008
 ;;  current-menubar: test if bound first.  Guess this applied to XEmacs and
 ;;  now this code is being run in Emacs.
-;;  ----------------------------------------------------------------------------
+;; V2.70 05dec2009
+;;  gri-font-lock-system-commands is broken since Emacs v22.  Use simple
+;;  regexp instead.
+;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
 
@@ -3278,10 +3281,16 @@ If variable gri-indent-before-return is t,
     (1 font-lock-comment-face nil t)
     (2 font-lock-function-name-face nil t)
     (3 font-lock-function-name-face nil t))
-   (gri-font-lock-system-commands
-    (0 font-lock-function-name-face nil t)
+;; gri-font-lock-system-commands is broken since Emacs v22.
+;;   (gri-font-lock-system-commands
+;;    (0 font-lock-function-name-face nil t)
+;;    (1 font-lock-keyword-face nil t)
+;;    (2 gri-mode-system-face prepend t))
+;; Use simple regexp instead:
+   ("\\(system\\)\\(.*\\)"
     (1 font-lock-keyword-face nil t)
     (2 gri-mode-system-face prepend t))
+
  ;;("\\(break\\|e\\(lse\\( if\\)?\\|nd \\(if\\|while\\)\\)\\|if\\|quit\\|r\\(eturn\\|pn\\)\\|while\\)\\b"
    ("\\(quit\\|return\\|if\\|else\\( if\\)?\\|end \\(if\\|while\\)\\|break\\|while\\|rpn\\)\\b"
     . font-lock-keyword-face)

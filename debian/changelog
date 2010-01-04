@@ -2,8 +2,9 @@ gri (2.12.20-1) unstable; urgency=low
 
   * New upstream release	
   - add `directly' option to `convert grid to image'.
+  - gri-mode.el font-locking was broken since Emacs-22
 
- -- Peter S Galbraith <psg@debian.org>  Sun, 29 Nov 2009 20:14:43 -0500
+ -- Peter S Galbraith <psg@debian.org>  Sat, 19 Dec 2009 18:10:57 -0500
 
 gri (2.12.19-3) unstable; urgency=low
 
