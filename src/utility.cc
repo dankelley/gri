@@ -1962,6 +1962,9 @@ void
 bounding_box_update(const rectangle& box)
 {
 	// Only process if supplied bbox is nonzero in size
+#if 0
+        printf("updating bounding box %f < x < %f     %f < y < %f\n", box.llx(), box.urx(), box.lly(), box.ury());
+#endif
 	if (box.llx()    != box.urx()
 	    || box.lly() != box.ury()) {
 		// If have existing bbox, see if this lies outside ...

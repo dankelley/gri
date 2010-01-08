@@ -427,6 +427,14 @@ insert_ps_header(FILE * fp, bool privacy)
 		fprintf(fp, "%%%%CreationDate: %s", asctime(localtime(&sec)));
 		fprintf(fp, "%%%%Pages: (atend)\n");
 		fprintf(fp, "%%%%BoundingBox: (atend)\n");
+
+                extern rectangle _bounding_box;
+                fprintf(fp, "%% trial bounding box  %f %f %f %f\n", 
+                        _bounding_box.llx(),
+                        _bounding_box.lly(),
+                        _bounding_box.urx(),
+                        _bounding_box.ury());
+
 		fprintf(fp, "%%%%TemplateBox: %d %d %d %d\n",
 			0, 0, (int) (8.5 * 72.0), (int) (11.0 * 72.0));
 		fprintf(fp, "%%%%DocumentFonts: (atend)\n");
@@ -990,6 +998,15 @@ gr_end(const char *filename)
 static void
 close_ps_file(FILE * fp)
 {
+#if 1
+        extern rectangle _bounding_box;
+        printf("FILE %s | %d | close_ps_file() | bounding box LLx LLy URx URy %d %d %d %d\n", 
+               __FILE__, __LINE__,
+               int(_bounding_box.llx() * PT_PER_CM),
+               int(_bounding_box.lly() * PT_PER_CM),
+               int(_bounding_box.urx() * PT_PER_CM),
+               int(_bounding_box.ury() * PT_PER_CM));
+#endif
 	fclose(fp);
 	_grNeedBegin = true;
 }
@@ -1332,6 +1349,15 @@ gr_save_postscript(const char *PS_name, int normal_scale)
 		sprintf(grTempString, "Can't open postscript file `%s'", PS_name);
 		gr_Error(grTempString);
 	}
+
+        extern rectangle _bounding_box;
+        printf("%s%d gr_save_postscript() ... bounding box  %f %f %f %f\n",
+               __FILE__, __LINE__,
+               _bounding_box.llx(),
+               _bounding_box.lly(),
+               _bounding_box.urx(),
+               _bounding_box.ury());
+        
 	if (normal_scale) {
 		double          old_grMagx = _grMagx, old_grMagy = _grMagy;
 		double          old_grOriginx = _grOriginx, old_grOriginy = _grOriginy;
