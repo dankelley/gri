@@ -998,7 +998,7 @@ gr_end(const char *filename)
 static void
 close_ps_file(FILE * fp)
 {
-#if 1
+#if 0
         extern rectangle _bounding_box;
         printf("FILE %s | %d | close_ps_file() | bounding box LLx LLy URx URy %d %d %d %d\n", 
                __FILE__, __LINE__,
