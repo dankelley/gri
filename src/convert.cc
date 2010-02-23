@@ -1375,7 +1375,7 @@ convert_grid_to_columnsCmd(void)
 bool
 convert_grid_to_imageCmd()
 {
-        //printf("%s:%d ENTER convert_grid_to_imageCmd()\n", __FILE__,__LINE__);
+        //printf("\n%s:%d ENTER convert_grid_to_imageCmd()\n", __FILE__,__LINE__);
         int             i, ii, j, jj, val;
 	int             width, height;
 	int             clipped = 0, masked = 0;
@@ -1412,11 +1412,12 @@ convert_grid_to_imageCmd()
                 width = (int)_num_xmatrix_data;
                 height = (int) _num_ymatrix_data;
                 directly = true;
-                //printf("DIRECTLY method. %d by %d\n", width, height);
+                //printf("DEBUG: using 'directly' method. %d by %d\n", width, height);
         } else if (2 == get_cmd_values(_word, _nword, "size", 2, _dstack)) {
 		width = (int) (0.5 + _dstack[0]);
 		height = (int) (0.5 + _dstack[1]);
-	}
+	} 
+        //printf("DEBUG image width=%d   height=%d\n", width, height);
 	// BEGIN: Code prior to 2.005
 	//    if (width % 2) {
 	//	warning("Making .width. in `convert grid to image' an even number");
@@ -1451,6 +1452,11 @@ convert_grid_to_imageCmd()
 		err("`box .xleft. .ybottom. .xright. .ytop.' needs exactly 4 parameters");
 		return false;
 	}
+
+        printf("_xmatrix[0]= %f  _ymatrix[0] = %f   _xmatrix[right] = %f   _ymatrix[top] = %f\n", 
+               _xmatrix[0], _ymatrix[0], _xmatrix[_num_xmatrix_data - 1], _ymatrix[_num_ymatrix_data - 1]);
+
+
 	if (width  < 2) { err("Can't have grid < 2 wide"); return false; }
 	if (height < 2) { err("Can't have grid < 2 tall"); return false; }
 
@@ -1480,10 +1486,14 @@ convert_grid_to_imageCmd()
         if (_chatty > 1)
                 printf("width=%d height=%d _image.ras_height=%d, _image.ras_width=%d\n", width,height,_image.ras_height,_image.ras_width);
         if (directly) {
+
                 for (i = 0; i < width; i++) {
+                        xx = _image_llx + i * dxx;
                         for (j = 0; j < height; j++) {
-                                if (_legit_xy(i, j)) {
-                                        val = (int) floor(0.5 + scale * (_f_xy(i, j) - _image0));
+                                yy = _image_lly + j * dyy;
+                                locate_i_j(xx, yy, &ii, &jj);
+                                if (_legit_xy(ii, jj)) {
+                                        val = (int) floor(0.5 + scale * (_f_xy(ii, jj) - _image0));
                                         if (val < 0) {
                                                 val = 0;
                                                 clipped++;
