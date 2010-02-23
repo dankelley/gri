@@ -1486,13 +1486,11 @@ convert_grid_to_imageCmd()
         if (_chatty > 1)
                 printf("width=%d height=%d _image.ras_height=%d, _image.ras_width=%d\n", width,height,_image.ras_height,_image.ras_width);
         if (directly) {
-
                 for (i = 0; i < width; i++) {
                         xx = _image_llx + i * dxx;
                         for (j = 0; j < height; j++) {
                                 yy = _image_lly + j * dyy;
-                                locate_i_j(xx, yy, &ii, &jj);
-                                if (_legit_xy(ii, jj)) {
+                                if (locate_i_j(xx, yy, &ii, &jj) && _legit_xy(ii, jj)) {
                                         val = (int) floor(0.5 + scale * (_f_xy(ii, jj) - _image0));
                                         if (val < 0) {
                                                 val = 0;
