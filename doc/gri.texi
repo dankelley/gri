@@ -16515,7 +16515,7 @@ only in the fixing of bugs.
 
 @comment ADD-NEW-BUG-FIXES-HERE
 
-@subsubsection Version 2.12.20 [2010 January x]
+@subsubsection Version 2.12.20 [2010 February 26 @uref{http://en.wikipedia.org/wiki/Savior's_Day, Savior's Day, Nation of Islam}]
 @strong{New Features}
 @itemize @bullet
 @item
