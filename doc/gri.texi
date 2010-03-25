@@ -16532,11 +16532,14 @@ only in the fixing of bugs.
 
 @comment ADD-NEW-BUG-FIXES-HERE
 
-@subsubsection Version 2.12.20 [2010 February 26 @uref{http://en.wikipedia.org/wiki/Savior's_Day, Savior's Day (Nation of Islam)}]
+@subsubsection Version 2.12.20 [2010 April 1 @uref{http://en.wikipedia.org/wiki/April_Fools'_Day, April Fool's Day}]
 @strong{New Features}
 @itemize @bullet
 @item
-add @code{directly} option to @code{convert grid to image}
+add @code{starting} option to @code{set x axis} and @code{set y axis}.
+
+@item
+add @code{directly} option to @code{convert grid to image}.
 @end itemize
 
 @strong{Bug Fixes}
