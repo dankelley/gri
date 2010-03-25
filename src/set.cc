@@ -1,6 +1,6 @@
 /*
     Gri - A language for scientific graphics programming
-    Copyright (C) 2008 Daniel Kelley
+    Copyright (C) 2010 Daniel Kelley
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -2907,7 +2907,7 @@ set_x_axisCmd()
 			_xsubdiv = 1;
 		}
                 _xstart = gave_starting_value ? starting_value : _xleft;
-                printf("gave_starting_value=%d _xstart=%f\n", gave_starting_value, _xstart);
+                //printf("gave_starting_value=%d _xstart=%f\n", gave_starting_value, _xstart);
 		PUT_VAR("..xleft..", _xleft);
 		PUT_VAR("..xright..", _xright);
 		PUT_VAR("..xinc..", _xinc);

@@ -1,8 +1,11 @@
+#make && ./gri -directory . test-improve-axis-labels.gri && convert -density 150x150 test-improve-axis-labels.ps test-improve-axis-labels.jpg && open test-improve-axis-labels.jpg 
+
 set y axis 0 5
-set x axis 2 8 1
+set x axis 2 8 3
+set x name "'set x axis 2 8 3' want tics at (2 5 8) not (3, 6)"
 draw x axis at 0
-set x axis 2 8 1 starting 3
+set x axis 2 8 3 starting 2
 draw x axis at 1
-show variables
+#show variables
 
 
