@@ -358,7 +358,11 @@ gr_drawxaxis(double y, double xl, double xinc, double xr, double xstart, gr_axis
 				axis_path.push_back(xuser, yuser, 'l');
 				gr_cmtouser(xcm, ycm+offset, &xuser, &yuser);
 				tmp = next_log - decade_between_labels * floor(next_log / decade_between_labels);
-				if (!user_gave_labels && gr_currentfontsize_pt() > SMALLFONTSIZE && -0.01 < tmp / xinc && tmp / xinc < 0.01 && strlen(_grNumFormat_x)) {
+				if (!user_gave_labels 
+                                    && gr_currentfontsize_pt() > SMALLFONTSIZE 
+                                    && -0.01 < tmp / xinc 
+                                    && tmp / xinc < 0.01 
+                                    && strlen(_grNumFormat_x)) {
 					// Draw "1" as a special case
 					if (0.99 < next && next < 1.01)
 						sprintf(_grTempString, "1");
@@ -643,8 +647,10 @@ gr_drawyaxis(double x, double yb, double yinc, double yt, double ystart, gr_axis
 				axis_path.push_back(xuser, yuser, 'l');
 				gr_cmtouser(xcm2 + tic, ycm2 - 0.5 * FACTOR * CapHeight, &xuser, &yuser);
 				tmp = next_log - decade_between_labels * floor(next_log / decade_between_labels);
-				if (!user_gave_labels && gr_currentfontsize_pt() > SMALLFONTSIZE
-				    && -0.01 < tmp / yinc && tmp / yinc< 0.01
+				if (!user_gave_labels 
+                                    && gr_currentfontsize_pt() > SMALLFONTSIZE
+                                    && -0.01 < tmp / yinc
+                                    && tmp / yinc< 0.01
 				    && strlen(_grNumFormat_y)) {
 					// Draw "1" as a special case
 					if (0.99 < next && next < 1.01)
