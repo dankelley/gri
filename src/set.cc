@@ -2791,6 +2791,16 @@ set_x_axisCmd()
 		}
 	}
 #endif // 2.9.x
+        bool gave_starting_value = false;
+        double starting_value = 0.0;
+	if (_nword > 6 && !strcmp(_word[_nword - 2], "starting")) {
+                gave_starting_value = true;
+                if (!getdnum(_word[_nword - 1], &starting_value)) {
+                        READ_WORD_ERROR("starting .starting_value.");
+                        return false;
+                }
+                _nword -= 2;    // gobble last two words
+        }
 	if (!strcmp(_word[_nword - 1], "bottom")) {
 		_xatbottom = true;
 		if (_nword == 4) {
@@ -2812,9 +2822,11 @@ set_x_axisCmd()
 		if (_xscale_exists && _xleft > _xright) {
 			swap(_xleft, _xright);
 			_xinc = -fabs(_xinc);
+                        _xstart = gave_starting_value ? starting_value : _xleft;
 			PUT_VAR("..xleft..", _xleft);
 			PUT_VAR("..xright..", _xright);
 			PUT_VAR("..xinc..", _xinc);
+			PUT_VAR("..xstart..", _xstart);
 		}
 		return true;
 	} else if (_nword == 4 && !strcmp(_word[_nword - 1], "decreasing")) {
@@ -2822,9 +2834,11 @@ set_x_axisCmd()
 		if (_xscale_exists && _xleft < _xright) {
 			swap(_xleft, _xright);
 			_xinc = fabs(_xinc);
+                        _xstart = gave_starting_value ? starting_value : _xleft;
 			PUT_VAR("..xleft..", _xleft);
 			PUT_VAR("..xright..", _xright);
 			PUT_VAR("..xinc..", _xinc);
+                        PUT_VAR("..xstart..", _xstart);
 		}
 		return true;
 	} else if (_nword == 4 && !strcmp(_word[_nword - 1], "unknown")) {
@@ -2852,9 +2866,11 @@ set_x_axisCmd()
 			_xinc = 1.0;
 		else
 			_xinc = _xright - _xleft;
+                _xstart = gave_starting_value ? starting_value : _xleft;
 		PUT_VAR("..xleft..", _xleft);
 		PUT_VAR("..xright..", _xright);
 		PUT_VAR("..xinc..", _xinc);
+                PUT_VAR("..xstart..", _xstart);
 		_xsubdiv = 1;
 		_xscale_exists = true;
 		_need_x_axis = true;
@@ -2890,9 +2906,12 @@ set_x_axisCmd()
 			_xinc = xinc;
 			_xsubdiv = 1;
 		}
+                _xstart = gave_starting_value ? starting_value : _xleft;
+                printf("gave_starting_value=%d _xstart=%f\n", gave_starting_value, _xstart);
 		PUT_VAR("..xleft..", _xleft);
 		PUT_VAR("..xright..", _xright);
 		PUT_VAR("..xinc..", _xinc);
+                PUT_VAR("..xstart..", _xstart);
 		_xscale_exists = true;
 		_need_x_axis = true;
 		_need_y_axis = true;
@@ -2931,14 +2950,18 @@ set_x_axisCmd()
 			_xinc = xinc;
 			_xsubdiv = int(floor(0.5 + fabs((double) (xinc / tmp))));
 		}
+                _xstart = gave_starting_value ? starting_value : _xleft;
 		PUT_VAR("..xleft..", _xleft);
 		PUT_VAR("..xright..", _xright);
 		PUT_VAR("..xinc..", _xinc);
+                PUT_VAR("..xstart..", _xleft);
 		_xscale_exists = true;
 		_need_x_axis = true;
 		_need_y_axis = true;
 		_user_set_x_axis = true;
 		return true;
+	} else if (_nword == 8) { // 'set x axis .left. .right. .inc. starting .start.'
+                printf("HERE have 8 words\n");
 	} else {
 		err("`set x axis' may have only 2, 3 or 4 parameters");
 		return false;
@@ -3264,7 +3287,16 @@ set_y_axisCmd()
 		}
 	}
 #endif // 2.9.x
-
+        bool gave_starting_value = false;
+        double starting_value = 0.0;
+	if (_nword > 6 && !strcmp(_word[_nword - 2], "starting")) { // FIXME: is 5 right?
+                gave_starting_value = true;
+                if (!getdnum(_word[_nword - 1], &starting_value)) {
+                        READ_WORD_ERROR("starting .starting_value.");
+                        return false;
+                }
+                _nword -= 2;    // gobble last two words
+        }
 	if (!strcmp(_word[_nword - 1], "left")) {
 		_yatleft = true;
 		if (_nword == 4) {
@@ -3288,9 +3320,11 @@ set_y_axisCmd()
 			_ybottom = _ytop;
 			_ytop = tmp;
 			_yinc = -_yinc;
+                        _ystart = gave_starting_value ? starting_value : _ybottom;
 			PUT_VAR("..ybottom..", _ybottom);
 			PUT_VAR("..ytop..", _ytop);
 			PUT_VAR("..yinc..", _yinc);
+			PUT_VAR("..ystart..", _ystart);
 		}
 		return true;
 	} else if (_nword == 4 && !strcmp(_word[_nword - 1], "decreasing")) {
@@ -3300,9 +3334,11 @@ set_y_axisCmd()
 			_ybottom = _ytop;
 			_ytop = tmp;
 			_yinc = -_yinc;
+                        _ystart = gave_starting_value ? starting_value : _ybottom;
 			PUT_VAR("..ybottom..", _ybottom);
 			PUT_VAR("..ytop..", _ytop);
 			PUT_VAR("..yinc..", _yinc);
+			PUT_VAR("..ystart..", _ystart);
 		}
 		return true;
 	} else if (_nword == 4 && !strcmp(_word[_nword - 1], "unknown")) {
@@ -3351,9 +3387,11 @@ set_y_axisCmd()
 			_yinc = 1.0;
 		else
 			_yinc = _ytop - _ybottom;
+                _ystart = gave_starting_value ? starting_value : _ybottom;
 		PUT_VAR("..ybottom..", _ybottom);
 		PUT_VAR("..ytop..", _ytop);
 		PUT_VAR("..yinc..", _yinc);
+                PUT_VAR("..ystart..", _ystart);
 		_ysubdiv = 1;
 		_yscale_exists = true;
 		_need_x_axis = true;
@@ -3390,9 +3428,11 @@ set_y_axisCmd()
 			_yinc = yinc;
 			_ysubdiv = 1;
 		}
+                _ystart = gave_starting_value ? starting_value : _ybottom;
 		PUT_VAR("..ybottom..", _ybottom);
 		PUT_VAR("..ytop..", _ytop);
 		PUT_VAR("..yinc..", _yinc);
+                PUT_VAR("..ystart..", _ystart);
 		_yscale_exists = true;
 		_need_x_axis = true;
 		_need_y_axis = true;
@@ -3432,9 +3472,11 @@ set_y_axisCmd()
 			_yinc = yinc;
 			_ysubdiv = int(floor(0.5 + fabs((double) (yinc / tmp))));
 		}
+                _ystart = gave_starting_value ? starting_value : _ybottom;
 		PUT_VAR("..ybottom..", _ybottom);
 		PUT_VAR("..ytop..", _ytop);
 		PUT_VAR("..yinc..", _yinc);
+                PUT_VAR("..ystart..", _ystart);
 		_yscale_exists = true;
 		_need_x_axis = true;
 		_need_y_axis = true;

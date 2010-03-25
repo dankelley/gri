@@ -126,11 +126,11 @@ void
 gr_drawxyaxes(double xl, double xinc, double xr, double yb, double yinc, double yt)
 {
 	double          old_fontsize_pt = gr_currentfontsize_pt();
-	gr_drawxaxis(yb, xl, xinc, xr, gr_axis_BOTTOM);
-	gr_drawyaxis(xl, yb, yinc, yt, gr_axis_LEFT);
+	gr_drawxaxis(yb, xl, xinc, xr, xl, gr_axis_BOTTOM);
+	gr_drawyaxis(xl, yb, yinc, yt, yb, gr_axis_LEFT);
 	gr_setfontsize_pt(0.0);
-	gr_drawxaxis(yt, xl, xinc, xr, gr_axis_TOP);
-	gr_drawyaxis(xr, yb, yinc, yt, gr_axis_RIGHT);
+	gr_drawxaxis(yt, xl, xinc, xr, xl, gr_axis_TOP);
+	gr_drawyaxis(xr, yb, yinc, yt, yb, gr_axis_RIGHT);
 	gr_setfontsize_pt(old_fontsize_pt);
 }
 
@@ -139,7 +139,7 @@ gr_drawxyaxes(double xl, double xinc, double xr, double yb, double yinc, double 
 // If 'side'==BOTTOM/TOP this is an axis designed to appear at the
 // bottom/top of a plotting region (ie, the numbers are below/above).
 void
-gr_drawxaxis(double y, double xl, double xinc, double xr, gr_axis_properties side)
+gr_drawxaxis(double y, double xl, double xinc, double xr, double xstart, gr_axis_properties side)
 {
 	bool user_gave_labels = (_x_labels.size() != 0);
 #ifdef DEBUG_LABELS
@@ -450,7 +450,7 @@ gr_drawxaxis(double y, double xl, double xinc, double xr, gr_axis_properties sid
 #define FACTOR 1.35		// Kludge to scale fonts up
 // Draw a y axis
 void
-gr_drawyaxis(double x, double yb, double yinc, double yt, gr_axis_properties side)
+gr_drawyaxis(double x, double yb, double yinc, double yt, double ystart, gr_axis_properties side)
 {
 #if 1				// 2.9.x
 	bool user_gave_labels = (_y_labels.size() != 0);

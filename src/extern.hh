@@ -60,8 +60,10 @@ extern bool     _user_set_x_axis;
 extern bool     _user_set_y_axis;
 extern double   _xleft;		// ..xleft..
 extern double   _xright;	// ..xright..
+extern double   _xstart;	// ..xstart..
 extern double   _ybottom;	// ..ybottom..
 extern double   _ytop;		// ..ytop..
+extern double   _ystart;	// ..ystart..
 // Column data
 extern GriColumn _colU;
 extern GriColumn _colV;

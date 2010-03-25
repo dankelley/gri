@@ -3745,7 +3745,7 @@ NOTE: this only works if the y-scale is LINEAR (see `set y type').
     extern "C" bool set_v_scaleCmd(void);
 }
 
-`set x axis top|bottom|increasing|decreasing|{.left. .right. [.incBig. [.incSml.]]}|{labels [add] .pos. "label" [...]}|{labels automatic}||unknown'
+`set x axis top|bottom|increasing|decreasing|{.left. .right. [.incBig. [.incSml.]] [starting .starting_value.]}|{labels [add] .pos. "label" [...]}|{labels automatic}||unknown'
 Control various things about the x axis.
 
 `set x axis top'
@@ -3781,6 +3781,10 @@ provided that `set x type log' has been called previously, the
 `.incBig.' parameter has a different meaning: it is the interval,
 in decades, between numbered labels; the default is 1.
 
+`set x axis .left. .right. .incBig. starting .starting_value.'
+As above, but with the axis labels starting at the indicated value, and
+are incremented by `.incBig'.
+
 `set x axis .left .right. .incBig. .incSml.'
 Make x-axis range from `.left.' to `.right.', with labelled increments
 at `.incBig.', and small tics at `.incSml.'  NOTE: if the axis is
@@ -3788,6 +3792,10 @@ logarithmic, the value of `.incSml.' takes on a special meaning: if it
 is positive then small tics are put at values 2, 3, 4, etc. between
 the decades, but if `.incSml.' is negative then no such small tics are
 used. 
+
+`set x axis .left .right. .incBig. .incSml. starting .starting_value.'
+As above, but with the axis labels starting at the indicated value, and
+are incremented by `.incBig'.
 
 `set x axis labels [add] .position. "label" [.position. "label" [...]]'
 Override the automatic labelling at axis tics, and instead put the
@@ -3915,7 +3923,7 @@ various map projections.
     extern "C" bool set_x_typeCmd(void);
 }
 
-`set y axis left|right|increasing|decreasing|{.bottom. .top. [.incBig. [.incSml.]]}|{labels [add] .pos. "label" [...]}|{labels automatic}|{name vertical|horizontal}|unknown'
+`set y axis left|right|increasing|decreasing|{.bottom. .top. [.incBig. [.incSml.]] [starting .starting_value.]}|{labels [add] .pos. "label" [...]}|{labels automatic}|{name vertical|horizontal}|unknown'
 Control various things about the y axis.
 `set y axis left'
 Make next y-axis to be drawn have labels to the left of the axis.
@@ -3947,6 +3955,10 @@ Make y-axis range from `.bottom.' to `.top.'
 Make y-axis range from `.bottom.' to `.top.', with labelled
 increments at `.incBig.'
 
+`set y axis .bottom. .top. .incBig. starting .starting_value.'
+As above, but with the axis labels starting at the indicated value, and
+are incremented by `.incBig'.
+
 `set y axis .bottom. .top. .incBig. .incSml.'
 Make y-axis range from `.bottom.' to `.top.', with labelled
 increments at `.incBig.', and small tics at `.incSml.'  NOTE: if the
@@ -3954,6 +3966,10 @@ axis is logarithmic, the value of `.incSml.' takes on a special
 meaning: if it is positive then small tics are put at values 2, 3, 4,
 etc. between the decades, but if `.incSml.' is negative then no such
 small tics are used. 
+
+`set y axis .bottom. .top. .incBig. .incSml. starting .starting_value.'
+As above, but with the axis labels starting at the indicated value, and
+are incremented by `.incBig'.
 
 `set y axis labels [add] .position. "label" [.position. "label" [...]]'
 Override the automatic labelling at axis tics, and instead put the

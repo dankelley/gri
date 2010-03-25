@@ -49,8 +49,10 @@ bool            _user_set_x_axis = false;
 bool            _user_set_y_axis = false;
 double          _xleft;		/* ..xleft.. */
 double          _xright;	/* ..xright.. */
+double          _xstart;	/* ..xstart.. */
 double          _ybottom;	/* ..ybottom.. */
 double          _ytop;		/* ..ytop.. */
+double          _ystart;	/* ..ystart.. */
 // Globals used elsewhere (variables begin with _).
 int             _arrow_type;
 bool            _warn_offpage;

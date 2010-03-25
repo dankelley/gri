@@ -9897,7 +9897,7 @@ NOTE: this only works if the y-scale is LINEAR (see @code{set y type}).
 `set x axis increasing'
 `set x axis decreasing'
 `set x axis unknown'
-`set x axis .left. .right. [.incBig. [.incSml.]]'
+`set x axis .left. .right. [.incBig. [.incSml.]] [starting .starting_value.]'
 `set x axis labels [add] .position_1. "label_1" [.position_2. "label_2" [...]]'
 `set x axis labels automatic'
 @end example
@@ -9936,7 +9936,11 @@ Make x-axis range from @code{.left.} to @code{.right.}, with labelled
 increments at @code{.incBig.} Note: In the case of log axes, and
 provided that @code{set x type log} has been called previously, the
 @code{.incBig.} parameter has a different meaning: it is the interval,
-in decades, between numbered labels; the default is 1.
+in decades, between numbered labels; the default is 1.  
+
+@item @code{set x axis .left. .right. .incBig. starting .starting_value.} 
+As above, but with the axis labels starting at the indicated value, and
+are incremented by @code{.incBig}.
 
 @item @code{set x axis .left .right. .incBig. .incSml.}
 Make x-axis range from @code{.left.} to @code{.right.}, with labelled
@@ -9945,6 +9949,11 @@ if the axis is logarithmic, the value of @code{.incSml.} takes on a
 special meaning: if it is positive then small tics are put at values 2,
 3, 4, etc. between the decades, but if @code{.incSml.} is negative then
 no such small tics are used.
+
+@item @code{set x axis .left .right. .incBig. .incSml. starting .starting_value.} 
+As above, but with the axis labels starting at the indicated value, and
+are incremented by @code{.incBig}.
+
 
 @item @code{set x axis labels .position. "label" [.position. "label" [...]]}
 @cindex axis labels, controlling
@@ -10152,7 +10161,7 @@ BUG: this only has an effect if the axis is not already of type
 `set y axis right'
 `set y axis increasing'
 `set y axis decreasing'
-`set y axis .bottom. .top. [.incBig. [.incSml.]]'
+`set y axis .bottom. .top. [.incBig. [.incSml.]] [starting .starting_value.]'
 `set y axis labels [add] .position_1. "label_1" [.position_2. "label_2" [...]]'
 `set y axis labels automatic'
 @end example
@@ -10196,6 +10205,10 @@ Make y-axis range from @code{.bottom.} to @code{.top.}
 Make y-axis range from @code{.bottom.} to @code{.top.}, with labelled
 increments at @code{.incBig.}
 
+@item @code{set y axis .bottom. .top. .incBig. starting .starting_value.}
+As above, but with the axis labels starting at the indicated value, and
+are incremented by @code{.incBig}.
+
 @item @code{set y axis .bottom. .top. .incBig. .incSml.}
 Make y-axis range from @code{.bottom.} to @code{.top.}, with labelled
 increments at @code{.incBig.}, and small tics at @code{.incSml.}  NOTE:
@@ -10203,6 +10216,10 @@ if the axis is logarithmic, the value of @code{.incSml.} takes on a
 special meaning: if it is positive then small tics are put at values 2,
 3, 4, etc. between the decades, but if @code{.incSml.} is negative then
 no such small tics are used.
+
+@item @code{set y axis .bottom. .top. .incBig. .incSml. starting .starting_value.}
+As above, but with the axis labels starting at the indicated value, and
+are incremented by @code{.incBig}.
 
 @item @code{set y axis labels .position. "label" [.position. "label" [...]]}
 Override the automatic labelling at axis tics, and instead put the

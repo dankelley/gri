@@ -1,0 +1,8 @@
+set y axis 0 5
+set x axis 2 8 1
+draw x axis at 0
+set x axis 2 8 1 starting 3
+draw x axis at 1
+show variables
+
+

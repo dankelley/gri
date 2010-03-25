@@ -1157,40 +1157,40 @@ draw_axes(int type, double loc, gr_axis_properties side, bool allow_offset)
 		if (_xatbottom) {
 			gr_usertocm(_xleft, _ybottom, &tmpx_cm, &tmpy_cm);
 			gr_cmtouser(tmpx_cm, tmpy_cm - axes_offset, &tmpx, &tmpy);
-			gr_drawxaxis(tmpy, _xleft, _xinc, _xright, gr_axis_BOTTOM);
+			gr_drawxaxis(tmpy, _xleft, _xinc, _xright, _xstart, gr_axis_BOTTOM);
 			gr_setfontsize_pt(0.0);
 			gr_usertocm(_xleft, _ytop, &tmpx_cm, &tmpy_cm);
 			gr_cmtouser(tmpx_cm, tmpy_cm + axes_offset, &tmpx, &tmpy);
-			gr_drawxaxis(tmpy, _xleft, _xinc, _xright, gr_axis_TOP);
+			gr_drawxaxis(tmpy, _xleft, _xinc, _xright,  _xstart, gr_axis_TOP);
 			gr_setfontsize_pt(fontsize);
 		} else {
 			gr_setfontsize_pt(0.0);
 			gr_usertocm(_xleft, _ybottom, &tmpx_cm, &tmpy_cm);
 			gr_cmtouser(tmpx_cm, tmpy_cm - axes_offset, &tmpx, &tmpy);
-			gr_drawxaxis(tmpy, _xleft, _xinc, _xright, gr_axis_BOTTOM);
+			gr_drawxaxis(tmpy, _xleft, _xinc, _xright,  _xstart, gr_axis_BOTTOM);
 			gr_setfontsize_pt(fontsize);
 			gr_usertocm(_xleft, _ytop, &tmpx_cm, &tmpy_cm);
 			gr_cmtouser(tmpx_cm, tmpy_cm + axes_offset, &tmpx, &tmpy);
-			gr_drawxaxis(tmpy, _xleft, _xinc, _xright, gr_axis_TOP);
+			gr_drawxaxis(tmpy, _xleft, _xinc, _xright,  _xstart, gr_axis_TOP);
 		}
 		if (_yatleft == true) {
 			gr_usertocm(_xleft, _ybottom, &tmpx_cm, &tmpy_cm);
 			gr_cmtouser(tmpx_cm - axes_offset, tmpy_cm, &tmpx, &tmpy);
-			gr_drawyaxis(tmpx, _ybottom, _yinc, _ytop, gr_axis_LEFT);
+			gr_drawyaxis(tmpx, _ybottom, _yinc, _ytop, _ystart, gr_axis_LEFT);
 			gr_setfontsize_pt(0.0);
 			gr_usertocm(_xright, _ybottom, &tmpx_cm, &tmpy_cm);
 			gr_cmtouser(tmpx_cm + axes_offset, tmpy_cm, &tmpx, &tmpy);
-			gr_drawyaxis(tmpx, _ybottom, _yinc, _ytop, gr_axis_RIGHT);
+			gr_drawyaxis(tmpx, _ybottom, _yinc, _ytop, _ystart, gr_axis_RIGHT);
 			gr_setfontsize_pt(fontsize);
 		} else {
 			gr_setfontsize_pt(0.0);
 			gr_usertocm(_xleft, _ybottom, &tmpx_cm, &tmpy_cm);
 			gr_cmtouser(tmpx_cm - axes_offset, tmpy_cm, &tmpx, &tmpy);
-			gr_drawyaxis(tmpx, _ybottom, _yinc, _ytop, gr_axis_LEFT);
+			gr_drawyaxis(tmpx, _ybottom, _yinc, _ytop, _ystart, gr_axis_LEFT);
 			gr_setfontsize_pt(fontsize);
 			gr_usertocm(_xright, _ybottom, &tmpx_cm, &tmpy_cm);
 			gr_cmtouser(tmpx_cm + axes_offset, tmpy_cm, &tmpx, &tmpy);
-			gr_drawyaxis(tmpx, _ybottom, _yinc, _ytop, gr_axis_RIGHT);
+			gr_drawyaxis(tmpx, _ybottom, _yinc, _ytop, _ystart, gr_axis_RIGHT);
 		}
 		_need_x_axis = false;
 		_need_y_axis = false;
@@ -1200,10 +1200,10 @@ draw_axes(int type, double loc, gr_axis_properties side, bool allow_offset)
 	case 1:			// axes at left and bottom + simple frame 
 		gr_usertocm(_xleft, _ybottom, &tmpx_cm, &tmpy_cm);
 		gr_cmtouser(tmpx_cm, tmpy_cm - axes_offset, &tmpx, &tmpy);
-		gr_drawxaxis(tmpy, _xleft, _xinc, _xright, gr_axis_BOTTOM);
+		gr_drawxaxis(tmpy, _xleft, _xinc, _xright,  _xstart, gr_axis_BOTTOM);
 		gr_usertocm(_xleft, _ybottom, &tmpx_cm, &tmpy_cm);
 		gr_cmtouser(tmpx_cm - axes_offset, tmpy_cm, &tmpx, &tmpy);
-		gr_drawyaxis(tmpx, _ybottom, _yinc, _ytop, gr_axis_LEFT);
+		gr_drawyaxis(tmpx, _ybottom, _yinc, _ytop, _ystart, gr_axis_LEFT);
 		draw_outline_frame();
 		_need_x_axis = false;
 		_need_y_axis = false;
@@ -1221,11 +1221,11 @@ draw_axes(int type, double loc, gr_axis_properties side, bool allow_offset)
 		if (side == gr_axis_BOTTOM) {
 			gr_usertocm(_xleft, loc, &tmpx_cm, &tmpy_cm);
 			gr_cmtouser(tmpx_cm, tmpy_cm - axes_offset, &tmpx, &tmpy);
-			gr_drawxaxis(tmpy, _xleft, _xinc, _xright, side);
+			gr_drawxaxis(tmpy, _xleft, _xinc, _xright,  _xstart, side);
 		} else {
 			gr_usertocm(_xleft, loc, &tmpx_cm, &tmpy_cm);
 			gr_cmtouser(tmpx_cm, tmpy_cm + axes_offset, &tmpx, &tmpy);
-			gr_drawxaxis(tmpy, _xleft, _xinc, _xright, side);
+			gr_drawxaxis(tmpy, _xleft, _xinc, _xright,  _xstart, side);
 		}
 		_need_x_axis = false;
 		{
@@ -1245,11 +1245,11 @@ draw_axes(int type, double loc, gr_axis_properties side, bool allow_offset)
 		if (side == gr_axis_BOTTOM) {
 			gr_usertocm(loc, _ybottom, &tmpx_cm, &tmpy_cm);
 			gr_cmtouser(tmpx_cm - axes_offset, tmpy_cm, &tmpx, &tmpy);
-			gr_drawyaxis(tmpx, _ybottom, _yinc, _ytop, side);
+			gr_drawyaxis(tmpx, _ybottom, _yinc, _ytop, _ystart, side);
 		} else {
 			gr_usertocm(loc, _ybottom, &tmpx_cm, &tmpy_cm);
 			gr_cmtouser(tmpx_cm + axes_offset, tmpy_cm, &tmpx, &tmpy);
-			gr_drawyaxis(tmpx, _ybottom, _yinc, _ytop, side);
+			gr_drawyaxis(tmpx, _ybottom, _yinc, _ytop, _ystart, side);
 		}
 		_need_y_axis = false;
 		{
@@ -1822,8 +1822,8 @@ Note the extra word `box', and the new meaning of the last 2 parameters.");
 		gr_scale125((double) _image0, (double) _image255, 4, &left, &right, &num);
 		gr_setxscale((double) x_ll_cm, (double) x_ll_cm + dx, left, right);
 		gr_setyscale((double) y_ll_cm, (double) y_ll_cm + dy, yMin, yMax);
-		gr_drawxaxis(yMin, left, (right - left) / num, right, gr_axis_BOTTOM);
-		gr_drawyaxis((double) left, yMin, 1., yMax, gr_axis_LEFT);
+		gr_drawxaxis(yMin, left, (right - left) / num, right, left, gr_axis_BOTTOM);
+		gr_drawyaxis((double) left, yMin, 1., yMax, yMin, gr_axis_LEFT);
 		GriPath p;
 		p.push_back(left, yMin, 'm');
 		p.push_back(left, yMax, 'l');
@@ -1854,9 +1854,9 @@ Note the extra word `box', and the new meaning of the last 2 parameters.");
 		gr_scale125((double) _image0, (double) _image255, 4, &left, &right, &num);
 		gr_setxscale((double) x_ll_cm, (double) x_ll_cm + dx, left, right);
 		gr_setyscale((double) y_ll_cm, (double) y_ll_cm + dy, yMin, yMax);
-		gr_drawxaxis(yMin, left, (right - left) / num, right, gr_axis_BOTTOM);
+		gr_drawxaxis(yMin, left, (right - left) / num, right, left, gr_axis_BOTTOM);
 		gr_setysubdivisions(4);
-		gr_drawyaxis((double) left, yMin, 25., yMax, gr_axis_LEFT);
+		gr_drawyaxis((double) left, yMin, 25., yMax, yMin, gr_axis_LEFT);
 		gr_setynumberformat(old_y_fmt.c_str());
 		GriPath p;
 		p.push_back(left, yMin, 'm');
@@ -2059,9 +2059,9 @@ draw_image_paletteCmd()
 	_griState.set_linewidth_line(_griState.linewidth_axis());
 	if (rotpal==0) {
 		if (otherside==0)
-			gr_drawxaxis(0.0, left, inc, right, gr_axis_BOTTOM);
+			gr_drawxaxis(0.0, left, inc, right, left, gr_axis_BOTTOM);
 		else
-			gr_drawxaxis(1.0, left, inc, right, gr_axis_TOP);
+			gr_drawxaxis(1.0, left, inc, right, left, gr_axis_TOP);
 		if (_output_file_type == postscript)
 			fprintf(_grPS, "%.3f w %% test\n", _griState.linewidth_axis());
 		GriPath p(4);
@@ -2073,9 +2073,9 @@ draw_image_paletteCmd()
 		p.stroke(units_user);
 	} else {
 		if (otherside==0)
-			gr_drawyaxis(0.0, left, inc, right, gr_axis_LEFT);
+			gr_drawyaxis(0.0, left, inc, right, left, gr_axis_LEFT);
 		else
-			gr_drawyaxis(1.0, left, inc, right, gr_axis_RIGHT);
+			gr_drawyaxis(1.0, left, inc, right, left, gr_axis_RIGHT);
 		if (_output_file_type == postscript)
 			fprintf(_grPS, "%.3f w\n", _griState.linewidth_axis());
 		GriPath p(4);
