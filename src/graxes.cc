@@ -64,7 +64,7 @@ extern double   _grTicSize_cm;
 /*
  * local functions
  */
-static bool     next_tic(double *next, double start, double present, double final, double inc, gr_axis_properties axis_type, bool increasing);
+static bool     next_tic(double *next, double start, bool gave_start, double present, double final, double inc, gr_axis_properties axis_type, bool increasing);
 
 #if 0
 static int      num_decimals(char *s);
@@ -78,6 +78,7 @@ static int      create_labels(double y, double yb, double yinc, double yt, doubl
 static bool
 next_tic(double *next,
          double start,
+         bool gave_start,
 	 double present,
 	 double final,
 	 double inc,
@@ -94,7 +95,10 @@ next_tic(double *next,
 	switch (axis_type) {
 	case gr_axis_LINEAR:
 		//*next = inc * (1.0 + floor((SMALLERNUM * inc + (present - start)) / inc));
-		*next = inc * (1.0 + floor((SMALLERNUM * inc + present) / inc));
+                if (gave_start)
+                        *next = start + inc * (1 + floor((present - start) / inc));
+                else 
+                        *next = inc * (1.0 + floor((SMALLERNUM * inc + present) / inc));
 		break;
 	case gr_axis_LOG:
 		if (present <= 0.0)
@@ -114,7 +118,7 @@ next_tic(double *next,
 	default:
 		gr_Error("unknown axis type (internal error)");
 	}
-        printf("next_tic(present=%f, ...) yielding *next=%f\n", present, *next);
+        //printf("next_tic(present=%f, ...) yielding *next=%f\n", present, *next);
 	// Set flag if this will overrun axis.
 	if (increasing == true)
 		return (*next <= final) ? true : false;
@@ -144,6 +148,7 @@ gr_drawxyaxes(double xl, double xinc, double xr, double yb, double yinc, double 
 void
 gr_drawxaxis(double y, double xl, double xinc, double xr, double xstart, gr_axis_properties side)
 {
+        //printf("gr_drawxaxis(..., xl=%f xstart=%f same=%d\n", xl, xstart, xl==xstart);
 	bool user_gave_labels = (_x_labels.size() != 0);
 #ifdef DEBUG_LABELS
 	if (user_gave_labels) {
@@ -222,13 +227,9 @@ gr_drawxaxis(double y, double xl, double xinc, double xr, double xstart, gr_axis
 		// tic is drawn along with a label.
 		gr_usertocm(xl, y, &xl_cm, &y_cm);
 		axis_path.push_back(xl_cm, y_cm, 'm');
-                if (xstart != xl || 1) {
-                        printf("%s:%d xl=%f  xstart=%f\n", __FILE__, __LINE__, xl, xstart);
-                        gr_usertocm(xstart - SMALLNUM * xinc, y, &xl_cm, &y_cm);
-                        axis_path.push_back(xl_cm, y_cm, 'l');                        
-                        present = xl + 0.99 * (xstart - xl);
-                }
-		while (next_tic(&next, xstart, present, final, smallinc, _grTransform_x, increasing)) {
+                //printf("_xgavestart = %d\n", _xgavestart);
+                //printf("BEFORE LOOP, xstart=%f   present=%f\n", xstart, present);
+		while (next_tic(&next, xstart, _xgavestart, present, final, smallinc, _grTransform_x, increasing)) {
 			// Determine angle of x-axis tics, for non-rectangular axes
 			switch (_grTransform_x) {
 			case gr_axis_LINEAR:
@@ -242,7 +243,8 @@ gr_drawxaxis(double y, double xl, double xinc, double xr, double xstart, gr_axis
 			gr_usertocm(next, y, &xcm, &ycm);
 			axis_path.push_back(xcm, ycm, 'l');
 			// Detect large tics on x axis
-			if (gr_multiple(next, xinc, 0.01 * smallinc)) {
+			if ((_xgavestart && gr_multiple(next - xstart, xinc, 0.01 * smallinc))
+                            || (!_xgavestart && gr_multiple(next, xinc, 0.01 * smallinc))) {
 				// draw large tic
 				axis_path.push_back(xcm + tic * cos(angle), ycm + tic * sin(angle), 'l');
 				if (gr_currentfontsize_pt() > SMALLFONTSIZE) {
@@ -354,7 +356,7 @@ gr_drawxaxis(double y, double xl, double xinc, double xr, double xstart, gr_axis
 		gr_cmtouser(xcm - AXIS_TWIDDLE, ycm, &tmp1, &tmp2);
 		present = tmp1;
 		axis_path.push_back(present, y, 'm');
-		while (next_tic(&next, xl, present, final, smallinc, _grTransform_x, increasing)) {
+		while (next_tic(&next, xl, _xgavestart, present, final, smallinc, _grTransform_x, increasing)) {
 			double          tmp, next_log;
 			double xuser, yuser;
 			axis_path.push_back(next, y, 'l');
@@ -521,12 +523,13 @@ gr_drawyaxis(double x, double yb, double yinc, double yt, double ystart, gr_axis
 		present = yb - yinc / 1.0e3;
 		final   = yt + yinc / 1.0e3;
 		axis_path.push_back(gr_usertocm_x(x, yb), gr_usertocm_y(x, yb), 'm');
-		while (next_tic(&next, ystart, present, final, smallinc, _grTransform_y, increasing)) {
+		while (next_tic(&next, ystart, _ygavestart, present, final, smallinc, _grTransform_y, increasing)) {
 			axis_path.push_back(gr_usertocm_x(x, next), gr_usertocm_y(x, next), 'l');
 			gr_usertocm(x, next, &xcm, &ycm);
 			angle = 0.0;
 			// Detect large tics on y axis
-			if (gr_multiple(next, yinc, 0.01 * smallinc)) {
+			if ((_ygavestart && gr_multiple(next - ystart, yinc, 0.01 * smallinc))
+                            || (!_ygavestart && gr_multiple(next, yinc, 0.01 * smallinc))) {
 				double tmpx, tmpy;
 				gr_cmtouser(xcm + tic * cos(angle), ycm + tic * sin(angle), &tmpx, &tmpy);
 				axis_path.push_back(xcm + tic * cos(angle), ycm + tic * sin(angle), 'l');
@@ -643,7 +646,7 @@ gr_drawyaxis(double x, double yb, double yinc, double yt, double ystart, gr_axis
 		gr_cmtouser(xcm, ycm - AXIS_TWIDDLE, &tmp1, &tmp2);
 		present = tmp2;
 		axis_path.push_back(x, present, 'm');
-		while (next_tic(&next, yb, present, final, smallinc, _grTransform_y, increasing)) {
+		while (next_tic(&next, yb, present, _ygavestart, final, smallinc, _grTransform_y, increasing)) {
 			double          tmp, next_log;
 			axis_path.push_back(x, next, 'l');
 			next_log = log10(next);

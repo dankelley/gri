@@ -50,9 +50,11 @@ bool            _user_set_y_axis = false;
 double          _xleft;		/* ..xleft.. */
 double          _xright;	/* ..xright.. */
 double          _xstart;	/* ..xstart.. */
+bool            _xgavestart;
 double          _ybottom;	/* ..ybottom.. */
 double          _ytop;		/* ..ytop.. */
 double          _ystart;	/* ..ystart.. */
+bool            _ygavestart;
 // Globals used elsewhere (variables begin with _).
 int             _arrow_type;
 bool            _warn_offpage;

@@ -2791,14 +2791,15 @@ set_x_axisCmd()
 		}
 	}
 #endif // 2.9.x
-        bool gave_starting_value = false;
+        _xgavestart = false;
         double starting_value = 0.0;
 	if (_nword > 6 && !strcmp(_word[_nword - 2], "starting")) {
-                gave_starting_value = true;
+                _xgavestart = false;
                 if (!getdnum(_word[_nword - 1], &starting_value)) {
                         READ_WORD_ERROR("starting .starting_value.");
                         return false;
                 }
+                _xgavestart = true;
                 _nword -= 2;    // gobble last two words
         }
 	if (!strcmp(_word[_nword - 1], "bottom")) {
@@ -2822,7 +2823,7 @@ set_x_axisCmd()
 		if (_xscale_exists && _xleft > _xright) {
 			swap(_xleft, _xright);
 			_xinc = -fabs(_xinc);
-                        _xstart = gave_starting_value ? starting_value : _xleft;
+                        _xstart = _xgavestart ? starting_value : _xleft; // FIXME
 			PUT_VAR("..xleft..", _xleft);
 			PUT_VAR("..xright..", _xright);
 			PUT_VAR("..xinc..", _xinc);
@@ -2834,7 +2835,7 @@ set_x_axisCmd()
 		if (_xscale_exists && _xleft < _xright) {
 			swap(_xleft, _xright);
 			_xinc = fabs(_xinc);
-                        _xstart = gave_starting_value ? starting_value : _xleft;
+                        _xstart = _xgavestart ? starting_value : _xleft; // FIXME
 			PUT_VAR("..xleft..", _xleft);
 			PUT_VAR("..xright..", _xright);
 			PUT_VAR("..xinc..", _xinc);
@@ -2866,7 +2867,7 @@ set_x_axisCmd()
 			_xinc = 1.0;
 		else
 			_xinc = _xright - _xleft;
-                _xstart = gave_starting_value ? starting_value : _xleft;
+                _xstart = _xgavestart ? starting_value : _xleft; // FIXME
 		PUT_VAR("..xleft..", _xleft);
 		PUT_VAR("..xright..", _xright);
 		PUT_VAR("..xinc..", _xinc);
@@ -2906,8 +2907,7 @@ set_x_axisCmd()
 			_xinc = xinc;
 			_xsubdiv = 1;
 		}
-                _xstart = gave_starting_value ? starting_value : _xleft;
-                //printf("gave_starting_value=%d _xstart=%f\n", gave_starting_value, _xstart);
+                _xstart = _xgavestart ? starting_value : _xleft; // FIXME
 		PUT_VAR("..xleft..", _xleft);
 		PUT_VAR("..xright..", _xright);
 		PUT_VAR("..xinc..", _xinc);
@@ -2950,7 +2950,7 @@ set_x_axisCmd()
 			_xinc = xinc;
 			_xsubdiv = int(floor(0.5 + fabs((double) (xinc / tmp))));
 		}
-                _xstart = gave_starting_value ? starting_value : _xleft;
+                _xstart = _xgavestart ? starting_value : _xleft; // FIXME
 		PUT_VAR("..xleft..", _xleft);
 		PUT_VAR("..xright..", _xright);
 		PUT_VAR("..xinc..", _xinc);
@@ -3287,10 +3287,10 @@ set_y_axisCmd()
 		}
 	}
 #endif // 2.9.x
-        bool gave_starting_value = false;
+        _ygavestart = false;
         double starting_value = 0.0;
 	if (_nword > 6 && !strcmp(_word[_nword - 2], "starting")) { // FIXME: is 5 right?
-                gave_starting_value = true;
+                _ygavestart = true;
                 if (!getdnum(_word[_nword - 1], &starting_value)) {
                         READ_WORD_ERROR("starting .starting_value.");
                         return false;
@@ -3320,7 +3320,7 @@ set_y_axisCmd()
 			_ybottom = _ytop;
 			_ytop = tmp;
 			_yinc = -_yinc;
-                        _ystart = gave_starting_value ? starting_value : _ybottom;
+                        _ystart = _ygavestart ? starting_value : _ybottom; // FIXME
 			PUT_VAR("..ybottom..", _ybottom);
 			PUT_VAR("..ytop..", _ytop);
 			PUT_VAR("..yinc..", _yinc);
@@ -3334,7 +3334,7 @@ set_y_axisCmd()
 			_ybottom = _ytop;
 			_ytop = tmp;
 			_yinc = -_yinc;
-                        _ystart = gave_starting_value ? starting_value : _ybottom;
+                        _ystart = _ygavestart ? starting_value : _ybottom; // FIXME
 			PUT_VAR("..ybottom..", _ybottom);
 			PUT_VAR("..ytop..", _ytop);
 			PUT_VAR("..yinc..", _yinc);
@@ -3387,7 +3387,7 @@ set_y_axisCmd()
 			_yinc = 1.0;
 		else
 			_yinc = _ytop - _ybottom;
-                _ystart = gave_starting_value ? starting_value : _ybottom;
+                _ystart = _ygavestart ? starting_value : _ybottom; // FIXME
 		PUT_VAR("..ybottom..", _ybottom);
 		PUT_VAR("..ytop..", _ytop);
 		PUT_VAR("..yinc..", _yinc);
@@ -3428,7 +3428,7 @@ set_y_axisCmd()
 			_yinc = yinc;
 			_ysubdiv = 1;
 		}
-                _ystart = gave_starting_value ? starting_value : _ybottom;
+                _ystart = _ygavestart ? starting_value : _ybottom; // FIXME
 		PUT_VAR("..ybottom..", _ybottom);
 		PUT_VAR("..ytop..", _ytop);
 		PUT_VAR("..yinc..", _yinc);
@@ -3472,7 +3472,7 @@ set_y_axisCmd()
 			_yinc = yinc;
 			_ysubdiv = int(floor(0.5 + fabs((double) (yinc / tmp))));
 		}
-                _ystart = gave_starting_value ? starting_value : _ybottom;
+                _ystart = _ygavestart ? starting_value : _ybottom; // FIXME
 		PUT_VAR("..ybottom..", _ybottom);
 		PUT_VAR("..ytop..", _ytop);
 		PUT_VAR("..yinc..", _yinc);
