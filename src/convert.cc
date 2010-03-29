@@ -1453,9 +1453,8 @@ convert_grid_to_imageCmd()
 		return false;
 	}
 
-        printf("_xmatrix[0]= %f  _ymatrix[0] = %f   _xmatrix[right] = %f   _ymatrix[top] = %f\n", 
-               _xmatrix[0], _ymatrix[0], _xmatrix[_num_xmatrix_data - 1], _ymatrix[_num_ymatrix_data - 1]);
-
+        //printf("_xmatrix[0]= %f  _ymatrix[0] = %f   _xmatrix[right] = %f   _ymatrix[top] = %f\n", 
+        //_xmatrix[0], _ymatrix[0], _xmatrix[_num_xmatrix_data - 1], _ymatrix[_num_ymatrix_data - 1]);
 
 	if (width  < 2) { err("Can't have grid < 2 wide"); return false; }
 	if (height < 2) { err("Can't have grid < 2 tall"); return false; }
