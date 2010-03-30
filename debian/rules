@@ -44,7 +44,7 @@ clean:
 	-rm src/gri.cmd src/startup.msg-tmp
 	mv doc/FAQ.html.KEEP doc/FAQ.html
 
-	dh_clean
+	dh_prep
 	rm -fR debian/gri-$(version)static
 	rm -f  debian/README.Debian debian/gri.1 debian/copyright
 	chmod u+w debian/changelog
