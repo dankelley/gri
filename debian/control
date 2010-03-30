@@ -2,15 +2,14 @@ Source: gri
 Section: science
 Priority: optional
 Maintainer: Peter S Galbraith <psg@debian.org>
-Build-Depends: debhelper, libnetcdf-dev, libreadline-dev, texlive-latex-base, texlive-generic-recommended, texinfo, imagemagick, info, ghostscript, gsfonts
-Build-Depends-Indep: debhelper, texlive-latex-base, texlive-generic-recommended, texinfo, imagemagick, info, ghostscript, gsfonts
+Build-Depends: debhelper (>= 7), libnetcdf-dev, libreadline-dev, texlive-latex-base, texlive-generic-recommended, texinfo, imagemagick, info, ghostscript, gsfonts
 Homepage: http://gri.sourceforge.net/
-Standards-Version: 3.8.3
+Standards-Version: 3.8.4
 
 Package: gri
 Section: science
 Architecture: any
-Depends: ${shlibs:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}, dpkg (>= 1.15.4) | install-info
 Suggests: gri-html-doc, gri-ps-doc, gri-el, gv
 Description: a language for scientific illustration
  Gri is an open-source language for scientific graphics programming. It is
@@ -39,7 +38,7 @@ Description: a language for scientific illustration
 Package: gri-el
 Section: science
 Architecture: all
-Depends: gri (>= 2.12.1-2), emacs22 | emacsen
+Depends: gri (>= 2.12.1-2), emacs22 | emacsen, ${misc:Depends}
 Recommends: gv
 Conflicts: gri (<= 2.12.1-1)
 Description: Emacs major-mode for gri, a language for scientific graphics
@@ -50,7 +49,7 @@ Description: Emacs major-mode for gri, a language for scientific graphics
 Package: gri-html-doc
 Section: doc
 Architecture: all
-Depends: ${shlibs:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}
 Suggests: doc-base
 Description: HTML manual for gri, a language for scientific graphics
  Gri is a command-driven application for making x-y graphs, 
@@ -69,7 +68,7 @@ Description: HTML manual for gri, a language for scientific graphics
 Package: gri-ps-doc
 Section: doc
 Architecture: all
-Depends: ${shlibs:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: PostScript manual for gri, a language for scientific graphics
  Gri is a command-driven application for making x-y graphs, contour-graphs,
  and image graphs.

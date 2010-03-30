@@ -10,7 +10,8 @@ gri (2.12.20-1) unstable; urgency=low
   - Fix SourceForge bug #2913841 (svg draw box filled not filled)
   - Fix SourceForge bug #2913840 (svg images are upside-down)
   - Fix SourceForge bug #2913838 (image postscript clip problem)
-
+ * Various lintian fixes in debian/control
+  
  -- Peter S Galbraith <psg@debian.org>  Tue, 30 Mar 2010 09:30:33 -0400
 
 gri (2.12.19-3) unstable; urgency=low

@@ -37,7 +37,7 @@ endif
 clean:
 	dh_testdir
 	dh_testroot
-	-make distclean
+	[ ! -f Makefile ] || $(MAKE) distclean
 	mv doc/FAQ.html doc/FAQ.html.KEEP
 	-rm -f config.log config.status debian/Makefile doc/*.html
 	-rm -f doc/gri.info* doc/*.dvi doc/*.ps doc/*.log doc/html
