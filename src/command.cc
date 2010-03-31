@@ -476,7 +476,8 @@ bool extract_help(FILE * fp, char *line)
 		unsigned     len;	//  length of a given line 
 		unsigned             i;
 		char lastc = '\0';
-		fgets(line, LineLength, fp);
+		if (NULL == fgets(line, LineLength, fp))
+		        break;
 		fix_line_ending(line);
 		_command[_num_command].fileline++;
 		_cmdFILE.back().increment_line();
@@ -538,7 +539,8 @@ extract_procedure(FILE * fp, char *line)
 	GET_STORAGE(_command[_num_command].procedure, char, 2);
 	strcpy(_command[_num_command].procedure, "");
 	while (!feof(fp)) {
-		fgets(line, LineLength, fp);
+		if (NULL == fgets(line, LineLength, fp))
+			break;
 		fix_line_ending(line);
 #if 0				// messing up
 		if (((unsigned) superuser()) & FLAG_AUT1) {

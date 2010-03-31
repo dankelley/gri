@@ -1,7 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 # gri: src/debian/Makefile.am
 EXTRA_DIST = 00Porters.readme\
- rules changelog control control.unofficial\
+ rules compat changelog control control.unofficial\
  copyright.template gri.doc-base\
  gri-el.emacsen-install gri-el.emacsen-remove\
  gri-el.emacsen-startup\

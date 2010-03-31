@@ -26,7 +26,8 @@ pdf: $(the_pdf_files)
 	-convert $< $@
 
 %.pdf : %.eps
-	ps2pdf $< $@
+	convert $< $@
+#	ps2pdf $< $@
 
 # This was good for color; 
 # now let's put them in grayscale for the PostScript manual

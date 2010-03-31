@@ -1314,7 +1314,8 @@ gr_reopen_postscript(const char *new_name)
 		return false;		// couldn't open it
 	while (!feof(_grPS)) {
 		i++;
-		fgets(grTempString, _grTempStringLEN, _grPS);
+		if (NULL == fgets(grTempString, _grTempStringLEN, _grPS))
+		        break;
 		if (feof(_grPS))
 			break;
 		fputs(grTempString, new_file);
@@ -1373,7 +1374,8 @@ gr_save_postscript(const char *PS_name, int normal_scale)
 	} else
 		insert_ps_header(PS_file, true);
 	while (!feof(_grPS)) {
-		fgets(grTempString, _grTempStringLEN, _grPS);
+	        if (NULL == fgets(grTempString, _grTempStringLEN, _grPS))
+		        break;
 		if (feof(_grPS))
 			break;
 		fputs(grTempString, PS_file);
@@ -1389,17 +1391,20 @@ skip_ps_header(FILE * PSfile)
 	/*
 	 * Skip header if it exists
 	 */
-	fgets(S, 256, PSfile);
+	if (NULL == fgets(S, 256, PSfile))
+		gr_Error("PostScript file is empty");
 	if (feof(PSfile))
 		gr_Error("PostScript file is empty");
 	if (!strcmp(S, "%!\n")) {	/* old-style */
-		fgets(S, 256, PSfile);
+		if (NULL == fgets(S, 256, PSfile))
+			gr_Error("PostScript file is nearly empty");
 		if (feof(PSfile))
 			gr_Error("PostScript file is nearly empty");
 		if (1 == sscanf(&S[1], "%d header lines follow\n",
 				&header_lines)) {
 			while (header_lines-- > 0) {
-				fgets(S, 256, PSfile);
+				if (NULL == fgets(S, 256, PSfile))
+					gr_Error("badly formed (old-style) header");
 				if (feof(PSfile))
 					gr_Error("badly formed (old-style) header");
 			}
@@ -1408,7 +1413,8 @@ skip_ps_header(FILE * PSfile)
 		}
 	} else if (!strcmp(S, "%!PS-Adobe-1.0\n"))	/* new-style */
 		while (strncmp(S, "%%Page:", 7)) {
-			fgets(S, 256, PSfile);
+			if (NULL == fgets(S, 256, PSfile))
+				gr_Error("badly formed header");
 			if (feof(PSfile))
 				gr_Error("badly formed header");
 		}

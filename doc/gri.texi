@@ -41,13 +41,16 @@
 @iftex
 @message{}
 @message{gri.texi: overriding parskip, }
-@global@parskip=3pt             @c space between paragraphs
+@global@parskip=4pt             @c space between paragraphs
+
 @message{overriding baselineskip, }
 @global@baselineskip=12pt       @c line spacing
 @message{overriding lispnarrowing }
 @c @global@lispnarrowing=0.2cm  @c left margin on examples
 @global@widowpenalty=10000      @c Prevent widows
 @global@clubpenalty=10000       @c Prevent orphans
+
+
 @message{}
 @end iftex
 @comment %**start of header
@@ -73,11 +76,11 @@
 
 @subtitle A Program to Make Science Graphs
 @subtitle Version @value{GRI-VERSION}
-@subtitle 2009
-@author Dan E. Kelley (@value{AUTHOR-EMAIL})
+@subtitle 2010
+@author Dan E. Kelley
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 1991-2009 Dan Kelley
+Copyright @copyright{} 1991-2010 Dan Kelley
 @sp 2
 @end titlepage
 
@@ -85,6 +88,10 @@ Copyright @copyright{} 1991-2009 Dan Kelley
 @direntry
 * Gri: (gri).  Programming language for scientific illustration
 @end direntry
+
+@summarycontents
+@contents
+
 
 @node   Top, Introduction, (dir), (dir)
 @comment node-name, next, previous, up
@@ -100,11 +107,7 @@ considerable power, at the price of a moderate learning curve.
 
 This manual describes Gri version
 @value{GRI-VERSION} @c , updated @value{UPDATED},
-(c) 1991-2008, 
-Dan Kelley at email address 
-@c HTML <A HREF="mailto:Dan.Kelley@Dal.CA"> 
-@value{AUTHOR-EMAIL}
-@c HTML </A>
+(c) 1991-2010, Dan Kelley
 
 Gri is released with the GNU Public License (@ref{License}).
 
@@ -401,7 +404,7 @@ The output PostScript file is called @file{example1.ps}.
 @c HTML It looks something like the miniature shown above.
 
 @c BUG: pdftex ignores the size.
-@image{./examples/example1,150pt}
+@image{./examples/example1, 300pt}
 
 @cindex example 01, linegraph using data in a separate file
 
@@ -2568,7 +2571,7 @@ The following code shows a fancy plot with lots of bells and whistles.
 
 
 
-@image{./examples/example11}
+@image{./examples/example11, 400pt}
 
 @cindex example 11, fancy plot
 
@@ -15674,24 +15677,24 @@ frame because the user is using the @file{framepop.el}
 add-on package.  A similar effect can be obtained using
 @code{special display} buffers in Emacs.
 
-@image{./screenshots/gri-screenshot-1}
+@image{./screenshots/gri-screenshot-1, 400pt}
 
 Here, the user has selected the command @code{set font to} and,
 forgetting what valid font name could be used, then invoked @kbd{C-c
 C-h} to get help about that command. The user found the needed
 information and finished typing in `Helvetica'.
 
-@image{./screenshots/gri-screenshot-2}
+@image{./screenshots/gri-screenshot-2, 400pt}
 
 Here we see the user cascading through the Gri commands pull-down menu
 until @code{draw axes} is reached.
 
-@image{./screenshots/gri-screenshot-3}
+@image{./screenshots/gri-screenshot-3, 400pt}
 
 With the output previewed in a @code{gv} window after pressing @kbd{C-c
 C-v}, the user is ready to print the file using a pull-down menu.
 
-@image{./screenshots/gri-screenshot-4}
+@image{./screenshots/gri-screenshot-4, 400pt}
 @end iftex
 
 @comment Now handle more complicated HTML version
@@ -18147,7 +18150,7 @@ like so in the file @file{~/.emacs}
 @cindex installation, redhat linux
 @cindex installation, linux redhat/debian
 
-Installation is easy on RedHat and Debian flavors of linux.  Versions
+Installation is easy on various flavors of linux.  Versions
 are available from the official distributions and also at
 @c HTML <A HREF="http://sourceforge.net/project/showfiles.php?group_id=5511">
 @file{http://sourceforge.net/project/showfiles.php?group_id=5511}
@@ -18505,9 +18508,7 @@ similar token in the @code{DEFS = ...} line.  For consistency
 after the @code{-D_GRI_=1} token.
 @end enumerate
 
-
 To view the output, use a PostScript viewer such as GSview.
-(@url{http://www.cs.wisc.edu/~ghost/index.html}).
 
 
 
@@ -19026,7 +19027,6 @@ tend to be incorrect!
 @end cartouche
 @end iftex
 
-
 @c HTML <a href="tst_suite/tst_control.html">Test file `<tt>tst_control.gri</tt>'.</a><p>
 @iftex
 @sp 1
@@ -19036,7 +19036,6 @@ tend to be incorrect!
 @include tst_suite/tst_control.texi
 @end cartouche
 @end iftex
-
 
 @c HTML <a href="tst_suite/tst_rpn.html">Test file `<tt>tst_rpn.gri</tt>'.</a><p>
 @iftex
@@ -19279,7 +19278,7 @@ and George White.
 @cindex contributor, George White
 
 Prime among these is Peter Galbraith, who has been a close collaborator in Gri
-development and in my scientific work, for well over a decade.
+development and in my scientific work, for two (!) decades.
 
 To all, thanks.
 
@@ -19792,7 +19791,6 @@ this License.
 
 @c HTML -->
 
-@summarycontents
-@contents
+@c @summarycontents
+@c @contents
 @bye
-

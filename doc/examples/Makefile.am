@@ -71,7 +71,8 @@ DISTCLEANFILES = $(png_files) $(eps_files) $(html_files) $(txt_files)
 %-tiny.png : %.png
 	-convert -geometry 90x999 $< $@
 %.pdf : %.ps
-	ps2pdf $< $@
+	convert $< $@ 
+#	ps2pdf $< $@
 %.html : %.gri
 	perl $(srcdir)/../gri2html $< $@
 all: html png eps txt
