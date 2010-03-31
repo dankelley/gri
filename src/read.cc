@@ -134,7 +134,8 @@ read_colornamesCmd()
 		char name2[100], name3[100], name4[100];
 		int rr, gg, bb, line_len;
 		double r, g, b;
-		fgets(_grTempString, _grTempStringLEN - 1, fp);
+		if (NULL == fgets(_grTempString, _grTempStringLEN - 1, fp))
+			break;
 		if (_grTempString[skip_space(_grTempString)] != '#') { // FIXME: what does this test do?
                         line_len = (int)strlen(_grTempString);
                         if (line_len > 3) {
@@ -2123,12 +2124,14 @@ read_raster_image(FILE * fp, IMAGE * im)
 	case RMT_RAW:
 		warning("Skipping image map of type RMT_RAW.");
 		for (i = 0; i < int(im->ras_maplength); i++)
-			fread((char *) & tmpB, sizeof(tmpB), 1, fp);
+			if (0 == fread((char *) & tmpB, sizeof(tmpB), 1, fp))
+				break;
 		break;
 	case RMT_EQUAL_RGB:	// raw
 		warning("Skipping image map of type RMT_RGB.");
 		for (i = 0; i < int(im->ras_maplength); i++)
-			fread((char *) & tmpB, sizeof(tmpB), 1, fp);
+			if (0 == fread((char *) & tmpB, sizeof(tmpB), 1, fp))
+				break;
 		break;
 	default:
 		err("Can only read images of maptype RMT_NONE or RMT_RAW");
@@ -2150,7 +2153,8 @@ read_raster_image(FILE * fp, IMAGE * im)
 			*(im->image + i * im->ras_height + j) = tmpB;
 		}
 		if (need_zero_padding) {
-			fread((char *) & tmpB, sizeof(tmpB), 1, fp);
+			if (0 == fread((char *) & tmpB, sizeof(tmpB), 1, fp))
+				break;
 		}
 	}
 	return true;

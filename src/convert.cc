@@ -1077,10 +1077,10 @@ X data must be ordered and distinct.\n\
 								     factor * 3.) + c * (zt2 * 3. - 1.));
 		coef[(*l << 2) + 3] = (d * alpha * onemzt + c * zeta) * 6.;
 		coef[(*l << 2) + 4] = (c - d * alpha) * 6. / s[i + s_dim1];
-		coef[(*l - 1 << 2) + 4] = coef[(*l << 2) + 4] - d * 6. * ((
-			double)1. - alpha) / (del * zt2);
-		coef[(*l - 1 << 2) + 2] = coef[(*l << 2) + 2] - del * (coef[(*l << 2) 
-									   + 3] - del / 2. * coef[(*l - 1 << 2) + 4]);
+		coef[((*l - 1) << 2) + 4] = coef[(*l << 2) + 4] - d * 6. * ((
+									     double)1. - alpha) / (del * zt2);
+		coef[((*l - 1) << 2) + 2] = coef[(*l << 2) + 2] - del * (coef[(*l << 2) 
+									      + 3] - del / 2. * coef[((*l - 1) << 2) + 4]);
 		goto L68;
 	L62:
 		coef[(*l << 2) + 2] = divdif - s[i + s_dim1] * (s[i + (s_dim1 << 2)] *
@@ -1106,11 +1106,11 @@ X data must be ordered and distinct.\n\
 		++(*l);
 		// Computing 3rd power
 		r_1 = onemzt, r_2 = r_1;
-		coef[(*l << 2) + 4] = coef[(*l - 1 << 2) + 4] + (1. - alpha) * 
+		coef[(*l << 2) + 4] = coef[((*l - 1) << 2) + 4] + (1. - alpha) * 
 			6. * c / (s[i + s_dim1] * (r_2 * (r_1 * r_1)));
-		coef[(*l << 2) + 3] = coef[(*l - 1 << 2) + 3] + del * coef[(*l - 1 << 2) + 4];
-		coef[(*l << 2) + 2] = coef[(*l - 1 << 2) + 2] + del * (coef[(*l - 1 << 2) + 3] + del / 2. * coef[(*l - 1 << 2) + 4]);
-		coef[(*l << 2) + 1] = coef[(*l - 1 << 2) + 1] + del * (coef[(*l - 1 << 2) + 2] + del / 2. * (coef[(*l - 1 << 2) + 3] + del / 3. * coef[(*l - 1 << 2) + 4]));
+		coef[(*l << 2) + 3] = coef[((*l - 1) << 2) + 3] + del * coef[((*l - 1) << 2) + 4];
+		coef[(*l << 2) + 2] = coef[((*l - 1) << 2) + 2] + del * (coef[((*l - 1) << 2) + 3] + del / 2. * coef[((*l - 1) << 2) + 4]);
+		coef[(*l << 2) + 1] = coef[((*l - 1) << 2) + 1] + del * (coef[((*l - 1) << 2) + 2] + del / 2. * (coef[((*l - 1) << 2) + 3] + del / 3. * coef[((*l - 1) << 2) + 4]));
 		goto L68;
 	L65:
 		coef[(*l << 2) + 2] = divdif;
