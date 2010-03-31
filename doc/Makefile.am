@@ -175,6 +175,8 @@ gri.pdf: gri.texi
 	$(TEXINDEX) gri.tp
 	$(TEXINDEX) gri.vr
 	pdftex gri.texi
+	pdftex gri.texi
+	pdftex gri.texi
 
 # Add to some of the automake-created targets.
 all-local: refcard.ps cmdrefcard.ps
