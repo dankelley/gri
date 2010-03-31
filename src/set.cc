@@ -1353,7 +1353,7 @@ set_flagCmd()
 		return false;
 	}
 	bool turn_on = true;
-	if (_nword == 4 & word_is(3, "off"))
+	if (_nword == 4 && word_is(3, "off"))
 		turn_on = false;
 	unsigned int i;
 	for (i = 0; i < num_flags; i++) {

@@ -78,7 +78,7 @@ eof_status GriString::line_from_FILE(FILE *fp)
 	}
 	do {
 		value[i] = getc(fp);
-		if (got_eof = feof(fp))
+		if ((got_eof = feof(fp)))
 			break;
 		if (i >= capacity - 1) { // Get more space if required
 			capacity += capacity;
