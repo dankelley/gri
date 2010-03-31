@@ -220,7 +220,7 @@ manual.
 
 The mode is installed automatically in Debian by the elisp file: 
 
-.B /etc/emacs/site-start.d/50gri.el
+.B /etc/emacs/site-start.d/50gri-el.el
 
 The emacs mode itself is
 .I gri-mode.el
@@ -229,30 +229,13 @@ and is installed on Debian as
 
 Byte-compiled versions of this file are produced for every flavour of Emacs
 that is installed, and are located in places like
-.B /usr/share/emacs/20.2/site-lisp/gri-mode.elc
-
-
-.SH INSTALLING MULTIPLE VERSIONS 
-
-Since the way Gri works sometimes changes with new versions, you may want
-to keep old versions installed if an important script depends on it.  The
-Debian packaging of Gri allows this.  Installing the next gri package
-(named like gri_LATERVSN-1.deb) will replace your current version, but
-unofficial (and streamlined) Debian i386 packages exist
-which can be installed alongside the main gri package.  Look for a package
-named like so:
-
-.B gri-VSN_VSN-1_i386.deb
-
-at the SourceForge download page for the gri project:
-
-.B http://sourceforge.net/project/showfiles.php?group_id=5511
+.B /usr/share/emacs/23.1/site-lisp/gri-el/gri-mode.elc
 
 .SH "SEE ALSO"
 .B
 gri_merge(1), gri_unpage(1)
 
 .SH AUTHOR
-Gri (c) 1991-2003 Dan Kelley <Dan.Kelley@Dal.CA>
+Gri (c) 1991-2010 Dan Kelley <Dan.Kelley@Dal.CA>
 
 This manual page by Peter S Galbraith <psg@debian.org>.

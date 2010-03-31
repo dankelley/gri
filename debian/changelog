@@ -1,6 +1,7 @@
 gri (2.12.20-1) unstable; urgency=low
 
-  * New upstream release	
+  * gri-pdf-doc: New binary package replaces "gri-ps-doc" package.
+  * New upstream release        
   - add `starting' option to `set x axis' and `set y axis'.
   - add `directly' option to `convert grid to image'.
   - gri-mode.el font-locking was broken since Emacs-22

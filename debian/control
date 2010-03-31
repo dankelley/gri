@@ -10,7 +10,7 @@ Package: gri
 Section: science
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, dpkg (>= 1.15.4) | install-info
-Suggests: gri-html-doc, gri-ps-doc, gri-el, gv
+Suggests: gri-html-doc, gri-pdf-doc, gri-el, gv
 Description: a language for scientific illustration
  Gri is an open-source language for scientific graphics programming. It is
  command-driven, as opposed to point/click. Some users consider Gri similar
@@ -31,7 +31,7 @@ Description: a language for scientific illustration
    draw curve           # draw the data and autoscale the axes
  .
  A full manual is also available in HTML (gri-html-doc package), in
- PostScript suitable for printing (gri-ps-doc package) and on-line by
+ PostScript suitable for printing (gri-pdf-doc package) and on-line by
  following links from the gri home page:
    http://gri.sourceforge.net/
 
@@ -65,13 +65,14 @@ Description: HTML manual for gri, a language for scientific graphics
  the web via:
    http://gri.sourceforge.net/gridoc/html/
 
-Package: gri-ps-doc
+Package: gri-pdf-doc
 Section: doc
 Architecture: all
 Depends: ${shlibs:Depends}, ${misc:Depends}
+Replaces: gri-ps-doc
 Description: PostScript manual for gri, a language for scientific graphics
  Gri is a command-driven application for making x-y graphs, contour-graphs,
  and image graphs.
  .
- This is the Gri manual in PostScript format suitable for printing.
- The compressed file is located at /usr/share/doc/gri/gri.ps.gz
+ This is the Gri manual in PDF format suitable for printing or viewing
+ on-screen.  The compressed file is located at /usr/share/doc/gri/gri.pdf.gz

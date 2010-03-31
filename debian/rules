@@ -40,13 +40,14 @@ clean:
 	[ ! -f Makefile ] || $(MAKE) distclean
 	mv doc/FAQ.html doc/FAQ.html.KEEP
 	-rm -f config.log config.status debian/Makefile doc/*.html
-	-rm -f doc/gri.info* doc/*.dvi doc/*.ps doc/*.log doc/html
+	-rm -f doc/gri.info* doc/*.dvi doc/*.ps doc/*.pdf doc/*.log doc/html
 	-rm src/gri.cmd src/startup.msg-tmp
 	mv doc/FAQ.html.KEEP doc/FAQ.html
 
 	dh_clean
 	rm -fR debian/gri-$(version)static
 	rm -f  debian/README.Debian debian/gri.1 debian/copyright
+	rm -f doc/gri_unpage.1 doc/gri_merge.1
 	chmod u+w debian/changelog
 
 install: gri
@@ -63,6 +64,8 @@ debian/copyright:
 		debian/gri.man > debian/gri.1
 	sed -e 's/LATERVSN/$(somefutureversion)/g;s/VSN/$(version)/g' \
 		debian/README.Debian.template > debian/README.Debian
+	cp doc/gri_unpage.1-skel doc/gri_unpage.1
+	cp doc/gri_merge.1-skel doc/gri_merge.1
 
 Makefile:
 # To test on g++-3.0 :
@@ -71,7 +74,7 @@ Makefile:
 
 # Build architecture-independent files here (no need to be root).
 build-indep: debian/copyright Makefile
-	cd doc; make gri.ps html
+	cd doc; make gri.pdf html
 
 # Install (as root) architecture-independent files here.
 binary-indep: build-indep
@@ -79,9 +82,9 @@ binary-indep: build-indep
 	dh_testroot -i
 	install -d debian/gri-el/usr/share/emacs/site-lisp/gri-el
 	install -m 644 src/gri-mode.el debian/gri-el/usr/share/emacs/site-lisp/gri-el
-	install -d debian/gri-ps-doc/usr/share/doc/gri
-	cd doc; make gri.ps
-	install -m 644 doc/gri.ps debian/gri-ps-doc/usr/share/doc/gri
+	install -d debian/gri-pdf-doc/usr/share/doc/gri
+	cd doc; make gri.pdf
+	install -m 644 doc/gri.pdf debian/gri-pdf-doc/usr/share/doc/gri
 	cd doc; make html-install DESTDIR=`pwd`/../debian/gri-html-doc/
 	rm -f debian/*debhelper
 	dh_installdocs -i -A README debian/README.Debian
@@ -105,7 +108,8 @@ binary-arch: build-arch install
 	dh_installexamples -a
 	dh_installemacsen -a
 	dh_installinfo doc/gri.info*
-	dh_installman debian/gri.1
+	dh_installman debian/gri.1 doc/gri_unpage.1 doc/gri_merge.1
+	(cd debian/gri/usr/share/man/man1 ; ln -fs gri.1.gz gri-$(version).1.gz)
 	dh_installchangelogs -a 
         ifdef STRIPIT
 		dh_strip -a

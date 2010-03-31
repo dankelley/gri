@@ -23,11 +23,12 @@ gri for DEBIAN
         if you have a web server (like apache), or more simply at 
           file:/usr/share/doc/gri/html/index.html
 
-  gri-ps-doc: 
-        PostScript version of the manual suitable for printing.
+  gri-pdf-doc:
+        PDF version of the manual suitable for printing or on-screen
+        viewing.
 
         Once you have installed this package, it's available at
-          /usr/share/doc/gri/gri.ps.gz
+          /usr/share/doc/gri/gri.pdf.gz
         
 See also:
 
@@ -51,12 +52,7 @@ Packages available outside of Debian for older Gri versions:
  Emacs' gri-mode (see the Emacs command `gri-set-local-version').
  Statically compiled version are also available named like gri-VERSIONstatic.
 
- Some i386 (and perhaps other arches) version-specific packages are
- available from:
-
-  http://sourceforge.net/project/showfiles.php?group_id=5511
-
- Or compile your own!  (Install the source package and read
+ Compile your own!  (Install the source package and read
  debian/00Porters.readme)
 
-Peter S Galbraith <psg@debian.org>, Sun, 10 Jan 1999 12:45:05 -0500
+ -- Peter S Galbraith <psg@debian.org>, Wed, 31 Mar 2010 16:29:11 -0400
