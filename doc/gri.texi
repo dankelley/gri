@@ -41,13 +41,15 @@
 @iftex
 @message{}
 @message{gri.texi: overriding parskip, }
-@global@parskip=3pt             @c space between paragraphs
+@global@parskip=3pt @c space between paragraphs
 @message{overriding baselineskip, }
 @global@baselineskip=12pt       @c line spacing
 @message{overriding lispnarrowing }
 @c @global@lispnarrowing=0.2cm  @c left margin on examples
 @global@widowpenalty=10000      @c Prevent widows
 @global@clubpenalty=10000       @c Prevent orphans
+
+
 @message{}
 @end iftex
 @comment %**start of header
