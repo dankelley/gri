@@ -1404,7 +1404,7 @@ skip_ps_header(FILE * PSfile)
 				&header_lines)) {
 			while (header_lines-- > 0) {
 				if (NULL == fgets(S, 256, PSfile))
-					break;
+					gr_Error("badly formed (old-style) header");
 				if (feof(PSfile))
 					gr_Error("badly formed (old-style) header");
 			}
@@ -1414,7 +1414,7 @@ skip_ps_header(FILE * PSfile)
 	} else if (!strcmp(S, "%!PS-Adobe-1.0\n"))	/* new-style */
 		while (strncmp(S, "%%Page:", 7)) {
 			if (NULL == fgets(S, 256, PSfile))
-				break;
+				gr_Error("badly formed header");
 			if (feof(PSfile))
 				gr_Error("badly formed header");
 		}
