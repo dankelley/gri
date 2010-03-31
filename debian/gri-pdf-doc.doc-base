@@ -1,0 +1,8 @@
+Document: gri-pdf-doc
+Title: Gri language for scientific graphics manual
+Author: Dan E. Kelley
+Abstract: Manual (PDF) for Gri, a language for scientific graphics
+Section: Science/Data Analysis
+
+Format: postscript
+Files: /usr/share/doc/gri/gri.pdf.gz
