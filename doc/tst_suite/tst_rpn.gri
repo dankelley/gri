@@ -1,7 +1,5 @@
 show "doc/tst_suite/tst_rpn.gri     ..." ...
-
 rpnfunction same - abs 1e-5 >		# Are numbers virtually same?
-
 # Simple arithmetic
 .a. = 0
 assert {rpn .a. !}			  " failed test 1.1"
@@ -54,8 +52,6 @@ assert {rpn "\w1" "This" ==}		  " failed test 5.2"
 \w2 = word 1 of "\sentence "
 assert {rpn "\w2" "sentence" ==}	  " failed test 5.3"
 assert {rpn 0 4 "hello" substr "hell" ==} " failed test 5.4"
-
-
 # Q: will the below work on all OS?????
 # NB. better to switch with something more universal
 \six = system "date | wc | awk '{print $2}'"
@@ -80,7 +76,6 @@ assert {rpn x kurtosis 1.88008  same}     " failed test 7.4"
 assert {rpn 45 cos 0.7071 same}           " failed test 8.1"
 assert {rpn 45 sin 0.7071 same}           " failed test 8.2"
 assert {rpn 45 tan 1      same}           " failed test 8.3"
-
 # Missing-values
 set missing value -99
 read .x. .y.
@@ -98,5 +93,5 @@ assert {rpn  1   .y. |   }                " failed test 9.9"
 if {rpn .y. -99 !=}
     show                                  " failed test 9.10"
 end if
-		    
+	    
 show " passed"

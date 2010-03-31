@@ -1,8 +1,6 @@
 show "doc/tst_suite/tst_IO.gri      ..." ...
-
 # Test some I/O features.  NOTE: this will make _no_ sense
 # to you unless you have a look at the test files!
-
 # Read columns from file with newline at the end ...
 open tst_IO_1.dat
 read columns x y
@@ -12,7 +10,6 @@ assert {rpn x 0 @  1 ==}                " failed test 1-b"
 assert {rpn x 1 @  2 ==}                " failed test 1-c"
 assert {rpn y 0 @ 11 ==}                " failed test 1-d"
 assert {rpn y 1 @ 22 ==}                " failed test 1-e"
-
 # ... as above, but from a file without newline at the end.
 open tst_IO_2.dat
 read columns x y
@@ -22,7 +19,6 @@ assert {rpn x 0 @  1 ==}                " failed test 2-b"
 assert {rpn x 1 @  2 ==}                " failed test 2-c"
 assert {rpn y 0 @ 11 ==}                " failed test 2-d"
 assert {rpn y 1 @ 22 ==}                " failed test 2-e"
-
 # Read a line into a synonym.
 open tst_IO_1.dat
 read line \s
@@ -36,7 +32,6 @@ assert {rpn "\s" "1 11" ==}             " failed test 3-c"
 read line \s
 assert {rpn "\s" "2 22" ==}             " failed test 3-d"
 close
-
 # Read variable/synonym, in various orders.
 open tst_IO_1.dat
 read .a. .b.
@@ -68,25 +63,4 @@ read \a .b.
 assert {rpn "\a" "2" ==}                " failed test 4-o"
 assert {rpn .b.  22  ==}                " failed test 4-p"
 close
-
-if 0				# NOTE: change to 1 do some non-assert tests
-    # Grids
-    open tst_IO_1.dat
-    read grid x
-    show grid
-    close
-    open tst_IO_2.dat
-    read grid x
-    show grid
-    close
-    open tst_IO_1.dat
-    read grid y
-    show grid
-    close
-    open tst_IO_2.dat
-    read grid y
-    show grid
-    close
-end if
-
 show " passed"
