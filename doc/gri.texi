@@ -16535,7 +16535,7 @@ only in the fixing of bugs.
 
 @comment ADD-NEW-BUG-FIXES-HERE
 
-@subsubsection Version 2.12.20 [2010 April 1 @uref{http://en.wikipedia.org/wiki/April_Fools'_Day, April Fool's Day}]
+@subsubsection Version 2.12.20 [2010 April 9 @uref{http://en.wikipedia.org/wiki/Vimy_Ridge_Day, Vimy Ridge Day}]
 @strong{New Features}
 @itemize @bullet
 @item
