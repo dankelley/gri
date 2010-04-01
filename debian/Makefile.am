@@ -1,5 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 # gri: src/debian/Makefile.am
+SUBDIRS = source
 EXTRA_DIST = 00Porters.readme\
  rules compat changelog control control.unofficial\
  copyright.template gri.doc-base\
