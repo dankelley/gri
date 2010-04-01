@@ -7,6 +7,6 @@ EXTRA_DIST = 00Porters.readme\
  gri-el.emacsen-startup\
  gri-html-doc.doc-base gri-html-doc.emacsen-startup\
  gri-html-doc.preinst\
- gri.man gri.postinst gri-ps-doc.doc-base\
+ gri.man gri.postinst gri-pdf-doc.doc-base\
  README.Debian.template\
  README.Debian.unofficial rules
