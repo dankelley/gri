@@ -17,6 +17,7 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
+//#define DEBUG_START 1
 //#define DEBUG_LABELS 1
 #include <string>
 #include <string.h>
@@ -79,26 +80,39 @@ static bool
 next_tic(double *next,
          double start,
          bool gave_start,
-	 double present,
-	 double final,
-	 double inc,
-	 gr_axis_properties axis_type,
+         double present,
+         double final,
+         double inc,
+         gr_axis_properties axis_type,
 	 bool increasing)
 {
+#if defined(DEBUG_START)
+        printf("%s:%d  next_tic(...,start=%f  gave_start=%s  present=%f  final=%f  inc=%f  increasing=%s\n",
+               __FILE__,__LINE__,start,gave_start?"TRUE":"FALSE",present,final,inc,increasing?"TRUE":"FALSE");
+#endif
 	double          order_of_mag, mantissa;
 	// Check to see if already ran out of axis.
 	if (present >= final && increasing == true)
 		return false;
-	if (present <= final && increasing == false)
+        if (present <= final && increasing == false)
 		return false;
-	// Determine next tic to draw to, treating linear/log separately.
+        // Determine next tic to draw to, treating linear/log separately.
 	switch (axis_type) {
 	case gr_axis_LINEAR:
 		//*next = inc * (1.0 + floor((SMALLERNUM * inc + (present - start)) / inc));
-                if (gave_start)
-                        *next = start + inc * (1 + floor((present - start) / inc));
-                else 
+                if (gave_start) {
+                        *next = start + inc * (1 + floor(SMALLERNUM + (present - start) / inc));
+#if defined(DEBUG_START)
+                        printf("%s:%d   next=%f  present=%f  inc=%f\n  %f  %f  %f %f\n",
+                               __FILE__, __LINE__, *next, present, inc,
+                               inc * (1.001 + floor((present - start) / inc)),
+                                (1 + floor((present - start) / inc)),
+                                (floor((present - start) / inc)),
+                                (present - start) / inc);
+#endif
+                } else {
                         *next = inc * (1.0 + floor((SMALLERNUM * inc + present) / inc));
+                }
 		break;
 	case gr_axis_LOG:
 		if (present <= 0.0)
@@ -227,8 +241,9 @@ gr_drawxaxis(double y, double xl, double xinc, double xr, double xstart, gr_axis
 		// tic is drawn along with a label.
 		gr_usertocm(xl, y, &xl_cm, &y_cm);
 		axis_path.push_back(xl_cm, y_cm, 'm');
-                //printf("_xgavestart = %d\n", _xgavestart);
-                //printf("BEFORE LOOP, xstart=%f   present=%f\n", xstart, present);
+#if defined(DEBUG_START)
+                printf("%s:%d  _xgavestart=%d xstart=%f   present=%f\n", __FILE__, __LINE__, _xgavestart, xstart, present);
+#endif
 		while (next_tic(&next, xstart, _xgavestart, present, final, smallinc, _grTransform_x, increasing)) {
 			// Determine angle of x-axis tics, for non-rectangular axes
 			switch (_grTransform_x) {
@@ -245,6 +260,9 @@ gr_drawxaxis(double y, double xl, double xinc, double xr, double xstart, gr_axis
 			// Detect large tics on x axis
 			if ((_xgavestart && gr_multiple(next - xstart, xinc, 0.01 * smallinc))
                             || (!_xgavestart && gr_multiple(next, xinc, 0.01 * smallinc))) {
+#if defined(DEBUG_START)
+                                printf("%s:%d   next=%f\n", __FILE__, __LINE__, next);
+#endif
 				// draw large tic
 				axis_path.push_back(xcm + tic * cos(angle), ycm + tic * sin(angle), 'l');
 				if (gr_currentfontsize_pt() > SMALLFONTSIZE) {
@@ -325,6 +343,9 @@ gr_drawxaxis(double y, double xl, double xinc, double xr, double xstart, gr_axis
 			}
 			axis_path.push_back(gr_usertocm_x(next, y), gr_usertocm_y(next, y), 'l');
 			present = next;
+#if defined(DEBUG_START)
+                        printf("%s:%d   bottom of loop; present=%f\n", __FILE__, __LINE__, present);
+#endif
 		}
 		if (user_gave_labels) {
 			angle = 0;
@@ -341,7 +362,7 @@ gr_drawxaxis(double y, double xl, double xinc, double xr, double xstart, gr_axis
 						   DEG_PER_RAD * angle);
 				} else {
 #ifdef DEBUG_LABELS
-					//printf("DEBUG: %s:%d SKIPPING %d-th label '%s' since x=%f\n",__FILE__,__LINE__,i,_x_labels[i].c_str(),_x_label_positions[i]);
+					printf("DEBUG: %s:%d SKIPPING %d-th label '%s' since x=%f\n",__FILE__,__LINE__,i,_x_labels[i].c_str(),_x_label_positions[i]);
 #endif
 				}
 			}
