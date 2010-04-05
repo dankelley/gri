@@ -3795,7 +3795,8 @@ used.
 
 `set x axis .left .right. .incBig. .incSml. starting .starting_value.'
 As above, but with the axis labels starting at the indicated value, and
-are incremented by `.incBig'.
+are incremented by `.incBig'.  (This does not work for logarithmic
+axes.)
 
 `set x axis labels [add] .position. "label" [.position. "label" [...]]'
 Override the automatic labelling at axis tics, and instead put the
@@ -3957,7 +3958,8 @@ increments at `.incBig.'
 
 `set y axis .bottom. .top. .incBig. starting .starting_value.'
 As above, but with the axis labels starting at the indicated value, and
-are incremented by `.incBig'.
+are incremented by `.incBig'.  (This does not work for logarithmic
+axes.)
 
 `set y axis .bottom. .top. .incBig. .incSml.'
 Make y-axis range from `.bottom.' to `.top.', with labelled

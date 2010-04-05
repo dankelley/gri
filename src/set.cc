@@ -2794,6 +2794,10 @@ set_x_axisCmd()
         _xgavestart = false;
         double starting_value = 0.0;
 	if (_nword > 6 && !strcmp(_word[_nword - 2], "starting")) {
+                if (_xtype == gr_axis_LOG) {
+                        err("cannot use a 'starting' value with a logarithmic axis");
+                        return false;
+                }
                 _xgavestart = false;
                 if (!getdnum(_word[_nword - 1], &starting_value)) {
                         READ_WORD_ERROR("starting .starting_value.");
@@ -3290,6 +3294,10 @@ set_y_axisCmd()
         _ygavestart = false;
         double starting_value = 0.0;
 	if (_nword > 6 && !strcmp(_word[_nword - 2], "starting")) { // FIXME: is 5 right?
+                if (_ytype == gr_axis_LOG) {
+                        err("cannot use a 'starting' value with a logarithmic axis");
+                        return false;
+                }
                 _ygavestart = true;
                 if (!getdnum(_word[_nword - 1], &starting_value)) {
                         READ_WORD_ERROR("starting .starting_value.");

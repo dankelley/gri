@@ -1017,13 +1017,14 @@ gr_error(const char *lab)
 {
 	sprintf(grTempString, "\nFATAL error: %s\n", lab);
 	gr_textput(grTempString);
-	abort_gri();
+        abort_gri();
 }
 
 void
 abort_gri()
 {
-	abort();
+	//abort();
+        exit(1);
 }
 
 /*
