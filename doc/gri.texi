@@ -9955,7 +9955,8 @@ no such small tics are used.
 
 @item @code{set x axis .left .right. .incBig. .incSml. starting .starting_value.} 
 As above, but with the axis labels starting at the indicated value, and
-are incremented by @code{.incBig}.
+are incremented by @code{.incBig}.   (This does not work for logarithmic
+axes.)
 
 
 @item @code{set x axis labels .position. "label" [.position. "label" [...]]}
@@ -10222,7 +10223,8 @@ no such small tics are used.
 
 @item @code{set y axis .bottom. .top. .incBig. .incSml. starting .starting_value.}
 As above, but with the axis labels starting at the indicated value, and
-are incremented by @code{.incBig}.
+are incremented by @code{.incBig}.  (This does not work for logarithmic
+axes.)
 
 @item @code{set y axis labels .position. "label" [.position. "label" [...]]}
 Override the automatic labelling at axis tics, and instead put the

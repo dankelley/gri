@@ -228,6 +228,7 @@ gr_drawxaxis(double y, double xl, double xinc, double xr, double xstart, gr_axis
 	// current location should be a big tic, such a tic is drawn along with a
 	// label.
 	double xl_cm, y_cm;
+        int this_pass=0, pass_max=5000;
 	switch (_grTransform_x) {
 	case gr_axis_LINEAR:
 		smallinc = xinc / _grNumSubDiv_x;
@@ -245,6 +246,15 @@ gr_drawxaxis(double y, double xl, double xinc, double xr, double xstart, gr_axis
                 printf("%s:%d  _xgavestart=%d xstart=%f   present=%f\n", __FILE__, __LINE__, _xgavestart, xstart, present);
 #endif
 		while (next_tic(&next, xstart, _xgavestart, present, final, smallinc, _grTransform_x, increasing)) {
+                        if (this_pass++ > pass_max) {
+                                extern bool _xgavestart;
+                                if (_xgavestart) {
+                                        gr_Error("cannot draw x axis (internal error: problem dealing with 'start' keyword)");
+                                } else {
+                                        gr_Error("cannot draw x axis (internal error)");
+                                }
+                                return;
+                        }
 			// Determine angle of x-axis tics, for non-rectangular axes
 			switch (_grTransform_x) {
 			case gr_axis_LINEAR:
@@ -538,6 +548,7 @@ gr_drawyaxis(double x, double yb, double yinc, double yt, double ystart, gr_axis
 	// for linear axes and by something appropriate for log axes. Whenever
 	// the current location should be a big tic, such a tic is drawn along
 	// with a label.
+        int this_pass=0, pass_max=5000;
 	switch (_grTransform_y) {
 	case gr_axis_LINEAR:
 		smallinc = yinc / _grNumSubDiv_y;
@@ -667,7 +678,20 @@ gr_drawyaxis(double x, double yb, double yinc, double yt, double ystart, gr_axis
 		gr_cmtouser(xcm, ycm - AXIS_TWIDDLE, &tmp1, &tmp2);
 		present = tmp2;
 		axis_path.push_back(x, present, 'm');
+                if (_ygavestart)  {
+                        err("cannot use 'start' parameter for logarithmic axis");
+                        return;
+                }
 		while (next_tic(&next, yb, present, _ygavestart, final, smallinc, _grTransform_y, increasing)) {
+                        if (this_pass++ > pass_max) {
+                                extern bool _ygavestart;
+                                if (_ygavestart) {
+                                        gr_Error("cannot draw y axis (internal error: cannot use 'start' keyword)");
+                                } else {
+                                        gr_Error("cannot draw y axis (internal error)");
+                                }
+                                return;
+                        }
 			double          tmp, next_log;
 			axis_path.push_back(x, next, 'l');
 			next_log = log10(next);
