@@ -2793,7 +2793,7 @@ set_x_axisCmd()
 #endif // 2.9.x
         _x_gave_labelling = false;
         double labelling_value = 0.0;
-	if (_nword > 6 && !strcmp(_word[_nword - 2], "labelling")) {
+	if (_nword > 6 && (!strcmp(_word[_nword - 2], "labelling") || !strcmp(_word[_nword - 2], "labeling"))) {
                 if (_xtype == gr_axis_LOG) {
                         err("cannot use a 'labelling' value with a logarithmic axis");
                         return false;
@@ -3288,7 +3288,7 @@ set_y_axisCmd()
 #endif // 2.9.x
         _y_gave_labelling = false;
         double labelling_value = 0.0;
-	if (_nword > 6 && !strcmp(_word[_nword - 2], "labelling")) {
+	if (_nword > 6 && (!strcmp(_word[_nword - 2], "labelling") || !strcmp(_word[_nword - 2], "labeling"))) {
                 if (_ytype == gr_axis_LOG) {
                         err("cannot use a 'labelling' value with a logarithmic axis");
                         return false;
