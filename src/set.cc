@@ -2938,13 +2938,9 @@ set_x_axisCmd()
 				err("`set x axis .left. .right. .incBig. .incSml.' cannot have non-positive .right. value for logarithmic axis"));
 			Require(xinc > 0.0,
 				err("`set x axis .left. .right. .incBig. .incSml.' cannot have non-positive .incBig. value for logarithmic axis"));
-			Require(tmp > 0.0,
-				err("`set x axis .left. .right. .incBig. .incSml.' cannot have non-positive .incSml. value for logarithmic axis"));
 		}
 		SUGGEST(inc_within_range(xleft, xright, xinc),
 			warning("`set x axis .left. .right. .incBig.' has .incBig. that goes outside range"));
-		SUGGEST(inc_within_range(xleft, xright, tmp),
-			warning("`set x axis .left. .right. .incBig. .incSml.' has .incSml. that goes outside range"));
 		_xleft = xleft;
 		_xright = xright;
 		if (_xtype == gr_axis_LOG) {
@@ -3464,13 +3460,9 @@ set_y_axisCmd()
 				err("`set y axis .bottom. .top. .incBig. .incSml.' cannot have non-positive .top. value for logarithmic axis"));
 			Require(yinc > 0.0,
 				err("`set y axis .bottom. .top. .incBig. .incSml.' cannot have non-positive .incBig. value for logarithmic axis"));
-			Require(tmp > 0.0,
-				err("`set y axis .bottom. .top. .incBig. .incSml.' cannot have non-positive .incSml. value for logarithmic axis"));
 		}
 		SUGGEST(inc_within_range(ybottom, ytop, yinc),
 			warning("`set y axis .bottom. .top. .incBig.' has .incBig. that goes outside range"));
-		SUGGEST(inc_within_range(ybottom, ytop, tmp),
-			warning("`set y axis .bottom. .top. .incBig. incSml.' has .incSml. that goes outside range"));
 		_ybottom = ybottom;
 		_ytop = ytop;
 		if (_ytype == gr_axis_LOG) {

@@ -77,18 +77,10 @@ static int      create_labels(double y, double yb, double yinc, double yt, doubl
 // ragged, this will assign to *next the first multiple of "inc". Returns
 // true if more axis to do
 static bool
-next_tic(double *next,
-         double start,
-         bool gave_start,
-         double present,
-         double final,
-         double inc,
-         gr_axis_properties axis_type,
-	 bool increasing)
+next_tic(double *next, double start, bool gave_start, double present, double final, double inc, gr_axis_properties axis_type, bool increasing)
 {
 #if defined(DEBUG_START)
-        printf("%s:%d  next_tic(...,start=%f  gave_start=%s  present=%f  final=%f  inc=%f  increasing=%s\n",
-               __FILE__,__LINE__,start,gave_start?"TRUE":"FALSE",present,final,inc,increasing?"TRUE":"FALSE");
+        printf("%s:%d  next_tic(...,start=%f  gave_start=%s  present=%f  final=%f  inc=%f  increasing=%s  _xgavestart=%s  _ygavestart=%s\n", __FILE__,__LINE__,start,gave_start?"true":"false",present,final,inc,increasing?"true":"false", _xgavestart?"true":"false", _ygavestart?"true":"false");
 #endif
 	double          order_of_mag, mantissa;
 	// Check to see if already ran out of axis.
@@ -115,8 +107,10 @@ next_tic(double *next,
                 }
 		break;
 	case gr_axis_LOG:
-		if (present <= 0.0)
-			gr_Error("zero or negative on log axis (internal error).");
+		if (present <= 0.0) {
+			err("zero or negative on log axis (internal error).");
+                        return false;
+                }
 		order_of_mag = round_down_to_10(present);
 		mantissa = present / order_of_mag;
 		if (increasing)
@@ -132,7 +126,6 @@ next_tic(double *next,
 	default:
 		gr_Error("unknown axis type (internal error)");
 	}
-        //printf("next_tic(present=%f, ...) yielding *next=%f\n", present, *next);
 	// Set flag if this will overrun axis.
 	if (increasing == true)
 		return (*next <= final) ? true : false;
@@ -387,6 +380,9 @@ gr_drawxaxis(double y, double xl, double xinc, double xr, double xstart, gr_axis
 		gr_cmtouser(xcm - AXIS_TWIDDLE, ycm, &tmp1, &tmp2);
 		present = tmp1;
 		axis_path.push_back(present, y, 'm');
+#if defined(DEBUG_START)
+                printf("%s:%d  _xgavestart=%d xstart=%f   present=%f\n", __FILE__, __LINE__, _xgavestart, xstart, present);
+#endif
 		while (next_tic(&next, xl, _xgavestart, present, final, smallinc, _grTransform_x, increasing)) {
 			double          tmp, next_log;
 			double xuser, yuser;
@@ -555,6 +551,9 @@ gr_drawyaxis(double x, double yb, double yinc, double yt, double ystart, gr_axis
 		present = yb - yinc / 1.0e3;
 		final   = yt + yinc / 1.0e3;
 		axis_path.push_back(gr_usertocm_x(x, yb), gr_usertocm_y(x, yb), 'm');
+#if defined(DEBUG_START)
+                printf("%s:%d  _ygavestart=%d ystart=%f   present=%f\n", __FILE__, __LINE__, _ygavestart, ystart, present);
+#endif
 		while (next_tic(&next, ystart, _ygavestart, present, final, smallinc, _grTransform_y, increasing)) {
 			axis_path.push_back(gr_usertocm_x(x, next), gr_usertocm_y(x, next), 'l');
 			gr_usertocm(x, next, &xcm, &ycm);
@@ -682,7 +681,10 @@ gr_drawyaxis(double x, double yb, double yinc, double yt, double ystart, gr_axis
                         err("cannot use 'start' parameter for logarithmic axis");
                         return;
                 }
-		while (next_tic(&next, yb, present, _ygavestart, final, smallinc, _grTransform_y, increasing)) {
+#if defined(DEBUG_START)
+                printf("%s:%d  _ygavestart=%d ystart=%f   present=%f\n", __FILE__, __LINE__, _ygavestart, ystart, present);
+#endif
+		while (next_tic(&next, yb, _ygavestart, present, final, smallinc, _grTransform_y, increasing)) {
                         if (this_pass++ > pass_max) {
                                 extern bool _ygavestart;
                                 if (_ygavestart) {
