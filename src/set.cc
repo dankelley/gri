@@ -2791,19 +2791,18 @@ set_x_axisCmd()
 		}
 	}
 #endif // 2.9.x
-        _xgavestart = false;
-        double starting_value = 0.0;
-	if (_nword > 6 && !strcmp(_word[_nword - 2], "starting")) {
+        _x_gave_labelling = false;
+        double labelling_value = 0.0;
+	if (_nword > 6 && !strcmp(_word[_nword - 2], "labelling")) {
                 if (_xtype == gr_axis_LOG) {
-                        err("cannot use a 'starting' value with a logarithmic axis");
+                        err("cannot use a 'labelling' value with a logarithmic axis");
                         return false;
                 }
-                _xgavestart = false;
-                if (!getdnum(_word[_nword - 1], &starting_value)) {
-                        READ_WORD_ERROR("starting .starting_value.");
+                if (!getdnum(_word[_nword - 1], &labelling_value)) {
+                        READ_WORD_ERROR("labelling .labelling_value.");
                         return false;
                 }
-                _xgavestart = true;
+                _x_gave_labelling = true;
                 _nword -= 2;    // gobble last two words
         }
 	if (!strcmp(_word[_nword - 1], "bottom")) {
@@ -2827,11 +2826,11 @@ set_x_axisCmd()
 		if (_xscale_exists && _xleft > _xright) {
 			swap(_xleft, _xright);
 			_xinc = -fabs(_xinc);
-                        _xstart = _xgavestart ? starting_value : _xleft; // FIXME
+                        _x_labelling = _x_gave_labelling ? labelling_value : _xleft; // FIXME
 			PUT_VAR("..xleft..", _xleft);
 			PUT_VAR("..xright..", _xright);
 			PUT_VAR("..xinc..", _xinc);
-			PUT_VAR("..xstart..", _xstart);
+			PUT_VAR("..xlabelling..", _x_labelling);
 		}
 		return true;
 	} else if (_nword == 4 && !strcmp(_word[_nword - 1], "decreasing")) {
@@ -2839,11 +2838,11 @@ set_x_axisCmd()
 		if (_xscale_exists && _xleft < _xright) {
 			swap(_xleft, _xright);
 			_xinc = fabs(_xinc);
-                        _xstart = _xgavestart ? starting_value : _xleft; // FIXME
+                        _x_labelling = _x_gave_labelling ? labelling_value : _xleft;
 			PUT_VAR("..xleft..", _xleft);
 			PUT_VAR("..xright..", _xright);
 			PUT_VAR("..xinc..", _xinc);
-                        PUT_VAR("..xstart..", _xstart);
+                        PUT_VAR("..xlabelling..", _x_labelling);
 		}
 		return true;
 	} else if (_nword == 4 && !strcmp(_word[_nword - 1], "unknown")) {
@@ -2871,11 +2870,11 @@ set_x_axisCmd()
 			_xinc = 1.0;
 		else
 			_xinc = _xright - _xleft;
-                _xstart = _xgavestart ? starting_value : _xleft; // FIXME
+                _x_labelling = _x_gave_labelling ? labelling_value : _xleft;
 		PUT_VAR("..xleft..", _xleft);
 		PUT_VAR("..xright..", _xright);
 		PUT_VAR("..xinc..", _xinc);
-                PUT_VAR("..xstart..", _xstart);
+                PUT_VAR("..xlabelling..", _x_labelling);
 		_xsubdiv = 1;
 		_xscale_exists = true;
 		_need_x_axis = true;
@@ -2911,11 +2910,11 @@ set_x_axisCmd()
 			_xinc = xinc;
 			_xsubdiv = 1;
 		}
-                _xstart = _xgavestart ? starting_value : _xleft; // FIXME
+                _x_labelling = _x_gave_labelling ? labelling_value : _xleft;
 		PUT_VAR("..xleft..", _xleft);
 		PUT_VAR("..xright..", _xright);
 		PUT_VAR("..xinc..", _xinc);
-                PUT_VAR("..xstart..", _xstart);
+                PUT_VAR("..xlabelling..", _x_labelling);
 		_xscale_exists = true;
 		_need_x_axis = true;
 		_need_y_axis = true;
@@ -2950,17 +2949,17 @@ set_x_axisCmd()
 			_xinc = xinc;
 			_xsubdiv = int(floor(0.5 + fabs((double) (xinc / tmp))));
 		}
-                _xstart = _xgavestart ? starting_value : _xleft; // FIXME
+                _x_labelling = _x_gave_labelling ? labelling_value : _xleft;
 		PUT_VAR("..xleft..", _xleft);
 		PUT_VAR("..xright..", _xright);
 		PUT_VAR("..xinc..", _xinc);
-                PUT_VAR("..xstart..", _xleft);
+                PUT_VAR("..xlabelling..", _xleft);
 		_xscale_exists = true;
 		_need_x_axis = true;
 		_need_y_axis = true;
 		_user_set_x_axis = true;
 		return true;
-	} else if (_nword == 8) { // 'set x axis .left. .right. .inc. starting .start.'
+	} else if (_nword == 8) { // 'set x axis .left. .right. .inc. labelling .xlabelling.'
                 printf("HERE have 8 words\n");
 	} else {
 		err("`set x axis' may have only 2, 3 or 4 parameters");
@@ -3287,18 +3286,18 @@ set_y_axisCmd()
 		}
 	}
 #endif // 2.9.x
-        _ygavestart = false;
-        double starting_value = 0.0;
-	if (_nword > 6 && !strcmp(_word[_nword - 2], "starting")) { // FIXME: is 5 right?
+        _y_gave_labelling = false;
+        double labelling_value = 0.0;
+	if (_nword > 6 && !strcmp(_word[_nword - 2], "labelling")) {
                 if (_ytype == gr_axis_LOG) {
-                        err("cannot use a 'starting' value with a logarithmic axis");
+                        err("cannot use a 'labelling' value with a logarithmic axis");
                         return false;
                 }
-                _ygavestart = true;
-                if (!getdnum(_word[_nword - 1], &starting_value)) {
-                        READ_WORD_ERROR("starting .starting_value.");
+                if (!getdnum(_word[_nword - 1], &labelling_value)) {
+                        READ_WORD_ERROR("labelling .labelling_value.");
                         return false;
                 }
+                _y_gave_labelling = true;
                 _nword -= 2;    // gobble last two words
         }
 	if (!strcmp(_word[_nword - 1], "left")) {
@@ -3320,15 +3319,15 @@ set_y_axisCmd()
 	} else if (_nword == 4 && !strcmp(_word[_nword - 1], "increasing")) {
 		_yincreasing = true;
 		if (_yscale_exists && _ybottom > _ytop) {
-			double          tmp = _ybottom;
+			double tmp = _ybottom;
 			_ybottom = _ytop;
 			_ytop = tmp;
 			_yinc = -_yinc;
-                        _ystart = _ygavestart ? starting_value : _ybottom; // FIXME
+                        _y_labelling = _y_gave_labelling ? labelling_value : _ybottom;
 			PUT_VAR("..ybottom..", _ybottom);
 			PUT_VAR("..ytop..", _ytop);
 			PUT_VAR("..yinc..", _yinc);
-			PUT_VAR("..ystart..", _ystart);
+			PUT_VAR("..ylabelling..", _y_labelling);
 		}
 		return true;
 	} else if (_nword == 4 && !strcmp(_word[_nword - 1], "decreasing")) {
@@ -3338,11 +3337,11 @@ set_y_axisCmd()
 			_ybottom = _ytop;
 			_ytop = tmp;
 			_yinc = -_yinc;
-                        _ystart = _ygavestart ? starting_value : _ybottom; // FIXME
+                        _y_labelling = _y_gave_labelling ? labelling_value : _ybottom;
 			PUT_VAR("..ybottom..", _ybottom);
 			PUT_VAR("..ytop..", _ytop);
 			PUT_VAR("..yinc..", _yinc);
-			PUT_VAR("..ystart..", _ystart);
+			PUT_VAR("..ylabelling..", _y_labelling);
 		}
 		return true;
 	} else if (_nword == 4 && !strcmp(_word[_nword - 1], "unknown")) {
@@ -3391,11 +3390,11 @@ set_y_axisCmd()
 			_yinc = 1.0;
 		else
 			_yinc = _ytop - _ybottom;
-                _ystart = _ygavestart ? starting_value : _ybottom; // FIXME
+                _y_labelling = _y_gave_labelling ? labelling_value : _ybottom;
 		PUT_VAR("..ybottom..", _ybottom);
 		PUT_VAR("..ytop..", _ytop);
 		PUT_VAR("..yinc..", _yinc);
-                PUT_VAR("..ystart..", _ystart);
+                PUT_VAR("..ylabelling..", _y_labelling);
 		_ysubdiv = 1;
 		_yscale_exists = true;
 		_need_x_axis = true;
@@ -3432,11 +3431,11 @@ set_y_axisCmd()
 			_yinc = yinc;
 			_ysubdiv = 1;
 		}
-                _ystart = _ygavestart ? starting_value : _ybottom; // FIXME
+                _y_labelling = _y_gave_labelling ? labelling_value : _ybottom;
 		PUT_VAR("..ybottom..", _ybottom);
 		PUT_VAR("..ytop..", _ytop);
 		PUT_VAR("..yinc..", _yinc);
-                PUT_VAR("..ystart..", _ystart);
+                PUT_VAR("..ylabelling..", _y_labelling);
 		_yscale_exists = true;
 		_need_x_axis = true;
 		_need_y_axis = true;
@@ -3472,11 +3471,11 @@ set_y_axisCmd()
 			_yinc = yinc;
 			_ysubdiv = int(floor(0.5 + fabs((double) (yinc / tmp))));
 		}
-                _ystart = _ygavestart ? starting_value : _ybottom; // FIXME
+                _y_labelling = _y_gave_labelling ? labelling_value : _ybottom;
 		PUT_VAR("..ybottom..", _ybottom);
 		PUT_VAR("..ytop..", _ytop);
 		PUT_VAR("..yinc..", _yinc);
-                PUT_VAR("..ystart..", _ystart);
+                PUT_VAR("..ylaelled..", _y_labelling);
 		_yscale_exists = true;
 		_need_x_axis = true;
 		_need_y_axis = true;
@@ -3484,7 +3483,8 @@ set_y_axisCmd()
 		_user_set_y_axis = true;
 		return true;
 	} else {
-		err("`set y axis' may have only 2, 3 or 4 parameters");
+                //printf("_nword=%d\n",_nword); dandandan
+                err("`set y axis' may have only 2, 3 or 4 parameters");
 		return false;
 	}
 	_user_set_y_axis = true;

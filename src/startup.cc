@@ -580,14 +580,14 @@ set_defaults()
 	PUT_VAR("..xleft..", 0.0);
 	PUT_VAR("..xright..", XSIZE_DEFAULT);
 	PUT_VAR("..xinc..", XSIZE_DEFAULT);
-	PUT_VAR("..xstart..", 0.0);
+	PUT_VAR("..xlabelling..", 0.0);
 	_yatleft = true;
 	PUT_VAR("..ymargin..", YMARGIN_DEFAULT);
 	PUT_VAR("..ysize..", YSIZE_DEFAULT);
 	PUT_VAR("..ybottom..", 0.0);
 	PUT_VAR("..ytop..", YSIZE_DEFAULT);
 	PUT_VAR("..yinc..", YSIZE_DEFAULT);
-	PUT_VAR("..ystart..", 0.0);
+	PUT_VAR("..ylabelling..", 0.0);
 	_yscale_exists = false;
 	_ysubdiv = 1;
 	_ytype = gr_axis_LINEAR;

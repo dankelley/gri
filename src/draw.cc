@@ -1157,40 +1157,40 @@ draw_axes(int type, double loc, gr_axis_properties side, bool allow_offset)
 		if (_xatbottom) {
 			gr_usertocm(_xleft, _ybottom, &tmpx_cm, &tmpy_cm);
 			gr_cmtouser(tmpx_cm, tmpy_cm - axes_offset, &tmpx, &tmpy);
-			gr_drawxaxis(tmpy, _xleft, _xinc, _xright, _xstart, gr_axis_BOTTOM);
+			gr_drawxaxis(tmpy, _xleft, _xinc, _xright, _x_labelling, gr_axis_BOTTOM);
 			gr_setfontsize_pt(0.0);
 			gr_usertocm(_xleft, _ytop, &tmpx_cm, &tmpy_cm);
 			gr_cmtouser(tmpx_cm, tmpy_cm + axes_offset, &tmpx, &tmpy);
-			gr_drawxaxis(tmpy, _xleft, _xinc, _xright,  _xstart, gr_axis_TOP);
+			gr_drawxaxis(tmpy, _xleft, _xinc, _xright,  _x_labelling, gr_axis_TOP);
 			gr_setfontsize_pt(fontsize);
 		} else {
 			gr_setfontsize_pt(0.0);
 			gr_usertocm(_xleft, _ybottom, &tmpx_cm, &tmpy_cm);
 			gr_cmtouser(tmpx_cm, tmpy_cm - axes_offset, &tmpx, &tmpy);
-			gr_drawxaxis(tmpy, _xleft, _xinc, _xright,  _xstart, gr_axis_BOTTOM);
+			gr_drawxaxis(tmpy, _xleft, _xinc, _xright,  _x_labelling, gr_axis_BOTTOM);
 			gr_setfontsize_pt(fontsize);
 			gr_usertocm(_xleft, _ytop, &tmpx_cm, &tmpy_cm);
 			gr_cmtouser(tmpx_cm, tmpy_cm + axes_offset, &tmpx, &tmpy);
-			gr_drawxaxis(tmpy, _xleft, _xinc, _xright,  _xstart, gr_axis_TOP);
+			gr_drawxaxis(tmpy, _xleft, _xinc, _xright,  _x_labelling, gr_axis_TOP);
 		}
 		if (_yatleft == true) {
 			gr_usertocm(_xleft, _ybottom, &tmpx_cm, &tmpy_cm);
 			gr_cmtouser(tmpx_cm - axes_offset, tmpy_cm, &tmpx, &tmpy);
-			gr_drawyaxis(tmpx, _ybottom, _yinc, _ytop, _ystart, gr_axis_LEFT);
+			gr_drawyaxis(tmpx, _ybottom, _yinc, _ytop, _y_labelling, gr_axis_LEFT);
 			gr_setfontsize_pt(0.0);
 			gr_usertocm(_xright, _ybottom, &tmpx_cm, &tmpy_cm);
 			gr_cmtouser(tmpx_cm + axes_offset, tmpy_cm, &tmpx, &tmpy);
-			gr_drawyaxis(tmpx, _ybottom, _yinc, _ytop, _ystart, gr_axis_RIGHT);
+			gr_drawyaxis(tmpx, _ybottom, _yinc, _ytop, _y_labelling, gr_axis_RIGHT);
 			gr_setfontsize_pt(fontsize);
 		} else {
 			gr_setfontsize_pt(0.0);
 			gr_usertocm(_xleft, _ybottom, &tmpx_cm, &tmpy_cm);
 			gr_cmtouser(tmpx_cm - axes_offset, tmpy_cm, &tmpx, &tmpy);
-			gr_drawyaxis(tmpx, _ybottom, _yinc, _ytop, _ystart, gr_axis_LEFT);
+			gr_drawyaxis(tmpx, _ybottom, _yinc, _ytop, _y_labelling, gr_axis_LEFT);
 			gr_setfontsize_pt(fontsize);
 			gr_usertocm(_xright, _ybottom, &tmpx_cm, &tmpy_cm);
 			gr_cmtouser(tmpx_cm + axes_offset, tmpy_cm, &tmpx, &tmpy);
-			gr_drawyaxis(tmpx, _ybottom, _yinc, _ytop, _ystart, gr_axis_RIGHT);
+			gr_drawyaxis(tmpx, _ybottom, _yinc, _ytop, _y_labelling, gr_axis_RIGHT);
 		}
 		_need_x_axis = false;
 		_need_y_axis = false;
@@ -1200,10 +1200,10 @@ draw_axes(int type, double loc, gr_axis_properties side, bool allow_offset)
 	case 1:			// axes at left and bottom + simple frame 
 		gr_usertocm(_xleft, _ybottom, &tmpx_cm, &tmpy_cm);
 		gr_cmtouser(tmpx_cm, tmpy_cm - axes_offset, &tmpx, &tmpy);
-		gr_drawxaxis(tmpy, _xleft, _xinc, _xright,  _xstart, gr_axis_BOTTOM);
+		gr_drawxaxis(tmpy, _xleft, _xinc, _xright,  _x_labelling, gr_axis_BOTTOM);
 		gr_usertocm(_xleft, _ybottom, &tmpx_cm, &tmpy_cm);
 		gr_cmtouser(tmpx_cm - axes_offset, tmpy_cm, &tmpx, &tmpy);
-		gr_drawyaxis(tmpx, _ybottom, _yinc, _ytop, _ystart, gr_axis_LEFT);
+		gr_drawyaxis(tmpx, _ybottom, _yinc, _ytop, _y_labelling, gr_axis_LEFT);
 		draw_outline_frame();
 		_need_x_axis = false;
 		_need_y_axis = false;
@@ -1221,11 +1221,11 @@ draw_axes(int type, double loc, gr_axis_properties side, bool allow_offset)
 		if (side == gr_axis_BOTTOM) {
 			gr_usertocm(_xleft, loc, &tmpx_cm, &tmpy_cm);
 			gr_cmtouser(tmpx_cm, tmpy_cm - axes_offset, &tmpx, &tmpy);
-			gr_drawxaxis(tmpy, _xleft, _xinc, _xright,  _xstart, side);
+			gr_drawxaxis(tmpy, _xleft, _xinc, _xright,  _x_labelling, side);
 		} else {
 			gr_usertocm(_xleft, loc, &tmpx_cm, &tmpy_cm);
 			gr_cmtouser(tmpx_cm, tmpy_cm + axes_offset, &tmpx, &tmpy);
-			gr_drawxaxis(tmpy, _xleft, _xinc, _xright,  _xstart, side);
+			gr_drawxaxis(tmpy, _xleft, _xinc, _xright,  _x_labelling, side);
 		}
 		_need_x_axis = false;
 		{
@@ -1245,11 +1245,11 @@ draw_axes(int type, double loc, gr_axis_properties side, bool allow_offset)
 		if (side == gr_axis_BOTTOM) {
 			gr_usertocm(loc, _ybottom, &tmpx_cm, &tmpy_cm);
 			gr_cmtouser(tmpx_cm - axes_offset, tmpy_cm, &tmpx, &tmpy);
-			gr_drawyaxis(tmpx, _ybottom, _yinc, _ytop, _ystart, side);
+			gr_drawyaxis(tmpx, _ybottom, _yinc, _ytop, _y_labelling, side);
 		} else {
 			gr_usertocm(loc, _ybottom, &tmpx_cm, &tmpy_cm);
 			gr_cmtouser(tmpx_cm + axes_offset, tmpy_cm, &tmpx, &tmpy);
-			gr_drawyaxis(tmpx, _ybottom, _yinc, _ytop, _ystart, side);
+			gr_drawyaxis(tmpx, _ybottom, _yinc, _ytop, _y_labelling, side);
 		}
 		_need_y_axis = false;
 		{

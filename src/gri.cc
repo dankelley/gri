@@ -49,12 +49,12 @@ bool            _user_set_x_axis = false;
 bool            _user_set_y_axis = false;
 double          _xleft;		/* ..xleft.. */
 double          _xright;	/* ..xright.. */
-double          _xstart;	/* ..xstart.. */
-bool            _xgavestart;
+double          _x_labelling;	/* ..xlabelling.. */
+bool            _x_gave_labelling;
 double          _ybottom;	/* ..ybottom.. */
 double          _ytop;		/* ..ytop.. */
-double          _ystart;	/* ..ystart.. */
-bool            _ygavestart;
+double          _y_labelling;	/* ..ylabelling.. */
+bool            _y_gave_labelling;
 // Globals used elsewhere (variables begin with _).
 int             _arrow_type;
 bool            _warn_offpage;
@@ -176,12 +176,6 @@ int _function_indent = 4;
 int
 gri_main(int argc, char **argv)
 {
-#if 0 // testing types
-	GriColor::type hi_dan;
-	hi_dan = GriColor::rgb;
-	printf("type of hi_dan is %d (NB rgb is %d)\n",hi_dan,GriColor::rgb);
-#endif
-
 	start_up(argc, argv);
 	do {
 		do_command_line();
