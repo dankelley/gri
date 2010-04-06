@@ -241,9 +241,9 @@ void            gr_drawarrow2_cm(double x, double y, double xend, double yend, d
 void            gr_drawarrow3_cm(double x, double y, double xend, double yend, double halfwidth);
 void            gr_drawerrorbars(double x, double xmin, double xmax, double y, double ymin, double ymax, int type);
 void            gr_drawsymbol(double xcm, double ycm, gr_symbol_type symbol_name);
-void            gr_drawxaxis(double y, double xl, double xinc, double xr, double xstart, gr_axis_properties side);
+void            gr_drawxaxis(double y, double xl, double xinc, double xr, double xlabeling, gr_axis_properties side);
 void            gr_drawxyaxes(double xl, double xinc, double xr, double yb, double yinc, double yt); // FIXME need the starts here
-void            gr_drawyaxis(double x, double yb, double yinc, double yt, double ystart, gr_axis_properties side);
+void            gr_drawyaxis(double x, double yb, double yinc, double yt, double ylabelling, gr_axis_properties side);
 void            gr_end(const char *filename);
 void            gr_error(const char *lab);
 //

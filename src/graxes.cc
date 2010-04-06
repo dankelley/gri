@@ -17,7 +17,7 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-//#define DEBUG_START 1
+//#define DEBUG_LABELLING 1
 //#define DEBUG_LABELS 1
 #include <string>
 #include <string.h>
@@ -65,7 +65,7 @@ extern double   _grTicSize_cm;
 /*
  * local functions
  */
-static bool     next_tic(double *next, double start, bool gave_start, double present, double final, double inc, gr_axis_properties axis_type, bool increasing);
+static bool     next_tic(double *next, double labelling, bool gave_labelling, double present, double final, double inc, gr_axis_properties axis_type, bool increasing);
 
 #if 0
 static int      num_decimals(char *s);
@@ -77,10 +77,10 @@ static int      create_labels(double y, double yb, double yinc, double yt, doubl
 // ragged, this will assign to *next the first multiple of "inc". Returns
 // true if more axis to do
 static bool
-next_tic(double *next, double start, bool gave_start, double present, double final, double inc, gr_axis_properties axis_type, bool increasing)
+next_tic(double *next, double labelling, bool gave_labelling, double present, double final, double inc, gr_axis_properties axis_type, bool increasing)
 {
-#if defined(DEBUG_START)
-        printf("%s:%d  next_tic(...,start=%f  gave_start=%s  present=%f  final=%f  inc=%f  increasing=%s  _xgavestart=%s  _ygavestart=%s\n", __FILE__,__LINE__,start,gave_start?"true":"false",present,final,inc,increasing?"true":"false", _xgavestart?"true":"false", _ygavestart?"true":"false");
+#if defined(DEBUG_LABELLING)
+        printf("%s:%d  next_tic(...,labelling=%f  gave_labelling=%s  present=%f  final=%f  inc=%f  increasing=%s  _x_gave_labelling=%s  _y_gave_labelling=%s\n", __FILE__,__LINE__,labelling,gave_labelling?"true":"false",present,final,inc,increasing?"true":"false", _x_gave_labelling?"true":"false", _y_gave_labelling?"true":"false");
 #endif
 	double          order_of_mag, mantissa;
 	// Check to see if already ran out of axis.
@@ -91,16 +91,16 @@ next_tic(double *next, double start, bool gave_start, double present, double fin
         // Determine next tic to draw to, treating linear/log separately.
 	switch (axis_type) {
 	case gr_axis_LINEAR:
-		//*next = inc * (1.0 + floor((SMALLERNUM * inc + (present - start)) / inc));
-                if (gave_start) {
-                        *next = start + inc * (1 + floor(SMALLERNUM + (present - start) / inc));
-#if defined(DEBUG_START)
+		//*next = inc * (1.0 + floor((SMALLERNUM * inc + (present - labelling)) / inc));
+                if (gave_labelling) {
+                        *next = labelling + inc * (1 + floor(SMALLERNUM + (present - labelling) / inc));
+#if defined(DEBUG_LABELLING)
                         printf("%s:%d   next=%f  present=%f  inc=%f\n  %f  %f  %f %f\n",
                                __FILE__, __LINE__, *next, present, inc,
-                               inc * (1.001 + floor((present - start) / inc)),
-                                (1 + floor((present - start) / inc)),
-                                (floor((present - start) / inc)),
-                                (present - start) / inc);
+                               inc * (1.001 + floor((present - labelling) / inc)),
+                                (1 + floor((present - labelling) / inc)),
+                                (floor((present - labelling) / inc)),
+                                (present - labelling) / inc);
 #endif
                 } else {
                         *next = inc * (1.0 + floor((SMALLERNUM * inc + present) / inc));
@@ -153,9 +153,9 @@ gr_drawxyaxes(double xl, double xinc, double xr, double yb, double yinc, double 
 // If 'side'==BOTTOM/TOP this is an axis designed to appear at the
 // bottom/top of a plotting region (ie, the numbers are below/above).
 void
-gr_drawxaxis(double y, double xl, double xinc, double xr, double xstart, gr_axis_properties side)
+gr_drawxaxis(double y, double xl, double xinc, double xr, double xlabelling, gr_axis_properties side)
 {
-        //printf("gr_drawxaxis(..., xl=%f xstart=%f same=%d\n", xl, xstart, xl==xstart);
+        //printf("gr_drawxaxis(..., xl=%f xlabelling=%f same=%d\n", xl, xlabelling, xl==xlabelling);
 	bool user_gave_labels = (_x_labels.size() != 0);
 #ifdef DEBUG_LABELS
 	if (user_gave_labels) {
@@ -235,14 +235,14 @@ gr_drawxaxis(double y, double xl, double xinc, double xr, double xstart, gr_axis
 		// tic is drawn along with a label.
 		gr_usertocm(xl, y, &xl_cm, &y_cm);
 		axis_path.push_back(xl_cm, y_cm, 'm');
-#if defined(DEBUG_START)
-                printf("%s:%d  _xgavestart=%d xstart=%f   present=%f\n", __FILE__, __LINE__, _xgavestart, xstart, present);
+#if defined(DEBUG_LABELLING)
+                printf("%s:%d  _x_gave_labelling=%d xlabelling=%f   present=%f\n", __FILE__, __LINE__, _x_gave_labelling, xlabelling, present);
 #endif
-		while (next_tic(&next, xstart, _xgavestart, present, final, smallinc, _grTransform_x, increasing)) {
+		while (next_tic(&next, xlabelling, _x_gave_labelling, present, final, smallinc, _grTransform_x, increasing)) {
                         if (this_pass++ > pass_max) {
-                                extern bool _xgavestart;
-                                if (_xgavestart) {
-                                        gr_Error("cannot draw x axis (internal error: problem dealing with 'start' keyword)");
+                                extern bool _x_gave_labelling;
+                                if (_x_gave_labelling) {
+                                        gr_Error("cannot draw x axis (internal error: problem dealing with 'labelling' keyword)");
                                 } else {
                                         gr_Error("cannot draw x axis (internal error)");
                                 }
@@ -261,9 +261,9 @@ gr_drawxaxis(double y, double xl, double xinc, double xr, double xstart, gr_axis
 			gr_usertocm(next, y, &xcm, &ycm);
 			axis_path.push_back(xcm, ycm, 'l');
 			// Detect large tics on x axis
-			if ((_xgavestart && gr_multiple(next - xstart, xinc, 0.01 * smallinc))
-                            || (!_xgavestart && gr_multiple(next, xinc, 0.01 * smallinc))) {
-#if defined(DEBUG_START)
+			if ((_x_gave_labelling && gr_multiple(next - xlabelling, xinc, 0.01 * smallinc))
+                            || (!_x_gave_labelling && gr_multiple(next, xinc, 0.01 * smallinc))) {
+#if defined(DEBUG_LABELLING)
                                 printf("%s:%d   next=%f\n", __FILE__, __LINE__, next);
 #endif
 				// draw large tic
@@ -346,7 +346,7 @@ gr_drawxaxis(double y, double xl, double xinc, double xr, double xstart, gr_axis
 			}
 			axis_path.push_back(gr_usertocm_x(next, y), gr_usertocm_y(next, y), 'l');
 			present = next;
-#if defined(DEBUG_START)
+#if defined(DEBUG_LABELLING)
                         printf("%s:%d   bottom of loop; present=%f\n", __FILE__, __LINE__, present);
 #endif
 		}
@@ -380,10 +380,10 @@ gr_drawxaxis(double y, double xl, double xinc, double xr, double xstart, gr_axis
 		gr_cmtouser(xcm - AXIS_TWIDDLE, ycm, &tmp1, &tmp2);
 		present = tmp1;
 		axis_path.push_back(present, y, 'm');
-#if defined(DEBUG_START)
-                printf("%s:%d  _xgavestart=%d xstart=%f   present=%f\n", __FILE__, __LINE__, _xgavestart, xstart, present);
+#if defined(DEBUG_LABELLING)
+                printf("%s:%d  _x_gave_labelling=%d xlabelling=%f   present=%f\n", __FILE__, __LINE__, _x_gave_labelling, xlabelling, present);
 #endif
-		while (next_tic(&next, xl, _xgavestart, present, final, smallinc, _grTransform_x, increasing)) {
+		while (next_tic(&next, xl, _x_gave_labelling, present, final, smallinc, _grTransform_x, increasing)) {
 			double          tmp, next_log;
 			double xuser, yuser;
 			axis_path.push_back(next, y, 'l');
@@ -492,7 +492,7 @@ gr_drawxaxis(double y, double xl, double xinc, double xr, double xstart, gr_axis
 #define FACTOR 1.35		// Kludge to scale fonts up
 // Draw a y axis
 void
-gr_drawyaxis(double x, double yb, double yinc, double yt, double ystart, gr_axis_properties side)
+gr_drawyaxis(double x, double yb, double yinc, double yt, double ylabelling, gr_axis_properties side)
 {
 #if 1				// 2.9.x
 	bool user_gave_labels = (_y_labels.size() != 0);
@@ -551,16 +551,16 @@ gr_drawyaxis(double x, double yb, double yinc, double yt, double ystart, gr_axis
 		present = yb - yinc / 1.0e3;
 		final   = yt + yinc / 1.0e3;
 		axis_path.push_back(gr_usertocm_x(x, yb), gr_usertocm_y(x, yb), 'm');
-#if defined(DEBUG_START)
-                printf("%s:%d  _ygavestart=%d ystart=%f   present=%f\n", __FILE__, __LINE__, _ygavestart, ystart, present);
+#if defined(DEBUG_LABELLING)
+                printf("%s:%d  _y_gave_labelling=%d ylabelling=%f   present=%f\n", __FILE__, __LINE__, _y_gave_labelling, ylabelling, present);
 #endif
-		while (next_tic(&next, ystart, _ygavestart, present, final, smallinc, _grTransform_y, increasing)) {
+		while (next_tic(&next, ylabelling, _y_gave_labelling, present, final, smallinc, _grTransform_y, increasing)) {
 			axis_path.push_back(gr_usertocm_x(x, next), gr_usertocm_y(x, next), 'l');
 			gr_usertocm(x, next, &xcm, &ycm);
 			angle = 0.0;
 			// Detect large tics on y axis
-			if ((_ygavestart && gr_multiple(next - ystart, yinc, 0.01 * smallinc))
-                            || (!_ygavestart && gr_multiple(next, yinc, 0.01 * smallinc))) {
+			if ((_y_gave_labelling && gr_multiple(next - ylabelling, yinc, 0.01 * smallinc))
+                            || (!_y_gave_labelling && gr_multiple(next, yinc, 0.01 * smallinc))) {
 				double tmpx, tmpy;
 				gr_cmtouser(xcm + tic * cos(angle), ycm + tic * sin(angle), &tmpx, &tmpy);
 				axis_path.push_back(xcm + tic * cos(angle), ycm + tic * sin(angle), 'l');
@@ -677,18 +677,18 @@ gr_drawyaxis(double x, double yb, double yinc, double yt, double ystart, gr_axis
 		gr_cmtouser(xcm, ycm - AXIS_TWIDDLE, &tmp1, &tmp2);
 		present = tmp2;
 		axis_path.push_back(x, present, 'm');
-                if (_ygavestart)  {
-                        err("cannot use 'start' parameter for logarithmic axis");
+                if (_y_gave_labelling)  {
+                        err("cannot use 'labelling' parameter for logarithmic axis");
                         return;
                 }
-#if defined(DEBUG_START)
-                printf("%s:%d  _ygavestart=%d ystart=%f   present=%f\n", __FILE__, __LINE__, _ygavestart, ystart, present);
+#if defined(DEBUG_LABELLING)
+                printf("%s:%d  _y_gave_labelling=%d ylabelling=%f   present=%f\n", __FILE__, __LINE__, _y_gave_labelling, ylabelling, present);
 #endif
-		while (next_tic(&next, yb, _ygavestart, present, final, smallinc, _grTransform_y, increasing)) {
+		while (next_tic(&next, yb, _y_gave_labelling, present, final, smallinc, _grTransform_y, increasing)) {
                         if (this_pass++ > pass_max) {
-                                extern bool _ygavestart;
-                                if (_ygavestart) {
-                                        gr_Error("cannot draw y axis (internal error: cannot use 'start' keyword)");
+                                extern bool _y_gave_labelling;
+                                if (_y_gave_labelling) {
+                                        gr_Error("cannot draw y axis (internal error: cannot use 'labelling' keyword)");
                                 } else {
                                         gr_Error("cannot draw y axis (internal error)");
                                 }

@@ -164,7 +164,7 @@ deleteCmd()
 			_need_x_axis = true;
 			_user_set_x_axis = false;
 			_xtype = gr_axis_LINEAR;
-                        _xgavestart = false;
+                        _x_gave_labelling = false;
 			gr_setxtransform(gr_axis_LINEAR);
 			gr_setxlabel("x");
 			return true;
@@ -181,7 +181,7 @@ deleteCmd()
 			_yincreasing = true;
 			_user_set_y_axis = false;
 			_ytype = gr_axis_LINEAR;
-                        _ygavestart = false;
+                        _y_gave_labelling = false;
 			gr_setytransform(gr_axis_LINEAR);
 			gr_setylabel("y");
 			return true;
