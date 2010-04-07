@@ -9954,10 +9954,10 @@ special meaning: if it is positive then small tics are put at values 2,
 3, 4, etc. between the decades, but if @code{.incSml.} is negative then
 no such small tics are used.
 
-@item @code{set x axis .left .right. .incBig. .incSml. starting .starting_value.} 
-As above, but with the axis labels starting at the indicated value, and
-are incremented by @code{.incBig}.   (This does not work for logarithmic
-axes.)
+@item @code{set x axis .left .right. .incBig. .incSml. labelling .labelling_value.} 
+As above, but with the axis labels including the indicated value, and
+incremented larger and smaller by @code{.incBig}. (This does not work
+for logarithmic axes.)
 
 
 @item @code{set x axis labels .position. "label" [.position. "label" [...]]}
@@ -10223,10 +10223,10 @@ special meaning: if it is positive then small tics are put at values 2,
 3, 4, etc. between the decades, but if @code{.incSml.} is negative then
 no such small tics are used.
 
-@item @code{set y axis .bottom. .top. .incBig. .incSml. starting .starting_value.}
-As above, but with the axis labels starting at the indicated value, and
-are incremented by @code{.incBig}.  (This does not work for logarithmic
-axes.)
+@item @code{set y axis .bottom. .top. .incBig. .incSml. labelling .labelling_value.}
+As above, but with the axis labels including the indicated value, and
+incremented larger and smaller by @code{.incBig}. (This does not work
+for logarithmic axes.)
 
 @item @code{set y axis labels .position. "label" [.position. "label" [...]]}
 Override the automatic labelling at axis tics, and instead put the
@@ -16543,7 +16543,7 @@ only in the fixing of bugs.
 @strong{New Features}
 @itemize @bullet
 @item
-add @code{starting} option to @code{set x axis} and @code{set y axis}.
+add @code{labelling} option to @code{set x axis} and @code{set y axis}.
 
 @item
 add @code{directly} option to @code{convert grid to image}.

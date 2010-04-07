@@ -3969,9 +3969,10 @@ meaning: if it is positive then small tics are put at values 2, 3, 4,
 etc. between the decades, but if `.incSml.' is negative then no such
 small tics are used. 
 
-`set y axis .bottom. .top. .incBig. .incSml. starting .starting_value.'
-As above, but with the axis labels starting at the indicated value, and
-are incremented by `.incBig'.
+`set y axis .bottom. .top. .incBig. .incSml. labelling .labelling_value.'
+As above, but with the axis labels including the indicated value, and
+incremented larger and smaller by `.incBig.'.  (This does not work
+for logarithmic axes.)
 
 `set y axis labels [add] .position. "label" [.position. "label" [...]]'
 Override the automatic labelling at axis tics, and instead put the
