@@ -19,9 +19,9 @@ the help and advice of many users, named in the Gri manual.
 <h1>Development site</h1>
 
 <p>
-Gri  development is hosted on the 
-<?php print "<a href=\"$sf_url/projects/gri/\">$development_site_name";?>
-</a> site.
+Gri  development was hosted on SourceForge.net until April 2010, after
+which it was hosted at 
+<a href="http://github.com/dankelley/gri">GitHub</a>.
 
 
 <h1>Quick links for developers</h1>
@@ -36,10 +36,12 @@ print "Debian: ";
 print "[<a href=\"http://packages.qa.debian.org/g/gri.html\">package</a>]
        [<a href=\"http://buildd.debian.org/build.php?pkg=gri\">auto-builder's log</a>].\n";
 print "<br>";
-print "Trackers: ";
+print "Trackers (legacy): ";
 print "[<A HREF=\"$sf_url/tracker/?atid=35$gri_group_id&amp;group_id=$gri_group_id&amp;func=browse\">Feature requests</A>] ";
 print "[<A HREF=\"$sf_url/tracker/?atid=10$gri_group_id&amp;group_id=$gri_group_id&amp;func=browse\">Bug reports</A>] ";
 print "[<A HREF=\"$sf_url/tracker/?atid=30$gri_group_id&amp;group_id=$gri_group_id&amp;func=browse\">Patch submissions</A>]<br>\n";
+print "Trackers (present-day): ";
+print "[<A HREF=\"http://github.com/dankelley/gri/issues\">issues</a>]<br>\n";
 print "<h1>Developer Work Cycle</h1>\n";
 print "[<A HREF=\"http://github.com/dankelley/gri\">Git summary</a>]<br>";
 print "Do this one time:<br>";
