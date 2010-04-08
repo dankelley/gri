@@ -2346,21 +2346,66 @@ un_double_quote(std::string& word)
 void
 fix_negative_zero(std::string& number) // change e.g. "-0" to "0", for axes
 {
-	bool is_zero = true;
-	unsigned int i = 0;
-	for (; i < number.size(); i++)
-		if (number[i] != ' ')
+        //#define DEBUG_FIX_NEGATIVE_ZERO
+#ifdef DEBUG_FIX_NEGATIVE_ZERO
+        number = "-" + number;
+        printf("called fix_negative_zero(%s) [%s]\n", number.c_str(), number.c_str());
+#endif
+	unsigned int i;
+        unsigned size = number.size();
+        // find first non-blank character
+        unsigned start = 0;
+	for (i = 0; i < size; i++) {
+		if (number[i] != ' ') {
+                        start = i;
 			break;
-	if (i == number.size() || number[i] != '-')
+                }
+        }
+	if (i == size || number[i] != '-')
 		return;
-	for (i++; i < number.size(); i++) {
-		if (number[i] != '0' && number[i] != '.') {
-			is_zero = false;
-			break;
-		}
-	}
-	if (is_zero)
-		number.STRINGERASE(0, 1);
+#ifdef DEBUG_FIX_NEGATIVE_ZERO
+        printf("    first character is a minus.  start=%d\n    ", start);
+#endif
+        // find last digit
+        unsigned end = size - 1;
+        for (i = end; i > start; i--) {
+#ifdef DEBUG_FIX_NEGATIVE_ZERO
+                printf("c[%2d]='%c' ", i, number[i]);
+#endif
+                if (isdigit(number[i]) || number[i] == '.') {
+                        end = i;
+#ifdef DEBUG_FIX_NEGATIVE_ZERO
+                        printf("\n");
+#endif
+                        break;
+                }
+        }
+#ifdef DEBUG_FIX_NEGATIVE_ZERO
+                        printf("    end=%d\n", end);
+#endif
+        std::string portion = number.substr(start + 1, end - start); // just digits or decimals
+#ifdef DEBUG_FIX_NEGATIVE_ZERO
+        printf("    portion='%s'\n", portion.c_str());
+#endif
+        // The 'portion' is now a middle portion consisting of digits and decimals
+	bool is_zero = true;
+        for (i = 0; i < portion.size(); i++) {
+                if (!(portion[i] == '0' || portion[i] == '.')) {
+                        is_zero = false;
+                        break;
+                }
+        }
+        printf("    is_zero=%d\n", is_zero);
+	if (is_zero) {
+#ifdef DEBUG_FIX_NEGATIVE_ZERO
+		printf("    ERASING at start=%d\n", start);
+#endif
+                number[start] = ' ';
+        }
+#ifdef DEBUG_FIX_NEGATIVE_ZERO
+        printf("    returning '%s'\n", number.c_str());
+#endif
+#undef DEBUG_FIX_NEGATIVE_ZERO
 }
 
 bool
