@@ -5,7 +5,7 @@ $development_site = "http://gri.sourceforge.net";
 $development_site_name = "SourceForge";
 $gri_stable_version_major = "2"; // !!!
 $gri_stable_version_intermediate = "12"; // !!!
-$gri_stable_version_minor = "19"; // !!!
+$gri_stable_version_minor = "20"; // !!!
 $gri_stable_version = "$gri_stable_version_major.$gri_stable_version_intermediate.$gri_stable_version_minor";
 $gri_group_id = "5511";
 $sf_url = "http://sourceforge.net";
@@ -33,11 +33,10 @@ $titles = array("Main",
 
 
 function age() {
-#$diff = time() - mktime(7, 24, 0, 2, 14, 2002);
 # Vsn 2.8.7:  2002-04-03 18:10 Halifax time, 14:10 SF time
-#$diff = time() - mktime(14, 10, 0, 4, 3, 2002);
+#       $diff = time() - mktime(14, 10, 0, 4, 3, 2002);
 # Vsn 2.10.0: 2002-05-20 09:15 Halifax time, 5:15 SF time
-#$diff = time() - mktime(5, 15, 0, 5, 20, 2002);
+#       $diff = time() - mktime(5, 15, 0, 5, 20, 2002);
 # Vsn 2.10.1: 2002-06-1 15:36 Halifax time, 11:36 SF time
 #	$diff = time() - mktime(11, 36, 0, 6, 1, 2002);
 # Vsn 2.12.0: 2002-09-15 10:48 Halifax time, 6:48 SF time
@@ -67,11 +66,11 @@ function age() {
 # Vsn 2.12.12 2006-07-17 1044 Halifax time 0644 SF time
 #	$diff = time() - mktime(06, 44, 00, 7, 17, 2006); // !!!
 # Vsn 2.12.13 2006-11-06 1541 Halfifax time 1141 SF time
-#		$diff = time() - mktime(11, 41, 00, 11, 6, 2006); // !!!
+#	$diff = time() - mktime(11, 41, 00, 11, 6, 2006); // !!!
 # Vsn 2.12.14 2007-01-08 1626 Halifax time 1226 SF time
-#		$diff = time() - mktime(12, 26, 00, 01, 8, 2007); // !!!
+#	$diff = time() - mktime(12, 26, 00, 01, 8, 2007); // !!!
 # Vsn 2.12.15 2007-04-16 1016 Halifax time 0616 SF time
-#		$diff = time() - mktime(06, 16, 00, 04, 16, 2007); // !!!
+#	$diff = time() - mktime(06, 16, 00, 04, 16, 2007); // !!!
 # Vsn 2.12.16 2007-07-20 1138 Halifax time 0738 SF time
 #	$diff = time() - mktime(07, 38, 00, 07, 20, 2007); // !!!
 # Vsn 2.12.17 ...
@@ -79,7 +78,9 @@ function age() {
 # Vsn 2.12.18 2008-09-10 0830 Halifax time 0438 SF time
 #	$diff = time() - mktime(04, 38, 00, 9, 10, 2008); // !!!
 # Vsn 2.12.19 2009-07-18 0820 Halifax time 1220 UTC time (note change in base)
-	$diff = time() - mktime(12, 20, 00, 7, 18, 2009); // !!!
+#	$diff = time() - mktime(12, 20, 00, 7, 18, 2009); // !!!
+# Vsn 2.12.20 2010-04-09 1331 Halifax time 1731 UTC time (note change in base)
+	$diff = time() - mktime(16, 31, 00, 4,  9, 2010); // !!!
 
 	# REF: mktime(hour,minute,second,month,day,year)
 	$days = floor($diff / 24 / 60 / 60);
