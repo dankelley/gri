@@ -44,8 +44,8 @@
 #endif
 
 // Standard libraries, malloc, etc (this confuses me)
+#include <stdlib.h>
 #if STDC_HEADERS
-#include        <stdlib.h>
 #else
 #if !defined(MSDOS) && !defined(IS_FREEBSD)
 #include        <malloc.h>

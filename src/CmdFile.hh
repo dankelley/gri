@@ -23,6 +23,7 @@
 #include <cstdlib>
 #include <string>
 #include <stdio.h>
+#include <stdlib.h>
 #include "types.hh"
 #include "macro.hh"
 #include "superus.hh"
