@@ -395,13 +395,13 @@ void gr_drawimage( // Draw image, possibly color, in rectangle given in cm coord
 	// Make image overhang the region.
 	if (imax > 1) {
 		double dx = (xr_c - xl_c) / ((ihigh-ilow) - 1); // pixel width
-		xl_c -= dx / 2.0;
-		xr_c += dx / 2.0;
+                xl_c -= dx / 2.0;
+                xr_c += dx / 2.0;
 	}
 	if (jmax > 1) {
 		double dy = (yt_c - yb_c) / ((jhigh-jlow) - 1); // pixel height
-		yb_c -= dy / 2.0;
-		yt_c += dy / 2.0;
+                yb_c -= dy / 2.0;
+                yt_c += dy / 2.0;
 	}
         // Handle BW and color differently, since PostScript handles differently.
 	switch (color_model) {
@@ -431,8 +431,6 @@ void gr_drawimage( // Draw image, possibly color, in rectangle given in cm coord
 		if (insert_placer)
 			fprintf(_grPS, "%%BEGIN_IMAGE\n"); // for grepping in ps file
                 // Now write image.
-		//printf("CASE 1a\n");
-		fprintf(_grPS, "%f %f %f %f %d %d im\n", xl_c, yb_c, xr_c, yt_c, (jhigh-jlow), (ihigh-ilow)); // BUG or +1?
 		if (have_mask == true) {
 			int             diff, min_diff = 256;
 			unsigned char   index = 0; // assign to calm compiler ????
@@ -478,8 +476,6 @@ void gr_drawimage( // Draw image, possibly color, in rectangle given in cm coord
 		if (insert_placer)
 			fprintf(_grPS, "%%BEGIN_IMAGE\n");
 		fprintf(_grPS, "%f %f %f %f %d %d cim\n", xl_c, yb_c, xr_c, yt_c, (jhigh-jlow), (ihigh-ilow)); // BUG
-                // printf("DEBUG: ilow, ihigh = %d %d      jlow, jhigh = %d %d\n",ilow,ihigh,jlow,jhigh);
-                
 		check_psfile();
 		cmask_r = (unsigned char)pin0_255(mask_r * 255.0);
 		cmask_g = (unsigned char)pin0_255(mask_g * 255.0);

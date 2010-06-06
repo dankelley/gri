@@ -1,6 +1,6 @@
 /*
     Gri - A language for scientific graphics programming
-    Copyright (C) 2008 Daniel Kelley
+    Copyright (C) 2010 Daniel Kelley
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -1486,9 +1486,9 @@ convert_grid_to_imageCmd()
                 printf("width=%d height=%d _image.ras_height=%d, _image.ras_width=%d\n", width,height,_image.ras_height,_image.ras_width);
         if (directly) {
                 for (i = 0; i < width; i++) {
-                        xx = _image_llx + i * dxx;
+                        xx = _image_llx + i * dxx + 0.5 * dxx;
                         for (j = 0; j < height; j++) {
-                                yy = _image_lly + j * dyy;
+                                yy = _image_lly + j * dyy + 0.5 * dyy;
                                 if (locate_i_j(xx, yy, &ii, &jj) && _legit_xy(ii, jj)) {
                                         val = (int) floor(0.5 + scale * (_f_xy(ii, jj) - _image0));
                                         if (val < 0) {
@@ -1556,7 +1556,6 @@ convert_grid_to_imageCmd()
                         printf("\n");
                 }
         }
-
 	if (_chatty > 1) {
 		if (clipped || masked) {
 			sprintf(_grTempString, "\
