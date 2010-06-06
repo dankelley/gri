@@ -472,4 +472,6 @@ AC_ARG_ENABLE(solaris,
 esac],[debug=false])
 AM_CONDITIONAL(OS_IS_SOLARIS, test x$solaris = xtrue)
 
-AC_OUTPUT([Makefile debian/Makefile debian/source/Makefile doc/Makefile doc/examples/Makefile doc/tst_suite/Makefile doc/resources/Makefile doc/screenshots/Makefile src/Makefile src/popt/Makefile])
+AC_CONFIG_FILES([Makefile debian/Makefile debian/source/Makefile doc/Makefile doc/examples/Makefile doc/tst_suite/Makefile doc/resources/Makefile doc/screenshots/Makefile src/Makefile src/popt/Makefile])
+
+AC_OUTPUT
