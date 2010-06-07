@@ -4,4 +4,6 @@
       VPATH = @srcdir@
 
 EXTRA_DIST = format
+dist-hook:
+	rm -f $(distdir)/Makefile.in $(distdir)/Makefile.am
 
