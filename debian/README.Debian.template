@@ -52,7 +52,4 @@ Packages available outside of Debian for older Gri versions:
  Emacs' gri-mode (see the Emacs command `gri-set-local-version').
  Statically compiled version are also available named like gri-VERSIONstatic.
 
- Compile your own!  (Install the source package and read
- debian/00Porters.readme)
-
  -- Peter S Galbraith <psg@debian.org>, Wed, 31 Mar 2010 16:29:11 -0400

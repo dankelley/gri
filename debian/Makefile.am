@@ -4,8 +4,7 @@
 #srcdir = @srcdir@
 #VPATH = @srcdir@
 
-EXTRA_DIST = 00Porters.readme\
- rules compat changelog control control.unofficial\
+EXTRA_DIST = rules compat changelog control control.unofficial\
  copyright.template gri.doc-base\
  gri-el.emacsen-install gri-el.emacsen-remove\
  gri-el.emacsen-startup\

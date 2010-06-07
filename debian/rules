@@ -125,7 +125,7 @@ binary-arch: build-arch install
 # This is a target that developers won't use.  I use it to create
 # non-Debian Gri packages that contain a specific version of Gri for use
 # alongside other (newer) versions of Gri.  
-# See files 00Porters.readme and README.Debian.unofficial
+# See README.Debian.unofficial
 binary-arch-unofficial:    debian/copyright build-arch
 	rm -f debian/*debhelper
 	rm -rf debian/gri-$(version) debian/gri-$(version)static
