@@ -47,8 +47,8 @@ endif
      HTML_LONG_NAME = gri-long
 #   INFO_DIR_SOLARIS = $(DESTDIR)$(prefix)/info
 
-TEX = ${SHELL} ../missing --run tex
-TEXINDEX = ${SHELL} ../missing --run texindex
+TEX = ${SHELL} ../../missing --run tex
+TEXINDEX = ${SHELL} ../../missing --run texindex
 
 
 SUBDIRS = examples resources screenshots tst_suite
