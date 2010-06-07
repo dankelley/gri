@@ -6335,7 +6335,7 @@ else
 fi
 
 
-ac_config_files="$ac_config_files Makefile debian/Makefile debian/source/Makefile doc/Makefile doc/examples/Makefile doc/tst_suite/Makefile doc/resources/Makefile doc/screenshots/Makefile src/Makefile src/popt/Makefile"
+ac_config_files="$ac_config_files Makefile debian/Makefile doc/Makefile doc/examples/Makefile doc/tst_suite/Makefile doc/resources/Makefile doc/screenshots/Makefile src/Makefile src/popt/Makefile"
 
 
 cat >confcache <<\_ACEOF
@@ -7003,7 +7003,6 @@ do
     "depfiles") CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "debian/Makefile") CONFIG_FILES="$CONFIG_FILES debian/Makefile" ;;
-    "debian/source/Makefile") CONFIG_FILES="$CONFIG_FILES debian/source/Makefile" ;;
     "doc/Makefile") CONFIG_FILES="$CONFIG_FILES doc/Makefile" ;;
     "doc/examples/Makefile") CONFIG_FILES="$CONFIG_FILES doc/examples/Makefile" ;;
     "doc/tst_suite/Makefile") CONFIG_FILES="$CONFIG_FILES doc/tst_suite/Makefile" ;;
