@@ -4,8 +4,6 @@
 #srcdir = @srcdir@
 #VPATH = @srcdir@
 
-DIST_SUBDIRS = source
-
 EXTRA_DIST = 00Porters.readme\
  rules compat changelog control control.unofficial\
  copyright.template gri.doc-base\
@@ -15,4 +13,4 @@ EXTRA_DIST = 00Porters.readme\
  gri-html-doc.preinst\
  gri.man gri.postinst gri-pdf-doc.doc-base\
  README.Debian.template\
- README.Debian.unofficial rules
+ README.Debian.unofficial source/format
