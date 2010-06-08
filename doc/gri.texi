@@ -56,8 +56,8 @@
 @comment %**start of header
 @setfilename gri.info
 @settitle Gri
-@set GRI-VERSION 2.12.21
-@set GRI-PREVIOUS-VERSION 2.12.20
+@set GRI-VERSION 2.12.22
+@set GRI-PREVIOUS-VERSION 2.12.21
 @set AUTHOR-EMAIL dankelley@@users.sourceforge.net
 @include version.texi
 @c %**end of header
@@ -16546,6 +16546,21 @@ only in the fixing of bugs.
 Fix github bug
 @uref{http://github.com/dankelley/gri/issues#issue/1}
 @dots{} @code{convert grid to image directly} misplaced image ``patches'' by one patch width and one patch height
+@end itemize
+
+
+
+@subsubsection Version 2.12.21 [date TBA]
+@strong{New Features}
+@itemize @bullet
+@item
+TBA
+@end itemize
+
+@strong{Bug fixes}
+@itemize @bullet
+@item
+TBA
 @end itemize
 
 
