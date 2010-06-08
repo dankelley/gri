@@ -23,6 +23,7 @@ The list below is the typical procedure leading up to a release, where
 
 6. PSG does the debian release.
 
+
 Working with issues and branches
 ================================
 
@@ -55,3 +56,19 @@ To git@github.com:dankelley/gri.git
    is important, because it preserves the branch record cleanly.)
 
 8. Do ``git push`` to push this newly-updated master back to remote.
+
+
+Building from git source
+========================
+
+We no longer have ``configure`` in the repository, so the procedure is
+three step:
+
+1. Do ``autoconf``
+
+2. Do ``automake``
+
+3. Do ``./configure && make``
+
+(Note: I don't know whether the order of steps 1 and 2 matter, so I do
+them twice -- DK.)
