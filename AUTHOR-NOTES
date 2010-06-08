@@ -23,3 +23,35 @@ The list below is the typical procedure leading up to a release, where
 
 6. PSG does the debian release.
 
+Working with issues and branches
+================================
+
+Suppose we want to fix issue3 on github
+(http://github.com/dankelley/gri/issues/#issue/3).  We want to be able
+to work from two machines, so we need a remote branch.  Here's what we
+do:
+
+1. Do ``git branch issue3`` to create a local branch.  Note that the
+   branch name matches the issue name.
+
+2. Do ``git push origin issue3`` to put this branch on the remote repo.
+
+Total 0 (delta 0), reused 0 (delta 0)
+To git@github.com:dankelley/gri.git
+ * [new branch]      issue3 -> issue3
+
+3. Do ``git branch -d issue3`` to remove the local branch.
+
+4. Do ``git checkout --track origin/issue3`` to track the remote
+   branch.
+
+5. Fix the bug in this branch.  (If working on several machines, be
+   sure to always do a ``git checkout issue3`` and then ``git pull``
+   to update the branch before editing anything.)
+
+6. Do ``git checkout master`` to return to the master branch.
+
+7. Do ``git merge --no-ff issue3`` to merge this in.  (The ``no-ff``
+   is important, because it preserves the branch record cleanly.)
+
+8. Do ``git push`` to push this newly-updated master back to remote.
