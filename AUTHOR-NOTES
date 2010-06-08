@@ -58,8 +58,11 @@ To git@github.com:dankelley/gri.git
 8. Do ``git push`` to push this newly-updated master back to remote.
 
 9. Do ``git push origin :heads/issue3`` to remove the remote branch.
-   (Note that the syntax is quite different to the removal of local
-   branches.)
+
+10. Do ``git branch -d issue3`` to remove the local branch.
+    (Note that the syntax is quite different to the removal of local
+    branches.)
+
 
 Building from git source
 ========================
