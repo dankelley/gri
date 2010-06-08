@@ -2,29 +2,44 @@ If you are reading this file, it means you are trying to build and
 install Gri.  The method for this depends on how you got the Gri
 source.
 
-CASE 1: (gri sources that came from a "tarball")
-    To build and intall from a "tarball", do this:
-        ./configure
-        make
-        make check
-        make install
+CASE 1
+------
 
-    If you wish to control the location in which Gri is installed, use a
-    "prefix" command at the configure stage, e.g.
-        ./configure --prefix=/opt
+If the gri source is a "tarball" from http://gri.sourceforge.net (or
+another source), do as follows.
+::
 
-    There are also some special flags; read the configure.ac file to
-    learn about them.  One that the author is working on lately
-    is exemplified
-        --enable-OSX_BUNDLE
-    which is used to cause Gri to look for gri.cmd in the same directory
-    as the executable.  This is the first step to a proper OSX bundle.
-    Later on
+    ./configure
+     make
+    make check
+    make install
+
+If you wish to control the location in which Gri is installed, use a
+"prefix" command at the configure stage, e.g.
+::
+
+    ./configure --prefix=/opt
+
+There are also some special flags; read the ``configure.ac`` file to
+learn about them.  One that the author is working on lately is
+exemplified
+::
+
+    --enable-OSX_BUNDLE
+
+which is used to cause Gri to look for gri.cmd in the same directory
+as the executable, which is useful in an OSX bundle application.
 
 
-CASE 2: (gri sources from the "CVS" server at http://gri.sourceforge.net)
-    Do the following:
+CASE 2
+------
+
+If the gri source is from the "git" server at
+http://github.com/dankelley/gri, do
+::
+
         automake
         autoconf
-    to create the "configure" file.  Then follow the same procedure as
-    in Case 1.
+
+to create the ``configure`` file, and then follow the same procedure
+as in Case 1.
