@@ -16539,19 +16539,20 @@ only in the fixing of bugs.
 
 @comment ADD-NEW-BUG-FIXES-HERE
 
-@subsubsection Version 2.12.22 [date TBA]
+@subsubsection Version 2.12.22 [2010 November 24 @uref{http://en.wikipedia.org/wiki/Evolution_Day, Evolution Day}]
 @strong{New Features}
 @itemize @bullet
 @item
-TBA
+N/A
 @end itemize
 
 @strong{Bug fixes}
 @itemize @bullet
 @item
-TBA
+Fix github bug
+@uref{http://github.com/dankelley/gri/issues#issue/5}
+@dots{} @code{draw image} failed on some black/white images
 @end itemize
-
 
 @subsubsection Version 2.12.21 [2010 June 8 @uref{http://en.wikipedia.org/wiki/World_Oceans_Day, World Ocean Day}]
 @strong{Bug Fixes}

@@ -1,6 +1,6 @@
 /*
     Gri - A language for scientific graphics programming
-    Copyright (C) 2008 Daniel Kelley
+    Copyright (C) 2010 Daniel Kelley
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -431,6 +431,8 @@ void gr_drawimage( // Draw image, possibly color, in rectangle given in cm coord
 		if (insert_placer)
 			fprintf(_grPS, "%%BEGIN_IMAGE\n"); // for grepping in ps file
                 // Now write image.
+		fprintf(_grPS, "%f %f %f %f %d %d im\n", xl_c, yb_c, xr_c, yt_c, (jhigh-jlow), (ihigh-ilow)); // BUG
+		check_psfile();
 		if (have_mask == true) {
 			int             diff, min_diff = 256;
 			unsigned char   index = 0; // assign to calm compiler ????
