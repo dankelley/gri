@@ -1,3 +1,12 @@
+gri (2.12.22-1) unstable; urgency=low
+
+  * New upstream release        
+  Bug Fixes:
+  - Fix github bug http://github.com/dankelley/gri/issues#issue/5
+    (`draw image' failed on some black/white images).
+
+ -- Peter S Galbraith <psg@debian.org>  Tue, 23 Nov 2010 19:11:02 -0500
+
 gri (2.12.21-1) unstable; urgency=low
 
   * New upstream release        
