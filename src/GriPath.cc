@@ -1,6 +1,6 @@
 /*
     Gri - A language for scientific graphics programming
-    Copyright (C) 2008 Daniel Kelley
+    Copyright (C) 2010 Daniel Kelley
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -240,7 +240,7 @@ void GriPath::stroke_or_fill(char s_or_f, units the_units, double width, bool cl
 			warning(msg);
 		}
 		if (length > 1) {
-			ps_begin_path(width, 'f');
+			ps_begin_path(width, s_or_f);
 			if (the_units == units_user) { // convert user -> cm
 				for (i = 0; i < length; i++) {
 					double xcm, ycm;
