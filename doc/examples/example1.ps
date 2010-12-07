@@ -1,9 +1,10 @@
 %!PS-Adobe-2.0 EPSF-1.2
-%%Creator: Gri2.12.10 (released 2004 Dec 13).  User=kelley
+%%Creator: 
 %%Title: example1.ps
-%%CreationDate: Sun Feb 20 19:30:29 2005
+%%CreationDate: Tue Dec  7 13:18:36 2010
 %%Pages: (atend)
 %%BoundingBox: (atend)
+% trial bounding box  0.000000 0.000000 0.000000 0.000000
 %%TemplateBox: 0 0 612 792
 %%DocumentFonts: (atend)
 %%Orientation: (atend)
@@ -479,6 +480,12 @@ end
   currentdict
 end
 /Symbol-ISOLatin1 exch definefont pop
+/Century findfont dup length dict begin
+  {1 index /FID ne {def} {pop pop} ifelse } forall
+  /Encoding ISOLatin1Encoding def
+  currentdict
+end
+/Century-ISOLatin1 exch definefont pop
 /Times-Roman findfont dup length dict begin
   {1 index /FID ne {def} {pop pop} ifelse } forall
   /Encoding ISOLatin1Encoding def
@@ -505,19 +512,8 @@ end
 /Times-BoldItalic-ISOLatin1 exch definefont pop
 %%EndProlog
 %%Page: 1 1
+gsave
 /Helvetica-ISOLatin1 findfont 12.00 sc sf
-%gri:# Gri was invoked by user named
-%gri:#     kelley
-%gri:# on host named
-%gri:#     unmit.local
-%gri:# using the command
-%gri:#    gri -b -y /Users/kelley/src/gri/doc/examples/example1.gri
-%gri:# at local time Sun Feb 20 19:30:29 2005.
-%gri:# Example 1 -- Linegraph using data in a separate file
-%gri:
-%gri:open example1.dat		# Open the data file
-%gri:read columns x y		# Read (x,y)
-%gri:draw curve			# Draw data curve
 %^ scale 1 170.7 0 284.5 1 170.7 12 40.6429
 0.709 w
 0 g
@@ -530,61 +526,39 @@ end
 440.97 211.34 l
 S
 % END GriPath stroke/fill
-% gr_show_at() BEGIN
 0 g
 0 G
 167.4 149.9 m (0) sh
-% gr_show_at() END
-% gr_show_at() BEGIN
 0 g
 0 G
 190.8 149.9 m (0.1) sh
-% gr_show_at() END
-% gr_show_at() BEGIN
 0 g
 0 G
 219.2 149.9 m (0.2) sh
-% gr_show_at() END
-% gr_show_at() BEGIN
 0 g
 0 G
 247.7 149.9 m (0.3) sh
-% gr_show_at() END
-% gr_show_at() BEGIN
 0 g
 0 G
 276.1 149.9 m (0.4) sh
-% gr_show_at() END
-% gr_show_at() BEGIN
 0 g
 0 G
 304.6 149.9 m (0.5) sh
-% gr_show_at() END
-% gr_show_at() BEGIN
 0 g
 0 G
 333.0 149.9 m (0.6) sh
-% gr_show_at() END
-% gr_show_at() BEGIN
 0 g
 0 G
 361.5 149.9 m (0.7) sh
-% gr_show_at() END
-% gr_show_at() BEGIN
 0 g
 0 G
 389.9 149.9 m (0.8) sh
-% gr_show_at() END
-% gr_show_at() BEGIN
 0 g
 0 G
 418.4 149.9 m (0.9) sh
-% gr_show_at() END
-% gr_show_at() BEGIN
 0 g
 0 G
 451.9 149.9 m (1) sh
-% gr_show_at() END
 0 g
 0 G
 1.0 i 0 J 0 j 0.369 w 10.0 M [] 0 d
@@ -625,11 +599,9 @@ S
 455.23 170.70 l
 S
 % END GriPath stroke/fill
-% gr_show_at() BEGIN
 0 g
 0 G
 310.0 134.7 m (x) sh
-% gr_show_at() END
 /Helvetica-ISOLatin1 findfont 0.00 sc sf
 0 g
 0 G
@@ -672,46 +644,30 @@ S
 S
 % END GriPath stroke/fill
 /Helvetica-ISOLatin1 findfont 12.00 sc sf
-% gr_show_at() BEGIN
 0 g
 0 G
 145.8 166.4 m (12) sh
-% gr_show_at() END
-% gr_show_at() BEGIN
 0 g
 0 G
 145.8 207.0 m (13) sh
-% gr_show_at() END
-% gr_show_at() BEGIN
 0 g
 0 G
 145.8 247.7 m (14) sh
-% gr_show_at() END
-% gr_show_at() BEGIN
 0 g
 0 G
 145.8 288.3 m (15) sh
-% gr_show_at() END
-% gr_show_at() BEGIN
 0 g
 0 G
 145.8 328.9 m (16) sh
-% gr_show_at() END
-% gr_show_at() BEGIN
 0 g
 0 G
 145.8 369.6 m (17) sh
-% gr_show_at() END
-% gr_show_at() BEGIN
 0 g
 0 G
 145.8 410.2 m (18) sh
-% gr_show_at() END
-% gr_show_at() BEGIN
 0 g
 0 G
 145.8 450.9 m (19) sh
-% gr_show_at() END
 0 g
 0 G
 1.0 i 0 J 0 j 0.369 w 10.0 M [] 0 d
@@ -743,12 +699,10 @@ S
 170.70 455.20 l
 S
 % END GriPath stroke/fill
-% gr_show_at() BEGIN
 0 g
 0 G
 139.9 309.9 m 90.00 rotate (y) sh
--90.00 rotate % gr_show_at() END
-/Helvetica-ISOLatin1 findfont 0.00 sc sf
+-90.00 rotate /Helvetica-ISOLatin1 findfont 0.00 sc sf
 0 g
 0 G
 1.0 i 0 J 0 j 0.369 w 10.0 M [] 0 d
@@ -781,12 +735,9 @@ S
 S
 % END GriPath stroke/fill
 /Helvetica-ISOLatin1 findfont 12.00 sc sf
-%gri:draw title "Example 1"		# A title for plot
-% gr_show_at() BEGIN
 0 g
 0 G
 284.5 483.6 m (Example 1) sh
-% gr_show_at() END
 showpage
 %%Trailer
 %%BoundingBox: 129 130 463 494
