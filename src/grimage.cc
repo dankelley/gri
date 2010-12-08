@@ -212,7 +212,8 @@ void gr_drawimage_svg( // Draw image, possibly color, in rectangle given in cm c
 	default:			// taken as BW
 	case bw_model:
 		fprintf(_grSVG, "<g> <!-- BW image -->\n");
-		err("Sorry, svg output of black/white images is not working yet");
+		warning("Sorry, svg output of black/white images is not working yet");
+                return;
 #if 0
 		check_psfile();
                 // Write map to PostScript, creating a linear one if none exists

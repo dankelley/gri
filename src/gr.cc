@@ -620,7 +620,7 @@ void gr_draw_arc_cm(bool filled, double xc, double yc, double r, double angle1, 
 			       xc + r + lw, yc + r + lw);
 		bounding_box_update(bbox);
 	} else {
-		fatal_err("Sorry, can only draw arcs in postscript files.");
+		warning("Sorry, can only draw arcs in postscript files.");
 	}
 }
 
@@ -765,8 +765,10 @@ void
 gr_drawsymbol(double xcm, double ycm, gr_symbol_type symbol_name)
 {
 	extern output_file_type _output_file_type;
-	if (_output_file_type != postscript)
-		fatal_err("Sorry, can only draw symbols in postscript mode");
+	if (_output_file_type != postscript) {
+		warning("Sorry, can only draw symbols in postscript mode");
+                return;
+        }
 	double xpt = xcm * PT_PER_CM;
 	double ypt = ycm * PT_PER_CM;
 	if (_clipping_postscript && _clipping_is_postscript_rect) {

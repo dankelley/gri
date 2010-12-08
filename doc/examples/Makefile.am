@@ -13,14 +13,19 @@ html_files = example1.html example2.html example3.html example4.html \
  example5.html example6.html example6histogram.html \
  example7.html example8.html example9.html example10.html \
  example10color.html example11.html example12.html example13.html \
- FEM.html\
- logo.html
+ FEM.html logo.html
 eps_files =  example1.eps example2.eps example3.eps example4.eps example5.eps\
  example6.eps example6histogram.eps\
  example7.eps example8.eps example9.eps example10.eps\
  example10color.eps example11.eps example12.eps example13.eps\
- FEM.eps\
- logo.eps
+ FEM.eps logo.eps
+
+svg_files =  example1.svg example2.svg example3.svg example4.svg example5.svg\
+ example6.svg example6histogram.svg\
+ example7.svg example8.svg example9.svg example10.svg\
+ example10color.svg example11.svg example12.svg example13.svg\
+ FEM.svg logo.svg
+
 png_files = FEM.png example1.png example2.png example3.png example4.png \
  example5.png example6.png example6histogram.png \
  example7.png example8.png example9.png example10.png \
@@ -58,8 +63,10 @@ EXTRA_DIST = \
  example12.ps example13.ps \
  logo.ps FEM.ps
 
-DISTCLEANFILES = $(png_files) $(eps_files) $(html_files) $(txt_files)
+DISTCLEANFILES = $(png_files) $(eps_files) $(html_files) $(txt_files) $(svg_files)
 
+%.svg : %.gri
+	gri -output $@ $< 	
 %.txt : %.gri
 	echo "$<" | cat >$@
 	chmod +w $@
@@ -120,3 +127,5 @@ testps:
 	$(GRITEST) example11.gri
 	$(GRITEST) example12.gri
 	$(GRITEST) example13.gri
+
+svg: $(svg_files)
