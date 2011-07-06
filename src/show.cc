@@ -781,7 +781,7 @@ Image histogram:\n\
 		ShowStr("Image is, in terms of internal values from 0 to 255:\n");
 		for (j = int(_image.ras_height - 1); j > -1; j--) {
 			for (unsigned int i = 0; i < _image.ras_width; i++) {
-				if (!*(_imageMask.image + i * _image.ras_height + j)) {
+				if (!*(_image.image + i * _image.ras_height + j)) {
 					sprintf(_grTempString, "%03d ",
 						*(_image.image + i * _image.ras_height + j));
 					ShowStr(_grTempString);
@@ -795,7 +795,7 @@ Image histogram:\n\
 		float scale = 255.0 / (_image255 - _image0);
 		for (j = int(_image.ras_height - 1); j > -1; j--) {
 			for (unsigned int i = 0; i < _image.ras_width; i++) {
-				if (!*(_imageMask.image + i * _image.ras_height + j)) {
+				if (!*(_image.image + i * _image.ras_height + j)) {
 					int val = *(_image.image + i * _image.ras_height + j);
 					float val_float;
 					if (_imageTransform == NULL)
