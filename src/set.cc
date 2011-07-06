@@ -1,3 +1,4 @@
+// vim: noexpandtab tabstop=8 softtabstop=8 shiftwidth=8
 /*
     Gri - A language for scientific graphics programming
     Copyright (C) 2010 Daniel Kelley
@@ -1734,10 +1735,30 @@ set_image_grayscaleCmd()
 	}
 	// `set image grayscale'
 	if (_nword == 3) {
-		for (i = 0; i < 256; i++)
-			_imageTransform[i] = (unsigned char) i;
+		if (!_image.storage_exists) {
+			err("First, you must read or create an image");
+			return false;
+		}
+		unsigned char valTmp;
+		unsigned char valA = *(_image.image);
+		unsigned char valB = valA;
+		for (unsigned int ij = 1; ij < _image.ras_width * _image.ras_height; ij++) {
+			valTmp = *(_image.image + ij);
+			if (valTmp < valA)
+				valA = valTmp;
+			if (valTmp > valB)
+				valB = valTmp;
+		}
+		indexA = pin0_255(255.0 * (valA - _image0) / (_image255 - _image0));
+		double scale = 255 / (valB - valA);
+		for (i = 0; i < 256; i++) {
+			_imageTransform[i] = (unsigned char) floor(double(pin0_255((int) floor(scale * (i - indexA)))));
+		}
+		_imageTransform[0] = (_imageTransform[0] <= 128) ? 0 : 255;
+		_imageTransform[255] = (_imageTransform[255] <= 128) ? 0 : 255;
 		_imageTransform_exists = true;
 		_image_color_model = bw_model;
+                //printf("_image0 %f _image255 %f valA %d  valB %d scale %f indexA %f\n", _image0, _image255, valA, valB, scale, indexA);
 		return true;
 	}
 	// `set image grayscale [black .bl. white .wh. [increment .inc.]]'

@@ -1,6 +1,6 @@
 /*
     Gri - A language for scientific graphics programming
-    Copyright (C) 2008 Daniel Kelley
+    Copyright (C) 2011 Daniel Kelley
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -2119,7 +2119,7 @@ draw_imageCmd()
 	gr_usertocm(_image_llx, _image_lly, &llx_cm, &lly_cm);
 	gr_usertocm(_image_urx, _image_ury, &urx_cm, &ury_cm);
 	if (_imageMask.storage_exists) {
-		//printf("DEBUG [draw_imageCmd() %s:%d]  llx_cm=%lf  lly_cm=%lf  urx_cm=%lf   ury_cm=%lf\n",__FILE__,__LINE__,llx_cm,lly_cm,urx_cm,ury_cm);
+		//printf("DEBUG [draw_imageCmd() %s:%d] (have mask) llx_cm=%lf  lly_cm=%lf  urx_cm=%lf   ury_cm=%lf\n",__FILE__,__LINE__,llx_cm,lly_cm,urx_cm,ury_cm);
 		extern double   _image_missing_color_red; // in set.c
 		extern double   _image_missing_color_green; // in set.c
 		extern double   _image_missing_color_blue; // in set.c
@@ -2145,6 +2145,7 @@ draw_imageCmd()
 				     llx_cm, lly_cm, urx_cm, ury_cm,
 				     true);
 	} else {
+		//printf("DEBUG [draw_imageCmd() %s:%d] (no mask) llx_cm=%lf  lly_cm=%lf  urx_cm=%lf   ury_cm=%lf\n",__FILE__,__LINE__,llx_cm,lly_cm,urx_cm,ury_cm);
 		if (_output_file_type == svg)
 			gr_drawimage_svg(_image.image,
 					 _imageTransform, 

@@ -1,6 +1,7 @@
+// vim: noexpandtab tabstop=8 softtabstop=8
 /*
     Gri - A language for scientific graphics programming
-    Copyright (C) 2010 Daniel Kelley
+    Copyright (C) 2011 Daniel Kelley
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -406,78 +407,82 @@ void gr_drawimage( // Draw image, possibly color, in rectangle given in cm coord
 	}
         // Handle BW and color differently, since PostScript handles differently.
 	switch (color_model) {
-	default:                // taken as BW
-	case bw_model:
+	    default:                // taken as BW
+	    case bw_model:
 		perlineMAX = 39; // use only 78 columns so more readible
 		if (imax < perlineMAX)
-			perlineMAX = imax;
+		    perlineMAX = imax;
 		check_psfile();
-                // Write map to PostScript, creating a linear one if none exists
+		// Write map to PostScript, creating a linear one if none exists
 		fprintf(_grPS, "%% Push map onto stack, then image stuff.\n");
 		fprintf(_grPS, "[\n");
 		if (imTransform == NULL) {
-			for (i = 0; i < 256; i++) {
-				fprintf(_grPS, "%.4f ", i / 255.0);
-				if (!((i + 1) % 10))
-					fprintf(_grPS, "\n");
-			}
+		    for (i = 0; i < 256; i++) {
+			fprintf(_grPS, "%.4f ", i / 255.0);
+			if (!((i + 1) % 10))
+			    fprintf(_grPS, "\n");
+		    }
 		} else {
-			for (i = 0; i < 256; i++) {
-				fprintf(_grPS, "%.4f ", imTransform[i] / 255.0);
-				if (!((i + 1) % 10))
-					fprintf(_grPS, "\n");
-			}
+		    for (i = 0; i < 256; i++) {
+			fprintf(_grPS, "%.4f ", imTransform[i] / 255.0);
+			if (!((i + 1) % 10))
+			    fprintf(_grPS, "\n");
+		    }
 		}
 		fprintf(_grPS, "\n]\n");
 		if (insert_placer)
-			fprintf(_grPS, "%%BEGIN_IMAGE\n"); // for grepping in ps file
-                // Now write image.
+		    fprintf(_grPS, "%%BEGIN_IMAGE\n"); // for grepping in ps file
+		// Now write image.
 		fprintf(_grPS, "%f %f %f %f %d %d im\n", xl_c, yb_c, xr_c, yt_c, (jhigh-jlow), (ihigh-ilow)); // BUG
 		check_psfile();
 		if (have_mask == true) {
-			int             diff, min_diff = 256;
-			unsigned char   index = 0; // assign to calm compiler ????
-			mask_value = (unsigned char)(255.0 * mask_r);
-                        // If there is a mapping, must (arduously) look up which image
-                        // value corresponds to this color.
-			if (imTransform != NULL) {
-				for (i = 0; i < 256; i++) {
-					diff = (int) fabs(double(imTransform[i] - mask_value));
-					if (diff < min_diff) {
-						min_diff = diff;
-						index = i;
-					}
-				}
-				mask_value = index;
+		    int             diff, min_diff = 256;
+		    unsigned char   index = 0; // assign to calm compiler ????
+		    mask_value = (unsigned char)(255.0 * mask_r);
+		    // If there is a mapping, must (arduously) look up which image
+		    // value corresponds to this color.
+		    if (imTransform != NULL) {
+			for (i = 0; i < 256; i++) {
+			    diff = (int) fabs(double(imTransform[i] - mask_value));
+			    if (diff < min_diff) {
+				min_diff = diff;
+				index = i;
+			    }
 			}
+			mask_value = index;
+		    }
 		}
 		for (j = jhigh - 1; j >= jlow; j--) {
-			for (i = ilow; i < ihigh; i++) {
-				value = *(im + i * jmax + j);
-				if (have_mask == true && *(mask + i * jmax + j) == 2) {
-					fprintf(_grPS, "%02X", mask_value);
-				} else {
-					fprintf(_grPS, "%02X", value);
-				}
-				if ((++perline) == perlineMAX) {
-					fprintf(_grPS, "\n");
-					perline = 0;
-				}
+		    for (i = ilow; i < ihigh; i++) {
+			value = *(im + i * jmax + j);
+			if (have_mask == true && *(mask + i * jmax + j) == 2) {
+			    fprintf(_grPS, "%02X", mask_value);
+			} else {
+			    if (imTransform==NULL) {
+				fprintf(_grPS, "%02X", value);
+			    } else {
+				fprintf(_grPS, "%02X", imTransform[value]);
+			    }
 			}
+			if ((++perline) == perlineMAX) {
+			    fprintf(_grPS, "\n");
+			    perline = 0;
+			}
+		    }
 		}
 		check_psfile();
 		if (perline != 0)
-			fprintf(_grPS, "\n");
+		    fprintf(_grPS, "\n");
 		check_psfile();
 		if (insert_placer)
-			fprintf(_grPS, "%%END_IMAGE\n"); // for grepping in ps file
+		    fprintf(_grPS, "%%END_IMAGE\n"); // for grepping in ps file
 		break;
-	case rgb_model:
+	    case rgb_model:
 		perlineMAX = 13;	// use only 78 columns so more readible
 		if (imax < perlineMAX)
-			perlineMAX = imax;
+		    perlineMAX = imax;
 		if (insert_placer)
-			fprintf(_grPS, "%%BEGIN_IMAGE\n");
+		    fprintf(_grPS, "%%BEGIN_IMAGE\n");
 		fprintf(_grPS, "%f %f %f %f %d %d cim\n", xl_c, yb_c, xr_c, yt_c, (jhigh-jlow), (ihigh-ilow)); // BUG
 		check_psfile();
 		cmask_r = (unsigned char)pin0_255(mask_r * 255.0);
@@ -519,9 +524,9 @@ void gr_drawimage( // Draw image, possibly color, in rectangle given in cm coord
 			fprintf(_grPS, "\n");
 		if (insert_placer)
 			fprintf(_grPS, "%%END_IMAGE\n"); // for grepping in ps file
-		check_psfile();
-                        } // switch(color_model)
-                }
+                check_psfile();
+        } // switch(color_model)
+} // gr_drawimage()
 
 /*
  * gr_drawBWimage_pt() -- draw a image of an unsigned char matrix

@@ -1,6 +1,6 @@
 /*
     Gri - A language for scientific graphics programming
-    Copyright (C) 2008 Daniel Kelley
+    Copyright (C) 2011 Daniel Kelley
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -31,5 +31,5 @@ char _gri_number[] = PACKAGE_VERSION;
 //
 char _gri_number[] = PACKAGE_VERSION;
 #endif
-char _gri_release_time[] = "2007-07-20";
-char _gri_date[] = "2007";
+char _gri_release_time[] = "2011-07-07";
+char _gri_date[] = "2011";

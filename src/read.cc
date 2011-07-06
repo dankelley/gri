@@ -1,6 +1,7 @@
+// vim: noexpandtab tabstop=8 softtabstop=8
 /*
     Gri - A language for scientific graphics programming
-    Copyright (C) 2008 Daniel Kelley
+    Copyright (C) 2011 Daniel Kelley
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
