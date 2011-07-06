@@ -56,8 +56,8 @@
 @comment %**start of header
 @setfilename gri.info
 @settitle Gri
-@set GRI-VERSION 2.12.22
-@set GRI-PREVIOUS-VERSION 2.12.21
+@set GRI-VERSION 2.12.23
+@set GRI-PREVIOUS-VERSION 2.12.22
 @set AUTHOR-EMAIL dankelley@@users.sourceforge.net
 @include version.texi
 @c %**end of header
@@ -76,11 +76,11 @@
 
 @subtitle A Program to Make Science Graphs
 @subtitle Version @value{GRI-VERSION}
-@subtitle 2010
+@subtitle 2011
 @author Dan E. Kelley
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 1991-2010 Dan Kelley
+Copyright @copyright{} 1991-2011 Dan Kelley
 @sp 2
 @end titlepage
 
@@ -107,7 +107,7 @@ considerable power, at the price of a moderate learning curve.
 
 This manual describes Gri version
 @value{GRI-VERSION} @c , updated @value{UPDATED},
-(c) 1991-2010, Dan Kelley
+(c) 1991-2011, Dan Kelley
 
 Gri is released with the GNU Public License (@ref{License}).
 
@@ -16539,13 +16539,15 @@ only in the fixing of bugs.
 
 @comment ADD-NEW-BUG-FIXES-HERE
 
-@subsubsection Version 2.12.22 [2010 November 24 @uref{http://en.wikipedia.org/wiki/Evolution_Day, Evolution Day}]
-@strong{New Features}
+@subsubsection Version 2.12.23 [2011 July 6 @uref{http://en.wikipedia.org/wiki/Malawi, Malawai Independence Day}]
+@strong{Bug fixes}
 @itemize @bullet
 @item
-N/A
+@uref{https://sourceforge.net/projects/gri/forums/forum/16975/topic/4596628/index/page/1}
+@dots{} @code{pgm} images grayscale was wrong
 @end itemize
 
+@subsubsection Version 2.12.22
 @strong{Bug fixes}
 @itemize @bullet
 @item
