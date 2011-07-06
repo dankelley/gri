@@ -36,10 +36,10 @@ print "Debian: ";
 print "[<a href=\"http://packages.qa.debian.org/g/gri.html\">package</a>]
        [<a href=\"http://buildd.debian.org/build.php?pkg=gri\">auto-builder's log</a>].\n";
 print "<br>";
-print "Trackers (legacy): ";
+print "Old Trackers: ";
 print "[<A HREF=\"$sf_url/tracker/?atid=35$gri_group_id&amp;group_id=$gri_group_id&amp;func=browse\">Feature requests</A>] ";
 print "[<A HREF=\"$sf_url/tracker/?atid=10$gri_group_id&amp;group_id=$gri_group_id&amp;func=browse\">Bug reports</A>] ";
-print "[<A HREF=\"$sf_url/tracker/?atid=30$gri_group_id&amp;group_id=$gri_group_id&amp;func=browse\">Patch submissions</A>]<br>\n";
+print "[<A HREF=\"$sf_url/tracker/?atid=30$gri_group_id&amp;group_id=$gri_group_id&amp;func=browse\">Patch submissions</A>] (these are legacy ... DO NOT USE for new items)<br>\n";
 print "Trackers (present-day): ";
 print "[<A HREF=\"http://github.com/dankelley/gri/issues\">issues</a>]<br>\n";
 print "<h1>Developer Work Cycle</h1>\n";
