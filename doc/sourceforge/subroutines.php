@@ -5,7 +5,7 @@ $development_site = "http://gri.sourceforge.net";
 $development_site_name = "SourceForge";
 $gri_stable_version_major = "2"; // !!!
 $gri_stable_version_intermediate = "12"; // !!!
-$gri_stable_version_minor = "22"; // !!!
+$gri_stable_version_minor = "23"; // !!!
 $gri_stable_version = "$gri_stable_version_major.$gri_stable_version_intermediate.$gri_stable_version_minor";
 $gri_group_id = "5511";
 $sf_url = "http://sourceforge.net";
@@ -181,7 +181,7 @@ function footer()
 	print "<td valign=\"top\" bgcolor=\"#FFFFFF\">\n";
 	print "<center>\n";
 	print "<small>\n";
-	print "Copyright &copy; 2002-2010 by\n";
+	print "Copyright &copy; 2002-2011 by\n";
         global $sf_url;
 	print "<a href=\"$sf_url/users/dankelley\">Dan Kelley</a>\n";
 	print " and ";
