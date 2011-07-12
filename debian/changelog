@@ -1,3 +1,13 @@
+gri (2.12.23-1) unstable; urgency=low
+
+  * New upstream release        
+  Bug fixes:
+  - Fix SourceForge bug
+    https://sourceforge.net/projects/gri/forums/forum/16975/topic/4596628/index/page/1
+    (pgm: images grayscale was wrong)
+
+ -- Peter S Galbraith <psg@debian.org>  Tue, 12 Jul 2011 14:46:23 -0400
+
 gri (2.12.22-1) unstable; urgency=low
 
   * New upstream release        
