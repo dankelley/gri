@@ -2395,7 +2395,7 @@ fix_negative_zero(std::string& number) // change e.g. "-0" to "0", for axes
                         break;
                 }
         }
-        printf("    is_zero=%d\n", is_zero);
+        //printf("    is_zero=%d\n", is_zero);
 	if (is_zero) {
 #ifdef DEBUG_FIX_NEGATIVE_ZERO
 		printf("    ERASING at start=%d\n", start);
