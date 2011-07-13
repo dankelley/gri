@@ -85,6 +85,8 @@ function age() {
 	$diff = time() - mktime(10, 33, 00, 6,  8, 2010); // !!!
 # Vsn 2.12.22 2010-11-24 1535 Halifax time 1935 UTC time (note change in base)
 	$diff = time() - mktime(19, 35, 00, 11, 24, 2010); // !!!
+# Vsn 2.12.23 2011-07-13 0930 Halifax time 1330 UTC time (note change in base)
+	$diff = time() - mktime(13, 30, 00, 07, 13, 2011); // !!!
 
 	# REF: mktime(hour,minute,second,month,day,year)
 	$days = floor($diff / 24 / 60 / 60);
