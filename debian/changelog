@@ -1,3 +1,9 @@
+gri (2.12.23-2) unstable; urgency=low
+
+  * Move refcard.ps to gri-pdf-doc package.
+
+ -- Peter S Galbraith <psg@debian.org>  Wed, 13 Jul 2011 21:01:53 -0400
+
 gri (2.12.23-1) unstable; urgency=low
 
   * New upstream release        

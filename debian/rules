@@ -25,7 +25,7 @@ build: build-indep build-arch
 
 # Build architecture-dependent files here (no need to be root).
 build-arch: debian/copyright gri
-	cd doc; make refcard.ps cmdrefcard.ps info
+	cd doc; make info
 
 gri:    Makefile
 	dh_testdir
@@ -74,7 +74,7 @@ Makefile:
 
 # Build architecture-independent files here (no need to be root).
 build-indep: debian/copyright Makefile
-	cd doc; make gri.pdf html
+	cd doc; make refcard.ps cmdrefcard.ps gri.pdf html
 
 # Install (as root) architecture-independent files here.
 binary-indep: build-indep
@@ -87,7 +87,7 @@ binary-indep: build-indep
 	install -m 644 doc/gri.pdf debian/gri-pdf-doc/usr/share/doc/gri
 	cd doc; make html-install DESTDIR=`pwd`/../debian/gri-html-doc/
 	rm -f debian/*debhelper
-	dh_installdocs -i -A README debian/README.Debian
+	dh_installdocs -i -A README debian/README.Debian doc/refcard.ps doc/cmdrefcard.ps
 	dh_installexamples -i
 	dh_installemacsen -i
 	dh_installchangelogs -i 
@@ -104,7 +104,7 @@ binary-arch: build-arch install
 	dh_testroot -a
 	(cd debian/gri/usr/share/gri/$(version) ; ln -fs ../../common-licenses/GPL license.txt)
 	rm -f debian/*debhelper
-	dh_installdocs -a README doc/refcard.ps doc/cmdrefcard.ps
+	dh_installdocs -a README
 	dh_installexamples -a
 	dh_installemacsen -a
 	dh_installinfo doc/gri.info*
