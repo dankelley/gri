@@ -83,11 +83,12 @@ binary-indep: build-indep
 	install -d debian/gri-el/usr/share/emacs/site-lisp/gri-el
 	install -m 644 src/gri-mode.el debian/gri-el/usr/share/emacs/site-lisp/gri-el
 	install -d debian/gri-pdf-doc/usr/share/doc/gri
-	cd doc; make gri.pdf
 	install -m 644 doc/gri.pdf debian/gri-pdf-doc/usr/share/doc/gri
+	install -m 644 doc/refcard.ps debian/gri-pdf-doc/usr/share/doc/gri
+	install -m 644 doc/cmdrefcard.ps debian/gri-pdf-doc/usr/share/doc/gri
 	cd doc; make html-install DESTDIR=`pwd`/../debian/gri-html-doc/
 	rm -f debian/*debhelper
-	dh_installdocs -i -A README debian/README.Debian doc/refcard.ps doc/cmdrefcard.ps
+	dh_installdocs -i -A README debian/README.Debian
 	dh_installexamples -i
 	dh_installemacsen -i
 	dh_installchangelogs -i 
