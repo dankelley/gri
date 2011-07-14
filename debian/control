@@ -31,7 +31,7 @@ Description: a language for scientific illustration
    draw curve           # draw the data and autoscale the axes
  .
  A full manual is also available in HTML (gri-html-doc package), in
- PostScript suitable for printing (gri-pdf-doc package) and on-line by
+ PDF suitable for printing (gri-pdf-doc package) and on-line by
  following links from the gri home page:
    http://gri.sourceforge.net/
 
