@@ -1,5 +1,5 @@
  gri - scientific graphic program (version VERSION)
- Copyright 2011 by Dan E. Kelley; GPLv2+ licensing.
+ Copyright 2013 by Dan E. Kelley; GPLv2+ licensing.
 
  Type `help' to view list of commands.
  Type `show license' to view license. 

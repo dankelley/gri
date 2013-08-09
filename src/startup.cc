@@ -95,8 +95,8 @@ static void     create_builtin_colors(void);
 bool            _no_startup_message = false;
 bool            _contour_label_rotated = false;   	// <-> draw.c set.c
 bool            _contour_label_whiteunder = true;	// <-> draw.c set.c
-bool            _store_cmds_in_ps = true;	  		// <-> read.c
-bool 			_private = true; 					// "-private" and "-no_private" commandline options
+bool            _store_cmds_in_ps = true;  		// <-> read.c
+bool 		_private = true;			// "-private" and "-no_private" commandline options
 
 bool            initialize_image(); 
 bool            initialize_imageMask(); 
@@ -240,7 +240,15 @@ start_up(int argc, char **argv)
 	unsigned int argc_leftover = 0;
 	//printf("%s:%d argc_leftover= %d:\n",__FILE__,__LINE__,argc_leftover);
 	while (argv_leftover && argv_leftover[argc_leftover] != NULL) {
-		//printf("\t<%s>\n", *argv_leftover);
+                std::string thisarg = argv_leftover[argc_leftover];
+                //printf("\t<%s>\n", argv_leftover[argc_leftover]);
+                int thisarglen = thisarg.length();
+                if (thisarglen > 3 &&
+                        '.' == thisarg[thisarg.length()-3] &&
+                        'p' == thisarg[thisarg.length()-2] &&
+                        's' == thisarg[thisarg.length()-1]) {
+                    psname = thisarg;
+                }
 		argc_leftover++;
 	}
 	//printf("end. LEFTOVER.  have %d\n",argc_leftover);
@@ -262,6 +270,7 @@ start_up(int argc, char **argv)
 		// ".gri" suffix (which is sure to be there).  Then, must remove
 		// any filename path, since we want the .ps or .eps
 		// file to be created in this local directory .
+                //printf("psname.empty() %d\n", psname.empty());
 		if (psname.empty()) {
 			psname = fname;
 			int l = psname.size();
