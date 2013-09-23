@@ -54,7 +54,8 @@ BUGS:
 		the end is here} and more blah
 	will not get the \@code{} item converted correctly.
 ";
-require "ctime.pl";
+#require "ctime.pl";
+use POSIX qw(ctime);
 require "getopts.pl";
 
 $debug = 0;
@@ -66,6 +67,7 @@ if ($print_help) {
     print "$usage";
     exit 0;
 }
+#$date = &ctime(time);
 $date = &ctime(time);
 chop($date);
 
