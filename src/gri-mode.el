@@ -4,7 +4,7 @@
  
 ;; Author:    Peter S. Galbraith <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.70 (05 Dec 2009)
+;; Version:   2.71 (14 Oct 2013)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -407,6 +407,8 @@
 ;; V2.70 05dec2009
 ;;  gri-font-lock-system-commands is broken since Emacs v22.  Use simple
 ;;  regexp instead.
+;; V2.71 14Oct2013
+;;  http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=680701
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -4990,9 +4992,9 @@ If FILENAME does not end in `.gri', return FILENAME."
 
 ;; Setup auto-mode-alist
 (if (not (assoc '"\\.gri$" auto-mode-alist))
-    (setq auto-mode-alist (cons '("\\.gri$" . gri-mode) auto-mode-alist)))
+    (setq auto-mode-alist (cons '("\\.gri\\'" . gri-mode) auto-mode-alist)))
 (if (not (assoc '"\\.grirc$" auto-mode-alist))
-    (setq auto-mode-alist (cons '("\\.grirc$" . gri-mode) auto-mode-alist)))
+    (setq auto-mode-alist (cons '("\\.grirc\\'" . gri-mode) auto-mode-alist)))
 
 (provide 'gri-mode)
 ;;; gri-mode.el ends here
