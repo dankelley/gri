@@ -38,7 +38,7 @@ EXAMPLE (style 2):
    -h           -- Print this help message and quit.
 ";
 
-eval { require 'getopts.pl' ; };
+eval { use Getopt::Std; ; };
 my $use_getopts = $@ ? 0 : 1;
 
 $underlay_gray = 0.9;
@@ -46,7 +46,7 @@ $opt_u = -1;			# illegal value
 $background_gray = 1;
 $opt_b = -1;			# illegal value
 if ($use_getopts) {
-    &Getopts('hu:b:');
+    &getopts('hu:b:');
     if ($opt_h) {
         print "$usage";
         exit 0;

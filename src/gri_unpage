@@ -10,11 +10,11 @@ BUGS:    1. Bounding box is always the same for all pages.
          2. Assumes that all Gri fonts are used even if they aren't.
 ";
 
-eval { require 'getopts.pl' ; };
+eval { use Getopt::Std; ; };
 my $use_getopts = $@ ? 0 : 1;
 
 if ($use_getopts) {
-    &Getopts('hl');
+    &getopts('hl');
     if ($opt_h) {
         print "$usage";
         exit 0;
