@@ -2213,6 +2213,9 @@ char*
 tmp_file_name()
 {
 #if defined(HAVE_MKSTEMP)
+#ifndef PATH_MAX
+#define PATH_MAX 8192
+#endif
 	static char rval[PATH_MAX];
 	int fd;
 	/*
