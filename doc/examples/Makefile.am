@@ -74,9 +74,9 @@ DISTCLEANFILES = $(png_files) $(eps_files) $(html_files) $(txt_files) $(svg_file
 	cp $< $@
 	chmod +w $@
 %.png : %.ps
-	-convert $< $@
+	-convert -background white $< $@
 %-tiny.png : %.png
-	-convert -geometry 90x999 $< $@
+	-convert -background white -geometry 90x999 $< $@
 %.pdf : %.ps
 	convert $< $@ 
 #	ps2pdf $< $@
