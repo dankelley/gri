@@ -1,3 +1,46 @@
+gri (2.12.23-5) unstable; urgency=low
+
+  * src/utility.cc: Merge in upstream fix for hurd PATH_MAX
+
+ -- Peter S Galbraith <psg@debian.org>  Tue, 15 Oct 2013 10:06:03 -0400
+
+gri (2.12.23-4) unstable; urgency=low
+
+  * Bug fix: "FTBFS: Failed building docs", thanks to David SuÃ¡rez
+    (Closes: #724193).
+  * Bug fix: "extra .gri$ auto-mode-alist entry", thanks to Kevin Ryde
+    (Closes: #680701).
+  * Undo bug #659422 Depends on libperl4-corelibs-perl and update scripts
+    gri_unpage and gri_merge instead.
+
+ -- Peter S Galbraith <psg@debian.org>  Mon, 14 Oct 2013 17:35:26 -0400
+
+gri (2.12.23-3) unstable; urgency=low
+
+  * These are the same bug; fixed upstream in git.
+  * Bug fix: "FTBFS: manuals build fails against textinfo5 because some
+    incompatibles changes wrt 4.13 and below (some warnings have turned
+    into errors)", thanks to David SuÃ¡rez (Closes: #712326).
+  * Bug fix: "build from source fails on makeinfo 5.1", thanks to Kevin
+    Ryde (Closes: #718821).
+
+ -- Peter S Galbraith <psg@debian.org>  Tue, 06 Aug 2013 20:31:42 -0400
+
+gri (2.12.23-2.2) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Add missing Breaks+Replaces
+    Closes: #694275
+
+ -- Andreas Tille <tille@debian.org>  Thu, 06 Dec 2012 13:42:17 +0100
+
+gri (2.12.23-2.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Add Depends on libperl4-corelibs-perl (Closes: #659422)
+
+ -- Dominic Hargreaves <dom@earth.li>  Mon, 23 Apr 2012 18:53:37 +0100
+
 gri (2.12.23-2) unstable; urgency=low
 
   * Move refcard.ps to gri-pdf-doc package.

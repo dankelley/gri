@@ -9,7 +9,7 @@ Standards-Version: 3.8.4
 Package: gri
 Section: science
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, dpkg (>= 1.15.4) | install-info
+Depends: ${shlibs:Depends}, ${misc:Depends}, dpkg (>= 1.15.4) | install-info, perl 
 Suggests: gri-html-doc, gri-pdf-doc, gri-el, gv
 Description: a language for scientific illustration
  Gri is an open-source language for scientific graphics programming. It is
@@ -69,7 +69,8 @@ Package: gri-pdf-doc
 Section: doc
 Architecture: all
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Replaces: gri-ps-doc
+Breaks: gri (<< 2.12.23-2)
+Replaces: gri (<< 2.12.23-2), gri-ps-doc
 Description: PostScript manual for gri, a language for scientific graphics
  Gri is a command-driven application for making x-y graphs, contour-graphs,
  and image graphs.
