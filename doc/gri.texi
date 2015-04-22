@@ -9193,6 +9193,13 @@ full color.
 @cindex @code{set image range} command
 
 @example
+set image range automatic
+@end example
+Sets so that images created with @code{convert grid to image} will determine
+the image range from the grid data. If the second form is used, then this
+automatic scaling is turned off.
+
+@example
 set image range .0value. .255value.
 @end example
 

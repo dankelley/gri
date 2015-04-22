@@ -362,7 +362,8 @@ method as usual.
 
 `convert grid to image [directly] [size .width. .height.] [box .xleft. .ybottom. .xright. .ytop.]'
 With no options specified, convert grid to a 128x128 image, using an
-image range as previously set by `set image range', and using
+image range as previously set by `set image range' (or, if the
+range has not been set, using the range of gridded data), and using
 interpolation (see manual).
 
    With the `directly' option, no interpolation is used; each grid
@@ -3343,6 +3344,14 @@ black to 1 for white.  The `rgb' parameter allows specification in colour.
 Alternate spelling of color.
 {
     extern "C" bool set_image_missingCmd(void);
+}
+
+`set image range automatic'
+Sets so that images created with `convert grid to image' will determine
+the image range from the grid data. If the second form is used, then this
+automatic scaling is turned off.
+{
+    extern "C" bool set_image_rangeCmd(void);
 }
 
 `set image range .min_value. .max_value.'

@@ -43,13 +43,13 @@ Copyright restrictions
 ======================
 
 The Gri programming languages, and all manuals and online help-files,
-are (c) 1991-2014 Dan E. Kelley <Dan.Kelley@Dal.CA>.
+are (c) 1991-2015 Dan E. Kelley <Dan.Kelley@Dal.CA>.
 
 Gri includes a pared-down form of the popt library which in its
 original form is (c) 1998 Red Had Software and distributed under the
 X license.
 
-The Gri Emacs mode (gri-mode.el) is (c) 1994-2014 Peter S. Galbraith
+The Gri Emacs mode (gri-mode.el) is (c) 1994-2015 Peter S. Galbraith
 <GalbraithP@dfo-mpo.gc.ca>
 
 Gri and gri-mode.el are distributed under GPLv3 license or later; see
