@@ -19,7 +19,7 @@
 
 // Macros to save time
 #if !defined(_macro_hh_)
-#define _macro_h_
+#define _macro_hh_
 
 #define BETWEEN(l,r,m)  ( (l)<(r) ? (m)<=(r)&&(l)<=(m) : (r)<=(m)&&(m)<=(l) )
 
