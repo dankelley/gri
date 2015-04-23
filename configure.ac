@@ -65,7 +65,7 @@ AC_MSG_CHECKING(for C++ compiler with new headers as of August 2002)
 ], Cplusplusnew=yes, Cplusplusnew=no)
 if test $Cplusplusnew = yes; then
   AM_CXXFLAGS="$AM_CXXFLAGS -DCPLUSPLUSNEW"
-  AM_CXXFLAGS="$AM_CXXFLAGS -fno-strength-reduce"
+#  AM_CXXFLAGS="$AM_CXXFLAGS -fno-strength-reduce"
   AC_SUBST(AM_CXXFLAGS)
 fi
 AC_MSG_RESULT($Cplusplusnew)
