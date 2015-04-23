@@ -9172,8 +9172,8 @@ draw image palette left \
 @cindex @code{set image missing value colour} command
 
 @example
-set image missing value color to white|black|\
-    @{graylevel .brightness.@}|@{rgb .r. .g. .b.@}
+`set image missing value color to white|black|\
+    @{graylevel .brightness.@}|@{rgb .r. .g. .b.@}`
 @end example
 
 @noindent
@@ -9193,7 +9193,7 @@ full color.
 @cindex @code{set image range} command
 
 @example
-set image range automatic|@{.min_value. .max_value.@}
+`set image range automatic|@{.min_value. .max_value.@}`
 @end example
 
 @noindent
