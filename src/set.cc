@@ -1981,7 +1981,16 @@ set_image_rangeCmd()
 			return false;
 		_image0 = tmp1;
 		_image255 = tmp2;
+		_image_range_automatic = false;
 		return true;
+	case 3:
+		if (word_is(3, "automatic")) {
+			_image_range_automatic = true;
+			return true;
+		} else {
+			demonstrate_command_usage();
+			return false;
+		}
 	default:
 		demonstrate_command_usage();
 		NUMBER_WORDS_ERROR;

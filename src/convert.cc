@@ -1400,10 +1400,36 @@ convert_grid_to_imageCmd()
 		return false;
 	}
 	// If no image range exists, use min/max in image.
-	if (!image_range_exists()) {
-		_image0   = _f_min;
-		_image255 = _f_max;
-	}
+        if (_image_range_automatic) {
+            bool start = true;
+            double gmin, gmax;
+            for (unsigned int i = 0; i < _num_xmatrix_data; i++) {
+                for (unsigned int j = 0; j < _num_ymatrix_data; j++) {
+                    double d = _f_xy(i, j);
+                    if (!gr_missing(d)) {
+                        if (start) {
+                            gmin = d;
+                            gmax = d;
+                            start = false;
+                        } else {
+                            if (d < gmin) gmin = d;
+                            if (d > gmax) gmax = d;
+                        }
+                    }
+                }
+            }
+            _image0 = gmin;
+            _image255 = gmax;
+            if (_chatty > 0)
+                printf("Using 'automatic' image range, from grid data: %f to %f\n", _image0, _image255);
+        } else {
+            if (_chatty > 2)
+                printf("DEBUG: using image range as set by 'set image range .value0. .value255.'\n");
+            if (!image_range_exists()) {
+                _image0   = _f_min;
+                _image255 = _f_max;
+            }
+        }
 	// See if the image size was given.
 	width = IMAGE_SIZE_WHEN_CONVERTING;
 	height = IMAGE_SIZE_WHEN_CONVERTING;

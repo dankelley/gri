@@ -362,7 +362,8 @@ method as usual.
 
 `convert grid to image [directly] [size .width. .height.] [box .xleft. .ybottom. .xright. .ytop.]'
 With no options specified, convert grid to a 128x128 image, using an
-image range as previously set by `set image range', and using
+image range as previously set by `set image range' (or, if the
+range has not been set, using the range of gridded data), and using
 interpolation (see manual).
 
    With the `directly' option, no interpolation is used; each grid
@@ -3345,42 +3346,44 @@ Alternate spelling of color.
     extern "C" bool set_image_missingCmd(void);
 }
 
-`set image range .min_value. .max_value.'
-Specify maximum possible range of values that images can hold, in
-user units.  Gri needs to know this because it stores images in a
-limited format capable of holding only 256 distinct values.  Unlike
-some other programs, Gri encourages (forces) the user to specify things
-in terms of user-units, not image-units.  This has the advantage of
-working regardless of the number of bits per pixel.  Thus, for example,
-`set image grayscale', `set image colorscale', `draw image grayscale',
-etc, all use *user* units.
+`set image range automatic|{.min_value. .max_value.}'
+In the `automatic` style, which is the default, establish a convention that
+images created with `convert grid to image' will determine the image range from
+the grid data.  In the second style, specify the minimum and maximum image
+values.
 
-When an image is created by `convert grid to image', values outside
-the range spanned by `.0value.' and `.255value.' are clipped.  (There
-is no need, however, for `.0value.' to be less than `.255value.'.)
-This clipping discards information, so make sure the range you give is
-larger than the range of data in the grid.
+    In either case, Gri needs to know the image range because it stores images
+in a limited format capable of holding only 256 distinct values.  Unlike some
+other programs, Gri encourages (forces) the user to specify things in terms of
+user-units, not image-units.  This has the advantage of working regardless of
+the number of bits per pixel.  Thus, for example, `set image grayscale', `set
+image colorscale', `draw image grayscale', etc, all use *user* units.
 
-EXAMPLE: consider a satellite image in which an internal value of 0
-is meant to correspond to 0 degrees Celsius, and an internal value of
-255 corresponds to 25.5 degrees.  (This is a common scale.)  Then Gri
-command `set image range 0 25.5' would establish the required range.
-If this range were combined with a linear grayscale mapping (see `set
-    image grayscale'), the resultant granularity in the internal
-    representation of the user values would be (25.5-0)/255 or 0.1 degrees
-    Celsius; temperature variations from pixel to pixel which were less than
-    0.1 degrees would be lost.
+    When an image is created by `convert grid to image', values outside the
+range spanned by `.0value.' and `.255value.' are clipped.  (There is no need,
+however, for `.0value.' to be less than `.255value.'.) This clipping discards
+information, so make sure the range you give is larger than the range of data
+in the grid.
+
+    EXAMPLE: consider a satellite image in which an internal value of 0 is
+meant to correspond to 0 degrees Celsius, and an internal value of 255
+corresponds to 25.5 degrees.  (This is a common scale.)  Then Gri command `set
+image range 0 25.5' would establish the required range.  If this range were
+combined with a linear grayscale mapping (see `set image grayscale'), the
+resultant granularity in the internal representation of the user values would
+be (25.5-0)/255 or 0.1 degrees Celsius; temperature variations from pixel to
+pixel which were less than 0.1 degrees would be lost.
     
-    All other image commands *require* that the range has been set.
-    Thus, all these commands fail unless `set image range' has been done:
-    `draw image', `draw image palette', `read image', `convert grid to
-    image', `set image grayscale', and `set image colorscale'.
+    All other image commands *require* that the range has been set.  Thus, all
+these commands fail unless `set image range' has been done: `draw image', `draw
+image palette', `read image', `convert grid to image', `set image grayscale',
+and `set image colorscale'.
     
-    NOTE: If a range already exists when `set image range' is used, then
-    the settings are altered.  Thoughtless usage can therefore lead to
-    confusing results.  (The situation is like setting an axis scale,
-    plotting a curve with no axes, then altering the scale and plotting the
-    new axes.  It's legal but not necessarily smart.)
+    NOTE: If a range already exists when `set image range' is used, then the
+settings are altered.  Thoughtless usage can therefore lead to confusing
+results.  (The situation is like setting an axis scale, plotting a curve with
+no axes, then altering the scale and plotting the new axes.  It's legal but not
+necessarily smart.)
 {
     extern "C" bool set_image_rangeCmd(void);
 }
