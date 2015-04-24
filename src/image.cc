@@ -148,7 +148,7 @@ initialize_imageMask()
 bool
 image_range_exists()
 {
-	return ((_image0 != 0.0 || _image255 != 0.0) ? true : false);
+	return _image_range_automatic || _image0 != 0.0 || _image255 != 0.0;
 }
 
 #if 0
