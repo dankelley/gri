@@ -3346,11 +3346,9 @@ Alternate spelling of color.
     extern "C" bool set_image_missingCmd(void);
 }
 
-`set image range automatic|{.min_value. .max_value.}'
-In the `automatic` style, which is the default, establish a convention that
-images created with `convert grid to image' will determine the image range from
-the grid data.  In the second style, specify the minimum and maximum image
-values.
+`set image range {.min_value. .max_value.}|{from grid}'
+In the first style, specify the minimum and maximum image values.  In the
+second, set the image range from the range of the grid data.
 
     In either case, Gri needs to know the image range because it stores images
 in a limited format capable of holding only 256 distinct values.  Unlike some

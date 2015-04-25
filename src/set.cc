@@ -1976,21 +1976,40 @@ set_image_rangeCmd()
 	double          tmp1, tmp2;
 	switch (_nword) {
 	case 5:
-		if (!getdnum(_word[3], &tmp1))
-			return false;
-		if (!getdnum(_word[4], &tmp2))
-			return false;
-		_image0 = tmp1;
-		_image255 = tmp2;
-		_image_range_automatic = false;
-		return true;
-	case 4:
-		if (word_is(3, "automatic")) {
-			_image_range_automatic = true;
+		if (word_is(3, "from") && word_is(4, "grid")) {
+			bool first = true;
+			double min_val, max_val;
+			for (int j = 0; j < _num_ymatrix_data; j++) {
+				for (int i = 0; i < _num_xmatrix_data; i++) {
+					double f = _f_xy(i, j);
+					if (!gr_missing(f)) {
+						if (first) {
+							max_val = f;
+							min_val = f;
+							first = false;
+						} else {
+							if (f > max_val) max_val = f;
+							if (f < min_val) min_val = f;
+						}
+					}
+				}
+			}
+			if (first) {
+				demonstrate_command_usage();
+				err("the grid has no non-missing data");
+				return false;
+			}
+			_image0 = min_val;
+			_image255 = max_val;
 			return true;
 		} else {
-			demonstrate_command_usage();
-			return false;
+			if (!getdnum(_word[3], &tmp1))
+				return false;
+			if (!getdnum(_word[4], &tmp2))
+				return false;
+			_image0 = tmp1;
+			_image255 = tmp2;
+			return true;
 		}
 	default:
 		demonstrate_command_usage();

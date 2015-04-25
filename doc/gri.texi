@@ -9193,14 +9193,12 @@ full color.
 @cindex @code{set image range} command
 
 @example
-`set image range automatic|@{.min_value. .max_value.@}`
+`set image range @{.min_value. .max_value.@}|@{from grid@}'
 @end example
 
 @noindent
-In the @code{automatic} style, which is the default, establish a convention
-that images created with @code{convert grid to image} will determine the image
-range from the grid data.  In the second style, specify the minimum and maximum
-image values.
+In the first style, specify the minimum and maximum image values.  In the
+second, set the image range from the range of the grid data.
 
 In either case, Gri needs to know the image range because it stores images in a
 limited format capable of holding only 256 distinct values.  Unlike some other
