@@ -3270,8 +3270,7 @@ Alternate spelling of colorscale.
 
 `set image grayscale using histogram [black .bl. white .wh.]'
 Create a grayscale mapping using linearized cumulative histogram
-enhancement.  The image range must have previously have been set by
-`set image range'.
+enhancement.  The image must already exist.
 
 This creates maximal contrast in each range of graylevels, and is
 useful for tracing subtle features between different images (for

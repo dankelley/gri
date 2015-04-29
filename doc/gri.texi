@@ -9109,8 +9109,7 @@ previously have been set by @code{set image range}.
 
 @noindent
 Create a grayscale mapping using linearized cumulative histogram
-enhancement.  The image range must have previously have been set by
-@code{set image range}.
+enhancement.  The image must already exist.
 
 This creates maximal contrast in each range of graylevels,
 and is useful for tracing subtle features between different images (for
