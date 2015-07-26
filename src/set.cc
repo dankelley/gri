@@ -266,28 +266,30 @@ set_bounding_boxCmd()
 {
 	// Set to _bounding_box_user
 	double ll_x, ll_y, ur_x, ur_y; // user-units
-	double ll_x_cm, ll_y_cm, ur_x_cm, ur_y_cm; // points
+	double ll_x_cm=0.0, ll_y_cm=0.0, ur_x_cm=10.0, ur_y_cm=10.0; // page-units
+	if (_nword != 7 && _nword != 8)
+		err("Must specify .xleft. .ybottom. .xright. .ytop. [cm]");
+	if (!getdnum(_word[3], &ll_x)) {
+		demonstrate_command_usage();
+		err("Can't read .xleft. in `\\", _word[3], "'.", "\\");
+		return false;
+	}
+	if (!getdnum(_word[4], &ll_y)) {
+		demonstrate_command_usage();
+		err("Can't read .ybottom. in `\\", _word[4], "'.", "\\");
+		return false;
+	}
+	if (!getdnum(_word[5], &ur_x)) {
+		demonstrate_command_usage();
+		err("Can't read .xright. in `\\", _word[5], "'.", "\\");
+		return false;
+	}
+	if (!getdnum(_word[6], &ur_y)) {
+		demonstrate_command_usage();
+		err("Can't read .ytop. in `\\", _word[6], "'.", "\\");
+		return false;
+	}
 	if (_nword == 7) {		// user-units
-		if (!getdnum(_word[3], &ll_x)) {
-			demonstrate_command_usage();
-			err("Can't read .xleft. in `\\", _word[3], "'.", "\\");
-			return false;
-		}
-		if (!getdnum(_word[4], &ll_y)) {
-			demonstrate_command_usage();
-			err("Can't read .ybottom. in `\\", _word[4], "'.", "\\");
-			return false;
-		}
-		if (!getdnum(_word[5], &ur_x)) {
-			demonstrate_command_usage();
-			err("Can't read .xright. in `\\", _word[5], "'.", "\\");
-			return false;
-		}
-		if (!getdnum(_word[6], &ur_y)) {
-			demonstrate_command_usage();
-			err("Can't read .ytop. in `\\", _word[6], "'.", "\\");
-			return false;
-		}
 		double          xmargin = XMARGIN_DEFAULT;
 		double          ymargin = YMARGIN_DEFAULT;
 		double          xsize = XSIZE_DEFAULT;
@@ -347,9 +349,8 @@ set_bounding_boxCmd()
 			ur_x_cm /= PT_PER_CM;
 			ur_y_cm /= PT_PER_CM;
 		}
-
 	} else {
-		err("Must specify .xleft. .ybottom. .xright. .ytop. [cm]");
+		err("Must specify .xleft. .ybottom. .xright. .ytop. [cm|pt]");
 	}
 	_bounding_box_user.set(ll_x_cm, ll_y_cm, ur_x_cm, ur_y_cm);
 	_user_gave_bounding_box = true;
@@ -1975,21 +1976,40 @@ set_image_rangeCmd()
 	double          tmp1, tmp2;
 	switch (_nword) {
 	case 5:
-		if (!getdnum(_word[3], &tmp1))
-			return false;
-		if (!getdnum(_word[4], &tmp2))
-			return false;
-		_image0 = tmp1;
-		_image255 = tmp2;
-		_image_range_automatic = false;
-		return true;
-	case 3:
-		if (word_is(3, "automatic")) {
-			_image_range_automatic = true;
+		if (word_is(3, "from") && word_is(4, "grid")) {
+			bool first = true;
+			double min_val, max_val;
+			for (int j = 0; j < _num_ymatrix_data; j++) {
+				for (int i = 0; i < _num_xmatrix_data; i++) {
+					double f = _f_xy(i, j);
+					if (!gr_missing(f)) {
+						if (first) {
+							max_val = f;
+							min_val = f;
+							first = false;
+						} else {
+							if (f > max_val) max_val = f;
+							if (f < min_val) min_val = f;
+						}
+					}
+				}
+			}
+			if (first) {
+				demonstrate_command_usage();
+				err("the grid has no non-missing data");
+				return false;
+			}
+			_image0 = min_val;
+			_image255 = max_val;
 			return true;
 		} else {
-			demonstrate_command_usage();
-			return false;
+			if (!getdnum(_word[3], &tmp1))
+				return false;
+			if (!getdnum(_word[4], &tmp2))
+				return false;
+			_image0 = tmp1;
+			_image255 = tmp2;
+			return true;
 		}
 	default:
 		demonstrate_command_usage();

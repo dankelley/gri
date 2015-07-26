@@ -10,7 +10,7 @@ another source), do as follows.
 ::
 
     ./configure
-     make
+    make
     make check
     make install
 

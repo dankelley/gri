@@ -27,7 +27,6 @@
  */
 double          _image0 = 0.0, _image255 = 0.0;	/* uservalue <-> [0,255]
 						 * scale */
-bool            _image_range_automatic = true;
 double          _image_missing_color_red = 1.0;	/* for missing data */
 double          _image_missing_color_green = 1.0; /* for missing data */
 double          _image_missing_color_blue = 1.0; /* for missing data */
@@ -148,7 +147,7 @@ initialize_imageMask()
 bool
 image_range_exists()
 {
-	return ((_image0 != 0.0 || _image255 != 0.0) ? true : false);
+	return _image0 != 0.0 || _image255 != 0.0;
 }
 
 #if 0

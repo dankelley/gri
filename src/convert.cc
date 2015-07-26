@@ -1400,6 +1400,7 @@ convert_grid_to_imageCmd()
 		return false;
 	}
 	// If no image range exists, use min/max in image.
+#if 0 // 20150425
         if (_image_range_automatic) {
             bool start = true;
             double gmin, gmax;
@@ -1430,6 +1431,7 @@ convert_grid_to_imageCmd()
                 _image255 = _f_max;
             }
         }
+#endif
 	// See if the image size was given.
 	width = IMAGE_SIZE_WHEN_CONVERTING;
 	height = IMAGE_SIZE_WHEN_CONVERTING;

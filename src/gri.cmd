@@ -1,5 +1,5 @@
-#         gri - scientific graphic program (version 2.12.23)
-#         Copyright 2011 by Dan E. Kelley; GPLv2+ licensing.
+#         gri - scientific graphic program (version 2.12.24)
+#         Copyright 2015 by Dan E. Kelley; GPLv2+ licensing.
 #
 # NOTE: The linkages to `extern "C"' routines makes use a list of C 
 # functions defined in the file tags.hh.
@@ -3270,8 +3270,7 @@ Alternate spelling of colorscale.
 
 `set image grayscale using histogram [black .bl. white .wh.]'
 Create a grayscale mapping using linearized cumulative histogram
-enhancement.  The image range must have previously have been set by
-`set image range'.
+enhancement.  The image must already exist.
 
 This creates maximal contrast in each range of graylevels, and is
 useful for tracing subtle features between different images (for
@@ -3346,11 +3345,9 @@ Alternate spelling of color.
     extern "C" bool set_image_missingCmd(void);
 }
 
-`set image range automatic|{.min_value. .max_value.}'
-In the `automatic` style, which is the default, establish a convention that
-images created with `convert grid to image' will determine the image range from
-the grid data.  In the second style, specify the minimum and maximum image
-values.
+`set image range {.min_value. .max_value.}|{from grid}'
+In the first style, specify the minimum and maximum image values.  In the
+second, set the image range from the range of the grid data.
 
     In either case, Gri needs to know the image range because it stores images
 in a limited format capable of holding only 256 distinct values.  Unlike some
