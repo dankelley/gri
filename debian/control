@@ -38,7 +38,7 @@ Description: a language for scientific illustration
 Package: gri-el
 Section: lisp
 Architecture: all
-Depends: gri (>= 2.12.1-2), emacs23 | emacsen, ${misc:Depends}
+Depends: gri (>= 2.12.1-2), emacs | emacsen, ${misc:Depends}
 Recommends: gv
 Conflicts: gri (<= 2.12.1-1)
 Description: Emacs major-mode for gri, a language for scientific graphics

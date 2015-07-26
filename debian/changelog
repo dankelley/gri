@@ -7,6 +7,30 @@ gri (2.12.24-1) unstable; urgency=medium
 
  -- Peter S Galbraith <psg@debian.org>  Sun, 26 Jul 2015 11:13:19 -0400
 
+gri (2.12.23-8) unstable; urgency=medium
+
+  * Bug fix: "please switch to emacs24", thanks to Gabriele Giacone
+    (Closes: #754015).
+  * Added debian/gri-el.emacsen-compat
+
+ -- Peter S Galbraith <psg@debian.org>  Mon, 07 Jul 2014 22:06:18 -0400
+
+gri (2.12.23-7) unstable; urgency=medium
+
+  * Bug fix: "FTBFS: Can't locate getopts.pl in @INC", thanks to
+    Andreas Moog (Closes: #735914). Fixed doc/texinfo2HTML here and upstream.
+
+ -- Peter S Galbraith <psg@debian.org>  Wed, 29 Jan 2014 21:15:30 -0500
+
+gri (2.12.23-6) unstable; urgency=low
+
+  * Merge in updated config.guess and config.sub for arm64 on Ubuntu.
+  * doc/examples/Makefile.am bug fix: "example png files black on
+    transparent", thanks to Kevin Ryde.  Added "-background white" to
+    convert call (Closes: #719160).
+
+ -- Peter S Galbraith <psg@debian.org>  Wed, 16 Oct 2013 10:34:27 -0400
+
 gri (2.12.23-5) unstable; urgency=low
 
   * src/utility.cc: Merge in upstream fix for hurd PATH_MAX
