@@ -9,7 +9,7 @@ gri \- scientific graphics language
 [
 .I CommandFile
 [
-.I PostScriptFile
+.I optional_arguments
 ]]
 
 .SH DESCRIPTION

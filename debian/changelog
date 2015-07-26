@@ -1,3 +1,12 @@
+gri (2.12.24-1) unstable; urgency=medium
+
+  * Bug fix: "Fatal error occurred, no output PDF file produced", thanks
+    to Martin Michlmayr (Closes: #790526).
+  * Bug fix: "man page description of postscript output file", thanks to
+    Kevin Ryde (Closes: #719033).
+
+ -- Peter S Galbraith <psg@debian.org>  Sun, 26 Jul 2015 11:13:19 -0400
+
 gri (2.12.23-5) unstable; urgency=low
 
   * src/utility.cc: Merge in upstream fix for hurd PATH_MAX
