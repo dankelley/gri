@@ -188,9 +188,9 @@ in
 which are described in the manual, and are included as a quick start primer.
 
 The
-.B gri-ps-doc
+.B gri-pdf-doc
 package is a 
-.I PostScript
+.I PDF
 version of the manual suitable for printing.
 
 .SH GRI_MERGE AND GRI_UNPAGE COMMANDS
