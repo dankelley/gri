@@ -298,8 +298,39 @@ draw_symbolCmd()
 		}
 		fixedSymbol = true;
 	}
-	// If it's color, extract hue/saturation/brightness
-	if (!uses_graylevel) {
+
+	// Is it colorrange in z?
+	bool uses_colorrange = false;
+	if (word_is(2, "colorrange")) { // draw symbol colorrange .h.
+		if (_nword != 4) {
+			demonstrate_command_usage();
+			NUMBER_WORDS_ERROR;
+			return false;
+		}
+    if (1 == get_cmd_values(_word, _nword, "colorrange", 1, _dstack))
+      hue = _dstack[0];
+
+		uses_colorrange = true;
+	} else if (word_is(3, "colorrange")) { // draw symbol colorrange .h.
+		if (_nword != 5) {
+			demonstrate_command_usage();
+			NUMBER_WORDS_ERROR;
+			return false;
+		}
+    if (1 == get_cmd_values(_word, _nword, "colorrange", 1, _dstack))
+      hue = _dstack[0];
+
+		uses_colorrange = true;
+		if (gr_unknown_symbol == (symbolCode = determine_symbol_code(_word[2]))) {
+			demonstrate_command_usage();
+			err("Can't understand symbol \\`", _word[2], "'", "\\");
+			return false;
+		}
+		fixedSymbol = true;
+	}
+
+	// If it's neither graylevel nor colorrange, extract hue/saturation/brightness
+	if (!(uses_graylevel || uses_colorrange)) {
 		if (word_is(2, "color") || word_is(2, "colour") || word_is(3, "color") || word_is(3, "colour")) {
 			bool            OLD = _ignore_error;
 			_ignore_error = true;	// can't read "z" in "hue z" as number
@@ -496,6 +527,12 @@ draw_symbolCmd()
 					c.setRGB(brightness, brightness, brightness);
 					_griState.set_color_line(c);
 					set_ps_color('p');
+				} else if (uses_colorrange) {
+					saturation = 1.0-*zp;
+					brightness = 0.3333+0.6666*(*zp);
+					c.setHSV(hue, saturation, brightness);
+					_griState.set_color_line(c);
+					set_ps_color('p');
 				}
 				gr_drawsymbol(xcm, ycm, symbolCode);
 				xlast = *xp;
@@ -513,7 +550,7 @@ draw_symbolCmd()
 		yp++;
 		zp++;
 	}
-	if (uses_color || uses_graylevel) {
+	if (uses_color || uses_graylevel || uses_colorrange) {
 		_griState.set_color_line(old_color);
 		set_ps_color('p');
 	}
