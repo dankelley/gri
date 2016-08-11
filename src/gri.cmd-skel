@@ -1473,7 +1473,7 @@ vertically centered on the indicated `.y.' location.
     end if
 }
 
-`draw symbol [.code.|\name [at .x. .y. [cm|pt]] [graylevel z]|[color [hue z|.h.] [brightness z|.b.] [saturation z|.s.]]]'
+`draw symbol [.code.|\name [at .x. .y. [cm|pt]] [graylevel z]|[colorrange .h.]|[color [hue z|.h.] [brightness z|.b.] [saturation z|.s.]]]'
 The "at" form `draw symbol .code.|\name at .x. .y. [cm|pt]' draws a
 single symbol at the named location.
 
