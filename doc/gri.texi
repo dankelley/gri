@@ -16535,6 +16535,12 @@ only in the fixing of bugs.
 @cindex version 2.12
 
 @comment ADD-NEW-BUG-FIXES-HERE
+@subsubsection Version 2.12.26 [2017 January 27 @uref{https://en.wikipedia.org/wiki/Martyrs%27_Day_(India), Martyrs' Day (India)}]
+@strong{Bug fixes}
+@itemize @bullet
+@item @dots{} prevent some problems in debian build process
+@end itemize
+
 
 @subsubsection Version 2.12.25 [2015 July 24 @uref{https://en.wikipedia.org/wiki/Pioneer_Day_(Utah), Pioneer Day (Utah)}]
 @strong{Bug fixes}

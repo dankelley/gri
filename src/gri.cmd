@@ -1,5 +1,5 @@
-#         gri - scientific graphic program (version 2.12.24)
-#         Copyright 2015 by Dan E. Kelley; GPLv2+ licensing.
+#         gri - scientific graphic program (version 2.12.26)
+#         Copyright 2017 by Dan E. Kelley; GPLv2+ licensing.
 #
 # NOTE: The linkages to `extern "C"' routines makes use a list of C 
 # functions defined in the file tags.hh.
@@ -362,8 +362,7 @@ method as usual.
 
 `convert grid to image [directly] [size .width. .height.] [box .xleft. .ybottom. .xright. .ytop.]'
 With no options specified, convert grid to a 128x128 image, using an
-image range as previously set by `set image range' (or, if the
-range has not been set, using the range of gridded data), and using
+image range as previously set by `set image range', and using
 interpolation (see manual).
 
    With the `directly' option, no interpolation is used; each grid
@@ -1474,7 +1473,7 @@ vertically centered on the indicated `.y.' location.
     end if
 }
 
-`draw symbol [.code.|\name [at .x. .y. [cm|pt]] [graylevel z]|[color [hue z|.h.] [brightness z|.b.] [saturation z|.s.]]]'
+`draw symbol [.code.|\name [at .x. .y. [cm|pt]] [graylevel z]|[colorrange .h.]|[color [hue z|.h.] [brightness z|.b.] [saturation z|.s.]]]'
 The "at" form `draw symbol .code.|\name at .x. .y. [cm|pt]' draws a
 single symbol at the named location.
 
@@ -1511,6 +1510,12 @@ z-column exists.  The numerical/name codes are:
 
    With the optional `graylevel z' fields specified, the graylevel is
 given by the `z` column (0=black, 1=white).
+
+   With the optional `colorrange .hue.` fields specified,
+the color model is in the form of (hue, saturation, brightness),
+with hue being fixed at the indicated value, and with saturation
+given by 1-z, and brightness by (1+2*z)/3. (This mode was contributed
+by Philip Eisenlohr.)
 
    With the optional `color' field specified, the color is specified,
 either directly in the command (the `hue .h.' form) or in the z
@@ -3270,7 +3275,8 @@ Alternate spelling of colorscale.
 
 `set image grayscale using histogram [black .bl. white .wh.]'
 Create a grayscale mapping using linearized cumulative histogram
-enhancement.  The image must already exist.
+enhancement.  The image range must have previously have been set by
+`set image range'.
 
 This creates maximal contrast in each range of graylevels, and is
 useful for tracing subtle features between different images (for
@@ -3345,42 +3351,42 @@ Alternate spelling of color.
     extern "C" bool set_image_missingCmd(void);
 }
 
-`set image range {.min_value. .max_value.}|{from grid}'
-In the first style, specify the minimum and maximum image values.  In the
-second, set the image range from the range of the grid data.
+`set image range .min_value. .max_value.'
+Specify maximum possible range of values that images can hold, in
+user units.  Gri needs to know this because it stores images in a
+limited format capable of holding only 256 distinct values.  Unlike
+some other programs, Gri encourages (forces) the user to specify things
+in terms of user-units, not image-units.  This has the advantage of
+working regardless of the number of bits per pixel.  Thus, for example,
+`set image grayscale', `set image colorscale', `draw image grayscale',
+etc, all use *user* units.
 
-    In either case, Gri needs to know the image range because it stores images
-in a limited format capable of holding only 256 distinct values.  Unlike some
-other programs, Gri encourages (forces) the user to specify things in terms of
-user-units, not image-units.  This has the advantage of working regardless of
-the number of bits per pixel.  Thus, for example, `set image grayscale', `set
-image colorscale', `draw image grayscale', etc, all use *user* units.
+When an image is created by `convert grid to image', values outside
+the range spanned by `.0value.' and `.255value.' are clipped.  (There
+is no need, however, for `.0value.' to be less than `.255value.'.)
+This clipping discards information, so make sure the range you give is
+larger than the range of data in the grid.
 
-    When an image is created by `convert grid to image', values outside the
-range spanned by `.0value.' and `.255value.' are clipped.  (There is no need,
-however, for `.0value.' to be less than `.255value.'.) This clipping discards
-information, so make sure the range you give is larger than the range of data
-in the grid.
-
-    EXAMPLE: consider a satellite image in which an internal value of 0 is
-meant to correspond to 0 degrees Celsius, and an internal value of 255
-corresponds to 25.5 degrees.  (This is a common scale.)  Then Gri command `set
-image range 0 25.5' would establish the required range.  If this range were
-combined with a linear grayscale mapping (see `set image grayscale'), the
-resultant granularity in the internal representation of the user values would
-be (25.5-0)/255 or 0.1 degrees Celsius; temperature variations from pixel to
-pixel which were less than 0.1 degrees would be lost.
+EXAMPLE: consider a satellite image in which an internal value of 0
+is meant to correspond to 0 degrees Celsius, and an internal value of
+255 corresponds to 25.5 degrees.  (This is a common scale.)  Then Gri
+command `set image range 0 25.5' would establish the required range.
+If this range were combined with a linear grayscale mapping (see `set
+    image grayscale'), the resultant granularity in the internal
+    representation of the user values would be (25.5-0)/255 or 0.1 degrees
+    Celsius; temperature variations from pixel to pixel which were less than
+    0.1 degrees would be lost.
     
-    All other image commands *require* that the range has been set.  Thus, all
-these commands fail unless `set image range' has been done: `draw image', `draw
-image palette', `read image', `convert grid to image', `set image grayscale',
-and `set image colorscale'.
+    All other image commands *require* that the range has been set.
+    Thus, all these commands fail unless `set image range' has been done:
+    `draw image', `draw image palette', `read image', `convert grid to
+    image', `set image grayscale', and `set image colorscale'.
     
-    NOTE: If a range already exists when `set image range' is used, then the
-settings are altered.  Thoughtless usage can therefore lead to confusing
-results.  (The situation is like setting an axis scale, plotting a curve with
-no axes, then altering the scale and plotting the new axes.  It's legal but not
-necessarily smart.)
+    NOTE: If a range already exists when `set image range' is used, then
+    the settings are altered.  Thoughtless usage can therefore lead to
+    confusing results.  (The situation is like setting an axis scale,
+    plotting a curve with no axes, then altering the scale and plotting the
+    new axes.  It's legal but not necessarily smart.)
 {
     extern "C" bool set_image_rangeCmd(void);
 }

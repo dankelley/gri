@@ -31,7 +31,7 @@ $title = $basetitle;
 $marginnote[0] = "Gri";
 $#ARGV = 0;			# Dumb way to ignore
 print STDOUT "$file " if $debug;
-open (OUT, ">$file") || die "Cannot open $file";
+if (open (OUT, ">", "$file")) { #|| die "Cannot open $file";
 $file_list[$num_files++] = $file;
 
 $name_of_top_node = "index.html#Top";
@@ -214,4 +214,5 @@ Indices:<br>
     close(PASS3);
     rename("$file.pass3", "$file");
     print ".\n" if $debug;
+}
 }

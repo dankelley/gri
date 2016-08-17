@@ -194,7 +194,7 @@ void GriPath::stroke_or_fill(char s_or_f, units the_units, double width, bool cl
 		ac[0] = action[start];
 		stop = depth;
 		for (i = start + 1; i < depth; i++) {
-			if (action[i] == 'm') {
+			if (char(action[i]) == 'm') {
 				stop = i;
 				break;
 			} else {
