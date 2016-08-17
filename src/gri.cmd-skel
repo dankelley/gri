@@ -1,5 +1,5 @@
 #         gri - scientific graphic program (version VERSION)
-#         Copyright 2011 by Dan E. Kelley; GPLv2+ licensing.
+#         Copyright 2016 by Dan E. Kelley; GPLv2+ licensing.
 #
 # NOTE: The linkages to `extern "C"' routines makes use a list of C 
 # functions defined in the file tags.hh.
@@ -1473,7 +1473,7 @@ vertically centered on the indicated `.y.' location.
     end if
 }
 
-`draw symbol [.code.|\name [at .x. .y. [cm|pt]] [graylevel z]|[color [hue z|.h.] [brightness z|.b.] [saturation z|.s.]]]'
+`draw symbol [.code.|\name [at .x. .y. [cm|pt]] [graylevel z]|[colorrange .h.]|[color [hue z|.h.] [brightness z|.b.] [saturation z|.s.]]]'
 The "at" form `draw symbol .code.|\name at .x. .y. [cm|pt]' draws a
 single symbol at the named location.
 
@@ -1510,6 +1510,12 @@ z-column exists.  The numerical/name codes are:
 
    With the optional `graylevel z' fields specified, the graylevel is
 given by the `z` column (0=black, 1=white).
+
+   With the optional `colorrange .hue.` fields specified,
+the color model is in the form of (hue, saturation, brightness),
+with hue being fixed at the indicated value, and with saturation
+given by 1-z, and brightness by (1+2*z)/3. (This mode was contributed
+by the GitHub user named techflips.
 
    With the optional `color' field specified, the color is specified,
 either directly in the command (the `hue .h.' form) or in the z
