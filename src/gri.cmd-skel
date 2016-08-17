@@ -1515,7 +1515,7 @@ given by the `z` column (0=black, 1=white).
 the color model is in the form of (hue, saturation, brightness),
 with hue being fixed at the indicated value, and with saturation
 given by 1-z, and brightness by (1+2*z)/3. (This mode was contributed
-by the GitHub user named techflips.
+by Philip Eisenlohr.)
 
    With the optional `color' field specified, the color is specified,
 either directly in the command (the `hue .h.' form) or in the z
