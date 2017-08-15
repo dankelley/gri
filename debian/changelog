@@ -1,4 +1,36 @@
-gri (2.12.24-1) unstable; urgency=medium
+gri (2.12.26-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Bug fix: "ftbfs with GCC-7", thanks to Matthias Klose
+    (Closes: #853434).
+
+ -- Peter S Galbraith <psg@debian.org>  Tue, 15 Aug 2017 11:20:56 -0400
+
+gri (2.12.23-10.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Fix "FTBFS with perl 5.26 -- Unescaped left brace in regex is
+    illegal": add patch perl-5.26.patch from Damyan Ivanov which adds the
+    missing backslashes.
+    (Closes: #865482)
+
+ -- gregor herrmann <gregoa@debian.org>  Wed, 12 Jul 2017 21:50:06 +0200
+
+gri (2.12.23-10) unstable; urgency=medium
+
+  * Bug fix: "missing debian/copyright", thanks to Thorsten Alteholz
+    (Closes: #795095).  The previous code copied debian/copyright.template
+    to the binary package copyright file while substituting the correct
+    version number.  Users will have to live without an exact version
+    number.
+  * Bug fix: "FTBFS: awk: cannot open gri.ky", thanks to Martin Michlmayr
+    (Closes: #818449). Patch applied, thanks!
+  * Standards-Version: 3.9.8
+  * debian/compat: 9
+
+ -- Peter S Galbraith <psg@debian.org>  Sat, 08 Oct 2016 16:37:57 -0400
+
+gri (2.12.23-9) unstable; urgency=medium
 
   * Bug fix: "Fatal error occurred, no output PDF file produced", thanks
     to Martin Michlmayr (Closes: #790526).
