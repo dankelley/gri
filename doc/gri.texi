@@ -56,8 +56,8 @@
 @comment %**start of header
 @setfilename gri.info
 @settitle Gri
-@set GRI-VERSION 2.12.23
-@set GRI-PREVIOUS-VERSION 2.12.22
+@set GRI-VERSION 2.12.26
+@set GRI-PREVIOUS-VERSION 2.12.25
 @set AUTHOR-EMAIL dankelley@@users.sourceforge.net
 @include version.texi
 @c %**end of header
