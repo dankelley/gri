@@ -24,7 +24,7 @@ ARCH := $(shell dpkg --print-architecture | perl -pe chop)
 build: build-indep build-arch
 
 # Build architecture-dependent files here (no need to be root).
-build-arch: debian/copyright gri
+build-arch: debian/gri_merge.1 gri
 	cd doc; make info
 
 gri:    Makefile
@@ -41,12 +41,15 @@ clean:
 	mv doc/FAQ.html doc/FAQ.html.KEEP
 	-rm -f config.log config.status debian/Makefile doc/*.html
 	-rm -f doc/gri.info* doc/*.dvi doc/*.ps doc/*.pdf doc/*.log doc/html
+	-rm -f doc/screenshots/*.pdf doc/examples/*.pdf
 	-rm src/gri.cmd src/startup.msg-tmp
 	mv doc/FAQ.html.KEEP doc/FAQ.html
+	-mv texinfo.tex.KEEP texinfo.tex
+	-mv doc/texinfo.tex.KEEP doc/texinfo.tex
 
 	dh_clean
 	rm -fR debian/gri-$(version)static
-	rm -f  debian/README.Debian debian/gri.1 debian/copyright
+	rm -f  debian/README.Debian debian/gri.1
 	rm -f doc/gri_unpage.1 doc/gri_merge.1
 	chmod u+w debian/changelog
 
@@ -57,15 +60,18 @@ install: gri
 	dh_installdirs
 	cd src; make install_linux_debian debian=`pwd`/../debian/gri
 
-debian/copyright:
-	sed -e 's/VSN/$(version)/g' \
-		debian/copyright.template > debian/copyright
+debian/gri_merge.1:
+	#sed -e 's/VSN/$(version)/g' \
+	#	debian/copyright.template > debian/copyright
 	sed -e 's/LATERVSN/$(somefutureversion)/g;s/VSN/$(version)/g' \
 		debian/gri.man > debian/gri.1
 	sed -e 's/LATERVSN/$(somefutureversion)/g;s/VSN/$(version)/g' \
 		debian/README.Debian.template > debian/README.Debian
 	cp doc/gri_unpage.1-skel doc/gri_unpage.1
 	cp doc/gri_merge.1-skel doc/gri_merge.1
+	# Temporary fix for 2.12.23-9 (Fixed upstream for 2.12.24)
+	-mv texinfo.tex texinfo.tex.KEEP
+	-mv doc/texinfo.tex doc/texinfo.tex.KEEP
 
 Makefile:
 # To test on g++-3.0 :
@@ -73,7 +79,7 @@ Makefile:
 	./configure --prefix=/usr --enable-linux_debian
 
 # Build architecture-independent files here (no need to be root).
-build-indep: debian/copyright Makefile
+build-indep: debian/gri_merge.1 Makefile
 	cd doc; make refcard.ps cmdrefcard.ps gri.pdf html
 
 # Install (as root) architecture-independent files here.
@@ -122,48 +128,6 @@ binary-arch: build-arch install
 	dh_gencontrol -a
 	dh_md5sums -a
 	dh_builddeb -a
-
-# This is a target that developers won't use.  I use it to create
-# non-Debian Gri packages that contain a specific version of Gri for use
-# alongside other (newer) versions of Gri.  
-# See README.Debian.unofficial
-binary-arch-unofficial:    debian/copyright build-arch
-	rm -f debian/*debhelper
-	rm -rf debian/gri-$(version) debian/gri-$(version)static
-	-cp debian/control debian/control.real 
-	sed -e 's/VSN/$(version)/g' debian/control.unofficial > debian/control 
-	-cp debian/README.Debian debian/README.Debian.real 
-	-cp debian/README.Debian.unofficial debian/README.Debian
-	cd src; make install_linux_debian_grionly debian=../debian/gri-$(version)
-	(cd debian/gri-$(version)/usr/share/gri/$(version) ; ln -s ../../common-licenses/GPL license.txt)
-	cd src;  mv gri gri.real
-	-rm debian/substvars
-	make LIBS="-lm  -L/usr/lib/netcdf -lnetcdf -static"
-	cd src; make install_linux_debian_grionly debian=../debian/gri-$(version)static
-	(cd debian/gri-$(version)static/usr/share/gri/$(version) ; ln -s ../../common-licenses/GPL license.txt)
-	cd src; mv gri.real gri
-	dh_testdir -a
-	dh_testroot -a
-	dh_installdocs -a -A README debian/README.Debian
-	install -d debian/gri-$(version)/usr/share/man/man1
-	install debian/gri.1 debian/gri-$(version)/usr/share/man/man1/gri-$(version).1
-	install -d debian/gri-$(version)static/usr/share/man/man1
-	install debian/gri.1 debian/gri-$(version)static/usr/share/man/man1/gri-$(version).1
-#	dh_installmanpages -a doc/gri*.1 debian/gri.1
-#	-rm debian/gri-$(version).1
-	dh_installchangelogs -a 
-        ifdef STRIPIT
-		dh_strip -a
-        endif
-	dh_compress -a
-	dh_fixperms -a
-	dh_installdeb -a
-	dh_shlibdeps -a
-	dh_gencontrol -a
-	dh_md5sums -a
-	dh_builddeb -a
-	-mv debian/control.real debian/control          
-	-mv debian/README.Debian.real debian/README.Debian
 
 source diff:                                                                  
 	@echo >&2 'source and diff are obsolete - use dpkg-source -b'; false
