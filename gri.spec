@@ -1,5 +1,5 @@
 Summary: A language for scientific illustration
-%define griversion 2.12.20
+%define griversion 2.12.26
 Name: gri
 Version: %{griversion}
 Release: 1
