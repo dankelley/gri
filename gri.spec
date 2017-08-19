@@ -1,5 +1,5 @@
 Summary: A language for scientific illustration
-%define griversion 2.12.20
+%define griversion 2.12.26
 Name: gri
 Version: %{griversion}
 Release: 1
@@ -97,8 +97,8 @@ then
 fi
 
 %changelog
-* (date) release 2.12.20
-- in development
+* (date) release 2.12.26
+- Fix various Debian bugs
 * 2008-jul-17 release 2.12.19
 - Fix SourceForge bug 2977816 (Fedora licensing issue)
 - Fix SourceForge bug 3266884 (error in docs for strlen).
