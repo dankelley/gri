@@ -24,14 +24,11 @@ The normal case is to have received the Gri source as a so-called
 	./configure
 	make
 	make install
-at the shell to create and install Gri.  
-
-A less common case is to have received Gri from the CVS server.  This
-is the method used by co-developers or packagers, and also by folks
-who are testing pre-release versions.  In this case, you need to type
+at the shell to create and install Gri.  If there is a problem in these
+steps, trying typing
 	aclocal
 	autoconf
-	automake
+	automake --add-missing
 first to create some configuration files, and then you type
 	./configure
 	make
