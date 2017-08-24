@@ -1,8 +1,0 @@
-<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xmlns:moz="http://www.mozilla.org/2006/browser/search/">
-    <ShortName>Gri</ShortName>
-    <Description>Gri graphics</Description>
-    <InputEncoding>UTF-8</InputEncoding>
-    <Image width="16" height="16">data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAA9gAAAPYAF6eEWNAAAAB3RJTUUH0gYRFiANB1lVAwAAAj1JREFUeJyNkl1Ik3EUxp/33WrvtGSapS7nCjQwE3ITsvlBqJWGooRSUawwDCQE7cZAEpOKurAGRdRF0UU5MjNFbEXCagWKGWlYsvxqOJ02m+Wc6dr7P128ZF8YPXfP4Xe+OAckyecjnY6io8ntpn+KIyIQwWj09g99Cw0PCwZaW8HzWE5ERCbTYnhE1wtn58vphSgN1df/VtNup/HxJQeyWpkyqNf83DZItkHqM9uYMoi6u4mI3G4qK2OCkikEysujlhby+2W1FstIxZnpnCKp4aJaSwTV2WowhuJijyzk3dUH4yUnAlNuof6C/G4DN2jucCVnAWCiOGx/Mzf7OUYbu+NkiWLSOVx9cSYj98fkbHrSmaAgrsdB83687e06XXFgXZRmzdrI/tedhvTdlXXXeLl8adV5n/f4/rT7HX1cj4Mm3R5jTkLNpTu6lEwAiwtfKw9n5+8rzd17RKKnJhwRai1jTBXM8wCsDxv1hiyJBqAQlOevt6Vk5AIw7tliqiuvKs2fGBs5WpAEQA7gw9BAXPxWiX7S1vC+/xWA9TGxhQfLAGg2bqqouexyjkoAD0BQBnlnZyQfqdbGbU5aFRJqtTRKkdTM/F/vxgPQb8989rhZDAQAJOpTdxUcUoWF/yR42V8JhuwNsfGnyosG+rpdY6PtTTfv3TIt9xmyY5W1Acal7yyc+fSx+faVp4+aVoeoqs7d8M19SdSnzfu8iTrDSoVAjJgoJm9L5cY85BeX/bQ/JKwAR0T/iwMAvgMKHDCOIpF38AAAAABJRU5ErkJggg%3D%3D</Image>
-    <Url type="text/html" method="GET" template="http://gri.sourceforge.net/search_concept.php?search_for={searchTerms}"/>
-    <moz:SearchForm>http://gri.sourceforge.net/search_concept.php</moz:SearchForm>
-</OpenSearchDescription>

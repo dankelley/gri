@@ -1,9 +1,0 @@
-#!/bin/sh
-#HOW TO INSTALL ON SOURCEFORGE:
-
-export PHP="index.php bugs.php contact.php developers.php docs.php download.php subroutines.php news.php"
-export IMAGES="xml.png project-support.jpg"
-
-# see https://sourceforge.net/apps/trac/sourceforge/wiki/SCP
-scp $PHP dankelley,gri@web.sourceforge.net:htdocs
-scp $IMAGES dankelley,gri@web.sourceforge.net:htdocs/images
