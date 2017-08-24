@@ -150,11 +150,11 @@ gri.ps: gri.texi
 	cd tst_suite   ; ${MAKE} texi
 	$(TEX) gri.texi
 	$(TEXINDEX) gri.cp
-	$(TEXINDEX) gri.fn
-	$(TEXINDEX) gri.ky
-	$(TEXINDEX) gri.pg
-	$(TEXINDEX) gri.tp
-	$(TEXINDEX) gri.vr
+	#$(TEXINDEX) gri.fn
+	#$(TEXINDEX) gri.ky
+	#$(TEXINDEX) gri.pg
+	#$(TEXINDEX) gri.tp
+	#$(TEXINDEX) gri.vr
 	$(TEX) gri.texi
 	dvips -o gri.ps -t letter gri.dvi
 
