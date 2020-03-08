@@ -254,7 +254,7 @@ const static char *PS_dict[] =
 	" 0 t1 neg rl",
 	" t0 neg t0 rm",
 	" t1 0 rl",
-	" t0 neg 0 rm",
+//	" t0 neg 0 rm",
 	" end",
 	"} def",
 	"/timesdict 3 dict def",
@@ -266,7 +266,7 @@ const static char *PS_dict[] =
 	" t1 dup neg rl",		// lower right
 	" t1 neg 0 rm",		// lower left
 	" t1 dup rl",		// upper right
-	" t0 neg dup rm",		// centre
+//	" t0 neg dup rm",		// centre
 	" end",
 	"} def",
 	"/boxdict 3 dict def",
@@ -279,7 +279,7 @@ const static char *PS_dict[] =
 	" 0 t1 neg rl",		// bottom right 
 	" t1 neg 0 rl",		// bottom left 
 	" h",			// back to top left 
-	" t0 dup neg rm",		// end at centre 
+//	" t0 dup neg rm",		// end at centre 
 	" end",
 	"} def",
 	"/filledboxdict 3 dict def",
@@ -292,7 +292,7 @@ const static char *PS_dict[] =
 	" 0 t1 neg rl",		// bottom right 
 	" t1 neg 0 rl",		// bottom left 
 	" h",			// back to top left 
-	" t0 dup neg rm",		// end at centre 
+//	" t0 dup neg rm",		// end at centre 
 	" F end",
 	"} def",
 	"/diamonddict 2 dict def",
@@ -304,7 +304,7 @@ const static char *PS_dict[] =
 	" t0 dup neg rl",		// right 
 	" t0 neg dup rl",		// bottom 
 	" h",			// back to left 
-	" t0 0 rm",			// end at centre 
+//	" t0 0 rm",			// end at centre 
 	" end",
 	"} def",
 	"/filleddiamonddict 2 dict def",
@@ -316,7 +316,7 @@ const static char *PS_dict[] =
 	" t0 dup neg rl",		// right 
 	" t0 neg dup rl",		// bottom 
 	" h",			// back to left 
-	" t0 0 rm",			// end at centre 
+//	" t0 0 rm",			// end at centre 
 	" F end",
 	"} def",
 	"/triangleupdict 5 dict def",
@@ -330,7 +330,7 @@ const static char *PS_dict[] =
 	" t1 t2 rl",		// top 
 	" t1 t2 neg rl",		// bottom right 
 	" h",			// back to bottom left 
-	" t1 t0 rm",		// end at centre 
+//	" t1 t0 rm",		// end at centre 
 	" end",
 	"} def",
 
@@ -345,7 +345,7 @@ const static char *PS_dict[] =
 	" t1 t2 rl",		// top 
 	" t1 t2 neg rl",		// bottom right 
 	" h",			// back to bottom left 
-	" t1 t0 rm",		// end at centre 
+//	" t1 t0 rm",		// end at centre 
 	" F end",
 	"} def",
 
@@ -360,7 +360,7 @@ const static char *PS_dict[] =
 	" t2 t1 neg rl",		// right 
 	" t2 neg t1 neg rl",	// bottom 
 	" h",			// back to top 
-	" t0 t1 neg rm",		// end at centre 
+//	" t0 t1 neg rm",		// end at centre 
 	" end",
 	"} def",
 
@@ -375,7 +375,7 @@ const static char *PS_dict[] =
 	" t2 t1 neg rl",		// right 
 	" t2 neg t1 neg rl",	// bottom 
 	" h",			// back to top 
-	" t0 t1 neg rm",		// end at centre 
+//	" t0 t1 neg rm",		// end at centre 
 	" F end",
 	"} def",
 
@@ -390,7 +390,7 @@ const static char *PS_dict[] =
 	" t3 0 rl",			// top right 
 	" t1 neg t2 neg rl",	// bottom 
 	" h",			// back to top left 
-	" t1 t0 neg rm",		// end at centre 
+//	" t1 t0 neg rm",		// end at centre 
 	" end",
 	"} def",
 
@@ -405,7 +405,7 @@ const static char *PS_dict[] =
 	" t3 0 rl",			// top right 
 	" t1 neg t2 neg rl",	// bottom 
 	" h",			// back to top left 
-	" t1 t0 neg rm",		// end at centre 
+//	" t1 t0 neg rm",		// end at centre 
 	" F end",
 	"} def",
 
@@ -420,7 +420,7 @@ const static char *PS_dict[] =
 	" 0 t3 neg rl",		// bottom 
 	" t2 neg t1 rl",		// left 
 	" h",			// back to top 
-	" t0 neg t1 neg rm",	// end at centre 
+//	" t0 neg t1 neg rm",	// end at centre 
 	" end",
 	"} def",
 
@@ -435,7 +435,7 @@ const static char *PS_dict[] =
 	" 0 t3 neg rl",		// bottom 
 	" t2 neg t1 rl",		// left 
 	" h",			// back to top 
-	" t0 neg t1 neg rm",	// end at centre 
+//	" t0 neg t1 neg rm",	// end at centre 
 	" F end",
 	"} def",
 
@@ -447,7 +447,7 @@ const static char *PS_dict[] =
 	" /t2 exch def",
 	" /t1 exch def",
 	" S n t1 t2 t0 0 360 arc",
-	" t1 t2 m",
+//	" t1 t2 m",
 	" end",
 	"} def",
 
@@ -457,6 +457,24 @@ const static char *PS_dict[] =
 	" 0.5 mul /r exch def",
 	" currentpoint /y exch def /x exch def",
 	" S n x y r 0 360 arc h F S",
+	" end",
+	"} def",
+
+	"/halfmoonupdict 3 dict def",	// stack: diameter 
+	"/_halfmoonup {",
+	" bulldict begin",
+	" 0.5 mul /r exch def",
+	" currentpoint /y exch def /x exch def",
+	" S n x y r 0 180 arc h S",
+	" end",
+	"} def",
+
+	"/halfmoondowndict 3 dict def",	// stack: diameter 
+	"/_halfmoondown {",
+	" bulldict begin",
+	" 0.5 mul /r exch def",
+	" currentpoint /y exch def /x exch def",
+	" S n x y r 180 360 arc h S",
 	" end",
 	"} def",
 

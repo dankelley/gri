@@ -621,6 +621,10 @@ determine_symbol_code(const char * s)
 		return gr_filledhalfmoonup_symbol;
 	else if (!strcmp(s, "filledhalfmoondown"))
 		return gr_filledhalfmoondown_symbol;
+	else if (!strcmp(s, "halfmoonup"))
+		return gr_halfmoonup_symbol;
+	else if (!strcmp(s, "halfmoondown"))
+		return gr_halfmoondown_symbol;
 	else
 		return gr_unknown_symbol;
 }

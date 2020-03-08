@@ -853,6 +853,12 @@ gr_drawsymbol(double xcm, double ycm, gr_symbol_type symbol_name)
 	case gr_filledhalfmoondown_symbol:
 		fprintf(_grPS, "n %.1f %.1f m %.1f _filledhalfmoondown S\n", xpt, ypt, _grSymbolSize_pt);
 		break;
+	case gr_halfmoonup_symbol:
+		fprintf(_grPS, "n %.1f %.1f m %.1f _halfmoonup S\n", xpt, ypt, _grSymbolSize_pt);
+		break;
+	case gr_halfmoondown_symbol:
+		fprintf(_grPS, "n %.1f %.1f m %.1f _halfmoondown S\n", xpt, ypt, _grSymbolSize_pt);
+		break;
 	default:			// tiny (1.0 mm) triangle
 		{
 			double old_grSymbolSize_pt = gr_currentsymbolsize_pt();

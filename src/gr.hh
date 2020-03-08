@@ -175,7 +175,9 @@ enum gr_symbol_type {
 	gr_filledtriangledown_symbol,
 	gr_filledtriangleleft_symbol,
 	gr_filledhalfmoonup_symbol,
-	gr_filledhalfmoondown_symbol
+	gr_filledhalfmoondown_symbol,
+	gr_halfmoonup_symbol,
+	gr_halfmoondown_symbol
 };
 
 // Color.  Is this used??
