@@ -169,15 +169,19 @@ enum gr_symbol_type {
 	gr_star_symbol,
 	gr_filledbox_symbol,
 	gr_bullet_symbol,
+	gr_halfmoonup_symbol,
+	gr_halfmoonright_symbol,
+	gr_halfmoondown_symbol,
+	gr_halfmoonleft_symbol,
 	gr_filleddiamond_symbol,
 	gr_filledtriangleup_symbol,
 	gr_filledtriangleright_symbol,
 	gr_filledtriangledown_symbol,
 	gr_filledtriangleleft_symbol,
 	gr_filledhalfmoonup_symbol,
+	gr_filledhalfmoonright_symbol,
 	gr_filledhalfmoondown_symbol,
-	gr_halfmoonup_symbol,
-	gr_halfmoondown_symbol
+	gr_filledhalfmoonleft_symbol
 };
 
 // Color.  Is this used??

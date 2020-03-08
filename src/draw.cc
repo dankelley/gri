@@ -607,6 +607,14 @@ determine_symbol_code(const char * s)
 		return gr_filledbox_symbol;
 	else if (!strcmp(s, "bullet"))
 		return gr_bullet_symbol;
+	else if (!strcmp(s, "halfmoonup"))
+		return gr_halfmoonup_symbol;
+	else if (!strcmp(s, "halfmoonright"))
+		return gr_halfmoonright_symbol;
+	else if (!strcmp(s, "halfmoondown"))
+		return gr_halfmoondown_symbol;
+	else if (!strcmp(s, "halfmoonleft"))
+		return gr_halfmoonleft_symbol;
 	else if (!strcmp(s, "filleddiamond"))
 		return gr_filleddiamond_symbol;
 	else if (!strcmp(s, "filledtriangleup"))
@@ -619,12 +627,12 @@ determine_symbol_code(const char * s)
 		return gr_filledtriangleleft_symbol;
 	else if (!strcmp(s, "filledhalfmoonup"))
 		return gr_filledhalfmoonup_symbol;
+	else if (!strcmp(s, "filledhalfmoonright"))
+		return gr_filledhalfmoonright_symbol;
 	else if (!strcmp(s, "filledhalfmoondown"))
 		return gr_filledhalfmoondown_symbol;
-	else if (!strcmp(s, "halfmoonup"))
-		return gr_halfmoonup_symbol;
-	else if (!strcmp(s, "halfmoondown"))
-		return gr_halfmoondown_symbol;
+	else if (!strcmp(s, "filledhalfmoonleft"))
+		return gr_filledhalfmoonleft_symbol;
 	else
 		return gr_unknown_symbol;
 }

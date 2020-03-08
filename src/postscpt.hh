@@ -469,12 +469,30 @@ const static char *PS_dict[] =
 	" end",
 	"} def",
 
+	"/halfmoonrightdict 3 dict def",	// stack: diameter 
+	"/_halfmoonright {",
+	" bulldict begin",
+	" 0.5 mul /r exch def",
+	" currentpoint /y exch def /x exch def",
+	" S n x y r 270 90 arc h S",
+	" end",
+	"} def",
+
 	"/halfmoondowndict 3 dict def",	// stack: diameter 
 	"/_halfmoondown {",
 	" bulldict begin",
 	" 0.5 mul /r exch def",
 	" currentpoint /y exch def /x exch def",
 	" S n x y r 180 360 arc h S",
+	" end",
+	"} def",
+
+	"/halfmoonleftdict 3 dict def",	// stack: diameter 
+	"/_halfmoonleft {",
+	" bulldict begin",
+	" 0.5 mul /r exch def",
+	" currentpoint /y exch def /x exch def",
+	" S n x y r 90 270 arc h S",
 	" end",
 	"} def",
 
@@ -487,12 +505,30 @@ const static char *PS_dict[] =
 	" end",
 	"} def",
 
+	"/filledhalfmoonrightdict 3 dict def",	// stack: diameter 
+	"/_filledhalfmoonright {",
+	" bulldict begin",
+	" 0.5 mul /r exch def",
+	" currentpoint /y exch def /x exch def",
+	" S n x y r 270 90 arc h F S",
+	" end",
+	"} def",
+
 	"/filledhalfmoondowndict 3 dict def",	// stack: diameter 
 	"/_filledhalfmoondown {",
 	" bulldict begin",
 	" 0.5 mul /r exch def",
 	" currentpoint /y exch def /x exch def",
 	" S n x y r 180 360 arc h F S",
+	" end",
+	"} def",
+
+	"/filledhalfmoonleftdict 3 dict def",	// stack: diameter 
+	"/_filledhalfmoonleft {",
+	" bulldict begin",
+	" 0.5 mul /r exch def",
+	" currentpoint /y exch def /x exch def",
+	" S n x y r 90 270 arc h F S",
 	" end",
 	"} def",
 	NULL
