@@ -832,6 +832,18 @@ gr_drawsymbol(double xcm, double ycm, gr_symbol_type symbol_name)
 	case gr_bullet_symbol:
 		fprintf(_grPS, "n %.1f %.1f m %.1f _bull S\n", xpt, ypt, _grSymbolSize_pt);
 		break;
+	case gr_halfmoonup_symbol:
+		fprintf(_grPS, "n %.1f %.1f m %.1f _halfmoonup S\n", xpt, ypt, _grSymbolSize_pt);
+		break;
+	case gr_halfmoonright_symbol:
+		fprintf(_grPS, "n %.1f %.1f m %.1f _halfmoonright S\n", xpt, ypt, _grSymbolSize_pt);
+		break;
+	case gr_halfmoondown_symbol:
+		fprintf(_grPS, "n %.1f %.1f m %.1f _halfmoondown S\n", xpt, ypt, _grSymbolSize_pt);
+		break;
+	case gr_halfmoonleft_symbol:
+		fprintf(_grPS, "n %.1f %.1f m %.1f _halfmoonleft S\n", xpt, ypt, _grSymbolSize_pt);
+		break;
 	case gr_filleddiamond_symbol:
 		fprintf(_grPS, "n %.1f %.1f m %.1f _filleddiamond S\n", xpt, ypt, _grSymbolSize_pt);
 		break;
@@ -850,8 +862,14 @@ gr_drawsymbol(double xcm, double ycm, gr_symbol_type symbol_name)
 	case gr_filledhalfmoonup_symbol:
 		fprintf(_grPS, "n %.1f %.1f m %.1f _filledhalfmoonup S\n", xpt, ypt, _grSymbolSize_pt);
 		break;
+	case gr_filledhalfmoonright_symbol:
+		fprintf(_grPS, "n %.1f %.1f m %.1f _filledhalfmoonright S\n", xpt, ypt, _grSymbolSize_pt);
+		break;
 	case gr_filledhalfmoondown_symbol:
 		fprintf(_grPS, "n %.1f %.1f m %.1f _filledhalfmoondown S\n", xpt, ypt, _grSymbolSize_pt);
+		break;
+	case gr_filledhalfmoonleft_symbol:
+		fprintf(_grPS, "n %.1f %.1f m %.1f _filledhalfmoonleft S\n", xpt, ypt, _grSymbolSize_pt);
 		break;
 	default:			// tiny (1.0 mm) triangle
 		{
