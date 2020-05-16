@@ -1,5 +1,5 @@
 /* (C) 1998 Red Hat Software, Inc. -- Licensing details are in the COPYING
-   file accompanying popt source distributions, available from 
+   file accompanying popt source distributions, available from
    ftp://ftp.redhat.com/pub/code/popt */
 
 #ifdef HAVE_CONFIG_H
@@ -14,8 +14,8 @@
 #include "popt.h"
 #include "poptint.h"
 
-static void displayArgs(poptContext con, enum poptCallbackReason foo, 
-			struct poptOption * key, 
+static void displayArgs(poptContext con, enum poptCallbackReason foo,
+			struct poptOption * key,
 			const char * arg, void * data) {
     if (key->shortName== '?')
 	poptPrintHelp(con, stderr, 0);
@@ -41,7 +41,7 @@ static const char * getArgDescrip(const struct poptOption * opt) {
     return POPT_("ARG");
 }
 
-static void singleOptionHelp(FILE * f, int maxLeftCol, 
+static void singleOptionHelp(FILE * f, int maxLeftCol,
 			     const struct poptOption * opt) {
     int indentLength = maxLeftCol + 5;
     int lineLength = 79 - indentLength;
@@ -55,7 +55,7 @@ static void singleOptionHelp(FILE * f, int maxLeftCol,
     *left = '\0';
     if (opt->longName && opt->shortName)
 	sprintf(left, "-%c, --%s", opt->shortName, opt->longName);
-    else if (opt->shortName) 
+    else if (opt->shortName)
 	sprintf(left, "-%c", opt->shortName);
     else if (opt->longName)
 	sprintf(left, "--%s", opt->longName);
@@ -68,7 +68,7 @@ static void singleOptionHelp(FILE * f, int maxLeftCol,
     if (help)
 	fprintf(f,"  %-*s   ", maxLeftCol, left);
     else {
-	fprintf(f,"  %s\n", left); 
+	fprintf(f,"  %s\n", left);
 	return;
     }
 
@@ -94,7 +94,7 @@ static int maxArgWidth(const struct poptOption * opt) {
     int max = 0;
     int this;
     const char * s;
-    
+
     while (opt->longName || opt->shortName || opt->arg) {
 	if ((opt->argInfo & POPT_ARG_MASK) == POPT_ARG_INCLUDE_TABLE) {
 	    this = maxArgWidth(opt->arg);
@@ -114,17 +114,17 @@ static int maxArgWidth(const struct poptOption * opt) {
 
 	opt++;
     }
-    
+
     return max;
 }
 
-static void singleTableHelp(FILE * f, const struct poptOption * table, 
+static void singleTableHelp(FILE * f, const struct poptOption * table,
 			    int left) {
     const struct poptOption * opt;
 
     opt = table;
     while (opt->longName || opt->shortName || opt->arg) {
-	if ((opt->longName || opt->shortName) && 
+	if ((opt->longName || opt->shortName) &&
 	    !(opt->argInfo & POPT_ARGFLAG_DOC_HIDDEN))
 	    singleOptionHelp(f, left, opt);
 	opt++;
@@ -169,7 +169,7 @@ void poptPrintHelp(poptContext con, FILE * f, int flags) {
     singleTableHelp(f, con->options, leftColWidth);
 }
 
-static int singleOptionUsage(FILE * f, int cursor, 
+static int singleOptionUsage(FILE * f, int cursor,
 			      const struct poptOption * opt) {
     int len = 3;
     char shortStr[2];
@@ -177,7 +177,7 @@ static int singleOptionUsage(FILE * f, int cursor,
     const char * argDescrip = getArgDescrip(opt);
 
     if (opt->shortName) {
-	if (!(opt->argInfo & POPT_ARG_MASK)) 
+	if (!(opt->argInfo & POPT_ARG_MASK))
 	    return cursor;	/* we did these already */
 	len++;
 	*shortStr = opt->shortName;
@@ -189,13 +189,13 @@ static int singleOptionUsage(FILE * f, int cursor,
 
     if (len == 3) return cursor;
 
-    if (argDescrip) 
+    if (argDescrip)
 	len += strlen(argDescrip) + 1;
 
     if ((cursor + len) > 79) {
 	fprintf(f, "\n       ");
 	cursor = 7;
-    } 
+    }
 
     fprintf(f, " [-%s%s%s%s]", opt->shortName ? "" : "-", item,
 	    argDescrip ? (opt->shortName ? " " : "=") : "",
@@ -206,13 +206,13 @@ static int singleOptionUsage(FILE * f, int cursor,
 
 int singleTableUsage(FILE * f, int cursor, const struct poptOption * table) {
     const struct poptOption * opt;
-    
+
     opt = table;
     while (opt->longName || opt->shortName || opt->arg) {
-	if ((opt->longName || opt->shortName) && 
+	if ((opt->longName || opt->shortName) &&
 	    !(opt->argInfo & POPT_ARGFLAG_DOC_HIDDEN))
 	    cursor = singleOptionUsage(f, cursor, opt);
-	else if ((opt->argInfo & POPT_ARG_MASK) == POPT_ARG_INCLUDE_TABLE) 
+	else if ((opt->argInfo & POPT_ARG_MASK) == POPT_ARG_INCLUDE_TABLE)
 	    cursor = singleTableUsage(f, cursor, opt->arg);
 	opt++;
     }
@@ -220,14 +220,14 @@ int singleTableUsage(FILE * f, int cursor, const struct poptOption * table) {
     return cursor;
 }
 
-static int showShortOptions(const struct poptOption * opt, FILE * f, 
+static int showShortOptions(const struct poptOption * opt, FILE * f,
 			    char * str) {
     char s[300];		/* this is larger then the ascii set, so
 				   it should do just fine */
 
     if (!str) {
 	str = s;
-	memset(str, 0, sizeof(str));
+	memset(str, 0, sizeof(s));
     }
 
     while (opt->longName || opt->shortName || opt->arg) {
@@ -237,7 +237,7 @@ static int showShortOptions(const struct poptOption * opt, FILE * f,
 	    showShortOptions(opt->arg, f, str);
 
 	opt++;
-    } 
+    }
 
     if (s != str || !*s)
 	return 0;
