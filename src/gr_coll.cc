@@ -131,9 +131,9 @@ bool GriString::word_from_FILE(FILE *fp, unsigned int *eol)
                 value[0] = '\0';
                 return true;
         }
-	// The default (single or multiple whitespace) is VERY 
+	// The default (single or multiple whitespace) is VERY
 	// different from TAB, since the latter requires precisely
-	// one TAB.  Also, in the default case, whitespace is skipped, 
+	// one TAB.  Also, in the default case, whitespace is skipped,
 	// but not in the TAB case.
         extern char _input_data_separator;
         if (_input_data_separator == ' ') {
@@ -148,7 +148,7 @@ bool GriString::word_from_FILE(FILE *fp, unsigned int *eol)
 			//printf(" flushing whitespace [%c] at i=%d\n",value[i],i);
 			value[i] = getc(fp);
 			if (value[i] == '\n')
-				*eol++;
+				(*eol)++;
 			if (feof(fp)) {
  				value[i] = '\0';
 				return true;
@@ -167,7 +167,7 @@ bool GriString::word_from_FILE(FILE *fp, unsigned int *eol)
 				value = more_space;
 			}
 			if (value[i] == '\n') {
-				*eol = *eol + 1;
+				(*eol)++;
 				//printf("dd *  POSITION 1 newline.  eol is now %d\n", *eol);
 				ungetc(value[i], fp);
 				break;
@@ -206,7 +206,7 @@ bool GriString::word_from_FILE(FILE *fp, unsigned int *eol)
 				value = more_space;
 			}
 			if (value[i] == '\n') {
-				*eol = *eol + 1;
+				(*eol)++;
 				//printf("dd ** POSITION 2 newline.  eol is now %d\n", *eol);
 				ungetc(value[i], fp);
 				break;
@@ -379,7 +379,7 @@ GriString::draw(double xcm, double ycm, gr_textStyle s, double angle) const
 	bounding_box_update(box);
 }
 
-GriDvector::GriDvector() 
+GriDvector::GriDvector()
 {
 	the_depth = 0;
 	the_capacity = CAPACITY_DEFAULT;
@@ -397,7 +397,7 @@ GriDvector::~GriDvector()
 {
 	delete [] contents;
 }
-// Get more storage 
+// Get more storage
 void GriDvector::expand()
 {
 	if (!the_capacity)
@@ -417,7 +417,7 @@ void GriDvector::expand(unsigned int capacity)
 	if (capacity == the_capacity)
 		return;
 	if (capacity < the_capacity)
-		return;			// Ignore 
+		return;			// Ignore
 	the_capacity = capacity == 0 ? CAPACITY_DEFAULT : capacity;
 	double *tmp;
 	tmp = new double[the_capacity];
@@ -431,7 +431,7 @@ void GriDvector::expand(unsigned int capacity)
 void GriDvector::compact()
 {
 	unsigned int old_capacity = the_capacity;
-	the_capacity = the_depth > CAPACITY_DEFAULT 
+	the_capacity = the_depth > CAPACITY_DEFAULT
 		? the_depth : CAPACITY_DEFAULT;
 	if (the_capacity != old_capacity) {
 		double *tmp;
@@ -461,7 +461,7 @@ double GriDvector::topElement()
 void GriDvector::erase(/* iterator */ double *pos_ /*unsigned int offset*/)
 {
 	unsigned offset = pos_ - contents;
-	for (unsigned i = offset; i < the_depth - 1; i++)	
+	for (unsigned i = offset; i < the_depth - 1; i++)
 		contents[i] = contents[i + 1];
 	the_depth--;
 }
@@ -506,7 +506,7 @@ double GriDvector::max()
 	for (unsigned int i = 0; i < the_depth; i++) {
 		double tmp = contents[i];
 		//printf("tmp= %lf   ",tmp);
-		if (!gr_missing(tmp)) { 
+		if (!gr_missing(tmp)) {
 		        //printf("NOT MISSING.\n");
 			if (first) {
 				the_max = tmp;
@@ -592,7 +592,7 @@ double GriDvector::kurtosis()
 	// some subtract 3 from the below
 	if (good > 1)
 		return double(sum / good / s / s / s / s);
-	else 
+	else
 		return gr_currentmissingvalue();
 }
 double * GriDvector::begin()
