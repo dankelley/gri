@@ -1979,8 +1979,8 @@ set_image_rangeCmd()
 		if (word_is(3, "from") && word_is(4, "grid")) {
 			bool first = true;
 			double min_val, max_val;
-			for (int j = 0; j < _num_ymatrix_data; j++) {
-				for (int i = 0; i < _num_xmatrix_data; i++) {
+			for (unsigned int j = 0; j < _num_ymatrix_data; j++) {
+				for (unsigned int i = 0; i < _num_xmatrix_data; i++) {
 					double f = _f_xy(i, j);
 					if (!gr_missing(f)) {
 						if (first) {

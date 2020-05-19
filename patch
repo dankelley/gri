@@ -1,0 +1,28 @@
+diff --git a/src/read.cc b/src/read.cc
+index 2d51696..91468fb 100644
+--- a/src/read.cc
++++ b/src/read.cc
+@@ -1544,7 +1544,7 @@ Grid height %ld disagrees with existing y-grid, which is %d high",
+ 			chop_into_data_words(inLine.getValue(), _word, &_nword, MAX_nword);
+ 			PUT_VAR("..words_in_dataline..", double(_nword));
+ 			if (end_of_data == eof_before_data || _nword == 0) {
+-				char msg[100];
++				char msg[200];
+ 				sprintf(msg, "\
+ `read grid data' encountered early blank-line or end-of-file while\n\
+        trying to read line %d of grid data.", row + 1);
+diff --git a/src/set.cc b/src/set.cc
+index c886afe..e35575d 100644
+--- a/src/set.cc
++++ b/src/set.cc
+@@ -1979,8 +1979,8 @@ set_image_rangeCmd()
+ 		if (word_is(3, "from") && word_is(4, "grid")) {
+ 			bool first = true;
+ 			double min_val, max_val;
+-			for (int j = 0; j < _num_ymatrix_data; j++) {
+-				for (int i = 0; i < _num_xmatrix_data; i++) {
++			for (unsigned int j = 0; j < _num_ymatrix_data; j++) {
++				for (unsigned int i = 0; i < _num_xmatrix_data; i++) {
+ 					double f = _f_xy(i, j);
+ 					if (!gr_missing(f)) {
+ 						if (first) {
