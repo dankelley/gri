@@ -5801,13 +5801,14 @@ the symbol X is drawn at each datum.
 With the optional numerical/name code specified, then the symbol of
 that number or name is drawn at each (x,y) datum, whether or not a
 z-column exists.  The numerical/name codes are:
-@c HTML <center><IMG SRC="./resources/symbols.gif" ALT="Symbols in Gri"></center>
+@c Symbols were updated on June 7, 2020; see https://github.com/dankelley/gri/issues/18
+@c HTML <center><IMG SRC="./resources/symbols.png" ALT="Symbols in gri"></center>
 @c HTML <p>
 
 @c HTML <!--
 @example
- # name                description            
--- ----                -----------            
+ # name                description
+-- ----                -----------
  0 plus                +
  1 times               x
  2 box                 box
