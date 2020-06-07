@@ -1544,7 +1544,7 @@ Grid height %ld disagrees with existing y-grid, which is %d high",
 			chop_into_data_words(inLine.getValue(), _word, &_nword, MAX_nword);
 			PUT_VAR("..words_in_dataline..", double(_nword));
 			if (end_of_data == eof_before_data || _nword == 0) {
-				char msg[100];
+				char msg[200];
 				sprintf(msg, "\
 `read grid data' encountered early blank-line or end-of-file while\n\
        trying to read line %d of grid data.", row + 1);

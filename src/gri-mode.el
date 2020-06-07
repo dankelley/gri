@@ -1,10 +1,10 @@
 ;; gri-mode.el - major mode for Gri, a scientific graphics programming language
 
-;; Copyright (C) 1994-2009 Peter S. Galbraith
+;; Copyright (C) 1994-2020 Peter S. Galbraith
  
 ;; Author:    Peter S. Galbraith <psg@debian.org>
 ;; Created:   14 Jan 1994
-;; Version:   2.71 (14 Oct 2013)
+;; Version:   2.72 (20 May 2020)
 ;; Keywords:  gri, emacs, XEmacs, graphics.
 
 ;;; This file is not part of GNU Emacs.
@@ -408,7 +408,11 @@
 ;;  gri-font-lock-system-commands is broken since Emacs v22.  Use simple
 ;;  regexp instead.
 ;; V2.71 14Oct2013
-;;  http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=680701
+;;  https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=680701
+;; V2.72 20May2020 - Patches from Kevin Ryde
+;;  - https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=718452
+;;  - https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=718540
+;;  - default-fill-column no longer exists in emacs-26
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
@@ -3052,19 +3056,22 @@ See also gri-convert-comments."
 	       (y-or-n-p "Convert old comment lines? "))
 	  (gri-convert-comments)))))
 				 
-(defun gri-comment-out-region (from to)
+(defun gri-comment-out-region (from to &optional uncomment)
   "Comment out the region between point and mark.
-You can remove these comments using gri-uncomment-out-region."
-  (interactive "r")
-  (save-excursion
-    (save-restriction
-      (narrow-to-region from to)
-      (goto-char (point-min))
-      (let ((overwrite-mode nil))
-        (insert "#")
-        (while (and (= 0 (forward-line 1))
-                    (not (= (point) (point-max))))
-          (insert "#"))))))
+If UNCOMMENT is non-nil then uncomment with `gri-uncomment-out-region'.
+Interactively UNCOMMENT can be passed with `\\[universal-argument]', so `\\[universal-argument] \\[gri-comment-out-region]'."
+  (interactive "*r\nP")
+  (if uncomment
+      (gri-uncomment-out-region from to)
+    (save-excursion
+      (save-restriction
+        (narrow-to-region from to)
+        (goto-char (point-min))
+        (let ((overwrite-mode nil))
+          (insert "#")
+          (while (and (= 0 (forward-line 1))
+                      (not (= (point) (point-max))))
+            (insert "#")))))))
  
 (defun gri-uncomment-out-region (from to)
   "Remove Comments at beginning of lines in the region between point and mark."
@@ -3713,7 +3720,8 @@ Any output (errors?) is put in the buffer `gri-WWW-manual'."
   (define-key gri-mode-map "\C-c\M-i" 'gri-info)
   (define-key gri-mode-map "\C-c\M-h" 'gri-help)
   (define-key gri-mode-map "\C-c#"    'gri-comment-out-region)
-  (define-key gri-mode-map "\C-u\C-c#" 'gri-uncomment-out-region)
+  ;; V2.71
+  ;;(define-key gri-mode-map "\C-u\C-c#" 'gri-uncomment-out-region)
   (define-key gri-mode-map "\M-\t"    'gri-complete)
   (define-key gri-mode-map "\C-c?"    'describe-mode)
   (cond 
@@ -4581,7 +4589,9 @@ PLANNED ADDITIONS:
 
   ;; Paragraph definitions
   (make-local-variable 'paragraph-start)
-  (setq paragraph-start (concat "^$\\|" page-delimiter))
+  ;;V2.72
+  ;;(setq paragraph-start (concat "^$\\|" page-delimiter))
+  (setq paragraph-start (concat "^$\\|^[`{]\\|" page-delimiter))
   (make-local-variable 'paragraph-separate)
   (setq paragraph-separate paragraph-start)
   (make-local-variable 'paragraph-ignore-fill-prefix)
@@ -4601,8 +4611,10 @@ PLANNED ADDITIONS:
         comment-end "")
   (make-local-variable 'comment-column)
   (setq comment-column 'gri-comment-column)
-  (make-local-variable 'fill-column)
-  (setq fill-column default-fill-column)
+  ;;V2.72 default-fill-column no longer exists in emacs-26
+  ;; so don't even bother making fill-column a local variable?
+  ;;(make-local-variable 'fill-column)
+  ;;(setq fill-column default-fill-column)
 ;;  (make-local-variable 'auto-fill-hook)
 ;;  (setq auto-fill-hook 
 ;;        '(lambda () 

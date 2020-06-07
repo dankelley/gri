@@ -97,7 +97,11 @@ then
 fi
 
 %changelog
-* (date) release 2.12.26
+* (date) release 2.12.26.fix
+- Add left and right halfmoon symbols
+- Add non-filled halfmoon symbols
+- Remove central point in Postscript symbol paths
+* 2017-jan-31 release 2.12.26
 - Fix various Debian bugs
 * 2008-jul-17 release 2.12.19
 - Fix SourceForge bug 2977816 (Fedora licensing issue)
