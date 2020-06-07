@@ -57,8 +57,8 @@
 @comment %**start of header
 @setfilename gri.info
 @settitle Gri
-@set GRI-VERSION 2.12.26
-@set GRI-PREVIOUS-VERSION 2.12.25
+@set GRI-VERSION 2.12.27
+@set GRI-PREVIOUS-VERSION 2.12.26
 @set AUTHOR-EMAIL dankelley@@users.sourceforge.net
 @include version.texi
 @c %**end of header
@@ -108,7 +108,7 @@ considerable power, at the price of a moderate learning curve.
 
 This manual describes Gri version
 @value{GRI-VERSION} @c , updated @value{UPDATED},
-(c) 1991-2015, Dan Kelley
+(c) 1991-2020, Dan Kelley
 
 Gri is released with the GNU Public License (@ref{License}).
 
@@ -5721,22 +5721,24 @@ With the optional numerical/name code specified, then the symbol of
 that number or name is drawn at each (x,y) datum, whether or not a
 z-column exists.  The numerical/name codes are:
 
-@c HTML <center><IMG SRC="./resources/symbols.gif" ALT="Symbols in gri"></center>
-@c HTML <p>
+@c next two lines were originally for HTML, but the gif is ugly and
+@c the code to make it is lost
+@c <center><IMG SRC="./resources/symbols.gif" ALT="Symbols in gri"></center>
+@c <p>
 
 @c HTML <!--
 @example
- # name                description            
--- ----                -----------            
+ # name                description
+-- ----                -----------
  0 plus                +
  1 times               x
  2 box                 box
  3 circ                circle
  4 diamond             diamond
- 5 triangleup          triangle with base at bottom
- 6 triangleright       triangle with base at left
- 7 triangledown        triangle with base at top
- 8 triangleleft        triangle with base at right
+ 5 triangleup          triangle facing up (with base at bottom)
+ 6 triangleright       triangle facing right (with base at left)
+ 7 triangledown        triangle facing down (with base at top)
+ 8 triangleleft        triangle facing left (with base at right)
  9 asterisk            *
 10 star                star of David
 11 filledbox           filled box
@@ -5746,6 +5748,14 @@ z-column exists.  The numerical/name codes are:
 15 filledtriangleright filled triangleright
 16 filledtriangledown  filled triangledown
 17 filledtriangleleft  filled triangleleft
+18 halfmoonup          half-moon facing up
+19 halfmoonright       half-moon facing right
+20 halfmoondown        half-moon facing down
+21 halfmoonleft        half-moon facing left
+22 filledhalfmoonup    filled halfmoonup
+23 filledhalfmoonright filled halfmoonright
+24 filledhalfmoondown  filled halfmoondown
+25 filledhalfmoonleft  filled halfmoonleft
 @end example
 @c HTML -->
 
@@ -5817,6 +5827,14 @@ z-column exists.  The numerical/name codes are:
 15 filledtriangleright filled triangleright
 16 filledtriangledown  filled triangledown
 17 filledtriangleleft  filled triangleleft
+18 halfmoonup          half-moon facing up
+19 halfmoonright       half-moon facing right
+20 halfmoondown        half-moon facing down
+21 halfmoonleft        half-moon facing left
+22 filledhalfmoonup    filled halfmoonup
+23 filledhalfmoonright filled halfmoonright
+24 filledhalfmoondown  filled halfmoondown
+25 filledhalfmoonleft  filled halfmoonleft
 @end example
 @c HTML -->
 

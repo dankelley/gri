@@ -155,33 +155,37 @@ typedef struct {
 
 // Symbol numbers
 enum gr_symbol_type {
-	gr_unknown_symbol = -1,
-	gr_plus_symbol,
-	gr_times_symbol,
-	gr_box_symbol,
-	gr_circ_symbol,
-	gr_diamond_symbol,
-	gr_triangleup_symbol,
-	gr_triangleright_symbol,
-	gr_triangledown_symbol,
-	gr_triangleleft_symbol,
-	gr_asterisk_symbol,
-	gr_star_symbol,
-	gr_filledbox_symbol,
-	gr_bullet_symbol,
-	gr_halfmoonup_symbol,
-	gr_halfmoonright_symbol,
-	gr_halfmoondown_symbol,
-	gr_halfmoonleft_symbol,
-	gr_filleddiamond_symbol,
-	gr_filledtriangleup_symbol,
-	gr_filledtriangleright_symbol,
-	gr_filledtriangledown_symbol,
-	gr_filledtriangleleft_symbol,
-	gr_filledhalfmoonup_symbol,
-	gr_filledhalfmoonright_symbol,
-	gr_filledhalfmoondown_symbol,
-	gr_filledhalfmoonleft_symbol
+	gr_unknown_symbol = -1,        // -1
+	gr_plus_symbol,                // 0
+	gr_times_symbol,               // 1
+	gr_box_symbol,                 // 2
+	gr_circ_symbol,                // 3
+	gr_diamond_symbol,             // 4
+	gr_triangleup_symbol,          // 5
+	gr_triangleright_symbol,       // 6
+	gr_triangledown_symbol,        // 7
+	gr_triangleleft_symbol,        // 8
+	gr_asterisk_symbol,            // 9
+	gr_star_symbol,                // 10
+	gr_filledbox_symbol,           // 11
+	gr_bullet_symbol,              // 12
+	gr_filleddiamond_symbol,       // 13
+	gr_filledtriangleup_symbol,    // 14 
+	gr_filledtriangleright_symbol, // 15
+	gr_filledtriangledown_symbol,  // 16
+	gr_filledtriangleleft_symbol,  // 17
+        // The following "moon" symbols were supplied generously by Philip Eisenlohr.
+        // I moved them to the bottom of this enum block to prevent conflicts in the symbol
+        // numbers, which had arisen due to their placement within the list.  Please see
+        // https://github.com/dankelley/gri/issues/18 for more on this.
+	gr_halfmoonup_symbol,          // 18
+	gr_halfmoonright_symbol,       // 19
+	gr_halfmoondown_symbol,        // 20
+	gr_halfmoonleft_symbol,        // 21
+	gr_filledhalfmoonup_symbol,    // 22
+	gr_filledhalfmoonright_symbol, // 23
+	gr_filledhalfmoondown_symbol,  // 24
+	gr_filledhalfmoonleft_symbol   // 25
 };
 
 // Color.  Is this used??

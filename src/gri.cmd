@@ -1,5 +1,5 @@
-#         gri - scientific graphic program (version 2.12.26)
-#         Copyright 2017 by Dan E. Kelley; GPLv2+ licensing.
+#         gri - scientific graphic program (version 2.12.27)
+#         Copyright 2020 by Dan E. Kelley; GPLv2+ licensing.
 #
 # NOTE: The linkages to `extern "C"' routines makes use a list of C 
 # functions defined in the file tags.hh.
@@ -1507,7 +1507,15 @@ z-column exists.  The numerical/name codes are:
      15 filledtriangleright filled triangleright
      16 filledtriangledown  filled triangledown
      17 filledtriangleleft  filled triangleleft
-
+     18 halfmoonup          half-moon facing up
+     19 halfmoonright       half-moon facing right
+     20 halfmoondown        half-moon facing down
+     21 halfmoonleft        half-moon facing left
+     22 filledhalfmoonup    filled halfmoonup
+     23 filledhalfmoonright filled halfmoonright
+     24 filledhalfmoondown  filled halfmoondown
+     25 filledhalfmoonleft  filled halfmoonleft
+@
    With the optional `graylevel z' fields specified, the graylevel is
 given by the `z` column (0=black, 1=white).
 
