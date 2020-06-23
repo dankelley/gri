@@ -1,0 +1,110 @@
+// Demonstate gri symbols.  Run this with
+//    gri symbols.gri && convert -density 150 symbols.ps symbols.png
+// Note that this *only* tests the numeric form of symbol specification,
+// not the word form.
+
+// Here is the coding, as listed in documentation for 'draw symbol at':
+//  0 plus                +
+//  1 times               x
+//  2 box                 box
+//  3 circ                circle
+//  4 diamond             diamond
+//  5 triangleup          triangle facing up (with base at bottom)
+//  6 triangleright       triangle facing right (with base at left)
+//  7 triangledown        triangle facing down (with base at top)
+//  8 triangleleft        triangle facing left (with base at right)
+//  9 asterisk            *
+// 10 star                star of David
+// 11 filledbox           filled box
+// 12 bullet              filled circle
+// 13 filleddiamond       filled diamond
+// 14 filledtriangleup    filled triangleup
+// 15 filledtriangleright filled triangleright
+// 16 filledtriangledown  filled triangledown
+// 17 filledtriangleleft  filled triangleleft
+// 18 halfmoonup          half-moon facing up
+// 19 halfmoonright       half-moon facing right
+// 20 halfmoondown        half-moon facing down
+// 21 halfmoonleft        half-moon facing left
+// 22 filledhalfmoonup    filled halfmoonup
+// 23 filledhalfmoonright filled halfmoonright
+// 24 filledhalfmoondown  filled halfmoondown
+// 25 filledhalfmoonleft  filled halfmoonleft
+
+// Set up geometry.  This is ugly code, and it's brittle also, in
+// the sense that altering one element (e.g. maximum x value in
+// axis frame) will have consequences on other elements (e.g.
+// spacing between labels).  Therefore, this declaration
+// block should not be changed without some care.
+set x axis -.2 10
+set y axis -1 20
+draw axes none
+set symbol size 0.2
+set font size 7
+.colsep. = 3 // distance between columns
+.dy. = -0.2 // shift for labels
+.x. = 0.1 // initial column
+
+// column 1
+.xlabel. = {rpn .x. .colsep. 10 /  +}
+draw symbol 0 at .x. 9
+draw label "0 plus" at .xlabel. {rpn 9 .dy. +}
+draw symbol 1 at .x. 8
+draw label "1 x" at .xlabel. {rpn 8 .dy. +}
+draw symbol 2 at .x. 7
+draw label "2 box" at .xlabel. {rpn 7 .dy. +}
+draw symbol 3 at .x. 6
+draw label "3 circ" at .xlabel. {rpn 6 .dy. +}
+draw symbol 4 at .x. 5
+draw label "4 diamond" at .xlabel. {rpn 5 .dy. +}
+draw symbol 5 at .x. 4
+draw label "5 triangleup" at .xlabel. {rpn 4 .dy. +}
+draw symbol 6 at .x. 3
+draw label "6 triangleright" at .xlabel. {rpn 3 .dy. +}
+draw symbol 7 at .x. 2
+draw label "7 triangledown" at .xlabel. {rpn 2 .dy. +}
+draw symbol 8 at .x. 1
+draw label "8 triangleleft" at .xlabel. {rpn 1 .dy. +}
+draw symbol 9 at .x. 0
+draw label "9 asterisk" at .xlabel. {rpn 0 .dy. +}
+
+// column 2
+.x. = {rpn .x. .colsep. +}
+.xlabel. = {rpn .x. .colsep. 10 /  +}
+draw symbol 10 at .x. 9
+draw label "10 star" at .xlabel. {rpn 9 .dy. +}
+draw symbol 11 at .x. 8
+draw label "11 filledbox" at .xlabel. {rpn 8 .dy. +}
+draw symbol 12 at .x. 7
+draw label "12 bullet" at .xlabel. {rpn 7 .dy. +}
+draw symbol 13 at .x. 6
+draw label "13 filleddiamond" at .xlabel. {rpn 6 .dy. +}
+draw symbol 14 at .x. 5
+draw label "14 filledtriangleup" at .xlabel. {rpn 5 .dy. +}
+draw symbol 15 at .x. 4
+draw label "15 filledtriangleright" at .xlabel. {rpn 4 .dy. +}
+draw symbol 16 at .x. 3
+draw label "16 filledtriangledown" at .xlabel. {rpn 3 .dy. +}
+draw symbol 17 at .x. 2
+draw label "17 filledtriangleleft" at .xlabel. {rpn 2 .dy. +}
+draw symbol 18 at .x. 1
+draw label "18 halfmoonup" at .xlabel. {rpn 1 .dy. +}
+draw symbol 19 at .x. 0
+draw label "19 halfmoonright" at .xlabel. {rpn 0 .dy. +}
+
+// column 3
+.x. = {rpn .x. .colsep. +}
+.xlabel. = {rpn .x. .colsep. 10 /  +}
+draw symbol 20 at .x. 9
+draw label "20 halfmoondown" at .xlabel. {rpn 9 .dy. +}
+draw symbol 21 at .x. 8
+draw label "21 halfmoonleft" at .xlabel. {rpn 8 .dy. +}
+draw symbol 22 at .x. 7
+draw label "22 filledhalfmoonup" at .xlabel. {rpn 7 .dy. +}
+draw symbol 23 at .x. 6
+draw label "23 filledhalfmoonright" at .xlabel. {rpn 6 .dy. +}
+draw symbol 24 at .x. 5
+draw label "24 filledhalfmoondown" at .xlabel. {rpn 5 .dy. +}
+draw symbol 25 at .x. 4
+draw label "25 filledhalfmoonleft" at .xlabel. {rpn 4 .dy. +}
+
