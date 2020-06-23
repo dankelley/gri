@@ -3,7 +3,7 @@
      srcdir = @srcdir@
      VPATH = @srcdir@
 EXTRA_DIST = top_banner.gif bottom_banner.gif math_symbols.gif\
- pixel.gif sm_bg.gif symbols.gif top_banner.gri bottom_banner.gri
+ pixel.gif sm_bg.gif symbols.png top_banner.gri bottom_banner.gri
 
 developer_all:
 	gri bottom_banner.gri
