@@ -409,10 +409,11 @@
 ;;  regexp instead.
 ;; V2.71 14Oct2013
 ;;  https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=680701
-;; V2.72 20May2020 - Patches from Kevin Ryde
+;; V2.72 20May2020
+;;  default-fill-column no longer exists in emacs-26
+;;  Patches from Kevin Ryde:
 ;;  - https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=718452
 ;;  - https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=718540
-;;  - default-fill-column no longer exists in emacs-26
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 ;; The following variable may be edited to suit your site: 
