@@ -1,3 +1,40 @@
+gri (2.12.27-1) unstable; urgency=medium
+
+  * New upstream release.
+  - New halfmoon symbols.
+  - New version of gri-mode.el:
+    - default-fill-column no longer exists in emacs-26
+    - Bug fix: "package remove allow for flavour directory already gone",
+      thanks to Kevin Ryde (Closes: #711914).
+    - Bug fix: "C-u as universal-argument", thanks to Kevin Ryde for the
+      report and the patch (Closes: #718452).
+    - Bug fix: "paragraph separators for commands", thanks to Kevin Ryde
+      for the report and the patch (Closes: #718540).
+  - debian/patches deleted as incorporated upstream.
+
+ -- Peter S Galbraith <psg@debian.org>  Thu, 25 Jun 2020 20:41:17 -0400
+
+gri (2.12.26-6) unstable; urgency=medium
+
+  * Apologies for having being MIA.
+  * Bug fix: gri build-depends on cruft package, thanks to peter green for
+    reporting and to Steve Langasek for the patch (Closes: #932949)
+  * Bug fix: Encoding must now be specified in texinfo source, thanks to
+    Steve Langasek for reporting and to Sebastiaan Couwenberg for the
+    patch (Closes: #941557)
+  * Bug fix: FTCBFS: Let dh_auto_configure pass --host to ./configure,
+    thanks to Helmut Grohne <helmut@subdivi.de> for reporting and for the
+    patch (Closes: #901179)
+  * Deleted debian/compat and replace debhelper (>= 7) with debhelper-compat
+    (= 12) in Build-Depends.
+  * debian/rules: added dh_autoreconf and dh_autoreconf_clean implemented
+    at Standards-Versions 4.0.0
+  * debian/control: Standards-Version: 4.5.0
+  * debian/copyright: updated to GPL-3. Can't believe I had to wait a
+    month in the NEW queue to get rejected for this. :-(
+
+ -- Peter S Galbraith <psg@debian.org>  Fri, 19 Jun 2020 15:13:49 -0400
+
 gri (2.12.26-1) unstable; urgency=medium
 
   * New upstream release.

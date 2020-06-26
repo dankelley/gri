@@ -3,7 +3,7 @@ Wed, 31 Aug 1998.
 
 It was downloaded from 
  
-  http://ftp1.sourceforge.net/gri/gri-2.12.23.tgz
+  https://github.com/dankelley/gri
 
 The Gri web page is: http://gri.sourceforge.net
 
@@ -11,11 +11,11 @@ Copyright and License:
 
  Gri:
   The Gri programming languages, and all manuals and online help-files,
-  are (c) 1991-2001 Dan E. Kelley <Dan.Kelley@Dal.CA>.
-  Gri is distributed under the GPL Version 2.  
-  See /usr/share/common-licenses/GPL
+  are (c) 1991-2017 Dan E. Kelley <Dan.Kelley@Dal.CA>.
+  Gri is distributed under the GPL Version 3 or later.  
+  See /usr/share/common-licenses/GPL-3
 
  Emacs gri-mode:
-  Copyright (C) 1994-2001 Peter S. Galbraith <psg@debian.org>
-  gri-mode.el is distributed under the GPL Version 2.
-  See /usr/share/common-licenses/GPL
+  Copyright (C) 1994-2020 Peter S. Galbraith <psg@debian.org>
+  gri-mode.el is distributed under the GPL Version 2 or later.
+  See /usr/share/common-licenses/GPL-2

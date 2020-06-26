@@ -2,9 +2,9 @@ Source: gri
 Section: science
 Priority: optional
 Maintainer: Peter S Galbraith <psg@debian.org>
-Build-Depends: debhelper (>= 0), libnetcdf-dev, libreadline-dev, texlive-latex-base, texlive-generic-recommended, texinfo, imagemagick, info, ghostscript, gsfonts
+Build-Depends: debhelper-compat (= 12), libnetcdf-dev, libreadline-dev, texlive-latex-base, texlive-plain-generic, texinfo, imagemagick, info, ghostscript, gsfonts
 Homepage: http://gri.sourceforge.net/
-Standards-Version: 3.9.8
+Standards-Version: 4.5.0
 
 Package: gri
 Section: science
