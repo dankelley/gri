@@ -395,7 +395,7 @@ double lapse_rate(double S, double t, double p);
 #if defined(__DECCXX)
 #define SECOND_TYPE int
 #else
-#define SECOND_TYPE long
+#define SECOND_TYPE time_t
 #endif
 #endif
 
